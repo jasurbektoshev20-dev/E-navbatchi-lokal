@@ -1,0 +1,11 @@
+Model Information:
+* title:	Range Rover Sport 2018
+* source:	https://sketchfab.com/3d-models/range-rover-sport-2018-d1fe581b3baf4af89275e9aa9a1392e2
+* author:	diw3d (https://sketchfab.com/diwdiw)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Range Rover Sport 2018" (https://sketchfab.com/3d-models/range-rover-sport-2018-d1fe581b3baf4af89275e9aa9a1392e2) by diw3d (https://sketchfab.com/diwdiw) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
