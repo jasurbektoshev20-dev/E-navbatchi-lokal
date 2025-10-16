@@ -242,11 +242,6 @@
                             <div class="chart-container" id="jinoiy_huquq_chart" style="height: 600px;"></div>
                         </div>
                         </div>
-
-
-
-
-
                     </div>
 
 

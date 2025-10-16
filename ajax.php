@@ -170,6 +170,15 @@ switch ($Action) {
 
 		$res = json_encode($data);
 		break;
+	case "get_object_types":
+		$query = "SELECT s.shortname{$slang} as name, count(t.id) FROM hr.objects t
+		LEFT JOIN hr.structure s on s.id = t.structure_id
+		group by s.shortname{$slang}, s.turn order by s.turn desc";
+		$sql->query($query);
+		$data = $sql->fetchAll();
+
+		$res = json_encode($data);
+		break;
 		
 	case "get_events_by_type":
 		$date = isset($_GET['date']) ? $_GET['date'] : 0;
