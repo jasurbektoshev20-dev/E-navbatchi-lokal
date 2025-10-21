@@ -313,7 +313,7 @@ switch ($Act) {
 			$query .= " where id > 999 order by id";
 		}
 		$sql->query($query);
-		$Distcity = $sql->fetchAll();
+		// $Distcity = $sql->fetchAll();
 
 		$query = "SELECT id, name{$slang} as name FROM tur.event_types order by turn";
 		$sql->query($query);
@@ -361,7 +361,7 @@ switch ($Act) {
 			$query .= " where id > 999 order by id";
 		}
 		$sql->query($query);
-		$Distcity = $sql->fetchAll();
+		// $Distcity = $sql->fetchAll();
 
 		$query = "SELECT m.id, r.shortname{$slang} as region_id, d.name{$slang} as distcity_id, m.date, m.staff_count, 
 		m.stand, m.responsible, m.text FROM tur.reyd_events m
@@ -393,7 +393,7 @@ switch ($Act) {
 
 		$query = "SELECT id, name{$slang} as name FROM hr.structure where id > 999 order by id";
 		$sql->query($query);
-		$Distcity = $sql->fetchAll();
+		// $Distcity = $sql->fetchAll();
 
 		$query = "SELECT id, name{$slang} as name FROM tur.violation_types order by turn";
 		$sql->query($query);

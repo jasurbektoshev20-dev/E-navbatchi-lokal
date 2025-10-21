@@ -251,8 +251,6 @@
             
             $('#region_id').val(sInfo.region_id);
             $('#region_id').trigger("change");
-            $('#distcity_id').val(sInfo.distcity_id);
-            $('#distcity_id').trigger("change");
             $('#type').val(sInfo.type);
             $('#type').trigger("change");
             $('#date').val(sInfo.date);
@@ -273,8 +271,6 @@
 
         $('#region_id').val(0);
         $('#region_id').trigger("change");
-        $('#distcity_id').val(0);
-        $('#distcity_id').trigger("change");
         $('#type').val(0);
         $('#type').trigger("change");
         $('#date').val("");

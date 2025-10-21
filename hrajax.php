@@ -485,7 +485,6 @@ switch ($Action) {
         if ($RowId != "0") {
             $updquery = "UPDATE tur.reyd_events set
             region_id = '{$region_id}',
-            distcity_id = '{$distcity_id}',
             date = '{$date}',
             staff_count = '{$staff_count}',
             stand = '{$stand}',
@@ -506,7 +505,6 @@ switch ($Action) {
             if ($isNotNew['ccount'] == 0) {
                 $insquery = "INSERT into tur.reyd_events (
                          region_id
-                        ,distcity_id
                         ,date
                         ,staff_count
                         ,stand
@@ -571,7 +569,6 @@ switch ($Action) {
     case "act_violations":
         $RowId    = (!empty($_POST['id'])) ? $_POST['id'] : 0;
         $region_id     = $_POST['region_id'];
-        $distcity_id     = $_POST['distcity_id'];
         $violation_type     = $_POST['violation_type'];
         $type     = $_POST['type'];
         $date     = $_POST['date'];
@@ -587,7 +584,6 @@ switch ($Action) {
         if ($RowId != "0") {
             $updquery = "UPDATE tur.violations set
             region_id = '{$region_id}',
-            distcity_id = '{$distcity_id}',
             violation_type = '{$violation_type}',
             type = '{$type}',
             date = '{$date}',
@@ -612,7 +608,6 @@ switch ($Action) {
             if ($isNotNew['ccount'] == 0) {
                 $insquery = "INSERT into tur.violations (
                          region_id
-                        ,distcity_id
                         ,violation_type
                         ,type
                         ,date
@@ -626,7 +621,6 @@ switch ($Action) {
                         ,lon
                     ) values (
                          '{$region_id}'
-                        ,'{$distcity_id}'
                         ,'{$violation_type}'
                         ,'{$type}'
                         ,'{$date}'

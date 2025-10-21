@@ -106,15 +106,7 @@
                                 {/foreach}
                             </select>
                         </div>
-                        <div class="col-sm-6">
-                            <label>{$Dict.distcity}</label>
-                            <select class="select form-control" name="distcity_id" id="distcity_id">
-                                <option value="">{$Dict.choose}</option>
-                                {foreach from=$Distcity item=Item1 key=ikey1}
-                                    <option value="{$Item1.id}">{$Item1.name}</option>
-                                {/foreach}
-                            </select>
-                        </div>
+                    
                         <div class="col-sm-6">
                             <label for="date" class="form-label">{$Dict.date}</label>
                             <input type="text" class="form-control" placeholder="DD-MM-YYYY" id="date" />
@@ -230,8 +222,6 @@
             
             $('#region_id').val(sInfo.region_id);
             $('#region_id').trigger("change");
-            $('#distcity_id').val(sInfo.distcity_id);
-            $('#distcity_id').trigger("change");
             $('#type').val(sInfo.type);
             $('#type').trigger("change");
             $('#date').val(sInfo.date);
@@ -252,8 +242,6 @@
 
         $('#region_id').val(0);
         $('#region_id').trigger("change");
-        $('#distcity_id').val(0);
-        $('#distcity_id').trigger("change");
         $('#type').val(0);
         $('#type').trigger("change");
         $('#date').val("");
@@ -281,7 +269,6 @@
                 var form_data = new FormData();
 
                 form_data.append('region_id', $('#region_id').val());
-                form_data.append('distcity_id', $('#distcity_id').val());
                 form_data.append('type', $('#type').val());
                 form_data.append('date', $('#date').val());
                 form_data.append('staff_count', $('#staff_count').val());

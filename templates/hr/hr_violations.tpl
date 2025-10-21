@@ -296,15 +296,7 @@
                                 {/foreach}
                             </select>
                         </div>
-                        <div class="col-sm-6">
-                            <label>{$Dict.distcity}</label>
-                            <select class="select form-control" name="distcity_id" id="distcity_id">
-                                <option value="">{$Dict.choose}</option>
-                                {foreach from=$Distcity item=Item1 key=ikey1}
-                                    <option value="{$Item1.id}">{$Item1.name}</option>
-                                {/foreach}
-                            </select>
-                        </div>
+                    
                         <div class="col-sm-6">
                             <label>{$Dict.crime_type}</label>
                             <select required class="select form-control" name="violation_type" id="violation_type">
@@ -491,8 +483,6 @@
 
                 $('#region_id').val(sInfo.region_id);
                 $('#region_id').trigger("change");
-                $('#distcity_id').val(sInfo.distcity_id);
-                $('#distcity_id').trigger("change");
                 $('#violation_type').val(sInfo.violation_type);
                 $('#violation_type').trigger("change");
                 $('#type').val(sInfo.type);
@@ -515,8 +505,6 @@
 
             $('#region_id').val(0);
             $('#region_id').trigger("change");
-            $('#distcity_id').val("");
-            $('#distcity_id').trigger("change");
             $('#violation_type').val(0);
             $('#violation_type').trigger("change");
             $('#type').val(0);
@@ -546,7 +534,6 @@
                     var form_data = new FormData();
 
                     form_data.append('region_id', $('#region_id').val());
-                    form_data.append('distcity_id', $('#distcity_id').val());
                     form_data.append('violation_type', $('#violation_type').val());
                     form_data.append('type', $('#type').val());
                     form_data.append('date', $('#date').val());
