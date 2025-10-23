@@ -36,7 +36,7 @@
                     <table class="datatables-projects table border-top">
                         <thead>
                             <tr>
-                                <th class="text-center">No̱</th>
+                                <th>No̱</th>
                                 <th class="text-center">Viloyat</th>
                                 <th class="text-center">Turi</th>
                                 <th class="text-center">Nomi</th>
@@ -91,81 +91,30 @@
               </select>
             </div>
 
-            <!-- Nomi -->
+           <!-- Turi -->
             <div class="col-sm-4">
-              <label>Nomi</label>
-              <input required type="text" class="form-control" id="name" placeholder="Masalan: Registon maydoni" />
-            </div>
-
-              <!-- Manzili -->
-            <div class="col-sm-4">
-              <label>Manzili</label>
-              <input required type="text" class="form-control" id="name" placeholder="Manzilni kiriting..." />
-            </div>
-
-              <!-- Maydoni -->
-            <div class="col-sm-4">
-              <label>Maydoni</label>
-              <input required type="text" class="form-control" id="name" placeholder="Maydonini kiriting..." />
-            </div>
-
-               <!-- Admin tel -->
-            <div class="col-sm-4">
-              <label>Administrator telefon raqamlari</label>
-              <input required type="text" class="form-control" id="name" placeholder="Telefon raqam kiriting..." />
-            </div>
-
-                 <!-- Admin tel -->
-            <div class="col-sm-4">
-              <label>Kameralar sonini kiriting</label>
-              <input required type="text" class="form-control" id="name" placeholder="Kameralar sonini kiriting..." />
-            </div>
-
-               <!-- Bozor raxbari -->
-            <div class="col-sm-4">
-              <label>Rahbari</label>
-              <input required type="text" class="form-control" id="name" placeholder="Bozor rahbarini kiriting..." />
-            </div>
-
-              <!-- Bozor uchaskavoy -->
-            <div class="col-sm-4">
-              <label>Hudud uchastkavoyi FISH</label>
-              <input required type="text" class="form-control" id="name" placeholder="FISHni kiriting..." />
-            </div>
-
-              <!-- Bozor uchaskavoy tel -->
-            <div class="col-sm-4">
-              <label>Hudud uchastkavoyi telefon raqami</label>
-              <input required type="text" class="form-control" id="name" placeholder="Telefon raqam kiriting..." />
-            </div>
-
-              <!-- Bozor rasmi -->
-            <div class="col-sm-4">
-               <label for="formFile" class="form-label">Hudud rasmi</label>
-               <input class="form-control" type="file" id="formFile">
-            </div>
-
-              <div class="col-sm-4">
-              <label>Nazorat kuzatuv maskani kengligi(lat)</label>
-              <input required type="text" class="form-control" id="name" placeholder="kengligini kiriting..." />
-            </div>
-
-             <!-- Bozor uchaskavoy tel -->
-            <div class="col-sm-4">
-              <label>Nazorat kuzatuv maskani uzunligi(lot)</label>
-              <input required type="text" class="form-control" id="name" placeholder="uzunligini kiriting..." />
-            </div>
-
-             <div class="col-sm-4">
-              <label>Hamkorlikdagi tashkilotlar</label>
+              <label>Nomini tanlang</label>
               <select required class="form-select" id="type">
                 <option value="">Tanlang...</option>
-                <option value="Bozorlar">FVV +998 99 345-87-90</option>
-                <option value="Xiyobonlar">MG +998 71 345-76-08</option>
-                <option value="Parklar">IIV +998 90 123-45-67</option>
+                <option value="Bozorlar">Chorsu bozori</option>
+                <option value="Xiyobonlar">Yunusobot bozori</option>
+                <option value="Parklar">Chilonzor bozori</option>
+                <option value="Boshqa joylar">Abu saxiy bozori</option>
               </select>
             </div>
 
+             <!-- SOS tugma lat -->
+              <div class="col-sm-4">
+              <label>SOS tugma kengligi(lat)</label>
+              <input required type="text" class="form-control" id="name" placeholder="kengligini kiriting..." />
+            </div>
+
+             <!-- SOS tugma long
+              -->
+            <div class="col-sm-4">
+              <label>SOS tugma uzunligi(long)</label>
+              <input required type="text" class="form-control" id="name" placeholder="uzunligini kiriting..." />
+            </div>
 
             <!-- Tugmalar -->
             <div class="col-12 text-center">
@@ -193,11 +142,10 @@
 <script src="/assets/assets/vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js"></script>
 
 <script>
-
     {literal}
     let localData = JSON.parse(localStorage.getItem("jts_objects")) || [
-        { structure: "Toshkent", type: "Bozor", name1: "Chorsu bozori", name2: "12", name3: "" },
-        { structure: "Samarqand", type: "Park", name1: "Registon maydoni", name2: "20", name3: "" }
+        { structure: "Toshkent", type: "Bozor", name1: "Chorsu bozori", name2: "", name3: "" },
+        { structure: "Samarqand", type: "Park", name1: "Registon maydoni", name2: "", name3: "" }
     ];
 
     const tbody = document.getElementById("table-body");

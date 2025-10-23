@@ -11,6 +11,7 @@
             position: relative;
             height: 35vh;
             overflow: visible;
+        
         }
 
         .card,
@@ -112,18 +113,22 @@
 }
 
 .chart-container{
-  display: flex;
-  gap: 10px;
+      display: flex;
+            /* flex-direction: column; */
   padding: 0px 20px;
+  gap: 10px;
+  /* flex-wrap: wrap; */
+  
 }
 
 .region-box{
-  padding: 10px;
+   padding: 10px;
    box-shadow: 3px 1px 29px 0px rgba(34, 60, 80, 0.26);
    background-color: #fff;
    border-radius: 7px;
    margin-top: 30px;
- 
+   display: flex;
+   flex-direction: column;
 }
 
 .scrollable{

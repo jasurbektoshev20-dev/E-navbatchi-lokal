@@ -45,6 +45,10 @@
     <link rel="stylesheet" href="/assets/assets/vendor/libs/jquery-timepicker/jquery-timepicker.css" />
     <link rel="stylesheet" href="/assets/assets/vendor/libs/pickr/pickr-themes.css" />
     <link rel="stylesheet" href="/assets/assets/vendor/libs/select2/select2.css" />
+    <link rel="stylesheet" href="/assets/assets/vendor/libs/tagify/tagify.css" />
+    <link rel="stylesheet" href="/assets/assets/vendor/libs/bootstrap-select/bootstrap-select.css" />
+
+
 
 
     <link rel="stylesheet" href="/assets/assets/vendor/libs/leaflet/leaflet.css">

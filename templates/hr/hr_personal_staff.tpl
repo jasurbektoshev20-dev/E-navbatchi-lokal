@@ -1,86 +1,56 @@
 {include file="header.tpl"}
 
 <style>
-    {literal}
-        .table thead th,
-        .table tbody td {
-            text-transform: none !important;
-        }
+{literal}
+    .table thead th,
+    .table tbody td {
+        text-transform: none !important;
+    }
 
-        .dt-buttons {
-            gap: 10px;
-            margin-left: 20px;
-        }
-
-    {/literal}
+    .dt-buttons {
+        gap: 10px;
+        margin-left: 20px;
+    }
+    .modal-xxl {
+  max-width: 80% !important;
+}
+{/literal}
 </style>
 
 <div class="flex-grow-1 container-p-y container-fluid">
-    <!--/ Card Border Shadow -->
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-body d-flex" style="justify-content: space-between;">
-                    <h4>{$ThisMenu.name}</h4>
-                    <button id="new" type="button" class="btn btn-primary waves-effect waves-light"
-                        data-bs-toggle="submitModal" data-bs-target="#modal">
-                        <i class="menu-icon tf-icons ti ti-plus"></i>{$Dict.adding}
+                    <h4>Kunlik naryad</h4>
+                    <button id="new" type="button" class="btn btn-primary waves-effect waves-light">
+                        <i class="menu-icon tf-icons ti ti-plus"></i> Qoʻshish
                     </button>
                 </div>
             </div>
         </div>
     </div>
-
     <div class="row mt-3">
         <!-- Projects table -->
         <div class="col-12">
             <div class="card">
                 <div class="card-datatable table-responsive">
-                    <table class="datatables-projects table border-top">
+                    <table class="datatables-projects table border-top" id="localTable">
                         <thead>
                             <tr>
                                 <th>No̱</th>
-                                <th class="text-center">{$Dict.region}</th>
-                                <th class="text-center">{$Dict.date}</th>
-                                <th class="text-center">{$Dict.object_type}</th>
-                                <th class="text-center">{$Dict.object}</th>
-
-                                <th class="text-center">{$Dict.mg_staff}</th>
-                                <th class="text-center">{$Dict.qb_staff}</th>
-                                <th class="text-center">{$Dict.direction}</th>
+                                <th class="text-center">Viloyat</th>
+                                <th class="text-center">Sana</th>
+                                <th class="text-center">Obyekt turi</th>
+                                <th class="text-center">Obyekt</th>
+                                <th class="text-center">MG xodimlar soni</th>
+                                {* <th class="text-center">QB xodimlar soni</th> *}
+                                <th class="text-center">Yoʻnalishlar soni</th>
                                 <th></th>
                             </tr>
                         </thead>
-                        <tbody>
-                            {foreach from=$Tables item=Table key=tkey}
-                            <tr class="lb" id="row_{$Table.id|crypt}">
-                                <td class="text-right">{$tkey+1}</td>
-                                <td class="text-center">{$Table.region}</td>
-                                <td class="text-center">{$Table.date}</td>
-                                <td class="text-center">{$Table.object_type}</td>
-                                <td class="text-center">{$Table.object}</td>
-
-                                <td class="text-center">{$Table.mg_staff}</td>
-                                <td class="text-center">{$Table.qb_staff}</td>
-                                <td class="text-center">{$Table.direction_count}</td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                            data-bs-toggle="dropdown">
-                                            <i class="ti ti-dots-vertical"></i>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a rel="{$Table.id|crypt}" class="dropdown-item editAction"
-                                                href="javascript:void(0);"><i
-                                                    class="ti ti-pencil me-1"></i>{$Dict.edit}</a>
-                                            <a rel="{$Table.id|crypt}" class="dropdown-item delete"
-                                                href="javascript:void(0);"><i
-                                                    class="ti ti-trash me-1"></i>{$Dict.delete}</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            {/foreach}
+                        <tbody id="table-body">
+                            <!-- JS orqali toʻldiriladi -->
                         </tbody>
                     </table>
                 </div>
@@ -90,209 +60,75 @@
     </div>
 </div>
 
-
-<!-- Edit Modal -->
 <div class="modal fade" id="submitModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-simple modal-edit-user">
-        <div class="modal-content p-3 p-md-5">
-            <div class="modal-body">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                <form class="needs-validation" novalidate>
-                    <div class="row g-3">
-                        <div class="col-sm-6">
-                            <label>{$Dict.region}</label>
-                            <select required class="select form-control" name="structure" id="structure">
-                                <option value="">{$Dict.choose}</option>
-                                {foreach from=$Structures item=Structure key=mkey}
-                                    <option value="{$Structure.id}">{$Structure.name}</option>
-                                {/foreach}
-                            </select>
-                        </div>
-                        <div class="col-sm-6">
-                            <label for="date" class="form-label">{$Dict.date}</label>
-                            <input type="text" class="form-control" placeholder="DD-MM-YYYY" id="date" />
-                        </div>
-                        <div class="col-sm-6">
-                            <label>{$Dict.object_type}</label>
-                            <select required class="select form-control" name="object_type" id="object_type">
-                                <option value="">{$Dict.choose}</option>
-                                {foreach from=$ObjectTypes item=Item1 key=ikey1}
-                                    <option value="{$Item1.id}">{$Item1.name}</option>
-                                {/foreach}
-                            </select>
-                        </div>
-                        <div class="col-sm-6">
-                            <label>{$Dict.object}</label>
-                            <select required class="select form-control" name="object" id="object">
-                                <option value="">{$Dict.choose}</option>
-                                {foreach from=$Objects item=Item1 key=ikey1}
-                                    <option value="{$Item1.id}">{$Item1.name}</option>
-                                {/foreach}
-                            </select>
-                        </div>
-
-                        {* <div id="add_patrul" class="mt-3">
-                        </div>
-                        <div style="margin-left: 12px;" class="col-12" >
-                            <div  class="addRow btn btn-primary px-2 "> <i class="ti ti-plus"> </i> </div>
-                        </div> *}
-
-
-
-
-
-
-
-                        <div class="row mt-3 p-0 m-0">
-                           <div class="col-1" style="position: relative;">
-                                <div style="position: absolute; bottom: 0;"  class="activeRow btn btn-danger px-2"> <i class="ti ti-x"> </i> </div>
-                            </div>
-                           <div class="col-1" style="position: relative; display: none">
-                                <div style="position: absolute; bottom: 0;"  class="disactiveRow btn btn-success  px-2"> <i class="ti ti-check"> </i> </div>
-                            </div>
-                            <div class="col-sm-3" style="padding-left: 8px;">
-                                <label>{$Dict.patrul_types}</label>
-                                <input readonly class="form-control direction" id="" name="direction"  value="{$PatrulTypes[0].name}">
-                                {* <select class="select se1 form-control" name="patrul_types" id="patrul_types">
-                                    <option value="">{$Dict.choose}</option>
-                                    {foreach from=$PatrulTypes item=Item3 key=ikey3}
-                                        <option value="{$Item3.id}">{$Item3.name}</option>
-                                    {/foreach}
-                                </select> *}
-                            </div>
-                            <div class="col-sm-2">
-                                <label>{$Dict.direction}</label>
-                                <input disabled type="text" class="form-control direction" id="pp_direction" name="direction"  value="">
-                            </div>
-                            <div class="col-sm-2">
-                                <label>{$Dict.mg_staff}</label>
-                                <input disabled type="text" class="form-control mg_staff" id="pp_mg" name="mg_staff" value="">
-                            </div>
-                            <div class="col-sm-2">
-                                <label>{$Dict.qb_staff}</label>
-                                <input disabled type="text" class="form-control qb_staff" id="pp_qb" name="qb_staff" value="">
-                            </div>
-                        </div>
-                        
-
-                        <div class="row mt-3 p-0 m-0">
-                        <div class="col-1" style="position: relative;">
-                            <div style="position: absolute; bottom: 0;"  class="activeRow btn btn-danger px-2"> <i class="ti ti-x"> </i> </div>
-                        </div>
-                        <div class="col-1" style="position: relative; display: none">
-                                <div style="position: absolute; bottom: 0;"  class="disactiveRow btn btn-success  px-2"> <i class="ti ti-check"> </i> </div>
-                            </div>
-                         <div class="col-sm-3" style="padding-left: 8px;">
-                            <label>{$Dict.patrul_types}</label>
-                             <input readonly  class="form-control direction" id="" name="direction"  value="{$PatrulTypes[1].name}">
-                                {* <select class="select se1 form-control" name="patrul_types" id="patrul_types">
-                                    <option value="">{$Dict.choose}</option>
-                                    {foreach from=$PatrulTypes item=Item3 key=ikey3}
-                                        <option value="{$Item3.id}">{$Item3.name}</option>
-                                    {/foreach}
-                                </select> *}
-                            </div>
-                            <div class="col-sm-2">
-                                <label>{$Dict.direction}</label>
-                                <input disabled type="text" class="form-control direction" id="ap_direction" name="direction"  value="">
-                            </div>
-                            <div class="col-sm-2">
-                                <label>{$Dict.mg_staff}</label>
-                                <input disabled type="text" class="form-control mg_staff" id="ap_mg" name="mg_staff" value="">
-                            </div>
-                            <div class="col-sm-2">
-                                <label>{$Dict.qb_staff}</label>
-                                <input disabled type="text" class="form-control qb_staff" id="ap_qb" name="qb_staff" value="">
-                            </div>
-                            <div class="col-sm-2">
-                                <label>{$Dict.vehicle_count}</label>
-                                <input disabled type="text" class="form-control vehicle_count" id="ap_vehicle" name="vehicle_count" value="">
-                            </div>
-                        </div>
-
-                        <div class="row mt-3 p-0 m-0">
-                        <div class="col-1" style="position: relative;">
-                            <div style="position: absolute; bottom: 0;"  class="activeRow btn btn-danger px-2"> <i class="ti ti-x"> </i> </div>
-                        </div>
-                        <div class="col-1" style="position: relative; display: none">
-                            <div style="position: absolute; bottom: 0;"  class="disactiveRow btn btn-success  px-2"> <i class="ti ti-check"> </i> </div>
-                        </div>
-                         <div class="col-sm-3" style="padding-left: 8px;">
-                         <label>{$Dict.patrul_types}</label>
-                             <input readonly class="form-control direction" id="" name="direction"  value="{$PatrulTypes[2].name}">
-                                {* <select class="select se1 form-control" name="patrul_types" id="patrul_types">
-                                    <option value="">{$Dict.choose}</option>
-                                    {foreach from=$PatrulTypes item=Item3 key=ikey3}
-                                        <option value="{$Item3.id}">{$Item3.name}</option>
-                                    {/foreach}
-                                </select> *}
-                            </div>
-                            <div class="col-sm-2">
-                                <label>{$Dict.direction}</label>
-                                <input disabled type="text" class="form-control direction" id="mp_direction" name="direction"  value="">
-                            </div>
-                            <div class="col-sm-2">
-                                <label>{$Dict.mg_staff}</label>
-                                <input disabled type="text" class="form-control mg_staff" id="mp_mg" name="mg_staff" value="">
-                            </div>
-                            <div class="col-sm-2">
-                                <label>{$Dict.qb_staff}</label>
-                                <input disabled type="text" class="form-control qb_staff" id="mp_qb" name="qb_staff" value="">
-                            </div>
-                            <div class="col-sm-2">
-                                <label>{$Dict.vehicle_count}</label>
-                                <input disabled type="text" class="form-control vehicle_count" id="mp_vehicle" name="vehicle_count" value="">
-                            </div>
-                        </div>
-
-                        <div class="row mt-3 p-0 m-0">
-                        <div class="col-1" style="position: relative;">
-                        <div style="position: absolute; bottom: 0;"  class="activeRow btn btn-danger px-2"> <i class="ti ti-x"> </i> </div>
-                    </div>
-                   <div class="col-1" style="position: relative; display: none">
-                        <div style="position: absolute; bottom: 0;"  class="disactiveRow btn btn-success  px-2"> <i class="ti ti-check"> </i> </div>
-                    </div>
-                         <div class="col-sm-3" style="padding-left: 8px;">
-                            <label>{$Dict.patrul_types}</label>
-                             <input readonly class="form-control direction" id="" name="direction"  value="{$PatrulTypes[3].name}">
-                                {* <select class="select se1 form-control" name="patrul_types" id="patrul_types">
-                                    <option value="">{$Dict.choose}</option>
-                                    {foreach from=$PatrulTypes item=Item3 key=ikey3}
-                                        <option value="{$Item3.id}">{$Item3.name}</option>
-                                    {/foreach}
-                                </select> *}
-                            </div>
-                            <div class="col-sm-2">
-                                <label>{$Dict.direction}</label>
-                                <input disabled type="text" class="form-control direction" id="op_direction" name="direction"  value="">
-                            </div>
-                            <div class="col-sm-2">
-                                <label>{$Dict.mg_staff}</label>
-                                <input disabled type="text" class="form-control mg_staff" id="op_mg" name="mg_staff" value="">
-                            </div>
-                            <div class="col-sm-2">
-                                <label>{$Dict.qb_staff}</label>
-                                <input disabled type="text" class="form-control qb_staff" id="op_qb" name="qb_staff" value="">
-                            </div>
-                            <div class="col-sm-2">
-                                <label>{$Dict.vehicle_count}</label>
-                                <input disabled type="text" class="form-control vehicle_count" id="op_vehicle" name="vehicle_count" value="">
-                            </div>
-                        </div>
-
-                        <div class="col-12 text-center mt-3">
-                            <input type="hidden" name="id" id="id" value="">
-                            <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">
-                                {$Dict.cancel}
-                            </button>
-                            <button id="SubButtonHrSetMarker" class="btn btn-primary me-sm-3 me-1">{$Dict.save}</button>
-                        </div>
-                    </div>
-                </form>
+  <div class="modal-dialog modal-xxl modal-simple modal-edit-user">
+    <div class="modal-content p-1 p-md-3">
+      <div class="modal-body">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <form id="localForm" class="needs-validation" novalidate>
+          <div class="row g-3">
+            <div class="col-sm-4">
+              <label>Sana</label>
+              <input type="date" id="date" class="form-control" />
             </div>
-        </div>
+
+            <div class="col-sm-4">
+              <label>Obyekt turi</label>
+              <select required class="form-control" id="object_type">
+                <option value="">Tanlang...</option>
+                <option value="Bozor">Bozor</option>
+                <option value="Park">Park</option>
+                <option value="Xiyobon">Xiyobon</option>
+                <option value="Boshqa">Boshqa joy</option>
+              </select>
+            </div>
+
+            <div class="col-sm-4">
+              <label>Obyekt nomi</label>
+              <select required class="form-control" id="object">
+                <option value="">Tanlang...</option>
+                <option value="">Markaziy Bozor</option>
+                <option value="">Anhor lakamativ parki</option>
+              </select>
+            </div>
+
+              <div class="col-sm-4">
+              <label>MG javobgar shaxs unvoni</label>
+              <input type="text" id="date" class="form-control" />
+            </div>
+            <div class="col-sm-4">
+              <label>MG javobgar shaxs FISH</label>
+              <input type="text" id="date" class="form-control" />
+            </div>
+            <div class="col-sm-4">
+              <label>MG javobgar shaxs tel raqami</label>
+              <input type="text" id="date" class="form-control" />
+            </div>
+            {* <hr > *}
+            <div class="mt-4"></div>
+            <hr>
+
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h5 class="m-0">Patrullar</h5>
+              <button type="button" id="addPatrol" class="btn btn-sm btn-success"><i class="ti ti-plus"></i> Qo‘shish</button>
+            </div>
+
+            <div id="patrulContainer" class="mt-2">
+              <!-- Patrul bloklari shu yerda dinamik qo‘shiladi -->
+            </div>
+
+            <div class="col-12 text-center mt-3">
+              <input type="hidden" id="id" />
+              <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal">Bekor</button>
+              <button id="SubButtonHrSetMarker" class="btn btn-primary me-sm-3 me-1">Saqlash</button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 </div>
+
 <!--/ Edit Modal -->
 
 <script src="/assets/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
@@ -304,401 +140,351 @@
 <script src="/assets/assets/vendor/libs/@form-validation/umd/plugin-bootstrap5/index.min.js"></script>
 <script src="/assets/assets/vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js"></script>
 
+{* <script src="/assets/assets/js/forms-selects.js"></script> *}
+
 <script>
-    var dict_infraction = "{$Dict.infraction}"
-    var dict_action_taken = "{$Dict.action_taken}"
-    var dict_person_drafted = "{$Dict.person_drafted}"
-    var dict_old_photo = "{$Dict.old_photo}"
-    var dict_new_photo = "{$Dict.new_photo}"
-    var dict_download_pdf = "{$Dict.download_pdf}"
-    var dict_docx_download = "{$Dict.docx_download}"
-
-    var dict_choose = "{$Dict.choose}"
-    var dict_patrul_types = "{$Dict.patrul_types}"
-    var dict_direction = "{$Dict.direction}"
-    var dict_mg_staff = "{$Dict.mg_staff}"
-    var dict_qb_staff = "{$Dict.qb_staff}"
-    var dict_vehicle_count = "{$Dict.vehicle_count}"
-
-    var Var_comment1	= "{$Dict.comment1}";
-    var Var_comment2	= "{$Dict.comment2}";
-    var Var_comment3	= "{$Dict.comment3}";
-    var Var_main_photo	= "{$Dict.main_photo}";
-    var Var_ObjectId	= "{$Organization.id}";
 
 
 
-    var AJAXPHP = "ajax{$AddURL}.php";
+{literal}
 
+/**
+ * Selects & Tags
+ */
 
-    {literal}
-    const flatpickrDate = document.querySelector('#date');
-    if (flatpickrDate) {
-        flatpickrDate.flatpickr({
-            monthSelectorType: 'static'
-        });
-    }
-
-    let date;
-    $('#date').on('change', function() {
-        var dateComponents = this.value.split('-');
-        date = dateComponents[2] + '-' + dateComponents[1] + '-' + dateComponents[0];
-    })
-
-    function getCurrentDate() {
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
-        const day = String(now.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
-    }
-
-    $('#object_type').change(function(event) {
-        if($(this).val() == 0){
-            $("#object").empty();
-            $("#object").append(`<option value="">${dict_choose}</option>`);
-        }else{
-            $.ajax({
-                type: "GET",
-                url: `ajax.php?act=get_object_by_id&id=${this.value}`,
-                dataType: "json",
-                encode: true,
-                success: function(data) {
-                    $("#object").empty();
-                    data.forEach(item => { 
-                        $("#object").append(`<option value="${item.id}">${item.name}</option>`);
-                    });
-                }
-            })
-        }
-
-    })
-
-    var dt_basic_table = $('.datatables-projects'),
-        dt_basic;
-
-    // DataTable with buttons
-    if (dt_basic_table.length) {
-        dt_basic = dt_basic_table.DataTable({
-            displayLength: 10,
-            lengthMenu: [5, 10, 25, 50, 75, 100, 1000]
-        });
-    }
-
-    $('.datatables-projects tbody').on('click', '.editAction', function() {
-        $('#submitModal').modal('toggle');
-        var RowId = $(this).attr('rel');
-
-        $.get("hrajax.php?act=get_personal_staff&rowid=" + RowId, function(html) {
-            var sInfo = jQuery.parseJSON(html);
-
-            $('#object_type').val(sInfo.object_type);
-            $('#object_type').trigger("change");
-            $('#object_type').change(function(event) {
-                $.ajax({
-                    type: "GET",
-                    url: `ajax.php?act=get_object_by_id&id=${this.value}`,
-                    dataType: "json",
-                    encode: true,
-                    success: function(data) {
-                        $("#object").empty();
-                        data.forEach(item => { 
-                            $("#object").append(`<option value="${item.id}">${item.name}</option>`);
-                        });
-                    }
-                })
-            })
-            
-            $('#structure').val(sInfo.structure);
-            $('#structure').trigger("change");
-            $('#date').val(sInfo.date);
-            $('#object_type').val(sInfo.object_type);
-            $('#object_type').trigger("change");
-            $('#object').val(sInfo.object);
-            $('#object').trigger("change");
-
-            $('#pp_mg').val(sInfo.pp_mg);
-            $('#pp_qb').val(sInfo.pp_qb);
-            $('#pp_direction').val(sInfo.pp_direction);
-            $('#ap_mg').val(sInfo.ap_mg);
-            $('#ap_qb').val(sInfo.ap_qb);
-            $('#ap_direction').val(sInfo.ap_direction);
-            $('#ap_vehicle').val(sInfo.ap_vehicle);
-            $('#mp_mg').val(sInfo.mp_mg);
-            $('#mp_qb').val(sInfo.mp_qb);
-            $('#mp_direction').val(sInfo.mp_direction);
-            $('#mp_vehicle').val(sInfo.mp_vehicle);
-            $('#op_mg').val(sInfo.op_mg);
-            $('#op_qb').val(sInfo.op_qb);
-            $('#op_direction').val(sInfo.op_direction);
-            $('#op_vehicle').val(sInfo.op_vehicle);
-            $('#id').val(sInfo.id);
-        });
-    })
-
-    $('#new').click(function() {
-        $('#submitModal').modal('toggle');
-
-        $('#date').val(getCurrentDate());
-        $('#structure').val("");
-        $('#structure').trigger("change");
-        $('#object_type').val("");
-        $('#object_type').trigger("change");
-        $('#object').val("");
-        $('#object').trigger("change");
-
-        $('#pp_mg').val("");
-        $('#pp_qb').val("");
-        $('#pp_direction').val("");
-        $('#ap_mg').val("");
-        $('#ap_qb').val("");
-        $('#ap_direction').val("");
-        $('#ap_vehicle').val("");
-        $('#mp_mg').val("");
-        $('#mp_qb').val("");
-        $('#mp_direction').val("");
-        $('#mp_vehicle').val("");
-        $('#op_mg').val("");
-        $('#op_qb').val("");
-        $('#op_direction').val("");
-        $('#op_vehicle').val("");
-        $('#id').val(0);
+$(function () {
+  const  select2 = $('.select2')
+  // Default
+  if (select2.length) {
+    select2.each(function () {
+      var $this = $(this);
+      $this.wrap('<div class="position-relative"></div>').select2({
+        placeholder: 'Select value',
+        dropdownParent: $this.parent()
+      });
     });
+  }
+});
 
+  const STORAGE_KEY = "personal_staff_local_dynamic_v1";
 
-
-
-    $(document).on('click', '.activeRow', function(e) {
-        $(this).parent().css({
-            'display': 'none'
-        })
-        $(this).parent().parent().find('.disactiveRow').parent().css({
-            'display': 'block'
-        })
-        
-        $(this).parent().parent().find('input').attr('required', true)
-        $(this).parent().parent().find('input').removeAttr('disabled');
-    })
-    $(document).on('click', '.disactiveRow', function(e) {
-        $(this).parent().css({
-            'display': 'none'
-        })
-        $(this).parent().parent().find('.activeRow').parent().css({
-            'display': 'block'
-        })
-        $(this).parent().parent().find('input[type]').attr('disabled', true)
-        $(this).parent().parent().find('input[type]').removeAttr('required');
-        $(this).parent().parent().find('input[type]').val('')
-    })
-
-
-
-    // Form validation and submit
-    const bsValidationForms = $('.needs-validation');
-    Array.prototype.slice.call(bsValidationForms).forEach(function (form) {
-        form.addEventListener('submit', function (event) {
-            if (!form.checkValidity()) {
-                event.preventDefault();
-                event.stopPropagation();
-            } else {
-                event.preventDefault();
-                event.stopPropagation();
-                var form_data = new FormData();
-
-                form_data.append('id', $('#id').val());
-                form_data.append('structure', $('#structure').val());
-                form_data.append('date', $('#date').val());
-                form_data.append('object', $('#object').val());
-                form_data.append('pp_mg', $('#pp_mg').val());
-                form_data.append('pp_qb', $('#pp_qb').val());
-                form_data.append('pp_direction', $('#pp_direction').val());
-                form_data.append('ap_mg', $('#ap_mg').val());
-                form_data.append('ap_qb', $('#ap_qb').val());
-                form_data.append('ap_direction', $('#ap_direction').val());
-                form_data.append('ap_vehicle', $('#ap_vehicle').val());
-                form_data.append('mp_mg', $('#mp_mg').val());
-                form_data.append('mp_qb', $('#mp_qb').val());
-                form_data.append('mp_direction', $('#mp_direction').val());
-                form_data.append('mp_vehicle', $('#mp_vehicle').val());
-                form_data.append('op_mg', $('#op_mg').val());
-                form_data.append('op_qb', $('#op_qb').val());
-                form_data.append('op_direction', $('#op_direction').val());
-                form_data.append('op_vehicle', $('#op_vehicle').val());
-
-                $.ajax({
-                    url: 'hrajax.php?act=act_personal_staff',
-                    dataType: 'text',
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    data: form_data,
-                    type: 'post',
-                    success: function(resdata) {
-                        console.log(resdata);
-                        var NewArray = resdata.split("<&sep&>");
-                        if (NewArray[0] == 0) {
-                            location.reload();
-                        } else {
-                            alert(resdata);
-                        }
-                    }
-                });
-            }
-            form.classList.add('was-validated');
-        });
+/* Dastlabki misol ma'lumot */
+let tables = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [
+  {
+    id: 1,
+    region: "Toshkent",
+    date: "2025-10-21",
+    object_type: "Bozor",
+    object: "Chorsu",
+    patruls: [
+      { type: "PP (Piyoda patrul)", direction: "4", mg: "8", qb: "4", transport: "Nexia" },
+      { type: "AP (Avtomobil patrul)", direction: "3", mg: "7", qb: "10", transport: "" }
+    ]
+  }
+];
+function renderSelect() {
+  const select2 = $('.select2') 
+  
+  if (select2.length) {
+    select2.each(function () {
+      var $this = $(this);
+      console.log('dswsd', $this);
+      $this.wrap('<div class="position-relative"></div>').select2({
+        placeholder: 'Select value',
+        dropdownParent: $this.parent()
+      });
     });
-        
-    // Delete Record
-    $('.datatables-projects tbody').on('click', '.delete', function() {
-        var RowId = $(this).attr('rel');
-        $.get("hrajax.php?act=del_personal_staff&rowid=" + RowId, function(html) {
-            if (html == 0) {
-                $("#row_" + RowId).remove();
-            }
-        });
-    });
+  }
+} 
+// renderSelect()
 
+/* Jadvalni render qilish */
+function renderTable() {
+  const tbody = document.getElementById("table-body");
+  tbody.innerHTML = "";
+  tables.forEach((row, idx) => {
+    const firstPatrol = row.patruls[0] || {};
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${idx + 1}</td>
+      <td class="text-center">${row.region}</td>
+      <td class="text-center">${row.date}</td>
+      <td class="text-center">${row.object_type}</td>
+      <td class="text-center">${row.object}</td>
+      <td class="text-center">${firstPatrol.mg || ""}</td>
+      <td class="text-center">${firstPatrol.direction || ""}</td>
+      <td>
+        <div class="dropdown">
+          <button type="button" class="btn p-0 dropdown-toggle" data-bs-toggle="dropdown">
+            <i class="ti ti-dots-vertical"></i>
+          </button>
+          <div class="dropdown-menu">
+            <a href="javascript:void(0);" class="dropdown-item editAction" data-id="${row.id}"><i class="ti ti-pencil"></i> Tahrirlash</a>
+            <a href="javascript:void(0);" class="dropdown-item delete" data-id="${row.id}"><i class="ti ti-trash"></i> O‘chirish</a>
+          </div>
+        </div>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(tables));
+}
 
+/* Patrul blokini yaratish */
+function createPatrolBlock(patrul = {}, id) {
+  
+  return `
+ 
+    <div class="row align-items-end g-2 patrol-block  mt-3" id="patrolBlock_${id}" data-id="${id}" style="border:1px solid #dfdfe3; border-radius:6px; padding:10px;">
+      <div class="col-1 text-center">
+        <button type="button" class="btn btn-danger removePatrol"><i class="ti ti-x"></i></button>
+      </div>
+      <div class="col-sm-2">
+        <label>Patrul turini tanlang</label>
+              <select class="form-control">
+                <option value="">Tanlang...</option>
+                <option class="p-type" value="pp">Piyoda patrul</option>
+                <option class="p-type" value="ap">Avto patrul</option>
+                <option class="p-type" value="mp">Moto patrul</option>
+                <option class="p-type" value="op">Otliq patrul</option>
+              </select>
+      </div>
+      <div class="col-sm-2">
+        <label>Yo‘nalishni kiriting</label>
+        <input type="number" class="form-control p-direction" value="${patrul.direction || ""}">
+      </div>
+      <div class="col-sm-2">
+         <label>Jinsni tanlang</label>
+              <select class="form-control">
+                <option value="">Tanlang...</option>
+                <option class="p-type" value="pp">Ayol</option>
+                <option class="p-type" value="ap">Erkak</option>
+       </select>
+      </div>
+         <div class="col-sm-2">
+         <label>Lavozimini tanlang</label>
+              <select class="form-control">
+                <option value="">Tanlang...</option>
+                <option class="p-type" value="ofitser">Ofitser</option>
+                <option class="p-type" value="serjant">Serjant</option>
+       </select>
+      </div>
+      <div class="col-sm-2">
+        <label>Harbiy unvonini kiriting</label>
+        <input type="text" class="form-control p-qb" value="${patrul.qb || ""}">
+      </div>
+        <div class="col-sm-2">
+        <label>FISH ni kiriting</label>
+        <input type="text" class="form-control p-transport" value="${patrul.transport || ""}">
+      </div>
+        <div class="col-sm-2">
+        <label>Mobil telni kiriting</label>
+        <input type="text" class="form-control p-transport" value="${patrul.transport || ""}">
+      </div>
+          <div class="col-sm-4">
+               <label for="select2Multiple" class="form-label">Epikirovkani tanlang</label>
+                <select id="select2Multiple_${id}" class="select2 form-select" multiple>
+                  <option class="p-type" value="ofitser">PM</option>
+                  <option class="p-type" value="serjant">AK74</option>
+                  <option class="p-type" value="serjant">Rezinali tayoq</option>
+                  <option class="p-type" value="serjant">Shit</option>
+                  <option class="p-type" value="serjant">Pichoq</option>
+                  <option class="p-type" value="serjant">Ratsiya</option>
+                  <option class="p-type" value="serjant">Body kamera</option>
+                  <option class="p-type" value="serjant">Planshet</option>
+                  <option class="p-type" value="serjant">Elektroshoker</option>
+                  <option class="p-type" value="serjant">Mobil telefon</option>
+                  <option class="p-type" value="serjant">Serjant</option>
+              </select>
+         </div>
+            <div class="col-sm-2">
+             <label>Avtomobil markasini kiriting</label>
+             <input type="text" class="form-control p-qb" value="${patrul.qb || ""}">
+      </div>
+        <div class="col-sm-2">
+        <label>Avtomobil raqamini kiriting</label>
+        <input type="text" class="form-control p-transport" value="${patrul.transport || ""}">
+      </div>
+    </div>
+  `;
+}
 
+/* Patrul bloklarini yuklash */
+function loadPatruls(patruls) {
+  const container = document.getElementById("patrulContainer");
+  const id = Date.now() + Math.random().toString(36).substring(2);
 
-
-
-
-
-
-
-
-
+  container.innerHTML = patruls.map(p => createPatrolBlock(p, id)).join("");
     
+  const  select2 = $(`#patrolBlock_${id} #select2Multiple_${id}`)
+  // Default
+  if (select2.length) {
+    select2.each(function () {
+      var $this = $(this);
+      $this.wrap('<div class="position-relative"></div>').select2({
+        placeholder: 'Select value',
+        dropdownParent: $this.parent()
+      });
+    });
+  }
 
-    // let PatrulTypes = {}
-    // $.ajax({
-    //     url: `${AJAXPHP}?act=get_patrul_types`,
-    //     type: 'get',
-    //     dataType: "json",
-    //     encode: true,
-    //     success: function(resdata) {
-    //         PatrulTypes = resdata
-    //         patrulRowFun()
+}
 
-    //     }
-    // });
+/* Modalni tozalash */
+function openNew() {
+  document.getElementById("id").value = "";
+  // document.getElementById("structure").value = "";
+  document.getElementById("date").value = new Date().toISOString().slice(0, 10);
+  document.getElementById("object_type").value = "";
+  document.getElementById("object").innerHTML = '<option value="">Tanlang...</option>';
+  loadPatruls([{ type: "", direction: "", mg: "", qb: "", transport: "" }]);
+  new bootstrap.Modal("#submitModal").show();
+}
 
-    // $(document).on('click', '.removeRow', function(){
-    //     $(this).parent().parent().remove();
-    // })
+/* Tahrirlash */
+function openEdit(id) {
+  const obj = tables.find(t => t.id == id);
+  if (!obj) return;
+  document.getElementById("id").value = obj.id;
+  // document.getElementById("structure").value = obj.region;
+  document.getElementById("date").value = obj.date;
+  document.getElementById("object_type").value = obj.object_type;
+  document.getElementById("object").innerHTML = `<option>${obj.object}</option>`;
+  loadPatruls(obj.patruls || []);
+  new bootstrap.Modal("#submitModal").show();
+}
 
-    // $(document).on('click', '.addRow', patrulRowFun)
+/* Saqlash */
+document.getElementById("localForm").addEventListener("submit", function(e){
+  e.preventDefault();
 
-    // function patrulRowFun(){
-    //     if($('#add_patrul .row').length < PatrulTypes.length) {
-    //         // $('.addRow').parent().css({
-    //         //     'display': 'none'
-    //         // })
+  const id = document.getElementById("id").value;
+  // const region = document.getElementById("structure").value.trim();
+  const date = document.getElementById("date").value.trim();
+  const object_type = document.getElementById("object_type").value.trim();
+  const object = document.getElementById("object").value.trim();
 
-    //         // $('.removeRow').parent().css({
-    //         //     'display': 'block'
-    //         // })
-        
-    //         $('#add_patrul').append(`
-    //             <div style="margin: 0; padding-right: 0;" class="row mt-3">
+  const patruls = Array.from(document.querySelectorAll(".patrol-block")).map(block => ({
+    type: block.querySelector(".p-type").value.trim(),
+    direction: block.querySelector(".p-direction").value.trim(),
+    mg: block.querySelector(".p-mg").value.trim(),
+    qb: block.querySelector(".p-qb").value.trim(),
+    transport: block.querySelector(".p-transport").value.trim()
+  }));
 
-    //                 <div class="col-1" style="position: relative;">
-    //                     <div style="position: absolute; bottom: 0;"  class="removeRow btn btn-danger px-2"> <i class="ti ti-minus"> </i> </div>
-    //                 </div>
-    //                 <div class="col-sm-3">
-    //                     <label>${dict_patrul_types}</label>
-    //                     <select required class="select se1 form-control" name="patrul_types" id="patrul_types">
-    //                         <option value="">${dict_choose}</option>
-    //                     </select>
-    //                 </div>
-    //                 <div class="col-sm-2">
-    //                     <label>${dict_direction}</label>
-    //                     <input disabled type="text" class="form-control direction" name="direction" value="">
-    //                 </div>
-    //                 <div class="col-sm-2">
-    //                     <label>${dict_mg_staff}</label>
-    //                     <input disabled type="text" class="form-control mg_staff" name="mg_staff" value="">
-    //                 </div>
-    //                 <div class="col-sm-2">
-    //                     <label>${dict_qb_staff}</label>
-    //                     <input disabled type="text" class="form-control qb_staff" name="qb_staff" value="">
-    //                 </div>
-    //                 <div class="col-sm-2">
-    //                     <label>${dict_vehicle_count}</label>
-    //                     <input disabled type="text" class="form-control vehicle_count" name="vehicle_count" value="">
-    //                 </div>
-    //             </div>
-    //         `)
-    //     }
+  if (!region || !date || !object_type || !object) {
+    alert("Majburiy maydonlarni to‘ldiring!");
+    return;
+  }
 
-    //     let items = $('#add_patrul:last #patrul_types').last();
-    //     PatrulTypes.forEach( Item3 => {
-    //         items.append(`
-    //             <option value="${Item3.id}">${Item3.name}</option>
-    //         `)
-    //     })
+  if (id) {
+    const idx = tables.findIndex(t => t.id == id);
+    if (idx !== -1) tables[idx] = { id, region, date, object_type, object, patruls };
+  } else {
+    const newId = tables.length ? Math.max(...tables.map(t => t.id)) + 1 : 1;
+    tables.push({ id: newId, region, date, object_type, object, patruls });
+  }
 
-    //     let selectedItems = []
-            
-    //     $('.se1').change(function(){
-    //         if(!selectedItems.includes($(this).val())){
-    //             if($(this).val() == 1){
-    //                 $(this).parent().parent().find('.direction').attr('id', 'pp_direction')
-    //                 $(this).parent().parent().find('.mg_staff').attr('id', 'pp_msg')                
-    //                 $(this).parent().parent().find('.qb_staff').attr('id', 'pp_qb')
-    //                 $(this).parent().parent().find('.vehicle_count').parent().remove()
-    //                 selectedItems.push($(this).val())
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(tables));
+  renderTable();
 
-    //                 $(this).parent().parent().find('input').attr('required', true)
-    //                 $(this).parent().parent().find('input').removeAttr('disabled');
-    //                 $(this).attr('disabled', true);
-    //             }else if($(this).val() == 2 ){
-    //                 $(this).parent().parent().find('.direction').attr('id', 'ap_direction')
-    //                 $(this).parent().parent().find('.mg_staff').attr('id', 'ap_msg')                
-    //                 $(this).parent().parent().find('.qb_staff').attr('id', 'ap_qb')
-    //                 $(this).parent().parent().find('.vehicle_count').attr('id', 'ap_vehicle')
-    //                 selectedItems.push($(this).val())
+  // 🧠 Modalni xavfsiz yopish
+  const modalEl = document.getElementById("submitModal");
+  const modalInstance = bootstrap.Modal.getInstance(modalEl);
+  modalInstance.hide();
 
-    //                 $(this).parent().parent().find('input').attr('required', true)
-    //                 $(this).parent().parent().find('input').removeAttr('disabled');
-    //                 $(this).attr('disabled', true);
-
-    //             }else if($(this).val() == 3 ){
-    //                 $(this).parent().parent().find('.direction').attr('id', 'mp_direction')
-    //                 $(this).parent().parent().find('.mg_staff').attr('id', 'mp_msg')                
-    //                 $(this).parent().parent().find('.qb_staff').attr('id', 'mp_qb')
-    //                 $(this).parent().parent().find('.vehicle_count').attr('id', 'mp_vehicle')
-    //                 selectedItems.push($(this).val())
-
-    //                 $(this).parent().parent().find('input').attr('required', true)
-    //                 $(this).parent().parent().find('input').removeAttr('disabled');
-    //                 $(this).attr('disabled', true);
-
-    //             }else if($(this).val() == 4 ){
-    //                 $(this).parent().parent().find('.direction').attr('id', 'op_direction')
-    //                 $(this).parent().parent().find('.mg_staff').attr('id', 'op_msg')                
-    //                 $(this).parent().parent().find('.qb_staff').attr('id', 'op_qb')
-    //                 $(this).parent().parent().find('.vehicle_count').attr('id', 'op_vehicle')
-    //                 selectedItems.push($(this).val())
-
-    //                 $(this).parent().parent().find('input').attr('required', true)
-    //                 $(this).parent().parent().find('input').removeAttr('disabled');
-    //                 $(this).attr('disabled', true);
-
-    //             }
-    //         }else{
-    //             $(this).val('')
-    //         }
-    //     })
-    // }
+  // 🔧 Qo‘shimcha: backdrop’ni ham tozalab tashlash
+  setTimeout(() => {
+    document.body.classList.remove('modal-open');
+    document.querySelectorAll('.modal-backdrop').forEach(b => b.remove());
+  }, 300);
+});
 
 
+/* Patrul qo‘shish */
+document.getElementById("addPatrol").addEventListener("click", () => {
+  const id = Date.now() + Math.random().toString(36).substring(2);
+
+  document.getElementById("patrulContainer").insertAdjacentHTML("beforeend", createPatrolBlock({}, id));
+  
+  const  select2 = $(`#patrolBlock_${id} #select2Multiple_${id}`)
+  // Default
+  if (select2.length) {
+    select2.each(function () {
+      var $this = $(this);
+      $this.wrap('<div class="position-relative"></div>').select2({
+        placeholder: 'Select value',
+        dropdownParent: $this.parent()
+      });
+    });
+  }
+});
+
+/* Patrul o‘chirish */
+document.addEventListener("click", function(e){
+  if (e.target.closest(".removePatrol")) {
+    e.target.closest(".patrol-block").remove();
+  }
+});
+
+/* Tahrirlash va o‘chirish eventlari */
+document.addEventListener("click", function(e){
+  const edit = e.target.closest(".editAction");
+  const del = e.target.closest(".delete");
+  if (edit) openEdit(edit.dataset.id);
+  if (del) {
+    const id = del.dataset.id;
+    if (confirm("O‘chirmoqchimisiz?")) {
+      tables = tables.filter(t => t.id != id);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(tables));
+      renderTable();
+    }
+  }
+});
+
+/* Patrul o‘chirish */
+document.addEventListener("click", function(e){
+  if (e.target.closest(".removePatrol")) {
+    e.target.closest(".patrol-block").remove();
+  }
+});
+
+// Qo‘shish tugmasi ishlashi uchun
+document.getElementById("new").addEventListener("click", openNew);
+
+/* Tahrirlash va o‘chirish eventlari */
+document.addEventListener("click", function(e){
+  const edit = e.target.closest(".editAction");
+  const del = e.target.closest(".delete");
+  if (edit) openEdit(edit.dataset.id);
+  if (del) {
+    const id = del.dataset.id;
+    if (confirm("O‘chirmoqchimisiz?")) {
+      tables = tables.filter(t => t.id != id);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(tables));
+      renderTable();
+    }
+  }
+});
+
+// Modal yopilgandan keyin fonni tozalash
+document.getElementById('submitModal').addEventListener('hidden.bs.modal', function () {
+  document.body.classList.remove('modal-open');
+  const backdrops = document.querySelectorAll('.modal-backdrop');
+  backdrops.forEach(b => b.remove());
+});
+
+/* Init */
+document.addEventListener("DOMContentLoaded", renderTable);
 
 
+/* Init */
+// "Qo‘shish" tugmasini bosganda yangi yozuv ochish
+document.getElementById("new").addEventListener("click", openNew);
 
+document.addEventListener("DOMContentLoaded", renderTable);
 
-    {/literal}
+{/literal}
 </script>
 
 {include file="footer.tpl"}
