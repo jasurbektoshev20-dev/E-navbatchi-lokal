@@ -45,6 +45,29 @@
             padding: 10px;
         }
 
+         .main-card {
+    background: #161b22; /* dark gray card */
+      border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+      padding: 20px;
+    }
+   .staff-card {
+      background: #21262d;
+      border: 1px solid #30363d;
+      border-radius: 15px;
+      transition: 0.3s;
+      color: #e6edf3;
+    }
+    .staff-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .staff-card-img-box{
+        display: flex;
+        justify-content: center;
+    }
+
     {/literal}
 </style>
 
@@ -61,11 +84,11 @@
                 </select> *}
 
                   <select class="form-select card" id="regions">
-                    <option value="">— Viloyatni tanlang —</option>
+                    <option value="">— Hududni tanlang —</option>
                   </select>
 
                  {* <div id="card_duty" class="card-group d-flex flex-wrap gap-4 mt-4 justify-content-center"></div> *}
-                 <div id="card_duty" class="mt-4"></div>
+                 <div id="card_duty"></div>
 
 
 
@@ -325,11 +348,14 @@
         data.forEach(item => {
           innerCards += `
             <div class="col-md-4 col-sm-6">
-              <div class="card staff-card text-center p-3 mb-4">
-                <img style="width: 160px; height: 160px; border-radius: 15px; object-fit: cover;"
+              <div class="card staff-card text-center p-2 mb-2">
+                <div class="staff-card-img-box">
+                  <img style="width: 160px; height: 160px; border-radius: 15px; object-fit: cover;"
                      src="pictures/staffs/${item.photo}"
                      alt="${item.staff}"
                      onerror="this.onerror=null;this.src='assets/images/nophoto2.png'">
+                </div>
+              
                 <div class="card-body px-2 py-2">
                   <h6 class="card-title mb-1">${item.staff}</h6>
                   <p class="mb-1">${item.position}</p>
