@@ -74,7 +74,7 @@ foreach ($Dictionary as $id => $value) {
 
 $smarty->assign(array(
 	'Langs' 			=> $Langs,
-	'CurrLang' 			=> $Langs[$slang],
+	// 'CurrLang' 			=> $Langs[$slang],
 	'Dict' 				=> $Dict,
 	'Menu' 				=> $Menu,
     'ThisMenu' => $ThisMenu,

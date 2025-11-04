@@ -52,13 +52,25 @@
     <div class="app-chat">
         <div style="height: calc(100vh - 7rem);" class="row">
             <div class="col-8">
-                <select class="form-select card" id="regions">
+
+            
+                {* <select class="form-select card" id="regions">
                     {foreach from=$Regions item=region key=mkey}
                         <option class="selectOption" value="{$region.id}">{$region.name}</option>
                     {/foreach}
-                </select>
+                </select> *}
 
-                <div id="card_duty" class="card-group d-flex gap-4">
+                  <select class="form-select card" id="regions">
+                    <option value="">— Viloyatni tanlang —</option>
+                  </select>
+
+                 {* <div id="card_duty" class="card-group d-flex flex-wrap gap-4 mt-4 justify-content-center"></div> *}
+                 <div id="card_duty" class="mt-4"></div>
+
+
+
+
+                {* <div id="card_duty" class="card-group d-flex gap-4">
                     {if !$Duty}
                         <div class="card text-center">
                             <div class="mt-3">
@@ -85,7 +97,12 @@
                             </div>
                         </div>
                     {/foreach}
-                </div>
+                </div> *}
+
+
+
+
+
                 <div class="row mt-3 g-2">
                     {foreach from=$Cooperates item=item key=mkey}
                         <div class="col-md-6 col-lg-3 ">
@@ -217,6 +234,8 @@
     var no_data_found = "{$Dict.no_data_found}"
     let staffphoto = `/pictures/staffs/{$smarty.session.staffphoto}` || "/assets/assets/img/avatars/1.png"
     {literal}
+
+
         let color = localStorage.getItem('templateCustomizer-vertical-menu-template-no-customizer--Style') == 'light' ?
             '#000' : '#fff';
 
@@ -241,6 +260,96 @@
 
 
 
+(function(){
+    if (window.__dutyAppInitialized) return;
+    window.__dutyAppInitialized = true;
+
+    // ======= "Baza" sifatida ishlaydigan JS ma'lumotlar =======
+    const Regions = [
+      { id: 1, name: "Toshkent" },
+      { id: 2, name: "Samarqand" },
+      { id: 3, name: "Farg'ona" }
+    ];
+
+    const Duties = {
+      1: [
+        { staff: "Aliyev Jasur", position: "Direktor", role: "Boshliq", lastname: "Aliyev", phone: "+99890 1112233", photo: "aliyev.jpg" },
+        { staff: "Karimova Dilnoza", position: "Yordamchi", role: "Assistent", lastname: "Karimova", phone: "+99891 5556677", photo: "dilnoza.jpg" },
+        { staff: "Raxmonov Akmal", position: "Xodim", role: "Texnik", lastname: "Raxmonov", phone: "+99899 4445566", photo: "akmal.jpg" }
+      ],
+      2: [
+        { staff: "Rasulov Bekzod", position: "Nazorat bo‘limi", role: "Inspektor", lastname: "Rasulov", phone: "+99893 1234567", photo: "bekzod.jpg" }
+      ],
+      3: [] // Farg'ona uchun ma'lumot yo'q
+    };
+
+    const NO_DATA_TEXT = "Ma'lumot topilmadi.";
+
+    $(function() {
+      Regions.forEach(region => {
+        $('#regions').append(`<option value="${region.id}">${region.name}</option>`);
+      });
+      showDefaultCard();
+    });
+
+    function showDefaultCard() {
+      $('#card_duty').html(`
+        <div class="main-card text-center">
+          <img style="width: 270px; height: 293px; border-radius: 20px" src="assets/images/nophoto2.png">
+          <div class="mt-3">${NO_DATA_TEXT}</div>
+        </div>
+      `);
+    }
+
+    $('#regions').off('change.dutyApp').on('change.dutyApp', function() {
+      const region = $(this).val();
+      $('#card_duty').empty();
+
+      if (!region) {
+        showDefaultCard();
+        return;
+      }
+
+      const data = Duties[region] || [];
+
+      if (!data.length) {
+        $('#card_duty').html(`
+          <div class="main-card text-center">
+            <img style="width: 270px; height: 293px; border-radius: 20px" src="assets/images/nophoto2.png">
+            <div class="mt-3">${NO_DATA_TEXT}</div>
+          </div>
+        `);
+      } else {
+        // Bitta katta card (box) ichida barcha odamlarni ko‘rsatamiz
+        let innerCards = "";
+        data.forEach(item => {
+          innerCards += `
+            <div class="col-md-4 col-sm-6">
+              <div class="card staff-card text-center p-3 mb-4">
+                <img style="width: 160px; height: 160px; border-radius: 15px; object-fit: cover;"
+                     src="pictures/staffs/${item.photo}"
+                     alt="${item.staff}"
+                     onerror="this.onerror=null;this.src='assets/images/nophoto2.png'">
+                <div class="card-body px-2 py-2">
+                  <h6 class="card-title mb-1">${item.staff}</h6>
+                  <p class="mb-1">${item.position}</p>
+                  <p class="mb-1"><small class="text-muted">${item.role} ${item.lastname}</small></p>
+                  <p class="mb-0"><small class="text-muted">${item.phone}</small></p>
+                </div>
+              </div>
+            </div>`;
+        });
+
+        $('#card_duty').html(`
+          <div class="main-card"> 
+            <div class="row">${innerCards}</div>
+          </div>
+        `);
+      }
+    });
+
+  })();
+/*
         $('#regions').change(function() {
             let region = $(this).val();
             $.ajax({
@@ -285,7 +394,7 @@
         })
 
 
-
+*/
 
 
 
