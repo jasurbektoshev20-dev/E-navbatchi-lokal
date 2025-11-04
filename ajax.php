@@ -223,7 +223,6 @@ switch ($Action) {
 		break;
 	// O'zim qoshimcha kiritgan joyim tugashi
 
-
 	case "all_events_by_type":
 		$date = isset($_GET['date']) ? $_GET['date'] : 0;
 		
