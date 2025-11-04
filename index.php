@@ -143,6 +143,8 @@ switch ($TheAct) {
 		$sql->query($query);
 		$Regions = $sql->fetchAll();
 
+
+
 		$query = "SELECT id, name{$slang} as name, phone, comment as phone2, logo FROM hr.cooperate order by turn";
 		$sql->query($query);
 		$Cooperates = $sql->fetchAll();
@@ -164,7 +166,7 @@ switch ($TheAct) {
 		$Duty = $sql->fetchAll();
 		
 		// echo '<pre>';
-		// print_r($Messages);
+		// print_r($Regions);
 		// echo '</pre>';
 		// die();
 

@@ -77,10 +77,12 @@
             <div class="col-8">
 
             
-                {* <select class="form-select card" id="regions">
+             <div class="mb-5" style="margin-top: 40px; position: relative;">
+                <select class="form-select card" id="regions" style="margin-top: -6.5%; position: absolute; left: 0%; ">
                     {foreach from=$Regions item=region key=mkey}
                         <option class="selectOption" value="{$region.id}">{$region.name}</option>
                     {/foreach}
+<<<<<<< HEAD
                 </select> *}
 
                   <select class="form-select card" id="regions">
@@ -124,14 +126,19 @@
 
 
 
+=======
+                </select>
+            </div>
+>>>>>>> 83a78109affac757a6ed80017bfea99e9488ae53
 
+                 <div id="card_duty" class="mt-3"></div>
 
                 <div class="row mt-3 g-2">
                     {foreach from=$Cooperates item=item key=mkey}
                         <div class="col-md-6 col-lg-3 ">
                             <div class="card text-center chart-container">
                                 <div class="mt-3">
-                                    <img style="width: 100px; height: 100px; border-radius: 20px"
+                                    <img style="width: 90px; height: 85px; border-radius: 20px"
                                         src="pictures/cooperates/{$item.logo}">
                                 </div>
                                 <div class="card-body px-1 py-2">
@@ -282,11 +289,18 @@
         scrollToBottom();
 
 
+        $(document).ready(function () {
 
-(function(){
-    if (window.__dutyAppInitialized) return;
-    window.__dutyAppInitialized = true;
+            function loadDutyByRegion(region) {
+                $.ajax({
+                    type: "GET",
+                    url: `${AJAXPHP}?act=get_duty&id=${region}`,
+                    dataType: "json",
+                    encode: true,
+                    success: function (data) {
+                        $('#card_duty').empty();
 
+<<<<<<< HEAD
     // ======= "Baza" sifatida ishlaydigan JS ma'lumotlar =======
     const Regions = [
       { id: 1, name: "Toshkent" },
@@ -399,35 +413,58 @@
                     } else {
                         // Iterate over data and append cards
                         data.forEach(item => {
+=======
+                        if (!data || data.length === 0) {
+>>>>>>> 83a78109affac757a6ed80017bfea99e9488ae53
                             $('#card_duty').append(`
                                 <div class="card text-center">
                                     <div class="mt-3">
-                                        <img style="width: 230px; height: 230px; border-radius: 20px" src="pictures/staffs/${item.photo}">
+                                        <img style="width: 270px; height: 293px; border-radius: 20px" src="assets/images/nophoto2.png">
                                     </div>
                                     <div class="card-body px-3 py-3">
-                                        <h6 class="pb-0 mb-0 card-title">${item.staff}</h6>
-                                        <p class="pb-0 mb-0 card-text">${item.position}</p>
-                                        <p class="pb-0 mb-0 card-text"><small class="text-muted">${item.role} ${item.lastname}</small></p>
-                                        <p class="pb-0 mb-0 card-text"><small class="text-muted">${item.phone}</small></p>
+                                        ${no_data_found}
                                     </div>
                                 </div>
                             `);
-                        });
+                        } else {
+                            let cardContent = '';
+
+                            data.forEach(item => {
+                                cardContent += `
+                                    <div class="staff-item text-center">
+                                        <img style="width: 230px; height: 230px; border-radius: 20px" src="pictures/staffs/${item.photo}">
+                                        <h6 class="mt-2 mb-0 card-title">${item.staff}</h6>
+                                        <p class="mb-0 card-text">${item.position}</p>
+                                        <p class="mb-0 card-text"><small class="text-muted">${item.role} ${item.lastname}</small></p>
+                                        <p class="mb-0 card-text"><small class="text-muted">${item.phone}</small></p>
+                                    </div>
+                                `;
+                            });
+
+                            $('#card_duty').append(`
+                                <div class="card text-center p-3">
+                                    <div class="d-flex justify-content-center gap-4 flex-wrap">
+                                        ${cardContent}
+                                    </div>
+                                </div>
+                            `);
+                        }
                     }
+                });
+            }
 
-                }
-            })
-        })
+            // 🔹 Select o‘zgarsa
+            $('#regions').change(function () {
+                const region = $(this).val();
+                loadDutyByRegion(region);
+            });
 
-
-*/
-
-
-
-
-
-
-
+            // 🔹 Sahifa yuklanganda ham ishlasin (dastlabki qiymat uchun)
+            const initialRegion = $('#regions').val();
+            if (initialRegion) {
+                loadDutyByRegion(initialRegion);
+            }
+        });
 
 
 
