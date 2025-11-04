@@ -54,54 +54,13 @@
             <div class="col-8">
 
             
-                {* <select class="form-select card" id="regions">
+                <select class="form-select card" id="regions">
                     {foreach from=$Regions item=region key=mkey}
                         <option class="selectOption" value="{$region.id}">{$region.name}</option>
                     {/foreach}
-                </select> *}
+                </select>
 
-                  <select class="form-select card" id="regions">
-                    <option value="">— Viloyatni tanlang —</option>
-                  </select>
-
-                 {* <div id="card_duty" class="card-group d-flex flex-wrap gap-4 mt-4 justify-content-center"></div> *}
                  <div id="card_duty" class="mt-4"></div>
-
-
-
-
-                {* <div id="card_duty" class="card-group d-flex gap-4">
-                    {if !$Duty}
-                        <div class="card text-center">
-                            <div class="mt-3">
-                                <img style="width: 270px; height: 293px; border-radius: 20px"
-                                    src="assets/images/nophoto2.png">
-                            </div>
-                            <div class="card-body px-3 py-3">
-                                {$Dict.no_data_found}
-                            </div>
-                        </div>
-                    {/if}
-                    {foreach from=$Duty item=item key=mkey}
-                        <div class="card text-center">
-                            <div class="mt-3">
-                                <img style="width: 230px; height: 230px; border-radius: 20px"
-                                    src="pictures/staffs/{$item.photo}">
-                            </div>
-                            <div class="card-body px-3 py-3">
-                                <h6 class="pb-0 mb-0 card-title">{$item.staff}</h6>
-                                <p class="pb-0 mb-0 card-text"> {$item.position} </p>
-                                <p class="pb-0 mb-0 card-text"><small class="text-muted">{$item.role}
-                                        {$item.lastname}</small></p>
-                                <p class="pb-0 mb-0 card-text"><small class="text-muted">{$item.phone}</small></p>
-                            </div>
-                        </div>
-                    {/foreach}
-                </div> *}
-
-
-
-
 
                 <div class="row mt-3 g-2">
                     {foreach from=$Cooperates item=item key=mkey}
@@ -259,149 +218,67 @@
         scrollToBottom();
 
 
+        $(document).ready(function () {
 
-(function(){
-    if (window.__dutyAppInitialized) return;
-    window.__dutyAppInitialized = true;
+            function loadDutyByRegion(region) {
+                $.ajax({
+                    type: "GET",
+                    url: `${AJAXPHP}?act=get_duty&id=${region}`,
+                    dataType: "json",
+                    encode: true,
+                    success: function (data) {
+                        $('#card_duty').empty();
 
-    // ======= "Baza" sifatida ishlaydigan JS ma'lumotlar =======
-    const Regions = [
-      { id: 1, name: "Toshkent" },
-      { id: 2, name: "Samarqand" },
-      { id: 3, name: "Farg'ona" }
-    ];
-
-    const Duties = {
-      1: [
-        { staff: "Aliyev Jasur", position: "Direktor", role: "Boshliq", lastname: "Aliyev", phone: "+99890 1112233", photo: "aliyev.jpg" },
-        { staff: "Karimova Dilnoza", position: "Yordamchi", role: "Assistent", lastname: "Karimova", phone: "+99891 5556677", photo: "dilnoza.jpg" },
-        { staff: "Raxmonov Akmal", position: "Xodim", role: "Texnik", lastname: "Raxmonov", phone: "+99899 4445566", photo: "akmal.jpg" }
-      ],
-      2: [
-        { staff: "Rasulov Bekzod", position: "Nazorat bo‘limi", role: "Inspektor", lastname: "Rasulov", phone: "+99893 1234567", photo: "bekzod.jpg" }
-      ],
-      3: [] // Farg'ona uchun ma'lumot yo'q
-    };
-
-    const NO_DATA_TEXT = "Ma'lumot topilmadi.";
-
-    $(function() {
-      Regions.forEach(region => {
-        $('#regions').append(`<option value="${region.id}">${region.name}</option>`);
-      });
-      showDefaultCard();
-    });
-
-    function showDefaultCard() {
-      $('#card_duty').html(`
-        <div class="main-card text-center">
-          <img style="width: 270px; height: 293px; border-radius: 20px" src="assets/images/nophoto2.png">
-          <div class="mt-3">${NO_DATA_TEXT}</div>
-        </div>
-      `);
-    }
-
-    $('#regions').off('change.dutyApp').on('change.dutyApp', function() {
-      const region = $(this).val();
-      $('#card_duty').empty();
-
-      if (!region) {
-        showDefaultCard();
-        return;
-      }
-
-      const data = Duties[region] || [];
-
-      if (!data.length) {
-        $('#card_duty').html(`
-          <div class="main-card text-center">
-            <img style="width: 270px; height: 293px; border-radius: 20px" src="assets/images/nophoto2.png">
-            <div class="mt-3">${NO_DATA_TEXT}</div>
-          </div>
-        `);
-      } else {
-        // Bitta katta card (box) ichida barcha odamlarni ko‘rsatamiz
-        let innerCards = "";
-        data.forEach(item => {
-          innerCards += `
-            <div class="col-md-4 col-sm-6">
-              <div class="card staff-card text-center p-3 mb-4">
-                <img style="width: 160px; height: 160px; border-radius: 15px; object-fit: cover;"
-                     src="pictures/staffs/${item.photo}"
-                     alt="${item.staff}"
-                     onerror="this.onerror=null;this.src='assets/images/nophoto2.png'">
-                <div class="card-body px-2 py-2">
-                  <h6 class="card-title mb-1">${item.staff}</h6>
-                  <p class="mb-1">${item.position}</p>
-                  <p class="mb-1"><small class="text-muted">${item.role} ${item.lastname}</small></p>
-                  <p class="mb-0"><small class="text-muted">${item.phone}</small></p>
-                </div>
-              </div>
-            </div>`;
-        });
-
-        $('#card_duty').html(`
-          <div class="main-card"> 
-            <div class="row">${innerCards}</div>
-          </div>
-        `);
-      }
-    });
-
-  })();
-/*
-        $('#regions').change(function() {
-            let region = $(this).val();
-            $.ajax({
-                type: "GET",
-                url: `${AJAXPHP}?act=get_duty&id=${region}`,
-                dataType: "json",
-                encode: true,
-                success: function(data) {
-                    $('#card_duty').empty()
-                    if (!data || data.length === 0) {
-                        $('#card_duty').append(`
-                            <div class="card text-center">
-                                <div class="mt-3">
-                                    <img style="width: 270px; height: 293px; border-radius: 20px" src="assets/images/nophoto2.png">
-                                </div>
-                                <div class="card-body px-3 py-3">
-                                    ${no_data_found}
-                                </div>
-                            </div>
-                        `);
-                    } else {
-                        // Iterate over data and append cards
-                        data.forEach(item => {
+                        if (!data || data.length === 0) {
                             $('#card_duty').append(`
                                 <div class="card text-center">
                                     <div class="mt-3">
-                                        <img style="width: 230px; height: 230px; border-radius: 20px" src="pictures/staffs/${item.photo}">
+                                        <img style="width: 270px; height: 293px; border-radius: 20px" src="assets/images/nophoto2.png">
                                     </div>
                                     <div class="card-body px-3 py-3">
-                                        <h6 class="pb-0 mb-0 card-title">${item.staff}</h6>
-                                        <p class="pb-0 mb-0 card-text">${item.position}</p>
-                                        <p class="pb-0 mb-0 card-text"><small class="text-muted">${item.role} ${item.lastname}</small></p>
-                                        <p class="pb-0 mb-0 card-text"><small class="text-muted">${item.phone}</small></p>
+                                        ${no_data_found}
                                     </div>
                                 </div>
                             `);
-                        });
+                        } else {
+                            let cardContent = '';
+
+                            data.forEach(item => {
+                                cardContent += `
+                                    <div class="staff-item text-center">
+                                        <img style="width: 230px; height: 230px; border-radius: 20px" src="pictures/staffs/${item.photo}">
+                                        <h6 class="mt-2 mb-0 card-title">${item.staff}</h6>
+                                        <p class="mb-0 card-text">${item.position}</p>
+                                        <p class="mb-0 card-text"><small class="text-muted">${item.role} ${item.lastname}</small></p>
+                                        <p class="mb-0 card-text"><small class="text-muted">${item.phone}</small></p>
+                                    </div>
+                                `;
+                            });
+
+                            $('#card_duty').append(`
+                                <div class="card text-center p-3">
+                                    <div class="d-flex justify-content-center gap-4 flex-wrap">
+                                        ${cardContent}
+                                    </div>
+                                </div>
+                            `);
+                        }
                     }
+                });
+            }
 
-                }
-            })
-        })
+            // 🔹 Select o‘zgarsa
+            $('#regions').change(function () {
+                const region = $(this).val();
+                loadDutyByRegion(region);
+            });
 
-
-*/
-
-
-
-
-
-
-
+            // 🔹 Sahifa yuklanganda ham ishlasin (dastlabki qiymat uchun)
+            const initialRegion = $('#regions').val();
+            if (initialRegion) {
+                loadDutyByRegion(initialRegion);
+            }
+        });
 
 
 

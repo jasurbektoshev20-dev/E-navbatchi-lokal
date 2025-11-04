@@ -477,10 +477,6 @@ switch ($Act) {
 		$sql->query($query);
 		$Staffs = $sql->fetchAll();
 
-		// echo '<pre>';
-		// print_r($query);
-		// echo '</pre>';
-		// die();
 
 		$smarty->assign(array(
 			'Duty' => $Duty,

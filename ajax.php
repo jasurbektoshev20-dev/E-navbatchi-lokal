@@ -54,7 +54,7 @@ switch ($Action) {
 		$query .= "order by uzg.speed asc";
 
 		$sql->query($query);
-		$Tracks = $sql->fetchAll();	
+		$Tracks = $sql->fetchAll();
 
 		// echo '<pre>';
 		// print_r($Moto2);
@@ -62,7 +62,7 @@ switch ($Action) {
 		// die();
 		$res = json_encode($Tracks);
 		break;
-	
+
 	case "get_distcity_by_id";
 		$id = isset($_GET['id']) ? $_GET['id'] : 0;
 
@@ -75,7 +75,7 @@ switch ($Action) {
 			$sql->query($query);
 			$Distcity = $sql->fetchAll();
 		}
-		
+
 		$res = json_encode($Distcity);
 
 		// echo '<pre>';
@@ -104,7 +104,7 @@ switch ($Action) {
 			$sql->query($query);
 			$data = $sql->fetchAll();
 		}
-		
+
 		// echo '<pre>';
 		// print_r($data);
 		// echo '</pre>';
@@ -112,11 +112,11 @@ switch ($Action) {
 
 		$res = json_encode($data);
 		break;
-		
+
 	case "get_crime_by_type":
 		$id = isset($_GET['region']) ? $_GET['region'] : 0;
 		$date = isset($_GET['date']) ? $_GET['date'] : 0;
-		
+
 		if ($id == 0) {
 			$query = "SELECT ty.shortname{$slang} as name, count(t.id) as value FROM tur.violations  t 
 			LEFT JOIN tur.violation_types ty on ty.id = t.violation_type where 1=1";
@@ -125,9 +125,9 @@ switch ($Action) {
 			} else if ($date == 2) {
 				$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 month'";
 			} else if ($date == 3) {
-				$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 year'";			
+				$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 year'";
 			}
-	
+
 			$query .= " group by ty.shortname{$slang} order by count(t.id) desc";
 			$sql->query($query);
 			$violations = $sql->fetchAll();
@@ -137,13 +137,13 @@ switch ($Action) {
 			LEFT JOIN hr.v_head_structure hs on hs.id = t.region_id
 			WHERE hs.id = {$id}";
 			if ($date == 1) {
-				$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 day'";			 
+				$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 day'";
 			} else if ($date == 2) {
 				$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 month'";
 			} else if ($date == 3) {
-				$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 year'";			
+				$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 year'";
 			}
-	
+
 			$query .= " group by ty.shortname{$slang} order by count(t.id) desc";
 			$sql->query($query);
 			$violations = $sql->fetchAll();
@@ -158,11 +158,11 @@ switch ($Action) {
 		RIGHT JOIN hr.structure s on s.id = t.region_id
 		where s.id < 16 and s.id > 1";
 		if ($date == 1) {
-			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 day'";			 
+			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 day'";
 		} else if ($date == 2) {
 			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 month'";
 		} else if ($date == 3) {
-			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 year'";			
+			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 year'";
 		}
 		$query .= " group by s.shortname{$slang}, s.turn order by s.turn desc";
 		$sql->query($query);
@@ -179,18 +179,18 @@ switch ($Action) {
 
 		$res = json_encode($data);
 		break;
-		
+
 	case "get_events_by_type":
 		$date = isset($_GET['date']) ? $_GET['date'] : 0;
-		
+
 		$query = "SELECT ty.name{$slang} as name, count(t.id) as value FROM tur.events t 
 		LEFT JOIN tur.event_types ty on ty.id = t.type where 1=1";
 		if ($date == 1) {
-			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 day'";			 
+			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 day'";
 		} else if ($date == 2) {
 			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 month'";
 		} else if ($date == 3) {
-			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 year'";			
+			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 year'";
 		}
 
 		$query .= " group by ty.name{$slang} order by count(t.id) desc";
@@ -200,18 +200,18 @@ switch ($Action) {
 
 		$res = json_encode($events);
 		break;
-		// O'zim qoshimcha kiritgan joyim
-    case "get_events_by_type1":
+	// O'zim qoshimcha kiritgan joyim
+	case "get_events_by_type1":
 		$date = isset($_GET['date']) ? $_GET['date'] : 0;
-		
+
 		$query = "SELECT ty.name{$slang} as name, count(t.id) as value FROM tur.events t 
 		LEFT JOIN tur.event_types ty on ty.id = t.type where 1=1";
 		if ($date == 1) {
-			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 day'";			 
+			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 day'";
 		} else if ($date == 2) {
 			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 month'";
 		} else if ($date == 3) {
-			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 year'";			
+			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 year'";
 		}
 
 		$query .= " group by ty.name{$slang} order by count(t.id) desc";
@@ -225,25 +225,25 @@ switch ($Action) {
 
 	case "all_events_by_type":
 		$date = isset($_GET['date']) ? $_GET['date'] : 0;
-		
+
 		$query  = "SELECT count(t.id) as events FROM tur.events t where 1=1";
 		if ($date == 1) {
-			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 day'";			 
+			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 day'";
 		} else if ($date == 2) {
 			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 month'";
 		} else if ($date == 3) {
-			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 year'";			
+			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 year'";
 		}
 		$sql->query($query);
 		$events = $sql->fetchAll();
 
 		$query  = "SELECT count(t.id) as reyd_events FROM tur.reyd_events t where 1=1";
 		if ($date == 1) {
-			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 day'";			 
+			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 day'";
 		} else if ($date == 2) {
 			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 month'";
 		} else if ($date == 3) {
-			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 year'";			
+			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 year'";
 		}
 		$sql->query($query);
 		$reyd_events = $sql->fetchAll();
@@ -259,11 +259,11 @@ switch ($Action) {
 		$query = "SELECT s.shortname{$slang} as name, count(t.id) as gcount FROM tur.events  t
 		RIGHT JOIN hr.structure s on s.id = t.region_id where s.id < 16 and s.id > 1";
 		if ($date == 1) {
-			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 day'";			 
+			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 day'";
 		} else if ($date == 2) {
 			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 month'";
 		} else if ($date == 3) {
-			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 year'";			
+			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 year'";
 		}
 		$query .= " group by s.shortname{$slang}, s.turn order by s.turn asc";
 		$sql->query($query);
@@ -273,7 +273,7 @@ switch ($Action) {
 		break;
 
 
-		// O'zgartirish kiritgan joyim boshi
+	// O'zgartirish kiritgan joyim boshi
 
 
 	case "get_events_by_region1":
@@ -282,11 +282,11 @@ switch ($Action) {
 		$query = "SELECT s.shortname{$slang} as name, count(t.id) as gcount FROM tur.events  t
 		RIGHT JOIN hr.structure s on s.id = t.region_id where s.id < 16 and s.id > 1";
 		if ($date == 1) {
-			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 day'";			 
+			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 day'";
 		} else if ($date == 2) {
 			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 month'";
 		} else if ($date == 3) {
-			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 year'";			
+			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 year'";
 		}
 		$query .= " group by s.shortname{$slang}, s.turn order by s.turn asc";
 		$sql->query($query);
@@ -303,26 +303,26 @@ switch ($Action) {
 		$query = "SELECT s.shortname{$slang} as name, count(t.id) as gcount FROM tur.events  t
 		RIGHT JOIN hr.structure s on s.id = t.region_id where s.id < 16 and s.id > 1";
 		if ($date == 1) {
-			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 day'";			 
+			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 day'";
 		} else if ($date == 2) {
 			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 month'";
 		} else if ($date == 3) {
-			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 year'";			
+			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 year'";
 		}
 		$query .= " group by s.shortname{$slang}, s.turn order by s.turn asc";
 		$sql->query($query);
 		$events = $sql->fetchAll();
 
 		$res = json_encode($events);
-		break;	
+		break;
 
-		// O'zgartirish kiritgan joyim tugashi
+	// O'zgartirish kiritgan joyim tugashi
 
 
 
 	case "get_duty":
 		$RegId = isset($_GET['id']) ? $_GET['id'] : 1;
-		
+
 		$query = "SELECT 
 				t.lastname,
 				t.photo,
@@ -343,6 +343,12 @@ switch ($Action) {
 		foreach ($Duty as $key => &$item) {
 			$item['staff'] = $staffs[$key];
 		}
+
+		// echo '<pre>';
+		// print_r($Duty);
+		// echo '</pre>';
+		// die();
+
 
 		$res = json_encode($Duty);
 		break;
@@ -392,7 +398,6 @@ switch ($Action) {
 				$result[$key]['name'] = $Dict['notable_crime'];
 				$result[$key]['value'] = $value['value'];
 			}
-			
 		}
 
 		$res = json_encode($result);
@@ -409,7 +414,7 @@ switch ($Action) {
 		break;
 	case "event_by_region":
 		$id = isset($_GET['id']) ? $_GET['id'] : 0;
-		
+
 		if ($id == 0) {
 			$query  = "SELECT s.shortname{$slang} as name, count(t.id) as value, TO_CHAR(t.date, 'DD.MM.YYYY') AS date FROM tur.events t 
 			right join hr.structure s on s.id = t.region_id 
@@ -508,7 +513,7 @@ switch ($Action) {
 		foreach ($patruls as $key => $value) {
 			$patrul[$key]['name'] = $value['name'];
 		}
-		
+
 		$patrul[0]['value'] = $data[0]['staff'];
 		$patrul[1]['value'] = $data[0]['auto'];
 		$patrul[2]['value'] = $data[0]['moto'];
@@ -522,11 +527,11 @@ switch ($Action) {
 		$query  = "SELECT s.name{$slang} as name, COUNT(t.id) AS value FROM tur.v_main_types s 
 		LEFT JOIN tur.violations t ON s.id = t.type ";
 		if ($date == 1) {
-			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 day'";			 
+			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 day'";
 		} else if ($date == 2) {
 			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 month'";
 		} else if ($date == 3) {
-			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 year'";			
+			$query .= " and t.date >= CURRENT_DATE - INTERVAL '1 year'";
 		}
 		$query .= " GROUP BY s.name{$slang}";
 		$sql->query($query);
