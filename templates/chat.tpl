@@ -54,20 +54,22 @@
             <div class="col-8">
 
             
-                <select class="form-select card" id="regions">
+             <div class="mb-5" style="margin-top: 40px; position: relative;">
+                <select class="form-select card" id="regions" style="margin-top: -6.5%; position: absolute; left: 0%; ">
                     {foreach from=$Regions item=region key=mkey}
                         <option class="selectOption" value="{$region.id}">{$region.name}</option>
                     {/foreach}
                 </select>
+            </div>
 
-                 <div id="card_duty" class="mt-4"></div>
+                 <div id="card_duty" class="mt-3"></div>
 
                 <div class="row mt-3 g-2">
                     {foreach from=$Cooperates item=item key=mkey}
                         <div class="col-md-6 col-lg-3 ">
                             <div class="card text-center chart-container">
                                 <div class="mt-3">
-                                    <img style="width: 100px; height: 100px; border-radius: 20px"
+                                    <img style="width: 90px; height: 85px; border-radius: 20px"
                                         src="pictures/cooperates/{$item.logo}">
                                 </div>
                                 <div class="card-body px-1 py-2">
