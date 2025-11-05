@@ -8,7 +8,8 @@ if ($user_data == null) {
 $TheAct = isset($_GET['act']) ? (($_GET['act'] != "") ? $_GET['act'] : "index") : "index";
 $SubAct = isset($_GET['sub']) ? (($_GET['sub'] != "") ? $_GET['sub'] : "") : "";
 
-$ThisMenuId = MyPiDeCrypt($_GET['mid']);
+
+$ThisMenuId = isset($_GET['mid']) ? MyPiDeCrypt($_GET['mid']) : 24;
 $query = "select name{$slang} as name, menu_icon, url from bcms.dashboard_menu where id = {$ThisMenuId}";
 $sql->query($query);
 $ThisMenu = $sql->fetchAssoc();
@@ -35,7 +36,7 @@ WHERE a.id = {$UserId}";
 $sql->query($query);
 $usermenu = $sql->fetchAssoc();
 
-$query = "SELECT t.*, t.name{$slang} as name, t.menu_icon, t.has_children FROM bcms.dashboard_menu t where t.status_id = 1 and t.id IN (".$usermenu['menu'].") order by t.turn asc";
+$query = "SELECT t.*, t.name{$slang} as name, t.menu_icon, t.has_children FROM bcms.dashboard_menu t where t.status_id = 1 and t.id IN (" . $usermenu['menu'] . ") order by t.turn asc";
 $sql->query($query);
 $Menu = $sql->fetchAll();
 
@@ -44,7 +45,7 @@ foreach ($Menu as $key => $menu_item) {
 		if ($Menu[$key]['has_children'] == 5) {
 			$Menu[$key]['url'] = $menu_item['url'];
 		} else {
-			$Menu[$key]['url'] = $menu_item['url'] . "&mid=" .MyPiCrypt($menu_item['id']);
+			$Menu[$key]['url'] = $menu_item['url'] . "&mid=" . MyPiCrypt($menu_item['id']);
 		}
 	}
 
@@ -77,13 +78,13 @@ $smarty->assign(array(
 	// 'CurrLang' 			=> $Langs[$slang],
 	'Dict' 				=> $Dict,
 	'Menu' 				=> $Menu,
-    'ThisMenu' => $ThisMenu,
+	'ThisMenu' => $ThisMenu,
 ));
 
 $Act = isset($_GET['act']) ? "hr_" . $_GET['act'] : "hr_structure";
 
 switch ($Act) {
-    // hr_all_thg
+	// hr_all_thg
 	case "hr_all_thg":
 		$query = "SELECT t.*, t.name{$slang} as name, t.name1, t.name2, t.name3 from hr.structure t";
 		if ($UserStructure > 1) {
@@ -106,7 +107,7 @@ switch ($Act) {
 		break;
 	// hr_all_thg
 
-    // hr_thg_cars
+	// hr_thg_cars
 	case "hr_thg_cars":
 		$StructureId = MyPiDeCrypt($_GET['str']);
 
@@ -146,8 +147,8 @@ switch ($Act) {
 		break;
 	// hr_thg_cars
 
-    // hr_dictionary
-    case "hr_dictionary":
+	// hr_dictionary
+	case "hr_dictionary":
 		$query  = "SELECT * FROM bcms.s_dictionary ORDER BY id ASC ";
 		$sql->query($query);
 		$Dictionary = $sql->fetchAll();
@@ -189,15 +190,15 @@ switch ($Act) {
 			'BcmsStatus'	   =>    $BcmsStatus,
 		));
 		break;
-	
+
 
 	/// hr_dictionary
-	
+
 	/// hr_roles
 	case "hr_roles":
-        $query = "SELECT t.id, t.role_name as name, t.dashboard_menu as menu FROM bcms.roles t ORDER BY t.id ASC";
-        $sql->query($query);
-        $Roles = $sql->fetchAll();
+		$query = "SELECT t.id, t.role_name as name, t.dashboard_menu as menu FROM bcms.roles t ORDER BY t.id ASC";
+		$sql->query($query);
+		$Roles = $sql->fetchAll();
 
 		$query  = "SELECT t.id, t.name{$slang} as name FROM bcms.dashboard_menu t ORDER BY t.id ASC";
 		$sql->query($query);
@@ -208,24 +209,24 @@ switch ($Act) {
 		// echo '</pre>';
 		// die();
 
-        $smarty->assign(array(
-            'Roles' => $Roles,
-            'Menus' => $Menus,
-        ));
-        break;    
+		$smarty->assign(array(
+			'Roles' => $Roles,
+			'Menus' => $Menus,
+		));
+		break;
 	/// hr_roles
-	
+
 	/// hr_staff
 	case "hr_staff":
-        $query = "SELECT t.id, t.lastname, t.firstname, t.surname, t.username, t.phone, t.photo, 
+		$query = "SELECT t.id, t.lastname, t.firstname, t.surname, t.username, t.phone, t.photo, 
 		s.name{$slang} as structure, r.role_name, p.name{$slang} as position, ra.name{$slang} as rank FROM hr.staff t 
 		left join hr.structure s on s.id  = t.structure_id
 		left join bcms.roles r on r.id  = t.role_id
 		left join hr.positions p on p.id  = t.position_id
 		left join ref.ranks ra on ra.id  = t.rank_id
 		ORDER BY t.id ASC";
-        $sql->query($query);
-        $Staffs = $sql->fetchAll();
+		$sql->query($query);
+		$Staffs = $sql->fetchAll();
 
 		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.structure t where parent < 2
 		ORDER BY t.id ASC";
@@ -250,14 +251,14 @@ switch ($Act) {
 		// echo '</pre>';
 		// die();
 
-        $smarty->assign(array(
-            'Staffs' => $Staffs,
-            'Structures' => $Structures,
-            'Roles' => $Roles,
+		$smarty->assign(array(
+			'Staffs' => $Staffs,
+			'Structures' => $Structures,
+			'Roles' => $Roles,
 			'HrPositions' => $HrPositions,
 			'RefRanks' => $RefRanks,
-        ));
-        break;    
+		));
+		break;
 	/// hr_staff
 
 	case "hr_events":
@@ -409,7 +410,7 @@ switch ($Act) {
 		));
 		break;
 	case "hr_duty_staff":
-        $RegDyn = MyPiDeCrypt($_GET['regdyn']) ? MyPiDeCrypt($_GET['regdyn']) : 0;
+		$RegDyn = MyPiDeCrypt($_GET['regdyn']) ? MyPiDeCrypt($_GET['regdyn']) : 0;
 
 		$query = "SELECT d.id, TO_CHAR(d.date, 'DD.MM.YYYY') AS date,
 		CONCAT(r1.shortname{$slang}, ' ', t1.lastname, ' (', p1.name{$slang}, ')' ) AS name1, t1.photo AS photo1,
@@ -496,11 +497,11 @@ switch ($Act) {
 
 	/// coop_staff
 	case "hr_coop_staff":
-        $query = "SELECT t.id, t.name, t.phone, s.name{$slang} as structure FROM hr.coop_staff t 
+		$query = "SELECT t.id, t.name, t.phone, s.name{$slang} as structure FROM hr.coop_staff t 
 		left join hr.cooperate s on s.id  = t.structure
 		ORDER BY t.id ASC";
-        $sql->query($query);
-        $Staffs = $sql->fetchAll();
+		$sql->query($query);
+		$Staffs = $sql->fetchAll();
 
 		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.cooperate t 
 		ORDER BY t.id ASC";
@@ -512,13 +513,13 @@ switch ($Act) {
 		// echo '</pre>';
 		// die();
 
-        $smarty->assign(array(
-            'Staffs' => $Staffs,
-            'Structures' => $Structures,
-        ));
-        break;    
+		$smarty->assign(array(
+			'Staffs' => $Staffs,
+			'Structures' => $Structures,
+		));
+		break;
 	/// coop_staff
-	
+
 	/// personal_staff
 	case "hr_personal_staff":
 		$query  = "SELECT t.id, t.name FROM hr.jts_objects t
@@ -574,16 +575,16 @@ switch ($Act) {
 		// echo '</pre>';
 		// die();
 
-        $smarty->assign(array(
-            'PatrulTypes' => $PatrulTypes,
-            'Objects' => $Objects,
-            'ObjectTypes' => $ObjectTypes,
-            'Structures' => $Structures,
-            'Tables' => $Tables,
-        ));
-        break;    
+		$smarty->assign(array(
+			'PatrulTypes' => $PatrulTypes,
+			'Objects' => $Objects,
+			'ObjectTypes' => $ObjectTypes,
+			'Structures' => $Structures,
+			'Tables' => $Tables,
+		));
+		break;
 	/// personal_staff
-	
+
 	/// jts_objects
 	case "hr_jts_objects":
 		$query  = "SELECT t.id, s.name{$slang} as structure, t.object_name, o.name{$slang} as object_type, c.name{$slang} as cooperate,
@@ -598,14 +599,15 @@ switch ($Act) {
 		$JtsObjects = $sql->fetchAll();
 
 		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t 
+		where id > 1 and id < 16
 		ORDER BY t.turn ASC";
 		$sql->query($query);
 		$Regions = $sql->fetchAll();
 
 		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.involved_objects t ORDER BY t.id ASC";
 		$sql->query($query);
-		$ObjectTypes = $sql->fetchAll();		
-		
+		$ObjectTypes = $sql->fetchAll();
+
 		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.cooperate t ORDER BY t.id ASC";
 		$sql->query($query);
 		$CooperateTypes = $sql->fetchAll();
@@ -615,15 +617,74 @@ switch ($Act) {
 		// echo '</pre>';
 		// die();
 
-        $smarty->assign(array(
-            'JtsObjects' => $JtsObjects,
-            'Regions' => $Regions,
-            'ObjectTypes' => $ObjectTypes,
-            'CooperateTypes' => $CooperateTypes,
-        ));
-        break;    
+		$smarty->assign(array(
+			'JtsObjects' => $JtsObjects,
+			'Regions' => $Regions,
+			'ObjectTypes' => $ObjectTypes,
+			'CooperateTypes' => $CooperateTypes,
+		));
+		break;
 	/// jts_objects
-	
+
+	case "hr_regions_map":
+		$query  = "SELECT t.id, t.object_name as name
+		FROM hr.jts_objects t 
+		ORDER BY t.id desc";
+		$sql->query($query);
+		$Objects = $sql->fetchAll();
+
+		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t 
+		ORDER BY t.turn ASC";
+		$sql->query($query);
+		$Regions = $sql->fetchAll();
+
+		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.involved_objects t ORDER BY t.id ASC";
+		$sql->query($query);
+		$ObjectTypes = $sql->fetchAll();
+
+		// echo '<pre>';
+		// print_r($Objects);
+		// echo '</pre>';
+		// die();
+
+		$smarty->assign(array(
+			'Objects' => $Objects,
+			'Regions' => $Regions,
+			'ObjectTypes' => $ObjectTypes,
+		));
+		break;
+
+	case "hr_daily_routine":
+		$query  = "SELECT t.id, t.object_name as name 
+		FROM hr.jts_objects t 
+		WHERE 1=1 ";
+		if ($UserStructure > 1) {
+			$query .= " AND t.structure_id = {$UserStructure} ";
+		}
+		$query .= " ORDER BY t.id desc";
+		$sql->query($query);
+		$Objects = $sql->fetchAll();
+
+		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t 
+		ORDER BY t.turn ASC";
+		$sql->query($query);
+		$Regions = $sql->fetchAll();
+
+		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.involved_objects t ORDER BY t.id ASC";
+		$sql->query($query);
+		$ObjectTypes = $sql->fetchAll();
+
+		// echo '<pre>';
+		// print_r($Objects);
+		// echo '</pre>';
+		// die();
+
+		$smarty->assign(array(
+			'Objects' => $Objects,
+			'Regions' => $Regions,
+			'ObjectTypes' => $ObjectTypes,
+		));
+		break;
 	/// Structures
 	case "hr_structure":
 		$query  = "SELECT t.id, s.name{$slang} as parent, t.name{$slang} as name, t.shortname{$slang} as shortname FROM hr.structure t 
@@ -643,16 +704,16 @@ switch ($Act) {
 		// echo '</pre>';
 		// die();
 
-        $smarty->assign(array(
-            'Regions' => $Regions,
-            'Tables' => $Tables,
-        ));
-        break;    
+		$smarty->assign(array(
+			'Regions' => $Regions,
+			'Tables' => $Tables,
+		));
+		break;
 	/// Structures
-	
+
 	/// hr_car_models 
 	case "hr_car_models":
-			$query  = "SELECT t.id
+		$query  = "SELECT t.id
 			,t.name
 			,t.car_width
 			,t.car_height
@@ -670,9 +731,9 @@ switch ($Act) {
 		$smarty->assign(array(
 			'RefCarModels' => $RefCarModels,
 		));
-		break;   
-	/// hr_car_models
-	
+		break;
+		/// hr_car_models
+
 }
 
 $smarty->display("hr/{$Act}.tpl");

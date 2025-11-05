@@ -996,7 +996,7 @@ switch ($Action) {
 
     /// jts_objects =====================================================
     case "get_jts_objects":
-        $RowId = MyPiDeCrypt($_GET['rowid']);
+        $RowId = $_GET['rowid'];
 
         $query = "SELECT t.* from hr.jts_objects t where t.id = {$RowId}";
         $sql->query($query);
@@ -1020,7 +1020,6 @@ switch ($Action) {
         $police_phone = $_POST['police_phone'];
         $lat = $_POST['lat'];
         $lon = $_POST['lon'];
-        $geom = $_POST['geom'];
         $cooperate_id = $_POST['cooperate_id'];
 
 
@@ -1041,6 +1040,67 @@ switch ($Action) {
             }
         }
 
+        $geom_raw = isset($_POST['geom']) ? trim($_POST['geom']) : null;
+        if (!$geom_raw) {
+            die(json_encode(['error' => 'geom not provided']));
+        }
+
+        // decode JSON
+        $coords = json_decode($geom_raw, true);
+        if (!is_array($coords) || count($coords) === 0) {
+            die(json_encode(['error' => 'Invalid geom JSON']));
+        }
+
+        // Detect order and build WKT pairs (lng lat)
+        $pairs = [];
+        // Peeking first pair to decide likely order
+        $first = $coords[0];
+
+        // Heuristika:
+        // - Agar birinchi koordinata > 90 yoki < -90 — yuqori ehtimol bilan u LONGitude (lng) bo'lib, tartib = [lng, lat]
+        // - Aks holda (ko‘pincha) frontendlar [lat, lng] yuboradi — shunda biz swap qilamiz.
+        $likely_order_lng_first = (abs($first[0]) > 90 || abs($first[0]) > abs($first[1]) && abs($first[0]) <= 180);
+
+        // Agar aniq bo‘lmasa, bu heuristika hammasini qoplay olmaydi; lekin ko‘pchilik holatlarda to‘g‘ri ishlaydi.
+
+        foreach ($coords as $c) {
+            if (!is_array($c) || count($c) < 2) {
+                continue; // noqulay juftlikni o‘tkazib yubor
+            }
+            $a = (float)$c[0];
+            $b = (float)$c[1];
+
+            if ($likely_order_lng_first) {
+                // [lng, lat]
+                $lng = $a;
+                $lat = $b;
+            } else {
+                // assume [lat, lng] -> swap
+                $lng = $b;
+                $lat = $a;
+            }
+
+            // basic validation (lat in -90..90, lng in -180..180)
+            if ($lat < -90 || $lat > 90 || $lng < -180 || $lng > 180) {
+                // agar noaniq koordinata bo'lsa, o'tkazib yubor yoki xato qaytar
+                continue;
+            }
+
+            $pairs[] = $lng . ' ' . $lat;
+        }
+
+        // Poligon uchun kamida 4 nuqta (closing bilan) kerak: A,B,C,A -> coords length >= 3
+        if (count($pairs) < 3) {
+            die(json_encode(['error' => 'Not enough points for polygon']));
+        }
+
+        // Yopish: birinchi juftlikni oxiriga qo‘shamiz, agar kerak bo‘lsa
+        if ($pairs[0] !== $pairs[count($pairs) - 1]) {
+            $pairs[] = $pairs[0];
+        }
+
+        $wkt = 'POLYGON((' . implode(',', $pairs) . '))';
+
         if ($RowId != "0") {
 
             $photo_sql = $photo_name ? ", photo = '{$photo_name}'" : "";
@@ -1059,7 +1119,7 @@ switch ($Action) {
                 lat = '{$lat}',
                 long = '{$lon}',
                 cooperate_id = '{$cooperate_id}',
-                geom = ST_GeomFromText('{$geom}', 4326)
+                geom = ST_GeomFromText('{$wkt}', 4326)
                 {$photo_sql}
                 WHERE id = {$RowId}";
             $sql->query($updquery);
@@ -1101,7 +1161,7 @@ switch ($Action) {
                     '{$lat}',
                     '{$lon}',
                     '{$cooperate_id}',
-                    ST_GeomFromText('{$geom}', 4326)
+                    ST_GeomFromText('{$wkt}', 4326)
                 )";
             $sql->query($insquery);
             if ($sql->error() == "") {
