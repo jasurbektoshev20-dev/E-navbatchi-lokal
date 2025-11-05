@@ -624,6 +624,19 @@ switch ($Act) {
 			'CooperateTypes' => $CooperateTypes,
 		));
 		break;
+
+	case "hr_jts_objects_sos":
+		$query  = "SELECT t.id, t.name, t.lat, t.long
+		FROM hr.jts_objects_sos t 
+		ORDER BY t.id desc ";
+		$sql->query($query);
+		$Sos = $sql->fetchAll();
+
+
+		$smarty->assign(array(
+			'Sos' => $Sos,
+		));
+		break;
 	/// jts_objects
 
 	case "hr_regions_map":
@@ -666,23 +679,38 @@ switch ($Act) {
 		$Objects = $sql->fetchAll();
 
 		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t 
+		where t.id > 1 and t.id < 16
 		ORDER BY t.turn ASC";
 		$sql->query($query);
 		$Regions = $sql->fetchAll();
 
-		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.involved_objects t ORDER BY t.id ASC";
+		$query  = "SELECT t.id, t.name{$slang} as name FROM ref.divisions t 
+		ORDER BY t.id ASC";
 		$sql->query($query);
-		$ObjectTypes = $sql->fetchAll();
+		$Divisions = $sql->fetchAll();
+
+
+		$query  = "SELECT t.id, CONCAT(t.lastname,' ',t.firstname,' ', t.surname) as name
+		FROM hr.staff t ";
+		if ($UserStructure > 1) {
+			$query .= " WHERE t.structure_id = {$UserStructure} ";
+		}
+		$query .= " ORDER BY t.id ASC";
+		$sql->query($query);
+		$Responsible = $sql->fetchAll();
+
+
 
 		// echo '<pre>';
-		// print_r($Objects);
+		// print_r($Responsible);
 		// echo '</pre>';
 		// die();
 
 		$smarty->assign(array(
 			'Objects' => $Objects,
 			'Regions' => $Regions,
-			'ObjectTypes' => $ObjectTypes,
+			'Divisions' => $Divisions,
+			'Responsible' => $Responsible,
 		));
 		break;
 	/// Structures

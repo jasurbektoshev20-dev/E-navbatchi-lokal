@@ -398,11 +398,11 @@
 
 
             $.ajax({
-              url: `${AJAXPHP}?act=get_jts_objects&rowid=${id}`,
+              url: `${HRAJAXPHP}?act=get_jts_objects&rowid=${id}`,
               type: 'GET',
               dataType: 'json',
               success: function(response) {
-                const data = response.data;
+                const data = response;
                 document.getElementById("structure_id").value = data.structure_id;
                 document.getElementById("object_type").value = data.object_type;
                 document.getElementById("object_name").value = data.object_name;

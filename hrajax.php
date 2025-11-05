@@ -1276,11 +1276,12 @@ switch ($Action) {
         break;
 
     case "act_jts_objects_sos":
-        $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
+        $RowId = (!empty($_POST['id'])) ? MyPiDeCrypt($_POST['id']) : 0;
         $object_id = $_POST['object_id'];
         $name = $_POST['name'];
         $lat = $_POST['lat'];
         $long = $_POST['long'];
+
 
         if ($RowId != "0") {
             // Update existing record
@@ -1310,6 +1311,7 @@ switch ($Action) {
                     '{$long}'
                 )";
             $sql->query($insquery);
+
             if ($sql->error() == "") {
                 $sql->query("SELECT CURRVAL('hr.jts_objects_sos_id_seq') AS last_id;");
                 $result = $sql->fetchAssoc();
