@@ -46,6 +46,20 @@
                         </thead>
                         <tbody id="table-body"></tbody>
                     </table>
+                    <nav aria-label="Page navigation" class="d-flex mt-3 align-items-center justify-content-center">
+                      <ul class="pagination flex-wrap row-gap-2" id="pagination">
+                        <li class="page-item prev">
+                          <a class="page-link" href="javascript:void(0);" onclick="changePage(currentPage - 1)">
+                            <i class="ti ti-chevron-left ti-xs scaleX-n1-rtl"></i>
+                          </a>
+                        </li>
+                        <li class="page-item next">
+                          <a class="page-link" href="javascript:void(0);" onclick="changePage(currentPage + 1)">
+                            <i class="ti ti-chevron-right ti-xs scaleX-n1-rtl"></i>
+                          </a>
+                        </li>
+                      </ul>
+                    </nav>
                 </div>
             </div>
         </div>
@@ -146,13 +160,13 @@
 
               <div class="col-sm-4">
               <label>Nazorat kuzatuv maskani kengligi(lat)</label>
-              <input required type="text" class="form-control" id="name" placeholder="kengligini kiriting..." />
+              <input required type="text" class="form-control" id="lat" placeholder="kengligini kiriting..." />
             </div>
 
              <!-- Bozor uchaskavoy tel -->
             <div class="col-sm-4">
               <label>Nazorat kuzatuv maskani uzunligi(lot)</label>
-              <input required type="text" class="form-control" id="name" placeholder="uzunligini kiriting..." />
+              <input required type="text" class="form-control" id="lon" placeholder="uzunligini kiriting..." />
             </div>
 
              <div class="col-sm-4">
@@ -166,7 +180,7 @@
             </div>
             <div class="col-sm-12">
               <label>Hamkorlikdagi tashkilotlar</label>
-                <div id="uzbMap" style="height: 400px;"></div>
+                <div id="uzbMap" style="height: 350px;"></div>
             </div>
 
 
@@ -215,16 +229,19 @@
 
     let drawCoords
 
+    let currentPage = 1;
+    const itemsPerPage = 9;
+    let totalPages = 0;
+
     const tbody = document.getElementById("table-body");
 
     function renderTable() {
-
         $.ajax({
           url: `${AJAXPHP}?act=get_jts_objects`,
           type: 'GET',
           dataType: 'json',
           success: function(response) {
-            console.log('AJAX response:', response);
+
             tbody.innerHTML = "";
             response.data.forEach((item, index) => {
                 const tr = document.createElement("tr");
@@ -272,6 +289,11 @@
                 `;
                 tbody.appendChild(tr);
             });
+
+
+            totalPages = Math.ceil(response.total / itemsPerPage);
+            renderPagination()
+
           },
           error: function(xhr, status, error) {
             console.error('AJAX error:', error);
@@ -317,11 +339,14 @@
           !head_phone || 
           !police_name || 
           !police_phone || 
+          !lat || 
+          !lon || 
+          !drawCoords || 
           !cooperate_id
         ) return alert("Barcha majburiy maydonlarni to‘ldiring!");
 
 
-        const formData = new formData()
+        const formData = new FormData()
 
         formData.append('structure_id', structure_id)
         formData.append('object_type', object_type)
@@ -334,10 +359,26 @@
         formData.append('police_name', police_name)
         formData.append('police_phone', police_phone)
         formData.append('cooperate_id', cooperate_id)
-        if(lat) formData.append('lat', lat)
-        if(lon) formData.append('lon', lon)
+        formData.append('lat', lat)
+        formData.append('lon', lon)
+        formData.append('geom', JSON.stringify(drawCoords));
+
         
-        renderTable();
+        $.ajax({
+          url: `${AJAXPHP}?act=act_jts_objects`,
+          type: 'POST',               // FormData uchun POST kerak
+          data: formData,             // FormData yuboramiz
+          processData: false,         // jQuery FormData’ni stringify qilib yubormasligi uchun
+          contentType: false,         // headerni avtomatik belgilasin
+          success: function(response) {
+            console.log('Yuborildi:', response);
+            renderTable();
+          },
+          error: function(xhr, status, error) {
+            console.error('AJAX error:', error);
+          }
+        });
+        
         bootstrap.Modal.getInstance(document.getElementById("submitModal")).hide();
     });
 
@@ -432,6 +473,85 @@
         });
       });
     }
+
+
+    
+    // Render pagination buttons based on currentPage and totalPages
+    function renderPagination() {
+        $('#pagination').empty();
+        const visiblePages = 3;  // Number of visible pages around the current page
+        const sidePages = 2;  
+
+        $('#pagination').append(`
+            <li class="page-item prev ${currentPage === 1 ? 'disabled' : ''}">
+                <a class="page-link" href="javascript:void(0);" onclick="changePage(currentPage - 1)">
+                    <i class="ti ti-chevron-left ti-xs scaleX-n1-rtl"></i>
+                </a>
+            </li>
+        `);
+
+        // Function to render a single page number
+        function renderPage(i) {
+            $('#pagination').append(`
+                <li class="page-item ${i === currentPage ? 'active' : ''}">
+                    <a class="page-link" href="javascript:void(0);" onclick="changePage(${i})">${i}</a>
+                </li>
+            `);
+        }
+
+        // Display first few pages and current surrounding pages
+        if (totalPages <= visiblePages + sidePages * 2) {
+            // If the total number of pages is small, show all pages
+            for (let i = 1; i <= totalPages; i++) {
+                renderPage(i);
+            }
+        } else {
+            // Show the first few pages
+            for (let i = 1; i <= sidePages; i++) {
+                renderPage(i);
+            }
+
+            // Show ellipsis (...) if we're skipping pages in the middle
+            if (currentPage > visiblePages + sidePages) {
+                $('#pagination').append('<li class="page-item disabled"><span class="page-link">...</span></li>');
+            }
+
+            // Show a few pages around the current page
+            const startPage = Math.max(currentPage - visiblePages, sidePages + 1);
+            const endPage = Math.min(currentPage + visiblePages, totalPages - sidePages);
+            for (let i = startPage; i <= endPage; i++) {
+                renderPage(i);
+            }
+
+            // Show ellipsis (...) if we're skipping pages at the end
+            if (currentPage < totalPages - visiblePages - sidePages) {
+                $('#pagination').append('<li class="page-item disabled"><span class="page-link">...</span></li>');
+            }
+
+            // Show the last few pages
+            for (let i = totalPages - sidePages + 1; i <= totalPages; i++) {
+                renderPage(i);
+            }
+        }
+
+        // Append the next button
+        $('#pagination').append(`
+            <li class="page-item next ${currentPage === totalPages ? 'disabled' : ''}">
+                <a class="page-link" href="javascript:void(0);" onclick="changePage(currentPage + 1)">
+                    <i class="ti ti-chevron-right ti-xs scaleX-n1-rtl"></i>
+                </a>
+            </li>
+        `);
+    }
+
+    // Change the page and re-fetch data
+    function changePage(page) {
+        if (page < 1 || page > totalPages) return;  // Prevent invalid page navigation
+        currentPage = page;  // Update current page
+        const searchTerm = $('#search-input').val().toLowerCase().trim();  // Get search term if exists
+        getDataCards(currentPage, searchTerm);  // Fetch and render data for the selected page
+    }
+
 
 
 
