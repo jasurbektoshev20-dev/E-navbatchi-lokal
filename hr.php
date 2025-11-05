@@ -671,7 +671,7 @@ switch ($Act) {
 		break;
 
 	case "hr_dailiy_routine_date":
-		$object_id = ($_GET['id']);
+		$object_id = $_GET['id'];
 		$query  = "SELECT t.id, t.name, t.lat, t.long
 		FROM hr.dailiy_routine_date t 
 		WHERE t.routine_id = {$object_id}

@@ -602,7 +602,7 @@ switch ($Action) {
 		$id = isset($_GET['id']) ? $_GET['id'] : 0;
 		$car_ids = [];
 
-		$query  = "SELECT t.id, s.name{$slang} as structure, t.object_name, o.name{$slang} as object_type, c.name{$slang} as cooperate,
+		$query  = "SELECT t.id, s.name{$slang} as structure, t.object_name, o.name{$slang} as object_type, CONCAT(c.name{$slang}, ' ',c.phone) as cooperate,
 		t.address, t.area, t.admin_phone, t.object_head, t.head_phone, t.police_name, t.police_phone,
 		COALESCE(COUNT(jd.id), 0) AS count_doors,
 		t.photo, t.lat, t.long, ST_AsGeoJSON(geom) AS geom_geojson
@@ -612,9 +612,27 @@ switch ($Action) {
 		left join hr.involved_objects o on o.id = t.object_type
 		left join hr.cooperate c on c.id = t.cooperate_id
 		WHERE t.id = {$id}
-		GROUP BY t.id, s.name{$slang}, o.name{$slang}, c.name{$slang}";
+		GROUP BY t.id, s.name{$slang}, o.name{$slang}, c.name{$slang}, c.phone ";
 		$sql->query($query);
 		$JtsObject = $sql->fetchAssoc();
+
+		$query  = "SELECT t.id, t.name, t.lat, t.long
+		FROM hr.jts_objects_sos t 
+		WHERE t.object_id = {$JtsObject['id']}
+		ORDER BY t.id desc ";
+		$sql->query($query);
+		$Sos = $sql->fetchAll();
+
+		$object_id = ($_GET['id']);
+		$query  = "SELECT t.id, t.name, t.lat, t.long
+		FROM hr.jts_objects_door t 
+		WHERE t.object_id = {$JtsObject['id']}
+		ORDER BY t.id desc ";
+		$sql->query($query);
+		$Door = $sql->fetchAll();
+
+		$JtsObject['sos'] = $Sos;
+		$JtsObject['door'] = $Door;
 
 		$query  = "SELECT t.id, CONCAT(r.name{$slang}, ' ', s.lastname, ' ', s.firstname, ' ', s.surname) AS responsible_name,
 		COALESCE(COUNT(td.id), 0) AS all_staff,
@@ -688,25 +706,34 @@ switch ($Action) {
 		$Cams = $sql->fetchAll();
 
 		$CamUrl = [];
-		if ($Cams) {
-			foreach ($Cams as $mkey => $cam_c) {
-				$camindex = $cam_c['cam_code'];
-				$camId = $cam_c['id'];
-				$IsPtz = $cam_c['is_ptz'];
-				$comment = $cam_c['name'];
+		// if ($Cams) {
+		// 	foreach ($Cams as $mkey => $cam_c) {
+		// 		$camindex = $cam_c['cam_code'];
+		// 		$camId = $cam_c['id'];
+		// 		$IsPtz = $cam_c['is_ptz'];
+		// 		$comment = $cam_c['name'];
 
 
-				$dataCam = GetCamUrl($camindex);
-				if ($dataCam['data']) {
-					$CamUrl[] = [
-						'id' => $camId,
-						'url' => $dataCam['data']['url'],
-						'isptz' => $IsPtz,
-						'name' => $comment
-					];
-				}
-			}
-		}
+		// 		$dataCam = GetCamUrl($camindex);
+		// 		if ($dataCam['data']) {
+		// 			$CamUrl[] = [
+		// 				'id' => $camId,
+		// 				'url' => $dataCam['data']['url'],
+		// 				'isptz' => $IsPtz,
+		// 				'name' => $comment
+		// 			];
+		// 		}
+
+
+		// 	}
+		// }
+
+		$CamUrl[] = [
+			'id' => 1,
+			'url' => 'ws://10.119.0.2:559/sms/HCPEurl/commonvideobiz_4nsIc77VPXOC36yh9SjSyUxgjeWzpyeuCBt8Th6q61Vntl%2FQTFt7PLeKsVjj0sxKWXA4DEhqkG55HTwpvSNqkDjP2gupD9v6AoVvB2cISLErzV%2F90csAGgWt7WmaPCN4wPZsHjt0xX%2FDimRToiFS9Qs9QsTOLG2qLZau8J4cmAgepIapuc9YS8wy5%2FEvPEAB3I5H9XVW%2FC7nlyvIZaXLRaEcBTlIuU66zhigLiiaC1c%3D',
+			'isptz' => false,
+			'name' => 'Test Camera'
+		];
 
 		$result['data'] = $JtsObject;
 		$result['cameras'] = $CamUrl;
