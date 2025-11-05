@@ -87,19 +87,19 @@
       object-fit: cover;
     }
 
-    .space-main-body-password ul li img {
+    .space-main-body-passport ul li img {
       width: 100%;
       height: 450px;
       object-fit: cover;
     }
 
-    .space-main-body-password ul li {
+    .space-main-body-passport ul li {
       display: flex;
       align-items: center;
       gap: 5px;
     }
 
-    .space-main-body-password ul li h4 {
+    .space-main-body-passport ul li h4 {
       margin: 0%;
     }
 
@@ -312,93 +312,8 @@
                 <div class="space-main-head">
                   <h4>Pasport Ma'lumotlari</h4>
                 </div>
-                <div class="space-main-body-password">
-                  <ul>
-                    <li>
-                      {* <img src="/templates/hr/img/bozor-tayyor_2.png" alt=""> *}
-                      <div id="dialogMap"></div>
-                    </li>
-                    {* <li>
-                      <h4> <a href="#" id="open3DMap" data-lat="41.32621" data-lng="69.22800" data-name="Chorsu bozori">
-                          Kartaga o'tish
-                        </a></h4>
-                    </li> *}
-                    <li>
-                      <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
-                            class="bi bi-geo-alt" viewBox="0 0 16 16">
-                            <path
-                              d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10" />
-                            <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
-                          </svg></span> Manzili: </h6>
-                      <p>Oʻzbekiston, Toshkent shahri, Nayman koʻchasi, 69</p>
-                    </li>
-                    <li>
-                      <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-dice-1" viewBox="0 0 16 16">
-                            <circle cx="8" cy="8" r="1.5" />
-                            <path
-                              d="M13 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3z" />
-                          </svg></span> Hudud joylashgan mahalla: </h6>
-                      <p>Rohat mahallasi</p>
-                    </li>
-                    <li>
-                      <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-shop-window" viewBox="0 0 16 16">
-                            <path
-                              d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.37 2.37 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0M1.5 8.5A.5.5 0 0 1 2 9v6h12V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5m2 .5a.5.5 0 0 1 .5.5V13h8V9.5a.5.5 0 0 1 1 0V13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5a.5.5 0 0 1 .5-.5" />
-                          </svg></span> Savdo obyektlar soni: </h6>
-                      <p>70 ta</p>
-                    </li>
-                    <li>
-                      <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
-                            class="bi bi-telephone-forward" viewBox="0 0 16 16">
-                            <path
-                              d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877zm10.762.135a.5.5 0 0 1 .708 0l2.5 2.5a.5.5 0 0 1 0 .708l-2.5 2.5a.5.5 0 0 1-.708-.708L14.293 4H9.5a.5.5 0 0 1 0-1h4.793l-1.647-1.646a.5.5 0 0 1 0-.708" />
-                          </svg></span>Administrator telefon raqami: </h6>
-                      <p>+998 90 123-45-67 +998 91 123-45-67</p>
-                    </li>
-                    <li>
-                      <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
-                            class="bi bi-border-all" viewBox="0 0 16 16">
-                            <path d="M0 0h16v16H0zm1 1v6.5h6.5V1zm7.5 0v6.5H15V1zM15 8.5H8.5V15H15zM7.5 15V8.5H1V15z" />
-                          </svg></span>Maydoni: </h6>
-                      <p>4046.86 m²</p>
-                    </li>
-                    <li>
-                      <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
-                            class="bi bi-door-open" viewBox="0 0 16 16">
-                            <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1" />
-                            <path
-                              d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117M11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5M4 1.934V15h6V1.077z" />
-                          </svg></span>Kirish chiqish eshiklar soni: </h6>
-                      <p>4 ta</p>
-                    </li>
-                    <li>
-                      <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
-                            class="bi bi-person" viewBox="0 0 16 16">
-                            <path
-                              d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
-                          </svg></span>Bozor rahbari: </h6>
-                      <p>Berdiyev Muzaffar +998 90 234-76-90</p>
-                    </li>
-                    <li>
-                      <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
-                            class="bi bi-person" viewBox="0 0 16 16">
-                            <path
-                              d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
-                          </svg></span>Bozor uchastkavoyi: </h6>
-                      <p>Toshev Jasurbek +998 91 233-76-96</p>
-                    </li>
-                    <li>
-                      <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
-                            class="bi bi-telephone-forward" viewBox="0 0 16 16">
-                            <path
-                              d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877zm10.762.135a.5.5 0 0 1 .708 0l2.5 2.5a.5.5 0 0 1 0 .708l-2.5 2.5a.5.5 0 0 1-.708-.708L14.293 4H9.5a.5.5 0 0 1 0-1h4.793l-1.647-1.646a.5.5 0 0 1 0-.708" />
-                          </svg></span> Hamkor tashkilotlar aloqa: </h6>
-                      <p> IIV- +998 91 123-45-67 FVV- +998 97 851-12-23</p>
-                    </li>
-
-                  </ul>
+                <div class="space-main-body-passport">
+                 
                 </div>
               </div>
 
@@ -408,20 +323,7 @@
                       <h4>MG tomonidan ajratilgan kuch vositalar</h4>
                     </div>
                     <div class="space-main-body-duty">
-                      <ul class="d-flex flex-wrap gap-3">
-                        <li class="alert alert-dark" role="alert">MG javobgar: <span>leytenant Umrzakov Javohir </span>
-                        </li>
-                        <li class="alert alert-dark" role="alert">Jami shaxsiy tarkib: <span>20 nafar</span> </li>
-                        <li class="alert alert-dark" role="alert">Piyoda patrullar: <span>12 nafar</span> </li>
-                        <li class="alert alert-dark" role="alert">Avto patrullar: <span>8 nafar</span> </li>
-                        <li class="alert alert-dark" role="alert">Yo'nalishlar: <span>4 ta</span> </li>
-                        <li class="alert alert-dark" role="alert">Sektorlar soni: <span>4 ta</span> </li>
-                        <li class="alert alert-dark" role="alert">Kameralar soni: <span>12 ta</span> </li>
-                        <li class="alert alert-dark" role="alert">Tashvish tugmalar soni: <span>4 ta</span> </li>
-                        <li class="alert alert-dark" role="alert">Xizmat hayvonlari: <span>8 ta</span> </li>
-                        <li class="alert alert-dark" role="alert">Maxsus vositalar soni: <span>12 ta</span> </li>
-                        <li class="alert alert-dark" role="alert">Texnikalar: <span>12 ta</span></li>
-                      </ul>
+                      
                     </div>
                   </div>
 
@@ -765,8 +667,117 @@
       }, 300);
     }
 
+    renderPassportDetails(params){
+      const container = document.querySelector('.space-main-body-passport')
+      if(!container) return
+
+       container.innerHTML = `
+        <ul>
+          <li>
+            <div id="dialogMap"></div>
+          </li>
+          <li>
+            <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
+                  class="bi bi-geo-alt" viewBox="0 0 16 16">
+                  <path
+                    d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10" />
+                  <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
+                </svg></span> Manzili: </h6>
+            <p>Oʻzbekiston, Toshkent shahri, Nayman koʻchasi, 69</p>
+          </li>
+          <li>
+            <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-dice-1" viewBox="0 0 16 16">
+                  <circle cx="8" cy="8" r="1.5" />
+                  <path
+                    d="M13 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3z" />
+                </svg></span> Hudud joylashgan mahalla: </h6>
+            <p>Rohat mahallasi</p>
+          </li>
+          <li>
+            <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-shop-window" viewBox="0 0 16 16">
+                  <path
+                    d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.37 2.37 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0M1.5 8.5A.5.5 0 0 1 2 9v6h12V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5m2 .5a.5.5 0 0 1 .5.5V13h8V9.5a.5.5 0 0 1 1 0V13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5a.5.5 0 0 1 .5-.5" />
+                </svg></span> Savdo obyektlar soni: </h6>
+            <p>70 ta</p>
+          </li>
+          <li>
+            <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
+                  class="bi bi-telephone-forward" viewBox="0 0 16 16">
+                  <path
+                    d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877zm10.762.135a.5.5 0 0 1 .708 0l2.5 2.5a.5.5 0 0 1 0 .708l-2.5 2.5a.5.5 0 0 1-.708-.708L14.293 4H9.5a.5.5 0 0 1 0-1h4.793l-1.647-1.646a.5.5 0 0 1 0-.708" />
+                </svg></span>Administrator telefon raqami: </h6>
+            <p>+998 90 123-45-67 +998 91 123-45-67</p>
+          </li>
+          <li>
+            <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
+                  class="bi bi-border-all" viewBox="0 0 16 16">
+                  <path d="M0 0h16v16H0zm1 1v6.5h6.5V1zm7.5 0v6.5H15V1zM15 8.5H8.5V15H15zM7.5 15V8.5H1V15z" />
+                </svg></span>Maydoni: </h6>
+            <p>4046.86 m²</p>
+          </li>
+          <li>
+            <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
+                  class="bi bi-door-open" viewBox="0 0 16 16">
+                  <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1" />
+                  <path
+                    d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117M11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5M4 1.934V15h6V1.077z" />
+                </svg></span>Kirish chiqish eshiklar soni: </h6>
+            <p>4 ta</p>
+          </li>
+          <li>
+            <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
+                  class="bi bi-person" viewBox="0 0 16 16">
+                  <path
+                    d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
+                </svg></span>Bozor rahbari: </h6>
+            <p>Berdiyev Muzaffar +998 90 234-76-90</p>
+          </li>
+          <li>
+            <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
+                  class="bi bi-person" viewBox="0 0 16 16">
+                  <path
+                    d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
+                </svg></span>Bozor uchastkavoyi: </h6>
+            <p>Toshev Jasurbek +998 91 233-76-96</p>
+          </li>
+          <li>
+            <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
+                  class="bi bi-telephone-forward" viewBox="0 0 16 16">
+                  <path
+                    d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877zm10.762.135a.5.5 0 0 1 .708 0l2.5 2.5a.5.5 0 0 1 0 .708l-2.5 2.5a.5.5 0 0 1-.708-.708L14.293 4H9.5a.5.5 0 0 1 0-1h4.793l-1.647-1.646a.5.5 0 0 1 0-.708" />
+                </svg></span> Hamkor tashkilotlar aloqa: </h6>
+            <p> IIV- +998 91 123-45-67 FVV- +998 97 851-12-23</p>
+          </li>
+
+        </ul>
+       `
+      
+    }
+    renderPassportDetails(params){
+      const container = document.querySelector('.space-main-body-duty')
+      if(!container) return
+
+      container.innerHTML = `
+        <ul class="d-flex flex-wrap gap-3">
+          <li class="alert alert-dark" role="alert">MG javobgar: <span>leytenant Umrzakov Javohir </span>
+          </li>
+          <li class="alert alert-dark" role="alert">Jami shaxsiy tarkib: <span>20 nafar</span> </li>
+          <li class="alert alert-dark" role="alert">Piyoda patrullar: <span>12 nafar</span> </li>
+          <li class="alert alert-dark" role="alert">Avto patrullar: <span>8 nafar</span> </li>
+          <li class="alert alert-dark" role="alert">Yo'nalishlar: <span>4 ta</span> </li>
+          <li class="alert alert-dark" role="alert">Sektorlar soni: <span>4 ta</span> </li>
+          <li class="alert alert-dark" role="alert">Kameralar soni: <span>12 ta</span> </li>
+          <li class="alert alert-dark" role="alert">Tashvish tugmalar soni: <span>4 ta</span> </li>
+          <li class="alert alert-dark" role="alert">Xizmat hayvonlari: <span>8 ta</span> </li>
+          <li class="alert alert-dark" role="alert">Maxsus vositalar soni: <span>12 ta</span> </li>
+          <li class="alert alert-dark" role="alert">Texnikalar: <span>12 ta</span></li>
+        </ul>
+      `
 
 
+    }
 
 
 
