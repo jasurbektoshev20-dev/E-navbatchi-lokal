@@ -1350,7 +1350,7 @@ switch ($Action) {
         $res = json_encode($result);
         break;
 
-    case "act_daily_routine":
+ case "act_daily_routine":
         $RowId = (!empty($_POST['id'])) ? MyPiDeCrypt($_POST['id']) : 0;
         $object_id = $_POST['object_id'];
         $structure_id = isset($_POST['structure_id']) ? $_POST['structure_id'] : $UserStructure;
