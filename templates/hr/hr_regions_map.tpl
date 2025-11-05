@@ -221,6 +221,23 @@
       margin-left: 30px;
     }
 
+    .door-marker:hover {
+      transform: scale(1.2);
+      transition: 0.2s;
+    }
+    .car-marker {
+      border-radius: 50%;
+      box-shadow: 0 0 4px rgba(0,0,0,0.5);
+    }
+    .sos-marker {
+      /* animation: pulse 1s infinite alternate; */
+    }
+    @keyframes pulse {
+      from { transform: scale(1); opacity: 1; }
+      to { transform: scale(1.3); opacity: 0.6; }
+    }
+
+
   {/literal}
 </style>
 
@@ -640,34 +657,153 @@
 
     function renderDialogMap(params) {
       const mapContainer = document.querySelector('#dialogMap')
-      if(!mapContainer) return
-      let dialogMap = null
+      if(!mapContainer || !params) return
+        // Eski xarita mavjud bo‘lsa, tozalaymiz
+      if (mapContainer._mapbox_instance) {
+        mapContainer._mapbox_instance.remove();
+      }
 
       const MAPBOX_ACCESS_TOKEN =
         'pk.eyJ1Ijoic2hhdmthdDAxIiwiYSI6ImNsOHJjcmo2azA2dWEzb254amM0dHlzcjEifQ.HNCCG0V7PLGSnAKUBZWzuw';
 
-      let map_center = [69.276138, 41.312123]
       mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
-      dialogMap = new mapboxgl.Map({
+      const map_center = [
+        parseFloat(params.long) || 69.276138,
+        parseFloat(params.lat) || 41.312123,
+      ];
+
+      // Xarita yaratish
+      const map = new mapboxgl.Map({
         container: 'dialogMap',
         style: `mapbox://styles/mapbox/standard`,
         center: map_center,
-        zoom: 5.5,
+        zoom: 6,
         pitch: 0,
-        antialias: true
+        antialias: true,
       });
 
-      const geocoder = new MapboxGeocoder({
-        accessToken: mapboxgl.accessToken,
-        marker: false,
-        placeholder: 'Search Address',
-        mapboxgl: mapboxgl
-      });
+      mapContainer._mapbox_instance = map;
+      map.addControl(new mapboxgl.NavigationControl());
 
-      dialogMap.addControl(new mapboxgl.NavigationControl());
-      setTimeout(() => {
-        dialogMap.resize();
-      }, 300);
+      setTimeout(() => map.resize(), 300);
+
+      // ✅ 1. Polygon chizish
+      if (params.geom_geojson) {
+        try {
+          const geom = JSON.parse(params.geom_geojson);
+          map.on('load', () => {
+            map.addSource('object-polygon', {
+              type: 'geojson',
+              data: geom,
+            });
+
+            map.addLayer({
+              id: 'object-polygon-fill',
+              type: 'fill',
+              source: 'object-polygon',
+              paint: {
+                'fill-color': '#3b82f6',
+                'fill-opacity': 0,
+              },
+            });
+
+            map.addLayer({
+              id: 'object-polygon-outline',
+              type: 'line',
+              source: 'object-polygon',
+              paint: {
+                'line-color': '#1e3a8a',
+                'line-width': 2,
+              },
+            });
+
+            // Polygon chegarasiga yumshoq zoom
+            const bounds = new mapboxgl.LngLatBounds();
+            geom.coordinates[0].forEach(coord => bounds.extend(coord));
+            map.fitBounds(bounds, { padding: 80, duration: 1500 });
+          });
+        } catch (err) {
+          console.warn('Polygon parse xatolik:', err);
+        }
+      }
+
+      // ✅ 2. DOOR markerlar (eshiklar)
+      if (Array.isArray(params.door)) {
+        params.door.forEach(door => {
+          const lat = parseFloat(door.lat);
+          const lon = parseFloat(door.long);
+          if (isNaN(lat) || isNaN(lon)) return;
+
+          const el = document.createElement('div');
+          el.className = 'door-marker';
+          el.style.width = '20px';
+          el.style.height = '20px';
+          el.style.backgroundImage = `url('/assets/images/open-door.png')`;
+          el.style.backgroundSize = 'cover';
+          el.title = door.name;
+
+          new mapboxgl.Marker(el)
+            .setLngLat([lon, lat])
+            .setPopup(new mapboxgl.Popup()
+            .setHTML(
+              `<div style="color: #000">${door.name}</div>`
+            ))
+            .addTo(map);
+        });
+      }
+
+      // ✅ 3. TRACK marker (mashina)
+      if (Array.isArray(params.tracks)) {
+        params.tracks.forEach(track => {
+          const lat = parseFloat(track.lat);
+          const lon = parseFloat(track.lon);
+          if (isNaN(lat) || isNaN(lon)) return;
+
+          const el = document.createElement('div');
+          el.className = 'car-marker';
+          el.style.width = track.car_width + 'px';
+          el.style.height = track.car_height + 'px';
+          el.style.backgroundImage = `url('/pictures/cars/${track.car_photo || 'car.png'}')`;
+          el.style.backgroundSize = 'cover';
+          el.style.transform = `rotate(${track.angle || 0}deg)`;
+          el.title = track.car_name;
+
+          new mapboxgl.Marker(el)
+            .setLngLat([lon, lat])
+            .setPopup(
+              new mapboxgl.Popup().setHTML(
+                `<div style="color: #000"> <b>${track.car_name}</b><br>Tezlik: ${track.speed} km/h<br>${track.date} </div>`
+              )
+            )
+            .addTo(map);
+        });
+      }
+
+      // ✅ 4. SOS markerlar
+      if (Array.isArray(params.sos)) {
+        params.sos.forEach(sos => {
+          const lat = parseFloat(sos.lat);
+          const lon = parseFloat(sos.long);
+          if (isNaN(lat) || isNaN(lon)) return;
+
+          const el = document.createElement('div');
+          el.className = 'sos-marker';
+          el.style.width = '14px';
+          el.style.height = '14px';
+          el.style.background = 'red';
+          el.style.borderRadius = '50%';
+          el.style.border = '2px solid white';
+          el.title = sos.name;
+
+          new mapboxgl.Marker(el)
+            .setLngLat([lon, lat])
+            .setPopup(new mapboxgl.Popup().setHTML(
+              `<div style="color: #000">${sos.name}</div>`
+            ))
+            .addTo(map);
+        });
+      }
+
     }
 
     function renderPassportDetails(params){

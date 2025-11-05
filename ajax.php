@@ -639,6 +639,7 @@ switch ($Action) {
 		SUM(CASE WHEN td.patrul_type = 1 THEN 1 ELSE 0 END) AS walker_patrul,
 		SUM(CASE WHEN td.patrul_type = 2 THEN 1 ELSE 0 END) AS avto_patrul,
 		SUM(CASE WHEN td.patrul_type = 4 THEN 1 ELSE 0 END) AS horse_patrul,
+		COUNT(DISTINCT td.car_id) AS car_count,
 		COALESCE(SUM(cardinality(td.epikirofka_id)), 0) AS epikirofka_count,
 		COALESCE(COUNT(js.id), 0) AS count_sos,
 		COALESCE(COUNT(jc.id), 0) AS count_cameras,
