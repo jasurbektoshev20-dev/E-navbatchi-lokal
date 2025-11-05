@@ -619,8 +619,11 @@ switch ($Action) {
 		COALESCE(COUNT(td.id), 0) AS all_staff,
 		SUM(CASE WHEN td.patrul_type = 1 THEN 1 ELSE 0 END) AS walker_patrul,
 		SUM(CASE WHEN td.patrul_type = 2 THEN 1 ELSE 0 END) AS avto_patrul,
+		SUM(CASE WHEN td.patrul_type = 4 THEN 1 ELSE 0 END) AS horse_patrul,
+		COALESCE(SUM(cardinality(td.epikirofka_id)), 0) AS epikirofka_count,
 		COALESCE(COUNT(js.id), 0) AS count_sos,
-		COALESCE(COUNT(jc.id), 0) AS count_cameras
+		COALESCE(COUNT(jc.id), 0) AS count_cameras,
+		COALESCE(COUNT(DISTINCT td.patrul_type), 0) AS patrul_types_count
 		FROM hr.daily_routine t 
 		LEFT JOIN hr.dailiy_routine_date td ON td.routine_id = t.id
 		LEFT JOIN hr.staff s ON s.id = t.responsible_id
@@ -628,18 +631,12 @@ switch ($Action) {
 		left join hr.jts_objects_camera jc on jc.object_id = {$JtsObject['id']}
 		left join hr.jts_objects_sos js on js.object_id = {$JtsObject['id']}
 		WHERE t.object_id = {$JtsObject['id']}
+		GROUP BY t.id, r.name{$slang}, s.lastname, s.firstname, s.surname
 		ORDER BY t.id desc LIMIT 1";
 		$sql->query($query);
 		$Routine = $sql->fetchAssoc();
 
-
-		$query  = "SELECT t.*
-		FROM hr.dailiy_routine_date t 
-		WHERE t.routine_id = {$Routine['id']}
-		ORDER BY t.id desc";
-		$sql->query($query);
-		$RoutineDate = $sql->fetchAll();
-
+		$JtsObject['routine'] = $Routine;
 
 		$query  = "SELECT t.id, t.cam_code, t.isptz, t.name 
 		FROM hr.jts_objects_camera t 
