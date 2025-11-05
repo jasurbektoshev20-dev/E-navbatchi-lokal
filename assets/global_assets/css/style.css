@@ -1,0 +1,70 @@
+.duty-photo {
+    width: 100%;
+    height: 250px;
+}
+
+.duty-title {
+    font-size: 18px;
+    background-color: rgba(1,9,52,0.652);
+    margin-bottom: -3px;
+    padding: 8px 0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.duty-position {
+    margin-top: 5px;
+    background: rgba(255, 255, 255, .2);
+    border-radius: 5px;
+    padding: 10px 5px;
+    font-size: 16px;
+    /* min-height: 40px; */
+    line-height: 16px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+thead tr {
+    background-color: rgb(45, 93, 165);
+    margin-top: -10%;
+}
+
+.table td,
+.table th {
+    padding: 0.5rem;
+}
+
+
+
+
+.modal-dialog {
+    overflow-y: initial;
+}
+
+.modal-body {
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+thead tr {
+    background-color: rgb(45, 93, 165);
+    margin-top: -10%;
+}
+
+.card {
+    height: 100% !important;
+}
+
+.table td,
+.table th {
+    padding: 0.5rem;
+}
+
+.card-body {
+    line-height: 1rem;
+}
+
+.my_height {
+    height: 100%;
+}
+
