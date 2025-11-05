@@ -646,11 +646,14 @@ switch ($Action) {
 		$RoutineDate = $sql->fetchAll();
 
 
+		$car_ids = [];
 		foreach ($RoutineDate as $key => $value) {
 			$car_ids[] = $value['car_id'];
 		}
 
-		$query = "SELECT 
+		$JtsObject['tracks'] = [];
+		if ($car_ids) {
+			$query = "SELECT 
 			cr.id AS car_id,
 			uzg.tp_timestamp_fmt AS date,
 			uzg.angle,
@@ -661,16 +664,18 @@ switch ($Action) {
 			cm.photo AS car_photo,
 			cm.car_width,
 			cm.car_height
-		FROM reports.uzgps uzg
-		INNER JOIN hr.tech_guard_cars cr ON cr.uzgps_id = uzg.mobject_id
-		LEFT JOIN hr.structure s ON s.id = cr.structure_id
-		LEFT JOIN ref.car_models cm ON cm.id = cr.car_model_id
-		WHERE cr.id IN (" . implode(',', $car_ids) . ")
-		order by uzg.speed asc";
-		$sql->query($query);
-		$Tracks = $sql->fetchAll();
+			FROM reports.uzgps uzg
+			INNER JOIN hr.tech_guard_cars cr ON cr.uzgps_id = uzg.mobject_id
+			LEFT JOIN hr.structure s ON s.id = cr.structure_id
+			LEFT JOIN ref.car_models cm ON cm.id = cr.car_model_id
+			WHERE cr.id IN (" . implode(',', $car_ids) . ")
+			order by uzg.speed asc";
+			$sql->query($query);
+			$Tracks = $sql->fetchAll();
 
-		$JtsObject['tracks'] = $Tracks;
+			$JtsObject['tracks'] = $Tracks;
+		}
+
 
 		$query  = "SELECT t.id, t.cam_code, t.is_ptz, t.name 
 		FROM hr.jts_objects_camera t 
