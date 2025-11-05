@@ -223,7 +223,7 @@ $('#new').on('click', function (e) {
             var form_data = new FormData();
 
             // Barcha form elementlarini to‘plash
-            // form_data.append('id', $('#id').val());
+            form_data.append('id', $('#id').val());
             form_data.append('object_id', $('#object_id').val());
             form_data.append('name', $('#address').val());
             form_data.append('lat', $('#lat').val());
