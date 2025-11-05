@@ -146,42 +146,6 @@ switch ($Act) {
 		break;
 	// hr_thg_cars
 
-    // hr_current_thg
-	case "hr_current_thg":
-		$StructureId = MyPiDeCrypt($_GET['str']);
-		$GuardCarsId = MyPiDeCrypt($_GET['cur']);
-
-		$query  = "SELECT id,name{$slang} as name1 from ref.smena";
-		$sql->query($query);
-		$HrSmena = $sql->fetchAll();
-
-		$query = "SELECT c.id, c.plate_number as name from hr.tech_guard_cars c where c.id = {$GuardCarsId}";
-		$sql->query($query);
-		$HrTechGuardCars = $sql->fetchAll();
-
-		$query = "SELECT t.id, sm.name{$slang} as smena, to_char(t.date, 'DD.MM.YYYY') as date
-			from hr.current_operative_group t
-			left join ref.smena sm on sm.id = t.smena
-			where t.car_id = {$GuardCarsId}
-			order by t.id desc";
-		$sql->query($query);
-		$HrCurrentOperativeGroup = $sql->fetchAll();
-
-
-		// echo '<pre>';
-		// print_r($HrCurrentOperativeGroup);
-		// echo '</pre>';
-		// die();
-
-		$smarty->assign(array(
-			'HrCurrentOperativeGroup' => $HrCurrentOperativeGroup,
-			'HrTechGuardCars' => $HrTechGuardCars,
-			'StructureId' => $StructureId,
-			'HrSmena' => $HrSmena,
-		));
-		break;
-	// hr_current_thg
-
     // hr_dictionary
     case "hr_dictionary":
 		$query  = "SELECT * FROM bcms.s_dictionary ORDER BY id ASC ";

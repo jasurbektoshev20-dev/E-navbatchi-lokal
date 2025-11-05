@@ -21,16 +21,28 @@ if (count($_GET) > 0) {
     }
 }
 
-$region = isset($_GET['region']) ? $_GET['region'] : 0;
+// $region = isset($_GET['region']) ? $_GET['region'] : 0;
+$region = 0;
 
-$query = "SELECT uzg.id, s.shortname{$slang} as region, cr.plate_number as plate_number,
-    uzg.angle, uzg.lat, uzg.lon, uzg.speed, TO_CHAR(uzg.tp_timestamp_fmt, 'DD.MM.YYYY HH24:MI') as time,
-    cm.name as car_name, cm.photo as car_photo, cm.car_width, cm.car_height
-    FROM hr.tech_guard_cars cr
-    LEFT JOIN reports.uzgps uzg on uzg.mobject_id = cr.uzgps_id
-    left join hr.structure s on s.id = cr.structure_id
-    left join ref.car_models cm on cm.id = cr.car_model_id
-    WHERE 1=1 ";
+$query = "SELECT 
+            uzg.id,
+            s.shortname{$slang} AS region,
+            cr.plate_number AS plate_number,
+            uzg.angle,
+            uzg.lat,
+            uzg.lon,
+            uzg.speed,
+            TO_CHAR(uzg.tp_timestamp_fmt, 'DD.MM.YYYY HH24:MI') AS time,
+            cm.name AS car_name,
+            cm.photo AS car_photo,
+            cm.car_width,
+            cm.car_height
+        FROM reports.uzgps uzg
+        INNER JOIN hr.tech_guard_cars cr ON cr.uzgps_id = uzg.mobject_id
+        LEFT JOIN hr.structure s ON s.id = cr.structure_id
+        LEFT JOIN ref.car_models cm ON cm.id = cr.car_model_id
+        WHERE 1=1 ";
+
 if ($region > 0) {
     $query .= " AND s.id = {$region}";
 }
