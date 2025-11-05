@@ -44,11 +44,6 @@
                                 <th>{$Dict.car_model}</th>
                                 <th>{$Dict.state_number}</th>
                                 <th>{$Dict.uzgps}</th>
-                                <th>
-                                    <span class="badge bg-danger rounded-pill">
-                                        <i class="tf-icons ti ti-car"></i>
-                                    </span>
-                                </th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -60,10 +55,6 @@
                                     <td>{$Table.car_model_id}</td>
                                     <td>{$Table.plate_number}</td>
                                     <td>{$Table.uzgps_id}</td>
-                                    <td>
-                                        <a
-                                            href="hr.php?act=current_thg&mid={$smarty.get.mid}&str={$smarty.get.str}&cur={$Table.id|crypt}">{$Table.current}</a>
-                                    </td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
