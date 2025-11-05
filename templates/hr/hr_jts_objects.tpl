@@ -63,87 +63,85 @@
             <!-- Viloyat -->
             <div class="col-sm-4">
               <label>Viloyat</label>
-              <select required class="form-select" id="structure">
+              <select required class="form-select" id="structure_id">
                 <option value="">Tanlang...</option>
-                <option value="Andijon">Andijon</option>
-                <option value="Buxoro">Buxoro</option>
-                <option value="Farg‘ona">Farg‘ona</option>
-                <option value="Jizzax">Jizzax</option>
-                <option value="Namangan">Namangan</option>
-                <option value="Navoiy">Navoiy</option>
-                <option value="Qashqadaryo">Qashqadaryo</option>
-                <option value="Samarqand">Samarqand</option>
-                <option value="Sirdaryo">Sirdaryo</option>
-                <option value="Surxondaryo">Surxondaryo</option>
-                <option value="Toshkent">Toshkent</option>
-                <option value="Xorazm">Xorazm</option>
+                {foreach from=$Regions item=Item1 key=ikey1}
+                  <option value="{$Item1.id}">{$Item1.name}</option>
+                {/foreach}
+   
               </select>
             </div>
 
             <!-- Turi -->
             <div class="col-sm-4">
               <label>Turi</label>
-              <select required class="form-select" id="type">
+              <select required class="form-select" id="object_type">
                 <option value="">Tanlang...</option>
-                <option value="Bozorlar">Bozorlar</option>
-                <option value="Xiyobonlar">Xiyobonlar</option>
-                <option value="Parklar">Parklar</option>
-                <option value="Boshqa joylar">Boshqa joylar</option>
+                {foreach from=$ObjectTypes item=Item1 key=ikey1}
+                  <option value="{$Item1.id}">{$Item1.name}</option>
+                {/foreach}
               </select>
             </div>
 
             <!-- Nomi -->
             <div class="col-sm-4">
               <label>Nomi</label>
-              <input required type="text" class="form-control" id="name" placeholder="Masalan: Registon maydoni" />
+              <input required type="text" class="form-control" id="object_name" placeholder="Masalan: Registon maydoni" />
             </div>
 
               <!-- Manzili -->
             <div class="col-sm-4">
               <label>Manzili</label>
-              <input required type="text" class="form-control" id="name" placeholder="Manzilni kiriting..." />
+              <input required type="text" class="form-control" id="address" placeholder="Manzilni kiriting..." />
             </div>
 
               <!-- Maydoni -->
             <div class="col-sm-4">
               <label>Maydoni</label>
-              <input required type="text" class="form-control" id="name" placeholder="Maydonini kiriting..." />
+              <input required type="text" class="form-control" id="area" placeholder="Maydonini kiriting..." />
             </div>
 
                <!-- Admin tel -->
             <div class="col-sm-4">
               <label>Administrator telefon raqamlari</label>
-              <input required type="text" class="form-control" id="name" placeholder="Telefon raqam kiriting..." />
+              <input required type="text" class="form-control" id="admin_phone" placeholder="Telefon raqam kiriting..." />
             </div>
 
                  <!-- Admin tel -->
-            <div class="col-sm-4">
+
+
+            {* <div class="col-sm-4">
               <label>Kameralar sonini kiriting</label>
               <input required type="text" class="form-control" id="name" placeholder="Kameralar sonini kiriting..." />
-            </div>
+            </div> *}
 
                <!-- Bozor raxbari -->
             <div class="col-sm-4">
               <label>Rahbari</label>
-              <input required type="text" class="form-control" id="name" placeholder="Bozor rahbarini kiriting..." />
+              <input required type="text" class="form-control" id="object_head" placeholder="Bozor rahbarini kiriting..." />
+            </div>
+
+            <div class="col-sm-4">
+              <label>Rahbar telefon raqami</label>
+              <input required type="text" class="form-control" id="head_phone" placeholder="Telefon raqamini kiriting..." />
             </div>
 
               <!-- Bozor uchaskavoy -->
             <div class="col-sm-4">
               <label>Hudud uchastkavoyi FISH</label>
-              <input required type="text" class="form-control" id="name" placeholder="FISHni kiriting..." />
+              <input required type="text" class="form-control" id="police_name" placeholder="FISHni kiriting..." />
             </div>
 
               <!-- Bozor uchaskavoy tel -->
             <div class="col-sm-4">
               <label>Hudud uchastkavoyi telefon raqami</label>
-              <input required type="text" class="form-control" id="name" placeholder="Telefon raqam kiriting..." />
+              <input required type="text" class="form-control" id="police_phone" placeholder="Telefon raqam kiriting..." />
             </div>
 
               <!-- Bozor rasmi -->
             <div class="col-sm-4">
-               <label for="formFile" class="form-label">Hudud rasmi</label>
-               <input class="form-control" type="file" id="formFile">
+               <label for="photo" class="form-label">Hudud rasmi</label>
+               <input class="form-control" type="file" id="photo">
             </div>
 
               <div class="col-sm-4">
@@ -159,11 +157,11 @@
 
              <div class="col-sm-4">
               <label>Hamkorlikdagi tashkilotlar</label>
-              <select required class="form-select" id="type">
+              <select required class="form-select" id="cooperate_id">
                 <option value="">Tanlang...</option>
-                <option value="Bozorlar">FVV +998 99 345-87-90</option>
-                <option value="Xiyobonlar">MG +998 71 345-76-08</option>
-                <option value="Parklar">IIV +998 90 123-45-67</option>
+                {foreach from=$CooperateTypes item=Item1 key=ikey1}
+                  <option value="{$Item1.id}">{$Item1.name}</option>
+                {/foreach}
               </select>
             </div>
             <div class="col-sm-12">
@@ -278,23 +276,53 @@
 
     document.getElementById("saveBtn").addEventListener("click", (e) => {
         e.preventDefault();
-        const structure = document.getElementById("structure").value.trim();
-        const type = document.getElementById("type").value.trim();
-        const name1 = document.getElementById("name1").value.trim();
-        const name2 = document.getElementById("name2").value.trim();
-        const name3 = document.getElementById("name3").value.trim();
+        const structure_id = document.getElementById("structure_id").value.trim();
+        const object_type = document.getElementById("object_type").value.trim();
+        const object_name = document.getElementById("object_name").value.trim();
+        const address = document.getElementById("address").value.trim();
+        const area = document.getElementById("area").value.trim();
+        const admin_phone = document.getElementById("admin_phone").value.trim();
+        const object_head = document.getElementById("object_head").value.trim();
+        const head_phone = document.getElementById("head_phone").value.trim();
+        const police_name = document.getElementById("police_name").value.trim();
+        const police_phone = document.getElementById("police_phone").value.trim();
+        const lat = document.getElementById("lat").value.trim();
+        const lon = document.getElementById("lon").value.trim();
+        const cooperate_id = document.getElementById("cooperate_id").value.trim();
+
         const editIndex = document.getElementById("editIndex").value;
 
-        if (!structure || !type || !name1)
-            return alert("Barcha majburiy maydonlarni to‘ldiring!");
+        if (
+          !structure_id || 
+          !object_type || 
+          !object_name
+          !address || 
+          !area || 
+          !admin_phone || 
+          !object_head || 
+          !head_phone || 
+          !police_name || 
+          !police_phone || 
+          !cooperate_id
+        ) return alert("Barcha majburiy maydonlarni to‘ldiring!");
 
-        if (editIndex === "") {
-            localData.push({ structure, type, name1, name2, name3 });
-        } else {
-            localData[editIndex] = { structure, type, name1, name2, name3 };
-        }
 
-        localStorage.setItem("jts_objects", JSON.stringify(localData));
+        const formData = new formData()
+
+        formData.append('structure_id', structure_id)
+        formData.append('object_type', object_type)
+        formData.append('object_name', object_name)
+        formData.append('address', address)
+        formData.append('area', area)
+        formData.append('admin_phone', admin_phone)
+        formData.append('object_head', object_head)
+        formData.append('head_phone', head_phone)
+        formData.append('police_name', police_name)
+        formData.append('police_phone', police_phone)
+        formData.append('cooperate_id', cooperate_id)
+        if(lat) formData.append('lat', lat)
+        if(lon) formData.append('lon', lon)
+        
         renderTable();
         bootstrap.Modal.getInstance(document.getElementById("submitModal")).hide();
     });
