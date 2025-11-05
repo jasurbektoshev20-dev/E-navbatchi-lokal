@@ -1310,6 +1310,7 @@ switch ($Action) {
                     '{$long}'
                 )";
             $sql->query($insquery);
+
             if ($sql->error() == "") {
                 $sql->query("SELECT CURRVAL('hr.jts_objects_sos_id_seq') AS last_id;");
                 $result = $sql->fetchAssoc();
