@@ -730,6 +730,22 @@ switch ($Action) {
 
 		$res = json_encode($data);
 		break;
+
+	case "get_jst_objects":
+		$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
+
+		$query  = "SELECT t.id, t.object_name as name 
+		FROM hr.jts_objects t 
+		WHERE 1=1 ";
+		if ($UserStructure > 1) {
+			$query .= " AND t.structure_id = {$UserStructure} ";
+		}
+		$query .= " ORDER BY t.id desc";
+		$sql->query($query);
+		$Objects = $sql->fetchAll();
+
+		$res = json_encode($Objects);
+		break;
 }
 
 // echo iconv("cp1251", "UTF-8", $res);
