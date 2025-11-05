@@ -157,7 +157,7 @@
 <script src="/assets/assets/vendor/libs/@form-validation/umd/plugin-bootstrap5/index.min.js"></script>
 <script src="/assets/assets/vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js"></script>
 <script>
-    {literal}
+   {literal}
        $(document).ready(function () {
 
 
@@ -374,6 +374,7 @@
 
 
     {/literal}
+
 </script>
 
 
