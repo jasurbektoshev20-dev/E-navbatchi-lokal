@@ -53,32 +53,32 @@ foreach ($Dictionary as $id => $value) {
 switch ($Action) {
     // edu_menus ---<<>>---==============================================
     case "get_menus":
-		$RowId = MyPiDeCrypt($_GET['rowid']);
-		$query = "SELECT t.*, t.has_children as children FROM bcms.dashboard_menu t
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+        $query = "SELECT t.*, t.has_children as children FROM bcms.dashboard_menu t
 		WHERE t.id = {$RowId}";
-		$sql->query($query);
-		$result = $sql->fetchAssoc();
-		$result['rowid'] = MyPiCrypt($result['id']);
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+        $result['rowid'] = MyPiCrypt($result['id']);
 
-		$res = json_encode($result);
-		break;
+        $res = json_encode($result);
+        break;
 
-	case "act_menus":
-		$JsonArr = array();
-		$RowId    = (!empty($_POST['id'])) ? $_POST['id'] : 0;
-		$parent = $_POST['parent'];
-		$name1 = $_POST['name1'];
-		$name2 = $_POST['name2'];
-		$name3 = $_POST['name3'];
-		$page_url = $_POST['page_url'];
-		$turn = $_POST['turn'];
-		$menu_icon = $_POST['menu_icon'];
-		$status = (!empty($_POST['status'])) ? $_POST['status'] : 1;
-		$has_children = (!empty($_POST['has_children'])) ? $_POST['has_children'] : 0;
+    case "act_menus":
+        $JsonArr = array();
+        $RowId    = (!empty($_POST['id'])) ? $_POST['id'] : 0;
+        $parent = $_POST['parent'];
+        $name1 = $_POST['name1'];
+        $name2 = $_POST['name2'];
+        $name3 = $_POST['name3'];
+        $page_url = $_POST['page_url'];
+        $turn = $_POST['turn'];
+        $menu_icon = $_POST['menu_icon'];
+        $status = (!empty($_POST['status'])) ? $_POST['status'] : 1;
+        $has_children = (!empty($_POST['has_children'])) ? $_POST['has_children'] : 0;
 
-		if ($RowId != "0") {
+        if ($RowId != "0") {
 
-			$updquery = "UPDATE bcms.dashboard_menu set 
+            $updquery = "UPDATE bcms.dashboard_menu set 
              parent = '{$parent}'
             ,name1 = '{$name1}'
             ,name2 = '{$name2}'
@@ -89,18 +89,18 @@ switch ($Action) {
             ,status_id = '{$status}'
             ,has_children = '{$has_children}'
 			WHERE id = {$RowId}";
-			$sql->query($updquery);
-			if ($sql->error() == "") {
-				$res = 0;
-			} else {
-				$res = $sql->error();
-			}
-		} else {
-			$sql->query("SELECT count(*) ccount FROM bcms.dashboard_menu t WHERE id	= '{$RowId}'");
-			$isNotNew = $sql->fetchAssoc();
-			if ($isNotNew['ccount'] == 0) {
+            $sql->query($updquery);
+            if ($sql->error() == "") {
+                $res = 0;
+            } else {
+                $res = $sql->error();
+            }
+        } else {
+            $sql->query("SELECT count(*) ccount FROM bcms.dashboard_menu t WHERE id	= '{$RowId}'");
+            $isNotNew = $sql->fetchAssoc();
+            if ($isNotNew['ccount'] == 0) {
 
-				$insquery = "INSERT into bcms.dashboard_menu (
+                $insquery = "INSERT into bcms.dashboard_menu (
 								 parent
 								,name1
 								,name2
@@ -122,39 +122,39 @@ switch ($Action) {
 								,'{$has_children}'
 						)";
 
-				$sql->query($insquery);
-				if ($sql->error() == "") {
-					$sql->query("SELECT CURRVAL('bcms.dashboard_menu_id_seq') AS last_id;");
-					$result = $sql->fetchAssoc();
-					$LastId = $result['last_id'];
+                $sql->query($insquery);
+                if ($sql->error() == "") {
+                    $sql->query("SELECT CURRVAL('bcms.dashboard_menu_id_seq') AS last_id;");
+                    $result = $sql->fetchAssoc();
+                    $LastId = $result['last_id'];
 
-					$selquery  = "SELECT * from bcms.dashboard_menu t where t.id = {$LastId}";
-					$sql->query($selquery);
-					$SelResult = $sql->fetchAssoc();
+                    $selquery  = "SELECT * from bcms.dashboard_menu t where t.id = {$LastId}";
+                    $sql->query($selquery);
+                    $SelResult = $sql->fetchAssoc();
 
-					$SelResult['idcrypt'] = MyPiCrypt($LastId);
-					$res = "0<&sep&>" . json_encode($SelResult);
-				} else {
-					$res = $sql->error();
-				}
-			} else {
-				$res = 1;
-			}
-		}
-		break;
+                    $SelResult['idcrypt'] = MyPiCrypt($LastId);
+                    $res = "0<&sep&>" . json_encode($SelResult);
+                } else {
+                    $res = $sql->error();
+                }
+            } else {
+                $res = 1;
+            }
+        }
+        break;
 
-	case "del_menus":
-		$RowId = MyPiDeCrypt($_GET['rowid']);
-		$query = "DELETE FROM bcms.dashboard_menu WHERE id = {$RowId}";
-		$sql->query($query);
-		$result = $sql->fetchAssoc();
+    case "del_menus":
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+        $query = "DELETE FROM bcms.dashboard_menu WHERE id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
 
-		if ($sql->error() == "") {
-			$res = 0;
-		} else {
-			$res = 2;
-		}
-		break;
+        if ($sql->error() == "") {
+            $res = 0;
+        } else {
+            $res = 2;
+        }
+        break;
     // edu_menus ---<<>>---==============================================
 
     /// roles ---========================================================
@@ -209,18 +209,18 @@ switch ($Action) {
         break;
 
     case "del_roles":
-            $RowId = MyPiDeCrypt($_GET['rowid']);
-    
-            $query = "DELETE FROM bcms.roles WHERE id = {$RowId}";
-            $sql->query($query);
-            $result = $sql->fetchAssoc();
-    
-            if ($sql->error() == "") {
-                $res = 0;
-            } else {
-                $res = 2;
-            }
-            break;
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "DELETE FROM bcms.roles WHERE id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+
+        if ($sql->error() == "") {
+            $res = 0;
+        } else {
+            $res = 2;
+        }
+        break;
     /// roles ---========================================================
 
     /// roles ---========================================================
@@ -242,11 +242,11 @@ switch ($Action) {
             $file = $_FILES['photo'];
             // Set the upload directory
             $uploadDir = 'pictures/staffs/';
-        
+
             // Generate a unique filename
             $newFileName = uniqid('staff_', true) . '.' . pathinfo($file['name'], PATHINFO_EXTENSION);
             $uploadFile = $uploadDir . $newFileName;
-        
+
             // Upload the file
             if (move_uploaded_file($file['tmp_name'], $uploadFile)) {
                 $photo = $newFileName;
@@ -444,18 +444,18 @@ switch ($Action) {
         break;
 
     case "del_events":
-            $RowId = MyPiDeCrypt($_GET['rowid']);
-    
-            $query = "DELETE FROM tur.events WHERE id = {$RowId}";
-            $sql->query($query);
-            $result = $sql->fetchAssoc();
-    
-            if ($sql->error() == "") {
-                $res = 0;
-            } else {
-                $res = 2;
-            }
-            break;
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "DELETE FROM tur.events WHERE id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+
+        if ($sql->error() == "") {
+            $res = 0;
+        } else {
+            $res = 2;
+        }
+        break;
     /// events ==========================================================
 
     /// reyd_events =====================================================
@@ -540,18 +540,18 @@ switch ($Action) {
         break;
 
     case "del_reyd_events":
-            $RowId = MyPiDeCrypt($_GET['rowid']);
-    
-            $query = "DELETE FROM tur.reyd_events WHERE id = {$RowId}";
-            $sql->query($query);
-            $result = $sql->fetchAssoc();
-    
-            if ($sql->error() == "") {
-                $res = 0;
-            } else {
-                $res = 2;
-            }
-            break;
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "DELETE FROM tur.reyd_events WHERE id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+
+        if ($sql->error() == "") {
+            $res = 0;
+        } else {
+            $res = 2;
+        }
+        break;
     /// reyd_events =====================================================
 
     /// violations ======================================================
@@ -650,18 +650,18 @@ switch ($Action) {
         break;
 
     case "del_violations":
-            $RowId = MyPiDeCrypt($_GET['rowid']);
-    
-            $query = "DELETE FROM tur.violations WHERE id = {$RowId}";
-            $sql->query($query);
-            $result = $sql->fetchAssoc();
-    
-            if ($sql->error() == "") {
-                $res = 0;
-            } else {
-                $res = 2;
-            }
-            break;
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "DELETE FROM tur.violations WHERE id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+
+        if ($sql->error() == "") {
+            $res = 0;
+        } else {
+            $res = 2;
+        }
+        break;
     /// violations ======================================================
 
     /// duty_staff ======================================================
@@ -683,11 +683,11 @@ switch ($Action) {
         $staff1 = $_POST['staff1'];
         $staff2 = $_POST['staff2'];
         $staff3 = $_POST['staff3'];
-    
+
         // Check if today's data already exists
         $sql->query("SELECT COUNT(*) AS ccount FROM hr.duty_staff WHERE date = '{$date}' and structure_id = '{$structure_id}'");
         $row = $sql->fetchAssoc();
-    
+
         if ($row['ccount'] > 0) {
             $res = 500;
         } else {
@@ -735,18 +735,18 @@ switch ($Action) {
         break;
 
     case "del_duty_staff":
-            $RowId = MyPiDeCrypt($_GET['rowid']);
-    
-            $query = "DELETE FROM hr.duty_staff WHERE id = {$RowId}";
-            $sql->query($query);
-            $result = $sql->fetchAssoc();
-    
-            if ($sql->error() == "") {
-                $res = 0;
-            } else {
-                $res = 2;
-            }
-            break;
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "DELETE FROM hr.duty_staff WHERE id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+
+        if ($sql->error() == "") {
+            $res = 0;
+        } else {
+            $res = 2;
+        }
+        break;
     /// duty_staff ======================================================
 
     /// cooperate =======================================================
@@ -767,11 +767,11 @@ switch ($Action) {
             $file = $_FILES['logo'];
             // Set the upload directory
             $uploadDir = 'pictures/cooperates/';
-        
+
             // Generate a unique filename
             $newFileName = uniqid('logo_', true) . '.' . pathinfo($file['name'], PATHINFO_EXTENSION);
             $uploadFile = $uploadDir . $newFileName;
-        
+
             // Upload the file
             if (move_uploaded_file($file['tmp_name'], $uploadFile)) {
                 $logo = $newFileName;
@@ -786,7 +786,7 @@ switch ($Action) {
         $name3 = $_POST['name3'];
         $phone = $_POST['phone'];
         $comment = $_POST['comment'];
-    
+
         if ($RowId != "0") {
             // Update existing record
             $updquery = "UPDATE hr.cooperate SET
@@ -833,18 +833,18 @@ switch ($Action) {
         break;
 
     case "del_cooperate":
-            $RowId = MyPiDeCrypt($_GET['rowid']);
-    
-            $query = "DELETE FROM hr.cooperate WHERE id = {$RowId}";
-            $sql->query($query);
-            $result = $sql->fetchAssoc();
-    
-            if ($sql->error() == "") {
-                $res = 0;
-            } else {
-                $res = 2;
-            }
-            break;
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "DELETE FROM hr.cooperate WHERE id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+
+        if ($sql->error() == "") {
+            $res = 0;
+        } else {
+            $res = 2;
+        }
+        break;
     /// cooperate =======================================================
 
     /// coop_staff ======================================================
@@ -864,7 +864,7 @@ switch ($Action) {
         $structure = $_POST['structure'];
         $name = $_POST['name'];
         $phone = $_POST['phone'];
-    
+
         if ($RowId != "0") {
             // Update existing record
             $updquery = "UPDATE hr.coop_staff SET
@@ -902,18 +902,18 @@ switch ($Action) {
         break;
 
     case "del_coop_staff":
-            $RowId = MyPiDeCrypt($_GET['rowid']);
-    
-            $query = "DELETE FROM hr.coop_staff WHERE id = {$RowId}";
-            $sql->query($query);
-            $result = $sql->fetchAssoc();
-    
-            if ($sql->error() == "") {
-                $res = 0;
-            } else {
-                $res = 2;
-            }
-            break;
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "DELETE FROM hr.coop_staff WHERE id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+
+        if ($sql->error() == "") {
+            $res = 0;
+        } else {
+            $res = 2;
+        }
+        break;
     /// coop_staff ======================================================
 
     /// cooperate_duty ==================================================
@@ -933,11 +933,11 @@ switch ($Action) {
         $structure = $_POST['structure'];
         $date = $_POST['date'];
         $staffs = $_POST['staffs'];
-    
+
         // Check if today's data already exists
         $sql->query("SELECT COUNT(*) AS ccount FROM hr.cooperate_duty WHERE date = '{$date}' and structure = '{$structure}'");
         $row = $sql->fetchAssoc();
-    
+
         if ($row['ccount'] > 0) {
             $res = 500;
         } else {
@@ -979,19 +979,20 @@ switch ($Action) {
         break;
 
     case "del_cooperate_duty":
-            $RowId = MyPiDeCrypt($_GET['rowid']);
-    
-            $query = "DELETE FROM hr.cooperate_duty WHERE id = {$RowId}";
-            $sql->query($query);
-            $result = $sql->fetchAssoc();
-    
-            if ($sql->error() == "") {
-                $res = 0;
-            } else {
-                $res = 2;
-            }
-            break;
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "DELETE FROM hr.cooperate_duty WHERE id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+
+        if ($sql->error() == "") {
+            $res = 0;
+        } else {
+            $res = 2;
+        }
+        break;
     /// cooperate_duty ==================================================
+
 
     /// jts_objects =====================================================
     case "get_jts_objects":
@@ -1088,19 +1089,238 @@ switch ($Action) {
         break;
 
     case "del_jts_objects":
-            $RowId = MyPiDeCrypt($_GET['rowid']);
-    
-            $query = "DELETE FROM hr.jts_objects WHERE id = {$RowId}";
-            $sql->query($query);
-            $result = $sql->fetchAssoc();
-    
-            if ($sql->error() == "") {
-                $res = 0;
-            } else {
-                $res = 2;
-            }
-            break;
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "DELETE FROM hr.jts_objects WHERE id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+
+        if ($sql->error() == "") {
+            $res = 0;
+        } else {
+            $res = 2;
+        }
+        break;
     /// jts_objects =====================================================
+
+    /// jts_objects_camera ==============================================
+    case "get_jts_objects_camera":
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "SELECT t.* from hr.jts_objects_camera t where t.id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+        $result['rowid'] = MyPiCrypt($result['id']);
+
+        $res = json_encode($result);
+        break;
+
+    case "act_jts_objects_camera":
+        $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
+        $object_id = $_POST['object_id'];
+        $name = $_POST['name'];
+        $cam_code = $_POST['cam_code'];
+        $is_ptz = $_POST['is_ptz'];
+
+        if ($RowId != "0") {
+            // Update existing record
+            $updquery = "UPDATE hr.jts_objects_camera SET
+                object_id = '{$object_id}',
+                name = '{$name}',
+                cam_code = '{$cam_code}',
+                is_ptz = '{$is_ptz}'
+                WHERE id = {$RowId}";
+            $sql->query($updquery);
+            if ($sql->error() == "") {
+                $res = "0<&sep&>" . MyPiCrypt($RowId);
+            } else {
+                $res = $sql->error();
+            }
+        } else {
+            // Insert new record
+            $insquery = "INSERT INTO hr.jts_objects_camera (
+                    object_id,
+                    name,
+                    cam_code,
+                    is_ptz
+                ) VALUES (
+                    '{$object_id}',
+                    '{$name}',
+                    '{$cam_code}',
+                    '{$is_ptz}'
+                )";
+            $sql->query($insquery);
+            if ($sql->error() == "") {
+                $sql->query("SELECT CURRVAL('hr.jts_objects_camera_id_seq') AS last_id;");
+                $result = $sql->fetchAssoc();
+                $LastId = $result['last_id'];
+                $res = "0<&sep&>" . MyPiCrypt($LastId);
+            } else {
+                $res = $sql->error();
+            }
+        }
+        break;
+
+    case "del_jts_objects_camera":
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "DELETE FROM hr.jts_objects_camera WHERE id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+
+        if ($sql->error() == "") {
+            $res = 0;
+        } else {
+            $res = 2;
+        }
+        break;
+    /// jts_objects_camera ==============================================
+
+    /// jts_objects_sos ==============================================
+    case "get_jts_objects_sos":
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "SELECT t.* from hr.jts_objects_sos t where t.id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+        $result['rowid'] = MyPiCrypt($result['id']);
+
+        $res = json_encode($result);
+        break;
+
+    case "act_jts_objects_sos":
+        $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
+        $object_id = $_POST['object_id'];
+        $name = $_POST['name'];
+        $lat = $_POST['lat'];
+        $long = $_POST['long'];
+
+        if ($RowId != "0") {
+            // Update existing record
+            $updquery = "UPDATE hr.jts_objects_sos SET
+                object_id = '{$object_id}',
+                name = '{$name}',
+                lat = '{$lat}',
+                long = '{$long}'
+                WHERE id = {$RowId}";
+            $sql->query($updquery);
+            if ($sql->error() == "") {
+                $res = "0<&sep&>" . MyPiCrypt($RowId);
+            } else {
+                $res = $sql->error();
+            }
+        } else {
+            // Insert new record
+            $insquery = "INSERT INTO hr.jts_objects_sos (
+                    object_id,
+                    name,
+                    lat,
+                    long
+                ) VALUES (
+                    '{$object_id}',
+                    '{$name}',
+                    '{$lat}',
+                    '{$long}'
+                )";
+            $sql->query($insquery);
+            if ($sql->error() == "") {
+                $sql->query("SELECT CURRVAL('hr.jts_objects_sos_id_seq') AS last_id;");
+                $result = $sql->fetchAssoc();
+                $LastId = $result['last_id'];
+                $res = "0<&sep&>" . MyPiCrypt($LastId);
+            } else {
+                $res = $sql->error();
+            }
+        }
+        break;
+
+    case "del_jts_objects_sos":
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "DELETE FROM hr.jts_objects_sos WHERE id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+
+        if ($sql->error() == "") {
+            $res = 0;
+        } else {
+            $res = 2;
+        }
+        break;
+    /// jts_objects_sos ==============================================
+
+    /// jts_objects_door ==============================================
+    case "get_jts_objects_door":
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "SELECT t.* from hr.jts_objects_door t where t.id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+        $result['rowid'] = MyPiCrypt($result['id']);
+
+        $res = json_encode($result);
+        break;
+
+    case "act_jts_objects_door":
+        $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
+        $object_id = $_POST['object_id'];
+        $name = $_POST['name'];
+        $lat = $_POST['lat'];
+        $long = $_POST['long'];
+
+        if ($RowId != "0") {
+            // Update existing record
+            $updquery = "UPDATE hr.jts_objects_door SET
+                object_id = '{$object_id}',
+                name = '{$name}',
+                lat = '{$lat}',
+                long = '{$long}'
+                WHERE id = {$RowId}";
+            $sql->query($updquery);
+            if ($sql->error() == "") {
+                $res = "0<&sep&>" . MyPiCrypt($RowId);
+            } else {
+                $res = $sql->error();
+            }
+        } else {
+            // Insert new record
+            $insquery = "INSERT INTO hr.jts_objects_door (
+                    object_id,
+                    name,
+                    lat,
+                    long
+                ) VALUES (
+                    '{$object_id}',
+                    '{$name}',
+                    '{$lat}',
+                    '{$long}'
+                )";
+            $sql->query($insquery);
+            if ($sql->error() == "") {
+                $sql->query("SELECT CURRVAL('hr.jts_objects_door_id_seq') AS last_id;");
+                $result = $sql->fetchAssoc();
+                $LastId = $result['last_id'];
+                $res = "0<&sep&>" . MyPiCrypt($LastId);
+            } else {
+                $res = $sql->error();
+            }
+        }
+        break;
+
+    case "del_jts_objects_door":
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "DELETE FROM hr.jts_objects_door WHERE id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+
+        if ($sql->error() == "") {
+            $res = 0;
+        } else {
+            $res = 2;
+        }
+        break;
+    /// jts_objects_sos ==============================================
 
     /// personal_staff ==================================================
     case "get_personal_staff":
@@ -1137,7 +1357,7 @@ switch ($Action) {
         $op_qb = (!empty($_POST['op_qb'])) ? $_POST['op_qb'] : 0;
         $op_direction = (!empty($_POST['op_direction'])) ? $_POST['op_direction'] : 0;
         $op_vehicle = (!empty($_POST['op_vehicle'])) ? $_POST['op_vehicle'] : 0;
-    
+
         if ($RowId != "0") {
             // Update existing record
             $updquery = "UPDATE hr.personal_staff SET
@@ -1220,18 +1440,18 @@ switch ($Action) {
         break;
 
     case "del_personal_staff":
-            $RowId = MyPiDeCrypt($_GET['rowid']);
-    
-            $query = "DELETE FROM hr.personal_staff WHERE id = {$RowId}";
-            $sql->query($query);
-            $result = $sql->fetchAssoc();
-    
-            if ($sql->error() == "") {
-                $res = 0;
-            } else {
-                $res = 2;
-            }
-            break;
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "DELETE FROM hr.personal_staff WHERE id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+
+        if ($sql->error() == "") {
+            $res = 0;
+        } else {
+            $res = 2;
+        }
+        break;
     /// personal_staff ==================================================
 
     /// structure =======================================================
@@ -1255,7 +1475,7 @@ switch ($Action) {
         $shortname1 = $_POST['shortname1'];
         $shortname2 = $_POST['shortname2'];
         $shortname3 = $_POST['shortname3'];
-    
+
         if ($RowId != "0") {
             // Update existing record
             $updquery = "UPDATE hr.structure SET
@@ -1307,18 +1527,18 @@ switch ($Action) {
         break;
 
     case "del_structure":
-            $RowId = MyPiDeCrypt($_GET['rowid']);
-    
-            $query = "DELETE FROM hr.structure WHERE id = {$RowId}";
-            $sql->query($query);
-            $result = $sql->fetchAssoc();
-    
-            if ($sql->error() == "") {
-                $res = 0;
-            } else {
-                $res = 2;
-            }
-            break;
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "DELETE FROM hr.structure WHERE id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+
+        if ($sql->error() == "") {
+            $res = 0;
+        } else {
+            $res = 2;
+        }
+        break;
     /// structure =======================================================
 
     /// car_models =======================================================
@@ -1343,11 +1563,11 @@ switch ($Action) {
             $file = $_FILES['photo'];
             // Set the upload directory
             $uploadDir = 'pictures/cars/';
-        
+
             // Generate a unique filename
             $newFileName = uniqid('car_', true) . '.' . pathinfo($file['name'], PATHINFO_EXTENSION);
             $uploadFile = $uploadDir . $newFileName;
-        
+
             // Upload the file
             if (move_uploaded_file($file['tmp_name'], $uploadFile)) {
                 $photo = $newFileName;
@@ -1500,36 +1720,36 @@ switch ($Action) {
 
     /// current_operative_group =======================================================
     case "get_current_operative_group":
-		$RowId = MyPiDeCrypt($_GET['rowid']);
-		$query = "SELECT t.* ,to_char(t.date, 'DD.MM.YYYY') date from hr.current_operative_group t where t.id = {$RowId}";
-		$sql->query($query);
-		$result = $sql->fetchAssoc();
-		$result['rowid'] = MyPiCrypt($result['id']);
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+        $query = "SELECT t.* ,to_char(t.date, 'DD.MM.YYYY') date from hr.current_operative_group t where t.id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+        $result['rowid'] = MyPiCrypt($result['id']);
 
-		$res = json_encode($result);
-		break;
+        $res = json_encode($result);
+        break;
 
-	case "act_current_operative_group":
-		$RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
-		$structure_id = $_POST['structure_id'];
-		$smena = $_POST['smena'];
-		$date = (isset($_POST['date']) && $_POST['date'] != "") ? date('Y-m-d H:i:s', strtotime($_POST['date'])) : "NULL";
-		$car_id = $_POST['car_id'];
+    case "act_current_operative_group":
+        $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
+        $structure_id = $_POST['structure_id'];
+        $smena = $_POST['smena'];
+        $date = (isset($_POST['date']) && $_POST['date'] != "") ? date('Y-m-d H:i:s', strtotime($_POST['date'])) : "NULL";
+        $car_id = $_POST['car_id'];
 
-		if ($RowId != "0") {
-			$updquery = "UPDATE hr.current_operative_group set 
+        if ($RowId != "0") {
+            $updquery = "UPDATE hr.current_operative_group set 
                 structure_id = '{$structure_id}'
                 ,date = '{$date}'
                 ,smena = '{$smena}'
                 ,car_id = '{$car_id}'
                 WHERE id = {$RowId}";
-			$sql->query($updquery);
-			if ($sql->error() == "") {
-				$res = "0<&sep&>" . MyPiCrypt($RowId);
-			} else {
-				$res = $sql->error();
-			}
-		} else {
+            $sql->query($updquery);
+            if ($sql->error() == "") {
+                $res = "0<&sep&>" . MyPiCrypt($RowId);
+            } else {
+                $res = $sql->error();
+            }
+        } else {
             $sql->query("SELECT count(*) ccount FROM hr.current_operative_group t 
             WHERE structure_id = '{$structure_id}' AND car_id = '{$car_id}' and date = '{$date}' and smena = '{$smena}'");
             $isNotNew = $sql->fetchAssoc();
@@ -1559,22 +1779,22 @@ switch ($Action) {
             } else {
                 $res = 1;
             }
-		}
-		break;
+        }
+        break;
 
-	case "del_current_operative_group":
-		$RowId = MyPiDeCrypt($_GET['rowid']);
-		$query = "DELETE FROM hr.current_operative_group WHERE id = {$RowId}";
-		$sql->query($query);
-		$result = $sql->fetchAssoc();
+    case "del_current_operative_group":
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+        $query = "DELETE FROM hr.current_operative_group WHERE id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
 
-		if ($sql->error() == "") {
-			$res = 0;
-		} else {
-			$res = 2;
-		}
-		break;
-	/// current_operative_group =======================================================
-    
+        if ($sql->error() == "") {
+            $res = 0;
+        } else {
+            $res = 2;
+        }
+        break;
+        /// current_operative_group =======================================================
+
 }
 echo $res;
