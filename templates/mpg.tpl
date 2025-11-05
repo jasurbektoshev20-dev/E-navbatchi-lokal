@@ -230,9 +230,9 @@
                         <select id="searchCars" class="select2 form-select">
                             <option value="0">{$Dict.search}</option>
                         </select>
-                        <table class="table border-top" style="color: #dddddd;">
+                        {* <table class="table border-top" style="color: #dddddd;">
                             <tbody id="carList"></tbody>
-                        </table>
+                        </table> *}
                     </div>
                 </div>
             </div>
@@ -272,7 +272,7 @@
         map = L.map("map", {
             center: [41.6384327, 64.0202744],
             zoom: 6,
-            layers: L.tileLayer(`http://10.19.7.4:8080/tile/{z}/{x}/{y}.png`, {
+            layers: L.tileLayer(`http://10.100.9.145:8080/tile/{z}/{x}/{y}.png`, {
                 className: 'dark' == 'dark' ? 'map-tiles' : 'map-tiles-light',
                 maxZoom: 20
             }),

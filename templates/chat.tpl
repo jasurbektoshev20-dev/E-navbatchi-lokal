@@ -53,16 +53,13 @@
         <div style="height: calc(100vh - 7rem);" class="row">
             <div class="col-8">
 
-            
-             <div class="mb-5" style="margin-top: 40px; position: relative;">
-                <select class="form-select card" id="regions" style="margin-top: -6.5%; position: absolute; left: 0%; ">
+              <select class="form-select card" id="regions">
                     {foreach from=$Regions item=region key=mkey}
                         <option class="selectOption" value="{$region.id}">{$region.name}</option>
                     {/foreach}
                 </select>
-            </div>
 
-                 <div id="card_duty" class="mt-3"></div>
+                 <div id="card_duty"></div>
 
                 <div class="row mt-3 g-2">
                     {foreach from=$Cooperates item=item key=mkey}
