@@ -1021,6 +1021,7 @@ switch ($Action) {
         $lat = $_POST['lat'];
         $lon = $_POST['lon'];
         $geom = $_POST['geom'];
+        $cooperate_id = $_POST['cooperate_id'];
 
         if ($RowId != "0") {
             // Update existing record
@@ -1037,6 +1038,7 @@ switch ($Action) {
                 police_phone = '{$police_phone}',
                 lat = '{$lat}',
                 lon = '{$lon}',
+                cooperate_id = '{$cooperate_id}',
                 geom = ST_GeomFromText('{$geom}', 4326)
                 WHERE id = {$RowId}";
             $sql->query($updquery);
@@ -1060,6 +1062,7 @@ switch ($Action) {
                     police_phone,
                     lat,
                     lon,
+                    cooperate_id,
                     geom
                 ) VALUES (
                     '{$structure_id}',
@@ -1074,6 +1077,7 @@ switch ($Action) {
                     '{$police_phone}',
                     '{$lat}',
                     '{$lon}',
+                    '{$cooperate_id}',
                     ST_GeomFromText('{$geom}', 4326)
                 )";
             $sql->query($insquery);
