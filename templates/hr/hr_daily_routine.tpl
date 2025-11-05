@@ -39,21 +39,20 @@
                                 <th>No</th>
                                 <th>Sana</th>
                                 <th>Obyekt nomi</th>
-                                <th>Turi</th>
+                         
                                 <th>Bo'linma</th>
                                 <th>Javobgar shaxs</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            {foreach from=$daily_outfit item=obekt key=tkey}
+                            {foreach from=$daily_routine item=obekt key=tkey}
                                 <tr id="row_{$obekt.id|crypt}">
                                     <td>{$tkey+1}</td>
                                     <td><a href="hr.php?act=dailiy_routine_date&mid={$smarty.get.mid}&obyekt={$obekt.id|escape:'url'}"
                                             class="text-primary text-decoration-underline">{$obekt.date} </a></td>
                                     <td>{$obekt.structure_id}</td>
-                                    <td>{$obekt.date}</td>
-                                    <td>{$obekt.responsible_id}</td>
+                                    <td>{$obekt.division_id}</td>
                                     <td>{$obekt.responsible_id}</td>
                                     <td>
                                         <div class="dropdown">
@@ -91,42 +90,48 @@
                             <label>Sana</label>
                             <input type="date" class="form-control" id="day" required />
                         </div>
+                   
                         <div class="col-sm-6">
-                            <label>Obyekt</label>
-                            <select id="object_id" class="form-select" required>
-                                <option value="">Tanlang...</option>
-                                {foreach from=$objects item=obj}
-                                    <option value="{$obj.id}">{$obj.name3}</option>
-                                {/foreach}
-                            </select>
-                        </div>
-                        <div class="col-sm-6">
-                            <label>Boshqarma</label>
+                            <label>Hududni tanlang</label>
                             <select id="structure_id" class="form-select" required>
                                 <option value="">Tanlang...</option>
-                                {foreach from=$structures item=str}
-                                    <option value="{$str.id}">{$str.name1}</option>
+                                {foreach from=$Regions item=str}
+                                    <option value="{$str.id}">{$str.name}</option>
                                 {/foreach}
                             </select>
                         </div>
                         <div class="col-sm-6">
-                            <label>Bo‘linma</label>
-                            <select id="structure_id" class="form-select" required>
+                            <label>Bo‘linmani tanlang</label>
+                            <select id="division_id" class="form-select">
                                 <option value="">Tanlang...</option>
-                                {foreach from=$batalyons item=str}
-                                    <option value="{$str.id}">{$str.code} ({$str.name1})</option>
+                                {foreach from=$Divisions item=str}
+                                    <option value="{$str.id}">{$str.name}</option>
                                 {/foreach}
                             </select>
                         </div>
+                          
                         <!-- Javobgar shaxs -->
                         <div class="col-sm-6">
                             <label>Javobgar shaxs</label>
                             <select id="respons_person_id" class="form-select">
                                 <option value="">Tanlang...</option>
+                                  {foreach from=$Responsible item=obj}
+                                    <option value="{$obj.id}">{$obj.name}</option>
+                                {/foreach}
                             </select>
                         </div>
-                        <input type="hidden" id="id" value="">
+                           <div class="col-sm-6">
+                            <label>Obyektni tanlang</label>
+                            <select id="object_id" class="form-select" required>
+                                <option value="">Tanlang...</option>
+                                {foreach from=$Objects item=obj}
+                                    <option value="{$obj.id}">{$obj.name}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                 
                         <div class="col-12 text-center mt-3">
+                               <input type="hidden" id="id" value="">
                             <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Bekor
                                 qilish</button>
                             <button id="saveBtn" type="submit" class="btn btn-primary">Saqlash</button>
@@ -151,232 +156,220 @@
 <script src="/assets/assets/vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js"></script>
 <script>
     {literal}
-        $(document).ready(function() {
-
-            // Yangi qo'shish
-        $('#new').click(function() {
-            $('#submitModal').modal('toggle'); // 'toggle' o'rniga 'show'
-                const form = $('.needs-validation')[0];
-                form.reset();
-                form.classList.remove('was-validated');
-                $('#id').val('');
-            });
+       $(document).ready(function () {
 
 
-            $('.datatables-projects tbody').on('click', '.editAction', function() {
-                $('#submitModal').modal('toggle');
-                var RowId = $(this).attr('rel');
+    $('#new').click(function () {
+        const modal = new bootstrap.Modal(document.getElementById('submitModal'));
+        modal.show();
 
-                $.get("hrajax.php?act=get_daily_routine&rowid=" + RowId, function(html) {
-                    var sInfo = jQuery.parseJSON(html);
+        const form = $('.needs-validation')[0];
+        form.reset();
+        form.classList.remove('was-validated');
 
-                    $('#day').val(sInfo.day_outfit);
-                    $('#object_id').val(sInfo.jts_object_id).trigger("change");
-                    $('#structure_id').val(sInfo.batalyon_id).trigger("change");
-                    $('#id').val(sInfo.id);
+        $('#id').val('');
+        $('#structure_id').val('').trigger('change');
+        $('#division_id').val('').trigger('change');
+        $('#respons_person_id').empty().append('<option value="">Tanlang...</option>');
+        $('#object_id').val('');
+        $('#day').val('');
+    });
 
-                    //  Endi javobgar shaxslarni yuklash structure_id yuklangandan keyin
-                    $.get('hrajax.php', {
-                        act: 'get_troops_by_structure',
-                        structure_id: sInfo
-                            .batalyon_id
-                    }, function(data) {
-                        $('#respons_person_id').empty().append(
-                            '<option value="">Tanlang...</option>');
-                        $.each(data, function(i, d) {
-                            $('#respons_person_id').append('<option value="' + d
-                                .id + '">' + d.firstname + ' ' + d.lastname +
-                                '</option>');
-                        });
 
-                        //  Endi sInfo dan kelgan respons_person_id ni o‘rnatamiz
-                        $('#respons_person_id').val(sInfo.respons_person_id).trigger(
-                            "change");
-                    }, 'json');
+    $('.datatables-projects tbody').on('click', '.editAction', function () {
+        const RowId = $(this).attr('rel');
+
+        $.get("hrajax.php?act=get_daily_routine&rowid=" + RowId, function (html) {
+            const sInfo = jQuery.parseJSON(html);
+
+            $('#day').val(sInfo.date ? new Date(sInfo.date * 1000).toISOString().split('T')[0] : '');
+            $('#id').val(sInfo.id);
+            $('#object_id').val(sInfo.object_id).trigger('change');
+            $('#structure_id').val(sInfo.structure_id).trigger('change');
+            
+            // Hudud bo‘linmalar
+            $.get('hrajax.php', {
+                act: 'get_divisions',
+                structure_id: sInfo.structure_id
+            }, function (divisions) {
+                $('#division_id').empty().append('<option value="">Tanlang...</option>');
+                $.each(divisions, function (i, d) {
+                    $('#division_id').append('<option value="' + d.id + '">' + d.name + '</option>');
                 });
-            });
+                $('#division_id').val(sInfo.division_id).trigger('change');
 
-
-
-            // Formni yuborish
-            const bsValidationForms = $('.needs-validation');
-            Array.prototype.slice.call(bsValidationForms).forEach(function(form) {
-                form.addEventListener('submit', function(event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    } else {
-                        event.preventDefault();
-                        event.stopPropagation();
-
-                        var form_data = new FormData();
-                        form_data.append('day', $('#day').val());
-                        form_data.append('object_id', $('#object_id').val());
-                        form_data.append('structure_id', $('#structure_id').val());
-                        form_data.append('respons_person_id', $('#respons_person_id').val());
-                        form_data.append('id', $('#id').val());
-
-                        $.ajax({
-                            url: 'hrajax.php?act=act_daily_routine',
-                            dataType: 'json', // ⬅️ JSON formatni kutamiz
-                            cache: false,
-                            contentType: false,
-                            processData: false,
-                            data: form_data,
-                            type: 'post',
-                            success: function(res) {
-                                if (res.status === 'ok') {
-                                    // Modalni yopish
-                                    $('#submitModal').modal('hide');
-
-                                    // Jadvalni yangilash (reload emas)
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: 'Maʼlumot saqlandi!',
-                                        showConfirmButton: false,
-                                        timer: 1000
-                                    });
-
-                                    // 2 sekunddan so‘ng sahifani yangilash
-                                    setTimeout(() => location.reload(), 1000);
-
-                                } else {
-                                    Swal.fire({
-                                        icon: 'error',
-                                        title: 'Xatolik!',
-                                        text: res.message ||
-                                            'Saqlashda xatolik yuz berdi.'
-                                    });
-                                }
-                            },
-                            error: function(xhr) {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Server bilan aloqa yo‘q!',
-                                    text: xhr.responseText
-                                });
-                            }
-                        });
-                    }
-                    form.classList.add('was-validated');
-                });
-            });
-
-            //  O'chirish
-        $('.datatables-projects tbody').on('click', '.delete', function() {
-            var RowId = $(this).attr('rel');
-            Swal.fire({
-                title: "Ishonchingiz komilmi?",
-                text: "Bu yozuv o‘chiriladi!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Ha, o‘chirilsin!",
-                cancelButtonText: "Bekor qilish"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.get("hrajax.php?act=del_daily_routine&rowid=" + RowId, function(html) {
-                        console.log("Server javobi:",
-                            html); // 👈 bu joyda asl javobni ko‘r
-                        if (parseInt(html) ===
-                            0) { // ✅ Har qanday "0" ni 0 sifatida oladi
-                            $("#row_" + RowId).remove();
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'O‘chirildi!',
-                                showConfirmButton: false,
-                                timer: 1000
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Xatolik!',
-                                text: 'O‘chirishda xato yuz berdi.'
-                            });
-                        }
-                    }).fail(function(xhr) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Server bilan aloqa yo‘q!',
-                            text: xhr.statusText
-                        });
+                // Bo‘linma xodimlar
+                $.get('hrajax.php', {
+                    act: 'get_staff',
+                    division_id: sInfo.division_id || sInfo.structure_id
+                }, function (staff) {
+                    $('#respons_person_id').empty().append('<option value="">Tanlang...</option>');
+                    $.each(staff, function (i, d) {
+                        $('#respons_person_id').append('<option value="' + d.id + '">' + d.name + '</option>');
                     });
-                }
-            });
+                    $('#respons_person_id').val(sInfo.responsible_id).trigger('change');
+                }, 'json');
+            }, 'json');
+
+            // Modalni ochish
+            const modal = new bootstrap.Modal(document.getElementById('submitModal'));
+            modal.show();
         });
+    });
 
-        // $('#structure_id').change(function() {
-        //     var sid = $(this).val();
-        //     if (!sid) {
-        //         $('#respons_person_id').empty().append('<option value="">Tanlang...</option>');
-        //         return;
-        //     }
-        //     $.get('hrajax.php', { act: 'get_troops_by_structure', structure_id: sid }, function(data) {
-        //         $('#respons_person_id').empty().append('<option value="">Tanlang...</option>');
-        //         $.each(data, function(i, d) {
-        //             $('#respons_person_id').append('<option value="' + d.id + '">' + d
-        //                 .firstname +
-        //                 ' ' + d
-        //                 .lastname + '</option>');
-        //         });
-        //     }, 'json');
-        //     });
+   // selectlar
+    $('#structure_id').change(function () {
+        const structureId = $(this).val();
+        if (!structureId) {
+            $('#division_id').empty().append('<option value="">Tanlang...</option>');
+            $('#respons_person_id').empty().append('<option value="">Tanlang...</option>');
+            return;
+        }
 
-        $('#structure_id, #batalyon_id').change(function() {
-            // Avval strukturani olishga harakat qilamiz
-            var structureId = $('#structure_id').val();
-            var batalyonId = $('#batalyon_id').val();
+        // Hududga mos bo‘linmalar
+        $.get('ajax.php', {
+            act: 'get_divisions',
+            structure_id: structureId
+        }, function (divisions) {
+            $('#division_id').empty().append('<option value="">Tanlang...</option>');
+            $.each(divisions, function (i, d) {
+                $('#division_id').append('<option value="' + d.id + '">' + d.name + '</option>');
+            });
+        }, 'json');
 
-            // Agar ikkalasi ham mavjud bo‘lsa yoki faqat batalyon bo‘lsa — batalyonni tanlaymiz
-            var sid = batalyonId ? batalyonId : structureId;
+        // Hududga mos xodimlar
+        $.get('ajax.php', {
+            act: 'get_staff',
+            structure_id: structureId
+        }, function (staff) {
+            $('#respons_person_id').empty().append('<option value="">Tanlang...</option>');
+            $.each(staff, function (i, d) {
+                $('#respons_person_id').append('<option value="' + d.id + '">' + d.name + '</option>');
+            });
+        }, 'json');
+    });
 
-            if (!sid) {
-                $('#respons_person_id').empty().append('<option value="">Tanlang...</option>');
+    $('#division_id').change(function () {
+        const divisionId = $(this).val();
+        if (!divisionId) {
+            $('#respons_person_id').empty().append('<option value="">Tanlang...</option>');
+            return;
+        }
+
+        $.get('ajax.php', {
+            act: 'get_staff',
+            division_id: divisionId
+        }, function (staff) {
+            $('#respons_person_id').empty().append('<option value="">Tanlang...</option>');
+            $.each(staff, function (i, d) {
+                $('#respons_person_id').append('<option value="' + d.id + '">' + d.name + '</option>');
+            });
+        }, 'json');
+    });
+
+
+    // Malumot yuborish
+   
+    const bsForms = $('.needs-validation');
+    Array.prototype.slice.call(bsForms).forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            if (!form.checkValidity()) {
+                form.classList.add('was-validated');
                 return;
             }
 
-            $.get('hrajax.php', {
-                    act: 'get_troops_by_structure',
-                    structure_id: sid
-                },
-                function(data) {
-                    $('#respons_person_id')
-                        .empty()
-                        .append('<option value="">Tanlang...</option>');
+            const form_data = new FormData();
+            form_data.append('id', $('#id').val());
+            form_data.append('day', $('#day').val());
+            form_data.append('structure_id', $('#structure_id').val());
+            form_data.append('division_id', $('#division_id').val());
+            form_data.append('responsible_id', $('#respons_person_id').val());
+            form_data.append('object_id', $('#object_id').val());
 
-                    $.each(data, function(i, d) {
-                        $('#respons_person_id').append(
-                            '<option value="' + d.id + '">' + d.firstname + ' ' + d
-                            .lastname + '</option>'
-                        );
-                    });
+            $.ajax({
+                url: 'hrajax.php?act=act_daily_routine',
+                type: 'POST',
+                data: form_data,
+                contentType: false,
+                processData: false,
+                dataType: 'json',
+                success: function (res) {
+                    if (res.status === 'ok') {
+                        $('#submitModal').modal('hide');
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Ma\'lumot saqlandi!',
+                            showConfirmButton: false,
+                            timer: 1000
+                        });
+                        setTimeout(() => location.reload(), 1000);
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Xatolik!',
+                            text: res.message || 'Saqlashda xatolik yuz berdi.'
+                        });
+                    }
                 },
-                'json'
-                );
+                error: function (xhr) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Server bilan aloqa yo‘q!',
+                        text: xhr.responseText
+                    });
+                }
             });
 
-
+            form.classList.add('was-validated');
         });
+    });
 
-
-        $.ajax({
-            url: "hr.php?act=add_daily_routine",
-            type: "POST",
-            data: form_data,
-            processData: false,
-            contentType: false,
-            dataType: "json",
-            success: function(res) {
-                if (res.status === "error") {
-                    alert(res.message); // ❗ HTMLda alert bilan chiqaradi
-                } else {
-                    console.log(res.message);
-                    location.reload(); // agar kerak bo‘lsa
-                }
-            },
-            error: function(xhr) {
-                console.error("Server xatosi:", xhr.responseText);
-            },
+  
+    // O'chirish
+  
+    $('.datatables-projects tbody').on('click', '.delete', function () {
+        const RowId = $(this).attr('rel');
+        Swal.fire({
+            title: "Ishonchingiz komilmi?",
+            text: "Bu yozuv o‘chiriladi!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Ha, o‘chirilsin!",
+            cancelButtonText: "Bekor qilish"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.get("hrajax.php?act=del_daily_routine&rowid=" + RowId, function (html) {
+                    if (parseInt(html) === 0) {
+                        $("#row_" + RowId).remove();
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'O‘chirildi!',
+                            showConfirmButton: false,
+                            timer: 1000
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Xatolik!',
+                            text: 'O‘chirishda xato yuz berdi.'
+                        });
+                    }
+                }).fail(function (xhr) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Server bilan aloqa yo‘q!',
+                        text: xhr.statusText
+                    });
+                });
+            }
         });
+    });
+
+});
+
 
     {/literal}
 </script>

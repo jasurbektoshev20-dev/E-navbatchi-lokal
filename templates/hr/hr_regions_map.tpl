@@ -593,6 +593,8 @@
                       $("#markerModal").modal("show");
 
                       renderDialogMap(response)
+                      renderPassportDetails(response)
+                      renderDutyDetails(response)
                       
                     },
                     error: function(xhr, status, error) {
@@ -667,7 +669,7 @@
       }, 300);
     }
 
-    renderPassportDetails(params){
+    function renderPassportDetails(params){
       const container = document.querySelector('.space-main-body-passport')
       if(!container) return
 
@@ -755,7 +757,7 @@
        `
       
     }
-    renderPassportDetails(params){
+    function renderDutyDetails(params){
       const container = document.querySelector('.space-main-body-duty')
       if(!container) return
 
