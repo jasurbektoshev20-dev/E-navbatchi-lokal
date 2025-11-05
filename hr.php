@@ -626,8 +626,10 @@ switch ($Act) {
 		break;
 
 	case "hr_jts_objects_sos":
+		$object_id = ($_GET['id']);
 		$query  = "SELECT t.id, t.name, t.lat, t.long
 		FROM hr.jts_objects_sos t 
+		WHERE t.object_id = {$object_id}
 		ORDER BY t.id desc ";
 		$sql->query($query);
 		$Sos = $sql->fetchAll();
