@@ -670,10 +670,6 @@ switch ($Action) {
 			}
 		}
 
-
-
-
-
 		$JtsObject['tracks'] = [];
 		if ($car_ids) {
 			$query = "SELECT 

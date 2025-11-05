@@ -177,47 +177,77 @@
         $('#day').val('');
     });
 
-
     $('.datatables-projects tbody').on('click', '.editAction', function () {
         const RowId = $(this).attr('rel');
 
-        $.get("hrajax.php?act=get_daily_routine&rowid=" + RowId, function (html) {
-            const sInfo = jQuery.parseJSON(html);
+        // 🔹 1. Asosiy ma’lumotni olish
+        $.get('hrajax.php', { act: 'get_daily_routine', rowid: RowId })
+            .done(function (html) {
+                const sInfo = jQuery.parseJSON(html);
+                if (!sInfo) return console.error('Xatolik: sInfo bo‘sh.');
 
-            $('#day').val(sInfo.date ? new Date(sInfo.date * 1000).toISOString().split('T')[0] : '');
-            $('#id').val(sInfo.id);
-            $('#object_id').val(sInfo.object_id).trigger('change');
-            $('#structure_id').val(sInfo.structure_id).trigger('change');
-            
-            // Hudud bo‘linmalar
-            $.get('hrajax.php', {
-                act: 'get_divisions',
-                structure_id: sInfo.structure_id
-            }, function (divisions) {
-                $('#division_id').empty().append('<option value="">Tanlang...</option>');
-                $.each(divisions, function (i, d) {
-                    $('#division_id').append('<option value="' + d.id + '">' + d.name + '</option>');
-                });
-                $('#division_id').val(sInfo.division_id).trigger('change');
+                // 🔹 Form maydonlarini to‘ldirish
+                $('#day').val(sInfo.date || '');
+                $('#id').val(sInfo.id || '');
+                $('#object_id').val(sInfo.object_id || '').trigger('change');
+                $('#structure_id').val(sInfo.structure_id || '').trigger('change');
 
-                // Bo‘linma xodimlar
+                // 🔹 2. Bo‘linmalarni yuklash
                 $.get('hrajax.php', {
-                    act: 'get_staff',
-                    division_id: sInfo.division_id || sInfo.structure_id
-                }, function (staff) {
-                    $('#respons_person_id').empty().append('<option value="">Tanlang...</option>');
-                    $.each(staff, function (i, d) {
-                        $('#respons_person_id').append('<option value="' + d.id + '">' + d.name + '</option>');
-                    });
-                    $('#respons_person_id').val(sInfo.responsible_id).trigger('change');
-                }, 'json');
-            }, 'json');
+                    act: 'get_divisions',
+                    structure_id: sInfo.structure_id
+                })
+                    .done(function (divisions) {
+                        if (!divisions || !divisions.length) {
+                            console.warn('Bo‘linmalar topilmadi');
+                            return;
+                        }
 
-            // Modalni ochish
-            const modal = new bootstrap.Modal(document.getElementById('submitModal'));
-            modal.show();
-        });
+                        console.log('Bo‘linmalar chiqdi:', divisions);
+
+                        const $division = $('#division_id');
+                        $division.empty().append('<option value="">Tanlang...</option>');
+
+                        $.each(divisions, function (_, d) {
+                            $division.append(`<option value="${d.id}">${d.name}</option>`);
+                        });
+
+                        // Agar sInfo.division_id bo‘lsa, o‘shani tanlash
+                        $division.val(sInfo.division_id || '').trigger('change');
+
+                        // 🔹 3. Xodimlarni yuklash
+                        $.get('hrajax.php', {
+                            act: 'get_staff',
+                            division_id: sInfo.division_id || sInfo.structure_id
+                        })
+                            .done(function (staff) {
+                                const $staff = $('#respons_person_id');
+                                $staff.empty().append('<option value="">Tanlang...</option>');
+
+                                $.each(staff, function (_, d) {
+                                    $staff.append(`<option value="${d.id}">${d.name}</option>`);
+                                });
+
+                                $staff.val(sInfo.responsible_id || '').trigger('change');
+                            })
+                            .fail(function (xhr) {
+                                console.error('Xodimlar yuklanmadi:', xhr.status, xhr.statusText);
+                            });
+                    })
+                    .fail(function (xhr) {
+                        console.error('Bo‘linmalar yuklanmadi:', xhr.status, xhr.statusText);
+                    });
+
+                // 🔹 4. Modalni ochish
+                const modal = new bootstrap.Modal(document.getElementById('submitModal'));
+                modal.show();
+            })
+            .fail(function (xhr) {
+                console.error('get_daily_routine so‘rovi xato:', xhr.status, xhr.statusText);
+            });
     });
+
+
 
    // selectlar
     $('#structure_id').change(function () {
