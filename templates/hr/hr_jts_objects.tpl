@@ -470,7 +470,7 @@
                 new bootstrap.Modal(document.getElementById("submitModal")).show();
                 if(data.geom){
                   const coords = JSON.parse(data.geom)
-                  renderMap(coords?.coordinates)
+                  renderMap(coords?.coordinates?.[0])
                 }else{
                   renderMap()
                 }
