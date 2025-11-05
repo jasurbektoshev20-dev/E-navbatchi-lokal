@@ -618,45 +618,58 @@ switch ($Action) {
 		$sql->query($query);
 		$JtsObject = $sql->fetchAssoc();
 
-		$res = json_encode($JtsObject);
+		$query  = "SELECT t.id, t.cam_code, t.isptz, t.name 
+		FROM hr.jts_objects_camera t 
+		WHERE t.object_id = {$JtsObject['id']}";
+		$sql->query($query);
+		$Cams = $sql->fetchAll();
+
+		$CamUrl = [];
+		if ($Cams) {
+			foreach ($Cams as $mkey => $cam_c) {
+				$camindex = $cam_c['cam_code'];
+				$camId = $cam_c['id'];
+				$IsPtz = $cam_c['isptz'];
+				$comment = $cam_c['name'];
+
+
+				$dataCam = GetCamUrl($camindex);
+				if ($dataCam['data']) {
+					$CamUrl[] = [
+						'id' => $camId,
+						'url' => $dataCam['data']['url'],
+						'isptz' => $IsPtz,
+						'name' => $comment
+					];
+				}
+			}
+		}
+
+		$result['data'] = $JtsObject;
+		$result['cameras'] = $CamUrl;
+		$res = json_encode($result);
 		break;
 
+	case "get_jts_map":
+		$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
+		$object_type = isset($_GET['object_type']) ? $_GET['object_type'] : 0;
+		$object_id = isset($_GET['object_id']) ? $_GET['object_id'] : 0;
 
-		$query  = "SELECT t.id, s.name{$slang} as structure, t.object_name, o.name{$slang} as object_type, c.name{$slang} as cooperate,
-		t.address, t.area, t.admin_phone, t.object_head, t.head_phone, t.police_name, t.police_phone,
-		COALESCE(COUNT(jc.id), 0) AS count_cameras,
-		COALESCE(COUNT(js.id), 0) AS count_sos,
-		COALESCE(COUNT(jd.id), 0) AS count_doors,
-		t.photo, t.lat, t.long
+		$query  = "SELECT t.id, t.object_name, t.object_type, t.lat, t.long
 		FROM hr.jts_objects t 
-		left join hr.structure s on s.id  = t.structure_id
-		left join hr.involved_objects o on o.id = t.object_type
-		LEFT JOIN hr.cooperate c on c.id = t.cooperate_id
-		LEFT JOIN hr.jts_objects_cameras jc on jc.object_id = t.id
-		LEFT JOIN hr.jts_objects_sos js on js.object_id = t.id
-		LEFT JOIN hr.jts_objects_door jd on jd.object_id = t.id
 		WHERE 1=1 ";
 		if ($structure_id > 0) {
 			$query .= " AND t.structure_id = {$structure_id} ";
 		}
-		$query .= " ORDER BY t.id desc LIMIT {$limit} OFFSET {$start}";
+		if ($object_type > 0) {
+			$query .= " AND t.object_type = {$object_type} ";
+		}
+		if ($object_id > 0) {
+			$query .= " AND t.id = {$object_id} ";
+		}
 		$sql->query($query);
 		$JtsObjects = $sql->fetchAll();
 
-		//total count
-		$count_query = "SELECT COUNT(*) as total FROM hr.jts_objects t WHERE 1=1 ";
-		if ($structure_id > 0) {
-			$count_query .= " AND t.structure_id = {$structure_id} ";
-		}
-
-		$sql->query($count_query);
-		$total_count = $sql->fetchColumn();
-		$JtsObjects = [
-			'page' => $page,
-			'limit' => $limit,
-			'total' => $total_count,
-			'data' => $JtsObjects
-		];
 		$res = json_encode($JtsObjects);
 		break;
 }
