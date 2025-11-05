@@ -1203,7 +1203,7 @@ switch ($Action) {
         break;
 
     case "act_jts_objects_camera":
-        $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
+        $RowId = (!empty($_POST['id'])) ? MyPiDeCrypt($_POST['id']) : 0;
         $object_id = $_POST['object_id'];
         $name = $_POST['name'];
         $cam_code = $_POST['cam_code'];
@@ -1539,7 +1539,7 @@ switch ($Action) {
         break;
 
     case "act_jts_objects_door":
-        $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
+        $RowId = (!empty($_POST['id'])) ? MyPiDeCrypt($_POST['id']) : 0;
         $object_id = $_POST['object_id'];
         $name = $_POST['name'];
         $lat = $_POST['lat'];
