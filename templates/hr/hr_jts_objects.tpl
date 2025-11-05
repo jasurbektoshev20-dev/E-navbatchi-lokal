@@ -204,8 +204,10 @@
 <script src="/assets/assets/vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js"></script>
 
 <script>
+    var AJAXPHP = "ajax{$AddURL}.php";
 
     {literal}
+
     let localData = JSON.parse(localStorage.getItem("jts_objects")) || [
         { structure: "Toshkent", type: "Bozor", name1: "Chorsu bozori", name2: "12", name3: "" },
         { structure: "Samarqand", type: "Park", name1: "Registon maydoni", name2: "20", name3: "" }
@@ -216,6 +218,19 @@
     const tbody = document.getElementById("table-body");
 
     function renderTable() {
+
+        $.ajax({
+          url: `${AJAXPHP}?act=get_jts_objects`,
+          type: 'GET',
+          dataType: 'json',
+          success: function(response) {
+            console.log('AJAX response:', response);
+          },
+          error: function(xhr, status, error) {
+            console.error('AJAX error:', error);
+          }
+        })
+
         tbody.innerHTML = "";
         localData.forEach((item, index) => {
             const tr = document.createElement("tr");
