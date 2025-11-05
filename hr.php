@@ -624,6 +624,19 @@ switch ($Act) {
 			'CooperateTypes' => $CooperateTypes,
 		));
 		break;
+
+	case "hr_jts_objects_sos":
+		$query  = "SELECT t.id, t.name, t.lat, t.long
+		FROM hr.jts_objects_sos t 
+		ORDER BY t.id desc ";
+		$sql->query($query);
+		$Sos = $sql->fetchAll();
+
+
+		$smarty->assign(array(
+			'Sos' => $Sos,
+		));
+		break;
 	/// jts_objects
 
 	case "hr_regions_map":

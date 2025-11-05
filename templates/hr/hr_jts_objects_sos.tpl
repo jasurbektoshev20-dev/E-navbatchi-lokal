@@ -49,7 +49,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {foreach from=$sos_buttons item=obekt key=tkey}
+                            {foreach from=$Sos item=obekt key=tkey}
                             <tr class="lb" id="row_{$obekt.id|crypt}">
                                 <td class="text-right">{$tkey+1}</td>
                                 <td class="text-center">{$obekt.long}</td>
@@ -200,8 +200,8 @@ $('#new').on('click', function (e) {
     $('#address').val("").trigger('change');
     $('#lat').val('');
     $('#long').val('');
-       $('#object_id').val(urlId);  // URL dan kelgan id
-    $('#id').val(urlId);         // update qilish uchun
+    $('#object_id').val(urlId);  // URL dan kelgan id
+    $('#id').val('');
 
     // Modalni ochish
     modal.show();
