@@ -1356,6 +1356,7 @@ switch ($Action) {
         $structure_id = isset($_POST['structure_id']) ? $_POST['structure_id'] : $UserStructure;
         $date = isset($_POST['date']) ? strtotime($_POST['date']) : null;
         $responsible_id = $_POST['responsible_id'];
+        $division_id = $_POST['division_id'];
 
 
         if ($RowId != "0") {
@@ -1364,7 +1365,8 @@ switch ($Action) {
                 object_id = '{$object_id}',
                 structure_id = '{$structure_id}',
                 date = to_timestamp('{$date}'),
-                responsible_id = '{$responsible_id}'
+                responsible_id = '{$responsible_id}',
+                division_id = '{$division_id}'
                 WHERE id = {$RowId}";
             $sql->query($updquery);
             if ($sql->error() == "") {
@@ -1378,12 +1380,14 @@ switch ($Action) {
                     object_id,
                     structure_id,
                     date,
-                    responsible_id
+                    responsible_id,
+                    division_id
                 ) VALUES (
                     '{$object_id}',
                     '{$structure_id}',
                     to_timestamp('{$date}'),
-                    '{$responsible_id}'
+                    '{$responsible_id}',
+                    '{$division_id}'
                 )";
             $sql->query($insquery);
 
