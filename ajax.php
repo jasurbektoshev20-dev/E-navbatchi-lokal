@@ -1,4 +1,7 @@
 <?php
+
+use BcMath\Number;
+
 define('ARM_IN', true);
 require_once("includes/all_includes.php");
 require_once("includes/DB.php");
@@ -560,29 +563,30 @@ switch ($Action) {
 		left join hr.structure s on s.id  = t.structure_id
 		left join hr.involved_objects o on o.id = t.object_type
 		LEFT JOIN hr.cooperate c on c.id = t.cooperate_id
-		LEFT JOIN hr.jts_objects_cameras jc on jc.object_id = t.id
+		LEFT JOIN hr.jts_objects_camera jc on jc.object_id = t.id
 		LEFT JOIN hr.jts_objects_sos js on js.object_id = t.id
 		LEFT JOIN hr.jts_objects_door jd on jd.object_id = t.id
 		WHERE 1=1 ";
 		if ($structure_id > 0) {
 			$query .= " AND t.structure_id = {$structure_id} ";
 		}
-		$query .= " ORDER BY t.id desc LIMIT {$limit} OFFSET {$start}";
+		$query .= " 
+		GROUP BY t.id, s.name{$slang}, o.name{$slang}, c.name{$slang}
+		ORDER BY t.id desc LIMIT {$limit} OFFSET {$start}";
 		$sql->query($query);
 		$JtsObjects = $sql->fetchAll();
 
 		//total count
-		$count_query = "SELECT COUNT(*) as total FROM hr.jts_objects t WHERE 1=1 ";
+		$count_query = "SELECT COALESCE(COUNT(*) , 0) as total FROM hr.jts_objects t WHERE 1=1 ";
 		if ($structure_id > 0) {
 			$count_query .= " AND t.structure_id = {$structure_id} ";
 		}
-
 		$sql->query($count_query);
-		$total_count = $sql->fetchColumn();
+		$total_count = $sql->fetchAssoc();
 		$JtsObjects = [
 			'page' => $page,
 			'limit' => $limit,
-			'total' => $total_count,
+			'total' => (int)$total_count['total'],
 			'data' => $JtsObjects
 		];
 		$res = json_encode($JtsObjects);
