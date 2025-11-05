@@ -521,8 +521,8 @@ switch ($Act) {
 	
 	/// personal_staff
 	case "hr_personal_staff":
-		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.jts_objects t
-		left join hr.structure s on s.id = t.structure
+		$query  = "SELECT t.id, t.name FROM hr.jts_objects t
+		left join hr.structure s on s.id = t.structure_id
 		where 1=1";
 		if ($UserStructure > 1) {
 			$query .= " and s.parent = {$UserStructure}";
@@ -586,36 +586,40 @@ switch ($Act) {
 	
 	/// jts_objects
 	case "hr_jts_objects":
-		$query  = "SELECT t.id, t.name{$slang} as name, s.name{$slang} as structure, o.name{$slang} as type FROM hr.jts_objects t 
-		left join hr.structure s on s.id  = t.structure
-		left join hr.involved_objects o on o.id = t.type ORDER BY t.id ASC";
+		$query  = "SELECT t.id, s.name{$slang} as structure, t.object_name, o.name{$slang} as object_type, c.name{$slang} as cooperate,
+		t.address, t.area, t.admin_phone, t.object_head, t.head_phone, t.police_name, t.police_phone,
+		t.photo, t.lat, t.long
+		FROM hr.jts_objects t 
+		left join hr.structure s on s.id  = t.structure_id
+		left join hr.involved_objects o on o.id = t.object_type
+		LEFT JOIN hr.cooperate c on c.id = t.cooperate_id
+		ORDER BY t.id desc LIMIT 10";
 		$sql->query($query);
-		$Tables = $sql->fetchAll();
+		$JtsObjects = $sql->fetchAll();
 
 		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t 
-		ORDER BY t.id ASC";
+		ORDER BY t.turn ASC";
 		$sql->query($query);
 		$Regions = $sql->fetchAll();
 
-		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.structure t where id > 999
-		ORDER BY t.id ASC";
-		$sql->query($query);
-		$Structures = $sql->fetchAll();
-		
 		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.involved_objects t ORDER BY t.id ASC";
 		$sql->query($query);
-		$ObjectTypes = $sql->fetchAll();
+		$ObjectTypes = $sql->fetchAll();		
+		
+		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.cooperate t ORDER BY t.id ASC";
+		$sql->query($query);
+		$CooperateTypes = $sql->fetchAll();
 
 		// echo '<pre>';
-		// print_r($Parks);
+		// print_r($JtsObjects);
 		// echo '</pre>';
 		// die();
 
         $smarty->assign(array(
-            'ObjectTypes' => $ObjectTypes,
+            'JtsObjects' => $JtsObjects,
             'Regions' => $Regions,
-            'Structures' => $Structures,
-            'Tables' => $Tables,
+            'ObjectTypes' => $ObjectTypes,
+            'CooperateTypes' => $CooperateTypes,
         ));
         break;    
 	/// jts_objects

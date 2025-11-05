@@ -230,7 +230,6 @@ switch ($Action) {
 		$res = json_encode($events);
 		break;
 	// O'zim qoshimcha kiritgan joyim tugashi
-
 	case "all_events_by_type":
 		$date = isset($_GET['date']) ? $_GET['date'] : 0;
 
@@ -283,7 +282,6 @@ switch ($Action) {
 
 	// O'zgartirish kiritgan joyim boshi
 
-
 	case "get_events_by_region1":
 		$date = isset($_GET['date']) ? $_GET['date'] : 0;
 
@@ -325,9 +323,6 @@ switch ($Action) {
 		break;
 
 	// O'zgartirish kiritgan joyim tugashi
-
-
-
 	case "get_duty":
 		$RegId = isset($_GET['id']) ? $_GET['id'] : 1;
 
@@ -546,6 +541,44 @@ switch ($Action) {
 		$data = $sql->fetchAll();
 
 		$res = json_encode($data);
+		break;
+
+	case "get_jts_objects":
+		$page = isset($_GET['page']) ? $_GET['page'] : 1;
+		$limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
+		$start = ($page - 1) * $limit;
+		$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
+
+		$query  = "SELECT t.id, s.name{$slang} as structure, t.object_name, o.name{$slang} as object_type, c.name{$slang} as cooperate,
+		t.address, t.area, t.admin_phone, t.object_head, t.head_phone, t.police_name, t.police_phone,
+		t.photo, t.lat, t.long
+		FROM hr.jts_objects t 
+		left join hr.structure s on s.id  = t.structure_id
+		left join hr.involved_objects o on o.id = t.object_type
+		LEFT JOIN hr.cooperate c on c.id = t.cooperate_id
+		WHERE 1=1 ";
+		if ($structure_id > 0) {
+			$query .= " AND t.structure_id = {$structure_id} ";
+		}
+		$query .= " ORDER BY t.id desc LIMIT {$limit} OFFSET {$start}";
+		$sql->query($query);
+		$JtsObjects = $sql->fetchAll();
+
+		//total count
+		$count_query = "SELECT COUNT(*) as total FROM hr.jts_objects t WHERE 1=1 ";
+		if ($structure_id > 0) {
+			$count_query .= " AND t.structure_id = {$structure_id} ";
+		}
+
+		$sql->query($count_query);
+		$total_count = $sql->fetchColumn();
+		$JtsObjects = [
+			'page' => $page,
+			'limit' => $limit,
+			'total' => $total_count,
+			'data' => $JtsObjects
+		];
+		$res = json_encode($JtsObjects);
 		break;
 }
 
