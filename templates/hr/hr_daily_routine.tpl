@@ -184,7 +184,8 @@
         $.get("hrajax.php?act=get_daily_routine&rowid=" + RowId, function (html) {
             const sInfo = jQuery.parseJSON(html);
 
-            $('#day').val(sInfo.date ? new Date(sInfo.date * 1000).toISOString().split('T')[0] : '');
+        $('#day').val(sInfo.date || '');
+
             $('#id').val(sInfo.id);
             $('#object_id').val(sInfo.object_id).trigger('change');
             $('#structure_id').val(sInfo.structure_id).trigger('change');

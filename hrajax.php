@@ -1339,16 +1339,32 @@ switch ($Action) {
     /// jts_objects_sos ==============================================
 
     /// jts_objects_sos ==============================================
+    // case "get_daily_routine":
+    //     $RowId = MyPiDeCrypt($_GET['rowid']);
+
+
+    //     $query = "SELECT t.* from hr.daily_routine t where t.id = {$RowId}";
+    //     $sql->query($query);
+    //     $result = $sql->fetchAssoc();
+
+    //     $res = json_encode($result);
+    //     break;
+
     case "get_daily_routine":
-        $RowId = MyPiDeCrypt($_GET['rowid']);
+    $RowId = MyPiDeCrypt($_GET['rowid']);
+    $query = "SELECT t.*, to_char(t.date, 'YYYY-MM-DD') as date_formatted 
+              FROM hr.daily_routine t 
+              WHERE t.id = {$RowId}";
+    $sql->query($query);
+    $result = $sql->fetchAssoc();
 
+    // JS tarafida ishlatish uchun date_formatted ni date deb yuboramiz
+    $result['date'] = $result['date_formatted'];
+    unset($result['date_formatted']);
 
-        $query = "SELECT t.* from hr.daily_routine t where t.id = {$RowId}";
-        $sql->query($query);
-        $result = $sql->fetchAssoc();
+    $res = json_encode($result);
+    break;
 
-        $res = json_encode($result);
-        break;
 
     case "act_daily_routine":
         $RowId = (!empty($_POST['id'])) ? MyPiDeCrypt($_POST['id']) : 0;
