@@ -390,7 +390,7 @@
           formData.append('id', editId)
           $.ajax({
             url: `${HRAJAXPHP}?act=act_jts_objects&rowid=${editId}`,
-            type: 'PUT',               // FormData uchun POST kerak
+            type: 'POST',               // FormData uchun POST kerak
             data: formData,             // FormData yuboramiz
             processData: false,         // jQuery FormData’ni stringify qilib yubormasligi uchun
             contentType: false,         // headerni avtomatik belgilasin
@@ -486,6 +486,9 @@
       
       const mapContainer = document.getElementById('uzbMap')
       if(!mapContainer) return
+      if (L.DomUtil.get('uzbMap') !== null) {
+        L.DomUtil.get('uzbMap')._leaflet_id = null;
+      }
           // O‘zbekiston markazi koordinatalari
       const uzbekistanCenter = [41.2995, 69.2401]; // Toshkent markazi
 
@@ -507,8 +510,6 @@
 
       // Agar oldindan polygon koordinatalar berilgan bo‘lsa
       if (existingCoords && existingCoords.length > 0) {
-        console.log(existingCoords);
-        
         let coords = existingCoords;
 
         // Ba’zida backend long-lat yuboradi, buni to‘g‘rilaymiz:
