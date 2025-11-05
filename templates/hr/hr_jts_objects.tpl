@@ -468,7 +468,13 @@
         // Polygonni chizamiz
         const polygon = L.polygon([coords], { color: 'blue' }).addTo(drawnItems);
         setTimeout(() => {
-          map.fitBounds(polygon.getBounds());
+          // map.fitBounds(polygon.getBounds(), {
+          //   padding: [50, 50] // [y, x] pikselda
+          // });
+          map.flyToBounds(polygon.getBounds(), {
+            padding: [80, 80], // atrofida bo‘sh joy
+            duration: 1         // animatsiya davomiyligi (soniyada)
+          });
         }, 1000);
       }
 
@@ -584,8 +590,7 @@
     function changePage(page) {
         if (page < 1 || page > totalPages) return;  // Prevent invalid page navigation
         currentPage = page;  // Update current page
-        const searchTerm = $('#search-input').val().toLowerCase().trim();  // Get search term if exists
-        getDataCards(currentPage, searchTerm);  // Fetch and render data for the selected page
+        getDataCards(currentPage, searchTerm);
     }
 
 
