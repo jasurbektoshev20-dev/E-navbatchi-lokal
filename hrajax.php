@@ -1023,7 +1023,27 @@ switch ($Action) {
         $geom = $_POST['geom'];
         $cooperate_id = $_POST['cooperate_id'];
 
+
+        $upload_dir = __DIR__ . "/../pictures/jts_objects/";
+        if (!is_dir($upload_dir)) mkdir($upload_dir, 0777, true);
+
+        $photo_name = null;
+        if (!empty($_FILES['photo']['name'])) {
+            $ext = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
+            $photo_name = time() . "_" . rand(1000, 9999) . "." . $ext;
+            $photo_path = $upload_dir . $photo_name;
+
+            if (move_uploaded_file($_FILES['photo']['tmp_name'], $photo_path)) {
+                // optional: rasmni siqish yoki resize qilish (agar kerak bo‘lsa)
+            } else {
+                $res = "Fayl yuklashda xatolik";
+                break;
+            }
+        }
+
         if ($RowId != "0") {
+
+            $photo_sql = $photo_name ? ", photo = '{$photo_name}'" : "";
             // Update existing record
             $updquery = "UPDATE hr.jts_objects SET
                 structure_id = '{$structure_id}',
@@ -1037,9 +1057,10 @@ switch ($Action) {
                 police_name = '{$police_name}',
                 police_phone = '{$police_phone}',
                 lat = '{$lat}',
-                lon = '{$lon}',
+                long = '{$lon}',
                 cooperate_id = '{$cooperate_id}',
                 geom = ST_GeomFromText('{$geom}', 4326)
+                {$photo_sql}
                 WHERE id = {$RowId}";
             $sql->query($updquery);
             if ($sql->error() == "") {
@@ -1060,8 +1081,9 @@ switch ($Action) {
                     head_phone,
                     police_name,
                     police_phone,
+                    photo,
                     lat,
-                    lon,
+                    long,
                     cooperate_id,
                     geom
                 ) VALUES (
@@ -1075,6 +1097,7 @@ switch ($Action) {
                     '{$head_phone}',
                     '{$police_name}',
                     '{$police_phone}',
+                    '{$photo_name}',
                     '{$lat}',
                     '{$lon}',
                     '{$cooperate_id}',
