@@ -1023,7 +1023,30 @@ switch ($Action) {
         $geom = $_POST['geom'];
         $cooperate_id = $_POST['cooperate_id'];
 
+
+        $upload_dir = __DIR__ . "/../pictures/jts_objects/";
+        if (!is_dir($upload_dir)) mkdir($upload_dir, 0777, true);
+
+        $photo_name = null;
+        if (!empty($_FILES['photo']['name'])) {
+            $ext = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
+            $photo_name = time() . "_" . rand(1000, 9999) . "." . $ext;
+            $photo_path = $upload_dir . $photo_name;
+
+            if (move_uploaded_file($_FILES['photo']['tmp_name'], $photo_path)) {
+                // optional: rasmni siqish yoki resize qilish (agar kerak bo‘lsa)
+            } else {
+                $res = "Fayl yuklashda xatolik";
+                break;
+            }
+        }
+
         if ($RowId != "0") {
+
+            $query = "SELECT t.* from hr.jts_objects t where t.id = {$RowId}";
+            $sql->query($query);
+            $Jts = $sql->fetchAssoc();
+
             // Update existing record
             $updquery = "UPDATE hr.jts_objects SET
                 structure_id = '{$structure_id}',
@@ -1036,6 +1059,7 @@ switch ($Action) {
                 head_phone = '{$head_phone}',
                 police_name = '{$police_name}',
                 police_phone = '{$police_phone}',
+                photo = '{$photo_name} ' || {$Jts['photo']}::text,
                 lat = '{$lat}',
                 long = '{$lon}',
                 cooperate_id = '{$cooperate_id}',
@@ -1060,6 +1084,7 @@ switch ($Action) {
                     head_phone,
                     police_name,
                     police_phone,
+                    photo,
                     lat,
                     long,
                     cooperate_id,
@@ -1075,6 +1100,7 @@ switch ($Action) {
                     '{$head_phone}',
                     '{$police_name}',
                     '{$police_phone}',
+                    '{$photo_name}',
                     '{$lat}',
                     '{$lon}',
                     '{$cooperate_id}',
