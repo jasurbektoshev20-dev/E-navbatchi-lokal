@@ -655,6 +655,21 @@ switch ($Act) {
 		));
 		break;
 
+	case "hr_jts_objects_door":
+		$object_id = ($_GET['id']);
+		$query  = "SELECT t.id, t.name, t.lat, t.long
+		FROM hr.jts_objects_door t 
+		WHERE t.object_id = {$object_id}
+		ORDER BY t.id desc ";
+		$sql->query($query);
+		$Door = $sql->fetchAll();
+
+
+		$smarty->assign(array(
+			'Door' => $Door,
+		));
+		break;
+
 	case "hr_dailiy_routine_date":
 		$object_id = ($_GET['id']);
 		$query  = "SELECT t.id, t.name, t.lat, t.long
