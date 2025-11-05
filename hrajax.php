@@ -1354,7 +1354,7 @@ switch ($Action) {
         $RowId = (!empty($_POST['id'])) ? MyPiDeCrypt($_POST['id']) : 0;
         $object_id = $_POST['object_id'];
         $structure_id = isset($_POST['structure_id']) ? $_POST['structure_id'] : $UserStructure;
-        $date = isset($_POST['date']) ? strtotime($_POST['date']) : null;
+        $date = isset($_POST['day']) ? strtotime($_POST['day']) : null;
         $responsible_id = $_POST['responsible_id'];
         $division_id = $_POST['division_id'];
 
@@ -1391,11 +1391,13 @@ switch ($Action) {
                 )";
             $sql->query($insquery);
 
+
             if ($sql->error() == "") {
                 $sql->query("SELECT CURRVAL('hr.daily_routine_id_seq') AS last_id;");
                 $result = $sql->fetchAssoc();
                 $LastId = $result['last_id'];
-                $res = "0<&sep&>" . MyPiCrypt($LastId);
+                $status = 'ok';
+                $res['status'] = $status;
             } else {
                 $res = $sql->error();
             }

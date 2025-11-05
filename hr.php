@@ -694,6 +694,7 @@ switch ($Act) {
 		$Objects = $sql->fetchAll();
 
 		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t 
+		where t.id > 1 and t.id < 16
 		ORDER BY t.turn ASC";
 		$sql->query($query);
 		$Regions = $sql->fetchAll();
