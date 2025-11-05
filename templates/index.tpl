@@ -187,7 +187,7 @@
             <div class="card">
                 <div class="mx-3 my-2 row">
                     <div class="col-8">
-                        <h5 class="card-title">Ommaviy tadbirlar</h5>
+                        <h5 class="card-title">Ommaviy tadbirlar</h5> <br>
                     </div>
                     <div class="col-4">
                         <select class="form-select" id="public_events"> </select>
@@ -253,7 +253,7 @@
             <div class="card">
                 <div class="mx-3 my-2 row">
                     <div class="col-8">
-                        <h5 class="card-title">Idoraviy tadbirlar</h5>
+                        <h5 class="card-title">Idoraviy tadbirlar</h5> <br>
                     </div>
                     <div class="col-4">
                         <select class="form-select" id="public_events1"> </select>
@@ -802,7 +802,7 @@ function renderEventTypeChart(data, total) {
     tooltip: { backgroundColor: 'white' },
     series: [{
       type: 'pie',
-     radius: ['20%', '50%'],
+     radius: ['20%', '60%'],
           center: ['50%', '35%'],
           itemStyle: {
             borderRadius: 10,
@@ -1510,7 +1510,7 @@ function all_events_by_type(data, total, regionId = 0) {
     tooltip: { backgroundColor: 'white' },
     series: [{
     type: 'pie',
-    radius: ['30%', '70%'],    // radiusni kattalashtirdik
+    radius: ['25%', '60%'],    // radiusni kattalashtirdik
     center: ['50%', '50%'], 
       label: { show: true, formatter: '{c}', fontSize: 15, color: '#777' },
       itemStyle: { borderRadius: 10, shadowColor: 'rgba(0,0,0,0.3)', shadowBlur: 15 },

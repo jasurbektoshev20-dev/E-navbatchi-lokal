@@ -1007,20 +1007,36 @@ switch ($Action) {
 
     case "act_jts_objects":
         $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
-        $structure = $_POST['structure'];
-        $type = $_POST['type'];
-        $name1 = $_POST['name1'];
-        $name2 = $_POST['name2'];
-        $name3 = $_POST['name3'];
-    
+        $structure_id = $_POST['structure_id'];
+        $object_type = $_POST['object_type'];
+        $object_name = $_POST['object_name'];
+        $address = $_POST['address'];
+        $area = $_POST['area'];
+        $admin_phone = $_POST['admin_phone'];
+        $object_head = $_POST['object_head'];
+        $head_phone = $_POST['head_phone'];
+        $police_name = $_POST['police_name'];
+        $police_phone = $_POST['police_phone'];
+        $lat = $_POST['lat'];
+        $lon = $_POST['lon'];
+        $geom = $_POST['geom'];
+
         if ($RowId != "0") {
             // Update existing record
             $updquery = "UPDATE hr.jts_objects SET
-                structure = '{$structure}',
-                type = '{$type}',
-                name1 = '{$name1}',
-                name2 = '{$name2}',
-                name3 = '{$name3}'
+                structure_id = '{$structure_id}',
+                object_type = '{$object_type}',
+                object_name = '{$object_name}',
+                address = '{$address}',
+                area = '{$area}',
+                admin_phone = '{$admin_phone}',
+                object_head = '{$object_head}',
+                head_phone = '{$head_phone}',
+                police_name = '{$police_name}',
+                police_phone = '{$police_phone}',
+                lat = '{$lat}',
+                lon = '{$lon}',
+                geom = ST_GeomFromText('{$geom}', 4326)
                 WHERE id = {$RowId}";
             $sql->query($updquery);
             if ($sql->error() == "") {
@@ -1031,17 +1047,33 @@ switch ($Action) {
         } else {
             // Insert new record
             $insquery = "INSERT INTO hr.jts_objects (
-                    structure,
-                    type,
-                    name1,
-                    name2,
-                    name3
+                    structure_id,
+                    object_type,
+                    object_name,
+                    address,
+                    area,
+                    admin_phone,
+                    object_head,
+                    head_phone,
+                    police_name,
+                    police_phone,
+                    lat,
+                    lon,
+                    geom
                 ) VALUES (
-                    '{$structure}',
-                    '{$type}',
-                    '{$name1}',
-                    '{$name2}',
-                    '{$name3}'
+                    '{$structure_id}',
+                    '{$object_type}',
+                    '{$object_name}',
+                    '{$address}',
+                    '{$area}',
+                    '{$admin_phone}',
+                    '{$object_head}',
+                    '{$head_phone}',
+                    '{$police_name}',
+                    '{$police_phone}',
+                    '{$lat}',
+                    '{$lon}',
+                    ST_GeomFromText('{$geom}', 4326)
                 )";
             $sql->query($insquery);
             if ($sql->error() == "") {
