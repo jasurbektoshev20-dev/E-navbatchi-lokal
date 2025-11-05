@@ -21,7 +21,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body d-flex" style="justify-content: space-between;">
-                    <h4 class="m-0">Tashvish tugmalari</h4>
+                    <h4 class="m-0">Hudud kameralari</h4>
                     {* <h4>{$ThisMenu.name}</h4> *}
                     <button id="new" type="button" class="btn btn-primary waves-effect waves-light"
                         data-bs-toggle="submitModal" data-bs-target="#modal">
