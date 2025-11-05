@@ -998,7 +998,7 @@ switch ($Action) {
     case "get_jts_objects":
         $RowId = $_GET['rowid'];
 
-        $query = "SELECT t.*, ST_AsGeoJSON(t.geom) AS geom from hr.jts_objects t where t.id = {$RowId}";
+        $query = "SELECT t.*, ST_AsGeoJSON(ST_FlipCoordinates(t.geom)) AS geom from hr.jts_objects t where t.id = {$RowId}";
         $sql->query($query);
         $result = $sql->fetchAssoc();
         $result['rowid'] = MyPiCrypt($result['id']);

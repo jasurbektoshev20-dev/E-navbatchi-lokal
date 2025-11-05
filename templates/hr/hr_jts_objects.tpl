@@ -419,8 +419,11 @@
                 
                 document.getElementById("editId").value = id;
                 new bootstrap.Modal(document.getElementById("submitModal")).show();
-    
-                renderMap(data.geom)
+                const coords = JSON.parse(data.geom)
+                renderMap(coords.coordinates[0])
+                // renderMap(
+                //   [[41.35242650858914,69.31480407714845],[41.28744902162891,69.36973571777345],[41.26267865433346,69.2296600341797]]
+                // )
               },
               error: function(xhr, status, error) {
                 console.error('AJAX error:', error);
@@ -430,6 +433,8 @@
     });
 
     function renderMap(existingCoords){
+      console.log(existingCoords);
+      
       const mapContainer = document.getElementById('uzbMap')
       if(!mapContainer) return
           // O‘zbekiston markazi koordinatalari
