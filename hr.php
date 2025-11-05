@@ -8,7 +8,8 @@ if ($user_data == null) {
 $TheAct = isset($_GET['act']) ? (($_GET['act'] != "") ? $_GET['act'] : "index") : "index";
 $SubAct = isset($_GET['sub']) ? (($_GET['sub'] != "") ? $_GET['sub'] : "") : "";
 
-$ThisMenuId = MyPiDeCrypt($_GET['mid']);
+
+$ThisMenuId = isset($_GET['mid']) ? MyPiDeCrypt($_GET['mid']) : 24;
 $query = "select name{$slang} as name, menu_icon, url from bcms.dashboard_menu where id = {$ThisMenuId}";
 $sql->query($query);
 $ThisMenu = $sql->fetchAssoc();
