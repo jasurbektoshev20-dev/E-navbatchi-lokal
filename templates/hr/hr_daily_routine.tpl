@@ -38,6 +38,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Sana</th>
+                                <th>Hudud</th>
                                 <th>Obyekt nomi</th>
                          
                                 <th>Bo'linma</th>
@@ -46,14 +47,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {foreach from=$daily_routine item=obekt key=tkey}
+                            {foreach from=$Rountines item=obekt key=tkey}
                                 <tr id="row_{$obekt.id|crypt}">
                                     <td>{$tkey+1}</td>
                                     <td><a href="hr.php?act=dailiy_routine_date&mid={$smarty.get.mid}&obyekt={$obekt.id|escape:'url'}"
                                             class="text-primary text-decoration-underline">{$obekt.date} </a></td>
-                                    <td>{$obekt.structure_id}</td>
-                                    <td>{$obekt.division_id}</td>
-                                    <td>{$obekt.responsible_id}</td>
+                                    <td>{$obekt.structure}</td>
+                                    <td>{$obekt.object}</td>
+                                    <td>{$obekt.division}</td>
+                                    <td>{$obekt.responsible}</td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -297,7 +299,7 @@
                 processData: false,
                 dataType: 'json',
                 success: function (res) {
-                    if (res.status === 'ok') {
+                    if (res == 0) {
                         $('#submitModal').modal('hide');
                         Swal.fire({
                             icon: 'success',

@@ -726,6 +726,22 @@ switch ($Act) {
 		$sql->query($query);
 		$Objects = $sql->fetchAll();
 
+		$query  = "SELECT t.id, t.date, s.name{$slang} as structure, d.name{$slang} as division,
+		CONCAT(r.name{$slang},' ',st.lastname,' ',st.firstname,' ', st.surname) as responsible, o.object_name as object
+		FROM hr.daily_routine t 
+		LEFT JOIN hr.structure s on s.id = t.structure_id
+		LEFT JOIN ref.divisions d on d.id = t.division_id
+		LEFT JOIN hr.staff st on st.id = t.responsible_id
+		LEFT JOIN hr.jts_objects o on o.id = t.object_id
+		left JOIN ref.ranks r on r.id = st.rank_id
+		WHERE 1=1 ";
+		if ($UserStructure > 1) {
+			$query .= " AND t.structure_id = {$UserStructure} ";
+		}
+		$query .= " ORDER BY t.id desc";
+		$sql->query($query);
+		$Rountines = $sql->fetchAll();
+
 		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t 
 		where t.id > 1 and t.id < 16
 		ORDER BY t.turn ASC";
@@ -750,7 +766,7 @@ switch ($Act) {
 
 
 		// echo '<pre>';
-		// print_r($Responsible);
+		// print_r($Rountines);
 		// echo '</pre>';
 		// die();
 
@@ -759,6 +775,7 @@ switch ($Act) {
 			'Regions' => $Regions,
 			'Divisions' => $Divisions,
 			'Responsible' => $Responsible,
+			'Rountines' => $Rountines,
 		));
 		break;
 	/// Structures
