@@ -432,7 +432,7 @@
             if (confirm("Haqiqatan o‘chirmoqchimisiz?")) {
                 $.ajax({
                   url: `${HRAJAXPHP}?act=del_jts_objects&rowid=${id}`,
-                  type: 'GET',
+                  type: 'DELETE',
                   dataType: 'json',
                   success: function(response) {
                     renderTable()
