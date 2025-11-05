@@ -31,14 +31,22 @@ switch ($Action) {
 		$region = isset($_GET['region']) ? $_GET['region'] : 0;
 		$tcid = isset($_GET['tcid']) ? $_GET['tcid'] : 0;
 
-		$query = "SELECT cr.id as car_id, uzg.tp_timestamp_fmt as date, 
-			uzg.angle, uzg.lat, uzg.lon, uzg.speed, cm.name as car_name,
-			cm.photo as car_photo, cm.car_width, cm.car_height
-			FROM hr.tech_guard_cars cr
-			LEFT JOIN reports.uzgps uzg on uzg.mobject_id = cr.uzgps_id
-			left join hr.structure s on s.id = cr.structure_id
-			left join ref.car_models cm on cm.id = cr.car_model_id
-			WHERE 1=1 ";
+		$query = "SELECT 
+			cr.id AS car_id,
+			uzg.tp_timestamp_fmt AS date,
+			uzg.angle,
+			uzg.lat,
+			uzg.lon,
+			uzg.speed,
+			cm.name AS car_name,
+			cm.photo AS car_photo,
+			cm.car_width,
+			cm.car_height
+		FROM reports.uzgps uzg
+		INNER JOIN hr.tech_guard_cars cr ON cr.uzgps_id = uzg.mobject_id
+		LEFT JOIN hr.structure s ON s.id = cr.structure_id
+		LEFT JOIN ref.car_models cm ON cm.id = cr.car_model_id
+		WHERE 1=1 ";
 
 		if ($UserStructure != 1 &&  $UserStructure < 20) {
 			$query .= " AND s.parent = {$UserStructure}";

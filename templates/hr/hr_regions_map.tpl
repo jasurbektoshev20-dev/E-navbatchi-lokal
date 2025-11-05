@@ -1,5 +1,12 @@
 {include file="header.tpl"}
 
+	<link href="/assets/global_assets/css/icons/icomoon/styles.min.css" rel="stylesheet" type="text/css">
+	<link href="/assets/global_assets/css/icons/material/styles.min.css" rel="stylesheet" type="text/css">
+
+	<link href="/assets/global_assets/css/icons/fontawesome/styles.min.css" rel="stylesheet" type="text/css">
+
+
+
 <style>
   {literal}
     .map-container {
@@ -9,7 +16,7 @@
 
     .uzb-map {
       width: 100%;
-      height: 90vh;
+      height: 87vh;
       border-radius: 12px;
       opacity: 0;
       transform: scale(0.95);
@@ -149,6 +156,71 @@
     }
 
 
+
+    #playWind {
+        float: left;
+        display: inline-block;
+        text-align: center !important;
+    } 
+    #playWind .parent-wnd {
+        text-align: center !important;
+    }
+    
+    #controller{
+        display: flex;
+        border-radius: 20px;
+        justify-content: space-around;
+        align-items: center;
+        position: fixed;
+        top: 80%;
+        left: 89%;
+        padding: 10px; 
+        background:#254063e3;
+        width: 200px; 
+        height: 200px;
+        z-index: 999999999;
+    }
+    .zoom_opt{
+        background-color: #0a1522ea;
+        border-radius: 10px;
+        padding: 10px 0;
+    }
+    .zoom_opt i {
+        color: #e7b343;
+    }
+
+
+    .close_dog {
+        position: absolute;
+        top: 7px;
+        left: 96%;
+    }
+
+    .r_status:before {
+        content: "";
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        margin-right: 10px;
+        border-radius: 50%;
+        background-color: #ec3838;
+    }
+
+    .g_status:before {
+        content: "";
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        margin-right: 10px;
+        border-radius: 50%;
+        background-color: #09d43c;
+    }
+    #current_camera {
+      color: white;
+      font-size: 18px;
+      margin-left: 30px;
+    }
+
   {/literal}
 </style>
 
@@ -226,7 +298,7 @@
 
   <!-- Modal -->
 
-  <div class="modal fade bd-example-modal-xl" id="markerModal" tabindex="-1" aria-hidden="true"
+  <div class="modal show fade bd-example-modal-xl" id="markerModal" tabindex="-1" aria-hidden="true"
     style="z-index: 99999 !important;">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -339,57 +411,129 @@
                 </div>
               </div>
 
-              <div class="col-3">
-                <div class="space-main-head">
-                  <h4>MG tomonidan ajratilgan kuch vositalar</h4>
-                </div>
-                <div class="space-main-body-duty">
-                  <ul>
-                    <li class="alert alert-dark" role="alert">MG javobgar: <span>leytenant Umrzakov Javohir </span>
-                    </li>
-                    <li class="alert alert-dark" role="alert">Jami shaxsiy tarkib: <span>20 nafar</span> </li>
-                    <li class="alert alert-dark" role="alert">Piyoda patrullar: <span>12 nafar</span> </li>
-                    <li class="alert alert-dark" role="alert">Avto patrullar: <span>8 nafar</span> </li>
-                    <li class="alert alert-dark" role="alert">Yo'nalishlar: <span>4 ta</span> </li>
-                    <li class="alert alert-dark" role="alert">Sektorlar soni: <span>4 ta</span> </li>
-                    <li class="alert alert-dark" role="alert">Kameralar soni: <span>12 ta</span> </li>
-                    <li class="alert alert-dark" role="alert">Tashvish tugmalar soni: <span>4 ta</span> </li>
-                    <li class="alert alert-dark" role="alert">Xizmat hayvonlari: <span>8 ta</span> </li>
-                    <li class="alert alert-dark" role="alert">Maxsus vositalar soni: <span>12 ta</span> </li>
-                    <li class="alert alert-dark" role="alert">Texnikalar: <span>12 ta</span></li>
-                  </ul>
-                </div>
-              </div>
+              <div class="col-6">
+                  <div>
+                    <div class="space-main-head">
+                      <h4>MG tomonidan ajratilgan kuch vositalar</h4>
+                    </div>
+                    <div class="space-main-body-duty">
+                      <ul class="d-flex flex-wrap gap-3">
+                        <li class="alert alert-dark" role="alert">MG javobgar: <span>leytenant Umrzakov Javohir </span>
+                        </li>
+                        <li class="alert alert-dark" role="alert">Jami shaxsiy tarkib: <span>20 nafar</span> </li>
+                        <li class="alert alert-dark" role="alert">Piyoda patrullar: <span>12 nafar</span> </li>
+                        <li class="alert alert-dark" role="alert">Avto patrullar: <span>8 nafar</span> </li>
+                        <li class="alert alert-dark" role="alert">Yo'nalishlar: <span>4 ta</span> </li>
+                        <li class="alert alert-dark" role="alert">Sektorlar soni: <span>4 ta</span> </li>
+                        <li class="alert alert-dark" role="alert">Kameralar soni: <span>12 ta</span> </li>
+                        <li class="alert alert-dark" role="alert">Tashvish tugmalar soni: <span>4 ta</span> </li>
+                        <li class="alert alert-dark" role="alert">Xizmat hayvonlari: <span>8 ta</span> </li>
+                        <li class="alert alert-dark" role="alert">Maxsus vositalar soni: <span>12 ta</span> </li>
+                        <li class="alert alert-dark" role="alert">Texnikalar: <span>12 ta</span></li>
+                      </ul>
+                    </div>
+                  </div>
 
-              <div class="col-3">
-                <div class="space-main-body-umumu">
-                  <div class="space-main-head">
-                    <h4 class="m-0">Kameralar</h4>
-                  </div>
-                  <div class="row">
-                    <div class="col-12">
-                      <video width="100%" height="270px" autoplay loop controls muted>
-                        <source src="/templates/hr/videos/video-4.mp4" type="video/mp4">
-                      </video>
+                    <div class="space-main-body-umumu">
+                      <div class="space-main-head">
+                        <h4 class="m-0">Kameralar</h4>
+                      </div>
+                      <div class="row text-center">
+                          <div id="playWind" style="width: 800px; height: 400px;"></div>
+                          <div class="button_box" style="width: 100%;">
+                              <div class="items">
+                                  <div class="d-flex gap-1 px-2 mt-2" style="align-items:center;">
+                                      <button class="btn btn-danger" type="button" onClick="fullSreen()">
+                                          <i class="icon-screen-full"></i>
+                                      </button>
+                                      <button class="btn btn-warning ml-2 unmute" type="button">
+                                          <i class="icon-volume-medium"></i>
+                                      </button>
+                                      <button class="btn btn-info ml-2 mute" type="button">
+                                          <i class="icon-volume-mute5"></i>
+                                      </button>
+                                      <button class="btn btn-warning ml-2" type="button" onClick="CapturePicture('JPEG')">
+                                          <i class="icon-camera"></i>
+                                      </button>
+                                      <span class="text-yellow ml-2" style="font-size: 22px;"><span class="current_camera"></span>:
+                                          &nbsp; <span class="text-white camera_active"></span></span> &nbsp;&nbsp;&nbsp;
+                                      <span class="text-yellow" style="font-size: 22px;"><span class="camera_length"></span>: &nbsp;
+                                          <span class="text-white camera_length"></span></span>
+                                      <div class="col-3">
+                                          <ul class="nav nav-pills mb-0">
+                                              <li class="nav-item dropdown dropup">
+                                                  <a href="#" id="current_camera" class="dropdown-toggle" data-toggle="dropdown"><span class="select"></span></a>
+                                                  <div class="dropdown-menu" style="max-height: 300px; overflow-y: scroll;" id="change_camera"></div>
+                                              </li>
+                                          </ul>
+                                      </div>
+                                      <div id="error" style="color:red"></div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      {* <div class="row">
+                        <div class="col-12">
+                          <video width="100%" height="270px" autoplay loop controls muted>
+                            <source src="/templates/hr/videos/video-4.mp4" type="video/mp4">
+                          </video>
+                        </div>
+                        <div class="col-12">
+                          <video width="100%" height="270px" autoplay loop controls muted>
+                            <source src="/templates/hr/videos/video-5.mp4" type="video/mp4">
+                          </video>
+                        </div>
+                        <div class="col-12">
+                          <video width="100%" height="270px" autoplay loop controls muted>
+                            <source src="/templates/hr/videos/video-6.mp4" type="video/mp4">
+                          </video>
+                        </div>
+                      </div> *}
                     </div>
-                    <div class="col-12">
-                      <video width="100%" height="270px" autoplay loop controls muted>
-                        <source src="/templates/hr/videos/video-5.mp4" type="video/mp4">
-                      </video>
-                    </div>
-                    <div class="col-12">
-                      <video width="100%" height="270px" autoplay loop controls muted>
-                        <source src="/templates/hr/videos/video-6.mp4" type="video/mp4">
-                      </video>
-                    </div>
-                  </div>
                 </div>
-              </div>
 
             </div>
           </div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <div id="controller" class="row text-center modal fade show" tabindex="-1" aria-modal="true" role="dialog" style="display: none;">
+    <div class="col-4 cursor-pointer ptz_up_left">
+        <i class="icon-arrow-up-left32 icon-2x"></i>                                     
+    </div>
+    <div class="col-4 cursor-pointer ptz_up">
+        <i class="icon-circle-up2 icon-2x"></i>                                      
+    </div>
+    <div class="col-4 cursor-pointer ptz_up_right">
+        <i class="icon-arrow-up-right32 icon-2x"></i>                                     
+    </div>
+    <div class="col-4 cursor-pointer ptz_left">
+        <i class="icon-circle-left2 icon-2x"></i>                                     
+    </div>
+
+    <div class="col-4 cursor-pointer ">
+        <i class="icon-cog5 icon-2x"></i>                                 
+    </div>
+
+    <div class="col-4 cursor-pointer ptz_right">
+        <i class="icon-circle-right2 icon-2x"></i>                                    
+    </div>
+    <div class="col-4 cursor-pointer ptz_down_left">
+        <i class="icon-arrow-down-left32 icon-2x"></i>                                  
+    </div>
+    <div class="col-4 cursor-pointer ptz_down">
+        <i class="icon-circle-down2 icon-2x"></i>                                  
+    </div>
+    <div class="col-4 cursor-pointer ptz_down_right">
+        <i class="icon-arrow-down-right32 icon-2x"></i>                                  
+    </div>
+    <div class="col-12">
+        <div class="zoom_opt text-center">
+            <i class="icon-zoomin3 mr-3 icon-2x cursor-pointer ptz_zoom_in"></i>            
+            <i class="icon-zoomout3 icon-2x cursor-pointer ptz_zoom_out"></i>                                
+        </div>
     </div>
   </div>
 
@@ -400,6 +544,7 @@
 {* 3d karta uchun urllar *}
 <script src="https://cesium.com/downloads/cesiumjs/releases/1.104/Build/Cesium/Cesium.js"></script>
 <link href="https://cesium.com/downloads/cesiumjs/releases/1.104/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+<script src="/assets/global_assets/js/main/bootstrap.bundle.min.js"></script>
 
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -430,8 +575,9 @@
 <script>
   {literal}
 
-  document.addEventListener("DOMContentLoaded", function() {
-
+    
+    document.addEventListener("DOMContentLoaded", function() {
+      
     // O‘zbekiston markazi koordinatalari
     const uzbekistanCenter = [41.2995, 69.2401]; // Toshkent markazi
 
@@ -738,8 +884,7 @@
         // open3DLink.dataset.name = m.name;
 
         // 1-modalni ochamiz
-        const modal = new bootstrap.Modal(document.getElementById('markerModal'));
-        modal.show();
+        $("#markerModal").modal("show");
 
         const mapContainer = document.querySelector('#dialogMap')
         if(!mapContainer) return
@@ -977,5 +1122,374 @@
 
   {/literal}
 </script>
+
+
+<script src="/assets/hls.js"></script>
+
+<script src="/dist/jsPlugin-1.2.0.min.js"></script>
+<script src="/dist/polyfill2.js"></script>
+<script src="/dist/cryptico.min.js"></script>
+<script src="/dist/uuid.js"></script>
+<script src="/dist/jquery.cookie.js"></script>
+
+<script>
+    {literal}
+        //外部回调
+      document.addEventListener("DOMContentLoaded", function() {
+        var iWind = 0;
+        let camera_status_interval_id;
+        let camera_status_interval_time = 60000;
+
+        //PTZ CONTROLLER FUNCTIONS
+        $("#controller").hide();
+
+        function control_ptz(cam_code, command) {
+            $.ajax({
+                type: "GET",
+                url: `ptz.php?cam_code=${cam_code}&command=${command}`,
+                dataType: "json",
+                encode: true,
+                success: function(data) {
+                    console.log("up");
+                }
+            })
+        }
+
+        $(document).on('keydown', function(e) {
+            if (e.key === '1') control_ptz(cam_idx_code, 4);
+            if (e.key === '2') control_ptz(cam_idx_code, 3);
+            if (e.key === '3') control_ptz(cam_idx_code, 2);
+            if (e.key === '4') control_ptz(cam_idx_code, 5);
+
+            if (e.key === '6') control_ptz(cam_idx_code, 1);
+            if (e.key === '7') control_ptz(cam_idx_code, 6)
+            if (e.key === '8') control_ptz(cam_idx_code, 7);
+            if (e.key === '9') control_ptz(cam_idx_code, 0);
+
+            // check if the key pressed is +
+            if (e.keyCode === 107) control_ptz(cam_idx_code, 8);
+            // check if the key pressed is -
+            if (e.keyCode === 109) control_ptz(cam_idx_code, 9);
+        });
+
+        let cam_idx_code;
+        $(".ptz_up_left").click(function(e) { control_ptz(cam_idx_code, 6) })
+        $(".ptz_up").click(function(e) { control_ptz(cam_idx_code, 7) })
+        $(".ptz_up_right").click(function(e) { control_ptz(cam_idx_code, 0) })
+        $(".ptz_left").click(function(e) { control_ptz(cam_idx_code, 5) })
+        $(".ptz_right").click(function(e) { control_ptz(cam_idx_code, 1) })
+        $(".ptz_down_left").click(function(e) { control_ptz(cam_idx_code, 4) })
+        $(".ptz_down").click(function(e) { control_ptz(cam_idx_code, 3) })
+        $(".ptz_down_right").click(function(e) { control_ptz(cam_idx_code, 2) })
+
+        $(".ptz_zoom_in").click(function(e) { control_ptz(cam_idx_code, 8) })
+        $(".ptz_zoom_out").click(function(e) { control_ptz(cam_idx_code, 9) })
+
+        //初始化插件
+        var jsDecoder = new JSPlugin({
+            szId: "playWind",
+            iType: 2,
+            iWidth: 800,
+            iHeight: 400,
+            iMaxSplit: 4,
+            iCurrentSplit: 1,
+            szBasePath: "./dist",
+            oStyle: {
+                border: "#343434",
+                borderSelect: "transparent",
+                background: "#000 url('/assets/online.svg') no-repeat center center;"
+            }
+        });
+
+        let counter = 0;
+
+        $('#markerModal').on('hidden.bs.modal', function() {
+            $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/online.svg") no-repeat center center');
+            $("#controller").hide();
+            $(".camera_active").html(`1`);
+            $('#obj_camera_name').html('');
+            counter = 0;
+            jsDecoder.JS_Stop(iWind).then(function() {
+                console.log("stop success");
+            }, function() {
+                console.log("stop failed");
+            });
+            console.log("clodsed all camera");
+            clearInterval(camera_status_interval_id);
+        })
+
+        async function get_camera_status(camera_idx) {
+            try {
+                const response = await $.ajax({
+                    type: "GET",
+                    url: `camstatus.php?act=get_camera_status_dep&camindex=${camera_idx}`,
+                    dataType: "json"
+                });
+                return response.status == 1;
+            } catch (error) {
+                console.error(error);
+                return false;
+            }
+        }
+
+        let is_played = false;
+        async function get_camera() {
+            $('#change_camera').empty();
+            arrangeWindow(1);
+            $("#camera_modal").modal("show");
+            fetched_camera.forEach((item, index) => {
+                if (item.status == 1) {
+                    $('#change_camera').append(`<a href="#" class="dropdown-item camera_item g_status" tabindex="-1" data-toggle="tab" 
+                        style="font-size:22px;" ptz="${item.isptz}" cam_index="${item.cam_index}" el_count="${index}" 
+                        status="${item.status}" playURL="${item.url}">${item.comment}</a>`)
+                    
+                } else {
+                    $('#change_camera').append(`<a href="#" class="dropdown-item camera_item r_status" tabindex="-1" 
+                        data-toggle="tab" style="font-size:22px;" ptz="${item.isptz}" cam_index="${item.cam_index}" 
+                        el_count="${index}" status="${item.status}" playURL="${item.url}">${item.comment}</a>`)
+                }
+            })
+            console.log(fetched_camera[0])
+            $("#current_camera").html(fetched_camera[0].comment);
+            let playURL = fetched_camera[0].url;
+            const current_status = await get_camera_status(fetched_camera[0].cam_index);
+            if (current_status) {
+                if (fetched_camera[0].isptz == 1) $("#controller").show();
+                jsDecoder.JS_Play(playURL, { playURL }, 0).then(
+                    function() { 
+                        cam_idx_code = fetched_camera[0].cam_index;
+                        is_played = true; 
+                        $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/online.svg") no-repeat center center'); 
+                    },
+                    function() { 
+                        console.log("realplay failed");
+                        is_played = false;
+                        $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
+                        StopRealPlayAll();
+                    });
+                $("#current_camera").html(fetched_camera[0].comment);
+            } else {
+                is_played = false; 
+                $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
+            }
+
+            $(".camera_active").html(`1`);
+            $(".camera_length").html(fetched_camera.length);
+
+            camera_status_interval_id = setInterval(() => {
+                fetched_camera.forEach(async (item, index) => {
+                    const current_status = await get_camera_status(item.cam_index);
+                    var classValue = $(`#change_camera a[cam_index="${item.cam_index}"]`).attr('class');
+                    var remove_class = classValue.split(' ')[2];
+                    if (current_status) {
+                        $(`#change_camera a[cam_index="${item.cam_index}"]`).removeClass(remove_class).addClass('g_status');
+                    } else {
+                        $(`#change_camera a[cam_index="${item.cam_index}"]`).removeClass(remove_class).addClass('r_status');
+                    }
+                })
+            }, camera_status_interval_time);
+        }
+        async function get_body_camera() {
+            $('#change_camera').empty();
+            arrangeWindow(1);
+            $("#camera_modal").modal("show");
+            fetched_body.forEach((item, index) => {
+                if (item.status == 1) {
+                    $('#change_camera').append(`<a href="#" class="dropdown-item camera_item g_status" tabindex="-1" data-toggle="tab" 
+                        style="font-size:22px;" ptz="${item.isptz}" cam_index="${item.cam_index}" el_count="${index}" 
+                        status="${item.status}" playURL="${item.url}">${item.comment}</a>`)
+                    
+                } else {
+                    $('#change_camera').append(`<a href="#" class="dropdown-item camera_item r_status" tabindex="-1" 
+                        data-toggle="tab" style="font-size:22px;" ptz="${item.isptz}" cam_index="${item.cam_index}" 
+                        el_count="${index}" status="${item.status}" playURL="${item.url}">${item.comment}</a>`)
+                }
+            })
+            
+            $("#current_camera").html(fetched_body[0].comment);
+            let playURL = fetched_body[0].url;
+            if (fetched_body[0].status) {
+                jsDecoder.JS_Play(playURL, { playURL }, 0).then(
+                    function() { 
+                        cam_idx_code = fetched_body[0].cam_index;
+                        is_played = true; 
+                        $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/online.svg") no-repeat center center'); 
+                    },
+                    function() { 
+                        console.log("realplay failed");
+                        is_played = false;
+                        $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
+                    });
+                $("#current_camera").html(fetched_body[0].comment);
+            } else {
+                is_played = false; 
+                $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
+            }
+
+            $(".camera_active").html(`1`);
+            $(".camera_length").html(fetched_body.length);
+        }
+
+        $(document).on('click', '#change_camera a', async function() {
+            $("#current_camera").html($(this).text());
+            $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/online.svg") no-repeat center center');
+            $("#controller").hide();
+            let ptz = $(this).attr("ptz");
+            let cam_index = $(this).attr("cam_index");
+            let el_count = parseInt($(this).attr("el_count"));
+            let playURL = $(this).attr("playURL");
+            let status = $(this).attr("status");
+            let this_cam_item = $(this);
+            var classValue = this_cam_item.attr('class');
+            var remove_class = classValue.split(' ')[2];
+
+            const current_status = await get_camera_status(cam_index);
+            if (current_status) {
+                this_cam_item.removeClass(remove_class).addClass('g_status');
+                if (is_played) {
+                    jsDecoder.JS_Stop(0).then(function() {
+                        StopRealPlayAll();
+                        console.log("stop success");
+                        jsDecoder.JS_Play(playURL, { playURL }, 0).then(
+                            function() { 
+                                console.log("realplay success");
+                                $(".camera_active").html(`${el_count + 1}`)
+                                cam_idx_code = cam_index;
+                                if (ptz == 1) $("#controller").show();
+                                is_played = true; 
+                            },
+                            function() { 
+                                console.log("realplay failed");
+                                is_played = false;
+                                $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
+                                StopRealPlayAll();
+                            }
+                        );
+                    }, function() {
+                        StopRealPlayAll();
+                        console.log("stop failed");
+                        $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
+                    });
+                } else {
+                    if (ptz == 1) $("#controller").show();
+                    jsDecoder.JS_Play(playURL, { playURL }, 0).then(
+                        function() { 
+                            console.log("realplay success");
+                            is_played = true;
+                            cam_idx_code = cam_index;
+                        },
+                        function() { 
+                            console.log("realplay failed");
+                            is_played = false;
+                            $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
+                            StopRealPlayAll();
+                        }
+                    );
+                }
+            } else {
+                this_cam_item.removeClass(remove_class).addClass('r_status');
+                $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
+                if (is_played) {
+                    jsDecoder.JS_Stop(iWind).then(
+                        function() { is_played = false; console.log("stop success"); }, 
+                        function() { console.log("stop failed"); });
+                    StopRealPlayAll();
+                }
+            }
+        });
+
+        $('.unmute').hide();
+        $('.mute').click(function(e) {
+            var iRet = jsDecoder.JS_OpenSound(iWind);
+            if (iRet == 0) {
+                console.log("Ушбу камерада овоз бор, уни ёқишни тасдиқлайсизми?");
+                $('.mute').hide();
+                $('.unmute').show();
+            } else {
+                alert("Ушбу камерада овоз йўқ");
+                return;
+            };
+        })
+        $('.unmute').click(function(e) {
+            $('.mute').show();
+            $('.unmute').hide();
+            CloseSound();
+        })
+
+        function stop() {
+            jsDecoder.JS_Stop(iWind).then(function() {
+                console.log("stop success");
+            }, function() {
+                var html = "stop failed";
+                document.getElementById("error").innerHTML = "<div>" + html + "</div>";
+                console.log("stop failed");
+            });
+        }
+
+        function arrangeWindow(i) {
+            jsDecoder.JS_ArrangeWindow(i);
+        }
+
+        function CapturePicture(szType) {
+            jsDecoder.JS_CapturePicture(iWind, "img", szType).then(function() {
+                console.log("CapturePicture success");
+            }, function() {
+                var html = "CapturePicture failed";
+                document.getElementById("error").innerHTML = "<div>" + html + "</div>";
+                console.log("CapturePicture failed");
+            });
+        }
+
+        function OpenSound() {
+            var iRet = jsDecoder.JS_OpenSound(iWind);
+            if (iRet == 0) alert("Ушбу камерада овоз бор, уни ёқишни тасдиқлайсизми?");
+            else {
+                alert("Ушбу камерада овоз йўқ");
+                return;
+            }
+        }
+
+        function CloseSound() {
+            jsDecoder.JS_CloseSound(iWind)
+        }
+
+        function SetVolume() {
+            iVolume = parseInt(document.getElementById("volume").value);
+            jsDecoder.JS_SetVolume(iWind, iVolume);
+        }
+
+        function GetVolume() {
+            //iVolume = parseInt(document.getElementById("volume").value);
+            jsDecoder.JS_GetVolume(iWind, function(i) {
+                document.getElementById("error").innerHTML = "<div>音量：" + i + "</div>";
+                document.getElementById("volume").value = i;
+            });
+        }
+
+        function StopRealPlayAll() {
+            jsDecoder.JS_StopRealPlayAll()
+        }
+
+        function fullSreen() {
+            jsDecoder.JS_FullScreenDisplay(true);
+        }
+
+        function fullScreenSingle() {
+            jsDecoder.JS_FullScreenSingle(iWind);
+        }
+
+        function GetSelectWndInfo(xml) {
+            console.log(xml);
+            iWind = xml;
+        }
+
+        window.onresize = function() {
+            jsDecoder.JS_Resize(800, 400);
+        }
+      })
+    {/literal}
+</script>
+
+
 
 {include file="footer.tpl"}
