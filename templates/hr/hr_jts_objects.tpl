@@ -46,6 +46,7 @@
                         </thead>
                         <tbody id="table-body"></tbody>
                     </table>
+                    <div class="loader"></div>
                     <nav aria-label="Page navigation" class="d-flex mt-3 align-items-center justify-content-center">
                       <ul class="pagination flex-wrap row-gap-2" id="pagination">
                         <li class="page-item prev">
@@ -68,8 +69,8 @@
 
 <div class="modal fade" id="submitModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-simple modal-edit-user">
-    <div class="modal-content p-1 p-md-5">
-      <div class="modal-body">
+    <div class="modal-content">
+      <div class="modal-body p-0">
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         <form id="localForm" class="needs-validation" novalidate>
           <div class="row g-3">
@@ -179,7 +180,7 @@
               </select>
             </div>
             <div class="col-sm-12">
-              <label>Hamkorlikdagi tashkilotlar</label>
+              <label>Obyekt hududini chizish</label>
                 <div id="uzbMap" style="height: 350px;"></div>
             </div>
 
@@ -237,60 +238,81 @@
     const tbody = document.getElementById("table-body");
 
     function renderTable() {
+        tbody.innerHTML = "";
+        $('.loader').empty();
+        $('.loader').append(`
+            <div class="text-center my-5 py-5">
+                <div class="spinner-border spinner-border-lg text-info my-5" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        `);
+        let url = `${AJAXPHP}?act=get_jts_objects`;
+        let params = [];
+        
+        if (currentPage) params.push(`start=${currentPage}`);
+        if (itemsPerPage) params.push(`number=${itemsPerPage}`);
+        if (params.length > 0) url += '&' + params.join('&');
+
+
         $.ajax({
-          url: `${AJAXPHP}?act=get_jts_objects`,
+          url: url,
           type: 'GET',
           dataType: 'json',
           success: function(response) {
-
-            tbody.innerHTML = "";
-            response.data.forEach((item, index) => {
-                const tr = document.createElement("tr");
-                tr.innerHTML = `
-                    <td class="text-center">${index + 1}</td>
-                    <td class="text-center">${item.structure}</td>
-                    <td class="text-center">${item.object_type}</td>
-                    <td class="text-center">${item.object_name}</td>
-                    <td class="">
-                      <div>
-                        <a href="hr.php?act=jts_objects_sos&id=${item.id}" class="p-2">
-                            <i class="ti ti-bell me-1"></i> SOS tugma
-                        </a>
-                      </div>
-                      <div>
-                        <a href="hr.php?act=jts_objects_camera&id=${item.id}" class="p-2">
-                            <i class="ti ti-camera me-1"></i> Kamera
-                        </a>
-                      </div>
-                      <div>
-                        <a href="hr.php?act=jts_objects_door&id=${item.id}" class="p-2">
-                            <i class="ti ti-door me-1"></i> Eshik
-                        </a>
-                      </div>
-    
-                    </td>
-                    <td>
-                        <div class="dropdown">
-                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                <i class="ti ti-dots-vertical"></i>
-                            </button>
-                            <div class="dropdown-menu">
-                                <a href="#" class="dropdown-item editAction" data-id="${item.id}">
-                                    <i class="ti ti-pencil me-1"></i> Tahrirlash
-                                </a>
-                                 <a href="#" class="dropdown-item editAction" data-id="${item.id}">
-                                    <i class="ti ti-eye me-1"></i> Batafsil
-                                </a>
-                                <a href="#" class="dropdown-item deleteAction" data-id="${item.id}">
-                                    <i class="ti ti-trash me-1"></i> O‘chirish
-                                </a>
-                            </div>
+            $('.loader').empty();
+            if (!response.data.length) {
+                $('#pagination').hide();
+                $('.loader').append(`
+                    <div class="text-center my-5" style="padding: 10vh 0">
+                        Ma'lumot mavjud emas!
+                    </div>
+                `);
+            } else {
+              response.data.forEach((item, index) => {
+                  const tr = document.createElement("tr");
+                  tr.innerHTML = `
+                      <td class="text-center">${index + 1}</td>
+                      <td class="text-center">${item.structure}</td>
+                      <td class="text-center">${item.object_type}</td>
+                      <td class="text-center">${item.object_name}</td>
+                      <td class="">
+                        <div>
+                          <a href="hr.php?act=jts_objects_sos&id=${item.id}" class="p-2">
+                              <i class="ti ti-bell me-1"></i> SOS tugma
+                          </a>
                         </div>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-
+                        <div>
+                          <a href="hr.php?act=jts_objects_camera&id=${item.id}" class="p-2">
+                              <i class="ti ti-camera me-1"></i> Kamera
+                          </a>
+                        </div>
+                        <div>
+                          <a href="hr.php?act=jts_objects_door&id=${item.id}" class="p-2">
+                              <i class="ti ti-door me-1"></i> Eshik
+                          </a>
+                        </div>
+      
+                      </td>
+                      <td>
+                          <div class="dropdown">
+                              <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                  <i class="ti ti-dots-vertical"></i>
+                              </button>
+                              <div class="dropdown-menu">
+                                  <a href="#" class="dropdown-item editAction" data-id="${item.id}">
+                                      <i class="ti ti-pencil me-1"></i> Tahrirlash
+                                  </a>
+                                  <a href="#" class="dropdown-item deleteAction" data-id="${item.id}">
+                                      <i class="ti ti-trash me-1"></i> O‘chirish
+                                  </a>
+                              </div>
+                          </div>
+                      </td>
+                  `;
+                  tbody.appendChild(tr);
+              });
+            }
 
             totalPages = Math.ceil(response.total / itemsPerPage);
             renderPagination()
@@ -364,21 +386,39 @@
         formData.append('long', long)
         formData.append('geom', JSON.stringify(drawCoords));
 
+        if(editId){
+          formData.append('id', editId)
+          $.ajax({
+            url: `${HRAJAXPHP}?act=act_jts_objects&rowid=${editId}`,
+            type: 'PUT',               // FormData uchun POST kerak
+            data: formData,             // FormData yuboramiz
+            processData: false,         // jQuery FormData’ni stringify qilib yubormasligi uchun
+            contentType: false,         // headerni avtomatik belgilasin
+            success: function(response) {
+              console.log('Yuborildi:', response);
+              renderTable();
+            },
+            error: function(xhr, status, error) {
+              console.error('AJAX error:', error);
+            }
+          });
+        }else{
+          $.ajax({
+            url: `${HRAJAXPHP}?act=act_jts_objects`,
+            type: 'POST',               // FormData uchun POST kerak
+            data: formData,             // FormData yuboramiz
+            processData: false,         // jQuery FormData’ni stringify qilib yubormasligi uchun
+            contentType: false,         // headerni avtomatik belgilasin
+            success: function(response) {
+              console.log('Yuborildi:', response);
+              renderTable();
+            },
+            error: function(xhr, status, error) {
+              console.error('AJAX error:', error);
+            }
+          });
+        }
         
-        $.ajax({
-          url: `${HRAJAXPHP}?act=act_jts_objects`,
-          type: 'POST',               // FormData uchun POST kerak
-          data: formData,             // FormData yuboramiz
-          processData: false,         // jQuery FormData’ni stringify qilib yubormasligi uchun
-          contentType: false,         // headerni avtomatik belgilasin
-          success: function(response) {
-            console.log('Yuborildi:', response);
-            renderTable();
-          },
-          error: function(xhr, status, error) {
-            console.error('AJAX error:', error);
-          }
-        });
         
         bootstrap.Modal.getInstance(document.getElementById("submitModal")).hide();
     });
@@ -390,12 +430,21 @@
 
         if (target.classList.contains("deleteAction")) {
             if (confirm("Haqiqatan o‘chirmoqchimisiz?")) {
-                renderTable();
+                $.ajax({
+                  url: `${HRAJAXPHP}?act=del_jts_objects&rowid=${id}`,
+                  type: 'GET',
+                  dataType: 'json',
+                  success: function(response) {
+                    renderTable()
+                  },
+                  error: function(xhr, status, error) {
+                    console.error('AJAX error:', error);
+                  }
+                })
             }
         }
 
         if (target.classList.contains("editAction")) {
-
 
             $.ajax({
               url: `${HRAJAXPHP}?act=get_jts_objects&rowid=${id}`,
@@ -419,11 +468,12 @@
                 
                 document.getElementById("editId").value = id;
                 new bootstrap.Modal(document.getElementById("submitModal")).show();
-                const coords = JSON.parse(data.geom)
-                renderMap(coords.coordinates[0])
-                // renderMap(
-                //   [[41.35242650858914,69.31480407714845],[41.28744902162891,69.36973571777345],[41.26267865433346,69.2296600341797]]
-                // )
+                if(data.geom){
+                  const coords = JSON.parse(data.geom)
+                  renderMap(coords?.coordinates)
+                }else{
+                  renderMap()
+                }
               },
               error: function(xhr, status, error) {
                 console.error('AJAX error:', error);
@@ -457,6 +507,8 @@
 
       // Agar oldindan polygon koordinatalar berilgan bo‘lsa
       if (existingCoords && existingCoords.length > 0) {
+        console.log(existingCoords);
+        
         let coords = existingCoords;
 
         // Ba’zida backend long-lat yuboradi, buni to‘g‘rilaymiz:
@@ -465,7 +517,6 @@
         }
 
         drawCoords = coords
-        // Polygonni chizamiz
         const polygon = L.polygon([coords], { color: 'blue' }).addTo(drawnItems);
         setTimeout(() => {
           // map.fitBounds(polygon.getBounds(), {
@@ -590,11 +641,8 @@
     function changePage(page) {
         if (page < 1 || page > totalPages) return;  // Prevent invalid page navigation
         currentPage = page;  // Update current page
-        getDataCards(currentPage, searchTerm);
+        renderTable()
     }
-
-
-
 
     renderTable();
     {/literal}
