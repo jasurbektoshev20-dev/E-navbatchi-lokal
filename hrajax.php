@@ -1176,7 +1176,7 @@ switch ($Action) {
         break;
 
     case "del_jts_objects":
-        $RowId = MyPiDeCrypt($_GET['rowid']);
+        $RowId = $_GET['rowid'];
 
         $query = "DELETE FROM hr.jts_objects WHERE id = {$RowId}";
         $sql->query($query);
