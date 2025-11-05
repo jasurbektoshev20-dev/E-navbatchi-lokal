@@ -1019,7 +1019,7 @@ switch ($Action) {
         $police_name = $_POST['police_name'];
         $police_phone = $_POST['police_phone'];
         $lat = $_POST['lat'];
-        $lon = $_POST['lon'];
+        $lon = $_POST['long'];
         $cooperate_id = $_POST['cooperate_id'];
 
 
