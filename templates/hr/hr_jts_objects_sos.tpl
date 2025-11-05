@@ -40,7 +40,6 @@
                                 <th class="text-center">Viloyat</th>
                                 <th class="text-center">Turi</th>
                                 <th class="text-center">Nomi</th>
-                                <th>Amallar</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -166,10 +165,6 @@
                 <option value="Parklar">IIV +998 90 123-45-67</option>
               </select>
             </div>
-            <div class="col-sm-12">
-              <label>Hamkorlikdagi tashkilotlar</label>
-                <div id="uzbMap" style="height: 400px;"></div>
-            </div>
 
 
             <!-- Tugmalar -->
@@ -188,14 +183,6 @@
 </div>
 
 
-<!-- Leaflet asosiy -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
-<!-- Leaflet.Draw -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
-
 
 <script src="/assets/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
 <script src="/assets/assets/vendor/libs/sweetalert2/sweetalert2.js"></script>
@@ -213,8 +200,6 @@
         { structure: "Samarqand", type: "Park", name1: "Registon maydoni", name2: "20", name3: "" }
     ];
 
-    let drawCoords
-
     const tbody = document.getElementById("table-body");
 
     function renderTable() {
@@ -226,24 +211,6 @@
                 <td class="text-center">${item.structure}</td>
                 <td class="text-center">${item.type}</td>
                 <td class="text-center">${item.name1}</td>
-                <td class="">
-                  <div>
-                    <a href="hr.php?act=jts_objects_sos&id=${item.id}" class="p-2">
-                        <i class="ti ti-bell me-1"></i> SOS tugma
-                    </a>
-                  </div>
-                  <div>
-                    <a href="hr.php?act=jts_objects_camera&id=${item.id}" class="p-2">
-                        <i class="ti ti-camera me-1"></i> Kamera
-                    </a>
-                  </div>
-                  <div>
-                    <a href="hr.php?act=jts_objects_door&id=${item.id}" class="p-2">
-                        <i class="ti ti-door me-1"></i> Eshik
-                    </a>
-                  </div>
-
-                </td>
                 <td>
                     <div class="dropdown">
                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -272,8 +239,6 @@
         document.getElementById("localForm").reset();
         document.getElementById("editIndex").value = "";
         new bootstrap.Modal(document.getElementById("submitModal")).show();
-        renderMap()
-
     });
 
     document.getElementById("saveBtn").addEventListener("click", (e) => {
@@ -320,78 +285,8 @@
             document.getElementById("name3").value = data.name3;
             document.getElementById("editIndex").value = index;
             new bootstrap.Modal(document.getElementById("submitModal")).show();
-
-            renderMap(data.coords)
         }
     });
-
-    function renderMap(existingCoords){
-      const mapContainer = document.getElementById('uzbMap')
-      if(!mapContainer) return
-          // O‘zbekiston markazi koordinatalari
-      const uzbekistanCenter = [41.2995, 69.2401]; // Toshkent markazi
-
-      // Xaritani yaratish
-      const map = L.map("uzbMap", {
-        center: [41.6384, 64.0202],
-        zoom: 7,
-        // layers: L.tileLayer(`http://10.19.7.4:8080/tile/{z}/{x}/{y}.png`, { maxZoom: 19 }),
-        layers: L.tileLayer(`http://10.100.9.145:8080/tile/{z}/{x}/{y}.png`, { maxZoom: 19 }),
-        // layers: L.tileLayer(`https://tile.openstreetmap.org/{z}/{x}/{y}.png`, { maxZoom: 19 }),
-      });
-      setTimeout(() => {
-        map.invalidateSize();
-      }, 300);
-
-      // Poligonlar uchun qatlam guruhi
-      const drawnItems = new L.FeatureGroup();
-      map.addLayer(drawnItems);
-
-      // Agar oldindan polygon koordinatalar berilgan bo‘lsa
-      if (existingCoords && existingCoords.length > 0) {
-        const polygon = L.polygon(existingCoords, { color: 'blue' });
-        drawnItems.addLayer(polygon);
-        map.fitBounds(polygon.getBounds());
-      }
-
-      // Chizish va tahrirlash nazorati
-      const drawControl = new L.Control.Draw({
-        edit: {
-          featureGroup: drawnItems,
-          remove: true,
-        },
-        draw: {
-          polygon: true,
-          marker: false,
-          circle: false,
-          polyline: false,
-          rectangle: false,
-          circlemarker: false,
-        },
-      });
-      map.addControl(drawControl);
-
-      // Yangi chizilgan obyektni saqlash
-      map.on(L.Draw.Event.CREATED, function (event) {
-        const layer = event.layer;
-        drawnItems.addLayer(layer);
-
-        const coords = layer.getLatLngs()[0].map(p => [p.lat, p.lng]);
-        drawCoords = coords
-        console.log("Yangi polygon koordinatalari:", coords);
-      });
-
-      // Tahrirlangan obyekt
-      map.on(L.Draw.Event.EDITED, function (event) {
-        event.layers.eachLayer(function (layer) {
-          const coords = layer.getLatLngs()[0].map(p => [p.lat, p.lng]);
-          drawCoords = coords
-          console.log("Tahrirlangan polygon:", coords);
-        });
-      });
-    }
-
-
 
     renderTable();
     {/literal}
