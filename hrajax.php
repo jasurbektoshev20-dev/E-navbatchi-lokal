@@ -1342,15 +1342,15 @@ switch ($Action) {
     case "get_daily_routine":
         $RowId = MyPiDeCrypt($_GET['rowid']);
 
+
         $query = "SELECT t.* from hr.daily_routine t where t.id = {$RowId}";
         $sql->query($query);
         $result = $sql->fetchAssoc();
-        $result['rowid'] = MyPiCrypt($result['id']);
 
         $res = json_encode($result);
         break;
 
- case "act_daily_routine":
+    case "act_daily_routine":
         $RowId = (!empty($_POST['id'])) ? MyPiDeCrypt($_POST['id']) : 0;
         $object_id = $_POST['object_id'];
         $structure_id = isset($_POST['structure_id']) ? $_POST['structure_id'] : $UserStructure;
