@@ -1043,10 +1043,7 @@ switch ($Action) {
 
         if ($RowId != "0") {
 
-            $query = "SELECT t.* from hr.jts_objects t where t.id = {$RowId}";
-            $sql->query($query);
-            $Jts = $sql->fetchAssoc();
-
+            $photo_sql = $photo_name ? ", photo = '{$photo_name}'" : "";
             // Update existing record
             $updquery = "UPDATE hr.jts_objects SET
                 structure_id = '{$structure_id}',
@@ -1059,11 +1056,11 @@ switch ($Action) {
                 head_phone = '{$head_phone}',
                 police_name = '{$police_name}',
                 police_phone = '{$police_phone}',
-                photo = '{$photo_name} ' || {$Jts['photo']}::text,
                 lat = '{$lat}',
                 long = '{$lon}',
                 cooperate_id = '{$cooperate_id}',
                 geom = ST_GeomFromText('{$geom}', 4326)
+                {$photo_sql}
                 WHERE id = {$RowId}";
             $sql->query($updquery);
             if ($sql->error() == "") {
