@@ -271,7 +271,7 @@
     </div>
   </div>
 
-  <div class="filters bg-white rounded shadow" style="z-index: 2000;">
+  <div class="filters bg-white rounded shadow" style="z-index: 200;">
     <div>
       <label for="viloyatSelect" class="form-label">Hududlar</label>
       <select id="viloyatSelect" class="form-select">
@@ -613,6 +613,27 @@
                       renderDialogMap(response?.data)
                       renderPassportDetails(response?.data)
                       renderDutyDetails(response?.data?.routine)
+
+
+                      $('#change_camera').empty();
+                        if (response.cameras) {
+                            $(".camera_length").html(response.cameras.length);
+                            response.cameras.forEach((item, index) => {
+                                $('#change_camera').append(`<a href="#" class="dropdown-item g_status camera_item" tabindex="-1" data-toggle="tab" 
+                                    style="font-size:22px;" ptz="${false}" cam_index="${1}" el_count="${index}" 
+                                    status="${1}" playURL="${item.url}">${item.name}</a>`)
+                                // if (item.status == 1) {
+                                //     $('#change_camera').append(`<a href="#" class="dropdown-item g_status camera_item" tabindex="-1" data-toggle="tab" 
+                                //         style="font-size:22px;" ptz="${item.isptz}" cam_index="${item.cam_index}" el_count="${index}" 
+                                //         status="${item.status}" playURL="${item.url}">${item.comment}</a>`)
+                                    
+                                // } else {
+                                //     $('#change_camera').append(`<a href="#" class="dropdown-item r_status camera_item" tabindex="-1" 
+                                //         data-toggle="tab" style="font-size:22px;" ptz="${item.isptz}" cam_index="${item.cam_index}" 
+                                //         el_count="${index}" status="${item.status}" playURL="${item.url}">${item.comment}</a>`)
+                                // }
+                            })
+                        }
                       
                     },
                     error: function(xhr, status, error) {
@@ -1185,8 +1206,11 @@
             var classValue = this_cam_item.attr('class');
             var remove_class = classValue.split(' ')[2];
 
-            const current_status = await get_camera_status(cam_index);
+            // const current_status = await get_camera_status(cam_index);
+            const current_status = 1;
             if (current_status) {
+              console.log('working');
+              
                 this_cam_item.removeClass(remove_class).addClass('g_status');
                 if (is_played) {
                     jsDecoder.JS_Stop(0).then(function() {
