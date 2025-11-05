@@ -232,24 +232,24 @@
 
   <div class="map-icon-about">
     <div class="map-icon-about-container">
-      <div class="map-about-box">
+      <div class="map-about-box map-about-box-bozor">
         <img src="https://icons.iconarchive.com/icons/paomedia/small-n-flat/512/map-marker-icon.png"
           alt="Bozor uchun marker">
-        <p>Bozor-350 ta</p>
+        <p>Bozor-<span>0</span> ta</p>
       </div>
       <div class="map-about-box map-about-box-xiyobon">
         <img src="https://www.nicepng.com/png/full/15-159490_small-google-maps-marker-blue.png"
           alt="Xiyobon uchun marker">
-        <p>Xiyobon-200 ta</p>
+        <p>Xiyobon-<span>0</span> ta</p>
       </div>
-      <div class="map-about-box">
+      <div class="map-about-box map-about-box-bog">
         <img src="https://images.freeimages.com/fic/images/icons/2463/glossy/512/location.png"
           alt="Isritohat bog'i uchun marker">
-        <p>Isritohat bog'i-270 ta</p>
+        <p>Isritohat bog'i-<span>0</span> ta</p>
       </div>
-      <div class="map-about-box">
+      <div class="map-about-box map-about-box-boshqa">
         <img src="https://cdn-icons-png.flaticon.com/512/6284/6284577.png" alt="Boshqa joy uchun marker">
-        <p>Boshqa joy-230 ta</p>
+        <p>Boshqa joy-<span>0</span> ta</p>
       </div>
     </div>
   </div>
@@ -259,38 +259,29 @@
       <label for="viloyatSelect" class="form-label">Hududlar</label>
       <select id="viloyatSelect" class="form-select">
         <option value="">Hududni tanlang</option>
-        <option value="toshkent">Toshkent</option>
-        <option value="andijon">Andijon</option>
-        <option value="buxoro">Buxoro</option>
-        <option value="fargona">Farg'ona</option>
-        <option value="jizzax">Jizzax</option>
-        <option value="namangan">Namangan</option>
-        <option value="navoiy">Navoiy</option>
-        <option value="qashqadaryo">Qashqadaryo</option>
-        <option value="samarqand">Samarqand</option>
-        <option value="sirdaryo">Sirdaryo</option>
-        <option value="surxondaryo">Surxandaryo</option>
-        <option value="toshkent_viloyati">Toshkent viloyati</option>
-        <option value="xorazm">Xorazm</option>
-        <option value="qoraqalpoq">Qoraqalpog'iston Respublikasi</option>
+        {foreach from=$Regions item=Item1 key=ikey1}
+          <option value="{$Item1.id}">{$Item1.name}</option>
+        {/foreach}
       </select>
     </div>
 
     <div>
-      <label for="objectSelect" class="form-label">Obyekt turi</label>
-      <select id="objectSelect" class="form-select">
+      <label for="objectTypeSelect" class="form-label">Obyekt turi</label>
+      <select id="objectTypeSelect" class="form-select">
         <option value="">Jami obyektlar</option>
-        <option value="bozor">Bozor</option>
-        <option value="bog">Istirohat bog'i</option>
-        <option value="xiyobon">Xiyobon</option>
-        <option value="boshqa">Boshqa</option>
+        {foreach from=$ObjectTypes item=Item1 key=ikey1}
+          <option value="{$Item1.id}">{$Item1.name}</option>
+        {/foreach}
       </select>
     </div>
 
     <div>
-      <label for="objectLabelSelect" id="objectLabelLabel" class="form-label">Obyektlar</label>
-      <select id="objectLabelSelect" class="form-select">
+      <label for="objectSelect" id="objectLabelLabel" class="form-label">Obyektlar</label>
+      <select id="objectSelect" class="form-select">
         <option value="">Obyektni tanlang</option>
+          {foreach from=$Objects item=Item1 key=ikey1}
+          <option value="{$Item1.id}">{$Item1.name}</option>
+          {/foreach}
       </select>
     </div>
   </div>
@@ -573,10 +564,16 @@
 
 
 <script>
+    var AJAXPHP = "ajax{$AddURL}.php";
+    var HRAJAXPHP = "hrajax{$AddURL}.php";
   {literal}
 
     
     document.addEventListener("DOMContentLoaded", function() {
+
+
+    let region_id, object_id, object_type
+
       
     // O‘zbekiston markazi koordinatalari
     const uzbekistanCenter = [41.2995, 69.2401]; // Toshkent markazi
@@ -589,30 +586,17 @@
       layers: L.tileLayer(`http://10.100.9.145:8080/tile/{z}/{x}/{y}.png`, { maxZoom: 19 }),
       // layers: L.tileLayer(`https://tile.openstreetmap.org/{z}/{x}/{y}.png`, { maxZoom: 19 }),
     });
-
-
-    // Viloyatlar uchun rang funksiyasi
-    function getColor(shapeName) {
-      const colors = {
-        "Andijan Region": "#4CAF50",
-        "Bukhara Region": "#FF9800",
-        "Fergana Region": "#9C27B0",
-        "Jizzakh Region": "#03A9F4",
-        "Namangan Region": "#E91E63",
-        "Navoiy Region": "#8BC34A",
-        "Kashkadarya Region": "#FF5722",
-        "Karakalpakstan Republic": "#795548",
-        "Samarkand Region": "#2196F3",
-        "Sirdaryo Region": "#607D8B",
-        "Surxondaryo Region": "#00BCD4",
-        "Tashkent Region": "#FFC107",
-        "Khorezm Region": "#673AB7",
-        "Tashkent City": "#f44336",
-      };
-
-      return colors[shapeName] || "#999";
-    }
-
+    // Marker ikonkalari
+    const markerIcons = {
+      '1': L.icon({ iconUrl: 'https://icons.iconarchive.com/icons/paomedia/small-n-flat/512/map-marker-icon.png',
+        iconSize: [30, 30] }),
+      '3': L.icon({ iconUrl: 'https://images.freeimages.com/fic/images/icons/2463/glossy/512/location.png',
+        iconSize: [35, 35] }),
+      '2': L.icon({ iconUrl: 'https://www.nicepng.com/png/full/15-159490_small-google-maps-marker-blue.png',
+        iconSize: [20, 35],  }),
+      '4': L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/512/6284/6284577.png', iconSize: [30, 30],
+         })
+    };
 
     // GeoJSONni yuklash
     fetch("/templates/hr/json/uz_regions.geojson")
@@ -643,280 +627,173 @@
       })
       .catch((err) => console.error("GeoJSON yuklashda xato:", err));
 
-    // Marker ikonkalari
-    const markerIcons = {
-      bozor: L.icon({ iconUrl: 'https://icons.iconarchive.com/icons/paomedia/small-n-flat/512/map-marker-icon.png',
-        iconSize: [30, 30], iconAnchor: [25, 50], popupAnchor: [0, -45] }),
-      bog: L.icon({ iconUrl: 'https://images.freeimages.com/fic/images/icons/2463/glossy/512/location.png',
-        iconSize: [35, 35], iconAnchor: [25, 50], popupAnchor: [0, -45] }),
-      xiyobon: L.icon({ iconUrl: 'https://www.nicepng.com/png/full/15-159490_small-google-maps-marker-blue.png',
-        iconSize: [20, 35], iconAnchor: [22, 45], popupAnchor: [0, -40] }),
-      boshqa: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/512/6284/6284577.png', iconSize: [30, 30],
-        iconAnchor: [22, 45], popupAnchor: [0, -40] })
-    };
+
 
     // sahifa ochilganda karta chiroyli ochilishi
     setTimeout(() => {
       document.getElementById('uzbMap').classList.add('visible');
     }, 500);
 
+    getObjects()
+    function getObjects(){
+      
+        let url = `${AJAXPHP}?act=get_jts_map`;
+        let params = [];
+        if (region_id) params.push(`region_id=${region_id}`);
+        if (object_id) params.push(`object_id=${object_id}`);
+        if (object_type) params.push(`object_type=${object_type}`);
+        
+        
+        if (params.length > 0) url += '&' + params.join('&');
 
-    // Markerlar ro‘yxati
-    const markers = [
-      // toshkent shahar
-      { coords: [41.32621, 69.22800], name: "Chorsu bozori", type: "bozor", viloyat: "toshkent" },
-      { coords: [41.2742, 69.3105], name: "Mirobod dehqon bozori", type: "bozor", viloyat: "toshkent" },
-      { coords: [41.25160, 69.33305], name: "Qo'yliq dehqon bozori", type: "bozor", viloyat: "toshkent" },
-      { coords: [41.27785, 69.21493], name: "Navruz bozori", type: "bozor", viloyat: "toshkent" },
-      { coords: [41.30396, 69.28460], name: "Furqat bog'i", type: "bog", viloyat: "toshkent" },
-      { coords: [41.33875, 69.33472], name: "Mirzo Ulug'bek Markaziy bog'i", type: "bog", viloyat: "toshkent" },
-      { coords: [41.33820, 69.31570], name: "Lakamativ bog'i", type: "bog", viloyat: "toshkent" },
-      { coords: [41.36835, 69.30495], name: "Toshkent hayvonot bog'i", type: "bog", viloyat: "toshkent" },
-      { coords: [41.3480, 69.2882], name: "Shaxidlar xotirasi xiyoboni", type: "xiyobon", viloyat: "toshkent" },
-      { coords: [41.3111, 69.2795], name: "Amir Temur saylgohi", type: "xiyobon", viloyat: "toshkent" },
-      { coords: [41.291684849329364, 69.27961605366362], name: "Toshkent pravoslav ma'naviy-ma'muriy markazi",
-        type: "boshqa", viloyat: "toshkent" },
-      { coords: [41.325726038893265, 69.31075196900717], name: "Toshkent shahar Masih cherkovi", type: "boshqa",
-        viloyat: "toshkent" },
-      { coords: [41.35921926724288, 69.28756612326129], name: "Yunusobod dehqon bozor", type: "bozor",
-        viloyat: "toshkent" },
-      { coords: [41.35555, 69.29987], name: "Abu Saxiy dehqon bozori", type: "bozor", viloyat: "toshkent" },
-      { coords: [41.37000110258014, 69.26955051372533], name: "Pushkin saylgohi", type: "xiyobon",
-        viloyat: "toshkent" },
-      { coords: [41.34875, 69.33472], name: "Do'stlik bog'i", type: "bog", viloyat: "toshkent" },
-      { coords: [41.36820, 69.31570], name: "Yapon bog'i", type: "bog", viloyat: "toshkent" },
-      { coords: [41.271684849329364, 69.27961605366362], name: "Toshkent xalqaro cherkov", type: "boshqa",
-        viloyat: "toshkent" },
-      { coords: [41.335726038893265, 69.30075196900717], name: "Yevriylar turar joylari", type: "boshqa",
-        viloyat: "toshkent" },
-      { coords: [41.37000110258014, 69.27955051372533], name: "Sergeli markaziy xiyoboni", type: "xiyobon",
-        viloyat: "toshkent" },
-      { coords: [41.37000110258014, 69.28955051372533], name: "Adiblar xiyoboni", type: "xiyobon",
-        viloyat: "toshkent" },
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+              console.log(response);
+              if(!response && !response.length) return
+      
+              const bozor = response.filter(item => item.object_type == 1)
+              const bog = response.filter(item => item.object_type == 3)
+              const xiyobon = response.filter(item => item.object_type == 2)
+              const boshqa = response.filter(item => item.object_type == 4)
 
-      // toshkent viloyati
-      { coords: [41.132924167226264, 70.0988564929309], name: "Yangiobod dehqon bozor", type: "bozor",
-        viloyat: "toshkent_viloyati" },
-      { coords: [41.06926230588689, 70.19499176331537], name: "Parkent bozori", type: "bozor",
-        viloyat: "toshkent_viloyati" },
-      { coords: [41.30516717227009, 69.75104605572989], name: "Toshkent viloyati xiyoboni", type: "xiyobon",
-        viloyat: "toshkent_viloyati" },
-      { coords: [41.66456564615232, 70.04095883943369], name: "Toshkent viloyati bog'", type: "bog",
-        viloyat: "toshkent_viloyati" },
-      { coords: [41.57454920620336, 69.63311223780255], name: "G'azalkent xiyoboni", type: "xiyobon",
-        viloyat: "toshkent_viloyati" },
-      { coords: [40.852837505033996, 69.4699735971501], name: "Olmaliq", type: "boshqa",
-        viloyat: "toshkent_viloyati" },
+              $('.map-about-box-bozor span').html(bozor.length)
+              $('.map-about-box-bog span').html(bog.length)
+              $('.map-about-box-xiyobon span').html(xiyobon.length)
+              $('.map-about-box-boshqa span').html(boshqa.length)
 
-      //Sirdaryo
-      { coords: [42.46530066169878, 59.614013093783875], name: "Guliston savdo kompleksi", type: "bozor",
-        viloyat: "sirdaryo" },
-      { coords: [40.49755312046327, 68.7844307401733], name: "Guliston shahar Madaniyat va istirohat bog'i",
-        type: "bog", viloyat: "sirdaryo" },
 
-      // jizzax
-      { coords: [41.320553095168556, 69.25590812920176], name: "Alisher Navoiy bilimdonlar maskani",
-        type: "xiyobon", viloyat: "jizzax" },
-      { coords: [41.23762933388264, 69.3300124588027], name: "Eski shahar dehqon bozori", type: "bozor",
-        viloyat: "jizzax" },
-      { coords: [40.116144986218835, 67.82532947096821], name: "Istiqlol bolalar bog'i", type: "bog",
-        viloyat: "jizzax" },
-      { coords: [40.132676103033326, 67.82703852899014], name: "Yoshlar ko'chasi saylgohi", type: "xiyobon",
-        viloyat: "jizzax" },
+              // LayerGroup
+              const allMarkers = L.layerGroup().addTo(map);
 
-      // samarqand
-      { coords: [39.66285190283602, 66.981757919134], name: "Siyob dehqon bozori", type: "bozor",
-        viloyat: "samarqand" },
-      { coords: [39.61580497340271, 66.95239238782855], name: "Temir yo'l dehqon bozori", type: "bozor",
-        viloyat: "samarqand" },
-      { coords: [39.66372839021606, 66.98173007037661], name: "Samarqand shodiyonasi bozori", type: "bozor",
-        viloyat: "samarqand" },
-      { coords: [39.65581736702614, 66.97535767227416], name: "Yoshlik bog'i", type: "bog",
-      viloyat: "samarqand" },
-      { coords: [39.65677679200463, 67.0314874294734], name: "Alisher Navoiy bog'i", type: "bog",
-        viloyat: "samarqand" },
-      { coords: [39.665480101457014, 66.89979188731508], name: "Yo'lbarslar xiyoboni", type: "xiyobon",
-        viloyat: "samarqand" },
-      { coords: [39.689559784835645, 66.88748256963672], name: "Islom Karimov xiyoboni", type: "xiyobon",
-        viloyat: "samarqand" },
+              // Markerlarni LayerGroup ga qo'shamiz
+              response.forEach(m => {
+                const marker = L.marker([m.lat, m.long], { icon: markerIcons[m.object_type] })
+                  .bindTooltip(m.object_name, { direction: 'top', offset: [0, -10] });
 
-      //navoiy
-      { coords: [40.1078093074207, 65.3816026037011], name: "Navoiy saxovat dehqon bozori", type: "bozor",
-        viloyat: "navoiy" },
-      { coords: [40.108781512597744, 65.3693469778999], name: "Navoiy Alisher Navoiy bog'i", type: "bog",
-        viloyat: "navoiy" },
-      { coords: [40.09257725806076, 65.38046307087143], name: "Navoiy Xiyoboni", type: "xiyobon",
-        viloyat: "navoiy" },
-      { coords: [40.08902314840619, 65.37858015212156], name: "Radonejning Avliyo Sergius cherkovi",
-        type: "boshqa", viloyat: "navoiy" },
-      { coords: [41.568098146070255, 64.22618343410005], name: "Zarafshon shahar bozori", type: "bozor",
-        viloyat: "navoiy" },
-      { coords: [43.176366622689265, 64.27463294634757], name: "Zarafshon shahar bog'i", type: "bog",
-        viloyat: "navoiy" },
-      { coords: [42.53704931457116, 63.299789396677056], name: "Zarafshon shahar xiyoboni", type: "xiyobon",
-        viloyat: "navoiy" },
-      { coords: [40.571006822043316, 65.67388422251499], name: "Nurota bozori", type: "bozor",
-      viloyat: "navoiy" },
-      { coords: [40.563899967964716, 65.7016075333948], name: "Nurota xiyoboni", type: "xiyobon",
-        viloyat: "navoiy" },
-      { coords: [40.66708160751162, 65.66831866466273], name: "G'azgon bozori", type: "bozor",
-      viloyat: "navoiy" },
-      { coords: [40.88790899554547, 63.44549246410996], name: "G'azgon bozori", type: "xiyobon",
-      viloyat: "navoiy" },
-      { coords: [41.052901655790514, 62.9469004499608], name: "G'azgon bozori", type: "bog", viloyat: "navoiy" },
-      { coords: [40.1368435616625, 63.50232832200967], name: "G'azgon bozori", type: "bozor", viloyat: "navoiy" },
-      { coords: [42.816460785040135, 61.69218482972521], name: "Markaziy Qizilqum milliy tabiat bog'i",
-        type: "bog", viloyat: "navoiy" },
+                marker.id = m.id;
+                marker.type = m.object_type;
+                allMarkers.addLayer(marker);
 
-      //buxoro
-      { coords: [39.77787, 64.41020], name: "Buxoro qadimiy joy", type: "boshqa", viloyat: "buxoro" },
-      { coords: [39.7810861685039, 64.40090812570742], name: "Buxoro markaziy dehqon bozori", type: "bozor",
-        viloyat: "buxoro" },
-      { coords: [39.7960962368612, 64.43013028432192], name: "Boqiy buxoro bog'i", type: "bog",
-      viloyat: "buxoro" },
-      { coords: [39.76598220902566, 64.42306942862973], name: "Ibn Sino favvoralar maydoni", type: "xiyobon",
-        viloyat: "buxoro" },
-      { coords: [39.77802362529207, 64.40730768383943], name: "Bolo-Xauz masjidi", type: "boshqa",
-        viloyat: "buxoro" },
-      { coords: [39.77625083686887, 64.41505390335017], name: "Poi Kalon majmuasi", type: "boshqa",
-        viloyat: "buxoro" },
+                marker.on('click', function() {
+                  document.getElementById('markerModalTitle').innerText = m.object_name;
 
-      //fargona
-      { coords: [40.2993198601648, 71.97797823254797], name: "Fargona markaziy dehqon bozor", type: "bozor",
-        viloyat: "fargona" },
-      { coords: [40.48890058879545, 71.65248405563604], name: "Fargona xotira xiyoboni", type: "xiyobon",
-        viloyat: "fargona" },
-      { coords: [40.38857789758589, 71.78149959814942], name: "Ахмад Ал – Фарғоний истирохат боғи", type: "bog",
-        viloyat: "fargona" },
+                  $.ajax({
+                    url: `${AJAXPHP}?act=get_jts_object_by_id&id=${m.id}`,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                      console.log(response);
+                      if(!response) return
+                      
+                      $("#markerModal").modal("show");
 
-      //namangan
-      { coords: [41.07433068403397, 71.62854752866805], name: "Yoshlik baraka bozori", type: "bozor",
-        viloyat: "namangan" },
-      { coords: [41.00358513145741, 71.61828434575968], name: "Afsonalar vodiysi", type: "bog",
-        viloyat: "namangan" },
-      { coords: [41.302682868669706, 69.23557765566024], name: "Namangan Adiblar xiyoboni", type: "xiyobon",
-        viloyat: "namangan" },
-      { coords: [41.01255205762726, 71.67183178250251], name: "Arhangel Mikoil Cherkovi", type: "boshqa",
-        viloyat: "namangan" },
+                      renderDialogMap(response)
+                      
+                    },
+                    error: function(xhr, status, error) {
+                      console.error('AJAX error:', error);
+                    }
+                  })
+                });
+              });
 
-      //andijon
-      { coords: [40.77064163580476, 72.3514006077863], name: "Andijon markaziy bozor", type: "bozor",
-        viloyat: "andijon" },
-      { coords: [40.7767313713031, 72.3481847084659], name: "Z.M.Bobur maydoni", type: "xiyobon",
-        viloyat: "andijon" },
-      { coords: [40.765495863592, 72.35748011503424], name: "Andijon bolalar bogi", type: "bog",
-        viloyat: "andijon" },
+            },
+            error: function(xhr, status, error) {
+              console.error('AJAX error:', error);
+            }
+          })  
 
-      //qashqadaryo
-      { coords: [38.89911425584375, 65.80373479518629], name: "Qarshi dehqon bozori", type: "bozor",
-        viloyat: "qashqadaryo" },
-      { coords: [38.88904890403104, 65.81817873087765], name: "Qahqadaryo sohili xiyoboni", type: "xiyobon",
-        viloyat: "qashqadaryo" },
-      { coords: [38.866640443212404, 65.80036562675336], name: "Vatanparvar istiroshat bogi", type: "bog",
-        viloyat: "qashqadaryo" },
 
-      //surxondaryo
-      { coords: [38.19584090222818, 67.2043134580868], name: "Yashil dunyo dehqon bozori", type: "bozor",
-        viloyat: "surxondaryo" },
-      { coords: [37.459397291363075, 66.88683743239343], name: "Markaziy dehqon bozor", type: "bozor",
-        viloyat: "surxondaryo" },
-      { coords: [37.68785791338187, 67.0546570316785], name: "Bolajon bogi", type: "bog",
-      viloyat: "surxondaryo" },
-      { coords: [37.45388270802194, 67.06632922125025], name: "Yoshlar sayilgohi bogi", type: "bog",
-        viloyat: "surxondaryo" },
-      { coords: [37.515992061713334, 67.44329705669496], name: "San'at saroyi xiyoboni", type: "xiyobon",
-        viloyat: "surxondaryo" },
 
-      //xorazm
-      { coords: [42.465316490731524, 59.61361612672109], name: "Nukus san’at muzeyi", type: "boshqa",
-        viloyat: "xorazm" },
-      { coords: [41.55402294580902, 60.62115416717337], name: "Urganch markaziy bozor", type: "bozor",
-        viloyat: "xorazm" },
-      { coords: [41.55819997899874, 60.619796584368174], name: "Amir Tumur bog'i", type: "bog",
-      viloyat: "xorazm" },
-      { coords: [41.547273010463044, 60.626203626696146], name: "Avesto xiyoboni", type: "xiyobon",
-        viloyat: "xorazm" },
+    }
 
-      //qoraqalpoq
-      { coords: [43.11526981406603, 58.915557794836474], name: "Nukus markaziy dehqon bozor", type: "bozor",
-        viloyat: "qoraqalpoq" },
-      { coords: [43.75789810694173, 59.021607859651795], name: "Istiqlol bolalar bog'i", type: "bog",
-        viloyat: "qoraqalpoq" },
-      { coords: [44.16634461153955, 58.26311558894126], name: "Do'stlik kanali bo'yi xalq dam olish saylgohi",
-        type: "xiyobon", viloyat: "qoraqalpoq" },
-      { coords: [44.55051408466998, 56.77134544868612], name: "Do'stlik xiyoboni", type: "xiyobon",
-        viloyat: "qoraqalpoq" },
-      { coords: [43.17810405982948, 58.271911708847206], name: "Motamsaro ona haykali va Vatanparvar bog'i",
-        type: "xiyobon", viloyat: "qoraqalpoq" },
-      { coords: [45.06902403698563, 59.25137251838662], name: "Kantubek", type: "boshqa", viloyat: "qoraqalpoq" },
-      { coords: [43.756995285543866, 60.4297622989299], name: "Daukara", type: "boshqa", viloyat: "qoraqalpoq" },
-      { coords: [43.52004836996265, 60.96463370221791], name: "Taxtako;pir", type: "boshqa",
-      viloyat: "qoraqalpoq" },
-      { coords: [43.325923272293565, 60.00772552160315], name: "Akmagnit", type: "xiyobon",
-      viloyat: "qoraqalpoq" },
-      { coords: [42.26094768467411, 56.30836993556625], name: "Akmagnit", type: "xiyobon",
-      viloyat: "qoraqalpoq" },
-      { coords: [42.42172510749652, 57.131831645526255], name: "Akmagnit", type: "bozor", viloyat: "qoraqalpoq" },
-      { coords: [43.038012797544106, 56.292832922170774], name: "Akmagnit", type: "bog", viloyat: "qoraqalpoq" },
 
-    ];
 
-    // LayerGroup
-    const allMarkers = L.layerGroup().addTo(map);
 
-    // Markerlarni LayerGroup ga qo'shamiz
-    markers.forEach(m => {
-      const marker = L.marker(m.coords, { icon: markerIcons[m.type] })
-        .bindTooltip(m.name, { direction: 'top', offset: [0, -10] });
+    $('#viloyatSelect').on('change', function() {
+        var id = this.value;
+        region_id = id
+        getObjects()
+    })
+    $('#objectTypeSelect').on('change', function() {
+        var id = this.value;
+        object_type = id
+        getObjects()
+    })
+    $('#objectSelect').on('change', function() {
+        var id = this.value;
+        object_id = id
+        getObjects()
+    })
 
-      marker.viloyat = m.viloyat;
-      marker.type = m.type;
-      marker.info = m.info || "";
-      allMarkers.addLayer(marker);
 
-      marker.on('click', function() {
-        document.getElementById('markerModalTitle').innerText = m.name;
 
-        // Shu joyda "Kartaga o'tish" tugmasiga kerakli koordinatalarni yozamiz
-        // const open3DLink = document.getElementById('open3DMap');
-        // open3DLink.dataset.lat = m.coords[0];
-        // open3DLink.dataset.lng = m.coords[1];
-        // open3DLink.dataset.name = m.name;
 
-        // 1-modalni ochamiz
-        $("#markerModal").modal("show");
 
-        const mapContainer = document.querySelector('#dialogMap')
-        if(!mapContainer) return
-        let dialogMap = null
+    function renderDialogMap(params) {
+      const mapContainer = document.querySelector('#dialogMap')
+      if(!mapContainer) return
+      let dialogMap = null
 
-        const MAPBOX_ACCESS_TOKEN =
-          'pk.eyJ1Ijoic2hhdmthdDAxIiwiYSI6ImNsOHJjcmo2azA2dWEzb254amM0dHlzcjEifQ.HNCCG0V7PLGSnAKUBZWzuw';
+      const MAPBOX_ACCESS_TOKEN =
+        'pk.eyJ1Ijoic2hhdmthdDAxIiwiYSI6ImNsOHJjcmo2azA2dWEzb254amM0dHlzcjEifQ.HNCCG0V7PLGSnAKUBZWzuw';
 
-        let map_center = [69.276138, 41.312123]
-        mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
-        dialogMap = new mapboxgl.Map({
-          container: 'dialogMap',
-          style: `mapbox://styles/mapbox/standard`,
-          center: map_center,
-          zoom: 5.5,
-          pitch: 0,
-          antialias: true
-        });
-
-        const geocoder = new MapboxGeocoder({
-          accessToken: mapboxgl.accessToken,
-          marker: false,
-          placeholder: 'Search Address',
-          mapboxgl: mapboxgl
-        });
-
-        dialogMap.addControl(new mapboxgl.NavigationControl());
-        setTimeout(() => {
-          dialogMap.resize();
-        }, 300);
+      let map_center = [69.276138, 41.312123]
+      mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
+      dialogMap = new mapboxgl.Map({
+        container: 'dialogMap',
+        style: `mapbox://styles/mapbox/standard`,
+        center: map_center,
+        zoom: 5.5,
+        pitch: 0,
+        antialias: true
       });
-    });
+
+      const geocoder = new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        marker: false,
+        placeholder: 'Search Address',
+        mapboxgl: mapboxgl
+      });
+
+      dialogMap.addControl(new mapboxgl.NavigationControl());
+      setTimeout(() => {
+        dialogMap.resize();
+      }, 300);
+    }
+
+
+
+
+
+
+    // Viloyatlar uchun rang funksiyasi
+    function getColor(shapeName) {
+      const colors = {
+        "Andijan Region": "#4CAF50",
+        "Bukhara Region": "#FF9800",
+        "Fergana Region": "#9C27B0",
+        "Jizzakh Region": "#03A9F4",
+        "Namangan Region": "#E91E63",
+        "Navoiy Region": "#8BC34A",
+        "Kashkadarya Region": "#FF5722",
+        "Karakalpakstan Republic": "#795548",
+        "Samarkand Region": "#2196F3",
+        "Sirdaryo Region": "#607D8B",
+        "Surxondaryo Region": "#00BCD4",
+        "Tashkent Region": "#FFC107",
+        "Khorezm Region": "#673AB7",
+        "Tashkent City": "#f44336",
+      };
+
+      return colors[shapeName] || "#999";
+    }
+
+
+
 
     function getMarkerImage(type) {
       switch (type) {
@@ -935,189 +812,7 @@
 
 
 
-    // Viloyat va object tanlanganda kartada select bo'lib o'zgaradigan funksiyasi
-    const viloyatSelect = document.getElementById('viloyatSelect');
-    const objectSelect = document.getElementById('objectSelect');
-    const objectLabelSelect = document.getElementById('objectLabelSelect');
-    const objectLabelLabel = document.getElementById('objectLabelLabel');
-
-    function clearObjectLabelSelect() {
-      objectLabelSelect.innerHTML = '<option value="">Obyektni tanlang</option>';
-    }
-
-    function fadeInMarker(marker) {
-      marker.setOpacity(0);
-      marker.addTo(map);
-      let opacity = 0;
-      const step = 0.1;
-      const interval = setInterval(() => {
-        opacity += step;
-        if (opacity >= 1) {
-          marker.setOpacity(1);
-          clearInterval(interval);
-        } else {
-          marker.setOpacity(opacity);
-        }
-      }, 50);
-    }
-
-    function filterMarkers() {
-      const selectedViloyat = viloyatSelect.value;
-      const selectedType = objectSelect.value;
-      let delay = 0;
-
-      allMarkers.eachLayer(marker => {
-        let show = true;
-
-        if (selectedViloyat && marker.viloyat !== selectedViloyat) show = false;
-        if (selectedType && marker.type !== selectedType) show = false;
-
-        if (show) {
-          setTimeout(() => {
-            marker.addTo(map);
-            const el = marker.getElement();
-            if (el) {
-              el.style.transition = 'transform 0.5s ease, opacity 0.5s ease';
-              el.style.opacity = 0;
-
-              // Keyin sakrash animatsiyasi
-              setTimeout(() => {
-                el.style.opacity = 1;
-              }, 50);
-            }
-          }, delay);
-          delay += 100; // markerlar ketma-ket chiqadi
-        } else {
-          map.removeLayer(marker);
-        }
-      });
-    }
-
-
-    viloyatSelect.addEventListener('change', function() {
-      const selectedViloyat = this.value;
-      const markersInViloyat = markers.filter(m => m.viloyat === selectedViloyat);
-      if (markersInViloyat.length > 0) {
-        map.flyTo(markersInViloyat[0].coords, 12, { animate: true, duration: 1.5 });
-      }
-      filterMarkers();
-    });
-
-    // Object turi tanlanganda obyekt nomlari selectini yangilash
-    objectSelect.addEventListener('change', function() {
-      const selectedType = this.value;
-      const selectedViloyat = viloyatSelect.value;
-      clearObjectLabelSelect();
-
-      // Label matnini o‘zgartirish
-      let labelText = "Obyektlar";
-      if (selectedType === "bozor") labelText = "Bozorlar";
-      else if (selectedType === "bog") labelText = "Bog‘lar";
-      else if (selectedType === "xiyobon") labelText = "Xiyobonlar";
-      else if (selectedType === "boshqa") labelText = "Boshqa obyektlar";
-      objectLabelLabel.textContent = labelText;
-
-      const filteredMarkers = markers.filter(m =>
-        (!selectedViloyat || m.viloyat === selectedViloyat) &&
-        (!selectedType || m.type === selectedType)
-      );
-
-      filteredMarkers.forEach(m => {
-        const opt = document.createElement('option');
-        opt.value = m.name;
-        opt.textContent = m.name;
-        objectLabelSelect.appendChild(opt);
-      });
-
-      if (filteredMarkers.length === 0) {
-        const opt = document.createElement('option');
-        opt.textContent = "Obyekt topilmadi";
-        opt.disabled = true;
-        objectLabelSelect.appendChild(opt);
-      }
-
-      filterMarkers();
-    });
-
-    // Obyekt nomi tanlanganda xaritaga o'tish
-      objectLabelSelect.addEventListener('change', function() {
-        const selectedName = this.value;
-        const selectedMarker = markers.find(m => m.name === selectedName);
-
-        if (selectedMarker) {
-          map.flyTo(selectedMarker.coords, 16, { animate: true, duration: 1.5 });
-        }
-      });
-
-      // 3d kartaga o'tib ketadigan joyi 
-    // document.getElementById("open3DMap").addEventListener("click", function(e) {
-    //   e.preventDefault();
-
-    //   const lat = parseFloat(this.dataset.lat);
-    //   const lng = parseFloat(this.dataset.lng);
-    //   const name = this.dataset.name;
-
-    //   // Agar koordinata bo‘lmasa, chiqamiz
-    //   if (!lat || !lng) return;
-
-
-    //   // 2-modal (3D karta) ni ochamiz
-    //   const modal = new bootstrap.Modal(document.getElementById('map3DModal'));
-    //     modal.show();
-
-    //     // 3D kartani yuklash (kechikish bilan)
-    //     setTimeout(() => {
-    //       // Avval eski Cesium instance bo‘lsa, tozalaymiz
-    //       if (window.cesiumViewer) {
-    //         window.cesiumViewer.destroy();
-    //         window.cesiumViewer = null;
-    //       }
-
-    //       // Yangi Cesium viewer yaratamiz
-    //       window.cesiumViewer = new Cesium.Viewer("cesiumContainer", {
-    //         baseLayerPicker: false,
-    //         animation: false,
-    //         timeline: false,
-    //         geocoder: false,
-    //         fullscreenButton: true,
-    //         terrainProvider: new Cesium.EllipsoidTerrainProvider(),
-    //       });
-
-    //       // Google Satellite qo‘shamiz
-    //       window.cesiumViewer.imageryLayers.removeAll();
-    //       window.cesiumViewer.imageryLayers.addImageryProvider(
-    //         new Cesium.UrlTemplateImageryProvider({
-    //           url: "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
-    //           maximumLevel: 22,
-    //           credit: "Google Satellite"
-    //         })
-    //       );
-
-    //       // Marker qo‘shamiz
-    //       window.cesiumViewer.entities.add({
-    //         name,
-    //         position: Cesium.Cartesian3.fromDegrees(lng, lat),
-    //         point: { pixelSize: 15, color: Cesium.Color.RED },
-    //         label: { text: name, pixelOffset: new Cesium.Cartesian2(0, -25) }
-    //       });
-
-    //       // Kamera uchadi
-    //       window.cesiumViewer.camera.flyTo({
-    //         destination: Cesium.Cartesian3.fromDegrees(lng, lat, 800), // 👈 YAQINROQ
-    //         orientation: {
-
-    //           pitch: Cesium.Math.toRadians(-20), // pastga ozgina qaraydi
-    //           roll: 0.0
-    //         },
-    //         complete: function() {
-    //           window.cesiumViewer.camera.moveBackward(8000); // orqaroqqa 800 metr
-
-    //         }
-    //       });
-
-    //     }, 500);
-    //   });
-
+ 
     });
 
   {/literal}

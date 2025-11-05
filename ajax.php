@@ -610,8 +610,8 @@ switch ($Action) {
 		left join hr.jts_objects_door jd on jd.object_id = t.id
 		left join hr.involved_objects o on o.id = t.object_type
 		left join hr.cooperate c on c.id = t.cooperate_id
-
-		WHERE t.id = {$id}";
+		WHERE t.id = {$id}
+		GROUP BY t.id, s.name{$slang}, o.name{$slang}, c.name{$slang}";
 		$sql->query($query);
 		$JtsObject = $sql->fetchAssoc();
 
@@ -672,7 +672,7 @@ switch ($Action) {
 
 		$JtsObject['tracks'] = $Tracks;
 
-		$query  = "SELECT t.id, t.cam_code, t.isptz, t.name 
+		$query  = "SELECT t.id, t.cam_code, t.is_ptz, t.name 
 		FROM hr.jts_objects_camera t 
 		WHERE t.object_id = {$JtsObject['id']}";
 		$sql->query($query);
@@ -683,7 +683,7 @@ switch ($Action) {
 			foreach ($Cams as $mkey => $cam_c) {
 				$camindex = $cam_c['cam_code'];
 				$camId = $cam_c['id'];
-				$IsPtz = $cam_c['isptz'];
+				$IsPtz = $cam_c['is_ptz'];
 				$comment = $cam_c['name'];
 
 
