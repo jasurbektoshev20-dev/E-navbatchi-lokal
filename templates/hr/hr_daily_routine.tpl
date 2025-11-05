@@ -158,9 +158,7 @@
     {literal}
        $(document).ready(function () {
 
-    // =====================================
-    // Modal ochish - Yangi qo'shish
-    // =====================================
+
     $('#new').click(function () {
         const modal = new bootstrap.Modal(document.getElementById('submitModal'));
         modal.show();
@@ -177,9 +175,7 @@
         $('#day').val('');
     });
 
-    // =====================================
-    // Edit record
-    // =====================================
+
     $('.datatables-projects tbody').on('click', '.editAction', function () {
         const RowId = $(this).attr('rel');
 
@@ -191,7 +187,7 @@
             $('#object_id').val(sInfo.object_id).trigger('change');
             $('#structure_id').val(sInfo.structure_id).trigger('change');
             
-            // Hudud → bo‘linmalar
+            // Hudud bo‘linmalar
             $.get('hrajax.php', {
                 act: 'get_divisions',
                 structure_id: sInfo.structure_id
@@ -202,7 +198,7 @@
                 });
                 $('#division_id').val(sInfo.division_id).trigger('change');
 
-                // Bo‘linma → xodimlar
+                // Bo‘linma xodimlar
                 $.get('hrajax.php', {
                     act: 'get_staff',
                     division_id: sInfo.division_id || sInfo.structure_id
@@ -221,9 +217,7 @@
         });
     });
 
-    // =====================================
-    // Dependent dropdowns
-    // =====================================
+   // selectlar
     $('#structure_id').change(function () {
         const structureId = $(this).val();
         if (!structureId) {
@@ -273,9 +267,9 @@
         }, 'json');
     });
 
-    // =====================================
-    // Form submit
-    // =====================================
+
+    // Malumot yuborish
+   
     const bsForms = $('.needs-validation');
     Array.prototype.slice.call(bsForms).forEach(function (form) {
         form.addEventListener('submit', function (event) {
@@ -333,9 +327,9 @@
         });
     });
 
-    // =====================================
-    // Delete record
-    // =====================================
+  
+    // O'chirish
+  
     $('.datatables-projects tbody').on('click', '.delete', function () {
         const RowId = $(this).attr('rel');
         Swal.fire({
