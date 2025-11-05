@@ -295,7 +295,7 @@
         if (
           !structure_id || 
           !object_type || 
-          !object_name
+          !object_name ||
           !address || 
           !area || 
           !admin_phone || 
