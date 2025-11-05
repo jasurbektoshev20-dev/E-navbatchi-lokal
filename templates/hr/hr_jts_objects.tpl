@@ -225,60 +225,59 @@
           dataType: 'json',
           success: function(response) {
             console.log('AJAX response:', response);
+            tbody.innerHTML = "";
+            response.data.forEach((item, index) => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td class="text-center">${index + 1}</td>
+                    <td class="text-center">${item.structure}</td>
+                    <td class="text-center">${item.object_type}</td>
+                    <td class="text-center">${item.object_name}</td>
+                    <td class="">
+                      <div>
+                        <a href="hr.php?act=jts_objects_sos&id=${item.id}" class="p-2">
+                            <i class="ti ti-bell me-1"></i> SOS tugma
+                        </a>
+                      </div>
+                      <div>
+                        <a href="hr.php?act=jts_objects_camera&id=${item.id}" class="p-2">
+                            <i class="ti ti-camera me-1"></i> Kamera
+                        </a>
+                      </div>
+                      <div>
+                        <a href="hr.php?act=jts_objects_door&id=${item.id}" class="p-2">
+                            <i class="ti ti-door me-1"></i> Eshik
+                        </a>
+                      </div>
+    
+                    </td>
+                    <td>
+                        <div class="dropdown">
+                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                <i class="ti ti-dots-vertical"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a href="#" class="dropdown-item editAction" data-id="${item.id}">
+                                    <i class="ti ti-pencil me-1"></i> Tahrirlash
+                                </a>
+                                 <a href="#" class="dropdown-item editAction" data-id="${item.id}">
+                                    <i class="ti ti-eye me-1"></i> Batafsil
+                                </a>
+                                <a href="#" class="dropdown-item deleteAction" data-id="${item.id}">
+                                    <i class="ti ti-trash me-1"></i> O‘chirish
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
           },
           error: function(xhr, status, error) {
             console.error('AJAX error:', error);
           }
         })
 
-        tbody.innerHTML = "";
-        localData.forEach((item, index) => {
-            const tr = document.createElement("tr");
-            tr.innerHTML = `
-                <td class="text-center">${index + 1}</td>
-                <td class="text-center">${item.structure}</td>
-                <td class="text-center">${item.type}</td>
-                <td class="text-center">${item.name1}</td>
-                <td class="">
-                  <div>
-                    <a href="hr.php?act=jts_objects_sos&id=${item.id}" class="p-2">
-                        <i class="ti ti-bell me-1"></i> SOS tugma
-                    </a>
-                  </div>
-                  <div>
-                    <a href="hr.php?act=jts_objects_camera&id=${item.id}" class="p-2">
-                        <i class="ti ti-camera me-1"></i> Kamera
-                    </a>
-                  </div>
-                  <div>
-                    <a href="hr.php?act=jts_objects_door&id=${item.id}" class="p-2">
-                        <i class="ti ti-door me-1"></i> Eshik
-                    </a>
-                  </div>
-
-                </td>
-                <td>
-                    <div class="dropdown">
-                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                            <i class="ti ti-dots-vertical"></i>
-                        </button>
-                        <div class="dropdown-menu">
-                            <a href="#" class="dropdown-item editAction" data-index="${index}">
-                                <i class="ti ti-pencil me-1"></i> Tahrirlash
-                            </a>
-                             <a href="#" class="dropdown-item editAction" data-index="${index}">
-                                <i class="ti ti-eye me-1"></i> Batafsil
-                            </a>
-                            <a href="#" class="dropdown-item deleteAction" data-index="${index}">
-                                <i class="ti ti-trash me-1"></i> O‘chirish
-                            </a>
-                        </div>
-                    </div>
-                </td>
-            `;
-            tbody.appendChild(tr);
-        });
-        localStorage.setItem("jts_objects", JSON.stringify(localData));
     }
 
     document.getElementById("new").addEventListener("click", () => {
