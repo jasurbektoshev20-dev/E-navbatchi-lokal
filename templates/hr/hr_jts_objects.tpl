@@ -219,6 +219,7 @@
 
 <script>
     var AJAXPHP = "ajax{$AddURL}.php";
+    var HRAJAXPHP = "hrajax{$AddURL}.php";
 
     {literal}
 
@@ -365,7 +366,7 @@
 
         
         $.ajax({
-          url: `${AJAXPHP}?act=act_jts_objects`,
+          url: `${HRAJAXPHP}?act=act_jts_objects`,
           type: 'POST',               // FormData uchun POST kerak
           data: formData,             // FormData yuboramiz
           processData: false,         // jQuery FormData’ni stringify qilib yubormasligi uchun
