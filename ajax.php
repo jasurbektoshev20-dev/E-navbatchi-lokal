@@ -619,6 +619,7 @@ switch ($Action) {
 		COALESCE(COUNT(td.id), 0) AS all_staff,
 		SUM(CASE WHEN td.patrul_type = 1 THEN 1 ELSE 0 END) AS walker_patrul,
 		SUM(CASE WHEN td.patrul_type = 2 THEN 1 ELSE 0 END) AS avto_patrul,
+		COALESCE(SUM(td.patrul_type = 4), 0) AS horse_patrul,
 		COALESCE(COUNT(js.id), 0) AS count_sos,
 		COALESCE(COUNT(jc.id), 0) AS count_cameras
 		FROM hr.daily_routine t 
