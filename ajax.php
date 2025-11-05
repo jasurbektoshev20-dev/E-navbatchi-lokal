@@ -600,6 +600,7 @@ switch ($Action) {
 
 	case "get_jts_object_by_id":
 		$id = isset($_GET['id']) ? $_GET['id'] : 0;
+		$car_ids = [];
 
 		$query  = "SELECT t.id, s.name{$slang} as structure, t.object_name, o.name{$slang} as object_type, c.name{$slang} as cooperate,
 		t.address, t.area, t.admin_phone, t.object_head, t.head_phone, t.police_name, t.police_phone,
@@ -637,19 +638,22 @@ switch ($Action) {
 		$Routine = $sql->fetchAssoc();
 
 		$JtsObject['routine'] = $Routine;
+		if ($Routine) {
+			$query  = "SELECT t.id, t.car_id
+			FROM hr.dailiy_routine_date t 
+			WHERE t.routine_id = {$Routine['id']}
+			ORDER BY t.id desc";
+			$sql->query($query);
+			$RoutineDate = $sql->fetchAll();
 
-		$query  = "SELECT t.id, t.car_id
-		FROM hr.dailiy_routine_date t 
-		WHERE t.routine_id = {$Routine['id']}
-		ORDER BY t.id desc";
-		$sql->query($query);
-		$RoutineDate = $sql->fetchAll();
-
-
-		$car_ids = [];
-		foreach ($RoutineDate as $key => $value) {
-			$car_ids[] = $value['car_id'];
+			foreach ($RoutineDate as $key => $value) {
+				$car_ids[] = $value['car_id'];
+			}
 		}
+
+
+
+
 
 		$JtsObject['tracks'] = [];
 		if ($car_ids) {
