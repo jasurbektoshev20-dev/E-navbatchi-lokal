@@ -552,8 +552,8 @@ switch ($Action) {
 		$start = ($page - 1) * $limit;
 		$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
 
-
-		$query  = "SELECT t.id, s.name{$slang} as structure, t.object_name, o.name{$slang} as object_type, c.name{$slang} as cooperate,
+		$JtsObjects = [];
+		$query  = "SELECT t.id::int, s.name{$slang} as structure, t.object_name, o.name{$slang} as object_type, c.name{$slang} as cooperate,
 		t.address, t.area, t.admin_phone, t.object_head, t.head_phone, t.police_name, t.police_phone,
 		COALESCE(COUNT(jc.id), 0) AS count_cameras,
 		COALESCE(COUNT(js.id), 0) AS count_sos,
@@ -574,7 +574,10 @@ switch ($Action) {
 		GROUP BY t.id, s.name{$slang}, o.name{$slang}, c.name{$slang}
 		ORDER BY t.id desc LIMIT {$limit} OFFSET {$start}";
 		$sql->query($query);
-		$JtsObjects = $sql->fetchAll();
+		while ($row = $sql->fetchAssoc()) {
+			$row['id'] = (int)$row['id'];
+			$JtsObjects[] = $row;
+		}
 
 		//total count
 		$count_query = "SELECT COALESCE(COUNT(*) , 0) as total FROM hr.jts_objects t WHERE 1=1 ";
@@ -583,6 +586,9 @@ switch ($Action) {
 		}
 		$sql->query($count_query);
 		$total_count = $sql->fetchAssoc();
+
+
+
 		$JtsObjects = [
 			'page' => $page,
 			'limit' => $limit,
@@ -605,13 +611,12 @@ switch ($Action) {
 		left join hr.structure s on s.id  = t.structure_id
 		left join hr.involved_objects o on o.id = t.object_type
 		left join hr.cooperate c on c.id = t.cooperate_id
-		left join hr.jts_objects_cameras jc on jc.object_id = t.id
+		left join hr.jts_objects_camera jc on jc.object_id = t.id
 		left join hr.jts_objects_sos js on js.object_id = t.id
 		left join hr.jts_objects_door jd on jd.object_id = t.id
 		WHERE t.id = {$id}";
-
 		$sql->query($query);
-		$JtsObject = $sql->fetch();
+		$JtsObject = $sql->fetchAssoc();
 
 		$res = json_encode($JtsObject);
 		break;
