@@ -186,7 +186,7 @@
 
             <!-- Tugmalar -->
             <div class="col-12 text-center">
-              <input type="hidden" id="editIndex" value="">
+              <input type="hidden" id="editId" value="">
               <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">
                 Bekor qilish
               </button>
@@ -305,7 +305,7 @@
 
     document.getElementById("new").addEventListener("click", () => {
         document.getElementById("localForm").reset();
-        document.getElementById("editIndex").value = "";
+        document.getElementById("editId").value = "";
         new bootstrap.Modal(document.getElementById("submitModal")).show();
         renderMap()
 
@@ -327,7 +327,7 @@
         const lon = document.getElementById("lon").value.trim();
         const cooperate_id = document.getElementById("cooperate_id").value.trim();
 
-        const editIndex = document.getElementById("editIndex").value;
+        const editId = document.getElementById("editId").value;
 
         if (
           !structure_id || 
@@ -386,26 +386,46 @@
     tbody.addEventListener("click", (e) => {
         const target = e.target.closest("a");
         if (!target) return;
-        const index = target.dataset.index;
+        const id = $(target).data('id');
 
         if (target.classList.contains("deleteAction")) {
             if (confirm("Haqiqatan o‘chirmoqchimisiz?")) {
-                localData.splice(index, 1);
                 renderTable();
             }
         }
 
         if (target.classList.contains("editAction")) {
-            const data = localData[index];
-            document.getElementById("structure").value = data.structure;
-            document.getElementById("type").value = data.type;
-            document.getElementById("name1").value = data.name1;
-            document.getElementById("name2").value = data.name2;
-            document.getElementById("name3").value = data.name3;
-            document.getElementById("editIndex").value = index;
-            new bootstrap.Modal(document.getElementById("submitModal")).show();
 
-            renderMap(data.coords)
+
+            $.ajax({
+              url: `${AJAXPHP}?act=get_jts_objects&rowid=${id}`,
+              type: 'GET',
+              dataType: 'json',
+              success: function(response) {
+                const data = response.data;
+                document.getElementById("structure_id").value = data.structure_id;
+                document.getElementById("object_type").value = data.object_type;
+                document.getElementById("object_name").value = data.object_name;
+                document.getElementById("address").value = data.address;
+                document.getElementById("area").value = data.area;
+                document.getElementById("admin_phone").value = data.admin_phone;
+                document.getElementById("object_head").value = data.object_head;
+                document.getElementById("head_phone").value = data.head_phone;
+                document.getElementById("police_name").value = data.police_name;
+                document.getElementById("police_phone").value = data.police_phone;
+                document.getElementById("cooperate_id").value = data.cooperate_id;
+                document.getElementById("lat").value = data.lat;
+                document.getElementById("lon").value = data.lon;
+                
+                document.getElementById("editId").value = id;
+                new bootstrap.Modal(document.getElementById("submitModal")).show();
+    
+                renderMap(data.geom)
+              },
+              error: function(xhr, status, error) {
+                console.error('AJAX error:', error);
+              }
+            })
         }
     });
 

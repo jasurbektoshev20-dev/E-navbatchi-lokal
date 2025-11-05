@@ -996,7 +996,7 @@ switch ($Action) {
 
     /// jts_objects =====================================================
     case "get_jts_objects":
-        $RowId = MyPiDeCrypt($_GET['rowid']);
+        $RowId = $_GET['rowid'];
 
         $query = "SELECT t.* from hr.jts_objects t where t.id = {$RowId}";
         $sql->query($query);
