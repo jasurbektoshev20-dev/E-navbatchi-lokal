@@ -573,13 +573,20 @@
                 useDirtyRect: false
             });
             var option;
-            let color = [
-                '#00FA9A', // Medium Spring Green
-                '#98FB98', // Pale Green
-                '#87CEFA', // Light Sky Blue
-                '#00CFE8', // Light Blue
-                '#F0E68C', // Khaki
-            ];
+          let color = [
+            "#FFD24C", // sariq (eng katta bo‘lak)
+            "#4BA3C7", // havorang
+            "#7AD67A", // och yashil
+            "#FF884C", // to‘q sariq
+            "#B266FF", // binafsha
+            "#FF6666", // qizil
+            "#6EB5FF", // ko‘k
+            "#5CC97B", // yashil
+            "#A472FF", // to‘q binafsha
+            "#FFB84D", // och sariq
+            "#99CCFF"  // och ko‘k
+          ];
+
             option = {
                 textStyle: {
                     fontFamily: "Arial, sans-serif"
@@ -770,15 +777,20 @@ function renderEventTypeChart(data, total) {
   const chart = echarts.init(dom, null, { renderer: 'canvas', useDirtyRect: false });
 
   // ranglar massivi — option ichida "color" sifatida ishlatiladi
-  const color = [
-    "#FF6B6B",
-    "#4ECDC4",
-    "#FFD93D",
-    "#C77DFF",
-    "#6BCB77",
-    "#4D96FF",
-    "#FF914D",
-  ];
+const color = [
+  "#FFD24C", // sariq (eng katta bo‘lak)
+  "#4BA3C7", // havorang
+  "#7AD67A", // och yashil
+  "#FF884C", // to‘q sariq
+  "#B266FF", // binafsha
+  "#FF6666", // qizil
+  "#6EB5FF", // ko‘k
+  "#5CC97B", // yashil
+  "#A472FF", // to‘q binafsha
+  "#FFB84D", // och sariq
+  "#99CCFF"  // och ko‘k
+];
+
 
   let option = {
     textStyle: { fontFamily: "Arial, sans-serif" },
@@ -1340,7 +1352,20 @@ const filters2 = [
 ];
 
 // 🎨 Ranglar
-const colorSet2 = ["#FF6B6B", "#4ECDC4", "#FFD93D", "#C77DFF", "#6BCB77", "#4D96FF"];
+const colorSet2 = [
+  "#FFD24C", // sariq (eng katta bo‘lak)
+  "#4BA3C7", // havorang
+  "#7AD67A", // och yashil
+  "#FF884C", // to‘q sariq
+  "#B266FF", // binafsha
+  "#FF6666", // qizil
+  "#6EB5FF", // ko‘k
+  "#5CC97B", // yashil
+  "#A472FF", // to‘q binafsha
+  "#FFB84D", // och sariq
+  "#99CCFF"  // och ko‘k
+];
+
 
 // 📊 Chart funksiyasi
 function renderIdoraviyChart(data, total) {
@@ -1387,11 +1412,11 @@ function renderIdoraviyChart(data, total) {
         data: sdata.map((item, index) => ({
           value: item.value,
           name: item.name,
-          itemStyle: {
-            color: colorSet2[index % colorSet2.length],
-            shadowColor: colorSet2[index % colorSet2.length],
-            shadowBlur: 12
-          }
+          // itemStyle: {
+          //   color: colorSet2[index % colorSet2.length],
+          //   shadowColor: colorSet2[index % colorSet2.length],
+          //   shadowBlur: 12
+          // }
         }))
       }
     ]
@@ -1486,12 +1511,25 @@ const categoryPlacesByRegion = {
   }
 };
 
-// 📈 Yuqoridagi chartni chizish
-// ✅ Yuqoridagi chart (dumaloq diagramma)
+
 function all_events_by_type(data, total, regionId = 0) {
   const dom = document.getElementById('all_events_by_type');
   const myChart = echarts.init(dom);
-  const colors = ['#FF6F61', '#6B5B95', '#88B04B', '#FFA07A', '#9370DB', '#9ACD32'];
+ const colors = [
+    "#6EB5FF", // ko‘k
+  "#5CC97B", // yashil
+  "#A472FF", // to‘q binafsha
+  "#FFB84D", // och sariq
+  "#99CCFF" , // och ko‘k
+  "#FFD24C", // sariq (eng katta bo‘lak)
+  "#4BA3C7", // havorang
+  "#7AD67A", // och yashil
+  "#FF884C", // to‘q sariq
+  "#B266FF", // binafsha
+  "#FF6666", // qizil
+
+];
+
 
   const option = {
     color: colors,
@@ -1510,11 +1548,23 @@ function all_events_by_type(data, total, regionId = 0) {
     tooltip: { backgroundColor: 'white' },
     series: [{
     type: 'pie',
-    radius: ['25%', '60%'],    // radiusni kattalashtirdik
+    radius: ['20%', '60%'],    // radiusni kattalashtirdik
     center: ['50%', '50%'], 
-      label: { show: true, formatter: '{c}', fontSize: 15, color: '#777' },
-      itemStyle: { borderRadius: 10, shadowColor: 'rgba(0,0,0,0.3)', shadowBlur: 15 },
-      data: data.legend.map((name, i) => ({ name, value: data.data[i] }))
+      label: {
+        show: true,
+        position: 'outside',
+        formatter: '{c}',
+        textStyle: { fontSize: 16, fontWeight: 'bold', color: '#888' }
+      },
+
+    itemStyle: {
+            borderRadius: 10,
+          
+            shadowColor: 'rgba(0,0,0,0.5)',
+            shadowBlur: 20
+          },
+
+      data: data.legend.map((name, i) => ({ name, value: data.data[i]}))
     }]
   };
 
@@ -1697,7 +1747,20 @@ function get_events_by_region(data, containerId = 'get_events_by_region') {
   if (!dom) return console.error('❌ Diagramma konteyner topilmadi:', containerId);
 
   const myChart = echarts.init(dom);
-  const colors = ['#1E3A8A', '#9333EA', '#DC2626', '#065F46', '#B45309', '#0E7490', '#4B5563'];
+ const colors = [
+  "#FFD24C", // sariq (eng katta bo‘lak)
+  "#4BA3C7", // havorang
+  "#7AD67A", // och yashil
+  "#FF884C", // to‘q sariq
+  "#B266FF", // binafsha
+  "#FF6666", // qizil
+  "#6EB5FF", // ko‘k
+  "#5CC97B", // yashil
+  "#A472FF", // to‘q binafsha
+  "#FFB84D", // och sariq
+  "#99CCFF"  // och ko‘k
+];
+
 
   const option = {
     textStyle: { fontFamily: "Arial, sans-serif" },
@@ -1745,7 +1808,21 @@ $('#event_count').on('change', function() {
     // get_events_by_region chaqirish uchun konteyner id ni moslab o‘zgartiramiz
     const dom = document.getElementById('get_events_by_region_chart');
     const myChart = echarts.init(dom);
-    const colors = ['#1E3A8A', '#9333EA', '#DC2626', '#065F46', '#B45309', '#0E7490', '#4B5563'];
+   const colors = [
+     "#6EB5FF", // ko‘k
+  "#5CC97B", // yashil
+  "#A472FF", // to‘q binafsha
+  "#FFB84D", // och sariq
+  "#99CCFF",  // och ko‘k
+  "#FFD24C", // sariq (eng katta bo‘lak)
+  "#4BA3C7", // havorang
+  "#7AD67A", // och yashil
+  "#FF884C", // to‘q sariq
+  "#B266FF", // binafsha
+  "#FF6666", // qizil
+ 
+];
+
 
     let option = {
       textStyle: { fontFamily: "Arial, sans-serif" },
@@ -2126,13 +2203,13 @@ all_events_by_type(defaultData4, totalValue4, 0);
                     type: 'bar',
                     barMaxWidth: 60,
                     barMaxHeight: 60,
-                    itemStyle: {
-                        color: function(params) {
-                            return colors[params.dataIndex % colors
-                                .length]; // Use different colors for each bar
-                        },
-                        borderRadius: [8, 8, 0, 0] // Add border-radius only to the top of the bar line
-                    },
+                    // itemStyle: {
+                    //     color: function(params) {
+                    //         return colors[params.dataIndex % colors
+                    //             .length]; // Use different colors for each bar
+                    //     },
+                    //     borderRadius: [8, 8, 0, 0] // Add border-radius only to the top of the bar line
+                    // },
                     label: {
                         fontSize: 16,
                         show: true, // Show the value on top of the bar
