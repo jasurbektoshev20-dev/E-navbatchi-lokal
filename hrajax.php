@@ -1396,8 +1396,7 @@ switch ($Action) {
                 $sql->query("SELECT CURRVAL('hr.daily_routine_id_seq') AS last_id;");
                 $result = $sql->fetchAssoc();
                 $LastId = $result['last_id'];
-                $status = 'ok';
-                $res['status'] = $status;
+                $res = 0;
             } else {
                 $res = $sql->error();
             }
