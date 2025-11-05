@@ -703,34 +703,34 @@ switch ($Action) {
 		$Cams = $sql->fetchAll();
 
 		$CamUrl = [];
-		// if ($Cams) {
-		// 	foreach ($Cams as $mkey => $cam_c) {
-		// 		$camindex = $cam_c['cam_code'];
-		// 		$camId = $cam_c['id'];
-		// 		$IsPtz = $cam_c['is_ptz'];
-		// 		$comment = $cam_c['name'];
+		if ($Cams) {
+			foreach ($Cams as $mkey => $cam_c) {
+				$camindex = $cam_c['cam_code'];
+				$camId = $cam_c['id'];
+				$IsPtz = $cam_c['is_ptz'];
+				$comment = $cam_c['name'];
 
 
-		// 		$dataCam = GetCamUrl($camindex);
-		// 		if ($dataCam['data']) {
-		// 			$CamUrl[] = [
-		// 				'id' => $camId,
-		// 				'url' => $dataCam['data']['url'],
-		// 				'isptz' => $IsPtz,
-		// 				'name' => $comment
-		// 			];
-		// 		}
+				$dataCam = GetCamUrl($camindex);
+				if ($dataCam['data']) {
+					$CamUrl[] = [
+						'id' => $camId,
+						'url' => $dataCam['data']['url'],
+						'isptz' => $IsPtz,
+						'name' => $comment
+					];
+				}
 
 
-		// 	}
-		// }
+			}
+		}
 
-		$CamUrl[] = [
-			'id' => 1,
-			'url' => 'ws://10.119.0.2:559/sms/HCPEurl/commonvideobiz_4nsIc77VPXOC36yh9SjSyUxgjeWzpyeuCBt8Th6q61Vntl%2FQTFt7PLeKsVjj0sxKWXA4DEhqkG55HTwpvSNqkDjP2gupD9v6AoVvB2cISLErzV%2F90csAGgWt7WmaPCN4wPZsHjt0xX%2FDimRToiFS9Qs9QsTOLG2qLZau8J4cmAgepIapuc9YS8wy5%2FEvPEAB3I5H9XVW%2FC7nlyvIZaXLRaEcBTlIuU66zhigLiiaC1c%3D',
-			'isptz' => false,
-			'name' => 'Test Camera'
-		];
+		// $CamUrl[] = [
+		// 	'id' => 1,
+		// 	'url' => 'ws://10.119.0.2:559/sms/HCPEurl/commonvideobiz_4nsIc77VPXOC36yh9SjSyUxgjeWzpyeuCBt8Th6q61Vntl%2FQTFt7PLeKsVjj0sxKWXA4DEhqkG55HTwpvSNqkDjP2gupD9v6AoVvB2cISLErzV%2F90csAGgWt7WmaPCN4wPZsHjt0xX%2FDimRToiFS9Qs9QsTOLG2qLZau8J4cmAgepIapuc9YS8wy5%2FEvPEAB3I5H9XVW%2FC7nlyvIZaXLRaEcBTlIuU66zhigLiiaC1c%3D',
+		// 	'isptz' => false,
+		// 	'name' => 'Test Camera'
+		// ];
 
 		$result['data'] = $JtsObject;
 		$result['cameras'] = $CamUrl;
