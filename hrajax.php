@@ -1427,6 +1427,7 @@ switch ($Action) {
     case "act_dailiy_routine_date":
         $RowId = (!empty($_POST['id'])) ? MyPiDeCrypt($_POST['id']) : 0;
         $routine_id = $_POST['routine_id'];
+        $patrul_type = $_POST['patrul_type'];
         $direction = $_POST['direction'];
         $smena = $_POST['smena'];
         $division_id = $_POST['division_id'];
@@ -1453,6 +1454,7 @@ switch ($Action) {
             // Update existing record
             $updquery = "UPDATE hr.dailiy_routine_date SET
                 routine_id = '{$routine_id}',
+                patrul_type = '{$patrul_type}',
                 direction = '{$direction}',
                 smena = '{$smena}',
                 division_id = '{$division_id}',
@@ -1474,6 +1476,7 @@ switch ($Action) {
 
                 $insquery = "INSERT INTO hr.dailiy_routine_date (
                     routine_id,
+                    patrul_type,
                     direction,
                     smena,
                     division_id,
@@ -1482,6 +1485,7 @@ switch ($Action) {
                     epikirofka_id
                 ) VALUES (
                     '{$routine_id}',
+                    '{$patrul_type}',
                     '{$direction}',
                     '{$smena}',
                     '{$division_id}',
