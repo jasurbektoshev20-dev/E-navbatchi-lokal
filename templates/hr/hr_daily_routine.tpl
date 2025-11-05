@@ -11,109 +11,136 @@
             gap: 10px;
             margin-left: 20px;
         }
+
     {/literal}
 </style>
-
 <div class="flex-grow-1 container-p-y container-fluid">
-  <div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-body d-flex justify-content-between">
-          <h4>Obyektlar bo'yicha naryadlar</h4>
-          <button id="new" type="button" class="btn btn-primary waves-effect waves-light">
-            <i class="menu-icon tf-icons ti ti-plus"></i> Qo‘shish
-          </button>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body d-flex justify-content-between">
+                    <h4>Obyektlar bo'yicha naryadlar</h4>
+                    <button id="new" type="button" class="btn btn-primary">
+                        <i class="menu-icon tf-icons ti ti-plus"></i> Qo‘shish
+                    </button>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 
-  <!-- Jadval -->
-  <div class="row mt-3">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-datatable table-responsive">
-          <table class="datatables-projects table border-top">
-            <thead>
-              <tr>
-                <th class="text-center">No̱</th>
-                <th class="text-center">Sana</th>
-                <th class="text-center">Turi</th>
-                <th class="text-center">Nomi</th>
-                <th class="text-center">Bo'linma nomi</th>
-                <th class="text-center">Javobgar shaxs</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody id="table-body"></tbody>
-          </table>
+    <!-- Jadval -->
+    <div class="row mt-3">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-datatable table-responsive">
+                    <table class="datatables-projects table border-top">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Sana</th>
+                                <th>Obyekt nomi</th>
+                                <th>Turi</th>
+                                <th>Bo'linma</th>
+                                <th>Javobgar shaxs</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {foreach from=$daily_outfit item=obekt key=tkey}
+                                <tr id="row_{$obekt.id|crypt}">
+                                    <td>{$tkey+1}</td>
+                                    <td><a href="hr.php?act=dailiy_routine_date&mid={$smarty.get.mid}&obyekt={$obekt.id|escape:'url'}"
+                                            class="text-primary text-decoration-underline">{$obekt.date} </a></td>
+                                    <td>{$obekt.structure_id}</td>
+                                    <td>{$obekt.date}</td>
+                                    <td>{$obekt.responsible_id}</td>
+                                    <td>{$obekt.responsible_id}</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                data-bs-toggle="dropdown">
+                                                <i class="ti ti-dots-vertical"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a rel="{$obekt.id|crypt}" class="dropdown-item editAction" href="#"><i
+                                                        class="ti ti-pencil me-1"></i>Tahrirlash</a>
+                                                <a rel="{$obekt.id|crypt}" class="dropdown-item delete" href="#"><i
+                                                        class="ti ti-trash me-1"></i>O‘chirish</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {/foreach}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 
 <!-- Modal -->
 <div class="modal fade" id="submitModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-xl modal-simple modal-edit-user">
-    <div class="modal-content p-1 p-md-5">
-      <div class="modal-body">
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        <form id="localForm" class="needs-validation" novalidate>
-          <div class="row g-3">
-            <div class="col-sm-6">
-              <label>Sana</label>
-              <input required type="date" class="form-control" id="structure" />
+    <div class="modal-dialog modal-lg modal-simple modal-edit-user">
+        <div class="modal-content p-3 p-md-5">
+            <div class="modal-body">
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <form class="needs-validation" novalidate>
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <label>Sana</label>
+                            <input type="date" class="form-control" id="day" required />
+                        </div>
+                        <div class="col-sm-6">
+                            <label>Obyekt</label>
+                            <select id="object_id" class="form-select" required>
+                                <option value="">Tanlang...</option>
+                                {foreach from=$objects item=obj}
+                                    <option value="{$obj.id}">{$obj.name3}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                        <div class="col-sm-6">
+                            <label>Boshqarma</label>
+                            <select id="structure_id" class="form-select" required>
+                                <option value="">Tanlang...</option>
+                                {foreach from=$structures item=str}
+                                    <option value="{$str.id}">{$str.name1}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                        <div class="col-sm-6">
+                            <label>Bo‘linma</label>
+                            <select id="structure_id" class="form-select" required>
+                                <option value="">Tanlang...</option>
+                                {foreach from=$batalyons item=str}
+                                    <option value="{$str.id}">{$str.code} ({$str.name1})</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                        <!-- Javobgar shaxs -->
+                        <div class="col-sm-6">
+                            <label>Javobgar shaxs</label>
+                            <select id="respons_person_id" class="form-select">
+                                <option value="">Tanlang...</option>
+                            </select>
+                        </div>
+                        <input type="hidden" id="id" value="">
+                        <div class="col-12 text-center mt-3">
+                            <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Bekor
+                                qilish</button>
+                            <button id="saveBtn" type="submit" class="btn btn-primary">Saqlash</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-
-            <div class="col-sm-6">
-              <label>Nomini tanlang</label>
-              <select required class="form-select" id="name1">
-                <option value="">Tanlang...</option>
-                <option value="Registon maydoni">Registon maydoni</option>
-                <option value="Markaziy bozor">Markaziy bozor</option>
-                <option value="Abu saxiy bozori">Abu saxiy bozori</option>
-                <option value="Farxod bozori">Farxod bozori</option>
-                <option value="Anhor lakamativ parki">Anhor lakamativ parki</option>
-              </select>
-            </div>
-
-            <div class="col-sm-6 mt-3">
-              <label>Bo'linmani tanlang</label>
-              <select required class="form-control" id="division">
-                <option value="">Tanlang...</option>
-                <option value="Bars1">Bars1</option>
-                <option value="Bog'izag'on">Bog'izag'on</option>
-                <option value="Bars2">Bars2</option>
-                <option value="Nurafshon">Nurafshon</option>
-              </select>
-            </div>
-
-            <div class="col-sm-6 mt-3">
-              <label>Javobgar shaxsni tanlang</label>
-              <select required class="form-control" id="responsible_person">
-                <option value="">Tanlang...</option>
-                <option value="p-pk Berdiyev M">p-pk Berdiyev M</option>
-                <option value="m-r Zokirov M">m-r Zokirov M</option>
-                <option value="l-nt Toshev J.N">l-nt Toshev J.N</option>
-                <option value="l-nt Umrzakov">l-nt Umrzakov</option>
-              </select>
-            </div>
-
-            <!-- Tugmalar -->
-            <div class="col-12 text-center mt-5">
-              <input type="hidden" id="editIndex" value="">
-              <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal">Bekor qilish</button>
-              <button id="saveBtn" class="btn btn-primary me-sm-3 me-1">Saqlash</button>
-            </div>
-          </div>
-        </form>
-      </div>
+        </div>
     </div>
-  </div>
 </div>
 
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script src="/assets/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
 <script src="/assets/assets/vendor/libs/sweetalert2/sweetalert2.js"></script>
@@ -122,122 +149,237 @@
 <script src="/assets/assets/vendor/libs/@form-validation/umd/bundle/popular.min.js"></script>
 <script src="/assets/assets/vendor/libs/@form-validation/umd/plugin-bootstrap5/index.min.js"></script>
 <script src="/assets/assets/vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js"></script>
-
 <script>
+    {literal}
+        $(document).ready(function() {
 
-// localStorage.clear()
- {literal}
-let localData = JSON.parse(localStorage.getItem("jts_objects")) || [
-  { structure: "2025-10-23", type: "Bozor", name1: "Chorsu bozori", division: "Markaziy devon", responsible_person: "p-pk Berdiyev M" },
-  { structure: "2025-10-22", type: "Park", name1: "Registon maydoni", division: "Bars2", responsible_person: "l-nt Toshev J.N" }
-];
+            // Yangi qo'shish
+        $('#new').click(function() {
+            $('#submitModal').modal('toggle'); // 'toggle' o'rniga 'show'
+                const form = $('.needs-validation')[0];
+                form.reset();
+                form.classList.remove('was-validated');
+                $('#id').val('');
+            });
 
-const tbody = document.getElementById("table-body");
 
-function getTypeByName(name) {
-  name = name.toLowerCase();
-  if (name.includes("bozor")) return "Bozor";
-  if (name.includes("park") || name.includes("maydon")) return "Park";
-  if (name.includes("saxiy")) return "Savdo maskani";
-  return "Boshqa";
-}
+            $('.datatables-projects tbody').on('click', '.editAction', function() {
+                $('#submitModal').modal('toggle');
+                var RowId = $(this).attr('rel');
 
-function renderTable() {
-  tbody.innerHTML = "";
-  localData.forEach((item, index) => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td class="text-center">${index + 1}</td>
-      <td class="text-center">
-        <a 
-          href="hr.php?act=dailiy_routine_date&mid={$smarty.get.mid}&date=${encodeURIComponent(item.structure)}"
-          class="text-primary text-decoration-underline"
-        >
-          ${item.structure}
-        </a>
-      </td>
-      <td class="text-center">${item.type}</td>
-      <td class="text-center">${item.name1}</td>
-      <td class="text-center">${item.division}</td>
-      <td class="text-center">${item.responsible_person}</td>
-      <td>
-        <div class="dropdown">
-          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-            <i class="ti ti-dots-vertical"></i>
-          </button>
-          <div class="dropdown-menu">
-            <a href="#" class="dropdown-item editAction" data-index="${index}">
-              <i class="ti ti-pencil me-1"></i> Tahrirlash
-            </a>
-            <a href="#" class="dropdown-item deleteAction" data-index="${index}">
-              <i class="ti ti-trash me-1"></i> O‘chirish
-            </a>
-          </div>
-        </div>
-      </td>
-    `;
-    tbody.appendChild(tr);
-  });
-  localStorage.setItem("jts_objects", JSON.stringify(localData));
-}
+                $.get("hrajax.php?act=get_daily_routine&rowid=" + RowId, function(html) {
+                    var sInfo = jQuery.parseJSON(html);
 
-document.getElementById("new").addEventListener("click", () => {
-  document.getElementById("localForm").reset();
-  document.getElementById("editIndex").value = "";
-  new bootstrap.Modal(document.getElementById("submitModal")).show();
-});
+                    $('#day').val(sInfo.day_outfit);
+                    $('#object_id').val(sInfo.jts_object_id).trigger("change");
+                    $('#structure_id').val(sInfo.batalyon_id).trigger("change");
+                    $('#id').val(sInfo.id);
 
-document.getElementById("saveBtn").addEventListener("click", (e) => {
-  e.preventDefault();
-  const structure = document.getElementById("structure").value.trim();
-  const name1 = document.getElementById("name1").value.trim();
-  const division = document.getElementById("division").value.trim();
-  const responsible_person = document.getElementById("responsible_person").value.trim();
-  const editIndex = document.getElementById("editIndex").value;
+                    //  Endi javobgar shaxslarni yuklash structure_id yuklangandan keyin
+                    $.get('hrajax.php', {
+                        act: 'get_troops_by_structure',
+                        structure_id: sInfo
+                            .batalyon_id
+                    }, function(data) {
+                        $('#respons_person_id').empty().append(
+                            '<option value="">Tanlang...</option>');
+                        $.each(data, function(i, d) {
+                            $('#respons_person_id').append('<option value="' + d
+                                .id + '">' + d.firstname + ' ' + d.lastname +
+                                '</option>');
+                        });
 
-  if (!structure || !name1 || !division || !responsible_person) {
-    alert("Barcha majburiy maydonlarni to‘ldiring!");
-    return;
-  }
+                        //  Endi sInfo dan kelgan respons_person_id ni o‘rnatamiz
+                        $('#respons_person_id').val(sInfo.respons_person_id).trigger(
+                            "change");
+                    }, 'json');
+                });
+            });
 
-  const type = getTypeByName(name1);
 
-  if (editIndex === "") {
-    localData.push({ structure, type, name1, division, responsible_person });
-  } else {
-    localData[editIndex] = { structure, type, name1, division, responsible_person };
-  }
 
-  localStorage.setItem("jts_objects", JSON.stringify(localData));
-  renderTable();
-  bootstrap.Modal.getInstance(document.getElementById("submitModal")).hide();
-});
+            // Formni yuborish
+            const bsValidationForms = $('.needs-validation');
+            Array.prototype.slice.call(bsValidationForms).forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    } else {
+                        event.preventDefault();
+                        event.stopPropagation();
 
-tbody.addEventListener("click", (e) => {
-  const target = e.target.closest("a");
-  if (!target) return;
-  const index = target.dataset.index;
+                        var form_data = new FormData();
+                        form_data.append('day', $('#day').val());
+                        form_data.append('object_id', $('#object_id').val());
+                        form_data.append('structure_id', $('#structure_id').val());
+                        form_data.append('respons_person_id', $('#respons_person_id').val());
+                        form_data.append('id', $('#id').val());
 
-  if (target.classList.contains("deleteAction")) {
-    if (confirm("Haqiqatan o‘chirmoqchimisiz?")) {
-      localData.splice(index, 1);
-      renderTable();
-    }
-  }
+                        $.ajax({
+                            url: 'hrajax.php?act=act_daily_routine',
+                            dataType: 'json', // ⬅️ JSON formatni kutamiz
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            data: form_data,
+                            type: 'post',
+                            success: function(res) {
+                                if (res.status === 'ok') {
+                                    // Modalni yopish
+                                    $('#submitModal').modal('hide');
 
-  if (target.classList.contains("editAction")) {
-    const data = localData[index];
-    document.getElementById("structure").value = data.structure;
-    document.getElementById("name1").value = data.name1;
-    document.getElementById("division").value = data.division;
-    document.getElementById("responsible_person").value = data.responsible_person;
-    document.getElementById("editIndex").value = index;
-    new bootstrap.Modal(document.getElementById("submitModal")).show();
-  }
-});
+                                    // Jadvalni yangilash (reload emas)
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Maʼlumot saqlandi!',
+                                        showConfirmButton: false,
+                                        timer: 1000
+                                    });
 
-renderTable();
-{/literal}
+                                    // 2 sekunddan so‘ng sahifani yangilash
+                                    setTimeout(() => location.reload(), 1000);
+
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Xatolik!',
+                                        text: res.message ||
+                                            'Saqlashda xatolik yuz berdi.'
+                                    });
+                                }
+                            },
+                            error: function(xhr) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Server bilan aloqa yo‘q!',
+                                    text: xhr.responseText
+                                });
+                            }
+                        });
+                    }
+                    form.classList.add('was-validated');
+                });
+            });
+
+            //  O'chirish
+        $('.datatables-projects tbody').on('click', '.delete', function() {
+            var RowId = $(this).attr('rel');
+            Swal.fire({
+                title: "Ishonchingiz komilmi?",
+                text: "Bu yozuv o‘chiriladi!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Ha, o‘chirilsin!",
+                cancelButtonText: "Bekor qilish"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.get("hrajax.php?act=del_daily_routine&rowid=" + RowId, function(html) {
+                        console.log("Server javobi:",
+                            html); // 👈 bu joyda asl javobni ko‘r
+                        if (parseInt(html) ===
+                            0) { // ✅ Har qanday "0" ni 0 sifatida oladi
+                            $("#row_" + RowId).remove();
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'O‘chirildi!',
+                                showConfirmButton: false,
+                                timer: 1000
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Xatolik!',
+                                text: 'O‘chirishda xato yuz berdi.'
+                            });
+                        }
+                    }).fail(function(xhr) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Server bilan aloqa yo‘q!',
+                            text: xhr.statusText
+                        });
+                    });
+                }
+            });
+        });
+
+        // $('#structure_id').change(function() {
+        //     var sid = $(this).val();
+        //     if (!sid) {
+        //         $('#respons_person_id').empty().append('<option value="">Tanlang...</option>');
+        //         return;
+        //     }
+        //     $.get('hrajax.php', { act: 'get_troops_by_structure', structure_id: sid }, function(data) {
+        //         $('#respons_person_id').empty().append('<option value="">Tanlang...</option>');
+        //         $.each(data, function(i, d) {
+        //             $('#respons_person_id').append('<option value="' + d.id + '">' + d
+        //                 .firstname +
+        //                 ' ' + d
+        //                 .lastname + '</option>');
+        //         });
+        //     }, 'json');
+        //     });
+
+        $('#structure_id, #batalyon_id').change(function() {
+            // Avval strukturani olishga harakat qilamiz
+            var structureId = $('#structure_id').val();
+            var batalyonId = $('#batalyon_id').val();
+
+            // Agar ikkalasi ham mavjud bo‘lsa yoki faqat batalyon bo‘lsa — batalyonni tanlaymiz
+            var sid = batalyonId ? batalyonId : structureId;
+
+            if (!sid) {
+                $('#respons_person_id').empty().append('<option value="">Tanlang...</option>');
+                return;
+            }
+
+            $.get('hrajax.php', {
+                    act: 'get_troops_by_structure',
+                    structure_id: sid
+                },
+                function(data) {
+                    $('#respons_person_id')
+                        .empty()
+                        .append('<option value="">Tanlang...</option>');
+
+                    $.each(data, function(i, d) {
+                        $('#respons_person_id').append(
+                            '<option value="' + d.id + '">' + d.firstname + ' ' + d
+                            .lastname + '</option>'
+                        );
+                    });
+                },
+                'json'
+                );
+            });
+
+
+        });
+
+
+        $.ajax({
+            url: "hr.php?act=add_daily_routine",
+            type: "POST",
+            data: form_data,
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            success: function(res) {
+                if (res.status === "error") {
+                    alert(res.message); // ❗ HTMLda alert bilan chiqaradi
+                } else {
+                    console.log(res.message);
+                    location.reload(); // agar kerak bo‘lsa
+                }
+            },
+            error: function(xhr) {
+                console.error("Server xatosi:", xhr.responseText);
+            },
+        });
+
+    {/literal}
 </script>
+
 
 {include file="footer.tpl"}
