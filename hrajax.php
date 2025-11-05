@@ -1019,7 +1019,7 @@ switch ($Action) {
         $police_name = $_POST['police_name'];
         $police_phone = $_POST['police_phone'];
         $lat = $_POST['lat'];
-        $lon = $_POST['lon'];
+        $lon = $_POST['long'];
         $cooperate_id = $_POST['cooperate_id'];
 
 
@@ -1203,7 +1203,7 @@ switch ($Action) {
         break;
 
     case "act_jts_objects_camera":
-        $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
+        $RowId = (!empty($_POST['id'])) ? MyPiDeCrypt($_POST['id']) : 0;
         $object_id = $_POST['object_id'];
         $name = $_POST['name'];
         $cam_code = $_POST['cam_code'];
@@ -1338,6 +1338,198 @@ switch ($Action) {
         break;
     /// jts_objects_sos ==============================================
 
+    /// jts_objects_sos ==============================================
+    case "get_daily_routine":
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "SELECT t.* from hr.daily_routine t where t.id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+        $result['rowid'] = MyPiCrypt($result['id']);
+
+        $res = json_encode($result);
+        break;
+
+    case "act_daily_routine":
+        $RowId = (!empty($_POST['id'])) ? MyPiDeCrypt($_POST['id']) : 0;
+        $object_id = $_POST['object_id'];
+        $structure_id = isset($_POST['structure_id']) ? $_POST['structure_id'] : $UserStructure;
+        $date = isset($_POST['date']) ? strtotime($_POST['date']) : null;
+        $responsible_id = $_POST['responsible_id'];
+
+
+        if ($RowId != "0") {
+            // Update existing record
+            $updquery = "UPDATE hr.daily_routine SET
+                object_id = '{$object_id}',
+                structure_id = '{$structure_id}',
+                date = to_timestamp('{$date}'),
+                responsible_id = '{$responsible_id}'
+                WHERE id = {$RowId}";
+            $sql->query($updquery);
+            if ($sql->error() == "") {
+                $res = "0<&sep&>" . MyPiCrypt($RowId);
+            } else {
+                $res = $sql->error();
+            }
+        } else {
+            // Insert new record
+            $insquery = "INSERT INTO hr.daily_routine (
+                    object_id,
+                    structure_id,
+                    date,
+                    responsible_id
+                ) VALUES (
+                    '{$object_id}',
+                    '{$structure_id}',
+                    to_timestamp('{$date}'),
+                    '{$responsible_id}'
+                )";
+            $sql->query($insquery);
+
+            if ($sql->error() == "") {
+                $sql->query("SELECT CURRVAL('hr.daily_routine_id_seq') AS last_id;");
+                $result = $sql->fetchAssoc();
+                $LastId = $result['last_id'];
+                $res = "0<&sep&>" . MyPiCrypt($LastId);
+            } else {
+                $res = $sql->error();
+            }
+        }
+        break;
+
+    case "del_daily_routine":
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "DELETE FROM hr.daily_routine WHERE id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+
+        if ($sql->error() == "") {
+            $res = 0;
+        } else {
+            $res = 2;
+        }
+        break;
+    /// jts_objects_sos ============
+
+    case "get_dailiy_routine_date":
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "SELECT t.* from hr.dailiy_routine_date t where t.id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+        $result['rowid'] = MyPiCrypt($result['id']);
+
+        $res = json_encode($result);
+        break;
+
+    case "act_dailiy_routine_date":
+        $RowId = (!empty($_POST['id'])) ? MyPiDeCrypt($_POST['id']) : 0;
+        $routine_id = $_POST['routine_id'];
+        $patrul_type = $_POST['patrul_type'];
+        $direction = $_POST['direction'];
+        $smena = $_POST['smena'];
+        $division_id = $_POST['division_id'];
+        $car_id = $_POST['car_id'];
+        $epikirofka_id = $_POST['epikirofka_id'];
+
+        // staff_ids massiv ekanligini ta'minlash
+        $staff_id = is_array($_POST['staff_id']) ? $_POST['staff_id'] : explode(',', $_POST['staff_id']);
+
+        // PostgreSQL Array formatiga o'tkazish
+        // Array format: '{12, 34, 56}'
+        if (is_array($_POST['epikirofka_id'])) {
+            // Arraydagi integer qiymatlarni vergul bilan ajratib, qavs ichiga joylashtirish
+            $epikirofka_array_string = '{' . implode(',', $_POST['epikirofka_id']) . '}';
+        } else {
+            // Agar bitta qiymat bo'lsa yoki bo'lmasa
+            $epikirofka_array_string = 'NULL';
+        }
+
+        $LastId = null; // So'nggi qo'shilgan ID ni saqlash uchun
+        $success = true;
+
+        if ($RowId != "0") {
+            // Update existing record
+            $updquery = "UPDATE hr.dailiy_routine_date SET
+                routine_id = '{$routine_id}',
+                patrul_type = '{$patrul_type}',
+                direction = '{$direction}',
+                smena = '{$smena}',
+                division_id = '{$division_id}',
+                staff_id = '{$staff_id}',
+                car_id = '{$car_id}',
+                epikirofka_id = '{$epikirofka_id}'
+                WHERE id = {$RowId}";
+            $sql->query($updquery);
+            if ($sql->error() == "") {
+                $res = "0<&sep&>" . MyPiCrypt($RowId);
+            } else {
+                $res = $sql->error();
+                $success = false;
+            }
+        } else {
+            foreach ($staff_ids as $staff_id) {
+                // Har bir aylanmada alohida staff_id o'zgaradi
+                $current_staff_id = (int) $staff_id;
+
+                $insquery = "INSERT INTO hr.dailiy_routine_date (
+                    routine_id,
+                    patrul_type,
+                    direction,
+                    smena,
+                    division_id,
+                    staff_id,
+                    car_id,
+                    epikirofka_id
+                ) VALUES (
+                    '{$routine_id}',
+                    '{$patrul_type}',
+                    '{$direction}',
+                    '{$smena}',
+                    '{$division_id}',
+                    '{$current_staff_id}', -- Siklning joriy IDsi ishlatiladi
+                    '{$car_id}',
+                    '{$epikirofka_array_string}' -- PostgreSQL array stringi ishlatiladi
+                )";
+
+                $sql->query($insquery);
+
+                // Har bir INSERT dan keyin xatoni tekshirish
+                if ($sql->error() != "") {
+                    $res = $sql->error();
+                    $success = false;
+                    // Xato yuz bersa siklni to'xtatish
+                    break;
+                }
+            }
+            if ($success) {
+                // Oxirgi qo'shilgan IDni olish. Agar bitta sikl bo'lsa to'g'ri ishlaydi,
+                // ko'p sikl bo'lsa, oxirgi kiritilgan IDni qaytaradi.
+                $sql->query("SELECT CURRVAL('hr.dailiy_routine_date_id_seq') AS last_id;");
+                $result = $sql->fetchAssoc();
+                $LastId = $result['last_id'];
+                $res = "0<&sep&>" . MyPiCrypt($LastId);
+            }
+        }
+        break;
+
+    case "del_dailiy_routine_date":
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "DELETE FROM hr.dailiy_routine_date WHERE id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+
+        if ($sql->error() == "") {
+            $res = 0;
+        } else {
+            $res = 2;
+        }
+        break;
+    /// jts_objects_sos ============
+
     /// jts_objects_door ==============================================
     case "get_jts_objects_door":
         $RowId = MyPiDeCrypt($_GET['rowid']);
@@ -1351,7 +1543,7 @@ switch ($Action) {
         break;
 
     case "act_jts_objects_door":
-        $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
+        $RowId = (!empty($_POST['id'])) ? MyPiDeCrypt($_POST['id']) : 0;
         $object_id = $_POST['object_id'];
         $name = $_POST['name'];
         $lat = $_POST['lat'];

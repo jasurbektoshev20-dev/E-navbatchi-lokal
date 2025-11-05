@@ -603,20 +603,43 @@ switch ($Action) {
 
 		$query  = "SELECT t.id, s.name{$slang} as structure, t.object_name, o.name{$slang} as object_type, c.name{$slang} as cooperate,
 		t.address, t.area, t.admin_phone, t.object_head, t.head_phone, t.police_name, t.police_phone,
-		COALESCE(COUNT(jc.id), 0) AS count_cameras,
-		COALESCE(COUNT(js.id), 0) AS count_sos,
 		COALESCE(COUNT(jd.id), 0) AS count_doors,
 		t.photo, t.lat, t.long, ST_AsGeoJSON(geom) AS geom_geojson
 		FROM hr.jts_objects t 
 		left join hr.structure s on s.id  = t.structure_id
+		left join hr.jts_objects_door jd on jd.object_id = t.id
 		left join hr.involved_objects o on o.id = t.object_type
 		left join hr.cooperate c on c.id = t.cooperate_id
-		left join hr.jts_objects_camera jc on jc.object_id = t.id
-		left join hr.jts_objects_sos js on js.object_id = t.id
-		left join hr.jts_objects_door jd on jd.object_id = t.id
+
 		WHERE t.id = {$id}";
 		$sql->query($query);
 		$JtsObject = $sql->fetchAssoc();
+
+		$query  = "SELECT t.id, CONCAT(r.name{$slang}, ' ', s.lastname, ' ', s.firstname, ' ', s.surname) AS responsible_name,
+		COALESCE(COUNT(td.id), 0) AS all_staff,
+		SUM(CASE WHEN td.patrul_type = 1 THEN 1 ELSE 0 END) AS walker_patrul,
+		SUM(CASE WHEN td.patrul_type = 2 THEN 1 ELSE 0 END) AS avto_patrul,
+		COALESCE(COUNT(js.id), 0) AS count_sos,
+		COALESCE(COUNT(jc.id), 0) AS count_cameras
+		FROM hr.daily_routine t 
+		LEFT JOIN hr.dailiy_routine_date td ON td.routine_id = t.id
+		LEFT JOIN hr.staff s ON s.id = t.responsible_id
+		LEFT JOIN ref.ranks r ON r.id = s.rank_id
+		left join hr.jts_objects_camera jc on jc.object_id = {$JtsObject['id']}
+		left join hr.jts_objects_sos js on js.object_id = {$JtsObject['id']}
+		WHERE t.object_id = {$JtsObject['id']}
+		ORDER BY t.id desc LIMIT 1";
+		$sql->query($query);
+		$Routine = $sql->fetchAssoc();
+
+
+		$query  = "SELECT t.*
+		FROM hr.dailiy_routine_date t 
+		WHERE t.routine_id = {$Routine['id']}
+		ORDER BY t.id desc";
+		$sql->query($query);
+		$RoutineDate = $sql->fetchAll();
+
 
 		$query  = "SELECT t.id, t.cam_code, t.isptz, t.name 
 		FROM hr.jts_objects_camera t 
