@@ -25,7 +25,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body text-center">
-                    <h4>Milliy gvardiyaning hududiy boshqarmalari javobgarlik obyektlari to‘g‘risida <br>
+                    <h4>Milliy gvardiya javobgarlik hududlarida rejalashtirilgan siyosiy, madaniy, sport va boshqa ommaviy tadbirlar to‘g‘risida <br>
                       <p class="m-0">MA'LUMOT</p>
                    </h4>
                 </div>
@@ -67,89 +67,89 @@
                             <td class="text-right">1</td>
                             <td>
                                 <a
-                                        href="hr.php?act=about_markets&mid={$smarty.get.mid}&date=">Bozorlar</a>
+                                        href="hr.php?act=about_markets&mid={$smarty.get.mid}&date=">Siyosiy tadbirlar</a>
                             </td>
-                            <td>48</td>
-                            <td>24</td>
-                            <td>14</td>
-                            <td>15</td>
-                            <td>18</td>
-                            <td>24</td>
+                            <td>4</td>
+                            <td>2</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>2</td>
+                            <td>2</td>
+                            <td>2</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>1</td>
+                            <td>3</td>
                             <td>30</td>
-                            <td>21</td>
-                            <td>24</td>
-                            <td>25</td>
-                            <td>15</td>
-                            <td>28</td>
-                            <td>12</td>
-                            <td>34</td>
-                            <td>300</td>
                         </tr>
                         <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">2</td>
                             <td>
                                 <a
-                                        href="hr.php?act=''&mid={$smarty.get.mid}&date=Toshkent shahar">Istirohat bog'lari</a>
+                                        href="hr.php?act=''&mid={$smarty.get.mid}&date=Toshkent shahar">Madaniy tadbirlar</a>
                             </td>
-                            <td>55</td>
-                            <td>34</td>
-                            <td>23</td>
-                            <td>25</td>
-                            <td>30</td>
-                            <td>24</td>
-                            <td>31</td>
-                            <td>29</td>
-                            <td>24</td>
-                            <td>35</td>
-                            <td>19</td>
-                            <td>20</td>
-                            <td>34</td>
-                            <td>38</td>
-                            <td>420</td>
+                            <td>5</td>
+                            <td>3</td>
+                            <td>2</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>2</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>3</td>
+                            <td>40</td>
                         </tr>
                         <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">3</td>
                             <td>
                                 <a
-                                        href="hr.php?act=''&mid={$smarty.get.mid}&date=Toshkent shahar">Sayilgohlar</a>
+                                        href="hr.php?act=''&mid={$smarty.get.mid}&date=Toshkent shahar">Sport tadbirlar</a>
                             </td>
-                            <td>41</td>
-                            <td>25</td>
-                            <td>16</td>
-                            <td>21</td>
-                            <td>19</td>
-                            <td>24</td>
-                            <td>32</td>
-                            <td>23</td>
-                            <td>20</td>
-                            <td>33</td>
-                            <td>18</td>
-                            <td>27</td>
-                            <td>18</td>
-                            <td>39</td>
-                            <td>398</td>
+                            <td>4</td>
+                            <td>2</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>2</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>1</td>
+                            <td>3</td>
+                            <td>38</td>
                         </tr>
                         <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">4</td>
                             <td>
                                 <a
-                                        href="hr.php?act=''&mid={$smarty.get.mid}&date=Toshkent shahar">Boshqa joylar</a>
+                                        href="hr.php?act=''&mid={$smarty.get.mid}&date=Toshkent shahar">Boshqa tadbirlar</a>
                             </td>
-                            <td>30</td>
-                            <td>19</td>
-                            <td>16</td>
-                            <td>15</td>
-                            <td>21</td>
-                            <td>27</td>
+                            <td>3</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>2</td>
+                            <td>2</td>
+                            <td>2</td>
+                            <td>2</td>
+                            <td>2</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>2</td>
                             <td>22</td>
-                            <td>21</td>
-                            <td>26</td>
-                            <td>20</td>
-                            <td>15</td>
-                            <td>18</td>
-                            <td>12</td>
-                            <td>24</td>
-                            <td>232</td>
                         </tr>
                         </tbody>
                     </table>
