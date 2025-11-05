@@ -1037,7 +1037,7 @@ switch ($Action) {
                 police_name = '{$police_name}',
                 police_phone = '{$police_phone}',
                 lat = '{$lat}',
-                lon = '{$lon}',
+                long = '{$lon}',
                 cooperate_id = '{$cooperate_id}',
                 geom = ST_GeomFromText('{$geom}', 4326)
                 WHERE id = {$RowId}";
@@ -1061,7 +1061,7 @@ switch ($Action) {
                     police_name,
                     police_phone,
                     lat,
-                    lon,
+                    long,
                     cooperate_id,
                     geom
                 ) VALUES (
