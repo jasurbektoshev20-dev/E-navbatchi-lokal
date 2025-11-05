@@ -147,7 +147,7 @@
   gap: 7px;
 } */
     #dialogMap {
-      width: 100%; height: 40vh;
+      width: 100%; height: 42vh;
       border-radius: 10px;
     }
 
@@ -327,16 +327,72 @@
               {*  *}
               <div class="col-6">
                 <div class="space-main-head">
-                  <h4>Pasport Ma'lumotlari</h4>
+                  <h4 class="m-0">Pasport Ma'lumotlari</h4>
                 </div>
-                <div id="dialogMap"></div>
-                <div class="space-main-body-passport">
+                <div id="dialogMap" class="mt-1"></div>
+                <div class="space-main-body-passport mt-4">
                  
                 </div>
               </div>
 
               <div class="col-6">
-                  <div>
+                  <div class="space-main-body-umumu">
+                    <div class="space-main-head">
+                      <h4 class="m-0">Kameralar</h4>
+                    </div>
+                    <div class="row text-center">
+                        <div id="playWind" style="width: 800px; height: 400px;"></div>
+                        <div class="button_box" style="width: 100%;">
+                            <div class="items">
+                                <div class="d-flex gap-1 px-2 mt-2" style="align-items:center;">
+                                    <button class="btn btn-danger" type="button" onClick="fullSreen()">
+                                        <i class="icon-screen-full"></i>
+                                    </button>
+                                    <button class="btn btn-warning ml-2 unmute" type="button">
+                                        <i class="icon-volume-medium"></i>
+                                    </button>
+                                    <button class="btn btn-info ml-2 mute" type="button">
+                                        <i class="icon-volume-mute5"></i>
+                                    </button>
+                                    <button class="btn btn-warning ml-2" type="button" onClick="CapturePicture('JPEG')">
+                                        <i class="icon-camera"></i>
+                                    </button>
+                                    <span class="text-yellow ml-2" style="font-size: 22px;"><span class="current_camera"></span>:
+                                        &nbsp; <span class="text-white camera_active"></span></span> &nbsp;&nbsp;&nbsp;
+                                    <span class="text-yellow" style="font-size: 22px;"><span class="camera_length"></span>: &nbsp;
+                                        <span class="text-white camera_length"></span></span>
+                                    <div class="col-3">
+                                        <ul class="nav nav-pills mb-0">
+                                            <li class="nav-item dropdown dropup">
+                                                <a href="#" id="current_camera" class="dropdown-toggle" data-toggle="dropdown"><span class="select"></span></a>
+                                                <div class="dropdown-menu" style="max-height: 300px; overflow-y: scroll;" id="change_camera"></div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div id="error" style="color:red"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {* <div class="row">
+                      <div class="col-12">
+                        <video width="100%" height="270px" autoplay loop controls muted>
+                          <source src="/templates/hr/videos/video-4.mp4" type="video/mp4">
+                        </video>
+                      </div>
+                      <div class="col-12">
+                        <video width="100%" height="270px" autoplay loop controls muted>
+                          <source src="/templates/hr/videos/video-5.mp4" type="video/mp4">
+                        </video>
+                      </div>
+                      <div class="col-12">
+                        <video width="100%" height="270px" autoplay loop controls muted>
+                          <source src="/templates/hr/videos/video-6.mp4" type="video/mp4">
+                        </video>
+                      </div>
+                    </div> *}
+                  </div>
+                  <div class="mt-4">
                     <div class="space-main-head">
                       <h4>MG tomonidan ajratilgan kuch vositalar</h4>
                     </div>
@@ -345,62 +401,7 @@
                     </div>
                   </div>
 
-                    <div class="space-main-body-umumu">
-                      <div class="space-main-head">
-                        <h4 class="m-0">Kameralar</h4>
-                      </div>
-                      <div class="row text-center">
-                          <div id="playWind" style="width: 800px; height: 400px;"></div>
-                          <div class="button_box" style="width: 100%;">
-                              <div class="items">
-                                  <div class="d-flex gap-1 px-2 mt-2" style="align-items:center;">
-                                      <button class="btn btn-danger" type="button" onClick="fullSreen()">
-                                          <i class="icon-screen-full"></i>
-                                      </button>
-                                      <button class="btn btn-warning ml-2 unmute" type="button">
-                                          <i class="icon-volume-medium"></i>
-                                      </button>
-                                      <button class="btn btn-info ml-2 mute" type="button">
-                                          <i class="icon-volume-mute5"></i>
-                                      </button>
-                                      <button class="btn btn-warning ml-2" type="button" onClick="CapturePicture('JPEG')">
-                                          <i class="icon-camera"></i>
-                                      </button>
-                                      <span class="text-yellow ml-2" style="font-size: 22px;"><span class="current_camera"></span>:
-                                          &nbsp; <span class="text-white camera_active"></span></span> &nbsp;&nbsp;&nbsp;
-                                      <span class="text-yellow" style="font-size: 22px;"><span class="camera_length"></span>: &nbsp;
-                                          <span class="text-white camera_length"></span></span>
-                                      <div class="col-3">
-                                          <ul class="nav nav-pills mb-0">
-                                              <li class="nav-item dropdown dropup">
-                                                  <a href="#" id="current_camera" class="dropdown-toggle" data-toggle="dropdown"><span class="select"></span></a>
-                                                  <div class="dropdown-menu" style="max-height: 300px; overflow-y: scroll;" id="change_camera"></div>
-                                              </li>
-                                          </ul>
-                                      </div>
-                                      <div id="error" style="color:red"></div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                      {* <div class="row">
-                        <div class="col-12">
-                          <video width="100%" height="270px" autoplay loop controls muted>
-                            <source src="/templates/hr/videos/video-4.mp4" type="video/mp4">
-                          </video>
-                        </div>
-                        <div class="col-12">
-                          <video width="100%" height="270px" autoplay loop controls muted>
-                            <source src="/templates/hr/videos/video-5.mp4" type="video/mp4">
-                          </video>
-                        </div>
-                        <div class="col-12">
-                          <video width="100%" height="270px" autoplay loop controls muted>
-                            <source src="/templates/hr/videos/video-6.mp4" type="video/mp4">
-                          </video>
-                        </div>
-                      </div> *}
-                    </div>
+                    
                 </div>
 
             </div>
