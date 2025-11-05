@@ -177,7 +177,6 @@
         $('#day').val('');
     });
 
-
     $('.datatables-projects tbody').on('click', '.editAction', function () {
         const RowId = $(this).attr('rel');
 
@@ -219,6 +218,7 @@
             modal.show();
         });
     });
+
 
    // selectlar
     $('#structure_id').change(function () {
