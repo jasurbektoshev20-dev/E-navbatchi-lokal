@@ -695,6 +695,41 @@ switch ($Action) {
 
 		$res = json_encode($JtsObjects);
 		break;
+
+	case "get_divisions":
+		$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
+		$query  = "SELECT t.id, t.name{$slang} as name
+		FROM ref.divisions t 
+		WHERE 1=1 ";
+		if ($structure_id > 0) {
+			$query .= " AND t.structure_id = {$structure_id} ";
+		}
+		$query .= " ORDER BY t.id ASC";
+		$sql->query($query);
+		$data = $sql->fetchAll();
+
+		$res = json_encode($data);
+		break;
+	case "get_staff":
+		$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
+		$division_id = isset($_GET['division_id']) ? $_GET['division_id'] : 0;
+
+		$query  = "SELECT t.id, CONCAT(r.name{$slang}, ' ', t.lastname, ' ', t.firstname, ' ', t.surname) AS name
+		FROM hr.staff t 
+		LEFT JOIN ref.ranks r ON r.id = t.rank_id
+		WHERE 1=1 ";
+		if ($structure_id > 0) {
+			$query .= " AND t.structure_id = {$structure_id} ";
+		}
+		if ($division_id > 0) {
+			$query .= " AND t.division_id = {$division_id} ";
+		}
+		$query .= " ORDER BY t.id ASC";
+		$sql->query($query);
+		$data = $sql->fetchAll();
+
+		$res = json_encode($data);
+		break;
 }
 
 // echo iconv("cp1251", "UTF-8", $res);
