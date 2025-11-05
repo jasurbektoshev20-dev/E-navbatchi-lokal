@@ -166,7 +166,7 @@
              <!-- Bozor uchaskavoy tel -->
             <div class="col-sm-4">
               <label>Nazorat kuzatuv maskani uzunligi(lot)</label>
-              <input required type="text" class="form-control" id="lon" placeholder="uzunligini kiriting..." />
+              <input required type="text" class="form-control" id="long" placeholder="uzunligini kiriting..." />
             </div>
 
              <div class="col-sm-4">
@@ -324,7 +324,7 @@
         const police_name = document.getElementById("police_name").value.trim();
         const police_phone = document.getElementById("police_phone").value.trim();
         const lat = document.getElementById("lat").value.trim();
-        const lon = document.getElementById("lon").value.trim();
+        const long = document.getElementById("long").value.trim();
         const cooperate_id = document.getElementById("cooperate_id").value.trim();
 
         const editId = document.getElementById("editId").value;
@@ -341,7 +341,7 @@
           !police_name || 
           !police_phone || 
           !lat || 
-          !lon || 
+          !long || 
           !drawCoords || 
           !cooperate_id
         ) return alert("Barcha majburiy maydonlarni to‘ldiring!");
@@ -361,7 +361,7 @@
         formData.append('police_phone', police_phone)
         formData.append('cooperate_id', cooperate_id)
         formData.append('lat', lat)
-        formData.append('lon', lon)
+        formData.append('long', long)
         formData.append('geom', JSON.stringify(drawCoords));
 
         
@@ -415,7 +415,7 @@
                 document.getElementById("police_phone").value = data.police_phone;
                 document.getElementById("cooperate_id").value = data.cooperate_id;
                 document.getElementById("lat").value = data.lat;
-                document.getElementById("lon").value = data.lon;
+                document.getElementById("long").value = data.long;
                 
                 document.getElementById("editId").value = id;
                 new bootstrap.Modal(document.getElementById("submitModal")).show();
@@ -433,7 +433,6 @@
     });
 
     function renderMap(existingCoords){
-      console.log(existingCoords);
       
       const mapContainer = document.getElementById('uzbMap')
       if(!mapContainer) return
@@ -458,10 +457,27 @@
 
       // Agar oldindan polygon koordinatalar berilgan bo‘lsa
       if (existingCoords && existingCoords.length > 0) {
-        const polygon = L.polygon(existingCoords, { color: 'blue' });
-        drawnItems.addLayer(polygon);
-        map.fitBounds(polygon.getBounds());
+        let coords = existingCoords;
+
+        // Ba’zida backend long-lat yuboradi, buni to‘g‘rilaymiz:
+        if (Math.abs(coords[0][0]) > 90) {
+          coords = coords.map(([long, lat]) => [lat, long]);
+        }
+
+        drawCoords = coords
+        // Polygonni chizamiz
+        const polygon = L.polygon([coords], { color: 'blue' }).addTo(drawnItems);
+        setTimeout(() => {
+          // map.fitBounds(polygon.getBounds(), {
+          //   padding: [50, 50] // [y, x] pikselda
+          // });
+          map.flyToBounds(polygon.getBounds(), {
+            padding: [80, 80], // atrofida bo‘sh joy
+            duration: 1         // animatsiya davomiyligi (soniyada)
+          });
+        }, 1000);
       }
+
 
       // Chizish va tahrirlash nazorati
       const drawControl = new L.Control.Draw({
@@ -574,8 +590,7 @@
     function changePage(page) {
         if (page < 1 || page > totalPages) return;  // Prevent invalid page navigation
         currentPage = page;  // Update current page
-        const searchTerm = $('#search-input').val().toLowerCase().trim();  // Get search term if exists
-        getDataCards(currentPage, searchTerm);  // Fetch and render data for the selected page
+        getDataCards(currentPage, searchTerm);
     }
 
 

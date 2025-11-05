@@ -617,7 +617,8 @@ switch ($Action) {
 
 		$query  = "SELECT t.id, CONCAT(r.name{$slang}, ' ', s.lastname, ' ', s.firstname, ' ', s.surname) AS responsible_name,
 		COALESCE(COUNT(td.id), 0) AS all_staff,
-		SUM(CASE WHEN td.patrul_type = 1 THEN 1 ELSE 0 END) AS ytu,
+		SUM(CASE WHEN td.patrul_type = 1 THEN 1 ELSE 0 END) AS walker_patrul,
+		SUM(CASE WHEN td.patrul_type = 2 THEN 1 ELSE 0 END) AS avto_patrul,
 		COALESCE(COUNT(js.id), 0) AS count_sos,
 		COALESCE(COUNT(jc.id), 0) AS count_cameras
 		FROM hr.daily_routine t 
@@ -693,6 +694,41 @@ switch ($Action) {
 		$JtsObjects = $sql->fetchAll();
 
 		$res = json_encode($JtsObjects);
+		break;
+
+	case "get_divisions":
+		$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
+		$query  = "SELECT t.id, t.name{$slang} as name
+		FROM ref.divisions t 
+		WHERE 1=1 ";
+		if ($structure_id > 0) {
+			$query .= " AND t.structure_id = {$structure_id} ";
+		}
+		$query .= " ORDER BY t.id ASC";
+		$sql->query($query);
+		$data = $sql->fetchAll();
+
+		$res = json_encode($data);
+		break;
+	case "get_staff":
+		$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
+		$division_id = isset($_GET['division_id']) ? $_GET['division_id'] : 0;
+
+		$query  = "SELECT t.id, CONCAT(r.name{$slang}, ' ', t.lastname, ' ', t.firstname, ' ', t.surname) AS name
+		FROM hr.staff t 
+		LEFT JOIN ref.ranks r ON r.id = t.rank_id
+		WHERE 1=1 ";
+		if ($structure_id > 0) {
+			$query .= " AND t.structure_id = {$structure_id} ";
+		}
+		if ($division_id > 0) {
+			$query .= " AND t.division_id = {$division_id} ";
+		}
+		$query .= " ORDER BY t.id ASC";
+		$sql->query($query);
+		$data = $sql->fetchAll();
+
+		$res = json_encode($data);
 		break;
 }
 
