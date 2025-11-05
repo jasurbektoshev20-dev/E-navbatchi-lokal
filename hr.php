@@ -639,6 +639,36 @@ switch ($Act) {
 			'Sos' => $Sos,
 		));
 		break;
+
+	case "hr_jts_objects_camera":
+		$object_id = ($_GET['id']);
+		$query  = "SELECT t.id, t.name, t.cam_code, t.is_ptz
+		FROM hr.jts_objects_camera t 
+		WHERE t.object_id = {$object_id}
+		ORDER BY t.id desc ";
+		$sql->query($query);
+		$Camera = $sql->fetchAll();
+
+
+		$smarty->assign(array(
+			'Camera' => $Camera,
+		));
+		break;
+
+	case "hr_dailiy_routine_date":
+		$object_id = ($_GET['id']);
+		$query  = "SELECT t.id, t.name, t.lat, t.long
+		FROM hr.dailiy_routine_date t 
+		WHERE t.routine_id = {$object_id}
+		ORDER BY t.id desc ";
+		$sql->query($query);
+		$RoutineDate = $sql->fetchAll();
+
+
+		$smarty->assign(array(
+			'RoutineDate' => $RoutineDate,
+		));
+		break;
 	/// jts_objects
 
 	case "hr_regions_map":
