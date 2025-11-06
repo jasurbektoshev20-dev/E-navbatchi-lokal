@@ -712,7 +712,7 @@ switch ($Action) {
 
 
 				$dataCam = GetCamUrl($camindex);
-				if ($dataCam['data']) {
+				if (isset($dataCam['data'])) {
 					$CamUrl[] = [
 						'id' => $camId,
 						'url' => $dataCam['data']['url'],
