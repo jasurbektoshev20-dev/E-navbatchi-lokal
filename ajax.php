@@ -717,13 +717,14 @@ switch ($Action) {
 						'id' => $camId,
 						'url' => $dataCam['data']['url'],
 						'isptz' => $IsPtz,
+						'status' => 1,
 						'name' => $comment
 					];
 				}else{
 					$CamUrl[] = [
 						'id' => $camId,
 						'url' => '',
-						'status' => 'no_connection',
+						'status' => 0,
 						'isptz' => $IsPtz,
 						'name' => $comment
 					];
