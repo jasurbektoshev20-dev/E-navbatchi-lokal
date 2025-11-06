@@ -16,6 +16,23 @@
         font-size: 16px !important;
     }
 
+    .date-filter-box{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 10px;
+    }
+
+    .date-filter-box div{
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .date-filter-box div button{
+        width: 250px;     
+    }
+
     {/literal}
 </style>
 
@@ -38,13 +55,22 @@
     <div class="row mt-3">
         <!-- Projects table -->
         <div class="col-12">
+            <div class="date-filter-box">
+                   <h5 class="pt-2 pb-2 p-4 m-0">Sana: 06.11.2025-yil</h5>     
+                     <div class="col-sm-4">
+                        <input class="form-control" type="date" placeholder="Boshlang'ich vaqtni tanlang">
+                        <input class="form-control" type="date" placeholder="Oxirgi vaqtni tanlang">
+                    
+                        <button class="btn btn-primary">Ko'rsatish</button>
+                     </div>   
+            </div>
             <div class="card">
                 <div class="card-datatable table-responsive">
                     <table class="datatables-projects table border-top table-hover table-striped table-bordered">
                         <thead>
                         <tr class="text-center">
                             <th>T/r</th>
-                            <th>Obyekt nomi</th>
+                            <th>Tadbir turi</th>
                             <th>Toshkent shahar</th>
                             <th>Andijon</th>
                             <th>Buxoro</th>
@@ -67,7 +93,7 @@
                             <td class="text-right">1</td>
                             <td>
                                 <a
-                                        href="hr.php?act=about_markets&mid={$smarty.get.mid}&date=">Siyosiy tadbirlar</a>
+                                        href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=">Siyosiy tadbirlar</a>
                             </td>
                             <td>4</td>
                             <td>2</td>
@@ -89,7 +115,7 @@
                             <td class="text-right">2</td>
                             <td>
                                 <a
-                                        href="hr.php?act=''&mid={$smarty.get.mid}&date=Toshkent shahar">Madaniy tadbirlar</a>
+                                        href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Toshkent shahar">Madaniy tadbirlar</a>
                             </td>
                             <td>5</td>
                             <td>3</td>
@@ -111,7 +137,7 @@
                             <td class="text-right">3</td>
                             <td>
                                 <a
-                                        href="hr.php?act=''&mid={$smarty.get.mid}&date=Toshkent shahar">Sport tadbirlar</a>
+                                        href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Toshkent shahar">Sport tadbirlar</a>
                             </td>
                             <td>4</td>
                             <td>2</td>
@@ -133,7 +159,7 @@
                             <td class="text-right">4</td>
                             <td>
                                 <a
-                                        href="hr.php?act=''&mid={$smarty.get.mid}&date=Toshkent shahar">Boshqa tadbirlar</a>
+                                        href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Toshkent shahar">Boshqa tadbirlar</a>
                             </td>
                             <td>3</td>
                             <td>1</td>
