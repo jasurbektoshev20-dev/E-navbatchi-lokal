@@ -698,6 +698,11 @@ switch ($Act) {
 		$sql->query($query);
 		$RoutineDate = $sql->fetchAll();
 
+		// 	echo '<pre>';
+		// print_r($RoutineDate);
+		// echo '</pre>';
+		// die();
+
 		$query  = "SELECT t.id, t.name{$slang} as name
 		FROM ref.patrul_types t 
 		ORDER BY t.id desc ";
