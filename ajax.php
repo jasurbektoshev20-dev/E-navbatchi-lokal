@@ -719,7 +719,7 @@ switch ($Action) {
 						'isptz' => $IsPtz,
 						'status' => 1,
 						'cam_index' => $camindex,
-						'name' => $comment
+						'comment' => $comment
 					];
 				}else{
 					$CamUrl[] = [
@@ -728,7 +728,7 @@ switch ($Action) {
 						'status' => 0,
 						'isptz' => $IsPtz,
 						'cam_index' => $camindex,
-						'name' => $comment
+						'comment' => $comment
 					];
 				}
 
