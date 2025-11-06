@@ -214,6 +214,8 @@
           $('.select2').val(null).trigger('change');
           $('#submitModal').modal('show');
         });
+        const urlParams = new URLSearchParams(window.location.search);
+        const obyekt_id = urlParams.get('obyekt');
 
 
         // $('#division_id').change(function () {
@@ -307,6 +309,7 @@
           const form_data = new FormData();
 
           form_data.append('id', id);
+           form_data.append('routine_id', obyekt_id); 
           form_data.append('patrul_type', $('#patrul_type').val());
           form_data.append('direction', $('#direction').val());
           form_data.append('smena', $('#smena').val());
