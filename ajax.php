@@ -710,12 +710,19 @@ switch ($Action) {
 				$IsPtz = $cam_c['is_ptz'];
 				$comment = $cam_c['name'];
 
-
 				$dataCam = GetCamUrl($camindex);
-				if (isset($dataCam['data'])) {
+				if (isset($dataCam['data']['url'])) {
 					$CamUrl[] = [
 						'id' => $camId,
 						'url' => $dataCam['data']['url'],
+						'isptz' => $IsPtz,
+						'name' => $comment
+					];
+				}else{
+					$CamUrl[] = [
+						'id' => $camId,
+						'url' => '',
+						'status' => 'no_connection',
 						'isptz' => $IsPtz,
 						'name' => $comment
 					];
