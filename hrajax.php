@@ -1441,6 +1441,7 @@ switch ($Action) {
         $division_id = $_POST['division_id'];
         $car_id = $_POST['car_id'];
         $epikirofka_id = $_POST['epikirofka_id'];
+        $bodycam_id = isset($_POST['bodycam_id']) ? $_POST['bodycam_id'] : 0;
 
         // staff_ids massiv ekanligini ta'minlash
         $staff_id = is_array($_POST['staff_id']) ? $_POST['staff_id'] : explode(',', $_POST['staff_id']);
@@ -1468,7 +1469,8 @@ switch ($Action) {
                 division_id = '{$division_id}',
                 staff_id = '{$staff_id}',
                 car_id = '{$car_id}',
-                epikirofka_id = '{$epikirofka_id}'
+                epikirofka_id = '{$epikirofka_id}',
+                bodycam_id = '{$bodycam_id}'
                 WHERE id = {$RowId}";
             $sql->query($updquery);
             if ($sql->error() == "") {

@@ -717,6 +717,12 @@ switch ($Act) {
 		$sql->query($query);
 		$Epikirovka = $sql->fetchAll();
 
+		$query  = "SELECT t.id, t.comment as name
+		FROM hr.body_cameras t 
+		ORDER BY t.id desc ";
+		$sql->query($query);
+		$BodyCams = $sql->fetchAll();
+
 		$query  = "SELECT t.id, CONCAT(r.name{$slang}, ' ', t.lastname, ' ', t.firstname, ' ', t.surname) AS name
 		FROM hr.staff t 
 		LEFT JOIN ref.ranks r ON r.id = t.rank_id
@@ -740,7 +746,7 @@ switch ($Act) {
 		$Cars = $sql->fetchAll();
 
 		// echo '<pre>';
-		// print_r($Cars);
+		// print_r($BodyCams);
 		// echo '</pre>';
 		// die();
 
