@@ -1509,23 +1509,36 @@ switch ($Action) {
         $patrul_type = $_POST['patrul_type'];
         $direction = $_POST['direction'];
         $smena = $_POST['smena'];
-        $division_id = $_POST['division_id'];
-        $car_id = $_POST['car_id'];
-        $epikirofka_id = $_POST['epikirofka_id'];
+        $division_id = isset($_POST['division_id']) ? $_POST['division_id'] : 0;
+        $car_id = isset($_POST['car_id']) ? $_POST['car_id'] : 0;
         $bodycam_id = isset($_POST['bodycam_id']) ? $_POST['bodycam_id'] : 0;
 
+        // Epikirofka IDs ni olish va tozalash
+        $epikirofka_ids_input = isset($_POST['epikirofka_id']) ? $_POST['epikirofka_id'] : '';
         // staff_ids massiv ekanligini ta'minlash
         $staff_id = is_array($_POST['staff_id']) ? $_POST['staff_id'] : explode(',', $_POST['staff_id']);
 
+
+
         // PostgreSQL Array formatiga o'tkazish
         // Array format: '{12, 34, 56}'
-        if (is_array($_POST['epikirofka_id'])) {
-            // Arraydagi integer qiymatlarni vergul bilan ajratib, qavs ichiga joylashtirish
-            $epikirofka_array_string = '{' . implode(',', $_POST['epikirofka_id']) . '}';
+        //epikirofka_id = 2,1
+
+        $ids_array = array_filter(
+            preg_split('/,\s*/', $epikirofka_ids_input, -1, PREG_SPLIT_NO_EMPTY)
+        );
+
+        // 3. PostgreSQL Array String formatiga konvertatsiya qilish: "{2,3,1}"
+
+        if (!empty($ids_array)) {
+            // Array elementlarini vergul bilan birlashtirish
+            $epikirofka_pg_array_string = '{' . implode(',', $ids_array) . '}';
         } else {
-            // Agar bitta qiymat bo'lsa yoki bo'lmasa
-            $epikirofka_array_string = 'NULL';
+            // Agar massiv bo'sh bo'lsa yoki 'NULL' qabul qilinsa, 'NULL' stringini ishlatish
+            $epikirofka_pg_array_string = 'NULL';
         }
+
+     
 
         $LastId = null; // So'nggi qo'shilgan ID ni saqlash uchun
         $success = true;
@@ -1540,7 +1553,7 @@ switch ($Action) {
                 division_id = '{$division_id}',
                 staff_id = '{$staff_id}',
                 car_id = '{$car_id}',
-                epikirofka_id = '{$epikirofka_id}',
+                epikirofka_id = '{$epikirofka_pg_array_string}',
                 bodycam_id = '{$bodycam_id}'
                 WHERE id = {$RowId}";
             $sql->query($updquery);
@@ -1551,9 +1564,9 @@ switch ($Action) {
                 $success = false;
             }
         } else {
-            foreach ($staff_ids as $staff_id) {
+            foreach ($staff_id as $staff) {
                 // Har bir aylanmada alohida staff_id o'zgaradi
-                $current_staff_id = (int) $staff_id;
+                $current_staff_id = (int) $staff;
 
                 $insquery = "INSERT INTO hr.dailiy_routine_date (
                     routine_id,
@@ -1572,7 +1585,7 @@ switch ($Action) {
                     '{$division_id}',
                     '{$current_staff_id}', -- Siklning joriy IDsi ishlatiladi
                     '{$car_id}',
-                    '{$epikirofka_array_string}' -- PostgreSQL array stringi ishlatiladi
+                    '{$epikirofka_pg_array_string}' -- PostgreSQL array stringi ishlatiladi
                 )";
 
                 $sql->query($insquery);
@@ -1591,7 +1604,7 @@ switch ($Action) {
                 $sql->query("SELECT CURRVAL('hr.dailiy_routine_date_id_seq') AS last_id;");
                 $result = $sql->fetchAssoc();
                 $LastId = $result['last_id'];
-                $res = "0<&sep&>" . MyPiCrypt($LastId);
+                $res =0;
             }
         }
         break;

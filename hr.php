@@ -179,10 +179,7 @@ switch ($Act) {
 		$BcmsStatus = $sql->fetchAll();
 
 
-		// echo '<pre>';
-		// print_r($BcmsStatus);
-		// echo '</pre>';
-		// die();
+
 
 		$smarty->assign(array(
 			'Menus'            =>    $Menus,
@@ -671,7 +668,7 @@ switch ($Act) {
 		break;
 
 	case "hr_dailiy_routine_date":
-		$object_id = isset($_GET['id']) ? ($_GET['id']) : 1;
+		$object_id = isset($_GET['obyekt']) ? ($_GET['obyekt']) : 1;
 
 
 		$query = "SELECT t.id, t.direction, t.smena, d.name{$slang} AS division, 
@@ -751,7 +748,7 @@ switch ($Act) {
 		$Cars = $sql->fetchAll();
 
 		// echo '<pre>';
-		// print_r($BodyCams);
+		// print_r($RoutineDate);
 		// echo '</pre>';
 		// die();
 
