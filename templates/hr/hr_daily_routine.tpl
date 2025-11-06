@@ -115,7 +115,7 @@
                         <!-- Javobgar shaxs -->
                         <div class="col-sm-6">
                             <label>Javobgar shaxs</label>
-                            <select id="respons_person_id" class="form-select">
+                            <select id="responsible_id" class="form-select">
                                 <option value="">Tanlang...</option>
                                   {foreach from=$Responsible item=obj}
                                     <option value="{$obj.id}">{$obj.name}</option>
@@ -172,7 +172,7 @@
         $('#id').val('');
         $('#structure_id').val('').trigger('change');
         $('#division_id').val('').trigger('change');
-        $('#respons_person_id').empty().append('<option value="">Tanlang...</option>');
+        $('#responsible_id').empty().append('<option value="">Tanlang...</option>');
         $('#object_id').val('');
         $('#day').val('');
     });
@@ -193,7 +193,7 @@
                 $('#structure_id').val(sInfo.structure_id || '').trigger('change');
 
                 // 🔹 2. Bo‘linmalarni yuklash
-                $.get('hrajax.php', {
+                $.get('ajax.php', {
                     act: 'get_divisions',
                     structure_id: sInfo.structure_id
                 })
@@ -203,12 +203,10 @@
                             return;
                         }
 
-                        console.log('Bo‘linmalar chiqdi:', divisions);
-
                         const $division = $('#division_id');
                         $division.empty().append('<option value="">Tanlang...</option>');
 
-                        $.each(divisions, function (_, d) {
+                        $.each(JSON.parse(divisions), function (_, d) {
                             $division.append(`<option value="${d.id}">${d.name}</option>`);
                         });
 
@@ -216,15 +214,17 @@
                         $division.val(sInfo.division_id || '').trigger('change');
 
                         // 🔹 3. Xodimlarni yuklash
-                        $.get('hrajax.php', {
+                        $.get('ajax.php', {
                             act: 'get_staff',
                             division_id: sInfo.division_id || sInfo.structure_id
                         })
-                            .done(function (staff) {
-                                const $staff = $('#respons_person_id');
+                            .done(function (staff) {                                
+                                const $staff = $('#responsible_id');
                                 $staff.empty().append('<option value="">Tanlang...</option>');
 
-                                $.each(staff, function (_, d) {
+                                $.each(JSON.parse(staff), function (_, d) {
+                                    console.log(111, d);
+                                    
                                     $staff.append(`<option value="${d.id}">${d.name}</option>`);
                                 });
 
@@ -254,7 +254,7 @@
         const structureId = $(this).val();
         if (!structureId) {
             $('#division_id').empty().append('<option value="">Tanlang...</option>');
-            $('#respons_person_id').empty().append('<option value="">Tanlang...</option>');
+            $('#responsible_id').empty().append('<option value="">Tanlang...</option>');
             return;
         }
 
@@ -274,9 +274,9 @@
             act: 'get_staff',
             structure_id: structureId
         }, function (staff) {
-            $('#respons_person_id').empty().append('<option value="">Tanlang...</option>');
+            $('#responsible_id').empty().append('<option value="">Tanlang...</option>');
             $.each(staff, function (i, d) {
-                $('#respons_person_id').append('<option value="' + d.id + '">' + d.name + '</option>');
+                $('#responsible_id').append('<option value="' + d.id + '">' + d.name + '</option>');
             });
         }, 'json');
     });
@@ -284,7 +284,7 @@
     $('#division_id').change(function () {
         const divisionId = $(this).val();
         if (!divisionId) {
-            $('#respons_person_id').empty().append('<option value="">Tanlang...</option>');
+            $('#responsible_id').empty().append('<option value="">Tanlang...</option>');
             return;
         }
 
@@ -292,9 +292,9 @@
             act: 'get_staff',
             division_id: divisionId
         }, function (staff) {
-            $('#respons_person_id').empty().append('<option value="">Tanlang...</option>');
+            $('#responsible_id').empty().append('<option value="">Tanlang...</option>');
             $.each(staff, function (i, d) {
-                $('#respons_person_id').append('<option value="' + d.id + '">' + d.name + '</option>');
+                $('#responsible_id').append('<option value="' + d.id + '">' + d.name + '</option>');
             });
         }, 'json');
     });
@@ -318,7 +318,7 @@
             form_data.append('day', $('#day').val());
             form_data.append('structure_id', $('#structure_id').val());
             form_data.append('division_id', $('#division_id').val());
-            form_data.append('responsible_id', $('#respons_person_id').val());
+            form_data.append('responsible_id', $('#responsible_id').val());
             form_data.append('object_id', $('#object_id').val());
 
             $.ajax({
