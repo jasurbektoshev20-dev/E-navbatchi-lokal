@@ -55,14 +55,6 @@ function MyEscapeSymbols($data)
 
 function GetCamUrl($camindex)
 {
-
-
-
-
-
-
-
-
 	// AppKey va AppSecret
 	$app_key = "25554795";
 	$app_secret = "x11zPwP4qlVtMOv7e3HN";

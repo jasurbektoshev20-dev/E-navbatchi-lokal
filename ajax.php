@@ -696,7 +696,8 @@ switch ($Action) {
 		}
 
 
-		$query  = "SELECT t.id, t.cam_code, t.is_ptz, t.name 
+		$query  = "SELECT t.id, t.cam_code, t.name,
+		case when t.is_ptz then 'false' else 'true' end as is_ptz
 		FROM hr.jts_objects_camera t 
 		WHERE t.object_id = {$JtsObject['id']}";
 		$sql->query($query);
