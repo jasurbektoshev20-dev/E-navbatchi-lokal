@@ -359,7 +359,7 @@
                                     </button>
                                     <span class="text-yellow ml-2" style="font-size: 22px;"><span class="current_camera"></span>:
                                         &nbsp; <span class="text-white camera_active"></span></span> &nbsp;&nbsp;&nbsp;
-                                    <span class="text-yellow" style="font-size: 22px;"><span class="camera_length"></span>: &nbsp;
+                                    <span class="text-yellow" style="font-size: 22px;">Joriy kamera <span class="camera_length"></span>: &nbsp;
                                         <span class="text-white camera_length"></span></span>
                                     <div class="col-3">
                                         <ul class="nav nav-pills mb-0">
@@ -495,6 +495,7 @@
 
     let region_id, object_id, object_type
 
+    let fetched_camera;
       
     // O‘zbekiston markazi koordinatalari
     const uzbekistanCenter = [41.2995, 69.2401]; // Toshkent markazi
@@ -617,23 +618,11 @@
 
 
                       $('#change_camera').empty();
-                      if (response.cameras) {
-                          $(".camera_length").html(response.cameras.length);
-                          response.cameras.forEach((item, index) => {
-                              $('#change_camera').append(`<a href="#" class="dropdown-item g_status camera_item" tabindex="-1" data-toggle="tab" 
-                                  style="font-size:22px;" ptz="${false}" cam_index="${1}" el_count="${index}" 
-                                  status="${1}" playURL="${item.url}">${item.name}</a>`)
-                              // if (item.status == 1) {
-                              //     $('#change_camera').append(`<a href="#" class="dropdown-item g_status camera_item" tabindex="-1" data-toggle="tab" 
-                              //         style="font-size:22px;" ptz="${item.isptz}" cam_index="${item.cam_index}" el_count="${index}" 
-                              //         status="${item.status}" playURL="${item.url}">${item.comment}</a>`)
-                                  
-                              // } else {
-                              //     $('#change_camera').append(`<a href="#" class="dropdown-item r_status camera_item" tabindex="-1" 
-                              //         data-toggle="tab" style="font-size:22px;" ptz="${item.isptz}" cam_index="${item.cam_index}" 
-                              //         el_count="${index}" status="${item.status}" playURL="${item.url}">${item.comment}</a>`)
-                              // }
-                          })
+                      if (response.cameras && response.cameras.length) {
+                          fetched_camera = response.cameras;
+                         
+                          get_camera()
+                          
                       }
                       
                     },
@@ -1082,25 +1071,26 @@
             clearInterval(camera_status_interval_id);
         })
 
-        async function get_camera_status(camera_idx) {
-            try {
-                const response = await $.ajax({
-                    type: "GET",
-                    url: `camstatus.php?act=get_camera_status_dep&camindex=${camera_idx}`,
-                    dataType: "json"
-                });
-                return response.status == 1;
-            } catch (error) {
-                console.error(error);
-                return false;
-            }
-        }
+        // async function get_camera_status(camera_idx) {
+        //     try {
+        //         const response = await $.ajax({
+        //             type: "GET",
+        //             url: `camstatus.php?act=get_camera_status_dep&camindex=${camera_idx}`,
+        //             dataType: "json"
+        //         });
+        //         return response.status == 1;
+        //     } catch (error) {
+        //         console.error(error);
+        //         return false;
+        //     }
+        // }
 
         let is_played = false;
         async function get_camera() {
             $('#change_camera').empty();
+            $(".camera_length").html(fetched_camera.length);
+
             arrangeWindow(1);
-            $("#camera_modal").modal("show");
             fetched_camera.forEach((item, index) => {
                 if (item.status == 1) {
                     $('#change_camera').append(`<a href="#" class="dropdown-item camera_item g_status" tabindex="-1" data-toggle="tab" 
@@ -1116,8 +1106,8 @@
             console.log(fetched_camera[0])
             $("#current_camera").html(fetched_camera[0].comment);
             let playURL = fetched_camera[0].url;
-            const current_status = await get_camera_status(fetched_camera[0].cam_index);
-            if (current_status) {
+            // const current_status = await get_camera_status(fetched_camera[0].cam_index);
+            if (fetched_camera[0].status) {
                 if (fetched_camera[0].isptz == 1) $("#controller").show();
                 jsDecoder.JS_Play(playURL, { playURL }, 0).then(
                     function() { 
@@ -1140,18 +1130,18 @@
             $(".camera_active").html(`1`);
             $(".camera_length").html(fetched_camera.length);
 
-            camera_status_interval_id = setInterval(() => {
-                fetched_camera.forEach(async (item, index) => {
-                    const current_status = await get_camera_status(item.cam_index);
-                    var classValue = $(`#change_camera a[cam_index="${item.cam_index}"]`).attr('class');
-                    var remove_class = classValue.split(' ')[2];
-                    if (current_status) {
-                        $(`#change_camera a[cam_index="${item.cam_index}"]`).removeClass(remove_class).addClass('g_status');
-                    } else {
-                        $(`#change_camera a[cam_index="${item.cam_index}"]`).removeClass(remove_class).addClass('r_status');
-                    }
-                })
-            }, camera_status_interval_time);
+            // camera_status_interval_id = setInterval(() => {
+            //     fetched_camera.forEach(async (item, index) => {
+            //         const current_status = await get_camera_status(item.cam_index);
+            //         var classValue = $(`#change_camera a[cam_index="${item.cam_index}"]`).attr('class');
+            //         var remove_class = classValue.split(' ')[2];
+            //         if (current_status) {
+            //             $(`#change_camera a[cam_index="${item.cam_index}"]`).removeClass(remove_class).addClass('g_status');
+            //         } else {
+            //             $(`#change_camera a[cam_index="${item.cam_index}"]`).removeClass(remove_class).addClass('r_status');
+            //         }
+            //     })
+            // }, camera_status_interval_time);
         }
         async function get_body_camera() {
             $('#change_camera').empty();
