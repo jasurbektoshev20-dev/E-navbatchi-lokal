@@ -641,8 +641,8 @@ switch ($Action) {
 		SUM(CASE WHEN td.patrul_type = 4 THEN 1 ELSE 0 END) AS horse_patrul,
 		COUNT(DISTINCT td.car_id) AS car_count,
 		COALESCE(SUM(cardinality(td.epikirofka_id)), 0) AS epikirofka_count,
-		COALESCE(COUNT(js.id), 0) AS count_sos,
-		COALESCE(COUNT(jc.id), 0) AS count_cameras,
+		COALESCE(COUNT(DISTINCT js.id), 0) AS count_sos,
+		COALESCE(COUNT(DISTINCT jc.id), 0) AS count_cameras,
 		COALESCE(COUNT(DISTINCT td.patrul_type), 0) AS patrul_types_count
 		FROM hr.daily_routine t 
 		LEFT JOIN hr.dailiy_routine_date td ON td.routine_id = t.id
@@ -697,7 +697,7 @@ switch ($Action) {
 
 
 		$query  = "SELECT t.id, t.cam_code, t.name,
-		case when t.is_ptz then 0 else 1 end as is_ptz
+		case when t.is_ptz then 1 else 0 end as is_ptz
 		FROM hr.jts_objects_camera t 
 		WHERE t.object_id = {$JtsObject['id']}";
 		$sql->query($query);
@@ -749,7 +749,7 @@ switch ($Action) {
 		break;
 
 	case "get_jts_map":
-		$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
+		$structure_id = isset($_GET['region_id']) ? $_GET['region_id'] : 0;
 		$object_type = isset($_GET['object_type']) ? $_GET['object_type'] : 0;
 		$object_id = isset($_GET['object_id']) ? $_GET['object_id'] : 0;
 
@@ -808,12 +808,19 @@ switch ($Action) {
 
 	case "get_jst_objects":
 		$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
+		$object_type = isset($_GET['object_type']) ? $_GET['object_type'] : 0;
 
 		$query  = "SELECT t.id, t.object_name as name 
 		FROM hr.jts_objects t 
 		WHERE 1=1 ";
 		if ($UserStructure > 1) {
 			$query .= " AND t.structure_id = {$UserStructure} ";
+		}
+		if ($structure_id > 0) {
+			$query .= " AND t.structure_id = {$structure_id} ";
+		}
+		if ($object_type > 0) {
+			$query .= " AND t.object_type = {$object_type} ";
 		}
 		$query .= " ORDER BY t.id desc";
 		$sql->query($query);
