@@ -1367,13 +1367,12 @@ switch ($Action) {
 
 
     case "act_daily_routine":
-        $RowId = (!empty($_POST['id'])) ? MyPiDeCrypt($_POST['id']) : 0;
+        $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
         $object_id = $_POST['object_id'];
         $structure_id = isset($_POST['structure_id']) ? $_POST['structure_id'] : $UserStructure;
         $date = isset($_POST['day']) ? strtotime($_POST['day']) : null;
         $responsible_id = $_POST['responsible_id'];
         $division_id = $_POST['division_id'];
-
 
         if ($RowId != "0") {
             // Update existing record
@@ -1386,7 +1385,7 @@ switch ($Action) {
                 WHERE id = {$RowId}";
             $sql->query($updquery);
             if ($sql->error() == "") {
-                $res = "0<&sep&>" . MyPiCrypt($RowId);
+                $res = 0;
             } else {
                 $res = $sql->error();
             }
