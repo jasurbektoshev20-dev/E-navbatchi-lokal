@@ -718,6 +718,7 @@ switch ($Action) {
 						'url' => $dataCam['data']['url'],
 						'isptz' => $IsPtz,
 						'status' => 1,
+						'cam_index' => $camindex,
 						'name' => $comment
 					];
 				}else{
@@ -726,6 +727,7 @@ switch ($Action) {
 						'url' => '',
 						'status' => 0,
 						'isptz' => $IsPtz,
+						'cam_index' => $camindex,
 						'name' => $comment
 					];
 				}
