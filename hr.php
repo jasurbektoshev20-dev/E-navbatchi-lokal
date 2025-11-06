@@ -671,17 +671,88 @@ switch ($Act) {
 		break;
 
 	case "hr_dailiy_routine_date":
-		$object_id = $_GET['id'];
-		$query  = "SELECT t.id, t.name, t.lat, t.long
-		FROM hr.dailiy_routine_date t 
-		WHERE t.routine_id = {$object_id}
-		ORDER BY t.id desc ";
+		$object_id = isset($_GET['id']) ? ($_GET['id']) : 1;
+
+
+		$query = "SELECT t.id, t.direction, t.smena, d.name{$slang} AS division, 
+         p.name{$slang} AS patrul_type,
+         CONCAT(s.lastname,' ',s.firstname,' ', s.surname) AS staff, 
+         c.plate_number AS car,
+         (
+            SELECT 
+                STRING_AGG(e.name{$slang}, ', ') 
+            FROM 
+                unnest(t.epikirofka_id) AS single_epic_id
+            JOIN 
+                ref.epic e ON e.id = single_epic_id
+         ) AS epic
+         FROM hr.dailiy_routine_date t 
+         LEFT JOIN ref.patrul_types p ON p.id = t.patrul_type
+         LEFT JOIN ref.divisions d ON d.id = t.division_id
+         LEFT JOIN hr.staff s ON s.id = t.staff_id
+         LEFT JOIN hr.tech_guard_cars c ON c.id = t.car_id
+         
+         WHERE t.routine_id = {$object_id}
+         ORDER BY t.id DESC";
+
 		$sql->query($query);
 		$RoutineDate = $sql->fetchAll();
+
+		$query  = "SELECT t.id, t.name{$slang} as name
+		FROM ref.patrul_types t 
+		ORDER BY t.id desc ";
+		$sql->query($query);
+		$PatrulTypes = $sql->fetchAll();
+
+		$query  = "SELECT t.id, t.name{$slang} as name
+		FROM ref.divisions t 
+		ORDER BY t.id desc ";
+		$sql->query($query);
+		$Divisions = $sql->fetchAll();
+
+
+		$query  = "SELECT t.id, t.name{$slang} as name
+		FROM ref.epic t 
+		ORDER BY t.id desc ";
+		$sql->query($query);
+		$Epikirovka = $sql->fetchAll();
+
+		$query  = "SELECT t.id, CONCAT(r.name{$slang}, ' ', t.lastname, ' ', t.firstname, ' ', t.surname) AS name
+		FROM hr.staff t 
+		LEFT JOIN ref.ranks r ON r.id = t.rank_id
+		WHERE 1=1 ";
+		if ($UserStructure > 1) {
+			$query .= " AND t.structure_id = {$UserStructure} ";
+		}
+		$query .= " ORDER BY t.id ASC";
+		$sql->query($query);
+		$Staffs = $sql->fetchAll();
+
+
+		$query  = "SELECT t.id, t.plate_number AS name
+		FROM hr.tech_guard_cars t 
+		WHERE 1=1 ";
+		if ($UserStructure > 1) {
+			$query .= " AND t.structure_id = {$UserStructure} ";
+		}
+		$query .= " ORDER BY t.id ASC";
+		$sql->query($query);
+		$Cars = $sql->fetchAll();
+
+		// echo '<pre>';
+		// print_r($Cars);
+		// echo '</pre>';
+		// die();
+
 
 
 		$smarty->assign(array(
 			'RoutineDate' => $RoutineDate,
+			'PatrulTypes' => $PatrulTypes,
+			'Divisions' => $Divisions,
+			'Epikirovka' => $Epikirovka,
+			'Staffs' => $Staffs,
+			'Cars' => $Cars,
 		));
 		break;
 	/// jts_objects
