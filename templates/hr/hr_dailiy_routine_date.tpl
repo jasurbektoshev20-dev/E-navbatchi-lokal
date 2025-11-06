@@ -135,7 +135,6 @@
               <div class="col-sm-6 mt-3">
                 <label for="responsible_person_date">Harbiy xizmatchilarni tanlang</label>
                 <select required id="staff_id" class="select2 form-select" multiple>
-                  <option value="">Tanlang...</option>
                    {foreach from=$Staffs item=obj}
                       <option value="{$obj.id}">{$obj.name}</option>
                    {/foreach}
@@ -145,7 +144,6 @@
               <div class="col-sm-4">
                   <label for="select2Multiple" class="form-label">Epikirovkani tanlang</label>
                   <select id="epikirofka_id" class="select2 form-select" multiple>
-                  <option value="">Tanlang...</option>
                 {foreach from=$Epikirovka item=obj}
                       <option value="{$obj.id}">{$obj.name}</option>
                 {/foreach}
@@ -236,7 +234,7 @@
 
               $('#division_id').change(function () {
         const division_id = $(this).val();
-        const structure_id = $('#structure_id').val(); // Strukturani ham olib yuboramiz
+        const structure_id = $('#structure_id').val(); 
 
         if (!division_id) {
           $('#staff_id').empty().append('<option value="">Tanlang...</option>').trigger('change');
