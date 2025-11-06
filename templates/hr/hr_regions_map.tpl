@@ -617,24 +617,24 @@
 
 
                       $('#change_camera').empty();
-                        if (response.cameras) {
-                            $(".camera_length").html(response.cameras.length);
-                            response.cameras.forEach((item, index) => {
-                                $('#change_camera').append(`<a href="#" class="dropdown-item g_status camera_item" tabindex="-1" data-toggle="tab" 
-                                    style="font-size:22px;" ptz="${false}" cam_index="${1}" el_count="${index}" 
-                                    status="${1}" playURL="${item.url}">${item.name}</a>`)
-                                // if (item.status == 1) {
-                                //     $('#change_camera').append(`<a href="#" class="dropdown-item g_status camera_item" tabindex="-1" data-toggle="tab" 
-                                //         style="font-size:22px;" ptz="${item.isptz}" cam_index="${item.cam_index}" el_count="${index}" 
-                                //         status="${item.status}" playURL="${item.url}">${item.comment}</a>`)
-                                    
-                                // } else {
-                                //     $('#change_camera').append(`<a href="#" class="dropdown-item r_status camera_item" tabindex="-1" 
-                                //         data-toggle="tab" style="font-size:22px;" ptz="${item.isptz}" cam_index="${item.cam_index}" 
-                                //         el_count="${index}" status="${item.status}" playURL="${item.url}">${item.comment}</a>`)
-                                // }
-                            })
-                        }
+                      if (response.cameras) {
+                          $(".camera_length").html(response.cameras.length);
+                          response.cameras.forEach((item, index) => {
+                              $('#change_camera').append(`<a href="#" class="dropdown-item g_status camera_item" tabindex="-1" data-toggle="tab" 
+                                  style="font-size:22px;" ptz="${false}" cam_index="${1}" el_count="${index}" 
+                                  status="${1}" playURL="${item.url}">${item.name}</a>`)
+                              // if (item.status == 1) {
+                              //     $('#change_camera').append(`<a href="#" class="dropdown-item g_status camera_item" tabindex="-1" data-toggle="tab" 
+                              //         style="font-size:22px;" ptz="${item.isptz}" cam_index="${item.cam_index}" el_count="${index}" 
+                              //         status="${item.status}" playURL="${item.url}">${item.comment}</a>`)
+                                  
+                              // } else {
+                              //     $('#change_camera').append(`<a href="#" class="dropdown-item r_status camera_item" tabindex="-1" 
+                              //         data-toggle="tab" style="font-size:22px;" ptz="${item.isptz}" cam_index="${item.cam_index}" 
+                              //         el_count="${index}" status="${item.status}" playURL="${item.url}">${item.comment}</a>`)
+                              // }
+                          })
+                      }
                       
                     },
                     error: function(xhr, status, error) {
