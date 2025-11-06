@@ -656,20 +656,62 @@ switch ($Action) {
 		$sql->query($query);
 		$Routine = $sql->fetchAssoc();
 
+
+
 		$JtsObject['routine'] = $Routine;
+		$BodyCamUrl = [];
+		$Bodys = [];
 		if ($Routine) {
-			$query  = "SELECT t.id, t.car_id
+			$query  = "SELECT t.id, t.car_id, t.bodycam_id
 			FROM hr.dailiy_routine_date t 
 			WHERE t.routine_id = {$Routine['id']}
 			ORDER BY t.id desc";
 			$sql->query($query);
 			$RoutineDate = $sql->fetchAll();
 
+
+
 			foreach ($RoutineDate as $key => $value) {
 				$car_ids[] = $value['car_id'];
+				if (isset($value['bodycam_id'])) {
+					$query  = "SELECT t.id, t.cam_code, t.comment
+					FROM hr.body_cameras t 
+					WHERE t.id = {$value['bodycam_id']}";
+					$sql->query($query);
+					$Bodys = $sql->fetchAll();
+				}
 			}
 		}
 
+
+		if ($Bodys) {
+			foreach ($Bodys as $bkey => $body_c) {
+				$bodycamindex = $body_c['cam_code'];
+				$bodyCamId = $body_c['id'];
+				$comment = $body_c['comment'];
+
+				$dataBodyCam = GetCamUrl($bodycamindex);
+				if (isset($dataBodyCam['data']['url'])) {
+					$BodyCamUrl[] = [
+						'id' => $bodyCamId,
+						'url' => $dataBodyCam['data']['url'],
+						'status' => 1,
+						'cam_index' => $bodycamindex,
+						'comment' => $comment
+					];
+				} else {
+					$BodyCamUrl[] = [
+						'id' => $bodyCamId,
+						'url' => '',
+						'status' => 0,
+						'cam_index' => $bodycamindex,
+						'comment' => $comment
+					];
+				}
+			}
+		}
+
+		$JtsObject['body_cameras'] = $BodyCamUrl;
 		$JtsObject['tracks'] = [];
 		if ($car_ids) {
 			$query = "SELECT 
@@ -721,7 +763,7 @@ switch ($Action) {
 						'cam_index' => $camindex,
 						'comment' => $comment
 					];
-				}else{
+				} else {
 					$CamUrl[] = [
 						'id' => $camId,
 						'url' => '',
@@ -731,17 +773,8 @@ switch ($Action) {
 						'comment' => $comment
 					];
 				}
-
-
 			}
 		}
-
-		// $CamUrl[] = [
-		// 	'id' => 1,
-		// 	'url' => 'ws://10.119.0.2:559/sms/HCPEurl/commonvideobiz_4nsIc77VPXOC36yh9SjSyUxgjeWzpyeuCBt8Th6q61Vntl%2FQTFt7PLeKsVjj0sxKWXA4DEhqkG55HTwpvSNqkDjP2gupD9v6AoVvB2cISLErzV%2F90csAGgWt7WmaPCN4wPZsHjt0xX%2FDimRToiFS9Qs9QsTOLG2qLZau8J4cmAgepIapuc9YS8wy5%2FEvPEAB3I5H9XVW%2FC7nlyvIZaXLRaEcBTlIuU66zhigLiiaC1c%3D',
-		// 	'isptz' => false,
-		// 	'name' => 'Test Camera'
-		// ];
 
 		$result['data'] = $JtsObject;
 		$result['cameras'] = $CamUrl;

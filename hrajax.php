@@ -1338,6 +1338,77 @@ switch ($Action) {
         break;
     /// jts_objects_sos ==============================================
 
+    case "get_body_cameras":
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "SELECT t.* from hr.body_cameras t where t.id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+        $result['rowid'] = MyPiCrypt($result['id']);
+
+        $res = json_encode($result);
+        break;
+
+    case "act_body_cameras":
+        $RowId = (!empty($_POST['id'])) ? MyPiDeCrypt($_POST['id']) : 0;
+        $structure_id = $_POST['structure_id'];
+        $comment = $_POST['comment'];
+        $cam_code = $_POST['cam_code'];
+
+
+        if ($RowId != "0") {
+            // Update existing record
+            $updquery = "UPDATE hr.body_cameras SET
+                structure_id = '{$structure_id}',
+                comment = '{$comment}',
+                cam_code = '{$cam_code}'
+                WHERE id = {$RowId}";
+            $sql->query($updquery);
+            if ($sql->error() == "") {
+                $res = "0<&sep&>" . MyPiCrypt($RowId);
+            } else {
+                $res = $sql->error();
+            }
+        } else {
+            // Insert new record
+            $insquery = "INSERT INTO hr.body_cameras (
+                    structure_id,
+                    comment,
+                    cam_code
+                ) VALUES (
+                    '{$structure_id}',
+                    '{$comment}',
+                    '{$cam_code}'
+                )";
+            $sql->query($insquery);
+
+            if ($sql->error() == "") {
+                $sql->query("SELECT CURRVAL('hr.body_cameras_id_seq') AS last_id;");
+                $result = $sql->fetchAssoc();
+                $LastId = $result['last_id'];
+                $res = "0<&sep&>" . MyPiCrypt($LastId);
+            } else {
+                $res = $sql->error();
+            }
+        }
+        break;
+
+    case "del_body_cameras":
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "DELETE FROM hr.body_cameras WHERE id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+
+        if ($sql->error() == "") {
+            $res = 0;
+        } else {
+            $res = 2;
+        }
+        break;
+    /// jts_objects_sos ==============================================
+
+
     case "get_daily_routine":
         $RowId = MyPiDeCrypt($_GET['rowid']);
         $query = "SELECT t.*, to_char(t.date, 'YYYY-MM-DD') as date_formatted 
@@ -1441,6 +1512,7 @@ switch ($Action) {
         $division_id = $_POST['division_id'];
         $car_id = $_POST['car_id'];
         $epikirofka_id = $_POST['epikirofka_id'];
+        $bodycam_id = isset($_POST['bodycam_id']) ? $_POST['bodycam_id'] : 0;
 
         // staff_ids massiv ekanligini ta'minlash
         $staff_id = is_array($_POST['staff_id']) ? $_POST['staff_id'] : explode(',', $_POST['staff_id']);
@@ -1468,7 +1540,8 @@ switch ($Action) {
                 division_id = '{$division_id}',
                 staff_id = '{$staff_id}',
                 car_id = '{$car_id}',
-                epikirofka_id = '{$epikirofka_id}'
+                epikirofka_id = '{$epikirofka_id}',
+                bodycam_id = '{$bodycam_id}'
                 WHERE id = {$RowId}";
             $sql->query($updquery);
             if ($sql->error() == "") {

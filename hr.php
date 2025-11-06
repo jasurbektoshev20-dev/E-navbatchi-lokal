@@ -722,6 +722,12 @@ switch ($Act) {
 		$sql->query($query);
 		$Epikirovka = $sql->fetchAll();
 
+		$query  = "SELECT t.id, t.comment as name
+		FROM hr.body_cameras t 
+		ORDER BY t.id desc ";
+		$sql->query($query);
+		$BodyCams = $sql->fetchAll();
+
 		$query  = "SELECT t.id, CONCAT(r.name{$slang}, ' ', t.lastname, ' ', t.firstname, ' ', t.surname) AS name
 		FROM hr.staff t 
 		LEFT JOIN ref.ranks r ON r.id = t.rank_id
@@ -745,7 +751,7 @@ switch ($Act) {
 		$Cars = $sql->fetchAll();
 
 		// echo '<pre>';
-		// print_r($Cars);
+		// print_r($BodyCams);
 		// echo '</pre>';
 		// die();
 
@@ -758,6 +764,49 @@ switch ($Act) {
 			'Epikirovka' => $Epikirovka,
 			'Staffs' => $Staffs,
 			'Cars' => $Cars,
+			'BodyCams' => $BodyCams,
+		));
+		break;
+
+	case "hr_body_cameras":
+
+		$query  = "SELECT t.*, s.name{$slang} as structure
+		FROM hr.body_cameras t 
+		LEFT JOIN hr.structure s on s.id = t.structure_id
+		WHERE 1=1 ";
+		if ($UserStructure > 1) {
+			$query .= " AND t.structure_id = {$UserStructure} ";
+		}
+		$query .= " ORDER BY t.id desc ";
+		$sql->query($query);
+		$BodyCams = $sql->fetchAll();
+
+		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t 
+		where id > 1 and id < 16
+		ORDER BY t.turn ASC";
+		$sql->query($query);
+		$Regions = $sql->fetchAll();
+
+		// echo '<pre>';
+		// print_r($BodyCams);
+		// echo '</pre>';
+		// die();
+
+
+
+		$smarty->assign(array(
+			'BodyCams' => $BodyCams,
+			'Regions' => $Regions,
+		));
+		// echo '<pre>';
+		// print_r($BodyCams);
+		// echo '</pre>';
+		// die();
+
+
+
+		$smarty->assign(array(
+			'BodyCams' => $BodyCams,
 		));
 		break;
 	/// jts_objects
