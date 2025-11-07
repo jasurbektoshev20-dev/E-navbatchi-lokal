@@ -94,6 +94,14 @@
                 background: none !important;
             }
 
+            .dark-style .map-tiles {
+                filter: brightness(0.65) invert(.8) contrast(4) hue-rotate(200deg) saturate(0.3) brightness(0.7);
+            }
+
+            #map-rounded .map-tiles {
+                filter: brightness(0.65) invert(.8) contrast(4) hue-rotate(200deg) saturate(0.3) brightness(0.7);
+            }
+
         {/literal}
     </style>
 </head>
