@@ -662,7 +662,7 @@ switch ($Action) {
 		$BodyCamUrl = [];
 		$Bodys = [];
 		if ($Routine) {
-			$query  = "SELECT t.id, t.car_id, t.bodycam_id
+			$query  = "SELECT t.id, t.car_id, t.bodycam_id, t.patrul_type
 			FROM hr.dailiy_routine_date t 
 			WHERE t.routine_id = {$Routine['id']}
 			ORDER BY t.id desc";
@@ -673,7 +673,7 @@ switch ($Action) {
 
 			foreach ($RoutineDate as $key => $value) {
 				$car_ids[] = $value['car_id'];
-				if (isset($value['bodycam_id'])) {
+				if (isset($value['bodycam_id']) && $value['patrul_type'] == 1) {
 					$query  = "SELECT t.id, t.cam_code, t.comment, t.lat, t.long
 					FROM hr.body_cameras t 
 					WHERE t.id = {$value['bodycam_id']}";

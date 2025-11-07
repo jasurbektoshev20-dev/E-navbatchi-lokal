@@ -1526,8 +1526,13 @@ switch ($Action) {
         $direction = $_POST['direction'];
         $smena = $_POST['smena'];
         $division_id = isset($_POST['division_id']) ? $_POST['division_id'] : 0;
-        $car_id = isset($_POST['car_id']) ? $_POST['car_id'] : 0;
+        $car_id = !empty($_POST['car_id']) ? $_POST['car_id'] : 0;
         $bodycam_id = isset($_POST['bodycam_id']) ? $_POST['bodycam_id'] : 0;
+
+        // echo '<pre>';
+        // print_r($car_id);
+        // echo '</pre>';
+        // die();
 
         // Epikirofka IDs ni olish va tozalash
         $epikirofka_ids_input = isset($_POST['epikirofka_id']) ? $_POST['epikirofka_id'] : '';
