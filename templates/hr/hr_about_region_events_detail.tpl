@@ -12,44 +12,36 @@
         margin-left: 20px;
     }
 
-    .date-box{
+    /* .date-box{
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-end;
       padding: 10px 0px;
-      align-items: center;
       width: 83%;
       position: absolute;
       margin: 0 auto;
-      left: 8%;
     }
 
-      @media (max-width: 2800px){
-     .date-box{
-      width: 75%;
-      left: 12%;
-    }
-      }
+    .date-box .date-box-select .date-box-sel-link{
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        text-decoration: none;
+        box-sizing: border-box;
+        white-space: nowrap;
+        border: 1px solid #cfcece;
+        border-radius: 7px;
+        padding: 7px 20px;
+        color: #6f6b7d;
+         background-color: green;
+        color: #fff;
+    } */
 
-           @media (max-width: 2200px){
-     .date-box{
-      width: 65%;
-      left: 15%;
-    }
-      }
-
-             @media (max-width: 1900px){
-     .date-box{
-       width: 35%; 
-     left:20%; 
-    }
       .date-box{
-        position: relative;
-        left:0%;
-        width: 100%;
-        justify-content: space-around;
-        margin: 0;
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 20px;
+      align-items: center;
     }
-      }
 
     .date-box .date-box-select{
         display: flex;
@@ -67,20 +59,14 @@
         border-radius: 7px;
         padding: 7px 20px;
         color: #6f6b7d;
-         background-color: green;
+        background-color: green;
         color: #fff;
     }
 
+
     @media (max-width: 1900px) {
-  .card-datatable {
-    overflow-x: auto;
-  }
 
-  .card-datatable table {
-    min-width: 1900px; 
-  }
-
-}
+    }
 
   .vertical-header th {
   writing-mode: vertical-rl; 
@@ -99,122 +85,6 @@
   text-align: left ;          
   vertical-align: middle ;    
 }
-
- /* Oq fon uchun */
-/*
-.table.vertical-header .card-datatable-tr th:nth-child(n+3):nth-child(-n+7),
-.table.vertical-header td:nth-child(n+3):nth-child(-n+7) {
-  background-color: #f9f9f9; 
-}
-
-.table.vertical-header th:nth-child(n+8):nth-child(-n+14),
-.table.vertical-header td:nth-child(n+8):nth-child(-n+14) {
-  background-color: #f3f7ff; 
-}
-
-.table.vertical-header th:nth-child(n+15):nth-child(-n+27),
-.table.vertical-header td:nth-child(n+15):nth-child(-n+27) {
-  background-color: #fef6e4; 
-}
-
-
-.table.vertical-header th:nth-child(n+28):nth-child(-n+32),
-.table.vertical-header td:nth-child(n+28):nth-child(-n+32) {
-  background-color: #f3fff3; 
-}
-
-.table.vertical-header th:nth-child(n+33):nth-child(-n+37),
-.table.vertical-header td:nth-child(n+33):nth-child(-n+37) {
-  background-color: #fff5f8; 
-}
-
-.table.vertical-header th:nth-child(n+38):nth-child(-n+43),
-.table.vertical-header td:nth-child(n+38):nth-child(-n+43) {
-  background-color: #f5f5ff; 
-}
-
-.table.vertical-header th:nth-child(n+44):nth-child(-n+51),
-.table.vertical-header td:nth-child(n+44):nth-child(-n+51) {
-  background-color: #f8f8f0; 
-}*/
-
-
-.table.vertical-header td:nth-child(2) {
-  border-right: 1px solid #000 !important; /* orqa fon rangiga mos chiziq */
-}
-/* Guruh 1 */
-.table.vertical-header td:nth-child(7) {
-  border-right: 1px solid #000 !important; /* orqa fon rangiga mos chiziq */
-}
-
-/* Guruh 2 */
-.table.vertical-header td:nth-child(14) {
- border-right: 1px solid #000 !important;
-}
-
-/* Guruh 3 */
-.table.vertical-header td:nth-child(19) {
-  border-right: 1px solid #000 !important;
-}
-
-/* Guruh 4 */
-.table.vertical-header td:nth-child(24) {
-   border-right: 1px solid #000 !important;
-}
-
-.table.vertical-header td:nth-child(36) {
-  border-right: 1px solid #000 !important;
-}
-
-.table.vertical-header td:nth-child(42) {
-    border-right: 1px solid #000 !important;
-}
-
-.table.vertical-header td:nth-child(50) {
-    border-right: 1px solid #000 !important;
-}
-
-
-
-
-    /* Qora fon uchun */
-
-.table.vertical-header .card-datatable-tr th:nth-child(n+3):nth-child(-n+7),
-.table.vertical-header td:nth-child(n+3):nth-child(-n+7) {
-  background-color: #1e1e1e; 
-}
-
-.table.vertical-header th:nth-child(n+8):nth-child(-n+14),
-.table.vertical-header td:nth-child(n+8):nth-child(-n+14) {
-  background-color: #23262b; 
-}
-
-.table.vertical-header th:nth-child(n+15):nth-child(-n+19),
-.table.vertical-header td:nth-child(n+15):nth-child(-n+19) {
-  background-color: #2b2f33; 
-}
-
-.table.vertical-header th:nth-child(n+20):nth-child(-n+24),
-.table.vertical-header td:nth-child(n+20):nth-child(-n+24) {
-  /* background-color: #272a2f;  */
-  background-color: #30343a; 
-}
-
-.table.vertical-header th:nth-child(n+25):nth-child(-n+36),
-.table.vertical-header td:nth-child(n+25):nth-child(-n+36) {
-  /*   */
-  background-color: #272a2f
-}
-
-.table.vertical-header th:nth-child(n+37):nth-child(-n+42),
-.table.vertical-header td:nth-child(n+37):nth-child(-n+42) {
- background-color: #35393f; 
-}
-
-.table.vertical-header th:nth-child(n+43):nth-child(-n+50),
-.table.vertical-header td:nth-child(n+43):nth-child(-n+50) {
-  background-color: #3a3e44; 
-} 
 
 .vertical-header thead .group-row th {
   color: #fff;
@@ -245,28 +115,33 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body text-center">
-                    <h4>Milliy gvardiya {$smarty.get.date} bo'yicha boshqarmasi javobgarlik hududidagi bozorlarga  jamoat tartibini <br> saqlash va jamoat xavfsizligini ta’minlashga jalb etilgan kuch  va vositalar to‘g‘risida <br> <span>MA'LUMOT</span> </h4>
+                    <h4>O'zbekiston Respublikasi {$smarty.get.date} markazida o'tkaziladigan ommaviy tadbir davrida <br> Milliy Gvardiya xududiy bo'linmalari tomonidan jalb etiladigan kuch va vositalar to'g'risida  <br> <span>MA'LUMOT</span> </h4>
                 </div>
             </div>
         </div>
     </div>
-
+   
 
 
     <div class="row mt-3">
         <!-- Projects table -->
         <div class="col-12">
             <div class="card">
-                 {* <div class="date-box">
-                   <h5 class="pt-2 pb-2 m-0">Sana: 29.10.2025-yil</h5>
+                  {* <div class="date-box">
                    <div class="date-box-select">
-                     <select class="form-select" aria-label="Default select example">
-                            <option selected>Umumiy smena</option>
-                            <option value="1">1-smena</option>
-                            <option value="2">2-smena</option>
-                            <option value="3">3-smena</option>
-                      </select>
-                       <input class="form-control" type="date" placeholder="Vaqtni tanlang">
+                      <a href="#" class="date-box-sel-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-file-earmark-text" viewBox="0 0 16 16">
+                          <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5"/>
+                          <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>
+                        </svg>  Yuklab olish
+                      </a>
+                   </div>
+               
+                </div>    *}
+                 <div class="date-box">
+                   <h5 class="pt-2 pb-2 p-4 m-0">Sana: 06.11.2025-yil</h5>
+                   <div class="date-box-select">
+                     
                       <a href="#" class="date-box-sel-link">
                         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-file-earmark-text" viewBox="0 0 16 16">
   <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5"/>
@@ -275,22 +150,11 @@
                       </a>
                    </div>
                
-                </div>   *}
+                </div>
                 <div class="card-datatable table-responsive">
                 
                     <table class="datatables-projects table table-hover vertical-header table-bordered">
                         <thead>
-                            {* <tr class="group-row text-center">
-      <th colspan="2"></th>  
-      <th colspan="5">Umumiy</th>
-      <th colspan="7">Yo'nalishlar va ularga jalb etilgan shaxsiy tarkib  
-      </th>
-      <th colspan="10">Qurollar</th>
-      <th colspan="12">Maxsus vositalar</th>
-      <th colspan="6">Xizmat hayvonlari</th>
-      <th colspan="9">Avto transportlar</th>
-     
-    </tr> *}
                         <tr class="text-center card-datatable-tr">
                             <th class="horizon-th">T/r</th>
                             <th class="horizon-th">Tadbir nomi</th>
@@ -312,82 +176,8 @@
                             <th class="horizon-th">Tadbirni o'tkazuvchi tashabbuskor</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr class="lb text-center">
-                            <td class="text-right">1</td>
-                            <td>
-                                <a href="hr.php?act=region_objects&mid={$smarty.get.mid}&date=Toshkent shahar">YUNЕSKO Bosh konferensiyasining 43 sessiyasi </a>    
-                            </td>
-                            <td>“Silk Road” turizm markazi</td>
-
-                            <td>10:00</td>
-                            <td>16:00</td>
-                            <td>1000</td>
-                            <td>833</td>
-                            <td>451</td>
-                            <td>320</td>
-                            <td>50</td>
-                            <td>6</td>
-                            <td>6</td>
-                            <td>6</td>
-                            <td>12</td>
-                            <td>500</td>
-                            <td>40</td>
-                            <td>84007 h/q mayor A.Nabiyev</td>
-                            <td>Viloyat hokimligi</td>
-                          
-                        </tr>
-                       <tr class="lb text-center" >
-                            <td class="text-right">1</td>
-                            <td>
-                                <a href="hr.php?act=region_objects&mid={$smarty.get.mid}&date=Toshkent shahar">YUNЕSKO Bosh konferensiyasining 43 sessiyasi </a>    
-                            </td>
-                            <td>“Silk Road” turizm markazi</td>
-
-                            <td>10:00</td>
-                            <td>16:00</td>
-                            <td>1000</td>
-                            <td>833</td>
-                            <td>451</td>
-                            <td>320</td>
-                            <td>50</td>
-                            <td>6</td>
-                            <td>6</td>
-                            <td>6</td>
-                            <td>12</td>
-                            <td>500</td>
-                            <td>40</td>
-                            <td>84007 h/q mayor A.Nabiyev</td>
-                            <td>Viloyat hokimligi</td>
-                          
-                        </tr>
-                      
-                         <tr class="lb text-center">
-                            <td class="text-right">1</td>
-                            <td>
-                                <a href="hr.php?act=region_objects&mid={$smarty.get.mid}&date=Toshkent shahar">YUNЕSKO Bosh konferensiyasining 43 sessiyasi </a>    
-                            </td>
-                            <td>“Silk Road” turizm markazi</td>
-
-                            <td>10:00</td>
-                            <td>16:00</td>
-                            <td>1000</td>
-                            <td>833</td>
-                            <td>451</td>
-                            <td>320</td>
-                            <td>50</td>
-                            <td>6</td>
-                            <td>6</td>
-                            <td>6</td>
-                            <td>12</td>
-                            <td>500</td>
-                            <td>40</td>
-                            <td>84007 h/q mayor A.Nabiyev</td>
-                            <td>Viloyat hokimligi</td>
-                        </tr>
-                     
+                        <tbody id="event-tbody">
                         </tbody>
-                  
                         </table>
                 </div>
             </div>
@@ -416,202 +206,472 @@
 <script src="/assets/assets/vendor/libs/@form-validation/umd/plugin-bootstrap5/index.min.js"></script>
 <script src="/assets/assets/vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js"></script>
 
-{literal}
+
 <script>
-/*
+{literal}
 document.addEventListener('DOMContentLoaded', function() {
-    const region = "{/literal}{$smarty.get.date}{literal}"; // PHP dan kelgan viloyat nomi
+    // const region = "{/literal}{$smarty.get.date}{literal}"; 
+     // Hozirgi sahifaning URLini olamiz
+        const urlParams = new URLSearchParams(window.location.search);
+
+        // dataTadbir parametrini olamiz
+        const dateTadbir = urlParams.get("dataTadbir");
+        const region = urlParams.get("date");
+        console.log("data tadbir: ", dateTadbir, region);
+
+
+
+    let selectedData;
+    const dataSiyosiy1 = [
+        {
+            eventName: "YUNЕSKO Bosh konferensiyasining 43 sessiyasi",
+            eventPlace: "“Silk Road” turizm markazi",
+            evetDate:"10:00",
+            evetFinishDate:"16:00",
+            evetPersonCount:500,
+            evetDutyCount:831,
+            evetMGCount:345,
+            evetIIVCount:255,
+            evetFVVCount:45,
+            evetMSGrCount:6,
+            evetSpringCount:6,
+            evetMHXCount:6,
+            evetTransportCount:12,
+            evetCommunicationtCount:312,
+            evetMetaltCount:40,
+            evetResponsible:"84007 h/q mayor A.Nabiyev",
+            evetorganizer:"Viloyat hokimligi",
+        },
+        {
+            eventName: "AQSh prezidentining Samarqandga tashrifi",
+            eventPlace: "Registon Maydoni",
+            evetDate:"08:00",
+            evetFinishDate:"12:00",
+            evetPersonCount:100,
+            evetDutyCount:40,
+            evetMGCount:25,
+            evetIIVCount:10,
+            evetFVVCount:5,
+            evetMSGrCount:3,
+            evetSpringCount:3,
+            evetMHXCount:3,
+            evetTransportCount:6,
+            evetCommunicationtCount:30,
+            evetMetaltCount:10,
+            evetResponsible:"81140 h/q p/p-k X.Xomidov",
+            evetorganizer:"Viloyat hokimligi",
+        }
+    ]     
+
+     const dataSiyosiy2 = [
+        {
+            eventName: "Davlat rahbarining Navoiy viloyatiga tashrifi",
+            eventPlace: "Navoiy viloyati Navoiy shahar",
+            evetDate:"09:00",
+            evetFinishDate:"17:00",
+            evetPersonCount:120,
+            evetDutyCount:40,
+            evetMGCount:35,
+            evetIIVCount:25,
+            evetFVVCount:10,
+            evetMSGrCount:4,
+            evetSpringCount:4,
+            evetMHXCount:5,
+            evetTransportCount:10,
+            evetCommunicationtCount:35,
+            evetMetaltCount:20,
+            evetResponsible:"MG NVBB leytenant I.Esonboyev",
+            evetorganizer:"Viloyat hokimligi",
+        }
+    ]     
+
+     const dataSiyosiy3 = [
+        {
+            eventName: "O‘zbekiston–Pokiston siyosiy maslahatlashuvlari",
+            eventPlace: "“Do‘stlik saroyi” (Xalqlar do‘stligi saroyi)",
+            evetDate:"08:00",
+            evetFinishDate:"17:00",
+            evetPersonCount:120,
+            evetDutyCount:40,
+            evetMGCount:35,
+            evetIIVCount:25,
+            evetFVVCount:10,
+            evetMSGrCount:4,
+            evetSpringCount:4,
+            evetMHXCount:5,
+            evetTransportCount:10,
+            evetCommunicationtCount:35,
+            evetMetaltCount:20,
+            evetResponsible:"84007 h/q mayor B.Oblaqulov",
+            evetorganizer:"Shahar hokimligi",
+        },
+          {
+            eventName: "Xalqaro konferensiya: Turk davlatlari fikr markazlari",
+            eventPlace: "O‘zbekiston Respublikasi Tashqi ishlar vazirligi",          
+            evetDate:"08:00",
+            evetFinishDate:"17:00",
+            evetPersonCount:120,
+            evetDutyCount:40,
+            evetMGCount:35,
+            evetIIVCount:25,
+            evetFVVCount:10,
+            evetMSGrCount:4,
+            evetSpringCount:4,
+            evetMHXCount:5,
+            evetTransportCount:10,
+            evetCommunicationtCount:35,
+            evetMetaltCount:20,
+            evetResponsible:"81109 h/q kapitan X.Dehqonov",
+            evetorganizer:"Shahar hokimligi",
+        },
+          {
+            eventName: "V Toshkent Antikorrupsiya Forumi",
+            eventPlace: "Oliy Majlis Qonunchilik palatasi majlislar zali",
+            evetDate:"08:00",
+            evetFinishDate:"17:00",
+            evetPersonCount:120,
+            evetDutyCount:40,
+            evetMGCount:35,
+            evetIIVCount:25,
+            evetFVVCount:10,
+            evetMSGrCount:4,
+            evetSpringCount:4,
+            evetMHXCount:5,
+            evetTransportCount:10,
+            evetCommunicationtCount:35,
+            evetMetaltCount:20,
+            evetResponsible:"84007 h/q mayor Sh.Ibragimov",
+            evetorganizer:"Shahar hokimligi",
+        },
+    ]     
+
+    // madaniy uchun 
+      const dataSiyosiy4 = [
+        {
+            eventName: "Xazina nomli teatr tomoshosi",
+            eventPlace: "San’at saroyi binosida",
+            evetDate:"08:00",
+            evetFinishDate:"17:00",
+            evetPersonCount:120,
+            evetDutyCount:40,
+            evetMGCount:35,
+            evetIIVCount:25,
+            evetFVVCount:10,
+            evetMSGrCount:4,
+            evetSpringCount:4,
+            evetMHXCount:5,
+            evetTransportCount:10,
+            evetCommunicationtCount:35,
+            evetMetaltCount:20,
+            evetResponsible:"MG SVBB  k-n X.Xolmirzayev",
+            evetorganizer:"“Arena sirk shapito” MCHJ",
+        },
+    ]     
+
+      const dataSiyosiy5 = [
+        {
+            eventName: "Aholini teatrga tashrifini tizimli yo‘lga qo‘yish hamda “Teatr-ibodatxonadir” davlat dasturini amalga oshirish maqsadida “Hokim va mahalla raislari” uchrashuvi",
+            eventPlace: "San’at saroyi binosida",
+            evetDate:"08:00",
+            evetFinishDate:"17:00",
+            evetPersonCount:120,
+            evetDutyCount:40,
+            evetMGCount:35,
+            evetIIVCount:25,
+            evetFVVCount:10,
+            evetMSGrCount:4,
+            evetSpringCount:4,
+            evetMHXCount:5,
+            evetTransportCount:10,
+            evetCommunicationtCount:35,
+            evetMetaltCount:20,
+            evetResponsible:"MG 88926 h/q kt l-nt A.Po‘latov",
+            evetorganizer:"Viloyat hokimligi",
+        },
+         {
+            eventName: "Xalqaro zamonaviy san’at Biyennalesi tadbiri",
+            eventPlace: "San’at saroyi binosida",
+            evetDate:"08:00",
+            evetFinishDate:"17:00",
+            evetPersonCount:120,
+            evetDutyCount:40,
+            evetMGCount:35,
+            evetIIVCount:25,
+            evetFVVCount:10,
+            evetMSGrCount:4,
+            evetSpringCount:4,
+            evetMHXCount:5,
+            evetTransportCount:10,
+            evetCommunicationtCount:35,
+            evetMetaltCount:20,
+            evetResponsible:"MG 88926 h/q kt l-nt  Sh.Bolliyev",
+            evetorganizer:"Viloyat hokimligi",
+        },
+    ]     
+
+      const dataSiyosiy6 = [
+        {
+            eventName: "Kino namoyishlari yangi prem’era",
+            eventPlace: "A.Navoiy nomidagi kinochilar uyi",
+            evetDate:"17:00",
+            evetFinishDate:"17:00",
+            evetPersonCount:120,
+            evetDutyCount:40,
+            evetMGCount:35,
+            evetIIVCount:25,
+            evetFVVCount:10,
+            evetMSGrCount:4,
+            evetSpringCount:4,
+            evetMHXCount:5,
+            evetTransportCount:10,
+            evetCommunicationtCount:35,
+            evetMetaltCount:20,
+            evetResponsible:"MG 84007 h/q kt l-nt A.Nabiyev",
+            evetorganizer:"Viloyat hokimligi",
+        },
+         {
+            eventName: "“OBJ” spektakli",
+            eventPlace: "SShayxontohur t. Yosh tomoshabinlar teatri",
+            evetDate:"08:00",
+            evetFinishDate:"17:00",
+            evetPersonCount:120,
+            evetDutyCount:40,
+            evetMGCount:35,
+            evetIIVCount:25,
+            evetFVVCount:10,
+            evetMSGrCount:4,
+            evetSpringCount:4,
+            evetMHXCount:5,
+            evetTransportCount:10,
+            evetCommunicationtCount:35,
+            evetMetaltCount:20,
+            evetResponsible:"MG 88926 h/q kt l-nt  Sh.Bolliyev",
+            evetorganizer:"Davlat yosh tomoshabinlar teatri",
+        },
+    ]     
+
+      const dataSiyosiy7 = [
+        {
+            eventName: "“Maysaraning ishi” nomlangan spektaql namoyishi",
+            eventPlace: "Viloyat musiqali drama teatri",
+            evetDate:"17:00",
+            evetFinishDate:"17:00",
+            evetPersonCount:120,
+            evetDutyCount:40,
+            evetMGCount:35,
+            evetIIVCount:25,
+            evetFVVCount:10,
+            evetMSGrCount:4,
+            evetSpringCount:4,
+            evetMHXCount:5,
+            evetTransportCount:10,
+            evetCommunicationtCount:35,
+            evetMetaltCount:20,
+            evetResponsible:"MG XVBB mayor A.Madreymov",
+            evetorganizer:"Viloyat musiqali drama teatri",
+        },
+    ]   
     
-  if (region === 'Toshkent shahar') {
-      document.querySelectorAll('table tr td:nth-child(2)').forEach((td, index) => {
-          const names = [
-              { name: 'Askiya bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Askiya bozori&shahar=Toshkent shahar' },
-              { name: 'Mirobod dehqon bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Mirobod dehqon bozori&shahar=Toshkent shahar' },
-              { name: 'Qoyliq dehqon bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Qoyliq dehqon bozori&shahar=Toshkent shahar' },
-              { name: 'Navruz dehqon bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Navruz dehqon bozori&shahar=Toshkent shahar' }
-          ];
+      const dataSiyosiy8 = [
+        {
+            eventName: "Sportning Gandbol turi bo‘yicha yoshlar o‘rtasida O‘zbekiston chempionati",
+            eventPlace: "Navoiy sh. Gandbol sport zalida",
+            evetDate:"17:00",
+            evetFinishDate:"17:00",
+            evetPersonCount:120,
+            evetDutyCount:40,
+            evetMGCount:35,
+            evetIIVCount:25,
+            evetFVVCount:10,
+            evetMSGrCount:4,
+            evetSpringCount:4,
+            evetMHXCount:5,
+            evetTransportCount:10,
+            evetCommunicationtCount:35,
+            evetMetaltCount:20,
+            evetResponsible:"MG NVBB leytenant I.Esonboyev",
+            evetorganizer:"Sport boshqarmasi",
+        },
+    ]   
 
-          if (names[index]) {
-              td.innerHTML = `<a href="${names[index].link}">${names[index].name}</a>`;
-          }
-      });
-  }
+      const dataSiyosiy9 = [
+        {
+            eventName: "Kamondan o‘q otish bo‘yicha QR kubogi.",
+            eventPlace: "Olimriya va paralimpiya sport turlariga ixtisoslashtirilgan sport maktabi",
+            evetDate:"17:00",
+            evetFinishDate:"17:00",
+            evetPersonCount:120,
+            evetDutyCount:40,
+            evetMGCount:35,
+            evetIIVCount:25,
+            evetFVVCount:10,
+            evetMSGrCount:4,
+            evetSpringCount:4,
+            evetMHXCount:5,
+            evetTransportCount:10,
+            evetCommunicationtCount:35,
+            evetMetaltCount:20,
+            evetResponsible:"MG 81416 h/q kt l-nt E.Xasanov",
+            evetorganizer:"QR Sport vazirligi",
+        },
+    ]   
 
-    else if (region === 'Toshkent viloyati') {
-         document.querySelectorAll('table tr td:nth-child(2)').forEach((td, index) => {
-          const names = [
-              { name: 'Eski juva bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Eski juva bozori&shahar=Toshkent viloyati' },
-              { name: 'Bek topi bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Bek topi bozori&shahar=Toshkent viloyati' },
-              { name: 'Chilonzor dehqon bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Chilonzor dehqon bozori&shahar=Toshkent viloyati' },
-              { name: 'Orikzor buyum bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Orikzor buyum bozori&shahar=Toshkent viloyati' }
-          ];
+      const dataSiyosiy10 = [
+        {
+            eventName: "Sportning yunon-rum turi bo‘yicha O‘zbekiston chempionati",
+            eventPlace: "Yashnobod t.Olimpiya shaxarchasi",
+            evetDate:"17:00",
+            evetFinishDate:"17:00",
+            evetPersonCount:120,
+            evetDutyCount:40,
+            evetMGCount:35,
+            evetIIVCount:25,
+            evetFVVCount:10,
+            evetMSGrCount:4,
+            evetSpringCount:4,
+            evetMHXCount:5,
+            evetTransportCount:10,
+            evetCommunicationtCount:35,
+            evetMetaltCount:20,
+            evetResponsible:"84007 h/q mayor Sh.Ibragimov",
+            evetorganizer:"Oliy talim, fan va inovatsiyalar vazirligi",
+        },
+    ]   
 
-          if (names[index]) {
-              td.innerHTML = `<a href="${names[index].link}">${names[index].name}</a>`;
-          }
-      });
-    }
 
-        else if (region === 'Sirdaryo viloyati') {
-           document.querySelectorAll('table tr td:nth-child(2)').forEach((td, index) => {
-          const names = [
-              { name: 'Sirdaryo bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Sirdaryo bozori&shahar=Sirdaryo viloyati' },
-              { name: 'Sirdaryo savdo kompleksi', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Sirdaryo savdo kompleksi&shahar=Sirdaryo viloyati' },
-              { name: 'Guliston savdo kompleksi', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Guliston savdo kompleksi&shahar=Sirdaryo viloyati' },
-              { name: 'Eski shahar bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Eski shahar bozori&shahar=Sirdaryo viloyati' }
-          ];
+      const dataSiyosiy11 = [
+        {
+            eventName: "O‘qituvchilarga kasbiy sertifikatlash malaka sinovlvrini o‘tkazish",
+            eventPlace: "Olmazor t.Beruniy k. 83A-uy (“IMZO” firmasi eski binosi)",
+            evetDate:"17:00",
+            evetFinishDate:"17:00",
+            evetPersonCount:120,
+            evetDutyCount:40,
+            evetMGCount:35,
+            evetIIVCount:25,
+            evetFVVCount:10,
+            evetMSGrCount:4,
+            evetSpringCount:4,
+            evetMHXCount:5,
+            evetTransportCount:10,
+            evetCommunicationtCount:35,
+            evetMetaltCount:20,
+            evetResponsible:"84007 h/q mayor Sh.Ibragimov",
+            evetorganizer:"Maktabgacha va maktab talimi boshqarmasi",
+        },
+    ]   
 
-          if (names[index]) {
-              td.innerHTML = `<a href="${names[index].link}">${names[index].name}</a>`;
-          }
-      });
-    }
+      const dataSiyosiy12 = [
+        {
+            eventName: "O‘qituvchilarga kasbiy sertifikatlash malaka sinovlvrini o‘tkazish",
+            eventPlace: "Jizzax shaxar  4-sonli umumiy o‘rta ta’lim maktabi binosi",
+            evetDate:"17:00",
+            evetFinishDate:"17:00",
+            evetPersonCount:120,
+            evetDutyCount:40,
+            evetMGCount:35,
+            evetIIVCount:25,
+            evetFVVCount:10,
+            evetMSGrCount:4,
+            evetSpringCount:4,
+            evetMHXCount:5,
+            evetTransportCount:10,
+            evetCommunicationtCount:35,
+            evetMetaltCount:20,
+            evetResponsible:"MG JVBB mayor S.Mamatqulov",
+            evetorganizer:"Ta’lim vazirligi",
+        },
+    ]   
 
-        else if (region === 'Jizzax viloyati') {
-          document.querySelectorAll('table tr td:nth-child(2)').forEach((td, index) => {
-          const names = [
-              { name: 'Eski shahar bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Eski shahar bozori&shahar=Jizzax viloyati' },
-              { name: 'Jizzax buyum bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Jizzax buyum bozori&shahar=Jizzax viloyati' },
-              { name: 'Markaziy dehqon buyum bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Markaziy dehqon buyum bozori&shahar=Jizzax viloyati' },
-              { name: 'Jizzax shahar bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Jizzax shahar bozori&shahar=Jizzax viloyati' }
-          ];
+     const dataSiyosiy13 = [
+        {
+            eventName: "Professional va maktabdan tashqari talim tashkilotlari pedagogik kadrlarni attestatsiyasi",
+            eventPlace: "Namangan shaxar 15-sonli maktab",
+            evetDate:"17:00",
+            evetFinishDate:"17:00",
+            evetPersonCount:120,
+            evetDutyCount:40,
+            evetMGCount:35,
+            evetIIVCount:25,
+            evetFVVCount:10,
+            evetMSGrCount:4,
+            evetSpringCount:4,
+            evetMHXCount:5,
+            evetTransportCount:10,
+            evetCommunicationtCount:35,
+            evetMetaltCount:20,
+            evetResponsible:"MG NVBB kapitan Sh.Xurramov",
+            evetorganizer:"M va mt boshqarmasi",
+        },
+    ]   
 
-          if (names[index]) {
-              td.innerHTML = `<a href="${names[index].link}">${names[index].name}</a>`;
-          }
-      });
-    }
+    
+        if (region === "Toshkent shahar" && dateTadbir === "Siyosiy tadbirlar") {
+            selectedData = dataSiyosiy3;
+        } else if (region === "Samarqand shahar" && dateTadbir === "Siyosiy tadbirlar") {
+            selectedData = dataSiyosiy1;
+        } else if (region === "Navoiy shahar" && dateTadbir === "Siyosiy tadbirlar") {
+            selectedData = dataSiyosiy2;
+        } else if (region === "Surxandaryo shahar" && dateTadbir === "Madaniy tadbirlar") {
+            selectedData = dataSiyosiy4;
+        } else if (region === "Buxoro shahar" && dateTadbir === "Madaniy tadbirlar") {
+            selectedData = dataSiyosiy5;
+        } else if (region === "Toshkent shahar" && dateTadbir === "Madaniy tadbirlar") {
+            selectedData = dataSiyosiy6;
+        } else if (region === "Xorazm shahar" && dateTadbir === "Madaniy tadbirlar") {
+            selectedData = dataSiyosiy7;
+        } else if (region === "Navoiy shahar" && dateTadbir === "Sport tadbirlar") {
+            selectedData = dataSiyosiy8;
+        } else if (region === "Qoraqalpog'iston" && dateTadbir === "Sport tadbirlar") {
+            selectedData = dataSiyosiy9;
+        }else if (region === "Toshkent shahar" && dateTadbir === "Sport tadbirlar") {
+            selectedData = dataSiyosiy10;
+        }else if (region === "Toshkent shahar" && dateTadbir === "Boshqa tadbirlar") {
+            selectedData = dataSiyosiy11;
+        }else if (region === "Jizzax shahar" && dateTadbir === "Boshqa tadbirlar") {
+            selectedData = dataSiyosiy12;
+        }else if (region === "Namangan shahar" && dateTadbir === "Boshqa tadbirlar") {
+            selectedData = dataSiyosiy13;
+        }
+        else{
+            selectedData = []; // noma'lum hudud bo'lsa bo'sh array
+        }
 
-        else if (region === 'Samarqand viloyati') {
-          const names = [
-              { name: 'Siyob dehqon bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Askiya' },
-              { name: 'Temir yol dehqon bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Mirobod' },
-              { name: 'Samarqand shodiyonasi', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Qoyliq' },
-              { name: 'Ipak yoli SM', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Navruz' }
-          ];
-
-          if (names[index]) {
-              td.innerHTML = `<a href="${names[index].link}">${names[index].name}</a>`;
-          }
-    }
-
-        else if (region === 'Navoiy viloyati') {
-          document.querySelectorAll('table tr td:nth-child(2)').forEach((td, index) => {
-          const names = [
-              { name: 'Saxovat dehqon bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Askiya' },
-              { name: 'Eski shahar bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Mirobod' },
-              { name: 'Zarafshon bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Qoyliq' },
-              { name: 'Nurota bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Navruz' }
-          ];
-
-          if (names[index]) {
-              td.innerHTML = `<a href="${names[index].link}">${names[index].name}</a>`;
-          }
-      });
-    }
-        else if (region === 'Buxoro viloyati') {
-          document.querySelectorAll('table tr td:nth-child(2)').forEach((td, index) => {
-          const names = [
-              { name: 'Markaziy dehqon bozor', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Askiya' },
-              { name: 'Karvon buyum bozor', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Mirobod' },
-              { name: 'Sitora avtomobil bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Qoyliq' },
-              { name: 'Eski shahar bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Navruz' }
-          ];
-
-          if (names[index]) {
-              td.innerHTML = `<a href="${names[index].link}">${names[index].name}</a>`;
-          }
-      });
-    }
-        else if (region === 'Andijon viloyati') {
-          document.querySelectorAll('table tr td:nth-child(2)').forEach((td, index) => {
-          const names = [
-              { name: 'Jahon savdo kompleksi', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Askiya' },
-              { name: 'Xunarmandchilik buyuim bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Mirobod' },
-              { name: 'Markaziy dehqon bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Qoyliq' },
-              { name: 'Bogishamol bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Navruz' }
-          ];
-
-          if (names[index]) {
-              td.innerHTML = `<a href="${names[index].link}">${names[index].name}</a>`;
-          }
-      });
-    }
-        else if (region === 'Namangan viloyati') {  
-          document.querySelectorAll('table tr td:nth-child(2)').forEach((td, index) => {
-          const names = [
-              { name: 'Jahon ixtisoslashtirilgan aralash mollar kompleksi', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Askiya' },
-              { name: 'Chorsu dehqon bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Mirobod' },
-              { name: 'Yashil dehqon bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Qoyliq' },
-              { name: 'Yoshlik baraka bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Navruz' }
-          ];
-
-          if (names[index]) {
-              td.innerHTML = `<a href="${names[index].link}">${names[index].name}</a>`;
-          }
-      });
-    }
-        else if (region === 'Fargona viloyati') {
-              document.querySelectorAll('table tr td:nth-child(2)').forEach((td, index) => {
-          const names = [
-              { name: 'Markaziy dehqon bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Askiya' },
-              { name: 'Markaziy buyum bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Mirobod' },
-              { name: 'Fargona shahar bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Qoyliq' },
-              { name: 'Eski shahar bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Navruz' }
-          ];
-
-          if (names[index]) {
-              td.innerHTML = `<a href="${names[index].link}">${names[index].name}</a>`;
-          }
-      });
-    }
-
-    else if (region === 'Qashqadaryo viloyati') {
-          document.querySelectorAll('table tr td:nth-child(2)').forEach((td, index) => {
-          const names = [
-              { name: 'Yerqorgon  dehqon bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Askiya' },
-              { name: 'Qarshi dehqon bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Mirobod' },
-              { name: 'Qarshi markaziy bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Qoyliq' },
-              { name: 'Nasaf bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Navruz' }
-          ];
-
-          if (names[index]) {
-              td.innerHTML = `<a href="${names[index].link}">${names[index].name}</a>`;
-          }
-      });
-    }
-
-    else if (region === 'Surxandaryo viloyati') {
-      document.querySelectorAll('table tr td:nth-child(2)').forEach((td, index) => {
-      const names = [
-          { name: 'Yashil dunyo bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Askiya' },
-          { name: 'Markaziy dehqon bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Mirobod' },
-          { name: 'Surxandaryo shahar bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Qoyliq' },
-          { name: 'Eski shahar boziri', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Navruz' }
-      ];
-      if (names[index]) {
-          td.innerHTML = `<a href="${names[index].link}">${names[index].name}</a>`;
-      }
-  });
-}
-    else if (region === 'Xorazm viloyati') {
-          document.querySelectorAll('table tr td:nth-child(2)').forEach((td, index) => {
-          const names = [
-              { name: 'Markaziy dehqon bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Askiya' },
-              { name: 'Urganch amarkaziy buyum bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Mirobod' },
-              { name: 'Xorazm shahar bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Qoyliq' },
-              { name: 'Eski shahar bozori', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Navruz' }
-          ];
-
-          if (names[index]) {
-              td.innerHTML = `<a href="${names[index].link}">${names[index].name}</a>`;
-          }
-      });
-    }
+const tbody = document.getElementById("event-tbody");
+        selectedData.forEach((event, index) => {
+    tbody.innerHTML += `
+        <tr class="lb text-center">
+            <td class="text-right">${index + 1}</td>
+            <td>
+                <a href="hr.php?act=event_according_duty&mid={$smarty.get.mid}&date=${encodeURIComponent(event.eventName)}">
+                    ${event.eventName}
+                </a>
+            </td>
+            <td>${event.eventPlace}</td>
+            <td>${event.evetDate}</td>
+            <td>${event.evetFinishDate}</td>
+            <td>${event.evetPersonCount}</td>
+            <td>${event.evetDutyCount}</td>
+            <td>${event.evetMGCount}</td>
+            <td>${event.evetIIVCount}</td>
+            <td>${event.evetFVVCount}</td>
+            <td>${event.evetMSGrCount}</td>
+            <td>${event.evetSpringCount}</td>
+            <td>${event.evetMHXCount}</td>
+            <td>${event.evetTransportCount}</td>
+            <td>${event.evetCommunicationtCount}</td>
+            <td>${event.evetMetaltCount}</td>
+            <td>${event.evetResponsible}</td>
+            <td>${event.evetorganizer}</td>
+        </tr>
+    `;
 });
-*/
-</script>
+    
+
+});
 {/literal} 
+</script>
+
 
 
 
@@ -662,26 +722,26 @@ window.addEventListener('load', function() {
   var dt_basic_table = $('.datatables-projects'),
     dt_basic;
 
-// DataTable sozlamalari
-if (dt_basic_table.length) {
-  dt_basic = dt_basic_table.DataTable({
-    pageLength: 15,
-    lengthMenu: [5, 10, 25, 50, 75, 100, 1000],
-    ordering: false, 
-    language: {
-      lengthMenu: "Ko‘rsatish _MENU_ ta yozuv",
-      zeroRecords: "Hech narsa topilmadi",
-      info: "_TOTAL_ tadan _START_ dan _END_ gacha ko‘rsatilmoqda",
-      infoEmpty: "Ma’lumot yo‘q",
-      infoFiltered: "(jami _MAX_ yozuvdan filtrlandi)",
-      search: "Qidirish:",
-      paginate: {
-        previous: "Oldingi",
-        next: "Keyingi"
-      }
-    },
-  });
-}
+//DataTable sozlamalari
+// if (dt_basic_table.length) {
+//   dt_basic = dt_basic_table.DataTable({
+//     pageLength: 15,
+//     lengthMenu: [5, 10, 25, 50, 75, 100, 1000],
+//     ordering: false, 
+//     language: {
+//       lengthMenu: "Ko‘rsatish _MENU_ ta yozuv",
+//       zeroRecords: "Hech narsa topilmadi",
+//       info: "_TOTAL_ tadan _START_ dan _END_ gacha ko‘rsatilmoqda",
+//       infoEmpty: "Ma’lumot yo‘q",
+//       infoFiltered: "(jami _MAX_ yozuvdan filtrlandi)",
+//       search: "Qidirish:",
+//       paginate: {
+//         previous: "Oldingi",
+//         next: "Keyingi"
+//       }
+//     },
+//   });
+// }
 
     {/literal}
 

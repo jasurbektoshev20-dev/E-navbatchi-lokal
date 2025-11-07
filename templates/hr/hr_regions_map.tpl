@@ -909,7 +909,7 @@
                  `<div style="color: #000; text-align:center">
                   <b style="font-size: 18px">${camera.comment}</b>
                   <br>
-                  <button class="btn btn-primary popup-camera-btn" style="padding: 4px;" data-id="${camera.id}">Tanlash</button>
+                  <button class="btn btn-primary popup-body-camera-btn" style="padding: 4px;" data-id="${camera.id}">Tanlash</button>
                 </div>`
               )
             )
@@ -1102,11 +1102,21 @@
 
 
     // === POPUP ICHIDAGI TUGMA TRIGGER ===
-    $(document).on('click', '.btn ', function() {
+    $(document).on('click', '.popup-camera-btn', function() {
       const id = $(this).data('id');
       const target = $(`#change_camera a[data-id="${id}"]`);
       if (target.length) {
         
+        target.trigger('click');
+      } else {
+        console.warn(`Camera ID ${id} uchun element topilmadi`);
+      }
+    });
+
+    $(document).on('click', '.popup-body-camera-btn', function() {
+      const id = $(this).data('id');
+      const target = $(`#body_change_camera a[data-id="${id}"]`);
+      if (target.length) {
         target.trigger('click');
       } else {
         console.warn(`Camera ID ${id} uchun element topilmadi`);

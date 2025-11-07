@@ -58,7 +58,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body text-center">
-                    <h4> O‘zbekiston Respublikasi Toshkent, Nukus shaharlari va viloyatlar markazlarida o‘tkaziladigan <strong>siyosiy tadbirlar</strong>  davrida Milliy gvardiya hududiy bo‘linmalari tomonidan jalb etiladigan kuch va vositalari to‘g‘risida <br> <span>MA'LUMOT</span> </h4>
+                    <h4> O‘zbekiston Respublikasi Toshkent, Nukus shaharlari va viloyatlar markazlarida o‘tkaziladigan <strong>{$smarty.get.date}</strong>  davrida Milliy gvardiya hududiy bo‘linmalari tomonidan jalb etiladigan kuch va vositalari to‘g‘risida <br> <span>MA'LUMOT</span> </h4>
                 </div>
             </div>
         </div>
@@ -99,63 +99,8 @@
                             <th>Maxsus vositalar</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr class="lb text-center" id="row_{$Table.id|crypt}">
-                            <td class="text-right">1</td>
-                            <td>
-                                <a
-                                        href="hr.php?act=about_region_events_detail&mid={$smarty.get.mid}&date=Toshkent shahar">Samarqand shahar</a>
-                            </td>
-                            <td>2</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1000</td>
-                            <td>320</td>
-                            <td>12</td>
-                            <td>100</td>
-                        </tr>
-                        <tr class="lb text-center" id="row_{$Table.id|crypt}">
-                            <td class="text-right">2</td>
-                            <td>
-                                <a
-                                        href="hr.php?act=about_region_events_detail&mid={$smarty.get.mid}&date=Toshkent shahar">Navoiy viloyati</a>
-                            </td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>0</td>
-                            <td>500</td>
-                            <td>120</td>
-                            <td>9</td>
-                            <td>70</td>
-                        </tr>
-                          <tr class="lb text-center" id="row_{$Table.id|crypt}">
-                            <td class="text-right">2</td>
-                            <td>
-                                <a
-                                        href="hr.php?act=about_region_events_detail&mid={$smarty.get.mid}&date=Toshkent shahar">Toshkent shahar</a>
-                            </td>
-                            <td>3</td>
-                            <td>2</td>
-                            <td>1</td>
-                            <td>900</td>
-                            <td>225</td>
-                            <td>30</td>
-                            <td>170</td>
-                        </tr>
-                        <tr class="lb text-center table-success" id="row_{$Table.id|crypt}">
-                            <td class="text-right">15</td>
-                            <td>
-                              Jami
-                            </td>
-                            <td>6</td>
-                            <td>4</td>
-                            <td>2</td>
-                            <td>2400</td>
-                            <td>665</td>
-                            <td>51</td>
-                            <td>340</td>
-                           
-                        </tr>
+                        <tbody id="event-tbody">
+                       
                         </tbody>
                     </table>
                 </div>
@@ -184,8 +129,9 @@
 <script src="/assets/assets/vendor/libs/@form-validation/umd/bundle/popular.min.js"></script>
 <script src="/assets/assets/vendor/libs/@form-validation/umd/plugin-bootstrap5/index.min.js"></script>
 <script src="/assets/assets/vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js"></script>
-{literal}
+
 <script>
+{literal}
 window.addEventListener('load', function() {
   Swal.fire({
     title: 'Sahifa yuklanmoqda...',
@@ -212,8 +158,10 @@ window.addEventListener('load', function() {
 
   document.body.style.opacity = '0.5';
 });
-</script>
 {/literal}
+</script>
+
+
 <script>
     var dict_infraction = "{$Dict.infraction}"
     var dict_action_taken = "{$Dict.action_taken}"
@@ -223,21 +171,202 @@ window.addEventListener('load', function() {
     var dict_download_pdf = "{$Dict.download_pdf}"
     var dict_docx_download = "{$Dict.docx_download}"
     
-    /*
-{literal}
+    
+ 
+  
+
+    {literal}
+       
+       const region = "{/literal}{$smarty.get.date}{literal}"; 
+
+         let selectedData;
+         const siyosiyTadbir = [
+         {
+            eventRegion: "Samarqand shahar",
+            eventCount:2,
+            hukumatqarori:1,
+            pullixizmat:1,
+            evetPersonCount:1000,
+            evetDutyCount:320,
+            evetTransportCount:12,
+            evetVositaCount:100,
+        },
+              {
+            eventRegion: "Navoiy shahar",
+            eventCount:1,
+            hukumatqarori:1,
+            pullixizmat:0,
+            evetPersonCount:500,
+            evetDutyCount:120,
+            evetTransportCount:9,
+            evetVositaCount:70,
+        },
+              {
+            eventRegion: "Toshkent shahar",
+            eventCount:3,
+            hukumatqarori:2,
+            pullixizmat:1,
+            evetPersonCount:900,
+            evetDutyCount:220,
+            evetTransportCount:30,
+            evetVositaCount:170,
+        },
+    ]     
+    
+
+      const madaniyTadbir = [
+         {
+            eventRegion: "Surxandaryo shahar",
+            eventCount:1,
+            hukumatqarori:1,
+            pullixizmat:0,
+            evetPersonCount:200,
+            evetDutyCount:18,
+            evetTransportCount:2,
+            evetVositaCount:20,
+        },
+              {
+            eventRegion: "Buxoro shahar",
+            eventCount:2,
+            hukumatqarori:1,
+            pullixizmat:1,
+            evetPersonCount:300,
+            evetDutyCount:20,
+            evetTransportCount:3,
+            evetVositaCount:20,
+        },
+       {
+            eventRegion: "Toshkent shahar",
+            eventCount:3,
+            hukumatqarori:2,
+            pullixizmat:1,
+            evetPersonCount:900,
+            evetDutyCount:16,
+            evetTransportCount:4,
+            evetVositaCount:16,
+        },
+          {
+            eventRegion: "Xorazm shahar",
+            eventCount:1,
+            hukumatqarori:0,
+            pullixizmat:1,
+            evetPersonCount:500,
+            evetDutyCount:25,
+            evetTransportCount:4,
+            evetVositaCount:30,
+        },
+    ]     
+
+    const sportTadbir = [
+         {
+            eventRegion: "Navoiy shahar",
+            eventCount:1,
+            hukumatqarori:1,
+            pullixizmat:0,
+            evetPersonCount:100,
+            evetDutyCount:10,
+            evetTransportCount:2,
+            evetVositaCount:8,
+        },
+              {
+            eventRegion: "Qoraqalpog'iston ",
+            eventCount:1,
+            hukumatqarori:1,
+            pullixizmat:0,
+            evetPersonCount:100,
+            evetDutyCount:20,
+            evetTransportCount:3,
+            evetVositaCount:20,
+        },
+          {
+            eventRegion: "Toshkent shahar",
+            eventCount:4,
+            hukumatqarori:3,
+            pullixizmat:1,
+            evetPersonCount:1000,
+            evetDutyCount:50,
+            evetTransportCount:12,
+            evetVositaCount:50,
+        },
+    ]     
+
+      const boshqaTadbir = [
+         {
+            eventRegion: "Toshkent shahar",
+            eventCount:1,
+            hukumatqarori:1,
+            pullixizmat:0,
+            evetPersonCount:100,
+            evetDutyCount:10,
+            evetTransportCount:2,
+            evetVositaCount:8,
+        },
+              {
+            eventRegion: "Jizzax shahar",
+            eventCount:1,
+            hukumatqarori:1,
+            pullixizmat:0,
+            evetPersonCount:100,
+            evetDutyCount:20,
+            evetTransportCount:3,
+            evetVositaCount:20,
+        },
+          {
+            eventRegion: "Namangan shahar",
+            eventCount:4,
+            hukumatqarori:3,
+            pullixizmat:1,
+            evetPersonCount:1000,
+            evetDutyCount:50,
+            evetTransportCount:12,
+            evetVositaCount:50,
+        },
+    ]     
+    
+
+    
+        if (region === "Siyosiy tadbirlar") {
+            selectedData = siyosiyTadbir;
+        } else if (region === "Madaniy tadbirlar") {
+            selectedData = madaniyTadbir;
+        } else if (region === "Sport tadbirlar") {
+            selectedData = sportTadbir;
+        } else if (region === "Boshqa tadbirlar") {
+            selectedData = boshqaTadbir;
+        } else {
+            selectedData = []; // noma'lum hudud bo'lsa bo'sh array
+        }
 
 
-    var dt_basic_table = $('.datatables-projects'),
-        dt_basic;
+const tbody = document.getElementById("event-tbody");
+tbody.innerHTML = ""; // avval tozalaymiz
 
-    // DataTable with buttons
-    if (dt_basic_table.length) {
-        dt_basic = dt_basic_table.DataTable({
-            displayLength: 15,
-            lengthMenu: [5, 10, 25, 50, 75, 100, 1000]
-        });
-    }
-    {/literal}*/
+selectedData.forEach((event, index) => {
+    tbody.innerHTML += `
+        <tr class="lb text-center">
+            <td class="text-right">${index + 1}</td>
+            <td>
+                <a href="hr.php?act=about_region_events_detail&mid=&date=${encodeURIComponent(event.eventRegion)}&dataTadbir=${encodeURIComponent(region)}">
+                    ${event.eventRegion}
+                </a>
+            </td>
+            <td>${event.eventCount}</td>
+            <td>${event.hukumatqarori}</td>
+            <td>${event.pullixizmat}</td>
+            <td>${event.evetPersonCount}</td>
+            <td>${event.evetDutyCount}</td>
+            <td>${event.evetTransportCount}</td>
+            <td>${event.evetVositaCount}</td>
+        </tr>
+    `;
+});
+
+   
+
+       
+
+    {/literal}
+
 </script>
 
 {include file="footer.tpl"}
