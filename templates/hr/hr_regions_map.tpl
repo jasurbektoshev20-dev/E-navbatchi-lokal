@@ -10,13 +10,7 @@
 <style>
   {literal}
 
-    .dark-style .map-tiles {
-        filter: brightness(0.65) invert(.8) contrast(4) hue-rotate(200deg) saturate(0.3) brightness(0.7);
-    }
 
-    #map-rounded .map-tiles {
-        filter: brightness(0.65) invert(.8) contrast(4) hue-rotate(200deg) saturate(0.3) brightness(0.7);
-    }
     .map-container {
       border: 1px solid red;
       height: 100%;
@@ -244,6 +238,18 @@
     }
 
     .custom-marker {
+      width: 20px;
+      height: 20px;
+
+    }
+    .camera-marker {
+      width: 20px;
+      height: 20px;
+      box-shadow: -2px 15px 16px rgba(0, 0, 0, 0.5);
+      border-radius: 50%;
+
+    }
+    .body-marker {
       width: 20px;
       height: 20px;
 
@@ -568,6 +574,7 @@
 
       let fetched_camera, fetched_body;
 
+      let bodyCameraMarkers = {};
       // O‘zbekiston markazi koordinatalari
       const uzbekistanCenter = [41.2995, 69.2401]; // Toshkent markazi
 
@@ -734,7 +741,7 @@
               const bounds = L.latLngBounds(markerCoords);
 
               // Xarita markazlash + zoomni avtomatik o‘rnatish
-              map.flyToBounds(bounds, { padding: [50, 50] }); // padding – biroz chet bo‘shliq
+              map.flyToBounds(bounds, { padding: [50, 50], duration: 1 }); // padding – biroz chet bo‘shliq
             }
 
         },
@@ -805,6 +812,7 @@
       // --- Dastlab yuklanganda chizish ---
       map.on('load', ()=>{
         drawPolygon()
+
         // ✅ 2. DOOR markerlar (eshiklar)
         if (Array.isArray(params.door)) {
           params.door.forEach(door => {
@@ -865,8 +873,9 @@
             if (isNaN(lat) || isNaN(lon)) return;
 
             const el = document.createElement('div');
-            el.className = 'custom-marker';
-            el.style.backgroundImage = `url('/assets/images/video-camera-recording-yellow.png')`;
+            el.className = 'camera-marker';
+            // el.style.backgroundImage = `url('/assets/images/video-camera-recording-yellow.png')`;
+            el.style.backgroundImage = `url('/assets/images/security-camera-real.png')`;
             el.style.backgroundSize = 'cover';
             el.title = camera.comment;
 
@@ -890,7 +899,6 @@
               .addTo(map);
           });
         }
-        // ✅ 4. Camera marker
         if (Array.isArray(params.body_cameras)) {
           params.body_cameras.forEach(camera => {
             const lat = parseFloat(camera.lat);
@@ -898,7 +906,7 @@
             if (isNaN(lat) || isNaN(lon)) return;
 
             const el = document.createElement('div');
-            el.className = 'custom-marker';
+            el.className = 'body-marker';
             el.style.backgroundImage = `url('/assets/images/policeman.png')`;
             el.style.backgroundSize = 'cover';
             el.title = camera.comment;
@@ -935,11 +943,21 @@
 
             const popup = new mapboxgl.Popup({ offset: 15 }).setHTML(popupHTML);
 
-            new mapboxgl.Marker(el)
+            const marker = new mapboxgl.Marker(el)
               .setLngLat([lon, lat])
               .setPopup(popup)
               .addTo(map);
-            });
+              
+              
+              
+              // Marker va pozitsiyani saqlaymiz
+              bodyCameraMarkers[camera.id] = {
+                marker,
+                current: { lat, lon },
+                target: { lat, lon }
+              };
+          });
+
         }
 
         // ✅ 5. SOS markerlar
@@ -1062,13 +1080,38 @@
         }
         
       }
+
+
+      setInterval(() => {
+        if(document.querySelector('#dialogMap')){
+          $.ajax({
+            url: `${AJAXPHP}?act=get_bodycam_location&id=${params?.id}`,
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+              response.forEach(item=>{
+                updateCameraPosition(item.id, item.lat, item.lon)
+              })
+            }
+          })
+        }
+      }, 1000);
     }
 
 
 
 
 
+    // Funksiya: yangi koordinatalarni yangilash (socket orqali)
+    function updateCameraPosition(id, newLat, newLon) {
+      const camera = bodyCameraMarkers[id];
+      if (!camera) return;
 
+      // Yangi target koordinatalarni o‘rnatamiz
+      camera.target = { lat: newLat, lon: newLon };
+
+      camera.setLngLat([newLon, newLat]);
+    }
 
 
     function renderPassportDetails(params) {
@@ -1664,7 +1707,7 @@
               }
           }
       });
-
+      
       $('.unmute').hide();
       $('.mute').click(function(e) {
           var iRet = jsDecoder.JS_OpenSound(iWind);

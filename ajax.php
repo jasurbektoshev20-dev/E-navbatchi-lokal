@@ -1021,13 +1021,18 @@ switch ($Action) {
 		break;
 
 	case "get_bodycam_location":
-		// $id = isset($_GET['id']) ? $_GET['id'] : 6;
+		$id = isset($_GET['id']) ? $_GET['id'] : 0;
 
-		$query = "SELECT * FROM hr.body_cameras ORDER BY id ASC LIMIT";
+		$query = "SELECT DISTINCT ON (b.id) b.* 
+			FROM hr.daily_routine dr
+		LEFT JOIN hr.dailiy_routine_date drt ON drt.routine_id = dr.id
+		LEFT JOIN hr.body_cameras b ON b.id = drt.bodycam_id
+		WHERE dr.date = CURRENT_DATE AND dr.object_id = {$id}
+		ORDER BY b.id ASC";
 		$sql->query($query);
-		$Track = $sql->fetchAll();
+		$data = $sql->fetchAll();
 
-		$res = json_encode($Track);
+		$res = json_encode($data);
 		break;
 }
 
