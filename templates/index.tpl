@@ -13,6 +13,10 @@
             overflow: visible;
         }
 
+        .card{
+          height: 420px;
+        }
+
         .card,
         select {
             /* background: #2f334910 !important;
@@ -31,26 +35,6 @@
   margin: 0;
 }
 
-.place-list li {
-  padding: 12px 16px;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  margin-bottom: 8px;
-  cursor: pointer;
-  transition: 0.2s ease;
-  font-size: 16px;
-}
-
-.place-list li:hover {
-  background-color: #e9f2ff;
-  border-color: #007bff;
-}
-
-.place-list li.active {
-  color: white;
-  background: linear-gradient(72.47deg, #7367f0 22.16%, rgba(115, 103, 240, 0.7) 76.47%);
-}
-
 .space-main-modal-box h4{
   font-size: 24px;
   text-align: center;
@@ -58,7 +42,7 @@
 
 .space-main-body-img{
   width: 100%;
-  height: 55vh;
+  height: 60vh;
 }
 
 .space-main-body-img img{
@@ -70,14 +54,15 @@
 .space-main-body-password ul{
   list-style-type: none;
   padding:0px;
+  height: 75vh;
+  overflow-y: auto;
 }
 
 .space-main-body-password ul li{
   margin: 8px 0px;
-  border:1px solid #435ebe;
   border-radius:7px;
   padding:6px;
-  background-color: #3b3f41;
+  background-color: #4d49c3;
 }
 
 .space-main-body-password ul li h6{
@@ -101,6 +86,8 @@
 .space-main-body-duty ul{
   list-style-type: none;
   padding: 0;
+  height: 72vh;
+  overflow-y: auto;
 }
 
 .space-main-body-duty ul li{
@@ -114,25 +101,27 @@
 .chart-container{
   display: flex;
   gap: 10px;
-  padding: 0px 20px;
+  /* padding: 0px 20px; */
 }
 
 .region-box{
   padding: 10px;
    box-shadow: 3px 1px 29px 0px rgba(34, 60, 80, 0.26);
-   background-color: #fff;
+   /* background-color: #fff; */
    border-radius: 7px;
-   margin-top: 30px;
- 
+   height: 35vh;
+   overflow-y: auto;
 }
 
 .scrollable{
-  height: 340px;
+  height: fit-content;
   list-style-type: none;
   padding: 0;
-  overflow-y: auto;
 }
 
+.space-main-body-umumu video{
+  height: 100%;
+}
 
     {/literal}
 </style>
@@ -332,8 +321,8 @@
                 <div class="mx-3 my-2 row">
                     <div class="col-8">
                         <h5 class="card-title">Hududlar kesimida idoraviy tadbirlar
-                        </h5>
-                    </div>
+                        </h5> 
+                    </div><br>
                     <div class="col-4">
                         <select class="form-select" id="get_events_by_region_filter2"> </select>
                     </div>
@@ -802,14 +791,14 @@ const color = [
       textStyle: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: '#444'
+        color: '#b7b7b7'
       },
     },
     legend: {
       top: 'bottom',
       orient: 'horizontal',
       left: 'center',
-      textStyle: { color: '#555', fontSize: '1rem' }
+      textStyle: { color: '#b7b7b7', fontSize: '1rem' }
     },
     tooltip: { backgroundColor: 'white' },
     series: [{
@@ -933,19 +922,19 @@ $(document).on('click', '#eventTypeModalBody .region-item', function () {
                   <div class="space-main-body-img">
                     <img src="./templates/hr/img/bozor-tayyor.png" alt="">
                   </div>
-                  <div class="row">
+                  <div class="row pt-3">
                       <div class="col-4">
-                          <video width="100%" height="300" autoplay loop muted>
+                          <video width="100%" autoplay loop muted>
                               <source src="/templates/hr/videos/video-4.mp4" type="video/mp4">
                           </video>
                       </div>
                        <div class="col-4">
-                          <video width="100%" height="300" autoplay loop muted>
+                          <video width="100%" autoplay loop muted>
                               <source src="/templates/hr/videos/video-5.mp4" type="video/mp4">
                           </video>
                       </div>
                        <div class="col-4">
-                          <video width="100%" height="300" autoplay loop muted>
+                          <video width="100%" autoplay loop muted>
                               <source src="/templates/hr/videos/video-6.mp4" type="video/mp4">
                           </video>
                       </div>
@@ -1075,7 +1064,7 @@ $(document).on('click', '#eventList .list-group-item', function () {
                     <img src="./templates/hr/img/bozor-tayyor.png" alt="">
                   </div>
                   <div class="row">
-                      <div class="col-4">
+                      <div class="col-4 pt-3">
                           <video width="100%" height="300" autoplay loop muted>
                               <source src="/templates/hr/videos/video-4.mp4" type="video/mp4">
                           </video>
@@ -1387,13 +1376,13 @@ function renderIdoraviyChart(data, total) {
       top: "bottom",
       orient: "horizontal",
       left: "center",
-      textStyle: { color: "#555", fontSize: "1rem" }
+      textStyle: { color: "#b7b7b7", fontSize: "1rem" }
     },
     tooltip: { backgroundColor: "white" },
     series: [
       {
         type: "pie",
-         radius: ['20%', '50%'],
+        radius: ['20%', '60%'],
           center: ['50%', '35%'],
           itemStyle: {
             borderRadius: 10,
@@ -1406,17 +1395,12 @@ function renderIdoraviyChart(data, total) {
           show: true,
           position: "outside",
           formatter: "{c}",
-          textStyle: { fontSize: 15, fontWeight: "bold", color: "#777" }
+          textStyle: { fontSize: 15, fontWeight: "bold", color: "#b7b7b7" }
         },
         labelLine: { show: true, length: 20 },
         data: sdata.map((item, index) => ({
           value: item.value,
           name: item.name,
-          // itemStyle: {
-          //   color: colorSet2[index % colorSet2.length],
-          //   shadowColor: colorSet2[index % colorSet2.length],
-          //   shadowBlur: 12
-          // }
         }))
       }
     ]
@@ -1537,24 +1521,24 @@ function all_events_by_type(data, total, regionId = 0) {
     title: {
       text: total,
       left: 'center',
-      top: '47%',
-      textStyle: { fontSize: 18, fontWeight: 'bold', color: '#444' },
+      top: '32%',
+      textStyle: { fontSize: 18, fontWeight: 'bold', color: '#b7b7b7' },
     },
     legend: {
       top: 'bottom',
       left: 'center',
-      textStyle: { color: '#555', fontSize: '1rem' }
+      textStyle: { color: '#b7b7b7', fontSize: '1rem' }
     },
     tooltip: { backgroundColor: 'white' },
     series: [{
     type: 'pie',
-    radius: ['20%', '60%'],    // radiusni kattalashtirdik
-    center: ['50%', '50%'], 
+   radius: ['20%', '60%'],
+          center: ['50%', '35%'],
       label: {
         show: true,
         position: 'outside',
         formatter: '{c}',
-        textStyle: { fontSize: 16, fontWeight: 'bold', color: '#888' }
+        textStyle: { fontSize: 16, fontWeight: 'bold', color: '#b7b7b7' }
       },
 
     itemStyle: {
@@ -1604,7 +1588,7 @@ function all_events_by_type(data, total, regionId = 0) {
                   <div class="space-main-body-img">
                     <img src="./templates/hr/img/bozor-tayyor.png" alt="">
                   </div>
-                  <div class="row">
+                  <div class="row pt-3">
                       <div class="col-4">
                           <video width="100%" height="300" autoplay loop muted>
                               <source src="/templates/hr/videos/video-4.mp4" type="video/mp4">
@@ -1767,18 +1751,18 @@ function get_events_by_region(data, containerId = 'get_events_by_region') {
     xAxis: {
       type: 'category',
       data: data.map(item => item.name),
-      axisLabel: { interval: 0, fontSize: '1rem', rotate: 45, color: '#333' },
+      axisLabel: { interval: 0, fontSize: '1rem', rotate: 45, color: '#b7b7b7' },
       axisLine: { show: false }, splitLine: { show: false }
     },
     grid: { bottom: 110, right: 30, left: 100 },
-    yAxis: { type: 'value', axisLabel: { color: '#333' }, axisLine: { show: false }, splitLine: { show: false } },
+    yAxis: { type: 'value', axisLabel: { color: '#b7b7b7' }, axisLine: { show: false }, splitLine: { show: false } },
     tooltip: { backgroundColor: 'white' },
     series: [{
       data: data.map(item => parseInt(item.gcount)),
       type: 'bar',
       barMaxWidth: 60,
       itemStyle: { color: (p) => colors[p.dataIndex % colors.length], borderRadius: [8, 8, 0, 0] },
-      label: { fontSize: 16, show: true, position: 'top', color: '#555' }
+      label: { fontSize: 16, show: true, position: 'top', color: '#b7b7b7' }
     }]
   };
 
@@ -1849,24 +1833,70 @@ $('#event_count').on('change', function() {
 
   } else {
     // ✅ Viloyat tanlanganda – uchta kategoriya chiqadi
+  //  const cats = data.legend;
+   // const placesByCat = categoryPlacesByRegion[id] || {};
+
+    // cats.forEach(cat => {
+    //   const places = placesByCat[cat] || [];
+    //   let listHtml = '<ul class="place-list scrollable">';
+    //   places.forEach(p => listHtml += `<li class="category-item" data-cat="${cat}" data-place="${p}">${p}</li>`);
+    //   listHtml += '</ul>';
+
+    //   regionBoxes.append(`
+    //     <div class="col-3">
+    //       <div class="region-box">
+    //        <h5 class="mb-2 text-center text-primary">${cat}</h5>
+    //          ${listHtml}
+    //       </div>
+    //     </div>
+    //   `);
+    // });
+
     const cats = data.legend;
-    const placesByCat = categoryPlacesByRegion[id] || {};
+const placesByCat = categoryPlacesByRegion[id] || {};
+const regionBoxes = document.getElementById("get_events_by_region"); // DOM elementni to‘g‘ri olamiz
 
-    cats.forEach(cat => {
-      const places = placesByCat[cat] || [];
-      let listHtml = '<ul class="place-list scrollable">';
-      places.forEach(p => listHtml += `<li class="category-item" data-cat="${cat}" data-place="${p}">${p}</li>`);
-      listHtml += '</ul>';
+if (!regionBoxes) {
+  console.error("regionBoxes elementi topilmadi!");
+} else {
+  // boshlang‘ich string
+  let allHtml = `
+    <div class="col-12">
+      <div class="region-box">
+  `;
 
-      regionBoxes.append(`
-        <div class="col-3">
-          <div class="region-box">
-           <h5 class="mb-2 text-center text-primary">${cat}</h5>
-             ${listHtml}
-          </div>
-        </div>
-      `);
+  cats.forEach(cat => {
+    const places = placesByCat[cat] || [];
+    let listHtml = '<ul class="place-list scrollable">';
+    
+    places.forEach(p => {
+      listHtml += `<li class="alert alert-dark" role="alert" data-cat="${cat}" data-place="${p}">${p}</li>`;
     });
+    
+    listHtml += '</ul>';
+
+    allHtml += `
+      <div class="category-block mb-2">
+        <h5 class="mb-2 text-primary">${cat}</h5>
+        ${listHtml}
+      </div>
+    `;
+  });
+
+  allHtml += `
+      </div>
+    </div>
+  `;
+
+  // Endi DOM ga joylashtiramiz
+  regionBoxes.innerHTML = allHtml;
+
+  console.log("✅ Region boxes yangilandi!");
+}
+
+
+ 
+
   }
 });
 
@@ -1895,7 +1925,7 @@ $(document).on('click', '.category-item', function() {
                   <div class="space-main-body-img">
                     <img src="./templates/hr/img/bozor-tayyor.png" alt="">
                   </div>
-                  <div class="row">
+                  <div class="row pt-3">
                       <div class="col-4">
                           <video width="100%" height="300" autoplay loop muted>
                               <source src="/templates/hr/videos/video-4.mp4" type="video/mp4">

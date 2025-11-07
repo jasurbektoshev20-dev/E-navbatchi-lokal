@@ -643,7 +643,7 @@ const tbody = document.getElementById("event-tbody");
         <tr class="lb text-center">
             <td class="text-right">${index + 1}</td>
             <td>
-                <a href="hr.php?act=event_according_duty&mid={$smarty.get.mid}&date=${encodeURIComponent(event.eventName)}">
+                <a href="hr.php?act=event_according_duty&date=${encodeURIComponent(event.eventName)}">
                     ${event.eventName}
                 </a>
             </td>

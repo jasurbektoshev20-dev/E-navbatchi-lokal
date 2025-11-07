@@ -40,16 +40,17 @@
 }
 
     .date-box{
-      position: absolute;
+      position: relative;
       display: flex;
       justify-content: center;
-      padding: 10px 20px;
       width: 100%;
     }
     .date-box-container{
+        position: absolute;
+        top: 10px;
         display: flex;
         justify-content:space-between;
-      width: 81%;
+        width: 65%;
     }
     .date-box .date-box-select{
         display: flex;
@@ -57,15 +58,10 @@
         justify-content: flex-end;
     }
 
-     @media (max-width: 2500px) {
-       .date-box-container{
-          width: 70%;
-        }
-    }
 
        @media (max-width: 1900px) {
        .date-box-container{
-          width: 60%;
+          width: 50%;
         }
     }
 
@@ -76,13 +72,11 @@
     }
 
               @media (max-width: 1000px) {
-       .date-box{
-          position: relative;
-        }
          .date-box-container{
           width: 100%;
+           position: relative;
         }
-    }
+    } 
 
 
 

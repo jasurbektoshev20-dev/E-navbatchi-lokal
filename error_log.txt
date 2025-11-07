@@ -1,0 +1,4 @@
+[07-Nov-2025 16:18:15 Europe/Moscow] PHP Notice:  Undefined variable: Distcity in C:\OpenServer\domains\E-gvardiya\hr.php on line 390
+[07-Nov-2025 16:18:29 Europe/Moscow] PHP Notice:  Undefined variable: Distcity in C:\OpenServer\domains\E-gvardiya\hr.php on line 390
+[07-Nov-2025 16:20:46 Europe/Moscow] PHP Notice:  Constant ARM_IN already defined in C:\OpenServer\domains\E-gvardiya\hr.php on line 18
+[07-Nov-2025 16:20:46 Europe/Moscow] PHP Notice:  Undefined variable: Distcity in C:\OpenServer\domains\E-gvardiya\hr.php on line 398
