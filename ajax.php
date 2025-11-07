@@ -1021,9 +1021,7 @@ switch ($Action) {
 		break;
 
 	case "get_bodycam_location":
-		// $id = isset($_GET['id']) ? $_GET['id'] : 6;
-
-		$query = "SELECT * FROM hr.body_cameras ORDER BY id ASC LIMIT";
+		$query = "SELECT * FROM hr.body_cameras ORDER BY id ASC";
 		$sql->query($query);
 		$Track = $sql->fetchAll();
 
