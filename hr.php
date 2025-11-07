@@ -807,7 +807,6 @@ switch ($Act) {
 		));
 		break;
 	/// jts_objects
-
 	case "hr_regions_map":
 		$query  = "SELECT t.id, t.object_name as name
 		FROM hr.jts_objects t 
@@ -924,9 +923,7 @@ switch ($Act) {
 			'Tables' => $Tables,
 		));
 		break;
-	/// Structures
-
-	/// hr_car_models 
+	
 	case "hr_car_models":
 		$query  = "SELECT t.id
 			,t.name
@@ -947,8 +944,36 @@ switch ($Act) {
 			'RefCarModels' => $RefCarModels,
 		));
 		break;
-		/// hr_car_models
+	/// hr_car_models
 
+	case "hr_impact_area":
+		$query  = "SELECT t.id, s.name{$slang} as structure, d.name{$slang} as division,
+		ST_AsGeoJSON(ST_FlipCoordinates(t.geom)) AS geom
+		FROM hr.impact_area t 
+		left join hr.structure s on s.id  = t.structure_id
+		left join ref.divisions d on d.id = t.division_id
+		ORDER BY t.id desc LIMIT 10";
+		$sql->query($query);
+		$ImpactAreas = $sql->fetchAll();
+
+		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t 
+		where id > 1 and id < 16
+		ORDER BY t.turn ASC";
+		$sql->query($query);
+		$Regions = $sql->fetchAll();
+
+
+
+		// echo '<pre>';
+		// print_r($ImpactAreas);
+		// echo '</pre>';
+		// die();
+
+		$smarty->assign(array(
+			'ImpactAreas' => $ImpactAreas,
+			'Regions' => $Regions,
+		));
+		break;
 }
 
 $smarty->display("hr/{$Act}.tpl");

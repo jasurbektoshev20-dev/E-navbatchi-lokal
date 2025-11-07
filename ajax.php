@@ -861,6 +861,32 @@ switch ($Action) {
 
 		$res = json_encode($Objects);
 		break;
+
+	case "get_impact_area":
+		$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
+		$division_id = isset($_GET['division_id']) ? $_GET['division_id'] : 0;
+		$page = isset($_GET['page']) ? $_GET['page'] : 1;
+		$limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
+		$start = ($page - 1) * $limit;
+
+		$query  = "SELECT t.id, s.name{$slang} as structure, d.name{$slang} as division,
+		ST_AsGeoJSON(ST_FlipCoordinates(t.geom)) AS geom
+		FROM hr.impact_area t 
+		left join hr.structure s on s.id  = t.structure_id
+		left join ref.divisions d on d.id = t.division_id
+		WHERE 1=1 ";
+		if ($structure_id > 0) {
+			$query .= " AND t.structure_id = {$structure_id} ";
+		}
+		if ($division_id > 0) {
+			$query .= " AND t.division_id = {$division_id} ";
+		}
+		$query .= " ORDER BY t.id desc LIMIT {$limit} OFFSET {$start}";
+		$sql->query($query);
+		$ImpactAreas = $sql->fetchAll();
+
+		$res = json_encode($ImpactAreas);
+		break;
 }
 
 // echo iconv("cp1251", "UTF-8", $res);
