@@ -669,8 +669,6 @@ switch ($Action) {
 			$sql->query($query);
 			$RoutineDate = $sql->fetchAll();
 
-
-
 			foreach ($RoutineDate as $key => $value) {
 				$car_ids[] = $value['car_id'];
 				if (isset($value['bodycam_id']) && $value['patrul_type'] == 1) {
@@ -678,10 +676,11 @@ switch ($Action) {
 					FROM hr.body_cameras t 
 					WHERE t.id = {$value['bodycam_id']}";
 					$sql->query($query);
-					$Bodys = $sql->fetchAll();
+					$Bodys[] = $sql->fetchAssoc();
 				}
 			}
 		}
+
 
 
 		if ($Bodys) {
@@ -923,7 +922,7 @@ switch ($Action) {
 	case "get_mpg_by_id":
 		$id = isset($_GET['id']) ? $_GET['id'] : 6;
 
-		$Data= [];
+		$Data = [];
 		$car_ids = [];
 		$query = "SELECT 
             uzg.id,
@@ -959,7 +958,7 @@ switch ($Action) {
 		$Staffs = $sql->fetchAll();
 		$Data['staffs'] = $Staffs;
 
-		
+
 		$BodyCamUrl = [];
 		$Bodys = [];
 		if (isset($Staffs)) {
