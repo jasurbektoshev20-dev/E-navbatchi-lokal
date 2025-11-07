@@ -90,95 +90,18 @@
             <!-- Turi -->
             <div class="col-sm-4">
               <label>Turi</label>
-              <select required class="form-select" id="object_type">
+              <select required class="form-select" id="division_id">
                 <option value="">Tanlang...</option>
-                {foreach from=$ObjectTypes item=Item1 key=ikey1}
-                  <option value="{$Item1.id}">{$Item1.name}</option>
-                {/foreach}
+                
               </select>
             </div>
 
             <!-- Nomi -->
             <div class="col-sm-4">
               <label>Nomi</label>
-              <input required type="text" class="form-control" id="object_name" placeholder="Masalan: Registon maydoni" />
+              <input required type="text" class="form-control" id="division_child" placeholder="Masalan: Registon maydoni" />
             </div>
 
-              <!-- Manzili -->
-            <div class="col-sm-4">
-              <label>Manzili</label>
-              <input required type="text" class="form-control" id="address" placeholder="Manzilni kiriting..." />
-            </div>
-
-              <!-- Maydoni -->
-            <div class="col-sm-4">
-              <label>Maydoni</label>
-              <input required type="text" class="form-control" id="area" placeholder="Maydonini kiriting..." />
-            </div>
-
-               <!-- Admin tel -->
-            <div class="col-sm-4">
-              <label>Administrator telefon raqamlari</label>
-              <input required type="text" class="form-control" id="admin_phone" placeholder="Telefon raqam kiriting..." />
-            </div>
-
-                 <!-- Admin tel -->
-
-
-            {* <div class="col-sm-4">
-              <label>Kameralar sonini kiriting</label>
-              <input required type="text" class="form-control" id="name" placeholder="Kameralar sonini kiriting..." />
-            </div> *}
-
-               <!-- Bozor raxbari -->
-            <div class="col-sm-4">
-              <label>Rahbari</label>
-              <input required type="text" class="form-control" id="object_head" placeholder="Bozor rahbarini kiriting..." />
-            </div>
-
-            <div class="col-sm-4">
-              <label>Rahbar telefon raqami</label>
-              <input required type="text" class="form-control" id="head_phone" placeholder="Telefon raqamini kiriting..." />
-            </div>
-
-              <!-- Bozor uchaskavoy -->
-            <div class="col-sm-4">
-              <label>Hudud uchastkavoyi FISH</label>
-              <input required type="text" class="form-control" id="police_name" placeholder="FISHni kiriting..." />
-            </div>
-
-              <!-- Bozor uchaskavoy tel -->
-            <div class="col-sm-4">
-              <label>Hudud uchastkavoyi telefon raqami</label>
-              <input required type="text" class="form-control" id="police_phone" placeholder="Telefon raqam kiriting..." />
-            </div>
-
-              <!-- Bozor rasmi -->
-            <div class="col-sm-4">
-               <label for="photo" class="form-label">Hudud rasmi</label>
-               <input class="form-control" type="file" id="photo">
-            </div>
-
-              <div class="col-sm-4">
-              <label>Nazorat kuzatuv maskani kengligi(lat)</label>
-              <input required type="text" class="form-control" id="lat" placeholder="kengligini kiriting..." />
-            </div>
-
-             <!-- Bozor uchaskavoy tel -->
-            <div class="col-sm-4">
-              <label>Nazorat kuzatuv maskani uzunligi(lot)</label>
-              <input required type="text" class="form-control" id="long" placeholder="uzunligini kiriting..." />
-            </div>
-
-             <div class="col-sm-4">
-              <label>Hamkorlikdagi tashkilotlar</label>
-              <select required class="form-select" id="cooperate_id">
-                <option value="">Tanlang...</option>
-                {foreach from=$CooperateTypes item=Item1 key=ikey1}
-                  <option value="{$Item1.id}">{$Item1.name}</option>
-                {/foreach}
-              </select>
-            </div>
             <div class="col-sm-12">
               <label>Obyekt hududini chizish</label>
                 <div id="uzbMap" style="height: 350px;"></div>
@@ -224,11 +147,6 @@
 
     {literal}
 
-    let localData = JSON.parse(localStorage.getItem("jts_objects")) || [
-        { structure: "Toshkent", type: "Bozor", name1: "Chorsu bozori", name2: "12", name3: "" },
-        { structure: "Samarqand", type: "Park", name1: "Registon maydoni", name2: "20", name3: "" }
-    ];
-
     let drawCoords
 
     let currentPage = 1;
@@ -247,7 +165,7 @@
                 </div>
             </div>
         `);
-        let url = `${AJAXPHP}?act=get_jts_objects`;
+        let url = `${AJAXPHP}?act=get_impact_area`;
         let params = [];
         
         if (currentPage) params.push(`start=${currentPage}`);
@@ -261,7 +179,7 @@
           dataType: 'json',
           success: function(response) {
             $('.loader').empty();
-            if (!response.data.length) {
+            if (!response?.data?.length) {
                 $('#pagination').hide();
                 $('.loader').append(`
                     <div class="text-center my-5" style="padding: 10vh 0">
@@ -274,26 +192,8 @@
                   tr.innerHTML = `
                       <td class="text-center">${index + 1}</td>
                       <td class="text-center">${item.structure}</td>
-                      <td class="text-center">${item.object_type}</td>
-                      <td class="text-center">${item.object_name}</td>
-                      <td class="">
-                        <div>
-                          <a href="hr.php?act=jts_objects_sos&id=${item.id}" class="p-2">
-                              <i class="ti ti-bell me-1"></i> SOS tugma
-                          </a>
-                        </div>
-                        <div>
-                          <a href="hr.php?act=jts_objects_camera&id=${item.id}" class="p-2">
-                              <i class="ti ti-camera me-1"></i> Kamera
-                          </a>
-                        </div>
-                        <div>
-                          <a href="hr.php?act=jts_objects_door&id=${item.id}" class="p-2">
-                              <i class="ti ti-door me-1"></i> Eshik
-                          </a>
-                        </div>
-      
-                      </td>
+                      <td class="text-center">${item.division_id}</td>
+                      <td class="text-center">${item.division_child}</td>
                       <td>
                           <div class="dropdown">
                               <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -336,88 +236,49 @@
     document.getElementById("saveBtn").addEventListener("click", (e) => {
         e.preventDefault();
         const structure_id = document.getElementById("structure_id").value.trim();
-        const object_type = document.getElementById("object_type").value.trim();
-        const object_name = document.getElementById("object_name").value.trim();
-        const address = document.getElementById("address").value.trim();
-        const area = document.getElementById("area").value.trim();
-        const admin_phone = document.getElementById("admin_phone").value.trim();
-        const object_head = document.getElementById("object_head").value.trim();
-        const head_phone = document.getElementById("head_phone").value.trim();
-        const police_name = document.getElementById("police_name").value.trim();
-        const police_phone = document.getElementById("police_phone").value.trim();
-        const lat = document.getElementById("lat").value.trim();
-        const long = document.getElementById("long").value.trim();
-        const cooperate_id = document.getElementById("cooperate_id").value.trim();
+        const division_id = document.getElementById("division_id").value.trim();
+        const division_child = document.getElementById("division_child").value.trim();
 
         const editId = document.getElementById("editId").value;
 
         if (
           !structure_id || 
-          !object_type || 
-          !object_name ||
-          !address || 
-          !area || 
-          !admin_phone || 
-          !object_head || 
-          !head_phone || 
-          !police_name || 
-          !police_phone || 
-          !lat || 
-          !long || 
-          !drawCoords || 
-          !cooperate_id
+          !division_id || 
+          !division_child ||
+          !drawCoords
         ) return alert("Barcha majburiy maydonlarni to‘ldiring!");
 
 
-        const formData = new FormData()
 
-        formData.append('structure_id', structure_id)
-        formData.append('object_type', object_type)
-        formData.append('object_name', object_name)
-        formData.append('address', address)
-        formData.append('area', area)
-        formData.append('admin_phone', admin_phone)
-        formData.append('object_head', object_head)
-        formData.append('head_phone', head_phone)
-        formData.append('police_name', police_name)
-        formData.append('police_phone', police_phone)
-        formData.append('cooperate_id', cooperate_id)
-        formData.append('lat', lat)
-        formData.append('long', long)
-        formData.append('geom', JSON.stringify(drawCoords));
-
-        if(editId){
-          formData.append('id', editId)
-          $.ajax({
-            url: `${HRAJAXPHP}?act=act_jts_objects&rowid=${editId}`,
-            type: 'POST',               // FormData uchun POST kerak
-            data: formData,             // FormData yuboramiz
-            processData: false,         // jQuery FormData’ni stringify qilib yubormasligi uchun
-            contentType: false,         // headerni avtomatik belgilasin
-            success: function(response) {
-              console.log('Yuborildi:', response);
-              renderTable();
-            },
-            error: function(xhr, status, error) {
-              console.error('AJAX error:', error);
-            }
-          });
-        }else{
-          $.ajax({
-            url: `${HRAJAXPHP}?act=act_jts_objects`,
-            type: 'POST',               // FormData uchun POST kerak
-            data: formData,             // FormData yuboramiz
-            processData: false,         // jQuery FormData’ni stringify qilib yubormasligi uchun
-            contentType: false,         // headerni avtomatik belgilasin
-            success: function(response) {
-              console.log('Yuborildi:', response);
-              renderTable();
-            },
-            error: function(xhr, status, error) {
-              console.error('AJAX error:', error);
-            }
-          });
+        if (!structure_id || !division_id || !division_child || !drawCoords) {
+          alert("Barcha majburiy maydonlarni to‘ldiring!");
+          return;
         }
+
+        const payload = {
+          structure_id,
+          division_id,
+          division_child,
+          geom: JSON.stringify(drawCoords)
+        };
+
+        const url = editId
+          ? `${HRAJAXPHP}?act=act_impact_area&rowid=${editId}`
+          : `${HRAJAXPHP}?act=act_impact_area`;
+
+        $.ajax({
+          url,
+          type: 'POST',
+          data: payload,          
+          dataType: 'json',    
+          success: function(response) {
+            console.log('Yuborildi:', response);
+            renderTable();
+          },
+          error: function(xhr, status, error) {
+            console.error('AJAX error:', error);
+          }
+        });
         
         
         bootstrap.Modal.getInstance(document.getElementById("submitModal")).hide();
@@ -431,7 +292,7 @@
         if (target.classList.contains("deleteAction")) {
             if (confirm("Haqiqatan o‘chirmoqchimisiz?")) {
                 $.ajax({
-                  url: `${HRAJAXPHP}?act=del_jts_objects&rowid=${id}`,
+                  url: `${HRAJAXPHP}?act=del_impact_area&rowid=${id}`,
                   type: 'GET',
                   dataType: 'json',
                   success: function(response) {
@@ -447,25 +308,15 @@
         if (target.classList.contains("editAction")) {
 
             $.ajax({
-              url: `${HRAJAXPHP}?act=get_jts_objects&rowid=${id}`,
+              url: `${HRAJAXPHP}?act=get_impact_area&rowid=${id}`,
               type: 'GET',
               dataType: 'json',
               success: function(response) {
                 const data = response;
                 document.getElementById("structure_id").value = data.structure_id;
-                document.getElementById("object_type").value = data.object_type;
-                document.getElementById("object_name").value = data.object_name;
-                document.getElementById("address").value = data.address;
-                document.getElementById("area").value = data.area;
-                document.getElementById("admin_phone").value = data.admin_phone;
-                document.getElementById("object_head").value = data.object_head;
-                document.getElementById("head_phone").value = data.head_phone;
-                document.getElementById("police_name").value = data.police_name;
-                document.getElementById("police_phone").value = data.police_phone;
-                document.getElementById("cooperate_id").value = data.cooperate_id;
-                document.getElementById("lat").value = data.lat;
-                document.getElementById("long").value = data.long;
-                
+                document.getElementById("division_id").value = data.division_id;
+                document.getElementById("division_child").value = data.division_child;
+              
                 document.getElementById("editId").value = id;
                 new bootstrap.Modal(document.getElementById("submitModal")).show();
                 if(data.geom){
@@ -481,6 +332,28 @@
             })
         }
     });
+
+    $('#structure_id').on('change', function() {
+      var id = this.value;
+      $('#division_id').empty()
+      $.ajax({
+        url: `${AJAXPHP}?act=get_divisions&structure_id=${id}`,
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+          $('#division_id').append('<option value="">Tanlang...</option>')
+          response.forEach(item => {
+            $('#division_id').append(`
+              <option value="${item.id}">${item.name}</option>
+            `)
+          })
+          
+        },
+        error: function(xhr, status, error) {
+          console.error('AJAX error:', error);
+        }
+      });
+    })
 
     function renderMap(existingCoords){
       

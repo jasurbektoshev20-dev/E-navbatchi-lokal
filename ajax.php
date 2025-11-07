@@ -875,7 +875,7 @@ switch ($Action) {
 		$limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
 		$start = ($page - 1) * $limit;
 
-		$query  = "SELECT t.id, s.name{$slang} as structure, d.name{$slang} as division,
+		$query  = "SELECT t.id, s.name{$slang} as structure, d.name{$slang} as division, t.division_child,
 		ST_AsGeoJSON(ST_FlipCoordinates(t.geom)) AS geom
 		FROM hr.impact_area t 
 		left join hr.structure s on s.id  = t.structure_id
