@@ -1221,47 +1221,47 @@
           if (current_status) {
             console.log('working');
             
-              this_cam_item.removeClass(remove_class).addClass('g_status');
-              if (is_played) {
-                  jsDecoder.JS_Stop(0).then(function() {
-                      StopRealPlayAll();
-                      console.log("stop success");
-                      jsDecoder.JS_Play(playURL, { playURL }, 0).then(
-                          function() { 
-                              console.log("realplay success");
-                              $(".camera_active").html(`${el_count + 1}`)
-                              cam_idx_code = cam_index;
-                              if (ptz == 1) $("#controller").show();
-                              is_played = true; 
-                          },
-                          function() { 
-                              console.log("realplay failed");
-                              is_played = false;
-                              $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
-                              StopRealPlayAll();
-                          }
-                      );
-                  }, function() {
-                      StopRealPlayAll();
-                      console.log("stop failed");
-                      $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
-                  });
-              } else {
-                  if (ptz == 1) $("#controller").show();
-                  jsDecoder.JS_Play(playURL, { playURL }, 0).then(
-                      function() { 
-                          console.log("realplay success");
-                          is_played = true;
-                          cam_idx_code = cam_index;
-                      },
-                      function() { 
-                          console.log("realplay failed");
-                          is_played = false;
-                          $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
-                          StopRealPlayAll();
-                      }
-                  );
-              }
+            this_cam_item.removeClass(remove_class).addClass('g_status');
+            if (is_played) {
+                jsDecoder.JS_Stop(0).then(function() {
+                    StopRealPlayAll();
+                    console.log("stop success");
+                    jsDecoder.JS_Play(playURL, { playURL }, 0).then(
+                        function() { 
+                            console.log("realplay success");
+                            $(".camera_active").html(`${el_count + 1}`)
+                            cam_idx_code = cam_index;
+                            if (ptz == 1) $("#controller").show();
+                            is_played = true; 
+                        },
+                        function() { 
+                            console.log("realplay failed");
+                            is_played = false;
+                            $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
+                            StopRealPlayAll();
+                        }
+                    );
+                }, function() {
+                    StopRealPlayAll();
+                    console.log("stop failed");
+                    $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
+                });
+            } else {
+                if (ptz == 1) $("#controller").show();
+                jsDecoder.JS_Play(playURL, { playURL }, 0).then(
+                    function() { 
+                        console.log("realplay success");
+                        is_played = true;
+                        cam_idx_code = cam_index;
+                    },
+                    function() { 
+                        console.log("realplay failed");
+                        is_played = false;
+                        $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
+                        StopRealPlayAll();
+                    }
+                );
+            }
           } else {
               this_cam_item.removeClass(remove_class).addClass('r_status');
               $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
