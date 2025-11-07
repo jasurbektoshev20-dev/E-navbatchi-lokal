@@ -1023,11 +1023,12 @@ switch ($Action) {
 	case "get_bodycam_location":
 		$id = isset($_GET['id']) ? $_GET['id'] : 0;
 
-		$query = "SELECT b.* FROM hr.daily_routine dr
-			LEFT JOIN hr.dailiy_routine_date drt ON drt.routine_id = dr.id
-			LEFT JOIN hr.body_cameras b ON b.id = drt.bodycam_id
-			WHERE b.object_id = {$id}
-		 	ORDER BY dr.id ASC";
+		$query = "SELECT DISTINCT ON (b.id) b.* 
+			FROM hr.daily_routine dr
+		LEFT JOIN hr.dailiy_routine_date drt ON drt.routine_id = dr.id
+		LEFT JOIN hr.body_cameras b ON b.id = drt.bodycam_id
+		WHERE dr.date = CURRENT_DATE AND dr.object_id = {$id}
+		ORDER BY b.id ASC";
 		$sql->query($query);
 		$data = $sql->fetchAll();
 
