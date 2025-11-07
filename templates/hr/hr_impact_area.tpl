@@ -19,7 +19,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body d-flex justify-content-between">
-                    <h4>JTSB obyektlari</h4>
+                    <h4>Ta'sir hududlari</h4>
                     <button id="new" type="button" class="btn btn-primary waves-effect waves-light">
                         <i class="menu-icon tf-icons ti ti-plus"></i> Qo‘shish
                     </button>
@@ -38,7 +38,7 @@
                             <tr>
                                 <th class="text-center">No̱</th>
                                 <th class="text-center">Viloyat</th>
-                                <th class="text-center">Turi</th>
+                                <th class="text-center">Bo'linma</th>
                                 <th class="text-center">Nomi</th>
                                 <th>Amallar</th>
                                 <th></th>
@@ -132,6 +132,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
 
+<!-- 🧩 Fullscreen plugin -->
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css" />
+<script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
 
 <script src="/assets/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
 <script src="/assets/assets/vendor/libs/sweetalert2/sweetalert2.js"></script>
@@ -192,8 +195,8 @@
                   tr.innerHTML = `
                       <td class="text-center">${index + 1}</td>
                       <td class="text-center">${item.structure}</td>
-                      <td class="text-center">${item.division_id}</td>
-                      <td class="text-center">${item.division_child}</td>
+                      <td class="text-center">${item.division}</td>
+                      <td class="text-center">${item?.division_child}</td>
                       <td>
                           <div class="dropdown">
                               <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -265,12 +268,15 @@
         const url = editId
           ? `${HRAJAXPHP}?act=act_impact_area&rowid=${editId}`
           : `${HRAJAXPHP}?act=act_impact_area`;
+          
+        if(editId){
+          payload.id = editId
+        }
 
         $.ajax({
           url,
           type: 'POST',
           data: payload,          
-          dataType: 'json',    
           success: function(response) {
             console.log('Yuborildi:', response);
             renderTable();
@@ -314,6 +320,7 @@
               success: function(response) {
                 const data = response;
                 document.getElementById("structure_id").value = data.structure_id;
+                getDivisionOptions(data.structure_id, data.division_id)
                 document.getElementById("division_id").value = data.division_id;
                 document.getElementById("division_child").value = data.division_child;
               
@@ -335,6 +342,10 @@
 
     $('#structure_id').on('change', function() {
       var id = this.value;
+      getDivisionOptions(id)
+    })
+
+    function getDivisionOptions(id, correct_id) {
       $('#division_id').empty()
       $.ajax({
         url: `${AJAXPHP}?act=get_divisions&structure_id=${id}`,
@@ -347,13 +358,14 @@
               <option value="${item.id}">${item.name}</option>
             `)
           })
+          document.getElementById("division_id").value = correct_id;
           
         },
         error: function(xhr, status, error) {
           console.error('AJAX error:', error);
         }
       });
-    })
+    }
 
     function renderMap(existingCoords){
       
@@ -376,6 +388,15 @@
       setTimeout(() => {
         map.invalidateSize();
       }, 300);
+
+      // 🧩 Fullscreen tugmasi
+      map.addControl(new L.Control.Fullscreen({
+        position: 'topleft', // joylashuvi (topleft, topright, bottomleft, bottomright)
+        title: {
+          'false': 'To‘liq ekranga o‘tish',
+          'true': 'To‘liq ekrandan chiqish'
+        }
+      }));
 
       // Poligonlar uchun qatlam guruhi
       const drawnItems = new L.FeatureGroup();
