@@ -21,8 +21,7 @@ if (count($_GET) > 0) {
     }
 }
 
-// $region = isset($_GET['region']) ? $_GET['region'] : 0;
-$region = 0;
+$region = isset($_GET['region']) ? $_GET['region'] : 0;
 
 $query = "SELECT 
             uzg.id,
@@ -54,7 +53,7 @@ $query = "SELECT
         LEFT JOIN ref.car_models cm ON cm.id = cr.car_model_id
         WHERE 1=1 ";
 
-if ($region > 0) {
+if ($region > 1) {
     $query .= " AND s.id = {$region} ";
 }
 
