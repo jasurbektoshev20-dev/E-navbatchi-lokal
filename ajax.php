@@ -690,7 +690,7 @@ switch ($Action) {
 				$bodyCamId = $body_c['id'];
 				$comment = $body_c['comment'];
 
-				$dataBodyCam = GetCamUrl($bodycamindex);
+				$dataBodyCam = GetCamUrlBody($bodycamindex);
 				if (isset($dataBodyCam['data']['url'])) {
 					$BodyCamUrl[] = [
 						'id' => $bodyCamId,
@@ -981,7 +981,7 @@ switch ($Action) {
 				$bodyCamId = $body_c['id'];
 				$comment = $body_c['comment'];
 
-				$dataBodyCam = GetCamUrl($bodycamindex);
+				$dataBodyCam = GetCamUrlBody($bodycamindex);
 				if (isset($dataBodyCam['data']['url'])) {
 					$BodyCamUrl[] = [
 						'id' => $bodyCamId,

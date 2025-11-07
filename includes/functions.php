@@ -148,6 +148,101 @@ function GetCamUrl($camindex)
 	return $data;
 }
 
+function GetCamUrlBody($camindex)
+{
+	// AppKey va AppSecret
+	$app_key = "28494656";
+	$app_secret = "UpLav0h2OoY63DUkw114";
+
+	// So'rov uchun URL
+	$uri = "/artemis/api/video/v1/cameras/previewURLs";
+	$base_url = "https://10.100.9.130";
+	$full_url = $base_url . $uri;
+
+	// Sana va vaqt
+	$date = gmdate("D, d M Y H:i:s T");
+	$timestamp = round(microtime(true) * 1000);
+
+	// X-Ca-Nonce (UUID)
+	$nonce = uniqid();
+
+	// So'rov tanasi (body)
+	$body = json_encode([
+		"cameraIndexCode" => $camindex, // Kamera index kodingizni kiriting
+		"streamType" => 0,
+		"protocol" => "websocket",
+		"transmode" => 1,
+		"requestWebsocketProtocol" => 0
+	]);
+
+	// Content-MD5 hisoblash
+	$content_md5 = base64_encode(md5($body, true));
+
+	// CanonicalizedHeaders (header'larni alfavit bo'yicha tartiblash)
+	$headers = [
+		"x-ca-key" => $app_key,
+		"x-ca-timestamp" => $timestamp,
+		"x-ca-nonce" => $nonce
+	];
+	ksort($headers); // Headerlarni alfavit bo'yicha tartiblash
+
+	$canonicalized_headers = "";
+	foreach ($headers as $key => $value) {
+		$canonicalized_headers .= strtolower($key) . ":" . $value . "\n";
+	}
+
+	// CanonicalizedResource
+	$canonicalized_resource = $uri;
+
+	// X-Ca-Signature-Headers
+	$x_ca_signature_headers = implode(",", array_keys($headers));
+
+	// Imzo uchun matn yaratish
+	$sign_string = "POST\n"
+		. "application/json\n"
+		. $content_md5 . "\n"
+		. "application/json;charset=UTF-8\n"
+		. $date . "\n"
+		. $canonicalized_headers
+		. $canonicalized_resource;
+
+	// HMAC-SHA256 bilan X-Ca-Signature yaratish
+	$signature = base64_encode(hash_hmac('sha256', $sign_string, $app_secret, true));
+
+	// cURL so'rovni yuborish
+	$curl = curl_init();
+	curl_setopt_array($curl, array(
+		CURLOPT_URL => $full_url,
+		CURLOPT_RETURNTRANSFER => true,
+		CURLOPT_SSL_VERIFYPEER => false,
+		CURLOPT_SSL_VERIFYHOST => false,
+		CURLOPT_ENCODING => '',
+		CURLOPT_MAXREDIRS => 10,
+		CURLOPT_TIMEOUT => 3,
+		CURLOPT_FOLLOWLOCATION => true,
+		CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		CURLOPT_CUSTOMREQUEST => 'POST',
+		CURLOPT_POSTFIELDS => $body,
+		CURLOPT_HTTPHEADER => array(
+			"Accept: application/json",
+			"Content-Type: application/json;charset=UTF-8",
+			"Date: $date",
+			"Content-MD5: $content_md5",
+			"X-Ca-Key: $app_key",
+			"X-Ca-Timestamp: $timestamp",
+			"X-Ca-Nonce: $nonce",
+			"X-Ca-Signature-Headers: $x_ca_signature_headers",
+			"X-Ca-Signature: $signature"
+		),
+	));
+
+	$response = curl_exec($curl);
+	curl_close($curl);
+	$data  = json_decode($response, true);
+
+	return $data;
+}
+
 function Logon($login, $password)
 {
 	global $sql, $slang;
