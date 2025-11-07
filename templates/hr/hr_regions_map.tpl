@@ -248,6 +248,13 @@
       height: 20px;
 
     }
+    .camera-marker {
+      width: 20px;
+      height: 20px;
+      box-shadow: -2px 15px 16px rgba(0, 0, 0, 0.5);
+      border-radius: 50%;
+
+    }
     .body-marker {
       width: 20px;
       height: 20px;
@@ -740,7 +747,7 @@
               const bounds = L.latLngBounds(markerCoords);
 
               // Xarita markazlash + zoomni avtomatik o‘rnatish
-              map.flyToBounds(bounds, { padding: [50, 50] }); // padding – biroz chet bo‘shliq
+              map.flyToBounds(bounds, { padding: [50, 50], duration: 1 }); // padding – biroz chet bo‘shliq
             }
 
         },
@@ -872,8 +879,9 @@
             if (isNaN(lat) || isNaN(lon)) return;
 
             const el = document.createElement('div');
-            el.className = 'custom-marker';
-            el.style.backgroundImage = `url('/assets/images/video-camera-recording-yellow.png')`;
+            el.className = 'camera-marker';
+            // el.style.backgroundImage = `url('/assets/images/video-camera-recording-yellow.png')`;
+            el.style.backgroundImage = `url('/assets/images/security-camera-real.png')`;
             el.style.backgroundSize = 'cover';
             el.title = camera.comment;
 
@@ -1078,19 +1086,26 @@
         }
         
       }
+
+
+      setInterval(() => {
+        if(document.querySelector('#dialogMap')){
+          $.ajax({
+            url: `${AJAXPHP}?act=get_bodycam_location&id=${params?.data?.id}`,
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+              response.forEach(item=>{
+                updateCameraPosition(item.id, item.lat, item.lon)
+              })
+            }
+          })
+        }
+      }, 1000);
     }
 
 
-    setInterval(() => {
-        $.ajax({
-          url: `${AJAXPHP}?act=get_bodycam_location`,
-          type: 'GET',
-          dataType: 'json',
-          success: function(response) {
-            
-          }
-        })
-    }, 1000);
+
 
 
     // Funksiya: yangi koordinatalarni yangilash (socket orqali)
@@ -1100,30 +1115,9 @@
 
       // Yangi target koordinatalarni o‘rnatamiz
       camera.target = { lat: newLat, lon: newLon };
+
+      camera.setLngLat([newLon, newLat]);
     }
-
-    // Smooth animatsiya loop
-    function animateMarkers() {
-      Object.values(bodyCameraMarkers).forEach(item => {
-        const { current, target, marker } = item;
-
-        // Harakat yo‘q bo‘lsa skip
-        if (!target) return;
-
-        // Harakatni asta o‘zgartiramiz (0.1 = tezlik)
-        const speed = 0.1;
-        const lat = current.lat + (target.lat - current.lat) * speed;
-        const lon = current.lon + (target.lon - current.lon) * speed;
-
-        // Yangilaymiz
-        item.current = { lat, lon };
-        marker.setLngLat([lon, lat]);
-      });
-
-      // 60 FPS refresh
-      requestAnimationFrame(animateMarkers);
-    }
-
 
 
     function renderPassportDetails(params) {
