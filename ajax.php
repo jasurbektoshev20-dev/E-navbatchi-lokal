@@ -1019,6 +1019,16 @@ switch ($Action) {
 
 		$res = json_encode($Data);
 		break;
+
+	case "get_bodycam_location":
+		// $id = isset($_GET['id']) ? $_GET['id'] : 6;
+
+		$query = "SELECT * FROM hr.body_cameras ORDER BY id ASC LIMIT";
+		$sql->query($query);
+		$Track = $sql->fetchAll();
+
+		$res = json_encode($Track);
+		break;
 }
 
 // echo iconv("cp1251", "UTF-8", $res);
