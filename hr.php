@@ -179,10 +179,7 @@ switch ($Act) {
 		$BcmsStatus = $sql->fetchAll();
 
 
-		// echo '<pre>';
-		// print_r($BcmsStatus);
-		// echo '</pre>';
-		// die();
+
 
 		$smarty->assign(array(
 			'Menus'            =>    $Menus,
@@ -642,7 +639,8 @@ switch ($Act) {
 
 	case "hr_jts_objects_camera":
 		$object_id = ($_GET['id']);
-		$query  = "SELECT t.id, t.name, t.cam_code, t.is_ptz
+		$query  = "SELECT t.id, t.name, t.cam_code,  t.lat, t.long,
+		case when t.is_ptz then 'PTZ' else 'No PTZ' end as is_ptz 
 		FROM hr.jts_objects_camera t 
 		WHERE t.object_id = {$object_id}
 		ORDER BY t.id desc ";
@@ -671,7 +669,7 @@ switch ($Act) {
 		break;
 
 	case "hr_dailiy_routine_date":
-		$object_id = isset($_GET['id']) ? ($_GET['id']) : 1;
+		$object_id = isset($_GET['obyekt']) ? ($_GET['obyekt']) : 1;
 
 
 		$query = "SELECT t.id, t.direction, t.smena, d.name{$slang} AS division, 
@@ -751,7 +749,7 @@ switch ($Act) {
 		$Cars = $sql->fetchAll();
 
 		// echo '<pre>';
-		// print_r($BodyCams);
+		// print_r($RoutineDate);
 		// echo '</pre>';
 		// die();
 
@@ -810,7 +808,6 @@ switch ($Act) {
 		));
 		break;
 	/// jts_objects
-
 	case "hr_regions_map":
 		$query  = "SELECT t.id, t.object_name as name
 		FROM hr.jts_objects t 
@@ -927,9 +924,7 @@ switch ($Act) {
 			'Tables' => $Tables,
 		));
 		break;
-	/// Structures
-
-	/// hr_car_models 
+	
 	case "hr_car_models":
 		$query  = "SELECT t.id
 			,t.name
@@ -950,8 +945,36 @@ switch ($Act) {
 			'RefCarModels' => $RefCarModels,
 		));
 		break;
-		/// hr_car_models
+	/// hr_car_models
 
+	case "hr_impact_area":
+		$query  = "SELECT t.id, s.name{$slang} as structure, d.name{$slang} as division,
+		ST_AsGeoJSON(ST_FlipCoordinates(t.geom)) AS geom
+		FROM hr.impact_area t 
+		left join hr.structure s on s.id  = t.structure_id
+		left join ref.divisions d on d.id = t.division_id
+		ORDER BY t.id desc LIMIT 10";
+		$sql->query($query);
+		$ImpactAreas = $sql->fetchAll();
+
+		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t 
+		where id > 1 and id < 16
+		ORDER BY t.turn ASC";
+		$sql->query($query);
+		$Regions = $sql->fetchAll();
+
+
+
+		// echo '<pre>';
+		// print_r($ImpactAreas);
+		// echo '</pre>';
+		// die();
+
+		$smarty->assign(array(
+			'ImpactAreas' => $ImpactAreas,
+			'Regions' => $Regions,
+		));
+		break;
 }
 
 $smarty->display("hr/{$Act}.tpl");

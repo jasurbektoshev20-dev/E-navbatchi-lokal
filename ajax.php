@@ -650,7 +650,7 @@ switch ($Action) {
 		LEFT JOIN ref.ranks r ON r.id = s.rank_id
 		left join hr.jts_objects_camera jc on jc.object_id = {$JtsObject['id']}
 		left join hr.jts_objects_sos js on js.object_id = {$JtsObject['id']}
-		WHERE t.object_id = {$JtsObject['id']}
+		WHERE t.object_id = {$JtsObject['id']} AND t.date = CURRENT_DATE
 		GROUP BY t.id, r.name{$slang}, s.lastname, s.firstname, s.surname
 		ORDER BY t.id desc LIMIT 1";
 		$sql->query($query);
@@ -662,7 +662,7 @@ switch ($Action) {
 		$BodyCamUrl = [];
 		$Bodys = [];
 		if ($Routine) {
-			$query  = "SELECT t.id, t.car_id, t.bodycam_id
+			$query  = "SELECT t.id, t.car_id, t.bodycam_id, t.patrul_type
 			FROM hr.dailiy_routine_date t 
 			WHERE t.routine_id = {$Routine['id']}
 			ORDER BY t.id desc";
@@ -673,8 +673,8 @@ switch ($Action) {
 
 			foreach ($RoutineDate as $key => $value) {
 				$car_ids[] = $value['car_id'];
-				if (isset($value['bodycam_id'])) {
-					$query  = "SELECT t.id, t.cam_code, t.comment
+				if (isset($value['bodycam_id']) && $value['patrul_type'] == 1) {
+					$query  = "SELECT t.id, t.cam_code, t.comment, t.lat, t.long
 					FROM hr.body_cameras t 
 					WHERE t.id = {$value['bodycam_id']}";
 					$sql->query($query);
@@ -697,7 +697,9 @@ switch ($Action) {
 						'url' => $dataBodyCam['data']['url'],
 						'status' => 1,
 						'cam_index' => $bodycamindex,
-						'comment' => $comment
+						'comment' => $comment,
+						'lat' => $body_c['lat'],
+						'long' => $body_c['long']
 					];
 				} else {
 					$BodyCamUrl[] = [
@@ -705,7 +707,9 @@ switch ($Action) {
 						'url' => '',
 						'status' => 0,
 						'cam_index' => $bodycamindex,
-						'comment' => $comment
+						'comment' => $comment,
+						'lat' => $body_c['lat'],
+						'long' => $body_c['long']
 					];
 				}
 			}
@@ -738,7 +742,7 @@ switch ($Action) {
 		}
 
 
-		$query  = "SELECT t.id, t.cam_code, t.name,
+		$query  = "SELECT t.id, t.cam_code, t.name, t.lat, t.long,
 		case when t.is_ptz then 1 else 0 end as is_ptz
 		FROM hr.jts_objects_camera t 
 		WHERE t.object_id = {$JtsObject['id']}";
@@ -752,6 +756,8 @@ switch ($Action) {
 				$camId = $cam_c['id'];
 				$IsPtz = $cam_c['is_ptz'];
 				$comment = $cam_c['name'];
+				$lat = $cam_c['lat'];
+				$long = $cam_c['long'];
 
 				$dataCam = GetCamUrl($camindex);
 				if (isset($dataCam['data']['url'])) {
@@ -761,7 +767,9 @@ switch ($Action) {
 						'isptz' => $IsPtz,
 						'status' => 1,
 						'cam_index' => $camindex,
-						'comment' => $comment
+						'comment' => $comment,
+						'lat' => $lat,
+						'long' => $long
 					];
 				} else {
 					$CamUrl[] = [
@@ -770,7 +778,9 @@ switch ($Action) {
 						'status' => 0,
 						'isptz' => $IsPtz,
 						'cam_index' => $camindex,
-						'comment' => $comment
+						'comment' => $comment,
+						'lat' => $lat,
+						'long' => $long
 					];
 				}
 			}
@@ -860,6 +870,140 @@ switch ($Action) {
 		$Objects = $sql->fetchAll();
 
 		$res = json_encode($Objects);
+		break;
+
+	case "get_impact_area":
+		$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
+		$division_id = isset($_GET['division_id']) ? $_GET['division_id'] : 0;
+		$page = isset($_GET['page']) ? $_GET['page'] : 1;
+		$limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
+		$start = ($page - 1) * $limit;
+
+		$ImpactAreas = [];
+		$query  = "SELECT t.id, s.name{$slang} as structure, d.name{$slang} as division, t.division_child,
+		ST_AsGeoJSON(ST_FlipCoordinates(t.geom)) AS geom
+		FROM hr.impact_area t 
+		left join hr.structure s on s.id  = t.structure_id
+		left join ref.divisions d on d.id = t.division_id
+		WHERE 1=1 ";
+		if ($structure_id > 0) {
+			$query .= " AND t.structure_id = {$structure_id} ";
+		}
+		if ($division_id > 0) {
+			$query .= " AND t.division_id = {$division_id} ";
+		}
+		$query .= " ORDER BY t.id desc LIMIT {$limit} OFFSET {$start}";
+		$sql->query($query);
+		while ($row = $sql->fetchAssoc()) {
+			$row['id'] = (int)$row['id'];
+			$ImpactAreas[] = $row;
+		}
+
+		//total count
+		$count_query = "SELECT COALESCE(COUNT(*) , 0) as total FROM hr.impact_area t WHERE 1=1 ";
+		if ($structure_id > 0) {
+			$count_query .= " AND t.structure_id = {$structure_id} ";
+		}
+		if ($division_id > 0) {
+			$count_query .= " AND t.division_id = {$division_id} ";
+		}
+		$sql->query($count_query);
+		$total_count = $sql->fetchAssoc();
+
+		$ImpactAreas = [
+			'page' => $page,
+			'limit' => $limit,
+			'total' => (int)$total_count['total'],
+			'data' => $ImpactAreas
+		];
+
+		$res = json_encode($ImpactAreas);
+		break;
+
+	case "get_mpg_by_id":
+		$id = isset($_GET['id']) ? $_GET['id'] : 6;
+
+		$Data= [];
+		$car_ids = [];
+		$query = "SELECT 
+            uzg.id,
+            s.shortname{$slang} AS region,
+            cr.plate_number AS plate_number,
+            uzg.angle,
+            uzg.lat,
+            uzg.lon,
+            uzg.speed,
+            TO_CHAR(uzg.tp_timestamp_fmt, 'DD.MM.YYYY HH24:MI') AS time,
+            cm.name AS car_name,
+            cm.photo AS car_photo,
+            cm.car_width,
+            cm.car_height
+        FROM reports.uzgps uzg
+        INNER JOIN hr.tech_guard_cars cr ON cr.uzgps_id = uzg.mobject_id
+        LEFT JOIN hr.structure s ON s.id = cr.structure_id
+        LEFT JOIN ref.car_models cm ON cm.id = cr.car_model_id
+        WHERE cr.id = {$id} ";
+		$sql->query($query);
+		$Track = $sql->fetchAssoc();
+		$Data['car'] = $Track;
+
+
+		$query  = "SELECT t.id, CONCAT(r.name{$slang}, ' ', s.lastname, ' ', s.firstname, ' ', s.surname) AS staff_name,
+		s.phone, s.photo, t.bodycam_id
+		FROM hr.dailiy_routine_date t 
+		LEFT JOIN hr.staff s ON s.id = t.staff_id
+		LEFT JOIN ref.ranks r ON r.id = s.rank_id
+		WHERE t.car_id = {$id}
+		ORDER BY t.id desc ";
+		$sql->query($query);
+		$Staffs = $sql->fetchAll();
+		$Data['staffs'] = $Staffs;
+
+		
+		$BodyCamUrl = [];
+		$Bodys = [];
+		if (isset($Staffs)) {
+			foreach ($Staffs as $key => $value) {
+				if (isset($value['bodycam_id'])) {
+					$query  = "SELECT t.id, t.cam_code, t.comment
+					FROM hr.body_cameras t 
+					WHERE t.id = {$value['bodycam_id']}";
+					$sql->query($query);
+					$Bodys = $sql->fetchAll();
+				}
+			}
+		}
+
+
+		if ($Bodys) {
+			foreach ($Bodys as $bkey => $body_c) {
+				$bodycamindex = $body_c['cam_code'];
+				$bodyCamId = $body_c['id'];
+				$comment = $body_c['comment'];
+
+				$dataBodyCam = GetCamUrl($bodycamindex);
+				if (isset($dataBodyCam['data']['url'])) {
+					$BodyCamUrl[] = [
+						'id' => $bodyCamId,
+						'url' => $dataBodyCam['data']['url'],
+						'status' => 1,
+						'cam_index' => $bodycamindex,
+						'comment' => $comment
+					];
+				} else {
+					$BodyCamUrl[] = [
+						'id' => $bodyCamId,
+						'url' => '',
+						'status' => 0,
+						'cam_index' => $bodycamindex,
+						'comment' => $comment
+					];
+				}
+			}
+		}
+		$Data['cams'] = $BodyCamUrl;
+
+		$res = json_encode($Data);
 		break;
 }
 

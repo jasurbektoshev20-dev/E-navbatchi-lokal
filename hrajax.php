@@ -1208,6 +1208,8 @@ switch ($Action) {
         $name = $_POST['name'];
         $cam_code = $_POST['cam_code'];
         $is_ptz = $_POST['is_ptz'];
+        $lat = isset($_POST['lat']) ? $_POST['lat'] : null;
+        $long = isset($_POST['long']) ? $_POST['long'] : null;
 
         if ($RowId != "0") {
             // Update existing record
@@ -1215,7 +1217,9 @@ switch ($Action) {
                 object_id = '{$object_id}',
                 name = '{$name}',
                 cam_code = '{$cam_code}',
-                is_ptz = '{$is_ptz}'
+                is_ptz = '{$is_ptz}',
+                lat = '{$lat}',
+                long = '{$long}'
                 WHERE id = {$RowId}";
             $sql->query($updquery);
             if ($sql->error() == "") {
@@ -1229,12 +1233,16 @@ switch ($Action) {
                     object_id,
                     name,
                     cam_code,
-                    is_ptz
+                    is_ptz,
+                    lat,
+                    long
                 ) VALUES (
                     '{$object_id}',
                     '{$name}',
                     '{$cam_code}',
-                    '{$is_ptz}'
+                    '{$is_ptz}',
+                    '{$lat}',
+                    '{$long}'
                 )";
             $sql->query($insquery);
             if ($sql->error() == "") {
@@ -1354,6 +1362,8 @@ switch ($Action) {
         $structure_id = $_POST['structure_id'];
         $comment = $_POST['comment'];
         $cam_code = $_POST['cam_code'];
+        $lat = isset($_POST['lat']) ? $_POST['lat'] : null;
+        $long = isset($_POST['long']) ? $_POST['long'] : null;
 
 
         if ($RowId != "0") {
@@ -1361,7 +1371,9 @@ switch ($Action) {
             $updquery = "UPDATE hr.body_cameras SET
                 structure_id = '{$structure_id}',
                 comment = '{$comment}',
-                cam_code = '{$cam_code}'
+                cam_code = '{$cam_code}',
+                lat = '{$lat}',
+                long = '{$long}'
                 WHERE id = {$RowId}";
             $sql->query($updquery);
             if ($sql->error() == "") {
@@ -1374,11 +1386,15 @@ switch ($Action) {
             $insquery = "INSERT INTO hr.body_cameras (
                     structure_id,
                     comment,
-                    cam_code
+                    cam_code,
+                    lat,
+                    long
                 ) VALUES (
                     '{$structure_id}',
                     '{$comment}',
-                    '{$cam_code}'
+                    '{$cam_code}',
+                    '{$lat}',
+                    '{$long}'
                 )";
             $sql->query($insquery);
 
@@ -1509,23 +1525,41 @@ switch ($Action) {
         $patrul_type = $_POST['patrul_type'];
         $direction = $_POST['direction'];
         $smena = $_POST['smena'];
-        $division_id = $_POST['division_id'];
-        $car_id = $_POST['car_id'];
-        $epikirofka_id = $_POST['epikirofka_id'];
+        $division_id = isset($_POST['division_id']) ? $_POST['division_id'] : 0;
+        $car_id = !empty($_POST['car_id']) ? $_POST['car_id'] : 0;
         $bodycam_id = isset($_POST['bodycam_id']) ? $_POST['bodycam_id'] : 0;
 
+        // echo '<pre>';
+        // print_r($car_id);
+        // echo '</pre>';
+        // die();
+
+        // Epikirofka IDs ni olish va tozalash
+        $epikirofka_ids_input = isset($_POST['epikirofka_id']) ? $_POST['epikirofka_id'] : '';
         // staff_ids massiv ekanligini ta'minlash
         $staff_id = is_array($_POST['staff_id']) ? $_POST['staff_id'] : explode(',', $_POST['staff_id']);
 
+
+
         // PostgreSQL Array formatiga o'tkazish
         // Array format: '{12, 34, 56}'
-        if (is_array($_POST['epikirofka_id'])) {
-            // Arraydagi integer qiymatlarni vergul bilan ajratib, qavs ichiga joylashtirish
-            $epikirofka_array_string = '{' . implode(',', $_POST['epikirofka_id']) . '}';
+        //epikirofka_id = 2,1
+
+        $ids_array = array_filter(
+            preg_split('/,\s*/', $epikirofka_ids_input, -1, PREG_SPLIT_NO_EMPTY)
+        );
+
+        // 3. PostgreSQL Array String formatiga konvertatsiya qilish: "{2,3,1}"
+
+        if (!empty($ids_array)) {
+            // Array elementlarini vergul bilan birlashtirish
+            $epikirofka_pg_array_string = '{' . implode(',', $ids_array) . '}';
         } else {
-            // Agar bitta qiymat bo'lsa yoki bo'lmasa
-            $epikirofka_array_string = 'NULL';
+            // Agar massiv bo'sh bo'lsa yoki 'NULL' qabul qilinsa, 'NULL' stringini ishlatish
+            $epikirofka_pg_array_string = 'NULL';
         }
+
+
 
         $LastId = null; // So'nggi qo'shilgan ID ni saqlash uchun
         $success = true;
@@ -1540,7 +1574,7 @@ switch ($Action) {
                 division_id = '{$division_id}',
                 staff_id = '{$staff_id}',
                 car_id = '{$car_id}',
-                epikirofka_id = '{$epikirofka_id}',
+                epikirofka_id = '{$epikirofka_pg_array_string}',
                 bodycam_id = '{$bodycam_id}'
                 WHERE id = {$RowId}";
             $sql->query($updquery);
@@ -1551,9 +1585,9 @@ switch ($Action) {
                 $success = false;
             }
         } else {
-            foreach ($staff_ids as $staff_id) {
+            foreach ($staff_id as $staff) {
                 // Har bir aylanmada alohida staff_id o'zgaradi
-                $current_staff_id = (int) $staff_id;
+                $current_staff_id = (int) $staff;
 
                 $insquery = "INSERT INTO hr.dailiy_routine_date (
                     routine_id,
@@ -1572,7 +1606,7 @@ switch ($Action) {
                     '{$division_id}',
                     '{$current_staff_id}', -- Siklning joriy IDsi ishlatiladi
                     '{$car_id}',
-                    '{$epikirofka_array_string}' -- PostgreSQL array stringi ishlatiladi
+                    '{$epikirofka_pg_array_string}' -- PostgreSQL array stringi ishlatiladi
                 )";
 
                 $sql->query($insquery);
@@ -1591,7 +1625,7 @@ switch ($Action) {
                 $sql->query("SELECT CURRVAL('hr.dailiy_routine_date_id_seq') AS last_id;");
                 $result = $sql->fetchAssoc();
                 $LastId = $result['last_id'];
-                $res = "0<&sep&>" . MyPiCrypt($LastId);
+                $res = 0;
             }
         }
         break;
@@ -2156,7 +2190,143 @@ switch ($Action) {
             $res = 2;
         }
         break;
-        /// current_operative_group =======================================================
+    /// current_operative_group =======================================================
+
+    /// impact_area =====================================================
+    case "get_impact_area":
+        $RowId = $_GET['rowid'];
+
+        $query = "SELECT t.*, ST_AsGeoJSON(ST_FlipCoordinates(t.geom)) AS geom from hr.impact_area t where t.id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+        $result['rowid'] = MyPiCrypt($result['id']);
+
+        $res = json_encode($result);
+        break;
+
+    case "act_impact_area":
+        $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
+        $structure_id = $_POST['structure_id'];
+        $division_id = $_POST['division_id'];
+        $division_child = $_POST['division_child'];
+
+
+        $geom_raw = isset($_POST['geom']) ? trim($_POST['geom']) : null;
+        if (!$geom_raw) {
+            die(json_encode(['error' => 'geom not provided']));
+        }
+
+        // decode JSON
+        $coords = json_decode($geom_raw, true);
+        if (!is_array($coords) || count($coords) === 0) {
+            die(json_encode(['error' => 'Invalid geom JSON']));
+        }
+
+        // Detect order and build WKT pairs (lng lat)
+        $pairs = [];
+        // Peeking first pair to decide likely order
+        $first = $coords[0];
+
+        // Heuristika:
+        // - Agar birinchi koordinata > 90 yoki < -90 — yuqori ehtimol bilan u LONGitude (lng) bo'lib, tartib = [lng, lat]
+        // - Aks holda (ko‘pincha) frontendlar [lat, lng] yuboradi — shunda biz swap qilamiz.
+        $likely_order_lng_first = (abs($first[0]) > 90 || abs($first[0]) > abs($first[1]) && abs($first[0]) <= 180);
+
+        // Agar aniq bo‘lmasa, bu heuristika hammasini qoplay olmaydi; lekin ko‘pchilik holatlarda to‘g‘ri ishlaydi.
+
+        foreach ($coords as $c) {
+            if (!is_array($c) || count($c) < 2) {
+                continue; // noqulay juftlikni o‘tkazib yubor
+            }
+            $a = (float)$c[0];
+            $b = (float)$c[1];
+
+            if ($likely_order_lng_first) {
+                // [lng, lat]
+                $lng = $a;
+                $lat = $b;
+            } else {
+                // assume [lat, lng] -> swap
+                $lng = $b;
+                $lat = $a;
+            }
+
+            // basic validation (lat in -90..90, lng in -180..180)
+            if ($lat < -90 || $lat > 90 || $lng < -180 || $lng > 180) {
+                // agar noaniq koordinata bo'lsa, o'tkazib yubor yoki xato qaytar
+                continue;
+            }
+
+            $pairs[] = $lng . ' ' . $lat;
+        }
+
+        // Poligon uchun kamida 4 nuqta (closing bilan) kerak: A,B,C,A -> coords length >= 3
+        if (count($pairs) < 3) {
+            die(json_encode(['error' => 'Not enough points for polygon']));
+        }
+
+        // Yopish: birinchi juftlikni oxiriga qo‘shamiz, agar kerak bo‘lsa
+        if ($pairs[0] !== $pairs[count($pairs) - 1]) {
+            $pairs[] = $pairs[0];
+        }
+
+        $wkt = 'POLYGON((' . implode(',', $pairs) . '))';
+
+        if ($RowId != "0") {
+
+            $photo_sql = $photo_name ? ", photo = '{$photo_name}'" : "";
+            // Update existing record
+            $updquery = "UPDATE hr.impact_area SET
+                structure_id = '{$structure_id}',
+                division_id = '{$division_id}',
+                division_child = '{$division_child}',
+                geom = ST_GeomFromText('{$wkt}', 4326)
+                WHERE id = {$RowId}";
+            $sql->query($updquery);
+            if ($sql->error() == "") {
+                $res = "0<&sep&>" . MyPiCrypt($RowId);
+            } else {
+                $res = $sql->error();
+            }
+        } else {
+            // Insert new record
+            $insquery = "INSERT INTO hr.impact_area (
+                    structure_id,
+                    division_id,
+                    division_child,
+                    geom
+                ) VALUES (
+                    '{$structure_id}',
+                    '{$division_id}',
+                    '{$division_child}',
+                    ST_GeomFromText('{$wkt}', 4326)
+                )";
+            $sql->query($insquery);
+            if ($sql->error() == "") {
+                $sql->query("SELECT CURRVAL('hr.impact_area_id_seq') AS last_id;");
+                $result = $sql->fetchAssoc();
+                $LastId = $result['last_id'];
+                $res = "0<&sep&>" . MyPiCrypt($LastId);
+            } else {
+                $res = $sql->error();
+            }
+        }
+        break;
+
+    case "del_impact_area":
+        $RowId = $_GET['rowid'];
+
+        $query = "DELETE FROM hr.impact_area WHERE id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+
+        if ($sql->error() == "") {
+            $res = 0;
+        } else {
+            $res = 2;
+        }
+        break;
+        /// impact_area ========
 
 }
 echo $res;

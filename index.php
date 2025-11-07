@@ -30,17 +30,19 @@ WHERE a.id = {$UserId}";
 $sql->query($query);
 $usermenu = $sql->fetchAssoc();
 
-$query = "SELECT t.*, t.name{$slang} as name, menu_icon, has_children FROM bcms.dashboard_menu t where t.status_id = 1 and  t.id IN (".$usermenu['menu'].") order by t.turn asc";
+$query = "SELECT t.*, t.name{$slang} as name, menu_icon, has_children FROM bcms.dashboard_menu t where t.status_id = 1 and  t.id IN (" . $usermenu['menu'] . ") order by t.turn asc";
 $sql->query($query);
 $Menu = $sql->fetchAll();
+
+
 
 foreach ($Menu as $key => $menu_item) {
 	if ($Menu[$key]['url']) {
 		if ($Menu[$key]['has_children'] == 5) {
 			$Menu[$key]['url'] = $menu_item['url'];
 		} else {
-			$Menu[$key]['url'] = $menu_item['url'] . "&mid=" .MyPiCrypt($menu_item['id']);
-		}		
+			$Menu[$key]['url'] = $menu_item['url'] . "&mid=" . MyPiCrypt($menu_item['id']);
+		}
 	}
 
 	if ($TheAct === substr($menu_item['url'], strpos($menu_item['url'], '=') + 1)) {
@@ -78,7 +80,7 @@ $smarty->assign(array(
 	'CurrLang' 			=> $Langs[($slang == 1) ? 0 : (($slang == 2) ? 1 : 2)],
 	'Dict' 				=> $Dict,
 	'Menu' 				=> $Menu,
-    'ThisMenu' => $ThisMenu,
+	'ThisMenu' => $ThisMenu,
 ));
 
 switch ($TheAct) {
@@ -148,7 +150,7 @@ switch ($TheAct) {
 		$query = "SELECT id, name{$slang} as name, phone, comment as phone2, logo FROM hr.cooperate order by turn";
 		$sql->query($query);
 		$Cooperates = $sql->fetchAll();
-		
+
 		$query = "SELECT 
 				t.lastname,
 				t.photo,
@@ -164,7 +166,7 @@ switch ($TheAct) {
 
 		$sql->query($query);
 		$Duty = $sql->fetchAll();
-		
+
 		// echo '<pre>';
 		// print_r($Regions);
 		// echo '</pre>';
