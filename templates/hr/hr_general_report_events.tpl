@@ -93,7 +93,7 @@
                             <td class="text-right">1</td>
                             <td>
                                 <a
-                                        href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=">Siyosiy tadbirlar</a>
+                                        href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Siyosiy tadbirlar">Siyosiy tadbirlar</a>
                             </td>
                             <td>4</td>
                             <td>2</td>
@@ -115,7 +115,7 @@
                             <td class="text-right">2</td>
                             <td>
                                 <a
-                                        href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Toshkent shahar">Madaniy tadbirlar</a>
+                                        href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Madaniy tadbirlar">Madaniy tadbirlar</a>
                             </td>
                             <td>5</td>
                             <td>3</td>
@@ -137,7 +137,7 @@
                             <td class="text-right">3</td>
                             <td>
                                 <a
-                                        href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Toshkent shahar">Sport tadbirlar</a>
+                                        href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Sport tadbirlar">Sport tadbirlar</a>
                             </td>
                             <td>4</td>
                             <td>2</td>
@@ -159,7 +159,7 @@
                             <td class="text-right">4</td>
                             <td>
                                 <a
-                                        href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Toshkent shahar">Boshqa tadbirlar</a>
+                                        href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Boshqa tadbirlar">Boshqa tadbirlar</a>
                             </td>
                             <td>3</td>
                             <td>1</td>
@@ -233,9 +233,9 @@ window.addEventListener('load', function() {
     var dict_new_photo = "{$Dict.new_photo}"
     var dict_download_pdf = "{$Dict.download_pdf}"
     var dict_docx_download = "{$Dict.docx_download}"
-    /*
+   
 {literal}
-
+ /*
     var dt_basic_table = $('.datatables-projects'),
         dt_basic;
 
@@ -245,8 +245,8 @@ window.addEventListener('load', function() {
             displayLength: 15,
             lengthMenu: [5, 10, 25, 50, 75, 100, 1000]
         });
-    }
-    {/literal}*/
+    }*/
+    {/literal}
 </script>
 
 {include file="footer.tpl"}
