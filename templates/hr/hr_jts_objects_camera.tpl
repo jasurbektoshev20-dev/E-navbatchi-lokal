@@ -44,34 +44,37 @@
                                 <th class="text-center">Kamera nomi</th>
                                 <th class="text-center">Kamera kodi</th>
                                 <th class="text-center">Kamera turi</th>
+                                <th class="text-center">Lat</th>
+                                <th class="text-center">Long</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             {foreach from=$Camera item=obekt key=tkey}
-                            <tr class="lb" id="row_{$obekt.id|crypt}">
-                                <td class="text-right">{$tkey+1}</td>
-                                <td class="text-center">{$obekt.name}</td>
-                                <td class="text-center">{$obekt.cam_code}</td>
-                                <td class="text-center">{$obekt.is_ptz}</td>
-                  
-                                <td>
-                                    <div class="dropdown">
-                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                            data-bs-toggle="dropdown">
-                                            <i class="ti ti-dots-vertical"></i>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a rel="{$obekt.id|crypt}" class="dropdown-item editAction"
-                                                href="javascript:void(0);"><i
-                                                    class="ti ti-pencil me-1"></i>{$Dict.edit}</a>
-                                            <a rel="{$obekt.id|crypt}" class="dropdown-item delete"
-                                                href="javascript:void(0);"><i
-                                                    class="ti ti-trash me-1"></i>{$Dict.delete}</a>
+                                <tr class="lb" id="row_{$obekt.id|crypt}">
+                                    <td class="text-right">{$tkey+1}</td>
+                                    <td class="text-center">{$obekt.name}</td>
+                                    <td class="text-center">{$obekt.cam_code}</td>
+                                    <td class="text-center">{$obekt.is_ptz}</td>
+                                    <td class="text-center">{$obekt.lat}</td>
+                                    <td class="text-center">{$obekt.long}</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                data-bs-toggle="dropdown">
+                                                <i class="ti ti-dots-vertical"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a rel="{$obekt.id|crypt}" class="dropdown-item editAction"
+                                                    href="javascript:void(0);"><i
+                                                        class="ti ti-pencil me-1"></i>{$Dict.edit}</a>
+                                                <a rel="{$obekt.id|crypt}" class="dropdown-item delete"
+                                                    href="javascript:void(0);"><i
+                                                        class="ti ti-trash me-1"></i>{$Dict.delete}</a>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
                             {/foreach}
                         </tbody>
                     </table>
@@ -89,9 +92,9 @@
             <div class="modal-body">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <form class="needs-validation" novalidate>
-                  <!-- 🔥 Yangi qo‘shiladigan yashirin input -->
-                  
-  <input type="hidden" name="object_id" id="object_id">
+                    <!-- 🔥 Yangi qo‘shiladigan yashirin input -->
+
+                    <input type="hidden" name="object_id" id="object_id">
                     <div class="row g-3">
                         <div class="col-sm-6">
                             <label>Nomini kiriting</label>
@@ -101,15 +104,24 @@
                             <label>Kamera kodini kiriting</label>
                             <input required type="text" class="form-control" name="cam_code" id="cam_code" value="">
                         </div>
+
+                        <div class="col-sm-6">
+                            <label>Latitudeni kiriting</label>
+                            <input required type="text" class="form-control" name="lat" id="lat" value="">
+                        </div>
+                        <div class="col-sm-6">
+                            <label>Longitudeni kiriting</label>
+                            <input required type="text" class="form-control" name="long" id="long" value="">
+                        </div>
                         <div class="col-sm-6">
                             <label>360 gradusli Kamera</label>
                             <input type="checkbox" id="is_ptz" value="1">
                         </div>
-                   
-                        
+
                         <div class="col-12 text-center">
                             <input type="hidden" name="id" id="id" value="">
-                            <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">
+                            <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal"
+                                aria-label="Close">
                                 {$Dict.cancel}
                             </button>
                             <button id="SubButtonHrSetMarker" class="btn btn-primary me-sm-3 me-1">{$Dict.save}</button>
@@ -147,126 +159,133 @@
     var Var_ObjectId	= "{$Organization.id}";
     {literal}
 
-      function getUrlParameter(name) {
-    name = name.replace(/[\[\]]/g, '\\$&');
-    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
-    var results = regex.exec(window.location.href);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, ' '));
-}
+        function getUrlParameter(name) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+            var results = regex.exec(window.location.href);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
 
-var urlId = getUrlParameter('id');  
-
-
-
-    var dt_basic_table = $('.datatables-projects'),
-        dt_basic;
-
-    // DataTable with buttons
-    if (dt_basic_table.length) {
-        dt_basic = dt_basic_table.DataTable({
-            displayLength: 10,
-            lengthMenu: [5, 10, 25, 50, 75, 100, 1000]
-        });
-    }
-
-    $('.datatables-projects tbody').on('click', '.editAction', function() {
-        $('#submitModal').modal('toggle');
-        var RowId = $(this).attr('rel');
-         $.get("hrajax.php?act=get_jts_objects_camera&rowid=" + RowId, function(html) {
-            var sInfo = jQuery.parseJSON(html);
-            $('#camName').val(sInfo.name);
-            $('#cam_code').val(sInfo.cam_code);
-            $('#is_ptz').val(sInfo.is_ptz);
-            $('#object_id').val(sInfo.object_id); // bu yerda object_id set qilinadi
-            $('#id').val(sInfo.rowid);    
-        });
-    });
-
-$('#new').on('click', function (e) {
-    e.preventDefault();
-
-    // Bootstrap 5 modalni olish
-    const modalEl = document.getElementById('submitModal');
-    const modal = new bootstrap.Modal(modalEl);
-
-    // Formani tozalash
-    $('form.needs-validation')[0].reset();
-    $('form.needs-validation').removeClass('was-validated');
-
-    // Formadagi qiymatlarni tozalash
-    $('#camName').val("").trigger('change');
-    $('#cam_code').val('');
-    $('#is_ptz').val('');
-    $('#object_id').val(urlId);  // URL dan kelgan id
-    $('#id').val('');
-
-    // Modalni ochish
-    modal.show();
-});
+        var urlId = getUrlParameter('id');
 
 
 
-   const bsValidationForms = $('.needs-validation');
-    Array.prototype.slice.call(bsValidationForms).forEach(function (form) {
-        form.addEventListener('submit', function (event) {
-            event.preventDefault();
-            event.stopPropagation();
+        var dt_basic_table = $('.datatables-projects'),
+            dt_basic;
 
-            if (!form.checkValidity()) {
-                form.classList.add('was-validated');
-                return;
-            }
-
-            var form_data = new FormData();
-
-            // Barcha form elementlarini to‘plash
-            form_data.append('id', $('#id').val());
-            form_data.append('object_id', $('#object_id').val());
-            form_data.append('name', $('#camName').val());
-            form_data.append('cam_code', $('#cam_code').val());
-             form_data.append('is_ptz', $('#is_ptz').is(':checked') ? 1 : 0);
-
-
-
-            
-            // 🔥 AJAX orqali backendga yuborish
-            $.ajax({
-                url: 'hrajax.php?act=act_jts_objects_camera',
-                type: 'POST',
-                data: form_data,
-                contentType: false,
-                processData: false,
-                success: function (resdata) {
-                    //console.log(resdata);
-                    var NewArray = resdata.split("<&sep&>");
-                    if (NewArray[0] == 0) {
-                        location.reload();
-                    } else {
-                        alert(resdata);
-                    }
-                },
-                error: function () {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Aloqa xatosi!',
-                        text: 'Server bilan bog‘lanishda muammo.'
-                    });
-                }
+        // DataTable with buttons
+        if (dt_basic_table.length) {
+            dt_basic = dt_basic_table.DataTable({
+                displayLength: 10,
+                lengthMenu: [5, 10, 25, 50, 75, 100, 1000]
             });
+        }
 
-            form.classList.add('was-validated');
+        $('.datatables-projects tbody').on('click', '.editAction', function() {
+            $('#submitModal').modal('toggle');
+            var RowId = $(this).attr('rel');
+            $.get("hrajax.php?act=get_jts_objects_camera&rowid=" + RowId, function(html) {
+                var sInfo = jQuery.parseJSON(html);
+                $('#camName').val(sInfo.name);
+                $('#cam_code').val(sInfo.cam_code);
+                $('#lat').val(sInfo.lat);
+                $('#long').val(sInfo.long);
+                $('#is_ptz').val(sInfo.is_ptz);
+                $('#object_id').val(sInfo.object_id); // bu yerda object_id set qilinadi
+
+                $('#id').val(sInfo.rowid);
+            });
         });
-    });
 
-    // Delete Record 
-    $('.datatables-projects tbody').on('click', '.delete', function() {
-         var RowId = $(this).attr('rel');
-          $.get("hrajax.php?act=del_jts_objects_camera&rowid=" + RowId,
-           function(html) {
-             if (html == 0) { $("#row_" + RowId).remove();
-             } }); });
+        $('#new').on('click', function(e) {
+            e.preventDefault();
+
+            // Bootstrap 5 modalni olish
+            const modalEl = document.getElementById('submitModal');
+            const modal = new bootstrap.Modal(modalEl);
+
+            // Formani tozalash
+            $('form.needs-validation')[0].reset();
+            $('form.needs-validation').removeClass('was-validated');
+
+            // Formadagi qiymatlarni tozalash
+            $('#camName').val("").trigger('change');
+            $('#cam_code').val('');
+            $('#is_ptz').val('');
+            $('#object_id').val(urlId); // URL dan kelgan id
+            $('#id').val('');
+            $('#lat').val('');
+            $('#long').val('');
+
+            // Modalni ochish
+            modal.show();
+        });
+
+
+
+        const bsValidationForms = $('.needs-validation');
+        Array.prototype.slice.call(bsValidationForms).forEach(function(form) {
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+
+                if (!form.checkValidity()) {
+                    form.classList.add('was-validated');
+                    return;
+                }
+
+                var form_data = new FormData();
+
+                // Barcha form elementlarini to‘plash
+                form_data.append('id', $('#id').val());
+                form_data.append('object_id', $('#object_id').val());
+                form_data.append('name', $('#camName').val());
+                form_data.append('cam_code', $('#cam_code').val());
+                form_data.append('is_ptz', $('#is_ptz').is(':checked') ? 1 : 0);
+                form_data.append('lat', $('#lat').val());
+                form_data.append('long', $('#long').val());
+
+                // 🔥 AJAX orqali backendga yuborish
+                $.ajax({
+                    url: 'hrajax.php?act=act_jts_objects_camera',
+                    type: 'POST',
+                    data: form_data,
+                    contentType: false,
+                    processData: false,
+                    success: function(resdata) {
+                        //console.log(resdata);
+                        var NewArray = resdata.split("<&sep&>");
+                        if (NewArray[0] == 0) {
+                            location.reload();
+                        } else {
+                            alert(resdata);
+                        }
+                    },
+                    error: function() {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Aloqa xatosi!',
+                            text: 'Server bilan bog‘lanishda muammo.'
+                        });
+                    }
+                });
+
+                form.classList.add('was-validated');
+            });
+        });
+
+        // Delete Record 
+        $('.datatables-projects tbody').on('click', '.delete', function() {
+            var RowId = $(this).attr('rel');
+            $.get("hrajax.php?act=del_jts_objects_camera&rowid=" + RowId,
+                function(html) {
+                    if (html == 0) {
+                        $("#row_" + RowId).remove();
+                    }
+                });
+        });
     {/literal}
 </script>
 

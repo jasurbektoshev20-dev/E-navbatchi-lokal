@@ -1208,6 +1208,8 @@ switch ($Action) {
         $name = $_POST['name'];
         $cam_code = $_POST['cam_code'];
         $is_ptz = $_POST['is_ptz'];
+        $lat = isset($_POST['lat']) ? $_POST['lat'] : null;
+        $long = isset($_POST['long']) ? $_POST['long'] : null;
 
         if ($RowId != "0") {
             // Update existing record
@@ -1215,7 +1217,9 @@ switch ($Action) {
                 object_id = '{$object_id}',
                 name = '{$name}',
                 cam_code = '{$cam_code}',
-                is_ptz = '{$is_ptz}'
+                is_ptz = '{$is_ptz}',
+                lat = '{$lat}',
+                long = '{$long}'
                 WHERE id = {$RowId}";
             $sql->query($updquery);
             if ($sql->error() == "") {
@@ -1229,12 +1233,16 @@ switch ($Action) {
                     object_id,
                     name,
                     cam_code,
-                    is_ptz
+                    is_ptz,
+                    lat,
+                    long
                 ) VALUES (
                     '{$object_id}',
                     '{$name}',
                     '{$cam_code}',
-                    '{$is_ptz}'
+                    '{$is_ptz}',
+                    '{$lat}',
+                    '{$long}'
                 )";
             $sql->query($insquery);
             if ($sql->error() == "") {
@@ -1354,6 +1362,8 @@ switch ($Action) {
         $structure_id = $_POST['structure_id'];
         $comment = $_POST['comment'];
         $cam_code = $_POST['cam_code'];
+        $lat = isset($_POST['lat']) ? $_POST['lat'] : null;
+        $long = isset($_POST['long']) ? $_POST['long'] : null;
 
 
         if ($RowId != "0") {
@@ -1361,7 +1371,9 @@ switch ($Action) {
             $updquery = "UPDATE hr.body_cameras SET
                 structure_id = '{$structure_id}',
                 comment = '{$comment}',
-                cam_code = '{$cam_code}'
+                cam_code = '{$cam_code}',
+                lat = '{$lat}',
+                long = '{$long}'
                 WHERE id = {$RowId}";
             $sql->query($updquery);
             if ($sql->error() == "") {
@@ -1374,11 +1386,15 @@ switch ($Action) {
             $insquery = "INSERT INTO hr.body_cameras (
                     structure_id,
                     comment,
-                    cam_code
+                    cam_code,
+                    lat,
+                    long
                 ) VALUES (
                     '{$structure_id}',
                     '{$comment}',
-                    '{$cam_code}'
+                    '{$cam_code}',
+                    '{$lat}',
+                    '{$long}'
                 )";
             $sql->query($insquery);
 
