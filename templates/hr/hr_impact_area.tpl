@@ -38,7 +38,7 @@
                             <tr>
                                 <th class="text-center">No̱</th>
                                 <th class="text-center">Viloyat</th>
-                                <th class="text-center">Turi</th>
+                                <th class="text-center">Bo'linma</th>
                                 <th class="text-center">Nomi</th>
                                 <th>Amallar</th>
                                 <th></th>
@@ -192,8 +192,8 @@
                   tr.innerHTML = `
                       <td class="text-center">${index + 1}</td>
                       <td class="text-center">${item.structure}</td>
-                      <td class="text-center">${item.division_id}</td>
-                      <td class="text-center">${item.division_child}</td>
+                      <td class="text-center">${item.division}</td>
+                      <td class="text-center">${item?.division_child}</td>
                       <td>
                           <div class="dropdown">
                               <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -270,7 +270,6 @@
           url,
           type: 'POST',
           data: payload,          
-          dataType: 'json',    
           success: function(response) {
             console.log('Yuborildi:', response);
             renderTable();
