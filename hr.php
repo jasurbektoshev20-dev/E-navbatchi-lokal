@@ -372,7 +372,6 @@ switch ($Act) {
 		$query .= " order by m.id";
 		$sql->query($query);
 		$Violations = $sql->fetchAll();
-
 		// echo '<pre>';
 		// print_r($Violations);
 		// echo '</pre>';

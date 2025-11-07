@@ -877,19 +877,38 @@
             el.style.backgroundImage = `url('/assets/images/policeman.png')`;
             el.style.backgroundSize = 'cover';
             el.title = camera.comment;
+            // Xodim rasmi
+            const photoUrl = camera.staff_photo
+              ? `/pictures/staffs/${camera.staff_photo}`
+              : '/assets/images/default-user.png';
+
+            // Popup HTML
             const popupHTML = `
-              <div style="color: #000; text-align:center">
-                <b style="font-size: 18px">${camera.comment}</b><br>
+              <div style="color: #000; text-align:center; font-family: sans-serif; max-width: 240px">
+                <b style="font-size: 17px; color:#1e3a8a;">${camera.comment}</b>
+                <hr style="margin:6px 0; border:0; border-top:1px solid #ccc;" />
+
+                <img 
+                  src="${photoUrl}" 
+                  alt="staff photo" 
+                  style="width:70px; height:70px; border-radius:50%; object-fit:cover; margin-bottom:6px;"
+                /><br>
+                <div style="font-weight:600;">${camera.staff_name || 'Xodim nomi yo‘q'}</div>
+                <div style="font-size:13px; color:#555;">${camera.staff_phone || ''}</div>
+
                 <button 
-                  class="btn btn-primary popup-body-camera-btn" 
-                  style="padding: 6px 12px; margin-top:6px;"
-                  data-id="${camera.id}">
-                  <span class="btn-text">Tanlash</span>
+                  class="btn btn-sm btn-success popup-body-camera-btn" 
+                  data-id="${camera.id}"
+                  style="margin-top:8px; padding:6px 10px; border:none; border-radius:5px; cursor:pointer; background-color:#16a34a; color:#fff;"
+                >
+                <span class="btn-text">
+                  📹 Kamerani ko‘rish
+                </span>
                 </button>
               </div>
             `;
 
-            const popup = new mapboxgl.Popup().setHTML(popupHTML);
+            const popup = new mapboxgl.Popup({ offset: 15 }).setHTML(popupHTML);
 
             new mapboxgl.Marker(el)
               .setLngLat([lon, lat])

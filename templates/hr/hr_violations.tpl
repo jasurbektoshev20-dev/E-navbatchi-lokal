@@ -175,7 +175,7 @@
                                             
                                         </select>
                                     </div>
-                                    <div class="chart-container2" id="get_crime_by_type"  style="height: 600px;"></div>
+                                    <div class="chart-container2" id="get_crime_by_type"  style="height: 400px;"></div>
 
                                 </div>
                             </div>
@@ -203,7 +203,7 @@
                                             </select>
                                         </div>
                                     {/if} *}
-                                    <div class="chart-container2" id="get_crimes" style="height: 600px;"></div>
+                                    <div class="chart-container2" id="get_crimes" style="height: 400px;"></div>
                                 </div>
                             </div>
                         </div>
@@ -221,7 +221,7 @@
                                 <select class="form-select" id="mamuriy_huquq_select"></select>
                             </div>
                             </div>
-                            <div class="chart-container" id="mamuriy_huquq_chart" style="height: 600px;"></div>
+                            <div class="chart-container" id="mamuriy_huquq_chart" style="height: 400px;"></div>
                         </div>
                         </div>
 
@@ -239,7 +239,7 @@
                                 <select class="form-select" id="jinoiy_huquq_select"></select>
                             </div>
                             </div>
-                            <div class="chart-container" id="jinoiy_huquq_chart" style="height: 600px;"></div>
+                            <div class="chart-container" id="jinoiy_huquq_chart" style="height: 400px;"></div>
                         </div>
                         </div>
                     </div>
@@ -856,20 +856,20 @@
 
  const crimeChartDataByFilter = {
     0: {
-      legend: ["183-modda", "184\u00B9-modda", "184\u00B3-modda","185-modda","185\u00B2-modda", "185\u00B3-modda", "186-modda", "187-modda", "188-modda", "188\u00B9-modda","188\u00B2-modda","188\u00B3-modda","189-modda","189\u00B9-modda", "191-modda", "192-modda", "63-modda", "72-modda", "79-modda", "88-modda", "90-modda","90\u00B9-modda", "91-modda","91\u00B9-modda","91\u00B2-modda", "161-modda", "47-modda", "56\u00B9-modda", "185\u00B9-modda", "210\u00B9-modda", "61-modda", "194\u00B9-modda", "195\u00B9-modda", "196-modda"],
-      data: [20, 10, 25, 20, 10,12,23,8,9,11,4,6,5,9,15,18,10,9, 19,20,17,34,8,7,10,11,23,12,23,43,31,32,2,4]
+      legend: ["183-modda","187-modda", "223-modda","56\u00B9-modda", "194\u00B9-modda","195\u00B9-modda","185\u00B9-modda","196-modda","61-modda", "210\u00B9-modda","185\u00B2-modda","185\u00B3-modda"],
+      data: [20, 10, 25, 20, 10,12,23,8,9,11,4,6]
     },
      1: {
-     legend: ["183-modda", "184\u00B9-modda", "184\u00B3-modda","185-modda","185\u00B2-modda", "185\u00B3-modda", "186-modda", "187-modda", "188-modda", "188\u00B9-modda","188\u00B2-modda","188\u00B3-modda","189-modda","189\u00B9-modda", "191-modda", "192-modda", "63-modda", "72-modda", "79-modda", "88-modda", "90-modda","90\u00B9-modda", "91-modda","91\u00B9-modda","91\u00B2-modda", "161-modda", "47-modda", "56\u00B9-modda", "185\u00B9-modda", "210\u00B9-modda", "61-modda", "194\u00B9-modda", "195\u00B9-modda", "196-modda"],
-     data: [32, 23, 14, 10, 15,12,26,8,7,11,4,3,5,9,15,18,10,7, 19,20,12,34,5,4,10,11,23,12,23,43,31,32,6,9]
+      legend: ["183-modda","187-modda", "223-modda","56\u00B9-modda", "194\u00B9-modda","195\u00B9-modda","185\u00B9-modda","196-modda","61-modda", "210\u00B9-modda","185\u00B2-modda","185\u00B3-modda"],
+      data: [2, 1, 3, 2, 1, 2,1,0,0,1,4,2]
     },
       2: {
-     legend: ["183-modda", "184\u00B9-modda", "184\u00B3-modda","185-modda","185\u00B2-modda", "185\u00B3-modda", "186-modda", "187-modda", "188-modda", "188\u00B9-modda","188\u00B2-modda","188\u00B3-modda","189-modda","189\u00B9-modda", "191-modda", "192-modda", "63-modda", "72-modda", "79-modda", "88-modda", "90-modda","90\u00B9-modda", "91-modda","91\u00B9-modda","91\u00B2-modda", "161-modda", "47-modda", "56\u00B9-modda", "185\u00B9-modda", "210\u00B9-modda", "61-modda", "194\u00B9-modda", "195\u00B9-modda", "196-modda"],
-     data: [25, 18, 12, 10, 15,15,23,8,7,11,7,3,5,9,17,18,10,3, 19,20,12,34,3,7,10,11,23,10,23,43,31,32,4,4]
+      legend: ["183-modda","187-modda", "223-modda","56\u00B9-modda", "194\u00B9-modda","195\u00B9-modda","185\u00B9-modda","196-modda","61-modda", "210\u00B9-modda","185\u00B2-modda","185\u00B3-modda"],
+      data: [10, 10, 9, 12, 13,11,9,7,5,5,6,7]
     },
       3: {
-      legend: ["183-modda", "184\u00B9-modda", "184\u00B3-modda","185-modda","185\u00B2-modda", "185\u00B3-modda", "186-modda", "187-modda", "188-modda", "188\u00B9-modda","188\u00B2-modda","188\u00B3-modda","189-modda","189\u00B9-modda", "191-modda", "192-modda", "63-modda", "72-modda", "79-modda", "88-modda", "90-modda","90\u00B9-modda", "91-modda","91\u00B9-modda","91\u00B2-modda", "161-modda", "47-modda", "56\u00B9-modda", "185\u00B9-modda", "210\u00B9-modda", "61-modda", "194\u00B9-modda", "195\u00B9-modda", "196-modda"],
-     data: [23, 17, 13, 10, 15,12,21,8,7,14,4,3,5,10,15,18,10,9, 19,20,14,34,5,7,17,11,23,6,19,43,31,32,3,5]
+      legend: ["183-modda","187-modda", "223-modda","56\u00B9-modda", "194\u00B9-modda","195\u00B9-modda","185\u00B9-modda","196-modda","61-modda", "210\u00B9-modda","185\u00B2-modda","185\u00B3-modda"],
+      data: [40, 35, 31, 23, 17,13,23,10,9,11,24,36]
     },
   };
 
@@ -894,7 +894,7 @@
       useDirtyRect: false
     });
 
-    // 🌈 Korporativ to‘q ranglar palitrasi (modern dashboard)
+    //Korporativ to‘q ranglar palitrasi (modern dashboard)
     let color = [
       '#264653', // To‘q moviy-yashil
       '#2A9D8F', // Yashil-moviy
@@ -999,20 +999,20 @@
 // 🧩 TEST MA’LUMOTLAR (faqat lokal uchun)
 const crimesChartDataByFilter = {
   0: { // Hammasi
-    legend: ["250\u00B9-modda. Protexnika buyumlarining qonunga xilof muomulasi", "259\u00B9-modda. O'ta muhim va toifalangan obyektlarning qo'riqlanishini ta'minlashga doir majburiyatlarni bajarmaslik"],
-    data: [50, 35]
+    legend: ["97-modda","104-modda", "105-modda","109-modda","164-modda","166-modda","277-modda","169-modda","118-modda","267-modda",],
+    data: [34, 35,30,24,20,12,32,27,22,21]
   },
   1: { // Bugun
-  legend: ["250\u00B9-modda. Protexnika buyumlarining qonunga xilof muomulasi", "259\u00B9-modda. O'ta muhim va toifalangan obyektlarning qo'riqlanishini ta'minlashga doir majburiyatlarni bajarmaslik"],
-    data: [30, 25]
+    legend: ["97-modda","104-modda", "105-modda","109-modda","164-modda","166-modda","277-modda","169-modda","118-modda","267-modda",],
+    data: [1, 3,3,2,2,0,2,1,2,1]
   },
   2: { // Oy
-    legend: ["250\u00B9-modda. Protexnika buyumlarining qonunga xilof muomulasi", "259\u00B9-modda. O'ta muhim va toifalangan obyektlarning qo'riqlanishini ta'minlashga doir majburiyatlarni bajarmaslik"],
-    data: [150, 90]
+      legend: ["97-modda","104-modda", "105-modda","109-modda","164-modda","166-modda","277-modda","169-modda","118-modda","267-modda",],
+    data: [10, 15,13,12,10,9,7,14,12,11]
   },
   3: { // Yil
-  legend: ["250\u00B9-modda. Protexnika buyumlarining qonunga xilof muomulasi", "259\u00B9-modda. O'ta muhim va toifalangan obyektlarning qo'riqlanishini ta'minlashga doir majburiyatlarni bajarmaslik"],
-    data: [500, 354]
+      legend: ["97-modda","104-modda", "105-modda","109-modda","164-modda","166-modda","277-modda","169-modda","118-modda","267-modda",],
+    data: [34, 35,30,24,20,12,32,27,22,21]
   }
 };
 
@@ -1051,7 +1051,7 @@ function get_crimes(dataset, total) {
       orient: 'horizontal',
       left: 'center',
       itemGap: 10,
-      textStyle: { color: '#555', fontSize: '1rem' }
+      textStyle: { color: '#b7b7b7', fontSize: '1rem' }
     },
     tooltip: { backgroundColor: 'white' },
     series: [{
@@ -1168,13 +1168,13 @@ function mamuriy_huquq_chart(data) {
     xAxis: {
       type: 'category',
       data: data.labels,
-      axisLabel: { interval: 0, rotate: 40, color: '#555' },
+      axisLabel: { interval: 0, rotate: 40, color: '#b7b7b7' },
       axisLine: { show: false },
       splitLine: { show: false }
     },
     yAxis: {
       type: 'value',
-      axisLabel: { color: '#555' },
+      axisLabel: { color: '#b7b7b7' },
       axisLine: { show: false },
       splitLine: { show: false }
     },
@@ -1191,7 +1191,7 @@ function mamuriy_huquq_chart(data) {
       label: {
         show: true,
         position: 'top',
-        color: '#666',
+        color: '#b7b7b7',
         fontSize: 14,
         fontWeight: 'bold'
       }
@@ -1264,13 +1264,13 @@ function jinoiy_huquq_chart(data) {
     xAxis: {
       type: 'category',
       data: data.labels,
-      axisLabel: { interval: 0, rotate: 40, color: '#555' },
+      axisLabel: { interval: 0, rotate: 40, color: '#b7b7b7' },
       axisLine: { show: false },
       splitLine: { show: false }
     },
     yAxis: {
       type: 'value',
-      axisLabel: { color: '#555' },
+      axisLabel: { color: '#b7b7b7' },
       axisLine: { show: false },
       splitLine: { show: false }
     },
@@ -1287,7 +1287,7 @@ function jinoiy_huquq_chart(data) {
       label: {
         show: true,
         position: 'top',
-        color: '#666',
+        color: '#b7b7b7',
         fontSize: 14,
         fontWeight: 'bold'
       }
