@@ -661,9 +661,14 @@ switch ($Action) {
 		$JtsObject['routine'] = $Routine;
 		$BodyCamUrl = [];
 		$Bodys = [];
+		$Staffs = [];
 		if ($Routine) {
-			$query  = "SELECT t.id, t.car_id, t.bodycam_id, t.patrul_type
+			$query  = "SELECT t.id, t.car_id, t.bodycam_id, t.patrul_type,
+			CONCAT(r.name{$slang}, ' ', s.lastname, ' ', s.firstname, ' ', s.surname) AS staff_name,
+			s.photo AS staff_photo, s.phone AS staff_phone
 			FROM hr.dailiy_routine_date t 
+			LEFT JOIN hr.staff s ON s.id = t.staff_id
+			LEFT JOIN ref.ranks r ON r.id = s.rank_id
 			WHERE t.routine_id = {$Routine['id']}
 			ORDER BY t.id desc";
 			$sql->query($query);
@@ -677,6 +682,10 @@ switch ($Action) {
 					WHERE t.id = {$value['bodycam_id']}";
 					$sql->query($query);
 					$Bodys[] = $sql->fetchAssoc();
+
+					$Bodys[count($Bodys) - 1]['staff_name'] = $value['staff_name'];
+					$Bodys[count($Bodys) - 1]['staff_photo'] = $value['staff_photo'];
+					$Bodys[count($Bodys) - 1]['staff_phone'] = $value['staff_phone'];
 				}
 			}
 		}
@@ -698,7 +707,10 @@ switch ($Action) {
 						'cam_index' => $bodycamindex,
 						'comment' => $comment,
 						'lat' => $body_c['lat'],
-						'long' => $body_c['long']
+						'long' => $body_c['long'],
+						'staff_name' => $body_c['staff_name'],
+						'staff_photo' => $body_c['staff_photo'],
+						'staff_phone' => $body_c['staff_phone']
 					];
 				} else {
 					$BodyCamUrl[] = [
@@ -708,7 +720,10 @@ switch ($Action) {
 						'cam_index' => $bodycamindex,
 						'comment' => $comment,
 						'lat' => $body_c['lat'],
-						'long' => $body_c['long']
+						'long' => $body_c['long'],
+						'staff_name' => isset($body_c['staff_name']) ? $body_c['staff_name'] : '',
+						'staff_photo' => isset($body_c['staff_photo']) ? $body_c['staff_photo'] : '',
+						'staff_phone' => isset($body_c['staff_phone']) ? $body_c['staff_phone'] : '',
 					];
 				}
 			}
