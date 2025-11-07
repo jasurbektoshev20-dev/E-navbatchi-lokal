@@ -650,7 +650,7 @@ switch ($Action) {
 		LEFT JOIN ref.ranks r ON r.id = s.rank_id
 		left join hr.jts_objects_camera jc on jc.object_id = {$JtsObject['id']}
 		left join hr.jts_objects_sos js on js.object_id = {$JtsObject['id']}
-		WHERE t.object_id = {$JtsObject['id']}
+		WHERE t.object_id = {$JtsObject['id']} AND t.date = CURRENT_DATE
 		GROUP BY t.id, r.name{$slang}, s.lastname, s.firstname, s.surname
 		ORDER BY t.id desc LIMIT 1";
 		$sql->query($query);
@@ -674,7 +674,7 @@ switch ($Action) {
 			foreach ($RoutineDate as $key => $value) {
 				$car_ids[] = $value['car_id'];
 				if (isset($value['bodycam_id'])) {
-					$query  = "SELECT t.id, t.cam_code, t.comment
+					$query  = "SELECT t.id, t.cam_code, t.comment, t.lat, t.long
 					FROM hr.body_cameras t 
 					WHERE t.id = {$value['bodycam_id']}";
 					$sql->query($query);
@@ -697,7 +697,9 @@ switch ($Action) {
 						'url' => $dataBodyCam['data']['url'],
 						'status' => 1,
 						'cam_index' => $bodycamindex,
-						'comment' => $comment
+						'comment' => $comment,
+						'lat' => $body_c['lat'],
+						'long' => $body_c['long']
 					];
 				} else {
 					$BodyCamUrl[] = [
@@ -705,7 +707,9 @@ switch ($Action) {
 						'url' => '',
 						'status' => 0,
 						'cam_index' => $bodycamindex,
-						'comment' => $comment
+						'comment' => $comment,
+						'lat' => $body_c['lat'],
+						'long' => $body_c['long']
 					];
 				}
 			}
