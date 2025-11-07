@@ -11,6 +11,11 @@
             gap: 10px;
             margin-left: 20px;
         }
+
+        .jts-object-icons-box{
+          display: flex;
+          justify-content: space-between;
+        }
     {/literal}
 </style>
 
@@ -40,7 +45,7 @@
                                 <th class="text-center">Viloyat</th>
                                 <th class="text-center">Turi</th>
                                 <th class="text-center">Nomi</th>
-                                <th>Amallar</th>
+                                <th  class="text-center">Amallar</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -280,7 +285,7 @@
                       <td class="text-center">${item.structure}</td>
                       <td class="text-center">${item.object_type}</td>
                       <td class="text-center">${item.object_name}</td>
-                      <td class="">
+                      <td class="jts-object-icons-box">
                         <div>
                           <a href="hr.php?act=jts_objects_sos&id=${item.id}" class="p-2">
                               <i class="ti ti-bell me-1"></i> SOS tugma
