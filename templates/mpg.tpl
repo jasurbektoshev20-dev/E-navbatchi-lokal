@@ -120,9 +120,18 @@
         #carCameraModal {
             position: absolute;
             width: 690px;
-            height: 470px;
+            height: 520px;
             right: 1.2vw;
             bottom: 0.7vh;
+            z-index: 55555 !important;
+        }
+
+        #staffInfoModal {
+            position: absolute;
+            width: 820px;
+            height:430px;
+            right: 1.2vw;
+            top: 0.7vh;
             z-index: 55555 !important;
         }
 
@@ -238,12 +247,69 @@
             </div>
         </div>
     </div>
+
+    <div class="card" style="background-color: #26293D !important;" id="carCameraModal">
+        <div class="card-header pb-0 pt-2" ></div>
+        <button type="button" class="btn close-camera" data-bs-dismiss="modal" aria-label="Close">x</button>
+
+        <div class="card-body text-center">
+            <div id="playWind" style="width: 640px; height: 400px;"></div>
+            <div class="rounded" id="offline_bg">
+                <span>Kamera offline!</span>
+            </div>
+            <div class="items">
+                <div class="row w-100 mt-3">
+                    <div class="col-1">
+                        <button class="px-2 py-1 btn btn-danger" type="button" onClick="fullSreen()">
+                            <i class="tf-icons ti ti-maximize"></i>
+                        </button>
+                    </div>
+                    <div class="col-1 unmute">
+                        <button class="px-2 py-1 btn btn-warning ml-2" type="button">
+                            <i class="tf-icons ti ti-volume"></i>
+                        </button>
+                    </div>
+                    <div class="col-1 mute">
+                        <button class="px-2 py-1 btn btn-info ml-2" type="button">
+                            <i class="tf-icons ti ti-volume-off"></i>
+                        </button>
+                    </div>
+                    <div class="col-1">
+                        <button class="px-2 py-1 btn btn-warning ml-2" type="button" onClick="CapturePicture('JPEG')">
+                            <i class="tf-icons ti ti-camera"></i>
+                        </button>
+                    </div>
+                    <div class="col-1">
+                        <button class="px-2 py-1 btn btn-success ml-2" type="button" onClick="takeScreenshot()">
+                            <i class="tf-icons ti ti-screenshot"></i>
+                        </button>
+                    </div>
+                    <div class="col radio_call text-danger" style="text-align: right; font-size: 20px">
+                        
+                    </div>
+                    <div class="col now_date" style="text-align: right;">
+                        <i class="tf-icons ti ti-clock" style="margin-bottom: 4px;"></i> <span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card" style="background-color: #26293D !important;" id="staffInfoModal">
+        <div class="card-header pb-0 pt-2" ></div>
+        <button type="button" class="btn close-staff-info" data-bs-dismiss="modal" aria-label="Close">x</button>
+
+        <div class="card-body text-center row justify-content-center">
+            
+        </div>
+    </div>
+
 </div>
 
 <audio id="alertSound" src="/assets/images/alert.mp3"></audio>
 
 <script src="/assets/assets/vendor/libs/select2/select2.js"></script>
 <script src="/assets/assets/vendor/libs/toastr/toastr.js"></script>
+
 <script>
     var AJAXPHP = "ajax{$AddURL}.php";
     var text_more = "{$Dict.more}";
@@ -358,6 +424,8 @@
         
         // Pop up element maker
         function carPopUp(marker) {
+            console.log(marker);
+            let markerString = JSON.stringify(marker)
             return `<div class="row text-center">
                         <div class="col-12">
                             <h6 class="mt-3">${marker.car_name}</h6>
@@ -373,6 +441,17 @@
                         </div>
                         <div class="col-6">
                             <h6 class="mt-3 text-warning" id="time_${marker.id}">${marker.time}</h6>
+                        </div>
+                        <hr class="my-0"/>
+                        <div class="col mt-2">
+                            <h6 class="badge rounded bg-label-white cursor-pointer" onclick='openBodyCam(${marker.car_id}, ${marker?.og_id})'>
+                                <i class="ti ti-camera-selfie me-1" id="bodycam_${marker.car_id}"></i>
+                            </h6>
+                        </div>
+                        <div class="col mt-2">
+                            <h6 class="badge rounded bg-label-white cursor-pointer" onclick='openStaffInfo(${markerString})'>
+                                <i class="ti ti-users me-1" ></i>
+                            </h6>
                         </div>
                     </div>`;
         }
@@ -454,5 +533,211 @@
 
     {/literal}
 </script>
+
+
+
+
+
+<script src="/dist/jsPlugin-1.2.0.min.js"></script>
+<script src="/dist/polyfill2.js"></script>
+<script src="/dist/cryptico.min.js"></script>
+<script src="/dist/uuid.js"></script>
+<script src="/dist/jquery.cookie.js"></script>
+
+<script>
+    {literal}
+        //外部回调
+        var iWind = 0;
+        function GetSelectWndInfo (xml) {
+            console.log(xml);
+            iWind = xml;
+        }
+        
+        $("#offline_bg").hide();
+        $("#carCameraModal").hide();
+        $jq2('#carCameraModal').draggable();
+        $("#staffInfoModal").hide();
+        $jq2('#staffInfoModal').draggable();
+        $("#fixedModal").hide();
+        // $jq2('#fixedModal').draggable();
+        
+        //初始化插件
+        var jsDecoder = new JSPlugin({
+            szId: "playWind",
+            iType: 2,
+            iWidth: 640,
+            iHeight: 400,
+            iMaxSplit: 4,
+            iCurrentSplit: 2,
+            szBasePath: "./dist",
+            oStyle: {
+                border: "#343434",
+                borderSelect: "transparent",
+                background: "#000 url('/assets/online.svg') no-repeat center center;"
+            }
+        });
+        
+        $('.close-camera').click(function(e) {
+            // console.log("closed all camera");
+            StopRealPlayAll();
+            $("#carCameraModal").hide();
+            $("#offline_bg").hide();
+            $("#playWind").show();
+        })
+        $('.close-staff-info').click(function(e) {
+            $("#staffInfoModal").hide();
+   
+        })
+
+        function openBodyCam(car_id, og_id) {
+            $("#carCameraModal").show();
+            arrangeWindow(1);
+
+            $.ajax({
+                type: "POST",
+                url: `ajax.php?act=get_mpg_by_id&car_id=${car_id}&og_id=${og_id}`,
+                dataType: "json",
+                encode: true,
+                success: function(data) {
+                    const isOnCam = data.cams.find(cam => cam.status == 1);
+                    $("#carCameraModal .card-header").empty();
+                    $("#carCameraModal .card-header").html(data.car.plate_number);
+                    $("#carCameraModal .radio_call").empty();
+                    $("#carCameraModal .radio_call").html(data.cams[0]?.comment);
+                    if (isOnCam) {
+                        $("#offline_bg").hide();
+                        $("#playWind").show();
+                        play_camera(data.cams[0].url, 0);
+                    } else {
+                        $("#offline_bg").show();
+                        $("#playWind").hide();
+                    }
+                }
+            })
+        }
+
+        
+        function openStaffInfo(params) {
+            $("#staffInfoModal").show();
+            $.ajax({
+                type: "POST",
+                url: `ajax.php?act=get_mpg_by_id&car_id=${params.car_id}&og_id=${params.og_id}`,
+                dataType: "json",
+                encode: true,
+                success: function(data) {
+                        console.log(data);
+                        $("#staffInfoModal .card-body").empty();
+                        if (data.staffs.length) {
+                            data.staffs.forEach(item => {
+                                $("#staffInfoModal .card-body").append(`
+                                    <div class="col-3 text-center">
+                                            <div style="width: 100%;">
+                                                <img style="height: 240px; object-fit: cover; width: 100%; object-position:top" class="rounded" src="/pictures/staffs/${item.photo}" alt="">
+                                            </div>
+                                            <div class="text-info" style="font-size:1rem">
+                                                <span class="text-white">${item.staff_name}</span>
+                                            </div>
+                                            <div class="text-info" style="font-size:1rem">
+                                                <span class="text-white">${item.phone}</span>
+                                            </div>
+                                        </div>
+                                `);
+                            })
+                        }else{
+                            $("#staffInfoModal .card-body").append(`
+                                    <div class="col-xl-12 text-center">
+                                        ${dict_no_data}
+                                    </div>
+                            `)
+                        }
+                    }
+                })
+            
+        }
+
+
+
+        function play_camera(url, iWindee) {
+            jsDecoder.JS_Play(url, { playURL: url }, iWindee).then(
+                function() { console.log("realplay success") },
+                function() { console.log("realplay failed") });
+        }
+
+        $('.unmute').hide();
+        $('.mute').click(function(e) {
+            var iRet = jsDecoder.JS_OpenSound(iWind);
+            if(iRet == 0) {
+                console.log("Ушбу камерада овоз бор, уни ёқишни тасдиқлайсизми?");
+                $('.mute').hide();
+                $('.unmute').show();
+            } else {
+                alert("Ушбу камерада овоз йўқ");
+                return;
+            };
+        })
+        $('.unmute').click(function(e) {
+            $('.mute').show();
+            $('.unmute').hide();
+            CloseSound();
+        })
+
+        function stop () {
+            jsDecoder.JS_Stop(iWind).then(function () {
+                console.log("stop success");
+            }, function () {
+                var html = "stop failed";
+                document.getElementById("error").innerHTML = "<div>" + html + "</div>";
+                console.log("stop failed");
+            });
+        }
+
+        function arrangeWindow (i) {
+            jsDecoder.JS_ArrangeWindow(i);
+        }
+
+        function Stop () {
+            jsDecoder.JS_Stop(iWind);
+        }
+        
+        function CapturePicture(szType) {
+            jsDecoder.JS_CapturePicture (iWind, "img", szType).then(function () {
+                console.log("CapturePicture success");
+            }, function () {
+                var html = "CapturePicture failed";
+                document.getElementById("error").innerHTML = "<div>" + html + "</div>";
+                console.log("CapturePicture failed");
+            });
+        }
+
+        function OpenSound () {
+            var iRet = jsDecoder.JS_OpenSound (iWind);
+            if(iRet == 0) alert("Ушбу камерада овоз бор, уни ёқишни тасдиқлайсизми?"); 
+            else {
+                alert("Ушбу камерада овоз йўқ");
+                return;
+            }   
+        }
+
+        function CloseSound () {
+            jsDecoder.JS_CloseSound (iWind)
+        }
+        
+        function StopRealPlayAll () {
+            jsDecoder.JS_StopRealPlayAll()
+        }
+
+        function fullSreen() {
+            jsDecoder.JS_FullScreenDisplay(true);
+        }
+        
+        function fullScreenSingle () {
+            jsDecoder.JS_FullScreenSingle(iWind);
+        }
+        window.onresize = function () {
+            jsDecoder.JS_Resize(640, 400);
+        }
+    {/literal}
+</script>
+
 
 {include file="footer.tpl"}
