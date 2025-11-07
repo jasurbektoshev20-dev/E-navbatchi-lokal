@@ -9,6 +9,14 @@
 
 <style>
   {literal}
+
+    .dark-style .map-tiles {
+        filter: brightness(0.65) invert(.8) contrast(4) hue-rotate(200deg) saturate(0.3) brightness(0.7);
+    }
+
+    #map-rounded .map-tiles {
+        filter: brightness(0.65) invert(.8) contrast(4) hue-rotate(200deg) saturate(0.3) brightness(0.7);
+    }
     .map-container {
       border: 1px solid red;
       height: 100%;
@@ -39,7 +47,6 @@
       display: flex;
       gap: 5px;
       align-items: center;
-      color: #000;
       font-size: 18px;
       font-weight: bold;
     }
@@ -569,7 +576,10 @@
         center: [41.6384, 64.0202],
         zoom: 7,
         // layers: L.tileLayer(`http://10.19.7.4:8080/tile/{z}/{x}/{y}.png`, { maxZoom: 19 }),
-        layers: L.tileLayer(`http://10.100.9.145:8080/tile/{z}/{x}/{y}.png`, { maxZoom: 19 }),
+        layers: L.tileLayer(`http://10.100.9.145:8080/tile/{z}/{x}/{y}.png`, { 
+          className: 'dark' == 'dark' ? 'map-tiles' : 'map-tiles-light',
+          maxZoom: 20
+        }),
         // layers: L.tileLayer(`https://tile.openstreetmap.org/{z}/{x}/{y}.png`, { maxZoom: 19 }),
       });
       // Marker ikonkalari
@@ -598,10 +608,10 @@
         .then((data) => {
           const regionsLayer = L.geoJSON(data, {
             style: (feature) => ({
-              color: "#333", // chegara
+              color: "#e9e9e9", // chegara
               weight: 1.5,
               fillColor: getColor(feature.properties.shapeName),
-              fillOpacity: 0.5,
+              fillOpacity: 0,
             }),
             onEachFeature: (feature, layer) => {
               const name = feature.properties.shapeName;
@@ -629,6 +639,7 @@
       }, 500);
 
       getObjects()
+      const allMarkers = L.layerGroup()
 
       function getObjects() {
 
@@ -647,6 +658,7 @@
           dataType: 'json',
           success: function(response) {
             console.log(response);
+            allMarkers.clearLayers();
             if (!response && !response.length) return
 
             const bozor = response.filter(item => item.object_type == 1)
@@ -661,56 +673,69 @@
 
 
             // LayerGroup
-            const allMarkers = L.layerGroup().addTo(map);
 
             // Markerlarni LayerGroup ga qo'shamiz
-          response.forEach(m => {
-            const marker = L.marker([m.lat, m.long], { icon: markerIcons[m.object_type] })
-              .bindTooltip(m.object_name, { direction: 'top', offset: [0, -10] });
+            response.forEach(m => {
+              const marker = L.marker([m.lat, m.long], { icon: markerIcons[m.object_type] })
+                .bindTooltip(m.object_name, { direction: 'top', offset: [0, -10] });
 
-            marker.id = m.id;
-            marker.type = m.object_type;
-            allMarkers.addLayer(marker);
+              marker.id = m.id;
+              marker.type = m.object_type;
+              allMarkers.addLayer(marker);
 
-            marker.on('click', function() {
-              document.getElementById('markerModalTitle').innerText = m.object_name;
+              marker.on('click', function() {
+                document.getElementById('markerModalTitle').innerText = m.object_name;
 
-              $.ajax({
-                url: `${AJAXPHP}?act=get_jts_object_by_id&id=${m.id}`,
-                type: 'GET',
-                dataType: 'json',
-                success: function(response) {
-                  console.log(response);
-                  if (!response) return
+                $.ajax({
+                  url: `${AJAXPHP}?act=get_jts_object_by_id&id=${m.id}`,
+                  type: 'GET',
+                  dataType: 'json',
+                  success: function(response) {
+                    console.log(response);
+                    if (!response) return
 
-                  $("#markerModal").modal("show");
+                    $("#markerModal").modal("show");
 
-                  renderDialogMap(response?.data, response?.cameras)
-                  renderPassportDetails(response?.data)
-                  renderDutyDetails(response?.data?.routine)
+                    renderDialogMap(response?.data, response?.cameras)
+                    renderPassportDetails(response?.data)
+                    renderDutyDetails(response?.data?.routine)
 
 
-                  $('#change_camera').empty();
-                  if (response?.cameras && response?.cameras?.length) {
-                    fetched_camera = response.cameras;
+                    $('#change_camera').empty();
+                    if (response?.cameras && response?.cameras?.length) {
+                      fetched_camera = response.cameras;
 
-                    get_camera()
+                      get_camera()
 
+                    }
+                    if (response?.data?.body_cameras && response?.data?.body_cameras.length) {
+                      fetched_body = response.data.body_cameras;
+
+                      get_camera()
+
+                    }
+
+                  },
+                  error: function(xhr, status, error) {
+                    console.error('AJAX error:', error);
                   }
-                  if (response?.data?.body_cameras && response?.data?.body_cameras.length) {
-                    fetched_body = response.data.body_cameras;
-
-                    get_camera()
-
-                  }
-
-                },
-                error: function(xhr, status, error) {
-                  console.error('AJAX error:', error);
-                }
-              })
+                })
+              });
             });
-          });
+
+            // Markerlarni xaritaga qo‘shamiz
+            allMarkers.addTo(map);
+
+            // Hamma marker koordinatalarini olish
+            const markerCoords = response.map(m => [m.lat, m.long]);
+
+            if (markerCoords.length > 0) {
+              // Hamma markerlarni qamrab oladigan bounds
+              const bounds = L.latLngBounds(markerCoords);
+
+              // Xarita markazlash + zoomni avtomatik o‘rnatish
+              map.flyToBounds(bounds, { padding: [50, 50] }); // padding – biroz chet bo‘shliq
+            }
 
         },
         error: function(xhr, status, error) {
@@ -841,7 +866,7 @@
 
             const el = document.createElement('div');
             el.className = 'custom-marker';
-            el.style.backgroundImage = `url('/assets/images/security-camera-real.png')`;
+            el.style.backgroundImage = `url('/assets/images/video-camera-recording-yellow.png')`;
             el.style.backgroundSize = 'cover';
             el.title = camera.comment;
 
