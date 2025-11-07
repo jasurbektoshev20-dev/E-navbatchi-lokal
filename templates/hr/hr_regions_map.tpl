@@ -351,11 +351,14 @@
             <div class="row">
               {*  *}
               <div class="col-6">
-                <div class="space-main-head">
-                  <h4 class="m-0">Pasport Ma'lumotlari</h4>
-                </div>
-                <div id="dialogMap" class="mt-1"></div>
-                <div class="space-main-body-passport mt-4">
+              <div class="space-main-head">
+                <h4 class="m-0">Xarita</h4>
+              </div>
+              <div id="dialogMap" class="mt-1"></div>
+              <div class="space-main-head mt-3">
+                <h4 class="">Pasport Ma'lumotlari</h4>
+              </div>
+                <div class="space-main-body-passport">
 
                 </div>
               </div>
@@ -385,37 +388,41 @@
                           {* <span class="text-yellow ml-2" style="font-size: 22px;"> Joriy kamera<span class="current_camera"></span>:
                             &nbsp; <span class="text-white camera_active"></span></span> &nbsp;&nbsp;&nbsp; *}
 
+                          <div style="padding-left: 10px; width: 100%">
+                            <div class="d-flex w-full justify-content-between" style="border-bottom: 1px solid #ccc;">
+                              <span class="text-yellow" style="font-size: 22px;"><span
+                                  class=""></span> Jami kamera: &nbsp;
+                                <span class="text-white camera_length"></span></span>
+                              <div>
+                                <ul class="nav nav-pills mb-0">
+                                  <li class="nav-item dropdown dropup">
+                                    <a href="#" id="current_camera" class="dropdown-toggle" data-toggle="dropdown"><span
+                                        class="select"></span></a>
+                                    <div class="dropdown-menu" style="max-height: 300px; overflow-y: scroll;"
+                                      id="change_camera"></div>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
 
-                          <span class="text-yellow" style="font-size: 22px;"><span
-                              class=""></span> Jami: &nbsp;
-                            <span class="text-white camera_length"></span></span>
-                          <div class="col-3">
-                            <ul class="nav nav-pills mb-0">
-                              <li class="nav-item dropdown dropup">
-                                <a href="#" id="current_camera" class="dropdown-toggle" data-toggle="dropdown"><span
-                                    class="select"></span></a>
-                                <div class="dropdown-menu" style="max-height: 300px; overflow-y: scroll;"
-                                  id="change_camera"></div>
-                              </li>
-                            </ul>
+                            <div class="d-flex w-full justify-content-between">
+                              <span class="text-yellow" style="font-size: 22px;"><span
+                                  class=""></span> Jami body: &nbsp;
+                                <span class="text-white body_camera_length"></span>&nbsp;</span>
+                              <div>
+                                <ul class="nav nav-pills mb-0">
+                                  <li class="nav-item dropdown dropup">
+                                    <a href="#" id="body_current_camera" class="dropdown-toggle" data-toggle="dropdown"><span
+                                        class="select"></span></a>
+                                    <div class="dropdown-menu" style="max-height: 300px; overflow-y: scroll;"
+                                      id="body_change_camera"></div>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
                           </div>
 
-
-                          <span class="text-yellow" style="font-size: 22px;"><span
-                              class=""></span> Jami body: &nbsp;
-                            <span class="text-white body_camera_length"></span>&nbsp;</span>
-                          <div class="col-3">
-                            <ul class="nav nav-pills mb-0">
-                              <li class="nav-item dropdown dropup">
-                                <a href="#" id="body_current_camera" class="dropdown-toggle" data-toggle="dropdown"><span
-                                    class="select"></span></a>
-                                <div class="dropdown-menu" style="max-height: 300px; overflow-y: scroll;"
-                                  id="body_change_camera"></div>
-                              </li>
-                            </ul>
                           </div>
-                          <div id="error" style="color:red"></div>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -770,8 +777,156 @@
 
       setTimeout(() => map.resize(), 300);
 
+      // --- Dastlab yuklanganda chizish ---
+      map.on('load', ()=>{
+        drawPolygon()
+        // ✅ 2. DOOR markerlar (eshiklar)
+        if (Array.isArray(params.door)) {
+          params.door.forEach(door => {
+            const lat = parseFloat(door.lat);
+            const lon = parseFloat(door.long);
+            if (isNaN(lat) || isNaN(lon)) return;
 
+            const el = document.createElement('div');
+            el.className = 'door-marker';
+            el.style.width = '20px';
+            el.style.height = '20px';
+            el.style.backgroundImage = `url('/assets/images/open-door.png')`;
+            el.style.backgroundSize = 'cover';
+            el.title = door.name;
 
+            new mapboxgl.Marker(el)
+              .setLngLat([lon, lat])
+              .setPopup(new mapboxgl.Popup()
+                .setHTML(
+                  `<div style="color: #000">${door.name}</div>`
+                ))
+              .addTo(map);
+          });
+        }
+
+        // ✅ 3. TRACK marker (mashina)
+        if (Array.isArray(params.tracks)) {
+          params.tracks.forEach(track => {
+            const lat = parseFloat(track.lat);
+            const lon = parseFloat(track.lon);
+            if (isNaN(lat) || isNaN(lon)) return;
+
+            const el = document.createElement('div');
+            el.className = 'car-marker';
+            el.style.width = track.car_width + 'px';
+            el.style.height = track.car_height + 'px';
+            el.style.backgroundImage = `url('/pictures/cars/${track.car_photo || 'car.png'}')`;
+            el.style.backgroundSize = 'cover';
+            el.style.transform = `rotate(${track.angle || 0}deg)`;
+            el.title = track.car_name;
+
+            new mapboxgl.Marker(el)
+              .setLngLat([lon, lat])
+              .setPopup(
+                new mapboxgl.Popup().setHTML(
+                  `<div style="color: #000"> <b>${track.car_name}</b><br>Tezlik: ${track.speed} km/h<br>${track.date} </div>`
+                )
+              )
+              .addTo(map);
+          });
+        }
+
+        // ✅ 4. Camera marker
+        if (Array.isArray(cameras)) {
+          cameras.forEach(camera => {
+            const lat = parseFloat(camera.lat);
+            const lon = parseFloat(camera.long);
+            if (isNaN(lat) || isNaN(lon)) return;
+
+            const el = document.createElement('div');
+            el.className = 'custom-marker';
+            el.style.backgroundImage = `url('/assets/images/security-camera-real.png')`;
+            el.style.backgroundSize = 'cover';
+            el.title = camera.comment;
+
+            const popupHTML = `
+              <div style="color: #000; text-align:center">
+                <b style="font-size: 18px">${camera.comment}</b><br>
+                <button 
+                  class="btn btn-primary popup-camera-btn" 
+                  style="padding: 6px 12px; margin-top:6px;"
+                  data-id="${camera.id}">
+                  <span class="btn-text">Tanlash</span>
+                </button>
+              </div>
+            `;
+
+            const popup = new mapboxgl.Popup().setHTML(popupHTML);
+
+            new mapboxgl.Marker(el)
+              .setLngLat([lon, lat])
+              .setPopup(popup)
+              .addTo(map);
+          });
+        }
+        // ✅ 4. Camera marker
+        if (Array.isArray(params.body_cameras)) {
+          params.body_cameras.forEach(camera => {
+            const lat = parseFloat(camera.lat);
+            const lon = parseFloat(camera.long);
+            if (isNaN(lat) || isNaN(lon)) return;
+
+            const el = document.createElement('div');
+            el.className = 'custom-marker';
+            el.style.backgroundImage = `url('/assets/images/policeman.png')`;
+            el.style.backgroundSize = 'cover';
+            el.title = camera.comment;
+            const popupHTML = `
+              <div style="color: #000; text-align:center">
+                <b style="font-size: 18px">${camera.comment}</b><br>
+                <button 
+                  class="btn btn-primary popup-body-camera-btn" 
+                  style="padding: 6px 12px; margin-top:6px;"
+                  data-id="${camera.id}">
+                  <span class="btn-text">Tanlash</span>
+                </button>
+              </div>
+            `;
+
+            const popup = new mapboxgl.Popup().setHTML(popupHTML);
+
+            new mapboxgl.Marker(el)
+              .setLngLat([lon, lat])
+              .setPopup(popup)
+              .addTo(map);
+            });
+        }
+
+        // ✅ 5. SOS markerlar
+        if (Array.isArray(params.sos)) {
+          params.sos.forEach(sos => {
+            const lat = parseFloat(sos.lat);
+            const lon = parseFloat(sos.long);
+            if (isNaN(lat) || isNaN(lon)) return;
+
+            const el = document.createElement('div');
+            el.className = 'sos-marker';
+            el.style.width = '14px';
+            el.style.height = '14px';
+            el.style.background = 'red';
+            el.style.borderRadius = '50%';
+            el.style.border = '2px solid white';
+            el.title = sos.name;
+
+            new mapboxgl.Marker(el)
+              .setLngLat([lon, lat])
+              .setPopup(new mapboxgl.Popup().setHTML(
+                `<div style="color: #000">${sos.name}</div>`
+              ))
+              .addTo(map);
+          });
+        }
+      });
+
+      map.on('style.load', () => {
+        drawPolygon(); // markerlar va polygonlarni qayta chizish
+      });
       // ✅ Layer style switcher (Standard / Satellite / Dark)
       const layerSwitcher = document.createElement('div');
       layerSwitcher.className = 'mapbox-style-switcher';
@@ -808,8 +963,6 @@
         `;
         btn.onclick = () => {
           map.setStyle(style.url);
-          // Aktiv tugmani ajratish
-          [...layerSwitcher.querySelectorAll('button')];
         };
         layerSwitcher.appendChild(btn);
       });
@@ -818,12 +971,18 @@
       map.getContainer().appendChild(layerSwitcher);
 
 
+      function drawPolygon() {
+        if (params.geom_geojson) {
+          try {
+            // eski polygonni tozalash
+            if (map.getSource('object-polygon')) {
+              if (map.getLayer('object-polygon-fill')) map.removeLayer('object-polygon-fill');
+              if (map.getLayer('object-polygon-outline')) map.removeLayer('object-polygon-outline');
+              map.removeSource('object-polygon');
+            }
 
-      // ✅ 1. Polygon chizish
-      if (params.geom_geojson) {
-        try {
-          const geom = JSON.parse(params.geom_geojson);
-          map.on('load', () => {
+
+            const geom = JSON.parse(params.geom_geojson);
             map.addSource('object-polygon', {
               type: 'geojson',
               data: geom,
@@ -853,156 +1012,20 @@
             const bounds = new mapboxgl.LngLatBounds();
             geom.coordinates[0].forEach(coord => bounds.extend(coord));
             map.fitBounds(bounds, { padding: 80, duration: 1500 });
-          });
-        } catch (err) {
-          console.warn('Polygon parse xatolik:', err);
+          } catch (err) {
+            console.warn('Polygon parse xatolik:', err);
+          }
         }
+        
       }
-
-      // ✅ 2. DOOR markerlar (eshiklar)
-      if (Array.isArray(params.door)) {
-        params.door.forEach(door => {
-          const lat = parseFloat(door.lat);
-          const lon = parseFloat(door.long);
-          if (isNaN(lat) || isNaN(lon)) return;
-
-          const el = document.createElement('div');
-          el.className = 'door-marker';
-          el.style.width = '20px';
-          el.style.height = '20px';
-          el.style.backgroundImage = `url('/assets/images/open-door.png')`;
-          el.style.backgroundSize = 'cover';
-          el.title = door.name;
-
-          new mapboxgl.Marker(el)
-            .setLngLat([lon, lat])
-            .setPopup(new mapboxgl.Popup()
-              .setHTML(
-                `<div style="color: #000">${door.name}</div>`
-              ))
-            .addTo(map);
-        });
-      }
-
-      // ✅ 3. TRACK marker (mashina)
-      if (Array.isArray(params.tracks)) {
-        params.tracks.forEach(track => {
-          const lat = parseFloat(track.lat);
-          const lon = parseFloat(track.lon);
-          if (isNaN(lat) || isNaN(lon)) return;
-
-          const el = document.createElement('div');
-          el.className = 'car-marker';
-          el.style.width = track.car_width + 'px';
-          el.style.height = track.car_height + 'px';
-          el.style.backgroundImage = `url('/pictures/cars/${track.car_photo || 'car.png'}')`;
-          el.style.backgroundSize = 'cover';
-          el.style.transform = `rotate(${track.angle || 0}deg)`;
-          el.title = track.car_name;
-
-          new mapboxgl.Marker(el)
-            .setLngLat([lon, lat])
-            .setPopup(
-              new mapboxgl.Popup().setHTML(
-                `<div style="color: #000"> <b>${track.car_name}</b><br>Tezlik: ${track.speed} km/h<br>${track.date} </div>`
-              )
-            )
-            .addTo(map);
-        });
-      }
-
-      // ✅ 4. Camera marker
-      if (Array.isArray(cameras)) {
-        cameras.forEach(camera => {
-          const lat = parseFloat(camera.lat);
-          const lon = parseFloat(camera.long);
-          if (isNaN(lat) || isNaN(lon)) return;
-
-          const el = document.createElement('div');
-          el.className = 'custom-marker';
-          el.style.backgroundImage = `url('/assets/images/security-camera-real.png')`;
-          el.style.backgroundSize = 'cover';
-          el.title = camera.comment;
-
-          const popupHTML = `
-            <div style="color: #000; text-align:center">
-              <b style="font-size: 18px">${camera.comment}</b><br>
-              <button 
-                class="btn btn-primary popup-camera-btn" 
-                style="padding: 6px 12px; margin-top:6px;"
-                data-id="${camera.id}">
-                <span class="btn-text">Tanlash</span>
-              </button>
-            </div>
-          `;
-
-          const popup = new mapboxgl.Popup().setHTML(popupHTML);
-
-          new mapboxgl.Marker(el)
-            .setLngLat([lon, lat])
-            .setPopup(popup)
-            .addTo(map);
-        });
-      }
-      // ✅ 4. Camera marker
-      if (Array.isArray(params.body_cameras)) {
-        params.body_cameras.forEach(camera => {
-          const lat = parseFloat(camera.lat);
-          const lon = parseFloat(camera.long);
-          if (isNaN(lat) || isNaN(lon)) return;
-
-          const el = document.createElement('div');
-          el.className = 'custom-marker';
-          el.style.backgroundImage = `url('/assets/images/policeman.png')`;
-          el.style.backgroundSize = 'cover';
-          el.title = camera.comment;
-          const popupHTML = `
-            <div style="color: #000; text-align:center">
-              <b style="font-size: 18px">${camera.comment}</b><br>
-              <button 
-                class="btn btn-primary popup-body-camera-btn" 
-                style="padding: 6px 12px; margin-top:6px;"
-                data-id="${camera.id}">
-                <span class="btn-text">Tanlash</span>
-              </button>
-            </div>
-          `;
-
-          const popup = new mapboxgl.Popup().setHTML(popupHTML);
-
-          new mapboxgl.Marker(el)
-            .setLngLat([lon, lat])
-            .setPopup(popup)
-            .addTo(map);
-          });
-      }
-
-      // ✅ 5. SOS markerlar
-      if (Array.isArray(params.sos)) {
-        params.sos.forEach(sos => {
-          const lat = parseFloat(sos.lat);
-          const lon = parseFloat(sos.long);
-          if (isNaN(lat) || isNaN(lon)) return;
-
-          const el = document.createElement('div');
-          el.className = 'sos-marker';
-          el.style.width = '14px';
-          el.style.height = '14px';
-          el.style.background = 'red';
-          el.style.borderRadius = '50%';
-          el.style.border = '2px solid white';
-          el.title = sos.name;
-
-          new mapboxgl.Marker(el)
-            .setLngLat([lon, lat])
-            .setPopup(new mapboxgl.Popup().setHTML(
-              `<div style="color: #000">${sos.name}</div>`
-            ))
-            .addTo(map);
-        });
-      }
-
     }
+
+
+
+
+
+
+
 
     function renderPassportDetails(params) {
       const container = document.querySelector('.space-main-body-passport')
