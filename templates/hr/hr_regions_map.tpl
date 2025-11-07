@@ -237,8 +237,8 @@
     }
 
     .custom-marker {
-      width: 14px;
-      height: 14px;
+      width: 20px;
+      height: 20px;
 
     }
     .car-marker {
@@ -770,6 +770,55 @@
 
       setTimeout(() => map.resize(), 300);
 
+
+
+      // ✅ Layer style switcher (Standard / Satellite / Dark)
+      const layerSwitcher = document.createElement('div');
+      layerSwitcher.className = 'mapbox-style-switcher';
+      layerSwitcher.style.cssText = `
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: rgba(255,255,255,0.9);
+        border-radius: 6px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        padding: 4px;
+        font-family: sans-serif;
+        z-index: 999;
+      `;
+
+      const styles = [
+        { id: 'standard', label: '🗺', url: 'mapbox://styles/mapbox/standard' },
+        { id: 'satellite', label: '🌍', url: 'mapbox://styles/mapbox/satellite-streets-v12' },
+        { id: 'dark', label: '🌑', url: 'mapbox://styles/mapbox/dark-v11' },
+      ];
+
+      // Tugmalarni yaratish
+      styles.forEach(style => {
+        const btn = document.createElement('button');
+        btn.textContent = style.label;
+        btn.style.cssText = `
+          display: block;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          margin: 3px 0;
+          padding: 4px 8px;
+          cursor: pointer;
+          text-align: left;
+        `;
+        btn.onclick = () => {
+          map.setStyle(style.url);
+          // Aktiv tugmani ajratish
+          [...layerSwitcher.querySelectorAll('button')];
+        };
+        layerSwitcher.appendChild(btn);
+      });
+
+      // DOMga joylash
+      map.getContainer().appendChild(layerSwitcher);
+
+
+
       // ✅ 1. Polygon chizish
       if (params.geom_geojson) {
         try {
@@ -871,21 +920,27 @@
 
           const el = document.createElement('div');
           el.className = 'custom-marker';
-          el.style.backgroundImage = `url('/assets/images/security-camera.png')`;
+          el.style.backgroundImage = `url('/assets/images/security-camera-real.png')`;
           el.style.backgroundSize = 'cover';
           el.title = camera.comment;
 
+          const popupHTML = `
+            <div style="color: #000; text-align:center">
+              <b style="font-size: 18px">${camera.comment}</b><br>
+              <button 
+                class="btn btn-primary popup-camera-btn" 
+                style="padding: 6px 12px; margin-top:6px;"
+                data-id="${camera.id}">
+                <span class="btn-text">Tanlash</span>
+              </button>
+            </div>
+          `;
+
+          const popup = new mapboxgl.Popup().setHTML(popupHTML);
+
           new mapboxgl.Marker(el)
             .setLngLat([lon, lat])
-            .setPopup(
-              new mapboxgl.Popup().setHTML(
-                 `<div style="color: #000; text-align:center">
-                  <b style="font-size: 18px">${camera.comment}</b>
-                  <br>
-                  <button class="btn btn-primary popup-camera-btn" style="padding: 4px;" data-id="${camera.id}">Tanlash</button>
-                </div>`
-              )
-            )
+            .setPopup(popup)
             .addTo(map);
         });
       }
@@ -898,23 +953,28 @@
 
           const el = document.createElement('div');
           el.className = 'custom-marker';
-          el.style.backgroundImage = `url('/assets/images/body_camera.png')`;
+          el.style.backgroundImage = `url('/assets/images/policeman.png')`;
           el.style.backgroundSize = 'cover';
           el.title = camera.comment;
+          const popupHTML = `
+            <div style="color: #000; text-align:center">
+              <b style="font-size: 18px">${camera.comment}</b><br>
+              <button 
+                class="btn btn-primary popup-body-camera-btn" 
+                style="padding: 6px 12px; margin-top:6px;"
+                data-id="${camera.id}">
+                <span class="btn-text">Tanlash</span>
+              </button>
+            </div>
+          `;
+
+          const popup = new mapboxgl.Popup().setHTML(popupHTML);
 
           new mapboxgl.Marker(el)
             .setLngLat([lon, lat])
-            .setPopup(
-              new mapboxgl.Popup().setHTML(
-                 `<div style="color: #000; text-align:center">
-                  <b style="font-size: 18px">${camera.comment}</b>
-                  <br>
-                  <button class="btn btn-primary popup-body-camera-btn" style="padding: 4px;" data-id="${camera.id}">Tanlash</button>
-                </div>`
-              )
-            )
+            .setPopup(popup)
             .addTo(map);
-        });
+          });
       }
 
       // ✅ 5. SOS markerlar
@@ -1103,7 +1163,33 @@
 
     // === POPUP ICHIDAGI TUGMA TRIGGER ===
     $(document).on('click', '.popup-camera-btn', function() {
-      const id = $(this).data('id');
+      const btn = $(this);
+      const id = String(btn.data('id')).trim();
+      const popup = btn.closest('.mapboxgl-popup');
+
+      // 🔒 1. 2 marta bosishni bloklash
+      if (btn.prop('disabled')) return;
+
+      // 🔁 2. Spinner qo‘shish va disable qilish
+      btn.prop('disabled', true);
+      const originalText = btn.find('.btn-text').text();
+      btn.find('.btn-text').html(`
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Yuklanmoqda...
+      `);
+
+      // ⏳ 3. 1 soniyadan keyin yana aktiv holatga keltirish
+      setTimeout(() => {
+        btn.prop('disabled', false);
+        btn.find('.btn-text').text(originalText);
+      }, 3000);
+
+      // 🚀 4. Popupni yopish
+      if (popup.length) {
+        const popupInstance = popup[0].parentNode.__mapboxgl_popup;
+        if (popupInstance) popupInstance.remove();
+      }
+
+      // 🧠 5. Kamera tanlandi – asosiy ro‘yxatdan mosini topib, click trigger
       const target = $(`#change_camera a[data-id="${id}"]`);
       if (target.length) {
         
@@ -1114,7 +1200,33 @@
     });
 
     $(document).on('click', '.popup-body-camera-btn', function() {
-      const id = $(this).data('id');
+      const btn = $(this);
+      const id = String(btn.data('id')).trim();
+      const popup = btn.closest('.mapboxgl-popup');
+
+      // 🔒 1. 2 marta bosishni bloklash
+      if (btn.prop('disabled')) return;
+
+      // 🔁 2. Spinner qo‘shish va disable qilish
+      btn.prop('disabled', true);
+      const originalText = btn.find('.btn-text').text();
+      btn.find('.btn-text').html(`
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Yuklanmoqda...
+      `);
+
+      // ⏳ 3. 1 soniyadan keyin yana aktiv holatga keltirish
+      setTimeout(() => {
+        btn.prop('disabled', false);
+        btn.find('.btn-text').text(originalText);
+      }, 3000);
+
+      // 🚀 4. Popupni yopish
+      if (popup.length) {
+        const popupInstance = popup[0].parentNode.__mapboxgl_popup;
+        if (popupInstance) popupInstance.remove();
+      }
+
+      // 🧠 5. Kamera tanlandi – asosiy ro‘yxatdan mosini topib, click trigger
       const target = $(`#body_change_camera a[data-id="${id}"]`);
       if (target.length) {
         target.trigger('click');
@@ -1257,7 +1369,7 @@
                       el_count="${index}" status="${item.status}" playURL="${item.url}">${item.comment}</a>`)
               }
           })
-          $("#body_current_camera").html(fetched_body[0].comment);
+          $("#body_current_camera").html(fetched_body?.[0]?.comment);
 
 
 
@@ -1304,7 +1416,8 @@
       async function get_body_camera() {
           $('#body_change_camera').empty();
           arrangeWindow(1);
-          fetched_body.forEach((item, index) => {
+          if(!fetched_body || !fetched_body.length) return
+          fetched_body?.forEach((item, index) => {
               if (item.status == 1) {
                   $('#body_change_camera').append(`<a href="#" class="dropdown-item camera_item g_status" tabindex="-1" data-toggle="tab" 
                       style="font-size:22px;" ptz="0" cam_index="${item.cam_index}" el_count="${index}" 
