@@ -225,12 +225,22 @@
       font-size: 18px;
       margin-left: 30px;
     }
+    #body_current_camera {
+      color: white;
+      font-size: 18px;
+      margin-left: 30px;
+    }
 
     .door-marker:hover {
       transform: scale(1.2);
       transition: 0.2s;
     }
 
+    .custom-marker {
+      width: 14px;
+      height: 14px;
+
+    }
     .car-marker {
       border-radius: 50%;
       box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
@@ -360,22 +370,24 @@
                     <div class="button_box" style="width: 100%;">
                       <div class="items">
                         <div class="d-flex gap-1 px-2 mt-2" style="align-items:center;">
-                          <button class="btn btn-danger" type="button" onClick="fullSreen()">
+                          {* <button class="btn btn-danger" type="button" onClick="fullSreen()">
                             <i class="icon-screen-full"></i>
-                          </button>
+                          </button> *}
                           <button class="btn btn-warning ml-2 unmute" type="button">
                             <i class="icon-volume-medium"></i>
                           </button>
                           <button class="btn btn-info ml-2 mute" type="button">
                             <i class="icon-volume-mute5"></i>
                           </button>
-                          <button class="btn btn-warning ml-2" type="button" onClick="CapturePicture('JPEG')">
+                          {* <button class="btn btn-warning ml-2" type="button" onClick="CapturePicture('JPEG')">
                             <i class="icon-camera"></i>
-                          </button>
-                          <span class="text-yellow ml-2" style="font-size: 22px;"> Joriy kamera <span class="current_camera"></span>:
-                            &nbsp; <span class="text-white camera_active"></span></span> &nbsp;&nbsp;&nbsp;
+                          </button> *}
+                          {* <span class="text-yellow ml-2" style="font-size: 22px;"> Joriy kamera<span class="current_camera"></span>:
+                            &nbsp; <span class="text-white camera_active"></span></span> &nbsp;&nbsp;&nbsp; *}
+
+
                           <span class="text-yellow" style="font-size: 22px;"><span
-                              class="camera_length"></span>: &nbsp;
+                              class=""></span> Jami: &nbsp;
                             <span class="text-white camera_length"></span></span>
                           <div class="col-3">
                             <ul class="nav nav-pills mb-0">
@@ -384,6 +396,21 @@
                                     class="select"></span></a>
                                 <div class="dropdown-menu" style="max-height: 300px; overflow-y: scroll;"
                                   id="change_camera"></div>
+                              </li>
+                            </ul>
+                          </div>
+
+
+                          <span class="text-yellow" style="font-size: 22px;"><span
+                              class=""></span> Jami body: &nbsp;
+                            <span class="text-white body_camera_length"></span>&nbsp;</span>
+                          <div class="col-3">
+                            <ul class="nav nav-pills mb-0">
+                              <li class="nav-item dropdown dropup">
+                                <a href="#" id="body_current_camera" class="dropdown-toggle" data-toggle="dropdown"><span
+                                    class="select"></span></a>
+                                <div class="dropdown-menu" style="max-height: 300px; overflow-y: scroll;"
+                                  id="body_change_camera"></div>
                               </li>
                             </ul>
                           </div>
@@ -525,7 +552,7 @@
 
       let region_id, object_id, object_type
 
-      let fetched_camera;
+      let fetched_camera, fetched_body;
 
       // O‘zbekiston markazi koordinatalari
       const uzbekistanCenter = [41.2995, 69.2401]; // Toshkent markazi
@@ -651,14 +678,20 @@
 
                   $("#markerModal").modal("show");
 
-                  renderDialogMap(response?.data)
+                  renderDialogMap(response?.data, response?.cameras)
                   renderPassportDetails(response?.data)
                   renderDutyDetails(response?.data?.routine)
 
 
                   $('#change_camera').empty();
-                  if (response.cameras && response.cameras.length) {
+                  if (response?.cameras && response?.cameras?.length) {
                     fetched_camera = response.cameras;
+
+                    get_camera()
+
+                  }
+                  if (response?.data?.body_cameras && response?.data?.body_cameras.length) {
+                    fetched_body = response.data.body_cameras;
 
                     get_camera()
 
@@ -705,7 +738,7 @@
 
 
 
-    function renderDialogMap(params) {
+    function renderDialogMap(params, cameras) {
       const mapContainer = document.querySelector('#dialogMap')
       if (!mapContainer || !params) return
       // Eski xarita mavjud bo‘lsa, tozalaymiz
@@ -829,7 +862,62 @@
         });
       }
 
-      // ✅ 4. SOS markerlar
+      // ✅ 4. Camera marker
+      if (Array.isArray(cameras)) {
+        cameras.forEach(camera => {
+          const lat = parseFloat(camera.lat);
+          const lon = parseFloat(camera.long);
+          if (isNaN(lat) || isNaN(lon)) return;
+
+          const el = document.createElement('div');
+          el.className = 'custom-marker';
+          el.style.backgroundImage = `url('/assets/images/security-camera.png')`;
+          el.style.backgroundSize = 'cover';
+          el.title = camera.comment;
+
+          new mapboxgl.Marker(el)
+            .setLngLat([lon, lat])
+            .setPopup(
+              new mapboxgl.Popup().setHTML(
+                 `<div style="color: #000; text-align:center">
+                  <b style="font-size: 18px">${camera.comment}</b>
+                  <br>
+                  <button class="btn btn-primary popup-camera-btn" style="padding: 4px;" data-id="${camera.id}">Tanlash</button>
+                </div>`
+              )
+            )
+            .addTo(map);
+        });
+      }
+      // ✅ 4. Camera marker
+      if (Array.isArray(params.body_cameras)) {
+        params.body_cameras.forEach(camera => {
+          const lat = parseFloat(camera.lat);
+          const lon = parseFloat(camera.long);
+          if (isNaN(lat) || isNaN(lon)) return;
+
+          const el = document.createElement('div');
+          el.className = 'custom-marker';
+          el.style.backgroundImage = `url('/assets/images/body_camera.png')`;
+          el.style.backgroundSize = 'cover';
+          el.title = camera.comment;
+
+          new mapboxgl.Marker(el)
+            .setLngLat([lon, lat])
+            .setPopup(
+              new mapboxgl.Popup().setHTML(
+                 `<div style="color: #000; text-align:center">
+                  <b style="font-size: 18px">${camera.comment}</b>
+                  <br>
+                  <button class="btn btn-primary popup-camera-btn" style="padding: 4px;" data-id="${camera.id}">Tanlash</button>
+                </div>`
+              )
+            )
+            .addTo(map);
+        });
+      }
+
+      // ✅ 5. SOS markerlar
       if (Array.isArray(params.sos)) {
         params.sos.forEach(sos => {
           const lat = parseFloat(sos.lat);
@@ -949,65 +1037,86 @@
       // <li class="alert alert-dark" role="alert">Sektorlar soni: <span>4 ${params.responsible_name} ta</span> </li>
       container.innerHTML = `
         <ul class="d-flex flex-wrap gap-3">
-          <li class="alert alert-dark" role="alert">MG javobgar: <span>${params.responsible_name} </span>
+          <li class="alert alert-dark m-0" role="alert">MG javobgar: <span>${params.responsible_name} </span>
           </li>
-          <li class="alert alert-dark" role="alert">Jami shaxsiy tarkib: <span>${params.all_staff} nafar</span> </li>
-          <li class="alert alert-dark" role="alert">Piyoda patrullar: <span>${params.walker_patrul} nafar</span> </li>
-          <li class="alert alert-dark" role="alert">Avto patrullar: <span>${params.avto_patrul} nafar</span> </li>
-          <li class="alert alert-dark" role="alert">Yo'nalishlar: <span>${params.patrul_types_count} ta</span> </li>
-          <li class="alert alert-dark" role="alert">Kameralar soni: <span>${params.count_cameras} ta</span> </li>
-          <li class="alert alert-dark" role="alert">Tashvish tugmalar soni: <span>${params.count_sos} ta</span> </li>
-          <li class="alert alert-dark" role="alert">Xizmat hayvonlari: <span>${params.horse_patrul} ta</span> </li>
-          <li class="alert alert-dark" role="alert">Maxsus vositalar soni: <span>${params.epikirofka_count} ta</span> </li>
-          <li class="alert alert-dark" role="alert">Texnikalar: <span>${params.car_count} ta</span></li>
+          <li class="alert alert-dark m-0" role="alert">Jami shaxsiy tarkib: <span>${params.all_staff} nafar</span> </li>
+          <li class="alert alert-dark m-0" role="alert">Piyoda patrullar: <span>${params.walker_patrul} nafar</span> </li>
+          <li class="alert alert-dark m-0" role="alert">Avto patrullar: <span>${params.avto_patrul} nafar</span> </li>
+          <li class="alert alert-dark m-0" role="alert">Yo'nalishlar: <span>${params.patrul_types_count} ta</span> </li>
+          <li class="alert alert-dark m-0" role="alert">Kameralar soni: <span>${params.count_cameras} ta</span> </li>
+          <li class="alert alert-dark m-0" role="alert">Tashvish tugmalar soni: <span>${params.count_sos} ta</span> </li>
+          <li class="alert alert-dark m-0" role="alert">Xizmat hayvonlari: <span>${params.horse_patrul} ta</span> </li>
+          <li class="alert alert-dark m-0" role="alert">Maxsus vositalar soni: <span>${params.epikirofka_count} ta</span> </li>
+          <li class="alert alert-dark m-0" role="alert">Texnikalar: <span>${params.car_count} ta</span></li>
         </ul>
         `
 
 
+    }
+
+
+
+    // Viloyatlar uchun rang funksiyasi
+    function getColor(shapeName) {
+      const colors = {
+        "Andijan Region": "#4CAF50",
+        "Bukhara Region": "#FF9800",
+        "Fergana Region": "#9C27B0",
+        "Jizzakh Region": "#03A9F4",
+        "Namangan Region": "#E91E63",
+        "Navoiy Region": "#8BC34A",
+        "Kashkadarya Region": "#FF5722",
+        "Karakalpakstan Republic": "#795548",
+        "Samarkand Region": "#2196F3",
+        "Sirdaryo Region": "#607D8B",
+        "Surxondaryo Region": "#00BCD4",
+        "Tashkent Region": "#FFC107",
+        "Khorezm Region": "#673AB7",
+        "Tashkent City": "#f44336",
+      };
+
+      return colors[shapeName] || "#999";
+    }
+
+
+
+
+    function getMarkerImage(type) {
+      switch (type) {
+        case 'bozor':
+          return 'https://icon-library.com/images/map-marker-icon-png/map-marker-icon-png-6.jpg';
+        case 'bog':
+          return 'https://cdn2.iconfinder.com/data/icons/IconsLandVistaMapMarkersIconsDemo/256/MapMarker_Marker_Outside_Chartreuse.png';
+        case 'xiyobon':
+          return 'https://freesvg.org/img/ts-map-pin.png';
+        case 'boshqa':
+          return 'https://cdn-icons-png.flaticon.com/512/6284/6284577.png';
+        default:
+          return '';
       }
+    }
 
 
 
-      // Viloyatlar uchun rang funksiyasi
-      function getColor(shapeName) {
-        const colors = {
-          "Andijan Region": "#4CAF50",
-          "Bukhara Region": "#FF9800",
-          "Fergana Region": "#9C27B0",
-          "Jizzakh Region": "#03A9F4",
-          "Namangan Region": "#E91E63",
-          "Navoiy Region": "#8BC34A",
-          "Kashkadarya Region": "#FF5722",
-          "Karakalpakstan Republic": "#795548",
-          "Samarkand Region": "#2196F3",
-          "Sirdaryo Region": "#607D8B",
-          "Surxondaryo Region": "#00BCD4",
-          "Tashkent Region": "#FFC107",
-          "Khorezm Region": "#673AB7",
-          "Tashkent City": "#f44336",
-        };
 
-        return colors[shapeName] || "#999";
+
+
+    // === POPUP ICHIDAGI TUGMA TRIGGER ===
+    $(document).on('click', '.btn ', function() {
+      const id = $(this).data('id');
+      const target = $(`#change_camera a[data-id="${id}"]`);
+      if (target.length) {
+        
+        target.trigger('click');
+      } else {
+        console.warn(`Camera ID ${id} uchun element topilmadi`);
       }
+    });
 
 
 
 
-      function getMarkerImage(type) {
-        switch (type) {
-          case 'bozor':
-            return 'https://icon-library.com/images/map-marker-icon-png/map-marker-icon-png-6.jpg';
-          case 'bog':
-            return 'https://cdn2.iconfinder.com/data/icons/IconsLandVistaMapMarkersIconsDemo/256/MapMarker_Marker_Outside_Chartreuse.png';
-          case 'xiyobon':
-            return 'https://freesvg.org/img/ts-map-pin.png';
-          case 'boshqa':
-            return 'https://cdn-icons-png.flaticon.com/512/6284/6284577.png';
-          default:
-            return '';
-        }
-      }
-
+      // camera
 
       var iWind = 0;
       let camera_status_interval_id;
@@ -1079,7 +1188,7 @@
       $('#markerModal').on('hidden.bs.modal', function() {
           $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/online.svg") no-repeat center center');
           $("#controller").hide();
-          $(".camera_active").html(`1`);
+          // $(".camera_active").html(`1`);
           $('#obj_camera_name').html('');
           counter = 0;
           jsDecoder.JS_Stop(iWind).then(function() {
@@ -1108,21 +1217,41 @@
       let is_played = false;
       async function get_camera() {
           $('#change_camera').empty();
+          $('#body_change_camera').empty();
           $(".camera_length").html(fetched_camera.length);
+          $(".body_camera_length").html(fetched_body?.length || 0);
 
           arrangeWindow(1);
           fetched_camera.forEach((item, index) => {
               if (item.status == 1) {
-                  $('#change_camera').append(`<a href="#" class="dropdown-item camera_item g_status" tabindex="-1" data-toggle="tab" 
+                  $('#change_camera').append(`<a href="#" class="dropdown-item camera_item g_status" tabindex="-1" data-id="${item.id}" data-toggle="tab" 
                       style="font-size:22px;" ptz="${item.isptz}" cam_index="${item.cam_index}" el_count="${index}" 
                       status="${item.status}" playURL="${item.url}">${item.comment}</a>`)
                   
               } else {
-                  $('#change_camera').append(`<a href="#" class="dropdown-item camera_item r_status" tabindex="-1" 
+                  $('#change_camera').append(`<a href="#" class="dropdown-item camera_item r_status" tabindex="-1" data-id="${item.id}"
                       data-toggle="tab" style="font-size:22px;" ptz="${item.isptz}" cam_index="${item.cam_index}" 
                       el_count="${index}" status="${item.status}" playURL="${item.url}">${item.comment}</a>`)
               }
           })
+  
+          fetched_body?.forEach((item, index) => {
+              if (item.status == 1) {
+                  $('#body_change_camera').append(`<a href="#" class="dropdown-item camera_item g_status" tabindex="-1" data-id="${item.id}" data-toggle="tab" 
+                      style="font-size:22px;" ptz="0" cam_index="${item.cam_index}" el_count="${index}" 
+                      status="${item.status}" playURL="${item.url}">${item.comment}</a>`)
+                  
+              } else {
+                  $('#body_change_camera').append(`<a href="#" class="dropdown-item camera_item r_status" tabindex="-1" data-id="${item.id}" 
+                      data-toggle="tab" style="font-size:22px;" ptz="0" cam_index="${item.cam_index}" 
+                      el_count="${index}" status="${item.status}" playURL="${item.url}">${item.comment}</a>`)
+              }
+          })
+          $("#body_current_camera").html(fetched_body[0].comment);
+
+
+
+
           $("#current_camera").html(fetched_camera[0].comment);
           let playURL = fetched_camera[0].url;
           // const current_status = await get_camera_status(fetched_camera[0].cam_index);
@@ -1146,7 +1275,7 @@
               $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
           }
 
-          $(".camera_active").html(`1`);
+          // $(".camera_active").html(`1`);
           $(".camera_length").html(fetched_camera.length);
 
           // camera_status_interval_id = setInterval(() => {
@@ -1163,22 +1292,22 @@
           // }, camera_status_interval_time);
       }
       async function get_body_camera() {
-          $('#change_camera').empty();
+          $('#body_change_camera').empty();
           arrangeWindow(1);
           fetched_body.forEach((item, index) => {
               if (item.status == 1) {
-                  $('#change_camera').append(`<a href="#" class="dropdown-item camera_item g_status" tabindex="-1" data-toggle="tab" 
-                      style="font-size:22px;" ptz="${item.isptz}" cam_index="${item.cam_index}" el_count="${index}" 
+                  $('#body_change_camera').append(`<a href="#" class="dropdown-item camera_item g_status" tabindex="-1" data-toggle="tab" 
+                      style="font-size:22px;" ptz="0" cam_index="${item.cam_index}" el_count="${index}" 
                       status="${item.status}" playURL="${item.url}">${item.comment}</a>`)
                   
               } else {
-                  $('#change_camera').append(`<a href="#" class="dropdown-item camera_item r_status" tabindex="-1" 
-                      data-toggle="tab" style="font-size:22px;" ptz="${item.isptz}" cam_index="${item.cam_index}" 
+                  $('#body_change_camera').append(`<a href="#" class="dropdown-item camera_item r_status" tabindex="-1" 
+                      data-toggle="tab" style="font-size:22px;" ptz="0" cam_index="${item.cam_index}" 
                       el_count="${index}" status="${item.status}" playURL="${item.url}">${item.comment}</a>`)
               }
           })
           
-          $("#current_camera").html(fetched_body[0].comment);
+          $("#body_current_camera").html(fetched_body[0].comment);
           let playURL = fetched_body[0].url;
           if (fetched_body[0].status) {
               jsDecoder.JS_Play(playURL, { playURL }, 0).then(
@@ -1192,20 +1321,20 @@
                       is_played = false;
                       $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
                   });
-              $("#current_camera").html(fetched_body[0].comment);
+              $("#body_current_camera").html(fetched_body[0].comment);
           } else {
               is_played = false; 
               $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
           }
 
-          $(".camera_active").html(`1`);
-          $(".camera_length").html(fetched_body.length);
+          $(".body_camera_length").html(fetched_body.length);
       }
 
       $(document).on('click', '#change_camera a', async function() {
           $("#current_camera").html($(this).text());
           $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/online.svg") no-repeat center center');
           $("#controller").hide();
+          
           let ptz = $(this).attr("ptz");
           let cam_index = $(this).attr("cam_index");
           let el_count = parseInt($(this).attr("el_count"));
@@ -1214,7 +1343,7 @@
           let this_cam_item = $(this);
           var classValue = this_cam_item.attr('class');
           var remove_class = classValue.split(' ')[2];
-          $(".camera_active").html(el_count + 1);
+          // $(".camera_active").html(el_count + 1);
 
           // const current_status = await get_camera_status(cam_index);
           const current_status = 1;
@@ -1229,7 +1358,79 @@
                     jsDecoder.JS_Play(playURL, { playURL }, 0).then(
                         function() { 
                             console.log("realplay success");
-                            $(".camera_active").html(`${el_count + 1}`)
+                            // $(".camera_active").html(`${el_count + 1}`)
+                            cam_idx_code = cam_index;
+                            if (ptz == 1) $("#controller").show();
+                            is_played = true; 
+                        },
+                        function() { 
+                            console.log("realplay failed");
+                            is_played = false;
+                            $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
+                            StopRealPlayAll();
+                        }
+                    );
+                }, function() {
+                    StopRealPlayAll();
+                    console.log("stop failed");
+                    $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
+                });
+            } else {
+                if (ptz == 1) $("#controller").show();
+                jsDecoder.JS_Play(playURL, { playURL }, 0).then(
+                    function() { 
+                        console.log("realplay success");
+                        is_played = true;
+                        cam_idx_code = cam_index;
+                    },
+                    function() { 
+                        console.log("realplay failed");
+                        is_played = false;
+                        $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
+                        StopRealPlayAll();
+                    }
+                );
+            }
+          } else {
+              this_cam_item.removeClass(remove_class).addClass('r_status');
+              $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
+              if (is_played) {
+                  jsDecoder.JS_Stop(iWind).then(
+                      function() { is_played = false; console.log("stop success"); }, 
+                      function() { console.log("stop failed"); });
+                  StopRealPlayAll();
+              }
+          }
+      });
+      $(document).on('click', '#body_change_camera a', async function() {
+          $("#body_current_camera").html($(this).text());
+          $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/online.svg") no-repeat center center');
+          $("#controller").hide();
+          
+          let ptz = $(this).attr("ptz");
+          let cam_index = $(this).attr("cam_index");
+          let el_count = parseInt($(this).attr("el_count"));
+          let playURL = $(this).attr("playURL");
+          let status = $(this).attr("status");
+          let this_cam_item = $(this);
+          var classValue = this_cam_item.attr('class');
+          var remove_class = classValue.split(' ')[2];
+          // $(".camera_active").html(el_count + 1);
+
+          // const current_status = await get_camera_status(cam_index);
+          const current_status = 1;
+          if (current_status) {
+            console.log('working');
+            
+            this_cam_item.removeClass(remove_class).addClass('g_status');
+            if (is_played) {
+                jsDecoder.JS_Stop(0).then(function() {
+                    StopRealPlayAll();
+                    console.log("stop success");
+                    jsDecoder.JS_Play(playURL, { playURL }, 0).then(
+                        function() { 
+                            console.log("realplay success");
+                            // $(".camera_active").html(`${el_count + 1}`)
                             cam_idx_code = cam_index;
                             if (ptz == 1) $("#controller").show();
                             is_played = true; 

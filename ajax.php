@@ -875,6 +875,7 @@ switch ($Action) {
 		$limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
 		$start = ($page - 1) * $limit;
 
+		$ImpactAreas = [];
 		$query  = "SELECT t.id, s.name{$slang} as structure, d.name{$slang} as division, t.division_child,
 		ST_AsGeoJSON(ST_FlipCoordinates(t.geom)) AS geom
 		FROM hr.impact_area t 
@@ -889,7 +890,28 @@ switch ($Action) {
 		}
 		$query .= " ORDER BY t.id desc LIMIT {$limit} OFFSET {$start}";
 		$sql->query($query);
-		$ImpactAreas = $sql->fetchAll();
+		while ($row = $sql->fetchAssoc()) {
+			$row['id'] = (int)$row['id'];
+			$ImpactAreas[] = $row;
+		}
+
+		//total count
+		$count_query = "SELECT COALESCE(COUNT(*) , 0) as total FROM hr.impact_area t WHERE 1=1 ";
+		if ($structure_id > 0) {
+			$count_query .= " AND t.structure_id = {$structure_id} ";
+		}
+		if ($division_id > 0) {
+			$count_query .= " AND t.division_id = {$division_id} ";
+		}
+		$sql->query($count_query);
+		$total_count = $sql->fetchAssoc();
+
+		$ImpactAreas = [
+			'page' => $page,
+			'limit' => $limit,
+			'total' => (int)$total_count['total'],
+			'data' => $ImpactAreas
+		];
 
 		$res = json_encode($ImpactAreas);
 		break;

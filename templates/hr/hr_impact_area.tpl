@@ -268,6 +268,10 @@
         const url = editId
           ? `${HRAJAXPHP}?act=act_impact_area&rowid=${editId}`
           : `${HRAJAXPHP}?act=act_impact_area`;
+          
+        if(editId){
+          payload.id = editId
+        }
 
         $.ajax({
           url,
@@ -316,6 +320,7 @@
               success: function(response) {
                 const data = response;
                 document.getElementById("structure_id").value = data.structure_id;
+                getDivisionOptions(data.structure_id, data.division_id)
                 document.getElementById("division_id").value = data.division_id;
                 document.getElementById("division_child").value = data.division_child;
               
@@ -337,6 +342,10 @@
 
     $('#structure_id').on('change', function() {
       var id = this.value;
+      getDivisionOptions(id)
+    })
+
+    function getDivisionOptions(id, correct_id) {
       $('#division_id').empty()
       $.ajax({
         url: `${AJAXPHP}?act=get_divisions&structure_id=${id}`,
@@ -349,13 +358,14 @@
               <option value="${item.id}">${item.name}</option>
             `)
           })
+          document.getElementById("division_id").value = correct_id;
           
         },
         error: function(xhr, status, error) {
           console.error('AJAX error:', error);
         }
       });
-    })
+    }
 
     function renderMap(existingCoords){
       
