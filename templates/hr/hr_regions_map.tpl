@@ -1091,7 +1091,7 @@
       setInterval(() => {
         if(document.querySelector('#dialogMap')){
           $.ajax({
-            url: `${AJAXPHP}?act=get_bodycam_location&id=${params?.data?.id}`,
+            url: `${AJAXPHP}?act=get_bodycam_location&id=${params?.id}`,
             type: 'GET',
             dataType: 'json',
             success: function(response) {
