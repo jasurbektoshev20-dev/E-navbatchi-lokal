@@ -915,6 +915,92 @@ switch ($Action) {
 
 		$res = json_encode($ImpactAreas);
 		break;
+
+	case "get_mpg_by_id":
+		$id = isset($_GET['id']) ? $_GET['id'] : 6;
+
+		$Data= [];
+		$car_ids = [];
+		$query = "SELECT 
+            uzg.id,
+            s.shortname{$slang} AS region,
+            cr.plate_number AS plate_number,
+            uzg.angle,
+            uzg.lat,
+            uzg.lon,
+            uzg.speed,
+            TO_CHAR(uzg.tp_timestamp_fmt, 'DD.MM.YYYY HH24:MI') AS time,
+            cm.name AS car_name,
+            cm.photo AS car_photo,
+            cm.car_width,
+            cm.car_height
+        FROM reports.uzgps uzg
+        INNER JOIN hr.tech_guard_cars cr ON cr.uzgps_id = uzg.mobject_id
+        LEFT JOIN hr.structure s ON s.id = cr.structure_id
+        LEFT JOIN ref.car_models cm ON cm.id = cr.car_model_id
+        WHERE cr.id = {$id} ";
+		$sql->query($query);
+		$Track = $sql->fetchAssoc();
+		$Data['car'] = $Track;
+
+
+		$query  = "SELECT t.id, CONCAT(r.name{$slang}, ' ', s.lastname, ' ', s.firstname, ' ', s.surname) AS staff_name,
+		s.phone, s.photo, t.bodycam_id
+		FROM hr.dailiy_routine_date t 
+		LEFT JOIN hr.staff s ON s.id = t.staff_id
+		LEFT JOIN ref.ranks r ON r.id = s.rank_id
+		WHERE t.car_id = {$id}
+		ORDER BY t.id desc ";
+		$sql->query($query);
+		$Staffs = $sql->fetchAll();
+		$Data['staffs'] = $Staffs;
+
+		
+		$BodyCamUrl = [];
+		$Bodys = [];
+		if (isset($Staffs)) {
+			foreach ($Staffs as $key => $value) {
+				if (isset($value['bodycam_id'])) {
+					$query  = "SELECT t.id, t.cam_code, t.comment
+					FROM hr.body_cameras t 
+					WHERE t.id = {$value['bodycam_id']}";
+					$sql->query($query);
+					$Bodys = $sql->fetchAll();
+				}
+			}
+		}
+
+
+		if ($Bodys) {
+			foreach ($Bodys as $bkey => $body_c) {
+				$bodycamindex = $body_c['cam_code'];
+				$bodyCamId = $body_c['id'];
+				$comment = $body_c['comment'];
+
+				$dataBodyCam = GetCamUrl($bodycamindex);
+				if (isset($dataBodyCam['data']['url'])) {
+					$BodyCamUrl[] = [
+						'id' => $bodyCamId,
+						'url' => $dataBodyCam['data']['url'],
+						'status' => 1,
+						'cam_index' => $bodycamindex,
+						'comment' => $comment
+					];
+				} else {
+					$BodyCamUrl[] = [
+						'id' => $bodyCamId,
+						'url' => '',
+						'status' => 0,
+						'cam_index' => $bodycamindex,
+						'comment' => $comment
+					];
+				}
+			}
+		}
+		$Data['cams'] = $BodyCamUrl;
+
+		$res = json_encode($Data);
+		break;
 }
 
 // echo iconv("cp1251", "UTF-8", $res);
