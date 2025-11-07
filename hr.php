@@ -639,7 +639,8 @@ switch ($Act) {
 
 	case "hr_jts_objects_camera":
 		$object_id = ($_GET['id']);
-		$query  = "SELECT t.id, t.name, t.cam_code, t.is_ptz
+		$query  = "SELECT t.id, t.name, t.cam_code,  t.lat, t.long,
+		case when t.is_ptz then 'PTZ' else 'No PTZ' end as is_ptz 
 		FROM hr.jts_objects_camera t 
 		WHERE t.object_id = {$object_id}
 		ORDER BY t.id desc ";

@@ -738,7 +738,7 @@ switch ($Action) {
 		}
 
 
-		$query  = "SELECT t.id, t.cam_code, t.name,
+		$query  = "SELECT t.id, t.cam_code, t.name, t.lat, t.long,
 		case when t.is_ptz then 1 else 0 end as is_ptz
 		FROM hr.jts_objects_camera t 
 		WHERE t.object_id = {$JtsObject['id']}";
@@ -752,6 +752,8 @@ switch ($Action) {
 				$camId = $cam_c['id'];
 				$IsPtz = $cam_c['is_ptz'];
 				$comment = $cam_c['name'];
+				$lat = $cam_c['lat'];
+				$long = $cam_c['long'];
 
 				$dataCam = GetCamUrl($camindex);
 				if (isset($dataCam['data']['url'])) {
@@ -761,7 +763,9 @@ switch ($Action) {
 						'isptz' => $IsPtz,
 						'status' => 1,
 						'cam_index' => $camindex,
-						'comment' => $comment
+						'comment' => $comment,
+						'lat' => $lat,
+						'long' => $long
 					];
 				} else {
 					$CamUrl[] = [
@@ -770,7 +774,9 @@ switch ($Action) {
 						'status' => 0,
 						'isptz' => $IsPtz,
 						'cam_index' => $camindex,
-						'comment' => $comment
+						'comment' => $comment,
+						'lat' => $lat,
+						'long' => $long
 					];
 				}
 			}
