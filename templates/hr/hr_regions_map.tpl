@@ -248,6 +248,11 @@
       height: 20px;
 
     }
+    .body-marker {
+      width: 20px;
+      height: 20px;
+
+    }
     .car-marker {
       border-radius: 50%;
       box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
@@ -568,6 +573,7 @@
 
       let fetched_camera, fetched_body;
 
+      let bodyCameraMarkers = {};
       // O‘zbekiston markazi koordinatalari
       const uzbekistanCenter = [41.2995, 69.2401]; // Toshkent markazi
 
@@ -805,6 +811,7 @@
       // --- Dastlab yuklanganda chizish ---
       map.on('load', ()=>{
         drawPolygon()
+
         // ✅ 2. DOOR markerlar (eshiklar)
         if (Array.isArray(params.door)) {
           params.door.forEach(door => {
@@ -890,7 +897,6 @@
               .addTo(map);
           });
         }
-        // ✅ 4. Camera marker
         if (Array.isArray(params.body_cameras)) {
           params.body_cameras.forEach(camera => {
             const lat = parseFloat(camera.lat);
@@ -898,7 +904,7 @@
             if (isNaN(lat) || isNaN(lon)) return;
 
             const el = document.createElement('div');
-            el.className = 'custom-marker';
+            el.className = 'body-marker';
             el.style.backgroundImage = `url('/assets/images/policeman.png')`;
             el.style.backgroundSize = 'cover';
             el.title = camera.comment;
@@ -935,11 +941,21 @@
 
             const popup = new mapboxgl.Popup({ offset: 15 }).setHTML(popupHTML);
 
-            new mapboxgl.Marker(el)
+            const marker = new mapboxgl.Marker(el)
               .setLngLat([lon, lat])
               .setPopup(popup)
               .addTo(map);
-            });
+              
+              
+              
+              // Marker va pozitsiyani saqlaymiz
+              bodyCameraMarkers[camera.id] = {
+                marker,
+                current: { lat, lon },
+                target: { lat, lon }
+              };
+          });
+
         }
 
         // ✅ 5. SOS markerlar
@@ -1065,9 +1081,48 @@
     }
 
 
+    setInterval(() => {
+        $.ajax({
+          url: `${AJAXPHP}?act=get_bodycam_location`,
+          type: 'GET',
+          dataType: 'json',
+          success: function(response) {
+            
+          }
+        })
+    }, 1000);
 
 
+    // Funksiya: yangi koordinatalarni yangilash (socket orqali)
+    function updateCameraPosition(id, newLat, newLon) {
+      const camera = bodyCameraMarkers[id];
+      if (!camera) return;
 
+      // Yangi target koordinatalarni o‘rnatamiz
+      camera.target = { lat: newLat, lon: newLon };
+    }
+
+    // Smooth animatsiya loop
+    function animateMarkers() {
+      Object.values(bodyCameraMarkers).forEach(item => {
+        const { current, target, marker } = item;
+
+        // Harakat yo‘q bo‘lsa skip
+        if (!target) return;
+
+        // Harakatni asta o‘zgartiramiz (0.1 = tezlik)
+        const speed = 0.1;
+        const lat = current.lat + (target.lat - current.lat) * speed;
+        const lon = current.lon + (target.lon - current.lon) * speed;
+
+        // Yangilaymiz
+        item.current = { lat, lon };
+        marker.setLngLat([lon, lat]);
+      });
+
+      // 60 FPS refresh
+      requestAnimationFrame(animateMarkers);
+    }
 
 
 
