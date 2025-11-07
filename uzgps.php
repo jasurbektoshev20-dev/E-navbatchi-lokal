@@ -39,6 +39,8 @@ $query = "SELECT
             cm.car_height
         FROM reports.uzgps uzg
         INNER JOIN hr.tech_guard_cars cr ON cr.uzgps_id = uzg.mobject_id
+        LEFT JOIN hr.dailiy_routine_date drd ON drd.car_id = cr.id
+        LEFT JOIN hr.daily_routine dr ON dr.id = drd.routine_id AND dr.date = CURRENT_DATE
         LEFT JOIN hr.structure s ON s.id = cr.structure_id
         LEFT JOIN ref.car_models cm ON cm.id = cr.car_model_id
         WHERE 1=1 ";

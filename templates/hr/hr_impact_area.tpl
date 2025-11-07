@@ -19,7 +19,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body d-flex justify-content-between">
-                    <h4>JTSB obyektlari</h4>
+                    <h4>Ta'sir hududlari</h4>
                     <button id="new" type="button" class="btn btn-primary waves-effect waves-light">
                         <i class="menu-icon tf-icons ti ti-plus"></i> Qo‘shish
                     </button>
@@ -132,6 +132,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
 
+<!-- 🧩 Fullscreen plugin -->
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css" />
+<script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
 
 <script src="/assets/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
 <script src="/assets/assets/vendor/libs/sweetalert2/sweetalert2.js"></script>
@@ -375,6 +378,15 @@
       setTimeout(() => {
         map.invalidateSize();
       }, 300);
+
+      // 🧩 Fullscreen tugmasi
+      map.addControl(new L.Control.Fullscreen({
+        position: 'topleft', // joylashuvi (topleft, topright, bottomleft, bottomright)
+        title: {
+          'false': 'To‘liq ekranga o‘tish',
+          'true': 'To‘liq ekrandan chiqish'
+        }
+      }));
 
       // Poligonlar uchun qatlam guruhi
       const drawnItems = new L.FeatureGroup();
