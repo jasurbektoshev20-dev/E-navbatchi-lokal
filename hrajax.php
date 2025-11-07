@@ -1538,7 +1538,7 @@ switch ($Action) {
             $epikirofka_pg_array_string = 'NULL';
         }
 
-     
+
 
         $LastId = null; // So'nggi qo'shilgan ID ni saqlash uchun
         $success = true;
@@ -1604,7 +1604,7 @@ switch ($Action) {
                 $sql->query("SELECT CURRVAL('hr.dailiy_routine_date_id_seq') AS last_id;");
                 $result = $sql->fetchAssoc();
                 $LastId = $result['last_id'];
-                $res =0;
+                $res = 0;
             }
         }
         break;
@@ -2169,7 +2169,143 @@ switch ($Action) {
             $res = 2;
         }
         break;
-        /// current_operative_group =======================================================
+    /// current_operative_group =======================================================
+
+    /// impact_area =====================================================
+    case "get_impact_area":
+        $RowId = $_GET['rowid'];
+
+        $query = "SELECT t.*, ST_AsGeoJSON(ST_FlipCoordinates(t.geom)) AS geom from hr.impact_area t where t.id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+        $result['rowid'] = MyPiCrypt($result['id']);
+
+        $res = json_encode($result);
+        break;
+
+    case "act_impact_area":
+        $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
+        $structure_id = $_POST['structure_id'];
+        $division_id = $_POST['division_id'];
+        $division_child = $_POST['division_child'];
+
+
+        $geom_raw = isset($_POST['geom']) ? trim($_POST['geom']) : null;
+        if (!$geom_raw) {
+            die(json_encode(['error' => 'geom not provided']));
+        }
+
+        // decode JSON
+        $coords = json_decode($geom_raw, true);
+        if (!is_array($coords) || count($coords) === 0) {
+            die(json_encode(['error' => 'Invalid geom JSON']));
+        }
+
+        // Detect order and build WKT pairs (lng lat)
+        $pairs = [];
+        // Peeking first pair to decide likely order
+        $first = $coords[0];
+
+        // Heuristika:
+        // - Agar birinchi koordinata > 90 yoki < -90 — yuqori ehtimol bilan u LONGitude (lng) bo'lib, tartib = [lng, lat]
+        // - Aks holda (ko‘pincha) frontendlar [lat, lng] yuboradi — shunda biz swap qilamiz.
+        $likely_order_lng_first = (abs($first[0]) > 90 || abs($first[0]) > abs($first[1]) && abs($first[0]) <= 180);
+
+        // Agar aniq bo‘lmasa, bu heuristika hammasini qoplay olmaydi; lekin ko‘pchilik holatlarda to‘g‘ri ishlaydi.
+
+        foreach ($coords as $c) {
+            if (!is_array($c) || count($c) < 2) {
+                continue; // noqulay juftlikni o‘tkazib yubor
+            }
+            $a = (float)$c[0];
+            $b = (float)$c[1];
+
+            if ($likely_order_lng_first) {
+                // [lng, lat]
+                $lng = $a;
+                $lat = $b;
+            } else {
+                // assume [lat, lng] -> swap
+                $lng = $b;
+                $lat = $a;
+            }
+
+            // basic validation (lat in -90..90, lng in -180..180)
+            if ($lat < -90 || $lat > 90 || $lng < -180 || $lng > 180) {
+                // agar noaniq koordinata bo'lsa, o'tkazib yubor yoki xato qaytar
+                continue;
+            }
+
+            $pairs[] = $lng . ' ' . $lat;
+        }
+
+        // Poligon uchun kamida 4 nuqta (closing bilan) kerak: A,B,C,A -> coords length >= 3
+        if (count($pairs) < 3) {
+            die(json_encode(['error' => 'Not enough points for polygon']));
+        }
+
+        // Yopish: birinchi juftlikni oxiriga qo‘shamiz, agar kerak bo‘lsa
+        if ($pairs[0] !== $pairs[count($pairs) - 1]) {
+            $pairs[] = $pairs[0];
+        }
+
+        $wkt = 'POLYGON((' . implode(',', $pairs) . '))';
+
+        if ($RowId != "0") {
+
+            $photo_sql = $photo_name ? ", photo = '{$photo_name}'" : "";
+            // Update existing record
+            $updquery = "UPDATE hr.impact_area SET
+                structure_id = '{$structure_id}',
+                division_id = '{$division_id}',
+                division_child = '{$division_child}',
+                geom = ST_GeomFromText('{$wkt}', 4326)
+                WHERE id = {$RowId}";
+            $sql->query($updquery);
+            if ($sql->error() == "") {
+                $res = "0<&sep&>" . MyPiCrypt($RowId);
+            } else {
+                $res = $sql->error();
+            }
+        } else {
+            // Insert new record
+            $insquery = "INSERT INTO hr.impact_area (
+                    structure_id,
+                    division_id,
+                    division_child,
+                    geom
+                ) VALUES (
+                    '{$structure_id}',
+                    '{$division_id}',
+                    '{$division_child}',
+                    ST_GeomFromText('{$wkt}', 4326)
+                )";
+            $sql->query($insquery);
+            if ($sql->error() == "") {
+                $sql->query("SELECT CURRVAL('hr.impact_area_id_seq') AS last_id;");
+                $result = $sql->fetchAssoc();
+                $LastId = $result['last_id'];
+                $res = "0<&sep&>" . MyPiCrypt($LastId);
+            } else {
+                $res = $sql->error();
+            }
+        }
+        break;
+
+    case "del_impact_area":
+        $RowId = $_GET['rowid'];
+
+        $query = "DELETE FROM hr.impact_area WHERE id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+
+        if ($sql->error() == "") {
+            $res = 0;
+        } else {
+            $res = 2;
+        }
+        break;
+        /// impact_area ========
 
 }
 echo $res;
