@@ -965,9 +965,10 @@ switch ($Action) {
 		$query  = "SELECT t.id, CONCAT(r.name{$slang}, ' ', s.lastname, ' ', s.firstname, ' ', s.surname) AS staff_name,
 		s.phone, s.photo, t.bodycam_id
 		FROM hr.dailiy_routine_date t 
+		LEFT JOIN hr.daily_routine d ON d.id = t.routine_id
 		LEFT JOIN hr.staff s ON s.id = t.staff_id
 		LEFT JOIN ref.ranks r ON r.id = s.rank_id
-		WHERE t.car_id = {$id}
+		WHERE d.date = CURRENT_DATE AND t.car_id = {$id}
 		ORDER BY t.id desc ";
 		$sql->query($query);
 		$Staffs = $sql->fetchAll();
