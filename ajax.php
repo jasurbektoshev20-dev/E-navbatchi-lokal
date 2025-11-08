@@ -1039,7 +1039,7 @@ switch ($Action) {
 		$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
 
 		// 1) Statistika (COUNT)
-		$query = "SELECT COUNT(t.id) as value, b.name{$slang} as name
+		$query = "SELECT COUNT(t.id) as value, b.id, b.name{$slang} as name
 		FROM hr.jts_objects t
 		LEFT JOIN hr.involved_objects b ON b.id = t.object_type
 		WHERE 1=1 ";
