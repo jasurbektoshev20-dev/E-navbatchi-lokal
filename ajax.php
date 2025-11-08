@@ -1039,7 +1039,7 @@ switch ($Action) {
 		$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
 
 		// 1) Statistika (COUNT)
-		$query = "SELECT COUNT(t.id) as value, b.name{$slang} as name
+		$query = "SELECT COUNT(t.id) as value, b.id, b.name{$slang} as name
 		FROM hr.jts_objects t
 		LEFT JOIN hr.involved_objects b ON b.id = t.object_type
 		WHERE 1=1 ";
@@ -1055,15 +1055,39 @@ switch ($Action) {
 		$sql->query($query);
 		$stats = $sql->fetchAll();
 
+		// 2) Statistika hududlar kesimida
+		$regionQuery = "SELECT 
+				s.id,
+				s.name{$slang} as name,
+				COUNT(t.id) as value
+			FROM hr.jts_objects t
+			LEFT JOIN hr.structures s ON s.id = t.structure_id
+			WHERE 1=1
+		";
 
-		// 2) Ob'ektlar ro'yxati (id, location, type nomi va boshqalar)
+		if ($UserStructure > 1) {
+			$regionQuery .= " AND t.structure_id = {$UserStructure} ";
+		}
+		if ($structure_id > 0) {
+			$regionQuery .= " AND t.structure_id = {$structure_id} ";
+		}
+
+		$regionQuery .= " GROUP BY s.id ORDER BY s.id ASC";
+
+		$sql->query($regionQuery);
+		$stat_region = $sql->fetchAll();
+
+
+		// 3) Ob'ektlar ro'yxati
 		$listQuery = "SELECT 
-			t.id,
-			t.object_name,
-			b.name{$slang} AS type_name
-		FROM hr.jts_objects t
-		LEFT JOIN hr.involved_objects b ON b.id = t.object_type
-		WHERE 1=1 ";
+				t.id,
+				t.object_name,
+				b.id as type_id,
+				b.name{$slang} AS type_name
+			FROM hr.jts_objects t
+			LEFT JOIN hr.involved_objects b ON b.id = t.object_type
+			WHERE 1=1
+		";
 
 		if ($UserStructure > 1) {
 			$listQuery .= " AND t.structure_id = {$UserStructure} ";
@@ -1072,15 +1096,39 @@ switch ($Action) {
 			$listQuery .= " AND t.structure_id = {$structure_id} ";
 		}
 
-		$listQuery .= " ORDER BY t.id ASC";
+		$listQuery .= " ORDER BY b.name{$slang} ASC, t.object_name ASC";
 
 		$sql->query($listQuery);
 		$list = $sql->fetchAll();
 
+
+		// 3) Guruhlash (type → object list)
+		$grouped = [];
+		foreach ($list as $row) {
+			$typeId = $row['type_id'];
+
+			if (!isset($grouped[$typeId])) {
+				$grouped[$typeId] = [
+					"id" => $typeId,
+					"name" => $row['type_name'],
+					"objects" => []
+				];
+			}
+
+			$grouped[$typeId]["objects"][] = [
+				"id" => $row['id'],
+				"object_name" => $row['object_name']
+			];
+		}
+
+		// Convert to numeric array
+		$grouped = array_values($grouped);
+
 		// Final response
 		$res = json_encode([
 			"stats" => $stats,
-			"list" => $list
+			"list" => $grouped,
+			"stat_region" => $stat_region
 		]);
 		break;
 }
