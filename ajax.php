@@ -1061,7 +1061,7 @@ switch ($Action) {
 				s.name{$slang} as name,
 				COUNT(t.id) as value
 			FROM hr.jts_objects t
-			LEFT JOIN hr.structures s ON s.id = t.structure_id
+			LEFT JOIN hr.structure s ON s.id = t.structure_id
 			WHERE 1=1
 		";
 
