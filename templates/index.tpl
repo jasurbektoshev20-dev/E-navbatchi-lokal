@@ -358,7 +358,15 @@
   var dict_by_month = "{$Dict.begin_month}";
   var dict_by_year = "{$Dict.one_year}";
   {literal}
+    let region_id;
     $(document).ready(function() {
+
+
+
+
+
+
+
       // Send AJAX request when page is loaded
       $.ajax({
         url: `${AJAXPHP}?act=get_object_types`,
@@ -394,190 +402,28 @@
       },
     ]
 
-    // function all_events(data, total) {
-    //     let maxEvents = -Infinity;
-    //     let maxReydEvents = -Infinity;
-    //     data.data.forEach(obj => {
-    //         maxEvents = Math.max(maxEvents, parseInt(obj.events)) + 2;
-    //         maxReydEvents = Math.max(maxReydEvents, parseInt(obj.reyd_events)) + 2;
-    //     });
-
-    //     function calculateAverages(data) {
-    //         const averagedData = data.data.map(entry => {
-    //             const avgEvents = ((parseInt(entry.events) + parseInt(entry.reyd_events)) / 2);
-    //             return avgEvents;
-    //         });
-
-    //         return averagedData;
-    //     }
-
-    //     var dom = document.getElementById('all_events');
-    //     var myChart = echarts.init(dom);
-    //     var option = {
-    //         textStyle: {
-    //             fontFamily: "Arial, sans-serif"
-    //         },
-    //         tooltip: {
-    //             trigger: 'axis',
-    //             axisPointer: {
-    //                 type: 'cross',
-    //                 crossStyle: {
-    //                     color: '#999'
-    //                 }
-    //             }
-    //         },
-    //         toolbox: {
-    //             iconStyle: {
-    //                 normal: {
-    //                     color
-    //                 }
-    //             },
-    //             feature: {
-    //                 magicType: { show: true, type: ['line', 'bar'] },
-    //                 saveAsImage: { show: true }
-    //             }
-    //         },
-    //         legend: {
-    //             textStyle: {
-    //                 color,
-    //             },
-    //             data: data.legend,
-    //             bottom: 0
-    //         },
-    //         xAxis: [{
-    //             type: 'category',
-    //             axisLabel: {
-    //                 color
-    //             },
-    //             data: data.data.map(item => item.date),
-    //             axisPointer: {
-    //                 type: 'shadow'
-    //             },
-    //         }],
-    //         yAxis: [{
-    //                 type: 'value',
-    //                 min: 0,
-    //                 max: maxEvents,
-    //                 splitLine: {
-    //                     lineStyle: {
-    //                         color: '#484d69' // Change the color here
-    //                     }
-    //                 },
-    //                 axisLabel: {
-    //                     formatter: '{value}',
-    //                     color
-    //                 }
-    //             },
-    //             {
-    //                 type: 'value',
-    //                 min: 0,
-    //                 max: maxReydEvents,
-    //                 splitLine: {
-    //                     lineStyle: {
-    //                         color: '#484d69' // Change the color here
-    //                     }
-    //                 },
-    //                 axisLabel: {
-    //                     formatter: '{value}',
-    //                     color
-    //                 }
-    //             }
-    //         ],
-    //         series: [{
-    //                 name: data.legend[0],
-    //                 type: 'bar',
-    //                 smooth: true,
-    //                 lineStyle: {
-    //                     width: 3
-    //                 },
-    //                 tooltip: {
-    //                     valueFormatter: function(value) {
-    //                         return value;
-    //                     }
-    //                 },
-    //                 itemStyle: {
-    //                     color: '#FFD581',
-    //                     borderRadius: [8, 8, 0, 0]
-    //                 },
-    //                 data: data.data.map(item => item.events)
-    //             },
-    //             {
-    //                 name: data.legend[1],
-    //                 type: 'bar',
-    //                 smooth: true,
-    //                 lineStyle: {
-    //                     width: 3
-    //                 },
-    //                 tooltip: {
-    //                     valueFormatter: function(value) {
-    //                         return value;
-    //                     }
-    //                 },
-    //                 itemStyle: {
-    //                     color: '#6DECB9',
-    //                     borderRadius: [8, 8, 0, 0]
-    //                 },
-    //                 data: data.data.map(item => item.reyd_events)
-    //             },
-    //             {
-    //                 name: dict_avaregae,
-    //                 type: 'line',
-    //                 smooth: true,
-    //                 lineStyle: {
-    //                     width: 3
-    //                 },
-    //                 yAxisIndex: 1,
-    //                 tooltip: {
-    //                     valueFormatter: function(value) {
-    //                         return value;
-    //                     }
-    //                 },
-    //                 itemStyle: {
-    //                     color: '#E9007F',
-    //                     borderRadius: [8, 8, 0, 0],
-    //                 },
-    //                 data: calculateAverages(data)
-    //             }
-    //         ]
-    //     };
-
-    //     if (option && typeof option === 'object') {
-    //         myChart.setOption(option);
-    //     }
-    //     window.addEventListener('resize', myChart.resize);
-    // }
-    // $.ajax({
-    //     type: "GET",
-    //     url: `${AJAXPHP}?act=all_events`,
-    //     dataType: "json",
-    //     encode: true,
-    //     success: function(data) {
-    //         all_events(data);
-    //     }
-    // })
 
 
     function getObjects() {
-        let url = `${AJAXPHP}?act=get_jts_map`;
-        let params = [];
-        // if (region_id) params.push(`region_id=${region_id}`);
-        // if (object_id) params.push(`object_id=${object_id}`);
-        // if (object_type) params.push(`object_type=${object_type}`);
+      let url = `${AJAXPHP}?act=jts_objects`;
+      let params = [];
+      if (region_id) params.push(`region_id=${region_id}`);
+      // if (object_id) params.push(`object_id=${object_id}`);
+      // if (object_type) params.push(`object_type=${object_type}`);
 
-        if (params.length > 0) url += '&' + params.join('&');
-        $.ajax({
-          url: url,
-          type: 'GET',
-          dataType: 'json',
-          success: function(response) {
-            if (!response && !response.length) return
-            all_events_by_type(defaultData4, totalValue4, 0);
-          },
-          error: function(xhr, status, error) {
-            console.error('AJAX error:', error);
-          }
-        })
-      
+      if (params.length > 0) url += '&' + params.join('&');
+      $.ajax({
+        url: url,
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+          if (!response && !response.stats) return
+          all_events_by_type(response.stats);
+        },
+        error: function(xhr, status, error) {
+          console.error('AJAX error:', error);
+        }
+      })
     }
 
     getObjects()
@@ -1533,7 +1379,7 @@ ${escapeHtml(ev.title)}
   };
 
 
-  function all_events_by_type(data, total, regionId = 0) {
+  function all_events_by_type(data) {
     const dom = document.getElementById('all_events_by_type');
     const myChart = echarts.init(dom);
     const colors = [
@@ -1550,7 +1396,8 @@ ${escapeHtml(ev.title)}
       "#FF6666", // qizil
 
     ];
-
+    
+    const total = data.reduce((sum, item) => sum + Number(item.value), 0);
 
     const option = {
       color: colors,
@@ -1585,7 +1432,7 @@ ${escapeHtml(ev.title)}
           shadowBlur: 20
         },
 
-        data: data.legend.map((name, i) => ({ name, value: data.data[i] }))
+        data: data.map((item) => ({ name: item.name, value: item.value }))
       }]
     };
 
@@ -1595,177 +1442,15 @@ ${escapeHtml(ev.title)}
     // ⚡ Avvalgi click eventni olib tashlaymiz
     myChart.off('click');
 
-    // ⚡ Chart bosilganda modal ochiladi
     myChart.on('click', function(params) {
-      const categoryName = params.name;
-      const selectedRegionId = parseInt($('#event_count').val()) || regionId;
-      const places = categoryPlacesByRegion[selectedRegionId]?. [categoryName] || [];
-
-      if (places.length === 0) return;
-
-      const regionName = publicFilters.find(f => f.id === selectedRegionId)?.name || "Hudud";
-      $('#chartModalLabel').text(`${regionName} bo'yicha : ${categoryName}`);
-
-      // joylar ro'yxati
-      let listHtml = `<ul class="place-list">`;
-      places.forEach((p, i) => listHtml += `<li class="${i === 0 ? 'active' : ''}">${p}</li>`);
-      listHtml += `</ul>`;
-      $('#chartModalList').html(listHtml);
-
-      // modal kontent
-      $('#chartModalDetail').html(`
-      <div class="">
-           <div class="space-main-modal-box">
-        <div class="row">
-            <div class="col-6">
-               <div class="space-main-head">
-<h4>${places[0]}</h4>
-               </div>
-                <div class="space-main-body-umumu">
-                  <div class="space-main-body-img">
-                    <img src="./templates/hr/img/bozor-tayyor.png" alt="">
-                  </div>
-                  <div class="row pt-3">
-                      <div class="col-4">
-                          <video width="100%" height="300" autoplay loop muted>
-                              <source src="/templates/hr/videos/video-4.mp4" type="video/mp4">
-                          </video>
-                      </div>
-                       <div class="col-4">
-                          <video width="100%" height="300" autoplay loop muted>
-                              <source src="/templates/hr/videos/video-5.mp4" type="video/mp4">
-                          </video>
-                      </div>
-                       <div class="col-4">
-                          <video width="100%" height="300" autoplay loop muted>
-                              <source src="/templates/hr/videos/video-6.mp4" type="video/mp4">
-                          </video>
-                      </div>
-                  </div>
-               </div>
-            </div>
-            <div class="col-3">
-               <div class="space-main-head">
-                     <h4>Pasport Ma'lumotlari</h4>
-               </div>
-                 <div class="space-main-body-password">
-                     <ul>
-                         <li>
-                          <img src="https://avatars.mds.yandex.net/get-altay/11203687/2a00000191df4ae274c345831af6ac067645/orig" alt="" style="height:400px; width:100%; object-fit:cover;">
-                        </li>
-                                             <li>
-                                                      <h6><span><svg xmlns="http://www.w3.org/2000/svg"   width="18" height="18" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
-                            <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
-                            <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
-                          </svg></span> Manzili: </h6>
-                                                      <p>Oʻzbekiston, Toshkent shahri, Nayman koʻchasi, 69</p>
-                                                                      </li>
-                                                                         <li>
-                                    <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dice-1" viewBox="0 0 16 16">
-                                    <circle cx="8" cy="8" r="1.5"/>
-                                    <path d="M13 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3z"/>
-                                  </svg></span> Hudud joylashgan mahalla: </h6>
-                                                      <p>Rohat mahallasi</p>
-                                                                      </li>
-                                                                        <li>
-                                                                          <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shop-window" viewBox="0 0 16 16">
-                            <path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.37 2.37 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0M1.5 8.5A.5.5 0 0 1 2 9v6h12V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5m2 .5a.5.5 0 0 1 .5.5V13h8V9.5a.5.5 0 0 1 1 0V13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5a.5.5 0 0 1 .5-.5"/>
-                          </svg></span> Savdo obyektlar soni: </h6>
-                                                                          <p>70 ta</p>
-                                                                      </li>
-                                                    <li>
-                                                      <h6><span><svg xmlns="http://www.w3.org/2000/svg"  width="18" height="18" fill="currentColor" class="bi bi-telephone-forward" viewBox="0 0 16 16">
-                            <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877zm10.762.135a.5.5 0 0 1 .708 0l2.5 2.5a.5.5 0 0 1 0 .708l-2.5 2.5a.5.5 0 0 1-.708-.708L14.293 4H9.5a.5.5 0 0 1 0-1h4.793l-1.647-1.646a.5.5 0 0 1 0-.708"/>
-                          </svg></span>Administrator telefon raqami: </h6>
-                                                      <p>+998 90 123-45-67 +998 91 123-45-67</p>
-                                                  </li>
-                                                  <li>
-                                                      <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-border-all" viewBox="0 0 16 16">
-                            <path d="M0 0h16v16H0zm1 1v6.5h6.5V1zm7.5 0v6.5H15V1zM15 8.5H8.5V15H15zM7.5 15V8.5H1V15z"/>
-                          </svg></span>Maydoni: </h6>
-                                                      <p>4046.86 m²</p>
-                                                                    </li>
-                                                                    <li> 
-                                                                        <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
-                          <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1"/>
-                          <path d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117M11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5M4 1.934V15h6V1.077z"/>
-                        </svg></span>Kirish chiqish eshiklar soni: </h6>
-                                                                        <p>4 ta</p>
-                                                                    </li>
-                                                  <li>
-                                                      <h6><span><svg xmlns="http://www.w3.org/2000/svg"  width="18" height="18" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
-                            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
-                          </svg></span>Bozor rahbari: </h6>
-                                                      <p>Berdiyev Muzaffar +998 90 234-76-90</p>
-                                                  </li>
-                                                  <li>
-                                                      <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
-                            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
-                          </svg></span>Bozor uchastkavoyi: </h6>
-                                                      <p>Toshev Jasurbek +998 91 233-76-96</p>
-                                                  </li>
-                                                  <li>
-                                                      <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-telephone-forward" viewBox="0 0 16 16">
-                            <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877zm10.762.135a.5.5 0 0 1 .708 0l2.5 2.5a.5.5 0 0 1 0 .708l-2.5 2.5a.5.5 0 0 1-.708-.708L14.293 4H9.5a.5.5 0 0 1 0-1h4.793l-1.647-1.646a.5.5 0 0 1 0-.708"/>
-                          </svg></span> Hamkor tashkilotlar aloqa: </h6>
-                                                      <p> IIV- +998 91 123-45-67 FVV- +998 97 851-12-23</p>
-                                                  </li>
-
-                     </ul>
-               </div>
-            </div>
-            <div class="col-3">
-                <div class="space-main-head">
-                     <h4>MG tomonidan ajratilgan kuch vositalar</h4>
-               </div>
-                 <div class="space-main-body-duty">
-                    <ul>
-                     <li class="alert alert-dark" role="alert">MG javobgar:  <span>leytenant Umrzakov Javohir </span> </li>
-                            <li class="alert alert-dark" role="alert">Jami shaxsiy tarkib:  <span>20 nafar</span> </li>
-                            <li class="alert alert-dark" role="alert">Piyoda patrullar:  <span>12 nafar</span> </li>
-                            <li class="alert alert-dark" role="alert">Avto patrullar:  <span>8 nafar</span>  </li>
-                            <li class="alert alert-dark" role="alert">Yo'nalishlar:  <span>4 ta</span>   </li>
-                              <li class="alert alert-dark" role="alert">Sektorlar soni:  <span>4 ta</span>   </li>
-                            <li class="alert alert-dark" role="alert">Kameralar soni:  <span>12 ta</span>   </li>
-                            <li class="alert alert-dark" role="alert">Tashvish tugmalar soni:  <span>4 ta</span>   </li>
-                            <li class="alert alert-dark" role="alert">Xizmat hayvonlari:  <span>8 ta</span>  </li>
-                            <li class="alert alert-dark" role="alert">Maxsus vositalar soni:  <span>12 ta</span>  </li>
-                            <li class="alert alert-dark" role="alert">Texnikalar:  <span>12 ta</span></li>       
-                    </ul>
-               </div>
-            </div>
-        </div>
-    </div>
-
-        </div>
-
-    `);
-
-      $('#chartModal').modal('show');
-
-      // joy bosilganda nomi yangilansin
-      $('.place-list li').on('click', function() {
-        $('.place-list li').removeClass('active');
-        $(this).addClass('active');
-        const placeName = $(this).text(); // tanlangan joy nomi
-        const otherTexts = ["Passport Ma'lumotlari",
-        "MG tomonidan ajratilgan kuch vositalar"]; // qolgan ikkita matn
-
-        $('#chartModalDetail .space-main-head h4').each(function(index) {
-          if (index === 0) {
-            $(this).text(placeName); // birinchisiga joy nomi
-          } else {
-            $(this).text(otherTexts[index - 1]); // qolganlariga boshqa textlar
-          }
-        });
-      });
+      
     });
   }
 
 
   // 📊 Pastdagi diagramma (faqat "Hammasi" uchun)
-  function get_events_by_region(data, containerId = 'get_events_by_region') {
-    const dom = document.getElementById(containerId);
+  function get_events_by_region(data, region_id) {
+    const dom = document.getElementById('get_events_by_region');
     if (!dom) return console.error('❌ Diagramma konteyner topilmadi:', containerId);
 
     const myChart = echarts.init(dom);
@@ -1814,15 +1499,18 @@ ${escapeHtml(ev.title)}
   // 🔄 Select o‘zgarganda yuqoridagi chart + pastdagi qismni yangilash
   $('#event_count').on('change', function() {
     const id = parseInt($(this).val());
+    region_id = id
+    getObjects()
+
+
+
+
+
     const regionBoxes = $('#get_events_by_region');
 
     // avval konteynerni tozalaymiz
     regionBoxes.empty();
 
-    // 🔹 Har doim yuqoridagi chartni yangilaymiz
-    const data = chartDataByFilter[id];
-    const totalValue = data.data.reduce((a, b) => a + b, 0);
-    all_events_by_type(data, totalValue, id); // yuqoridagi pie chartni yangilash
 
     // 🔹 "Hammasi" tanlanganda pastdagi diagramma qayta chiziladi
     if (id === 0) {
@@ -1903,32 +1591,32 @@ ${escapeHtml(ev.title)}
       } else {
         // boshlang‘ich string
         let allHtml = `
-    <div class="col-12">
-      <div class="region-box">
-  `;
+            <div class="col-12">
+              <div class="region-box">
+          `;
 
-        cats.forEach(cat => {
-          const places = placesByCat[cat] || [];
-          let listHtml = '<ul class="place-list scrollable">';
+                cats.forEach(cat => {
+                  const places = placesByCat[cat] || [];
+                  let listHtml = '<ul class="place-list scrollable">';
 
-          places.forEach(p => {
-            listHtml += `<li class="alert alert-dark" role="alert" data-cat="${cat}" data-place="${p}">${p}</li>`;
-          });
+                  places.forEach(p => {
+                    listHtml += `<li class="alert alert-dark" role="alert" data-cat="${cat}" data-place="${p}">${p}</li>`;
+                  });
 
-          listHtml += '</ul>';
+                  listHtml += '</ul>';
 
-          allHtml += `
-      <div class="category-block mb-2">
-        <h5 class="mb-2 text-primary">${cat}</h5>
-        ${listHtml}
-      </div>
-    `;
-        });
+                  allHtml += `
+              <div class="category-block mb-2">
+                <h5 class="mb-2 text-primary">${cat}</h5>
+                ${listHtml}
+              </div>
+            `;
+                });
 
-        allHtml += `
-      </div>
-    </div>
-  `;
+                allHtml += `
+              </div>
+            </div>
+          `;
 
         // Endi DOM ga joylashtiramiz
         regionBoxes.innerHTML = allHtml;
@@ -2093,7 +1781,7 @@ ${escapeHtml(ev.title)}
     { name: "Jizzax", gcount: 7 },
   ];
 
-  get_events_by_region(regionData5);
+  // get_events_by_region(regionData5);
   const defaultData4 = chartDataByFilter[0];
   const totalValue4 = defaultData4.data.reduce((a, b) => a + b, 0);
 
