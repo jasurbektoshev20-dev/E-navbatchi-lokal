@@ -239,9 +239,9 @@
                         <select id="searchCars" class="select2 form-select">
                             <option value="0">{$Dict.search}</option>
                         </select>
-                        {* <table class="table border-top" style="color: #dddddd;">
+                        <table class="table border-top" style="color: #dddddd;">
                             <tbody id="carList"></tbody>
-                        </table> *}
+                        </table>
                     </div>
                 </div>
             </div>
@@ -487,6 +487,10 @@
                                 <td style="width: 33%;">
                                     <span class="badge rounded-pill bg-label-info text-warning" id="speed_${marker.id}">${marker.speed?marker.speed:0}</span> km/s
                                 </td>
+                                <td style="width: 33%;" id="status_${marker.car_id}">
+                                    <i class="text-${marker.speed > isOnOffSpeed ? 'success' : 'danger'} ti ti-video-plus"></i>
+                                    <span id="time_${marker.car_id}">${getInterTime(marker.time)}</span>
+                                </td>
                             </tr>`
                         );
                         const LamMarker = new L.marker([marker.lat ? marker.lat : 0 , marker.lon ? marker.lon : 0], {
@@ -505,30 +509,56 @@
         }
         
         // --- Util functions
-        function getInterTime(timestamp) {
-            // Get the current time in milliseconds
+        // function getInterTime(time) {
+        //     // Get the current time in milliseconds
+        //     const currentTime = new Date().getTime();
+        //     const timestamp = new Date(time).getTime();
+
+        //     // Calculate the time difference in milliseconds
+        //     const timeDifference = currentTime - timestamp;
+
+        //     // Convert milliseconds to seconds, minutes, hours, and days
+        //     const seconds = Math.floor(timeDifference / 1000);
+        //     const minutes = Math.floor(seconds / 60);
+        //     const hours = Math.floor(minutes / 60);
+        //     const days = Math.floor(hours / 24);
+
+        //     // Log the appropriate message based on the time difference
+        //     if (seconds < 60) {
+        //         return `${seconds} sek`;
+        //     } else if (minutes < 60) {
+        //         return `${minutes} min`;
+        //     } else if (hours < 24) {
+        //         return `${hours} soat`;
+        //     } else {
+        //         return `${days} kun`;
+        //     }
+        // }
+        function getInterTime(timeStr) {
+            // Agar format "DD.MM.YYYY HH:mm" bo‘lsa, uni ISO formatga o‘zgartiramiz
+            const [datePart, timePart] = timeStr.split(' ');
+            const [day, month, year] = datePart.split('.');
+            const isoString = `${year}-${month}-${day}T${timePart}:00`;
+
+            const timestamp = new Date(isoString).getTime();
             const currentTime = new Date().getTime();
 
-            // Calculate the time difference in milliseconds
-            const timeDifference = currentTime - timestamp;
+            const diff = currentTime - timestamp;
 
-            // Convert milliseconds to seconds, minutes, hours, and days
-            const seconds = Math.floor(timeDifference / 1000);
+            if (isNaN(timestamp)) return "Noto‘g‘ri sana formati";
+
+            const seconds = Math.floor(diff / 1000);
             const minutes = Math.floor(seconds / 60);
             const hours = Math.floor(minutes / 60);
             const days = Math.floor(hours / 24);
 
-            // Log the appropriate message based on the time difference
-            if (seconds < 60) {
-                return `${seconds} sek`;
-            } else if (minutes < 60) {
-                return `${minutes} min`;
-            } else if (hours < 24) {
-                return `${hours} soat`;
-            } else {
-                return `${days} kun`;
-            }
+            if (seconds < 60) return `${seconds} sek`;
+            else if (minutes < 60) return `${minutes} min`;
+            else if (hours < 24) return `${hours} soat`;
+            else return `${days} kun`;
         }
+
+
         // --- Util functions 
 
     {/literal}
@@ -625,34 +655,33 @@
                 dataType: "json",
                 encode: true,
                 success: function(data) {
-                        console.log(data);
-                        $("#staffInfoModal .card-body").empty();
-                        if (data.staffs.length) {
-                            data.staffs.forEach(item => {
-                                $("#staffInfoModal .card-body").append(`
-                                    <div class="col-3 text-center">
-                                            <div style="width: 100%;">
-                                                <img style="height: 240px; object-fit: cover; width: 100%; object-position:top" class="rounded" src="/pictures/staffs/${item.photo}" alt="">
-                                            </div>
-                                            <div class="text-info" style="font-size:1rem">
-                                                <span class="text-white">${item.staff_name}</span>
-                                            </div>
-                                            <div class="text-info" style="font-size:1rem">
-                                                <span class="text-white">${item.phone}</span>
-                                            </div>
-                                        </div>
-                                `);
-                            })
-                        }else{
+                    console.log(data);
+                    $("#staffInfoModal .card-body").empty();
+                    if (data.staffs.length) {
+                        data.staffs.forEach(item => {
                             $("#staffInfoModal .card-body").append(`
-                                    <div class="col-xl-12 text-center">
-                                        ${dict_no_data}
+                                <div class="col-3 text-center">
+                                        <div style="width: 100%;">
+                                            <img style="height: 240px; object-fit: cover; width: 100%; object-position:top" class="rounded" src="/pictures/staffs/${item.photo}" alt="">
+                                        </div>
+                                        <div class="text-info" style="font-size:1rem">
+                                            <span class="text-white">${item.staff_name}</span>
+                                        </div>
+                                        <div class="text-info" style="font-size:1rem">
+                                            <span class="text-white">${item.phone}</span>
+                                        </div>
                                     </div>
-                            `)
-                        }
+                            `);
+                        })
+                    }else{
+                        $("#staffInfoModal .card-body").append(`
+                                <div class="col-xl-12 text-center">
+                                    ${dict_no_data}
+                                </div>
+                        `)
                     }
-                })
-            
+                }
+            })
         }
 
 
