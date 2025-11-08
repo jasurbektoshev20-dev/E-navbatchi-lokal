@@ -568,6 +568,7 @@
 
 
     document.addEventListener("DOMContentLoaded", function() {
+      var urlParams = new URLSearchParams(window.location.search);
 
 
       let region_id, object_id, object_type
@@ -645,7 +646,40 @@
         document.getElementById('uzbMap').classList.add('visible');
       }, 500);
 
-      getObjects()
+
+
+      if (urlParams.get('object_type')) {
+        if (urlParams.get('region_id')) {
+          $('#viloyatSelect')
+            .val(urlParams.get('region_id'))
+
+            $('#objectTypeSelect')
+            .val(urlParams.get('object_type'))
+
+          region_id = urlParams.get('region_id')
+          object_type = urlParams.get('object_type')
+          
+        }else{
+          $('#objectTypeSelect')
+          .val(urlParams.get('object_type'))
+
+          object_type = urlParams.get('object_type')
+        }
+
+        setTimeout(() => {
+          urlParams.set('region_id', '');
+          urlParams.set('object_type', '');
+          var newUrl = window.location.pathname + '?' + urlParams.toString();
+          window.history.replaceState({}, '', newUrl);
+        }, 2000);
+        getObjects()
+      }else{
+        getObjects()
+      }
+
+
+
+
       const allMarkers = L.layerGroup()
 
       function getObjects() {
@@ -762,9 +796,11 @@
       region_id = id
       getObjects()
     })
+    
     $('#objectTypeSelect').on('change', function() {
       var id = this.value;
       object_type = id
+
       getObjects()
     })
     $('#objectSelect').on('change', function() {
@@ -772,6 +808,7 @@
       object_id = id
       getObjects()
     })
+
 
 
 
