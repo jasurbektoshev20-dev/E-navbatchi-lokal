@@ -40,17 +40,16 @@
 }
 
     .date-box{
-      position: relative;
+      position: absolute;
       display: flex;
       justify-content: center;
+      padding: 10px 20px;
       width: 100%;
     }
     .date-box-container{
-        position: absolute;
-        top: 10px;
         display: flex;
         justify-content:space-between;
-        width: 65%;
+      width: 81%;
     }
     .date-box .date-box-select{
         display: flex;
@@ -58,10 +57,15 @@
         justify-content: flex-end;
     }
 
+     @media (max-width: 2500px) {
+       .date-box-container{
+          width: 70%;
+        }
+    }
 
        @media (max-width: 1900px) {
        .date-box-container{
-          width: 50%;
+          width: 60%;
         }
     }
 
@@ -72,11 +76,13 @@
     }
 
               @media (max-width: 1000px) {
+       .date-box{
+          position: relative;
+        }
          .date-box-container{
           width: 100%;
-           position: relative;
         }
-    } 
+    }
 
 
 
@@ -96,14 +102,13 @@
     </div>
 
 
-
     <div class="row mt-3">
         <!-- Projects table -->
         <div class="col-12">
             <div class="card">
                 <div class="date-box">
                  <div class="date-box-container">
-                    <h5 class="pt-2 pb-2 p-4 m-0">Sana: 07.11.2025-yil</h5>
+                    <h5 class="pt-2 pb-2 p-4 m-0">Sana: 08.11.2025-yil</h5>
                    <div class="date-box-select col-3">
                      
                       <a href="#" class="date-box-sel-link">
@@ -126,9 +131,20 @@
                             <th>Naryad FISH</th>
                             <th>Bo'linma nomi</th>
                             <th>Tel raqami</th>
+                            <th>Qurol turi</th>
+                            <th>Planshet</th>
+                            <th>Body kamera</th>
                             <th>Aloqa vositasi</th>
                             <th>Metallodetektor</th>
+                            <th>Megafon</th>
+                            <th>Rezina tayoq</th>
+                            <th>Qo'l kishani</th>
+                            <th>Cho'ntak fonari</th>
+                            <th>Xushtak</th>
+                            <th>Tibbiy himoya vositalari</th>
+                
                             <th>Avtotransport</th>
+
                         </tr>
                         </thead>
                         <tbody>
@@ -140,44 +156,138 @@
                             </td>
                             <td>Bars1</td>
                             <td>+998 90 123 45 67</td>
+    
+                             <td>Glok</td>
                             <td>1</td>
                             <td>1</td>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>0</td>
+                          
                             <td>Patriot</td>
                         </tr>
-                              <tr class="lb text-center" id="row_{$Table.id|crypt}">
+                               <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">2</td>
-                            <td> leytenant </td>
+                             <td>serjant</td>
                             <td>
-                               Rajabov J.T
+                               Bo'riyev S.N
                             </td>
-                            <td>Bars1</td>
-                            <td>+998 93 456 78 90</td>
+                            <td>Bars2</td>
+                            <td>+998 91 234 47 77</td>
+                          
+                             <td>Glok</td>
+                            <td>1</td>
+                            <td>1</td>
                             <td>1</td>
                             <td>0</td>
-                            <td>Patriot</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>0</td>
+                           
+                            <td>0</td>
                         </tr>
-                           <tr class="lb text-center" id="row_{$Table.id|crypt}">
+                               <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">3</td>
-                            <td> kapitan </td>
+                              <td>Oddiy askar</td>
                             <td>
-                               Jumayev A.A
+                               Tolipov A.Sh
                             </td>
-                            <td>Bars1</td>
-                            <td>+998 99 765 34 78</td>
+                            <td>Bars2</td>
+                            <td>+998 88 223 55 69</td>
+                          
+                          
+                                <td>PM</td>
+                            <td>1</td>
                             <td>1</td>
                             <td>0</td>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                         
+                            <td>BYD</td>
+                           </tr>
+                         <tr class="lb text-center" id="row_{$Table.id|crypt}">
+                            <td class="text-right">4</td>
+                              <td>Oddiy askar</td>
+                            <td>
+                             Rajabov T.D
+                            </td>
+                            <td>O'rikzor</td>
+                            <td>+998 93 312 65 67</td>
+                          
+                         
+                               <td>PM</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                          
                             <td>0</td>
                         </tr>
-                           <tr class="lb text-center" id="row_{$Table.id|crypt}">
-                            <td class="text-right">4</td>
-                            <td> serjant </td>
+                         <tr class="lb text-center" id="row_{$Table.id|crypt}">
+                            <td class="text-right">5</td>
+                             <td>serjant</td>
                             <td>
-                               Xolmatov T.N
+                               Shermatov A.J
                             </td>
                             <td>Bars1</td>
-                            <td>+998 88 345 67 89</td>
+                            <td>+998 99 923 95 97</td>
+                           
+                          
+                             <td>0</td>
                             <td>1</td>
                             <td>1</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                         
+                            <td>0</td>
+                        </tr>
+                         <tr class="lb text-center" id="row_{$Table.id|crypt}">
+                            <td class="text-right">6</td>
+                            <td>leytenant</td>
+                             <td>
+                              Umrzoqov J.O
+                            </td>
+                            <td>O'rikzor</td>
+                            <td>+998 55 123 45 90</td>
+                           
+                         
+                              <td>Boshqa</td>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                          
                             <td>0</td>
                         </tr>
                         </tbody>

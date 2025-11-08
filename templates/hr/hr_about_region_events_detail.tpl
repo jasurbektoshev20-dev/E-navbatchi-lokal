@@ -139,7 +139,7 @@
                
                 </div>    *}
                  <div class="date-box">
-                   <h5 class="pt-2 pb-2 p-4 m-0">Sana: 06.11.2025-yil</h5>
+                   <h5 class="pt-2 pb-2 p-4 m-0">Sana: 08.11.2025-yil</h5>
                    <div class="date-box-select">
                      
                       <a href="#" class="date-box-sel-link">

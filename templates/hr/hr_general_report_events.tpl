@@ -56,7 +56,7 @@
         <!-- Projects table -->
         <div class="col-12">
             <div class="date-filter-box">
-                   <h5 class="pt-2 pb-2 p-4 m-0">Sana: 06.11.2025-yil</h5>     
+                   <h5 class="pt-2 pb-2 p-4 m-0">Sana: 08.11.2025-yil</h5>     
                      <div class="col-sm-4">
                         <input class="form-control" type="date" placeholder="Boshlang'ich vaqtni tanlang">
                         <input class="form-control" type="date" placeholder="Oxirgi vaqtni tanlang">
