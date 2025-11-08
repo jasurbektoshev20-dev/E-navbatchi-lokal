@@ -364,6 +364,9 @@
   var dict_by_month = "{$Dict.begin_month}";
   var dict_by_year = "{$Dict.one_year}";
   {literal}
+
+
+
     $(document).ready(function() {
       let structure_id;
 
@@ -545,19 +548,7 @@
         })
 
 
-
-      // Send AJAX request when page is loaded
-      $.ajax({
-        url: `${AJAXPHP}?act=get_object_types`,
-        type: 'GET',
-        dataType: 'json',
-        success: function(response) {
-          console.log('AJAX response:', response);
-        },
-        error: function(xhr, status, error) {
-          console.error('AJAX error:', error);
-        }
-      });
+        
     });
 
 
