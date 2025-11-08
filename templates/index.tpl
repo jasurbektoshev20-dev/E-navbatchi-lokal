@@ -358,12 +358,155 @@
   var dict_by_month = "{$Dict.begin_month}";
   var dict_by_year = "{$Dict.one_year}";
   {literal}
-    let region_id;
     $(document).ready(function() {
+      let region_id;
 
 
+      function getObjects() {
+        let url = `${AJAXPHP}?act=jts_objects`;
+        let params = [];
+        if (region_id) params.push(`region_id=${region_id}`);
+
+        if (params.length > 0) url += '&' + params.join('&');
+        $.ajax({
+          url: url,
+          type: 'GET',
+          dataType: 'json',
+          success: function(response) {
+            if (!response && !response.stats) return
+            all_events_by_type(response.stats);
+            get_events_by_region()
+          },
+          error: function(xhr, status, error) {
+            console.error('AJAX error:', error);
+          }
+        })
+      }
+
+      getObjects()
+
+      function all_events_by_type(data) {
+        const dom = document.getElementById('all_events_by_type');
+        const myChart = echarts.init(dom);
+        const colors = [
+          "#6EB5FF", // ko‘k
+          "#5CC97B", // yashil
+          "#A472FF", // to‘q binafsha
+          "#FFB84D", // och sariq
+          "#99CCFF", // och ko‘k
+          "#FFD24C", // sariq (eng katta bo‘lak)
+          "#4BA3C7", // havorang
+          "#7AD67A", // och yashil
+          "#FF884C", // to‘q sariq
+          "#B266FF", // binafsha
+          "#FF6666", // qizil
+
+        ];
+        
+        const total = data.reduce((sum, item) => sum + Number(item.value), 0);
+
+        const option = {
+          color: colors,
+          textStyle: { fontFamily: "Arial, sans-serif" },
+          title: {
+            text: total,
+            left: 'center',
+            top: '32%',
+            textStyle: { fontSize: 18, fontWeight: 'bold', color: '#b7b7b7' },
+          },
+          legend: {
+            top: 'bottom',
+            left: 'center',
+            textStyle: { color: '#b7b7b7', fontSize: '1rem' }
+          },
+          tooltip: { backgroundColor: 'white' },
+          series: [{
+            type: 'pie',
+            radius: ['20%', '60%'],
+            center: ['50%', '35%'],
+            label: {
+              show: true,
+              position: 'outside',
+              formatter: '{c}',
+              textStyle: { fontSize: 16, fontWeight: 'bold', color: '#b7b7b7' }
+            },
+
+            itemStyle: {
+              borderRadius: 10,
+
+              shadowColor: 'rgba(0,0,0,0.5)',
+              shadowBlur: 20
+            },
+
+            data: data.map((item) => ({ name: item.name, value: item.value }))
+          }]
+        };
+
+        myChart.setOption(option);
+        window.addEventListener('resize', myChart.resize);
+
+        // ⚡ Avvalgi click eventni olib tashlaymiz
+        myChart.off('click');
+
+        myChart.on('click', function(params) {
+          
+        });
+      }
 
 
+      // 📊 Pastdagi diagramma (faqat "Hammasi" uchun)
+      function get_events_by_region(data, region_id) {
+        const dom = document.getElementById('get_events_by_region');
+        if (!dom) return console.error('❌ Diagramma konteyner topilmadi:', containerId);
+
+        const myChart = echarts.init(dom);
+        const colors = [
+          "#FFD24C", // sariq (eng katta bo‘lak)
+          "#4BA3C7", // havorang
+          "#7AD67A", // och yashil
+          "#FF884C", // to‘q sariq
+          "#B266FF", // binafsha
+          "#FF6666", // qizil
+          "#6EB5FF", // ko‘k
+          "#5CC97B", // yashil
+          "#A472FF", // to‘q binafsha
+          "#FFB84D", // och sariq
+          "#99CCFF" // och ko‘k
+        ];
+
+
+        const option = {
+          textStyle: { fontFamily: "Arial, sans-serif" },
+          xAxis: {
+            type: 'category',
+            data: data.map(item => item.name),
+            axisLabel: { interval: 0, fontSize: '1rem', rotate: 45, color: '#b7b7b7' },
+            axisLine: { show: false },
+            splitLine: { show: false }
+          },
+          grid: { bottom: 110, right: 30, left: 100 },
+          yAxis: { type: 'value', axisLabel: { color: '#b7b7b7' }, axisLine: { show: false },
+          splitLine: { show: false } },
+          tooltip: { backgroundColor: 'white' },
+          series: [{
+            data: data.map(item => parseInt(item.gcount)),
+            type: 'bar',
+            barMaxWidth: 60,
+            itemStyle: { color: (p) => colors[p.dataIndex % colors.length], borderRadius: [8, 8, 0, 0] },
+            label: { fontSize: 16, show: true, position: 'top', color: '#b7b7b7' }
+          }]
+        };
+
+        myChart.setOption(option);
+        window.addEventListener('resize', myChart.resize);
+      }
+
+
+        $('#event_count').on('change', function() {
+          const id = parseInt($(this).val());
+          region_id = id
+          getObjects()
+        })
 
 
 
@@ -380,6 +523,51 @@
         }
       });
     });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     let default_color = localStorage.getItem('templateCustomizer-vertical-menu-template-no-customizer--Style') ==
       'light' ? '#000' : '#fff';
@@ -404,29 +592,6 @@
 
 
 
-    function getObjects() {
-      let url = `${AJAXPHP}?act=jts_objects`;
-      let params = [];
-      if (region_id) params.push(`region_id=${region_id}`);
-      // if (object_id) params.push(`object_id=${object_id}`);
-      // if (object_type) params.push(`object_type=${object_type}`);
-
-      if (params.length > 0) url += '&' + params.join('&');
-      $.ajax({
-        url: url,
-        type: 'GET',
-        dataType: 'json',
-        success: function(response) {
-          if (!response && !response.stats) return
-          all_events_by_type(response.stats);
-        },
-        error: function(xhr, status, error) {
-          console.error('AJAX error:', error);
-        }
-      })
-    }
-
-    getObjects()
 
     function get_power_by_vehicle(data, total) {
       let sdata = data.map(i => ({ value: i.value, name: i.name }));
@@ -1379,128 +1544,13 @@ ${escapeHtml(ev.title)}
   };
 
 
-  function all_events_by_type(data) {
-    const dom = document.getElementById('all_events_by_type');
-    const myChart = echarts.init(dom);
-    const colors = [
-      "#6EB5FF", // ko‘k
-      "#5CC97B", // yashil
-      "#A472FF", // to‘q binafsha
-      "#FFB84D", // och sariq
-      "#99CCFF", // och ko‘k
-      "#FFD24C", // sariq (eng katta bo‘lak)
-      "#4BA3C7", // havorang
-      "#7AD67A", // och yashil
-      "#FF884C", // to‘q sariq
-      "#B266FF", // binafsha
-      "#FF6666", // qizil
 
-    ];
-    
-    const total = data.reduce((sum, item) => sum + Number(item.value), 0);
-
-    const option = {
-      color: colors,
-      textStyle: { fontFamily: "Arial, sans-serif" },
-      title: {
-        text: total,
-        left: 'center',
-        top: '32%',
-        textStyle: { fontSize: 18, fontWeight: 'bold', color: '#b7b7b7' },
-      },
-      legend: {
-        top: 'bottom',
-        left: 'center',
-        textStyle: { color: '#b7b7b7', fontSize: '1rem' }
-      },
-      tooltip: { backgroundColor: 'white' },
-      series: [{
-        type: 'pie',
-        radius: ['20%', '60%'],
-        center: ['50%', '35%'],
-        label: {
-          show: true,
-          position: 'outside',
-          formatter: '{c}',
-          textStyle: { fontSize: 16, fontWeight: 'bold', color: '#b7b7b7' }
-        },
-
-        itemStyle: {
-          borderRadius: 10,
-
-          shadowColor: 'rgba(0,0,0,0.5)',
-          shadowBlur: 20
-        },
-
-        data: data.map((item) => ({ name: item.name, value: item.value }))
-      }]
-    };
-
-    myChart.setOption(option);
-    window.addEventListener('resize', myChart.resize);
-
-    // ⚡ Avvalgi click eventni olib tashlaymiz
-    myChart.off('click');
-
-    myChart.on('click', function(params) {
-      
-    });
-  }
-
-
-  // 📊 Pastdagi diagramma (faqat "Hammasi" uchun)
-  function get_events_by_region(data, region_id) {
-    const dom = document.getElementById('get_events_by_region');
-    if (!dom) return console.error('❌ Diagramma konteyner topilmadi:', containerId);
-
-    const myChart = echarts.init(dom);
-    const colors = [
-      "#FFD24C", // sariq (eng katta bo‘lak)
-      "#4BA3C7", // havorang
-      "#7AD67A", // och yashil
-      "#FF884C", // to‘q sariq
-      "#B266FF", // binafsha
-      "#FF6666", // qizil
-      "#6EB5FF", // ko‘k
-      "#5CC97B", // yashil
-      "#A472FF", // to‘q binafsha
-      "#FFB84D", // och sariq
-      "#99CCFF" // och ko‘k
-    ];
-
-
-    const option = {
-      textStyle: { fontFamily: "Arial, sans-serif" },
-      xAxis: {
-        type: 'category',
-        data: data.map(item => item.name),
-        axisLabel: { interval: 0, fontSize: '1rem', rotate: 45, color: '#b7b7b7' },
-        axisLine: { show: false },
-        splitLine: { show: false }
-      },
-      grid: { bottom: 110, right: 30, left: 100 },
-      yAxis: { type: 'value', axisLabel: { color: '#b7b7b7' }, axisLine: { show: false },
-      splitLine: { show: false } },
-      tooltip: { backgroundColor: 'white' },
-      series: [{
-        data: data.map(item => parseInt(item.gcount)),
-        type: 'bar',
-        barMaxWidth: 60,
-        itemStyle: { color: (p) => colors[p.dataIndex % colors.length], borderRadius: [8, 8, 0, 0] },
-        label: { fontSize: 16, show: true, position: 'top', color: '#b7b7b7' }
-      }]
-    };
-
-    myChart.setOption(option);
-    window.addEventListener('resize', myChart.resize);
-  }
 
   // 🔄 Select o‘zgarganda
   // 🔄 Select o‘zgarganda yuqoridagi chart + pastdagi qismni yangilash
   $('#event_count').on('change', function() {
     const id = parseInt($(this).val());
-    region_id = id
-    getObjects()
+
 
 
 
