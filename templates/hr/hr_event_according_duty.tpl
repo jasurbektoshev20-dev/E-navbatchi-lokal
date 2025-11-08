@@ -89,7 +89,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body text-center">
-                   <h4> {$smarty.get.shahar} ommaviy tadbirini o'tkazish buyicha Milliy Gvardiya boshqarmasi tomonidan jamoat tartibini saqlash va <br> jamoat xavfsizligini ta’minlashga jalb etilgan kuch va vositalar to‘g‘risida <br> <span>MA'LUMOT</span> </h4>
+                   <h4> {$smarty.get.date} tadbirini o'tkazish uchun MG tomonidan jalb etilgan kuch va vositalar to‘g‘risida <br> <span>MA'LUMOT</span> </h4>
                 </div>
             </div>
         </div>
