@@ -138,7 +138,13 @@
             <h5 class="card-title">Milliy gvardiyaning hududiy boshqarmalari javobgarlik obyektlari</h5>
           </div>
           <div class="col-4">
-            <select class="form-select" id="event_count"></select>
+            <select class="form-select" id="event_count">
+              <option value="">Hududni tanlang</option>
+
+              {foreach from=$Regions item=Item1 key=ikey1}
+                <option value="{$Item1.id}">{$Item1.name}</option>
+              {/foreach}
+            </select>
           </div>
           <div class="chart-container" id="all_events_by_type"></div>
         </div>
@@ -358,14 +364,31 @@
   var dict_by_month = "{$Dict.begin_month}";
   var dict_by_year = "{$Dict.one_year}";
   {literal}
+
+
+
     $(document).ready(function() {
-      let region_id;
+      let structure_id;
+
+      const colors = [
+        "#6EB5FF", // ko‘k
+        "#5CC97B", // yashil
+        "#A472FF", // to‘q binafsha
+        "#FFB84D", // och sariq
+        "#99CCFF", // och ko‘k
+        "#FFD24C", // sariq (eng katta bo‘lak)
+        "#4BA3C7", // havorang
+        "#7AD67A", // och yashil
+        "#FF884C", // to‘q sariq
+        "#B266FF", // binafsha
+        "#FF6666", // qizil
+      ];
 
 
       function getObjects() {
         let url = `${AJAXPHP}?act=jts_objects`;
         let params = [];
-        if (region_id) params.push(`region_id=${region_id}`);
+        if (structure_id) params.push(`structure_id=${structure_id}`);
 
         if (params.length > 0) url += '&' + params.join('&');
         $.ajax({
@@ -373,9 +396,8 @@
           type: 'GET',
           dataType: 'json',
           success: function(response) {
-            if (!response && !response.stats) return
-            all_events_by_type(response.stats);
-            get_events_by_region()
+            all_events_by_type(response?.stats);
+            get_events_by_region(response)
           },
           error: function(xhr, status, error) {
             console.error('AJAX error:', error);
@@ -384,24 +406,11 @@
       }
 
       getObjects()
+      
 
-      function all_events_by_type(data) {
+      function all_events_by_type(data = []) {
         const dom = document.getElementById('all_events_by_type');
         const myChart = echarts.init(dom);
-        const colors = [
-          "#6EB5FF", // ko‘k
-          "#5CC97B", // yashil
-          "#A472FF", // to‘q binafsha
-          "#FFB84D", // och sariq
-          "#99CCFF", // och ko‘k
-          "#FFD24C", // sariq (eng katta bo‘lak)
-          "#4BA3C7", // havorang
-          "#7AD67A", // och yashil
-          "#FF884C", // to‘q sariq
-          "#B266FF", // binafsha
-          "#FF6666", // qizil
-
-        ];
         
         const total = data.reduce((sum, item) => sum + Number(item.value), 0);
 
@@ -438,7 +447,7 @@
               shadowBlur: 20
             },
 
-            data: data.map((item) => ({ name: item.name, value: item.value }))
+            data: data.map((item) => ({ name: item.name, value: item.value, id: item.id }))
           }]
         };
 
@@ -449,79 +458,97 @@
         myChart.off('click');
 
         myChart.on('click', function(params) {
-          
+          if (structure_id) {
+            window.location.href = `hr.php?act=regions_map&region_id=${structure_id}&object_type=${params.data.id}`
+          }else{
+            window.location.href = `hr.php?act=regions_map&object_type=${params.data.id}`
+          }
+
         });
       }
 
 
       // 📊 Pastdagi diagramma (faqat "Hammasi" uchun)
-      function get_events_by_region(data, region_id) {
+      function get_events_by_region(data) {
         const dom = document.getElementById('get_events_by_region');
         if (!dom) return console.error('❌ Diagramma konteyner topilmadi:', containerId);
 
-        const myChart = echarts.init(dom);
-        const colors = [
-          "#FFD24C", // sariq (eng katta bo‘lak)
-          "#4BA3C7", // havorang
-          "#7AD67A", // och yashil
-          "#FF884C", // to‘q sariq
-          "#B266FF", // binafsha
-          "#FF6666", // qizil
-          "#6EB5FF", // ko‘k
-          "#5CC97B", // yashil
-          "#A472FF", // to‘q binafsha
-          "#FFB84D", // och sariq
-          "#99CCFF" // och ko‘k
-        ];
 
+        if(structure_id){
+          let allHtml = `
+            <div class="col-12">
+              <div class="region-box">
+          `;
 
-        const option = {
-          textStyle: { fontFamily: "Arial, sans-serif" },
-          xAxis: {
-            type: 'category',
-            data: data.map(item => item.name),
-            axisLabel: { interval: 0, fontSize: '1rem', rotate: 45, color: '#b7b7b7' },
-            axisLine: { show: false },
-            splitLine: { show: false }
-          },
-          grid: { bottom: 110, right: 30, left: 100 },
-          yAxis: { type: 'value', axisLabel: { color: '#b7b7b7' }, axisLine: { show: false },
-          splitLine: { show: false } },
-          tooltip: { backgroundColor: 'white' },
-          series: [{
-            data: data.map(item => parseInt(item.gcount)),
-            type: 'bar',
-            barMaxWidth: 60,
-            itemStyle: { color: (p) => colors[p.dataIndex % colors.length], borderRadius: [8, 8, 0, 0] },
-            label: { fontSize: 16, show: true, position: 'top', color: '#b7b7b7' }
-          }]
-        };
+          data?.list.forEach(cat => {
+            // Har bir kategoriya uchun
+            const places = cat.objects || [];
+            let listHtml = '<ul class="place-list scrollable">';
 
-        myChart.setOption(option);
-        window.addEventListener('resize', myChart.resize);
+            places.forEach(p => {
+              listHtml += `
+                <li class="alert alert-dark" role="alert" data-cat="${cat.name}" data-place="${p.object_name}">
+                  ${p.object_name}
+                </li>`;
+            });
+
+            listHtml += '</ul>';
+
+            allHtml += `
+              <div class="category-block mb-2">
+                <h5 class="mb-2 text-primary">${cat.name}</h5>
+                ${listHtml}
+              </div>
+            `;
+          });
+
+          allHtml += `
+              </div>
+            </div>
+          `;
+
+          dom.innerHTML = allHtml;
+
+        }else{
+
+          const myChart = echarts.init(dom);
+          const option = {
+            textStyle: { fontFamily: "Arial, sans-serif" },
+            xAxis: {
+              type: 'category',
+              data: data?.stat_region?.map(item => item.name),
+              axisLabel: { interval: 0, fontSize: '1rem', rotate: 45, color: '#b7b7b7' },
+              axisLine: { show: false },
+              splitLine: { show: false }
+            },
+            grid: { bottom: 110, right: 30, left: 100 },
+            yAxis: { type: 'value', axisLabel: { color: '#b7b7b7' }, axisLine: { show: false },
+            splitLine: { show: false } },
+            tooltip: { backgroundColor: 'white' },
+            series: [{
+              data: data?.stat_region?.map(item => parseInt(item.value)),
+              type: 'bar',
+              barMaxWidth: 60,
+              itemStyle: { color: (p) => colors[p.dataIndex % colors.length], borderRadius: [8, 8, 0, 0] },
+              label: { fontSize: 16, show: true, position: 'top', color: '#b7b7b7' }
+            }]
+          };
+  
+          myChart.setOption(option);
+          window.addEventListener('resize', myChart.resize);
+        }
+
       }
 
 
         $('#event_count').on('change', function() {
           const id = parseInt($(this).val());
-          region_id = id
+          structure_id = id
           getObjects()
         })
 
 
-
-      // Send AJAX request when page is loaded
-      $.ajax({
-        url: `${AJAXPHP}?act=get_object_types`,
-        type: 'GET',
-        dataType: 'json',
-        success: function(response) {
-          console.log('AJAX response:', response);
-        },
-        error: function(xhr, status, error) {
-          console.error('AJAX error:', error);
-        }
-      });
+        
     });
 
 
@@ -1549,6 +1576,7 @@ ${escapeHtml(ev.title)}
   // 🔄 Select o‘zgarganda
   // 🔄 Select o‘zgarganda yuqoridagi chart + pastdagi qismni yangilash
   $('#event_count').on('change', function() {
+    return
     const id = parseInt($(this).val());
 
 
