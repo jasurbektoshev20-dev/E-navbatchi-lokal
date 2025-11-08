@@ -135,11 +135,11 @@
       <div class="card">
         <div class="mx-3 my-2 row">
           <div class="col-8">
-            <h5 class="card-title">Milliy gvardiyaning hududiy boshqarmalari javobgarlik obyektlari</h5>
+            <h5 class="card-title">Жавобгарлик объектлари</h5>
           </div>
           <div class="col-4">
             <select class="form-select" id="event_count">
-              <option value="">Hududni tanlang</option>
+              <option value="">Ҳудудлар</option>
 
               {foreach from=$Regions item=Item1 key=ikey1}
                 <option value="{$Item1.id}">{$Item1.name}</option>
@@ -166,7 +166,7 @@
               <div class="col-md-2 border-end pe-4" id="chartModalList"></div>
               <!-- O‘ng taraf: Batafsil ma’lumot -->
               <div class="col-md-10" id="chartModalDetail">
-                <div class="text-center text-muted fs-5 mt-5">Joyni tanlang...</div>
+                <div class="text-center text-muted fs-5 mt-5">Жойлар...</div>
               </div>
             </div>
           </div>
@@ -184,7 +184,7 @@
       <div class="card">
         <div class="mx-3 my-2 row">
           <div class="col-8">
-            <h5 class="card-title">Ommaviy tadbirlar</h5> <br>
+            <h5 class="card-title">Оммавий тадбирлар</h5> <br>
           </div>
           <div class="col-4">
             <select class="form-select" id="public_events"> </select>
@@ -212,7 +212,7 @@
       <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="eventTypeModalLabel">Kategoriya ma’lumotlari</h5>
+            <h5 class="modal-title" id="eventTypeModalLabel">Категория маълумотлари</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Yopish"></button>
           </div>
           <div class="modal-body" id="eventTypeModalBody">
@@ -227,14 +227,10 @@
       <div class="modal-dialog modal-dialog-scrollable modal-xxl modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="eventListModalLabel">Tadbirlar ro‘yxati</h5>
+            <h5 class="modal-title" id="eventListModalLabel">Тадбирлар рўйхати</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Yopish"></button>
           </div>
           <div class="modal-body" id="eventListModalBody">
-            {* <div class="row">
-                        <div class="col-md-2"></div>
-                        <div class="col-md-10"></div>
-                   </div> *}
           </div>
         </div>
       </div>
@@ -250,7 +246,7 @@
       <div class="card">
         <div class="mx-3 my-2 row">
           <div class="col-8">
-            <h5 class="card-title">Idoraviy tadbirlar</h5> <br>
+            <h5 class="card-title">Идоравий тадбирлар</h5> <br>
           </div>
           <div class="col-4">
             <select class="form-select" id="public_events1"> </select>
@@ -293,7 +289,7 @@
       <div class="card">
         <div class="mx-3 my-2 row">
           <div class="col-8">
-            <h5 class="card-title">Jamoat tartibini saqlash hududlar kesimida
+            <h5 class="card-title">Жамоат тартибини сақлаш ҳудудлар кесимида
             </h5>
           </div>
           <div class="col-4">
@@ -312,7 +308,7 @@
       <div class="card">
         <div class="mx-3 my-2 row">
           <div class="col-8">
-            <h5 class="card-title">Hududlar kesimida ommaviy tadbirlar
+            <h5 class="card-title">Оммавий тадбирлар ҳудудлар кесимида
             </h5>
           </div>
           <div class="col-4">
@@ -328,7 +324,7 @@
       <div class="card">
         <div class="mx-3 my-2 row">
           <div class="col-8">
-            <h5 class="card-title">Hududlar kesimida idoraviy tadbirlar
+            <h5 class="card-title">Идоравий тадбирлар ҳудудлар кесимида
             </h5>
           </div><br>
           <div class="col-4">
@@ -468,7 +464,7 @@
       }
 
 
-      // 📊 Pastdagi diagramma (faqat "Hammasi" uchun)
+      // 📊 Pastdagi diagramma (faqat "Ҳаммаси" uchun)
       function get_events_by_region(data) {
         const dom = document.getElementById('get_events_by_region');
         if (!dom) return console.error('❌ Diagramma konteyner topilmadi:', containerId);
@@ -742,37 +738,37 @@
     const eventTypeChartDataByFilter = {
       0: {
         legend: [
-          "Madaniy tadbirlar",
-          "Siyosiy tadbirlar",
-          "Sport tadbirlar",
-          "Boshqa tadbirlar",
+        "Маданий тадбирлар",
+          "Сиёсий тадбирлар",
+          "Спорт тадбирлар",
+          "Бошқа тадбирлар",
         ],
         data: [2, 4, 2, 5],
       },
       1: {
         legend: [
-          "Madaniy tadbirlar",
-          "Siyosiy tadbirlar",
-          "Sport tadbirlar",
-          "Boshqa tadbirlar",
+        "Маданий тадбирлар",
+          "Сиёсий тадбирлар",
+          "Спорт тадбирлар",
+          "Бошқа тадбирлар",
         ],
         data: [1, 3, 2, 4],
       },
       2: {
         legend: [
-          "Madaniy tadbirlar",
-          "Siyosiy tadbirlar",
-          "Sport tadbirlar",
-          "Boshqa tadbirlar",
+       "Маданий тадбирлар",
+          "Сиёсий тадбирлар",
+          "Спорт тадбирлар",
+          "Бошқа тадбирлар",
         ],
         data: [3, 0, 1, 2],
       },
       3: {
         legend: [
-          "Madaniy tadbirlar",
-          "Siyosiy tadbirlar",
-          "Sport tadbirlar",
-          "Boshqa tadbirlar",
+        "Маданий тадбирлар",
+          "Сиёсий тадбирлар",
+          "Спорт тадбирлар",
+          "Бошқа тадбирлар",
         ],
         data: [2, 5, 1, 3],
       },
@@ -780,43 +776,43 @@
 
     // 🧾 Modal ma’lumotlari
     const eventsByCategoryAndRegion = {
-      "Madaniy tadbirlar": {
-        "Toshkent": [
+      "Маданий тадбирлар": {
+        "Тошкент": [
           { id: 1, title: "“Семь лун” спектакли ", date: "2025-11-10", place: "Шайхонтоҳур т.Илҳом театри", desc: "",
             participants: 64 },
           { id: 2, title: "Кино намойишлари янги премъера", date: "2025-11-12",
             place: "А.Навоий номидаги киночилар уйи", desc: "", participants: 76 }
         ],
-        "Samarqand": [
+        "Самарқанд": [
           { id: 3, title: "Юнесконинг 43-сессиясига бағишланган концерт томошо дастурини ўтказилиши",
             date: "2025-11-05", place: "Самарқанд вилояти мусиқали драмма театри майдонида",
-            desc: "Hududiy ijrochilar", participants: 36 }
+            desc: "Ҳудудий ижрочилар", participants: 36 }
         ],
-        "Toshkent viloyati": [
-          { id: 3, title: "“REVEREM SHOV” бўлиб ўтади", date: "2025-11-05", place: "Anhor saroyi", desc: "",
+        "Тошкент вилояти": [
+          { id: 3, title: "“REVEREM SHOV” бўлиб ўтади", date: "2025-11-05", place: "Анҳор саройи", desc: "",
             participants: 55 }
         ]
       },
-      "Siyosiy tadbirlar": {
-        "Samarqand": [
+      "Сиёсий тадбирлар": {
+        "Самарқанд": [
           { id: 3, title: "ЮНЕСКО Бош конференциясининг 43 сессияси", date: "2025-11-05",
             place: "“Silk Road” туризм маркази", desc: "", participants: 45 }
         ]
       },
-      "Sport tadbirlar": {
-        "Toshkent": [
+      "Спорт тадбирлар": {
+        "Тошкент": [
           { id: 21, title: "Спортнинг футбол тури бўйича Биринчи лига “pley-off” босқичи", date: "2025-11-20",
-            place: "Яшнобод т.Олимпия шахарчаси", desc: "10km marafon", participants: 70 },
+            place: "Яшнобод т.Олимпия шахарчаси", desc: "10км марафон", participants: 70 },
           { id: 22, title: "Спортнинг юнон-рум тури бўйича Ўзбекистон чемпионати", date: "2025-11-25",
             place: "Яшнобод т.“Odil Akhmedov Football Academy”", desc: "", participants: 50 }
         ],
-        "Navoiy": [
+        "Навоий": [
           { id: 23, title: "Спортнинг Гандбол тури бўйича ёшлар ўртасида Ўзбекистон чемпионати", date: "2025-11-21",
             place: "Навоий ш. Гандбол спорт залида", desc: "", participants: 60 }
         ]
       },
-      "Boshqa tadbirlar": {
-        "Sirdaryo": [
+      "Бошқа тадбирлар": {
+        "Сирдарё": [
           { id: 31, title: "Педагок кадрлар аттестациясининг малака синов имтиҳонлари", date: "2025-11-14",
             place: "Шодлик МФЙдаги “Баркамол авлод” болалар мактаби биносида", desc: "", participants: 50 }
         ]
@@ -825,10 +821,10 @@
 
     // 🔽 Filter ro‘yxat
     const eventTypeFilters = [
-      { id: 0, name: "Hammasi" },
-      { id: 1, name: "Bugun" },
-      { id: 2, name: "Oy bo‘yicha" },
-      { id: 3, name: "Yil bo‘yicha" },
+      { id: 0, name: "Ҳаммаси" },
+      { id: 1, name: "Бугун" },
+      { id: 2, name: "Ой бўйича" },
+      { id: 3, name: "Йил бўйича" },
     ];
 
     function renderEventTypeChart(data, total) {
@@ -912,12 +908,10 @@
 
       chart.setOption(option);
 
-      // 🧱 Chart event handlerlar
       window.addEventListener('resize', chart.resize);
 
-      let currentEvents = []; // 🟢 global event saqlovchi
+      let currentEvents = [];
 
-      // ===== Click handler: Category → show regions modal =====
       chart.off('click');
       chart.on('click', function(params) {
         const category = params.name;
@@ -931,9 +925,9 @@
         let bodyHtml = '';
         if (regionEntries.length === 0) {
           bodyHtml =
-            `<div class="alert alert-secondary">Ushbu kategoriya bo'yicha viloyatlarda tadbir topilmadi.</div>`;
+            `<div class="alert alert-secondary">Ушбу категория бўйича вилоятларда тадбир топилмади.</div>`;
         } else {
-          bodyHtml = `<div class="mb-2"> Viloyatlar kesimidagi <strong>${category}</strong></div>`;
+          bodyHtml = `<div class="mb-2">Вилоятлар кесимидаги <strong>${category}</strong></div>`;
           bodyHtml += `<div class="list-group">`;
           regionEntries.forEach(e => {
             bodyHtml += `
@@ -947,7 +941,7 @@ data-category="${escapeHtml(category)}" data-region="${escapeHtml(e.region)}">
           bodyHtml += `</div>`;
         }
 
-        $("#eventTypeModalLabel").text(`"${category}" — viloyatlar kesimi`);
+        $("#eventTypeModalLabel").text(`"${category}" — вилоятлар кесими`);
         $("#eventTypeModalBody").html(bodyHtml);
         const eventTypeModal = new bootstrap.Modal(document.getElementById('eventTypeModal'));
         eventTypeModal.show();
@@ -966,7 +960,7 @@ data-category="${escapeHtml(category)}" data-region="${escapeHtml(e.region)}">
   `;
 
         if (currentEvents.length === 0) {
-          html += `<div class="alert alert-secondary">Bu viloyat uchun tadbirlar ro'yxati bo'sh.</div>`;
+          html += `<div class="alert alert-secondary">Бу вилоят учун тадбирлар рўйхати бўш.</div>`;
         } else {
           currentEvents.forEach((ev, i) => {
             html += `
@@ -1020,7 +1014,7 @@ ${escapeHtml(ev.title)}
             </div>
             <div class="col-3">
                <div class="space-main-head">
-                     <h4>Hudud haqida ma'lumotlar</h4>
+                     <h4>Ҳудуд ҳақида маълумотлар</h4>
                </div>
                  <div class="space-main-body-password">
                      <ul>
@@ -1031,7 +1025,7 @@ ${escapeHtml(ev.title)}
                                                       <h6><span><svg xmlns="http://www.w3.org/2000/svg"   width="18" height="18" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
                             <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
                             <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
-                          </svg></span> Manzili: </h6>
+                          </svg></span> Манзили: </h6>
 <p>${escapeHtml(ev.place)}</p>
                                                                       </li>
 
@@ -1039,40 +1033,40 @@ ${escapeHtml(ev.title)}
                                                     <li>
                                                       <h6><span><svg xmlns="http://www.w3.org/2000/svg"  width="18" height="18" fill="currentColor" class="bi bi-telephone-forward" viewBox="0 0 16 16">
                             <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877zm10.762.135a.5.5 0 0 1 .708 0l2.5 2.5a.5.5 0 0 1 0 .708l-2.5 2.5a.5.5 0 0 1-.708-.708L14.293 4H9.5a.5.5 0 0 1 0-1h4.793l-1.647-1.646a.5.5 0 0 1 0-.708"/>
-                          </svg></span>Hudud administrator tel raqami: </h6>
+                          </svg></span>Ҳудуд администратор тел рақами: </h6>
                                                       <p>+998 90 123-45-67 +998 91 123-45-67</p>
                                                   </li>
                                                   <li>
                                                       <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-border-all" viewBox="0 0 16 16">
                             <path d="M0 0h16v16H0zm1 1v6.5h6.5V1zm7.5 0v6.5H15V1zM15 8.5H8.5V15H15zM7.5 15V8.5H1V15z"/>
-                          </svg></span>Maydoni: </h6>
+                          </svg></span>Майдони: </h6>
                                                       <p>4046.86 m²</p>
                                                                     </li>
                                                                       <li>
                                                       <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-border-all" viewBox="0 0 16 16">
                             <path d="M0 0h16v16H0zm1 1v6.5h6.5V1zm7.5 0v6.5H15V1zM15 8.5H8.5V15H15zM7.5 15V8.5H1V15z"/>
-                          </svg></span>Kameralar soni: </h6>
+                          </svg></span>Камералар сони: </h6>
                                                       <p>50 ta</p>
                                                                     </li>
                                                                     <li> 
                                                                         <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
                           <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1"/>
                           <path d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117M11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5M4 1.934V15h6V1.077z"/>
-                        </svg></span>Kirish chiqish eshiklar soni: </h6>
+                        </svg></span>Кириш чиқиш эшиклар сони: </h6>
                                                                         <p>4 ta</p>
                                                                     </li>
                                                   <li>
                                                       <h6><span><svg xmlns="http://www.w3.org/2000/svg"  width="18" height="18" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
                             <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
-                          </svg></span>Hudud rahbari: </h6>
-                                                      <p>Berdiyev Muzaffar +998 90 234-76-90</p>
+                          </svg></span>Ҳудуд раҳбари: </h6>
+                                                      <p>Бердиев Музаффар +998 90 234-76-90</p>
                                                   </li>
 
                                                   <li>
                                                       <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-telephone-forward" viewBox="0 0 16 16">
                             <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877zm10.762.135a.5.5 0 0 1 .708 0l2.5 2.5a.5.5 0 0 1 0 .708l-2.5 2.5a.5.5 0 0 1-.708-.708L14.293 4H9.5a.5.5 0 0 1 0-1h4.793l-1.647-1.646a.5.5 0 0 1 0-.708"/>
-                          </svg></span> Hamkor tashkilotlar aloqa: </h6>
-                                                      <p> IIV- +998 91 123-45-67 FVV- +998 97 851-12-23</p>
+                          </svg></span> Ҳамкор ташкилотлар алоқа: </h6>
+                                                      <p> ИИВ- +998 91 123-45-67 ФВВ- +998 97 851-12-23</p>
                                                   </li>
 
                      </ul>
@@ -1080,23 +1074,23 @@ ${escapeHtml(ev.title)}
             </div>
             <div class="col-3">
                 <div class="space-main-head">
-                     <h4>MG tomonidan ajratilgan kuch vositalar</h4>
+                     <h4>МГ томонидан ажратилган куч воситалар</h4>
                </div>
                  <div class="space-main-body-duty">
                     <ul>
-                     <li class="alert alert-dark" role="alert">MG javobgar:  <span>leytenant Umrzakov Javohir </span> </li>
-                     <li class="alert alert-dark" role="alert">Qatnashadigan fuqarolarning taxminiy soni:  <span>300 nafar </span> </li>
-                     <li class="alert alert-dark" role="alert">Tadbirning boshlanish va tugash vaqti:  <span>08:00 - 12:00 </span> </li>
-<li class="alert alert-dark" role="alert">Jami shaxsiy tarkib:  <span>${escapeHtml(String(ev.participants || 'N/A'))} nafar</span> </li>
-                            <li class="alert alert-dark" role="alert">MG harbiy xizmatchilari:  <span>2 nafar</span> </li>
-                            <li class="alert alert-dark" role="alert">IIV harbiy xizmatchilari:  <span>3 nafar</span> </li>
-                            <li class="alert alert-dark" role="alert">FVV harbiy xizmatchilari:  <span>4 nafar</span> </li>
-                            <li class="alert alert-dark" role="alert">MG MSGr:  <span>4 nafar</span> </li>
-                            <li class="alert alert-dark" role="alert">IIV spring:  <span>3 nafar</span> </li>
-                            <li class="alert alert-dark" role="alert">Texnikalar:  <span>12 ta</span></li>       
-                            <li class="alert alert-dark" role="alert">Aloqa vositalari:  <span>12 ta</span></li>       
-                            <li class="alert alert-dark" role="alert">Metalodetektor:  <span>8 ta</span></li>       
-                            <li class="alert alert-dark" role="alert">Tadbir o'tkazuvchi tashabbuskor:  <span>Alisher Navoiy nomidagi kinochilar uyi</span></li>       
+                     <li class="alert alert-dark" role="alert">МГ жавобгар:  <span>лейтенант Умрзаков Жавоҳир </span> </li>
+                     <li class="alert alert-dark" role="alert">Қатнашадиган фуқароларнинг тахминий сони:  <span>300 нафар </span> </li>
+                     <li class="alert alert-dark" role="alert">Тадбирнинг бошланиш ва тугаш вақти:  <span>08:00 - 12:00 </span> </li>
+<li class="alert alert-dark" role="alert">Жами шахсий таркиб:  <span>${escapeHtml(String(ev.participants || 'N/A'))} нафар</span> </li>
+                            <li class="alert alert-dark" role="alert">МГ ҳарбий хизматчилари:  <span>2 нафар</span> </li>
+                            <li class="alert alert-dark" role="alert">ИИВ ҳарбий хизматчилари:  <span>3 нафар</span> </li>
+                            <li class="alert alert-dark" role="alert">ФВВ ҳарбий хизматчилари:  <span>4 нафар</span> </li>
+                            <li class="alert alert-dark" role="alert">МГ МСГр:  <span>4 нафар</span> </li>
+                            <li class="alert alert-dark" role="alert">ИИВ спринг:  <span>3 нафар</span> </li>
+                            <li class="alert alert-dark" role="alert">Техникалар:  <span>12 ta</span></li>       
+                            <li class="alert alert-dark" role="alert">Алоқа воситалари:  <span>12 ta</span></li>       
+                            <li class="alert alert-dark" role="alert">Металодетектор:  <span>8 ta</span></li>       
+                            <li class="alert alert-dark" role="alert">Тадбир ўтказувчи ташаббускор:  <span>Алишер Навоий номидаги киночилар уйи</span></li>       
                     </ul>
                </div>
             </div>
@@ -1161,7 +1155,7 @@ ${escapeHtml(ev.title)}
             </div>
             <div class="col-3">
                <div class="space-main-head">
-                     <h4>Hudud haqida ma'lumotlar</h4>
+                     <h4>Ҳудуд ҳақида маълумотлар</h4>
                </div>
                  <div class="space-main-body-password">
                      <ul>
@@ -1172,7 +1166,7 @@ ${escapeHtml(ev.title)}
                                                       <h6><span><svg xmlns="http://www.w3.org/2000/svg"   width="18" height="18" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
                             <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
                             <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
-                          </svg></span> Manzili: </h6>
+                          </svg></span> Манзили: </h6>
 <p>${escapeHtml(ev.place)}</p>
                                                                       </li>
 
@@ -1180,40 +1174,40 @@ ${escapeHtml(ev.title)}
                                                     <li>
                                                       <h6><span><svg xmlns="http://www.w3.org/2000/svg"  width="18" height="18" fill="currentColor" class="bi bi-telephone-forward" viewBox="0 0 16 16">
                             <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877zm10.762.135a.5.5 0 0 1 .708 0l2.5 2.5a.5.5 0 0 1 0 .708l-2.5 2.5a.5.5 0 0 1-.708-.708L14.293 4H9.5a.5.5 0 0 1 0-1h4.793l-1.647-1.646a.5.5 0 0 1 0-.708"/>
-                          </svg></span>Hudud administrator tel raqami: </h6>
+                          </svg></span>Ҳудуд администратор тел рақами: </h6>
                                                       <p>+998 90 123-45-67 +998 91 123-45-67</p>
                                                   </li>
                                                   <li>
                                                       <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-border-all" viewBox="0 0 16 16">
                             <path d="M0 0h16v16H0zm1 1v6.5h6.5V1zm7.5 0v6.5H15V1zM15 8.5H8.5V15H15zM7.5 15V8.5H1V15z"/>
-                          </svg></span>Maydoni: </h6>
+                          </svg></span>Майдони: </h6>
                                                       <p>4046.86 m²</p>
                                                                     </li>
                                                                       <li>
                                                       <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-border-all" viewBox="0 0 16 16">
                             <path d="M0 0h16v16H0zm1 1v6.5h6.5V1zm7.5 0v6.5H15V1zM15 8.5H8.5V15H15zM7.5 15V8.5H1V15z"/>
-                          </svg></span>Kameralar soni: </h6>
+                          </svg></span>Камералар сони: </h6>
                                                       <p>50 ta</p>
                                                                     </li>
                                                                     <li> 
                                                                         <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
                           <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1"/>
                           <path d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117M11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5M4 1.934V15h6V1.077z"/>
-                        </svg></span>Kirish chiqish eshiklar soni: </h6>
+                        </svg></span>Кириш чиқиш эшиклар сони: </h6>
                                                                         <p>4 ta</p>
                                                                     </li>
                                                   <li>
                                                       <h6><span><svg xmlns="http://www.w3.org/2000/svg"  width="18" height="18" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
                             <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
-                          </svg></span>Hudud rahbari: </h6>
-                                                      <p>Berdiyev Muzaffar +998 90 234-76-90</p>
+                          </svg></span>Ҳудуд раҳбарии: </h6>
+                                                      <p>Бердиев Музаффар +998 90 234-76-90</p>
                                                   </li>
 
                                                   <li>
                                                       <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-telephone-forward" viewBox="0 0 16 16">
                             <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877zm10.762.135a.5.5 0 0 1 .708 0l2.5 2.5a.5.5 0 0 1 0 .708l-2.5 2.5a.5.5 0 0 1-.708-.708L14.293 4H9.5a.5.5 0 0 1 0-1h4.793l-1.647-1.646a.5.5 0 0 1 0-.708"/>
-                          </svg></span> Hamkor tashkilotlar aloqa: </h6>
-                                                      <p> IIV- +998 91 123-45-67 FVV- +998 97 851-12-23</p>
+                          </svg></span> Ҳамкор ташкилотлар алоқа: </h6>
+                                                      <p> ИИВ- +998 91 123-45-67 ФВВ- +998 97 851-12-23</p>
                                                   </li>
 
                      </ul>
@@ -1221,23 +1215,23 @@ ${escapeHtml(ev.title)}
             </div>
             <div class="col-3">
                 <div class="space-main-head">
-                     <h4>MG tomonidan ajratilgan kuch vositalar</h4>
+                     <h4>МГ томонидан ажратилган куч воситалар</h4>
                </div>
                  <div class="space-main-body-duty">
                     <ul>
-                     <li class="alert alert-dark" role="alert">MG javobgar:  <span>leytenant Umrzakov Javohir </span> </li>
-                     <li class="alert alert-dark" role="alert">Qatnashadigan fuqarolarning taxminiy soni:  <span>300 nafar </span> </li>
-                     <li class="alert alert-dark" role="alert">Tadbirning boshlanish va tugash vaqti:  <span>08:00 - 12:00 </span> </li>
-<li class="alert alert-dark" role="alert">Jami shaxsiy tarkib:  <span>${escapeHtml(String(ev.participants || 'N/A'))} nafar</span> </li>
-                            <li class="alert alert-dark" role="alert">MG harbiy xizmatchilari:  <span>2 nafar</span> </li>
-                            <li class="alert alert-dark" role="alert">IIV harbiy xizmatchilari:  <span>3 nafar</span> </li>
-                            <li class="alert alert-dark" role="alert">FVV harbiy xizmatchilari:  <span>4 nafar</span> </li>
-                            <li class="alert alert-dark" role="alert">MG MSGr:  <span>4 nafar</span> </li>
-                            <li class="alert alert-dark" role="alert">IIV spring:  <span>3 nafar</span> </li>
-                            <li class="alert alert-dark" role="alert">Texnikalar:  <span>12 ta</span></li>       
-                            <li class="alert alert-dark" role="alert">Aloqa vositalari:  <span>12 ta</span></li>       
-                            <li class="alert alert-dark" role="alert">Metalodetektor:  <span>8 ta</span></li>       
-                            <li class="alert alert-dark" role="alert">Tadbir o'tkazuvchi tashabbuskor:  <span>Alisher Navoiy nomidagi kinochilar uyi</span></li>       
+                     <li class="alert alert-dark" role="alert">МГ жавобгар:  <span>лейтенант Умрзаков Жавоҳир </span> </li>
+                     <li class="alert alert-dark" role="alert">Қатнашадиган фуқароларнинг тахминий сони:  <span>300 нафар </span> </li>
+                     <li class="alert alert-dark" role="alert">Тадбирнинг бошланиш ва тугаш вақти:  <span>08:00 - 12:00 </span> </li>
+<li class="alert alert-dark" role="alert">Жами шахсий таркиб:  <span>${escapeHtml(String(ev.participants || 'N/A'))} нафар</span> </li>
+                            <li class="alert alert-dark" role="alert">МГ ҳарбий хизматчилари:  <span>2 нафар</span> </li>
+                            <li class="alert alert-dark" role="alert">ИИВ ҳарбий хизматчилари:  <span>3 нафар</span> </li>
+                            <li class="alert alert-dark" role="alert">ФВВ ҳарбий хизматчилари:  <span>4 нафар</span> </li>
+                            <li class="alert alert-dark" role="alert">МГ МСГр:  <span>4 нафар</span> </li>
+                            <li class="alert alert-dark" role="alert">ИИВ спринг:  <span>3 нафар</span> </li>
+                            <li class="alert alert-dark" role="alert">Техникалар:  <span>12 ta</span></li>       
+                            <li class="alert alert-dark" role="alert">Алоқа воситалари:  <span>12 ta</span></li>       
+                            <li class="alert alert-dark" role="alert">Металодетектор:  <span>8 ta</span></li>       
+                            <li class="alert alert-dark" role="alert">Тадбир ўтказувчи ташаббускор:  <span>Алишер Навоий номидаги киночилар уйи</span></li>       
                     </ul>
                </div>
             </div>
@@ -1332,34 +1326,34 @@ ${escapeHtml(ev.title)}
   const chartDataByFilter2 = {
     0: {
       legend: [
-        "O‘quv-jangovar",
-        "Tarbiyaviy",
-        "Nazorat va inspektsion",
-        "Texnik va xo‘jalik",
-        "Ta’lim va kasbiy tayyorgarlik",
-        "Sport va jismoniy tayyorgarlik"
+      "Ўқув-жанговар",
+        "Тарбиявий",
+        "Назорат ва инспекцион",
+        "Техник ва хўжалик",
+        "Таълим ва касбий тайёргарлик",
+        "Спорт ва жисмоний тайёргарлик"
       ],
       data: [108, 92, 69, 89, 46, 27]
     },
     2: {
       legend: [
-        "O‘quv-jangovar",
-        "Tarbiyaviy",
-        "Nazorat va inspektsion",
-        "Texnik va xo‘jalik",
-        "Ta’lim va kasbiy tayyorgarlik",
-        "Sport va jismoniy tayyorgarlik"
+       "Ўқув-жанговар",
+        "Тарбиявий",
+        "Назорат ва инспекцион",
+        "Техник ва хўжалик",
+        "Таълим ва касбий тайёргарлик",
+        "Спорт ва жисмоний тайёргарлик"
       ],
       data: [40, 30, 22, 25, 18, 10]
     },
     3: {
       legend: [
-        "O‘quv-jangovar",
-        "Tarbiyaviy",
-        "Nazorat va inspektsion",
-        "Texnik va xo‘jalik",
-        "Ta’lim va kasbiy tayyorgarlik",
-        "Sport va jismoniy tayyorgarlik"
+       "Ўқув-жанговар",
+        "Тарбиявий",
+        "Назорат ва инспекцион",
+        "Техник ва хўжалик",
+        "Таълим ва касбий тайёргарлик",
+        "Спорт ва жисмоний тайёргарлик"
       ],
       data: [200, 160, 120, 150, 90, 60]
     }
@@ -1367,54 +1361,54 @@ ${escapeHtml(ev.title)}
 
   // 🧾 Tafsilotlar (modal uchun)
   const eventDetails3 = {
-    "O‘quv-jangovar": [
-      "Otish mashg‘ulotlari - 12",
-      "Taktik mashg‘ulotlar - 34",
-      "Texnik mashqlar - 14",
-      "Muhandislik va sapyor tayyorgarligi - 9",
-      "Tibbiy mashg‘ulotlar - 6",
-      "Jismoniy va psixologik tayyorgarlik - 4",
-      "Aloqa va radiotexnik tayyorgarlik mashg‘ulotlari - 13",
-      "Jangovar tayyorgarlik bo‘yicha yig‘ilishlar va nazorat mashg‘ulotlari - 20"
+   "Ўқув-жанговар": [
+      "Отиш машғулотлари - 12",
+      "Тактик машғулотлар - 34",
+      "Техник машқлар - 14",
+      "Муҳандислик ва сапёр тайёргарлиги - 9",
+      "Тиббий машғулотлар - 6",
+      "Жисмоний ва психологик тайёргарлик - 4",
+      "Алоқа ва радиотехник тайёргарлик машғулотлари - 13",
+      "Жанговар тайёргарлик бўйича йиғилишлар ва назорат машғулотлари - 20"
     ],
-    "Tarbiyaviy": [
-      "Vatanparvarlik va ma’naviy mashg‘ulotlar - 12",
-      "Tantanali saf tortish marosimlari - 15",
-      "Ochiq eshiklar kuni - 20",
-      "Madaniy-ommaviy tadbirlar - 21",
-      "Ma’naviy-psixologik tayyorgarlik mashg‘ulotlari - 24"
+   "Тарбиявий": [
+      "Ватанпарварлик ва маънавий машғулотлар - 12",
+      "Тантанали саф тортиш маросимлари - 15",
+      "Очиқ эшиклар куни - 20",
+      "Маданий-оммавий тадбирлар - 21",
+      "Маънавий-психологик тайёргарлик машғулотлари - 24"
     ],
-    "Nazorat va inspektsion": [
-      "Jangovar va xizmatga tayyorgarlik tekshiruvlari - 14",
-      "Qo‘mondonlik yoki boshqaruv tomonidan inspektorlik tekshiruvi - 17",
-      "Eng yaxshi bo‘linma (harbiy qism) tanlovi - 19",
-      "Qurol, texnika va o‘q-dorilar hisobini tekshirish - 19"
+   "Назорат ва инспекцион": [
+      "Жанговар ва хизматга тайёргарлик текширувлари - 14",
+      "Қўмондонлик ёки бошқарув томонидан инспекторлик текшируви - 17",
+      "Энг яхши бўлинма (ҳарбий қисм) танлови - 19",
+      "Қурол, техника ва ўқ-дорилар ҳисобини текшириш - 19"
     ],
-    "Texnik va xo‘jalik": [
-      "Texnika va qurollarga texnik xizmat ko‘rsatish va ta’mirlash - 21",
-      "Parklar, kazarmalar va omborlarda tartib o‘rnatish - 24",
-      "Mulkni inventarizatsiya qilish - 25",
-      "Hududni obodonlashtirish, xo‘jalik ishlari - 19"
+    "Техник ва хўжалик": [
+      "Техника ва қуролларга техник хизмат кўрсатиш ва таъмирлаш - 21",
+      "Парклар, казармалар ва омборларда тартиб ўрнатиш - 24",
+      "Мулкни инвентаризация қилиш - 25",
+      "Ҳудудни ободонлаштириш, хўжалик ишлари - 19"
     ],
-    "Ta’lim va kasbiy tayyorgarlik": [
-      "Ofitser va praporshchiklar uchun malaka oshirish kurslari - 24",
-      "Yangi qurol va texnikani o‘rganish bo‘yicha mashg‘ulotlar - 10",
-      "Qo‘mondonlik tarkibi uchun seminar va uslubiy yig‘ilishlar - 9",
-      "Hududlar o‘rtasida tajriba almashish - 3"
+    "Таълим ва касбий тайёргарлик": [
+      "Офицер ва прапоршчиклар учун малака ошириш курслари - 24",
+      "Янги қурол ва техникани ўрганиш бўйича машғулотлар - 10",
+      "Қўмондонлик таркиби учун семинар ва услубий йиғилишлар - 9",
+      "Ҳудудлар ўртасида тажриба алмашиш - 3"
     ],
-    "Sport va jismoniy tayyorgarlik": [
-      "Jismoniy tayyorgarlik normativlarini topshirish - 1",
-      "Bo‘linmalar o‘rtasida musobaqalar - 10",
-      "Harbiy-sport bayramlari - 8",
-      "GTO standartlariga tayyorgarlik - 8"
+    "Спорт ва жисмоний тайёргарлик": [
+      "Жисмоний тайёргарлик нормативларини топшириш - 1",
+      "Бўлинмалар ўртасида мусобақалар - 10",
+      "Ҳарбий-спорт байрамлари - 8",
+      "ГТО стандартларига тайёргарлик - 8"
     ]
   };
 
   // 🔽 Filter ro‘yxat
   const filters2 = [
-    { id: 0, name: "Hammasi" },
-    { id: 2, name: "Oy" },
-    { id: 3, name: "Yil" }
+    { id: 0, name: "Ҳаммаси" },
+    { id: 2, name: "Ой" },
+    { id: 3, name: "Йил" }
   ];
 
   // 🎨 Ranglar
@@ -1497,12 +1491,12 @@ ${escapeHtml(ev.title)}
     });
   }
 
-  // 🧭 SELECTni to‘ldirish
+  // SELECTni to‘ldirish
   filters2.forEach(item => {
     $("#public_events1").append(`<option value="${item.id}">${item.name}</option>`);
   });
 
-  // 🔁 SELECT o‘zgarsa chartni yangilash
+  //  SELECT o‘zgarsa chartni yangilash
   $("#public_events1").change(function() {
     const id = $(this).val();
     const selected = chartDataByFilter2[id] || chartDataByFilter2[0];
@@ -1510,7 +1504,7 @@ ${escapeHtml(ev.title)}
     renderIdoraviyChart(selected, total);
   });
 
-  // 🚀 Dastlab yuklash
+  // Dastlab yuklash
   const initialData2 = chartDataByFilter2[0];
   const totalInitial2 = initialData2.data.reduce((a, b) => a + b, 0);
   renderIdoraviyChart(initialData2, totalInitial2);
@@ -1519,22 +1513,22 @@ ${escapeHtml(ev.title)}
 
 
   // JTSB chart uchun funksiya Boshlang‘ich
-  // 📊 Har bir viloyat uchun chart ma'lumotlari
+  // Har bir viloyat uchun chart ma'lumotlari
   const chartDataByFilter = {
-    0: { legend: ["Bozorlar", "Parklar", "Xiyobonlar", "Boshqa joylar"], data: [12, 20, 34, 45] },
-    1: { legend: ["Bozorlar", "Parklar", "Xiyobonlar", "Boshqa joylar"], data: [2, 4, 4, 3] },
-    2: { legend: ["Bozorlar", "Parklar", "Xiyobonlar", "Boshqa joylar"], data: [5, 6, 4, 7] },
-    3: { legend: ["Bozorlar", "Parklar", "Xiyobonlar", "Boshqa joylar"], data: [6, 4, 3, 5] },
-    4: { legend: ["Bozorlar", "Parklar", "Xiyobonlar", "Boshqa joylar"], data: [3, 6, 5, 4] }
+    0: { legend: ["Бозорлар", "Парклар", "Хиёбонлар", "Бошқа жойлар"], data: [12, 20, 34, 45] },
+    1: { legend: ["Бозорлар", "Парклар", "Хиёбонлар", "Бошқа жойлар"], data: [2, 4, 4, 3] },
+    2: { legend: ["Бозорлар", "Парклар", "Хиёбонлар", "Бошқа жойлар"], data: [5, 6, 4, 7] },
+    3: { legend: ["Бозорлар", "Парклар", "Хиёбонлар", "Бошқа жойлар"], data: [6, 4, 3, 5] },
+    4: { legend: ["Бозорлар", "Парклар", "Хиёбонлар", "Бошқа жойлар"], data: [3, 6, 5, 4] }
   };
 
   // 📍 Viloyatlar ro‘yxati
   const publicFilters = [
-    { id: 0, name: "Hammasi" },
-    { id: 1, name: "Andijon" },
-    { id: 2, name: "Toshkent" },
-    { id: 3, name: "Sirdaryo" },
-    { id: 4, name: "Jizzax" },
+    { id: 0, name: "Ҳаммаси" },
+    { id: 1, name: "Андижон" },
+    { id: 2, name: "Тошкент" },
+    { id: 3, name: "Сирдарё" },
+    { id: 4, name: "Жиззах" },
   ];
 
   // 🧭 Select to‘ldirish
@@ -1545,28 +1539,28 @@ ${escapeHtml(ev.title)}
   // 🧱 Har bir viloyat uchun joylar ro‘yxati
   const categoryPlacesByRegion = {
     1: {
-      "Bozorlar": ["Andijon markaziy bozori", "Jahon savdo kompleksi"],
-      "Parklar": ["Navro‘z bog‘i", "Bolalar bog‘i"],
-      "Xiyobonlar": ["Bobur xiyoboni", "Guliston xiyoboni"],
-      "Boshqa joylar": ["Yaxudiylar xiyoboni", "Yaxudiylar qabristoni"]
+      "Бозорлар": ["Андижон марказий бозори", "Жаҳон савдо комплекси"],
+      "Парклар": ["Наврўз боғи", "Болалар боғи"],
+      "Хиёбонлар": ["Бобур хиёбони", "Гулистон хиёбони"],
+      "Бошқа жойлар": ["Яхудийлар хиёбони", "Яхудийлар қабристони"]
     },
     2: {
-      "Bozorlar": ["Toshkent bozori 1", "Toshkent bozori 2"],
-      "Parklar": ["Ekopark", "Lokomotiv bog‘i"],
-      "Xiyobonlar": ["Mustaqillik xiyoboni", "Amir Temur xiyoboni"],
-      "Boshqa joylar": ["Yaxudiylar xiyoboni", "Yaxudiylar uyi"]
+      "Бозорлар": ["Аския бозори", "Миробод деҳқон бозори"],
+      "Парклар": ["Экопарк", "Локомотив боғи"],
+      "Хиёбонлар": ["Мустақиллик хиёбони", "Амир Темур хиёбони"],
+      "Бошқа жойлар": ["Яхудийлар хиёбони", "Яхудийлар уйи"]
     },
     3: {
-      "Bozorlar": ["Sirdaryo bozori 1"],
-      "Parklar": ["Sirdaryo parki"],
-      "Xiyobonlar": ["Sirdaryo xiyoboni"],
-      "Boshqa joylar": ["Yaxudiylar xiyoboni", "Yaxudiylar uyi"]
+      "Бозорлар": ["Сирдарё марказий бозори"],
+      "Парклар": ["Сирдарё марказий парки"],
+      "Хиёбонлар": ["Сирдарё марказий хиёбони"],
+      "Бошқа жойлар": ["Яхудийлар хиёбони", "Яхудийлар уйи"]
     },
     4: {
-      "Bozorlar": ["Jizzax bozori 1", "Jizzax bozori 2"],
-      "Parklar": ["Jizzax parki 1"],
-      "Xiyobonlar": ["Jizzax xiyoboni"],
-      "Boshqa joylar": ["Yaxudiylar xiyoboni", "Yaxudiylar uyi"]
+      "Бозорлар": ["Жиззахмарказий бозори", "Жиззах савдо комплекси"],
+      "Парклар": ["Жиззах марказий парки"],
+      "Хиёбонлар": ["Жиззах хиёбони"],
+      "Бошқа жойлар": ["Яхудийлар хиёбони", "Яхудийлар уйи"]
     }
   };
 
@@ -1579,18 +1573,13 @@ ${escapeHtml(ev.title)}
     return
     const id = parseInt($(this).val());
 
-
-
-
-
-
     const regionBoxes = $('#get_events_by_region');
 
     // avval konteynerni tozalaymiz
     regionBoxes.empty();
 
 
-    // 🔹 "Hammasi" tanlanganda pastdagi diagramma qayta chiziladi
+    // 🔹 "Ҳаммаси" tanlanganda pastdagi diagramma qayta chiziladi
     if (id === 0) {
       // containerni to‘liq qayta yaratamiz
       regionBoxes.html('<div id="get_events_by_region_chart" style="width:100%; height:400px;"></div>');
@@ -1640,26 +1629,6 @@ ${escapeHtml(ev.title)}
       window.addEventListener('resize', myChart.resize);
 
     } else {
-      // ✅ Viloyat tanlanganda – uchta kategoriya chiqadi
-      //  const cats = data.legend;
-      // const placesByCat = categoryPlacesByRegion[id] || {};
-
-      // cats.forEach(cat => {
-      //   const places = placesByCat[cat] || [];
-      //   let listHtml = '<ul class="place-list scrollable">';
-      //   places.forEach(p => listHtml += `<li class="category-item" data-cat="${cat}" data-place="${p}">${p}</li>`);
-      //   listHtml += '</ul>';
-
-      //   regionBoxes.append(`
-      //     <div class="col-3">
-      //       <div class="region-box">
-      //        <h5 class="mb-2 text-center text-primary">${cat}</h5>
-      //          ${listHtml}
-      //       </div>
-      //     </div>
-      //   `);
-      // });
-
       const cats = data.legend;
       const placesByCat = categoryPlacesByRegion[id] || {};
       const regionBoxes = document.getElementById("get_events_by_region"); // DOM elementni to‘g‘ri olamiz
@@ -1701,20 +1670,15 @@ ${escapeHtml(ev.title)}
 
         console.log("✅ Region boxes yangilandi!");
       }
-
-
-
-
     }
   });
 
-  // 🧩 Har bir joy bosilganda — modal ochiladi
   $(document).on('click', '.category-item', function() {
     const placeName = $(this).text();
     const regionId = parseInt($('#event_count').val());
     const cat = $(this).closest('.region-box').find('h5').text();
 
-    $('#chartModalLabel').text(`${publicFilters.find(f => f.id === regionId)?.name || 'Hudud'} bo'yicha : ${cat}`);
+    $('#chartModalLabel').text(`${publicFilters.find(f => f.id === regionId)?.name || 'Ҳудуд'} бўйича : ${cat}`);
     $('#chartModalList').html(`
       <ul class="place-list">
   <li class="active">${placeName}</li>
@@ -1754,7 +1718,7 @@ ${escapeHtml(ev.title)}
               </div>
               <div class="col-3">
                  <div class="space-main-head">
-                       <h4>Pasport Ma'lumotlari</h4>
+                       <h4>Паспорт Маълумотлари</h4>
                </div>
                  <div class="space-main-body-password">
                      <ul>
@@ -1765,58 +1729,58 @@ ${escapeHtml(ev.title)}
                                                       <h6><span><svg xmlns="http://www.w3.org/2000/svg"   width="18" height="18" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
                             <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
                             <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
-                          </svg></span> Manzili: </h6>
-                                                      <p>Oʻzbekiston, Toshkent shahri, Nayman koʻchasi, 69</p>
+                          </svg></span> Манзили: </h6>
+                                                      <p>Ўзбекистон, Тошкент шаҳри, Найман кўчаси, 69</p>
                                                                       </li>
                                                                          <li>
                                     <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dice-1" viewBox="0 0 16 16">
                                     <circle cx="8" cy="8" r="1.5"/>
                                     <path d="M13 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3z"/>
-                                  </svg></span> Hudud joylashgan mahalla: </h6>
-                                                      <p>Rohat mahallasi</p>
+                                  </svg></span> Ҳудуд жойлашган маҳалла: </h6>
+                                                      <p>Роҳат маҳалласи</p>
                                                                       </li>
                                                                         <li>
                                                                           <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shop-window" viewBox="0 0 16 16">
                             <path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.37 2.37 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0M1.5 8.5A.5.5 0 0 1 2 9v6h12V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5m2 .5a.5.5 0 0 1 .5.5V13h8V9.5a.5.5 0 0 1 1 0V13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5a.5.5 0 0 1 .5-.5"/>
-                          </svg></span> Savdo obyektlar soni: </h6>
-                                                                          <p>70 ta</p>
+                          </svg></span> Савдо объектлар сони: </h6>
+                                                                          <p>70 та</p>
                                                                       </li>
                                                     <li>
                                                       <h6><span><svg xmlns="http://www.w3.org/2000/svg"  width="18" height="18" fill="currentColor" class="bi bi-telephone-forward" viewBox="0 0 16 16">
                             <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877zm10.762.135a.5.5 0 0 1 .708 0l2.5 2.5a.5.5 0 0 1 0 .708l-2.5 2.5a.5.5 0 0 1-.708-.708L14.293 4H9.5a.5.5 0 0 1 0-1h4.793l-1.647-1.646a.5.5 0 0 1 0-.708"/>
-                          </svg></span>Administrator telefon raqami: </h6>
+                          </svg></span>Администратор телефон рақами: </h6>
                                                       <p>+998 90 123-45-67 +998 91 123-45-67</p>
                                                   </li>
                                                   <li>
                                                       <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-border-all" viewBox="0 0 16 16">
                             <path d="M0 0h16v16H0zm1 1v6.5h6.5V1zm7.5 0v6.5H15V1zM15 8.5H8.5V15H15zM7.5 15V8.5H1V15z"/>
-                          </svg></span>Maydoni: </h6>
+                          </svg></span>Майдони: </h6>
                                                       <p>4046.86 m²</p>
                                                                     </li>
                                                                     <li> 
                                                                         <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
                           <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1"/>
                           <path d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117M11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5M4 1.934V15h6V1.077z"/>
-                        </svg></span>Kirish chiqish eshiklar soni: </h6>
-                                                                        <p>4 ta</p>
+                        </svg></span>Кириш чиқиш эшиклар сони: </h6>
+                                                                        <p>4 та</p>
                                                                     </li>
                                                   <li>
                                                       <h6><span><svg xmlns="http://www.w3.org/2000/svg"  width="18" height="18" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
                             <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
-                          </svg></span>Bozor rahbari: </h6>
-                                                      <p>Berdiyev Muzaffar +998 90 234-76-90</p>
+                          </svg></span>Бозор раҳбари: </h6>
+                                                      <p>Бердиев Музаффар +998 90 234-76-90</p>
                                                   </li>
                                                   <li>
                                                       <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
                             <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
-                          </svg></span>Bozor uchastkavoyi: </h6>
-                                                      <p>Toshev Jasurbek +998 91 233-76-96</p>
+                          </svg></span>Бозор участкавойи: </h6>
+                                                      <p>Тошев Жасурбек +998 91 233-76-96</p>
                                                   </li>
                                                   <li>
                                                       <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-telephone-forward" viewBox="0 0 16 16">
                             <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877zm10.762.135a.5.5 0 0 1 .708 0l2.5 2.5a.5.5 0 0 1 0 .708l-2.5 2.5a.5.5 0 0 1-.708-.708L14.293 4H9.5a.5.5 0 0 1 0-1h4.793l-1.647-1.646a.5.5 0 0 1 0-.708"/>
-                          </svg></span> Hamkor tashkilotlar aloqa: </h6>
-                                                      <p> IIV- +998 91 123-45-67 FVV- +998 97 851-12-23</p>
+                          </svg></span> Ҳамкор ташкилотлар алоқа: </h6>
+                                                      <p> ИИВ- +998 91 123-45-67 ФВВ- +998 97 851-12-23</p>
                                                   </li>
 
                      </ul>
@@ -1824,21 +1788,21 @@ ${escapeHtml(ev.title)}
             </div>
             <div class="col-3">
                 <div class="space-main-head">
-                     <h4>MG tomonidan ajratilgan kuch vositalar</h4>
+                     <h4>МГ томонидан ажратилган куч воситалар</h4>
                </div>
                  <div class="space-main-body-duty">
                     <ul>
-                       <li class="alert alert-dark" role="alert">MG javobgar:  <span>leytenant Umrzakov Javohir </span> </li>
-                            <li class="alert alert-dark" role="alert">Jami shaxsiy tarkib:  <span>20 nafar</span> </li>
-                            <li class="alert alert-dark" role="alert">Piyoda patrullar:  <span>12 nafar</span> </li>
-                            <li class="alert alert-dark" role="alert">Avto patrullar:  <span>8 nafar</span>  </li>
-                            <li class="alert alert-dark" role="alert">Yo'nalishlar:  <span>4 ta</span>   </li>
-                                <li class="alert alert-dark" role="alert">Sektorlar soni:  <span>4 ta</span>   </li>
-                              <li class="alert alert-dark" role="alert">Kameralar soni:  <span>12 ta</span>   </li>
-                              <li class="alert alert-dark" role="alert">Tashvish tugmalar soni:  <span>4 ta</span>   </li>
-                              <li class="alert alert-dark" role="alert">Xizmat hayvonlari:  <span>8 ta</span>  </li>
-                              <li class="alert alert-dark" role="alert">Maxsus vositalar soni:  <span>12 ta</span>  </li>
-                              <li class="alert alert-dark" role="alert">Texnikalar:  <span>12 ta</span></li>          
+                       <li class="alert alert-dark" role="alert">МГ жавобгар:  <span>лейтенант Умрзаков Жавоҳир </span> </li>
+                            <li class="alert alert-dark" role="alert">Жами шахсий таркиб:  <span>20 нафар</span> </li>
+                            <li class="alert alert-dark" role="alert">Пиёда патруллар:  <span>12 нафар</span> </li>
+                            <li class="alert alert-dark" role="alert">Авто патруллар:  <span>8 нафар</span>  </li>
+                            <li class="alert alert-dark" role="alert">Йўналишлар:  <span>4 ta</span>   </li>
+                                <li class="alert alert-dark" role="alert">Секторлар сони:  <span>4 ta</span>   </li>
+                              <li class="alert alert-dark" role="alert">Камералар сони:  <span>12 ta</span>   </li>
+                              <li class="alert alert-dark" role="alert">Ташвиш тугмалар сони:  <span>4 ta</span>   </li>
+                              <li class="alert alert-dark" role="alert">Хизмат ҳайвонлари:  <span>8 ta</span>  </li>
+                              <li class="alert alert-dark" role="alert">Махсус воситалар сони:  <span>12 ta</span>  </li>
+                              <li class="alert alert-dark" role="alert">Техникалар:  <span>12 ta</span></li>          
                       </ul>
                  </div>
               </div>
@@ -1853,10 +1817,10 @@ ${escapeHtml(ev.title)}
 
   // 🔧 Dastlabki diagramma va chartlar
   const regionData5 = [
-    { name: "Toshkent", gcount: 10 },
-    { name: "Andijon", gcount: 11 },
-    { name: "Sirdaryo", gcount: 6 },
-    { name: "Jizzax", gcount: 7 },
+    { name: "Тошкент", gcount: 10 },
+    { name: "Андижон", gcount: 11 },
+    { name: "Сирдарё", gcount: 6 },
+    { name: "Жиззах", gcount: 7 },
   ];
 
   // get_events_by_region(regionData5);

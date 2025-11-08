@@ -58,7 +58,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body text-center">
-                    <h4> MG javobgarlik hududlarida o‘tkaziladigan <strong>{$smarty.get.date}</strong> va ularga jalb etiladigan kuch va vositalari to‘g‘risida <br> <span>MA'LUMOT</span> </h4>
+                    <h4> МГ жавобгарлик ҳудудларида ўтказиладиган <strong>{$smarty.get.date}</strong> ва уларга жалб этиладиган куч ва воситалари тўғрисида <br> <span>МАЪЛУМОТ</span> </h4>
                 </div>
             </div>
         </div>
@@ -71,14 +71,14 @@
         <div class="col-12">
             <div class="card">
                 <div class="date-box">
-                   <h5 class="pt-2 pb-2 p-4 m-0">Sana: 08.11.2025-yil</h5>
+                   <h5 class="pt-2 pb-2 p-4 m-0">Сана: 08.11.2025-йил</h5>
                    <div class="date-box-select">
                        {* <input class="form-control" type="date" placeholder="Boshlang'ich vaqtni tanlang">
                        <input class="form-control" type="date" placeholder="Oxirgi vaqtni tanlang"> *}
                        <select class="form-select">
-                           <option>Hamma tadbirlar</option>
-                           <option>Xalqaro</option>
-                           <option>Respublika</option>
+                           <option>Ҳамма тадбирлар</option>
+                           <option>Халқаро</option>
+                           <option>Республика</option>
                        </select>
                       <a href="#" class="date-box-sel-link">
                         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-file-earmark-text" viewBox="0 0 16 16">
@@ -93,15 +93,15 @@
                     <table class="datatables-projects table border-top table-hover table-striped table-bordered">
                         <thead>
                         <tr class="text-center">
-                            <th>T/r</th>
-                            <th>Viloyatlar kesimida̱</th>
-                            <th>Tadbir soni̱</th>
-                            <th>Hukumat qarori asosidagi tadbir</th>
-                            <th>Pulli xizmat asosida tadbir</th>
-                            <th>Qatnashadigan fuqarolar soni</th>
-                            <th>Shaxsiy tarkib</th>
-                            <th>Texnikalar</th>
-                            <th>Maxsus vositalar</th>
+                            <th>Т/р</th>
+                            <th>Вилоятлар кесимида̱</th>
+                            <th>Тадбир сони̱</th>
+                            <th>Ҳукумат қарори асосидаги тадбир</th>
+                            <th>Пулли хизмат асосида тадбир</th>
+                            <th>Қатнашадиган фуқаролар сони</th>
+                            <th>Шахсий таркиб</th>
+                            <th>Техникалар</th>
+                            <th>Махсус воситалар</th>
                         </tr>
                         </thead>
                         <tbody id="event-tbody">
@@ -119,7 +119,7 @@
         <div class="col-12 mt-3">
             <button type="button" class="btn btn-primary waves-effect waves-light" onclick="window.history.back()"
             >
-                Ortga
+                Ортга
             </button>
         </div>
     </div>
@@ -182,71 +182,71 @@ window.addEventListener('load', function() {
     const region = "{/literal}{$smarty.get.date}{literal}";     
        
      const allEvents = {
-  "Siyosiy tadbirlar": [
-    { eventRegion: "Qoraqalpog‘iston Respublikasi", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
-    { eventRegion: "Toshkent shahar", eventCount: 3, hukumatqarori: 2, pullixizmat: 1, evetPersonCount: 900, evetDutyCount: 220, evetTransportCount: 30, evetVositaCount: 170 },
-    { eventRegion: "Andijon viloyati", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
-    { eventRegion: "Buxoro viloyati", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Fargo'na viloyati", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Jizzax viloyati", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Qashqadaryo viloyati", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Navoiy viloyati", eventCount: 1, hukumatqarori: 1, pullixizmat: 0, evetPersonCount: 500, evetDutyCount: 120, evetTransportCount: 9, evetVositaCount: 70 },  
-    { eventRegion: "Namangan viloyati", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Samarqand viloyati", eventCount: 2, hukumatqarori: 1, pullixizmat: 1, evetPersonCount: 1000, evetDutyCount: 320, evetTransportCount: 12, evetVositaCount: 100 },
-    { eventRegion: "Sirdaryo viloyati", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Surxondaryo viloyati", eventCount:0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Toshkent viloyati", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Xorazm viloyati", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,   evetTransportCount: 0, evetVositaCount: 0 }, 
+  "Сиёсий тадбирлар": [
+    { eventRegion: "Қорақалпоғистон Республикаsi", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
+    { eventRegion: "Тошкент шаҳар", eventCount: 3, hukumatqarori: 2, pullixizmat: 1, evetPersonCount: 900, evetDutyCount: 220, evetTransportCount: 30, evetVositaCount: 170 },
+    { eventRegion: "Андижон вилояти", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
+    { eventRegion: "Бухоро вилояти", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
+    { eventRegion: "Фарғона вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
+    { eventRegion: "Жиззах вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
+    { eventRegion: "Қашқадарё вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
+    { eventRegion: "Навоий вилояти", eventCount: 1, hukumatqarori: 1, pullixizmat: 0, evetPersonCount: 500, evetDutyCount: 120, evetTransportCount: 9, evetVositaCount: 70 },  
+    { eventRegion: "Наманган вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
+    { eventRegion: "Самарқанд вилояти", eventCount: 2, hukumatqarori: 1, pullixizmat: 1, evetPersonCount: 1000, evetDutyCount: 320, evetTransportCount: 12, evetVositaCount: 100 },
+    { eventRegion: "Сирдарё вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
+    { eventRegion: "Сурхандарё вилояти", eventCount:0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
+    { eventRegion: "Тошкент вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
+    { eventRegion: "Хоразм вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,   evetTransportCount: 0, evetVositaCount: 0 }, 
     
   ],
-  "Madaniy tadbirlar": [
-    { eventRegion: "Qoraqalpog‘iston Respublikasi", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
-   { eventRegion: "Toshkent shahar", eventCount: 3, hukumatqarori: 2, pullixizmat: 1, evetPersonCount: 900, evetDutyCount: 16, evetTransportCount: 4, evetVositaCount: 16 },
-    { eventRegion: "Andijon viloyati", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
-   { eventRegion: "Buxoro viloyati", eventCount: 2, hukumatqarori: 1, pullixizmat: 1, evetPersonCount: 300, evetDutyCount: 20, evetTransportCount: 3, evetVositaCount: 20 },
-    { eventRegion: "Fargo'na viloyati", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Jizzax viloyati", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Qashqadaryo viloyati", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
-   { eventRegion: "Namangan viloyati", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Namangan viloyati", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Samarqand viloyati",eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Sirdaryo viloyati", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Surxandaryo viloyati", eventCount: 1, hukumatqarori: 1, pullixizmat: 0, evetPersonCount: 200, evetDutyCount: 18, evetTransportCount: 2, evetVositaCount: 20 },
-    { eventRegion: "Toshkent viloyati", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Xorazm viloyati", eventCount: 1, hukumatqarori: 1, pullixizmat: 0, evetPersonCount: 350, evetDutyCount: 25, evetTransportCount: 4, evetVositaCount: 30 },
+  "Маданий тадбирлар": [
+    { eventRegion: "Қорақалпоғистон Республикаsi", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
+   { eventRegion: "Тошкент шаҳар", eventCount: 3, hukumatqarori: 2, pullixizmat: 1, evetPersonCount: 900, evetDutyCount: 16, evetTransportCount: 4, evetVositaCount: 16 },
+    { eventRegion: "Андижон вилояти", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
+   { eventRegion: "Бухоро вилояти", eventCount: 2, hukumatqarori: 1, pullixizmat: 1, evetPersonCount: 300, evetDutyCount: 20, evetTransportCount: 3, evetVositaCount: 20 },
+    { eventRegion: "Фарғона вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
+    { eventRegion: "Жиззах вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
+    { eventRegion: "Қашқадарё вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
+   { eventRegion: "Наманган вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
+    { eventRegion: "Наманган вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
+    { eventRegion: "Самарқанд вилояти",eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
+    { eventRegion: "Сирдарё вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
+    { eventRegion: "Сурхандарё вилояти", eventCount: 1, hukumatqarori: 1, pullixizmat: 0, evetPersonCount: 200, evetDutyCount: 18, evetTransportCount: 2, evetVositaCount: 20 },
+    { eventRegion: "Тошкент вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
+    { eventRegion: "Хоразм вилояти", eventCount: 1, hukumatqarori: 1, pullixizmat: 0, evetPersonCount: 350, evetDutyCount: 25, evetTransportCount: 4, evetVositaCount: 30 },
 
   ],
-  "Sport tadbirlar": [
-   { eventRegion: "Qoraqalpog'iston Respublikasi", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
-    { eventRegion: "Toshkent shahar", eventCount: 4, hukumatqarori: 3, pullixizmat: 1, evetPersonCount: 1000, evetDutyCount: 50, evetTransportCount: 12, evetVositaCount: 50 },
-    { eventRegion: "Andijon viloyati", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
-   { eventRegion: "Buxoro viloyati",eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
-    { eventRegion: "Fargo'na viloyati", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Jizzax viloyati", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Qashqadaryo viloyati", eventCount: 1, hukumatqarori: 1, pullixizmat: 0, evetPersonCount: 200, evetDutyCount: 18, evetTransportCount: 2, evetVositaCount: 20}, 
-    { eventRegion: "Navoiy viloyati", eventCount: 1, hukumatqarori: 1, pullixizmat: 0, evetPersonCount: 100, evetDutyCount: 10, evetTransportCount: 2, evetVositaCount: 8 },
-    { eventRegion: "Namangan viloyati", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Samarqand viloyati", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
-    { eventRegion: "Sirdaryo viloyati", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Surxandaryo viloyati", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },
-    { eventRegion: "Toshkent viloyati", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
-    { eventRegion: "Xorazm viloyati", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,   evetTransportCount: 0, evetVositaCount: 0 }, 
+  "Спорт тадбирлар": [
+   { eventRegion: "Қорақалпоғистон Республикаsi", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
+    { eventRegion: "Тошкент шаҳар", eventCount: 4, hukumatqarori: 3, pullixizmat: 1, evetPersonCount: 1000, evetDutyCount: 50, evetTransportCount: 12, evetVositaCount: 50 },
+    { eventRegion: "Андижон вилояти", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
+   { eventRegion: "Бухоро вилояти",eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
+    { eventRegion: "Фарғона вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
+    { eventRegion: "Жиззах вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
+    { eventRegion: "Қашқадарё вилояти", eventCount: 1, hukumatqarori: 1, pullixizmat: 0, evetPersonCount: 200, evetDutyCount: 18, evetTransportCount: 2, evetVositaCount: 20}, 
+    { eventRegion: "Навоий вилояти", eventCount: 1, hukumatqarori: 1, pullixizmat: 0, evetPersonCount: 100, evetDutyCount: 10, evetTransportCount: 2, evetVositaCount: 8 },
+    { eventRegion: "Наманган вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
+    { eventRegion: "Самарқанд вилояти", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
+    { eventRegion: "Сирдарё вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
+    { eventRegion: "Сурхандарё вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },
+    { eventRegion: "Тошкент вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
+    { eventRegion: "Хоразм вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,   evetTransportCount: 0, evetVositaCount: 0 }, 
   ],
-  "Boshqa tadbirlar": [
-     { eventRegion: "Qoraqalpog'iston Respublikasi",  eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,   evetTransportCount: 0, evetVositaCount: 0  },
-    { eventRegion: "Toshkent shahar", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
-    { eventRegion: "Andijon viloyati", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
-   { eventRegion: "Buxoro viloyati",eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
-    { eventRegion: "Fargo'na viloyati", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
-   { eventRegion: "Jizzax viloyati", eventCount: 1, hukumatqarori: 1, pullixizmat: 0, evetPersonCount: 100, evetDutyCount: 20, evetTransportCount: 3, evetVositaCount: 20 },
-    { eventRegion: "Qashqadaryo viloyati", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Navoiy viloyati", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
-   { eventRegion: "Namangan viloyati", eventCount: 4, hukumatqarori: 3, pullixizmat: 1, evetPersonCount: 1000, evetDutyCount: 50, evetTransportCount: 12, evetVositaCount: 50 },
-    { eventRegion: "Samarqand viloyati", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
-    { eventRegion: "Sirdaryo viloyati", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Surxandaryo viloyati", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
-    { eventRegion: "Toshkent viloyati", eventCount: 1, hukumatqarori: 1, pullixizmat: 0, evetPersonCount: 100, evetDutyCount: 20, evetTransportCount: 3, evetVositaCount: 20 }, 
-    { eventRegion: "Xorazm viloyati", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,   evetTransportCount: 0, evetVositaCount: 0 }, 
+  "Бошқа тадбирлар": [
+     { eventRegion: "Қорақалпоғистон Республикаsi",  eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,   evetTransportCount: 0, evetVositaCount: 0  },
+    { eventRegion: "Тошкент шаҳар", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
+    { eventRegion: "Андижон вилояти", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
+   { eventRegion: "Бухоро вилояти",eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
+    { eventRegion: "Фарғона вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
+   { eventRegion: "Жиззах вилояти", eventCount: 1, hukumatqarori: 1, pullixizmat: 0, evetPersonCount: 100, evetDutyCount: 20, evetTransportCount: 3, evetVositaCount: 20 },
+    { eventRegion: "Қашқадарё вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
+    { eventRegion: "Навоий вилояти", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
+   { eventRegion: "Наманган вилояти", eventCount: 4, hukumatqarori: 3, pullixizmat: 1, evetPersonCount: 1000, evetDutyCount: 50, evetTransportCount: 12, evetVositaCount: 50 },
+    { eventRegion: "Самарқанд вилояти", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
+    { eventRegion: "Сирдарё вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
+    { eventRegion: "Сурхандарё вилояти", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
+    { eventRegion: "Тошкент вилояти", eventCount: 1, hukumatqarori: 1, pullixizmat: 0, evetPersonCount: 100, evetDutyCount: 20, evetTransportCount: 3, evetVositaCount: 20 }, 
+    { eventRegion: "Хоразм вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,   evetTransportCount: 0, evetVositaCount: 0 }, 
   ]
 };
 

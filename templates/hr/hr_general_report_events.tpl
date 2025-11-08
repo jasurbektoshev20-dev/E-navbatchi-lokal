@@ -42,8 +42,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body text-center">
-                    <h4>Milliy gvardiya javobgarlik hududlarida rejalashtirilgan siyosiy, madaniy, sport va boshqa ommaviy tadbirlar to‘g‘risida <br>
-                      <p class="m-0">MA'LUMOT</p>
+                    <h4>Миллий гвардия жавобгарлик ҳудудларида режалаштирилган сиёсий, маданий, спорт ва бошқа оммавий тадбирлар тўғрисида <br>
+                      <p class="m-0">МАЪЛУМОТ</p>
                    </h4>
                 </div>
             </div>
@@ -56,12 +56,12 @@
         <!-- Projects table -->
         <div class="col-12">
             <div class="date-filter-box">
-                   <h5 class="pt-2 pb-2 p-4 m-0">Sana: 08.11.2025-yil</h5>     
+                   <h5 class="pt-2 pb-2 p-4 m-0">Сана: 08.11.2025-йил</h5>     
                      <div class="col-sm-4">
                         <input class="form-control" type="date" placeholder="Boshlang'ich vaqtni tanlang">
                         <input class="form-control" type="date" placeholder="Oxirgi vaqtni tanlang">
                     
-                        <button class="btn btn-primary">Ko'rsatish</button>
+                        <button class="btn btn-primary">Кўрсатиш</button>
                      </div>   
             </div>
             <div class="card">
@@ -69,23 +69,23 @@
                     <table class="datatables-projects table border-top table-hover table-striped table-bordered">
                         <thead>
                         <tr class="text-center">
-                            <th>T/r</th>
-                            <th>Tadbir turi</th>
-                            <th>Toshkent shahar</th>
-                            <th>Andijon</th>
-                            <th>Buxoro</th>
-                            <th>Farg'ona</th>
-                            <th>Jizzax</th>
-                            <th>Qashqadaryo</th>
-                            <th>Xorazm</th>
-                            <th>Namangan</th>
-                            <th>Navoiy</th>
-                            <th>Samarqand</th>                           
-                            <th>Sirdaryo</th>
-                            <th>Surxandaryo</th>
-                            <th>Toshkent viloyati</th>
-                            <th>Qoraqalpog'iston</th>
-                            <th>Jami</th>
+                            <th>Т/р</th>
+                            <th>Тадбир тури</th>
+                            <th>Тошкент шаҳар</th>
+                            <th>Андижон</th>
+                            <th>Бухоро</th>
+                            <th>Фарғона</th>
+                            <th>Жиззах</th>
+                            <th>Қашқадарё</th>
+                            <th>Хоразм</th>
+                            <th>Наманган</th>
+                            <th>Навоий</th>
+                            <th>Самарқанд</th>                           
+                            <th>Сирдарё</th>
+                            <th>Сурхандарё</th>
+                            <th>Тошкент вилояти</th>
+                            <th>Қорақалпоғистон</th>
+                            <th>Жами</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -93,7 +93,7 @@
                             <td class="text-right">1</td>
                             <td>
                                 <a
-                                        href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Siyosiy tadbirlar">Siyosiy tadbirlar</a>
+                                        href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Сиёсий тадбирлар">Сиёсий тадбирлар</a>
                             </td>
                             <td>4</td>
                             <td>2</td>
@@ -115,7 +115,7 @@
                             <td class="text-right">2</td>
                             <td>
                                 <a
-                                        href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Madaniy tadbirlar">Madaniy tadbirlar</a>
+                                        href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Маданий тадбирлар">Маданий тадбирлар</a>
                             </td>
                             <td>5</td>
                             <td>3</td>
@@ -137,7 +137,7 @@
                             <td class="text-right">3</td>
                             <td>
                                 <a
-                                        href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Sport tadbirlar">Sport tadbirlar</a>
+                                        href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Спорт тадбирлар">Спорт тадбирлар</a>
                             </td>
                             <td>4</td>
                             <td>2</td>
@@ -159,7 +159,7 @@
                             <td class="text-right">4</td>
                             <td>
                                 <a
-                                        href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Boshqa tadbirlar">Boshqa tadbirlar</a>
+                                        href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Бошқа тадбирлар">Бошқа тадбирлар</a>
                             </td>
                             <td>3</td>
                             <td>1</td>

@@ -168,7 +168,7 @@
 
                                 <div class="mx-1 my-2 row">
                                     <div class="col-8">
-                                        <h5 class="card-title">Mamuriy huquqbuzarliklar</h5>
+                                        <h5 class="card-title">Мамурий ҳуқуқбузарликлар</h5>
                                     </div>
                                     <div class="col-4">
                                         <select class="form-select" id="get_crime_by_type_filter">
@@ -186,7 +186,7 @@
                             <div class="card">
                                 <div class="mx-1 my-2 row">
                                     <div class="col-8">
-                                        <h5 class="card-title">Jinoiy huquqbuzarliklar</h5>
+                                        <h5 class="card-title">Жиноий ҳуқуқбузарликлар</h5>
                                     </div>
                                     <div class="col-4">
                                         <select class="form-select" id="get_crimes_filter">
@@ -213,7 +213,7 @@
                             <div class="row mb-3">
                             <div class="col-8">
                                 <h5 class="card-title">
-                                Ma'muriy huquqbuzarliklar hududlar kesimida
+                                Маъмурий ҳуқуқбузарликлар ҳудудлар кесимида
                                 <span id="mamuriy_huquq_chart_total"></span>
                                 </h5>
                             </div>
@@ -231,7 +231,7 @@
                             <div class="row mb-3">
                             <div class="col-8">
                                 <h5 class="card-title">
-                                Jinoiy huquqbuzarliklar hududlar kesimida
+                                Жиноий ҳуқуқбузарликлар ҳудудлар кесимида
                                 <span id="jinoiy_huquq_chart_total"></span>
                                 </h5>
                             </div>
@@ -856,29 +856,29 @@
 
  const crimeChartDataByFilter = {
     0: {
-      legend: ["183-modda","187-modda", "223-modda","56\u00B9-modda", "194\u00B9-modda","195\u00B9-modda","185\u00B9-modda","196-modda","61-modda", "210\u00B9-modda","185\u00B2-modda","185\u00B3-modda"],
+      legend: ["183-модда","187-модда", "223-модда","56\u00B9-модда", "194\u00B9-модда","195\u00B9-модда","185\u00B9-модда","196-модда","61-модда", "210\u00B9-модда","185\u00B2-модда","185\u00B3-модда"],
       data: [20, 10, 25, 20, 10,12,23,8,9,11,4,6]
     },
      1: {
-      legend: ["183-modda","187-modda", "223-modda","56\u00B9-modda", "194\u00B9-modda","195\u00B9-modda","185\u00B9-modda","196-modda","61-modda", "210\u00B9-modda","185\u00B2-modda","185\u00B3-modda"],
+      legend: ["183-модда","187-модда", "223-модда","56\u00B9-модда", "194\u00B9-модда","195\u00B9-модда","185\u00B9-модда","196-модда","61-модда", "210\u00B9-модда","185\u00B2-модда","185\u00B3-модда"],
       data: [2, 1, 3, 2, 1, 2,1,0,0,1,4,2]
     },
       2: {
-      legend: ["183-modda","187-modda", "223-modda","56\u00B9-modda", "194\u00B9-modda","195\u00B9-modda","185\u00B9-modda","196-modda","61-modda", "210\u00B9-modda","185\u00B2-modda","185\u00B3-modda"],
+      legend: ["183-модда","187-модда", "223-модда","56\u00B9-модда", "194\u00B9-модда","195\u00B9-модда","185\u00B9-модда","196-модда","61-модда", "210\u00B9-модда","185\u00B2-модда","185\u00B3-модда"],
       data: [10, 10, 9, 12, 13,11,9,7,5,5,6,7]
     },
       3: {
-      legend: ["183-modda","187-modda", "223-modda","56\u00B9-modda", "194\u00B9-modda","195\u00B9-modda","185\u00B9-modda","196-modda","61-modda", "210\u00B9-modda","185\u00B2-modda","185\u00B3-modda"],
+      legend: ["183-модда","187-модда", "223-модда","56\u00B9-модда", "194\u00B9-модда","195\u00B9-модда","185\u00B9-модда","196-модда","61-модда", "210\u00B9-модда","185\u00B2-модда","185\u00B3-модда"],
       data: [40, 35, 31, 23, 17,13,23,10,9,11,24,36]
     },
   };
 
   // 🔽 Filter variantlar
   const crimeFilters = [
-    { id: 0, name: "Hammasi" },
-    { id: 1, name: "Bugun" },
-    { id: 2, name: "Oy bo‘yicha" },
-    { id: 3, name: "Yil bo‘yicha" }
+    { id: 0, name: "Ҳаммаси" },
+    { id: 1, name: "Бугун" },
+    { id: 2, name: "Ой бўйича" },
+    { id: 3, name: "Йил бўйича" }
   ];
 
   // 📊 Asosiy funksiya (nom o‘zgarmaydi)
@@ -998,30 +998,30 @@
 
 // 🧩 TEST MA’LUMOTLAR (faqat lokal uchun)
 const crimesChartDataByFilter = {
-  0: { // Hammasi
-    legend: ["97-modda","104-modda", "105-modda","109-modda","164-modda","166-modda","277-modda","169-modda","118-modda","267-modda",],
+  0: { // Ҳаммаси
+    legend: ["97-модда","104-модда", "105-модда","109-модда","164-модда","166-модда","277-модда","169-модда","118-модда","267-модда",],
     data: [34, 35,30,24,20,12,32,27,22,21]
   },
-  1: { // Bugun
-    legend: ["97-modda","104-modda", "105-modda","109-modda","164-modda","166-modda","277-modda","169-modda","118-modda","267-modda",],
+  1: { // Бугун
+    legend: ["97-модда","104-модда", "105-модда","109-модда","164-модда","166-модда","277-модда","169-модда","118-модда","267-модда",],
     data: [1, 3,3,2,2,0,2,1,2,1]
   },
   2: { // Oy
-      legend: ["97-modda","104-modda", "105-modda","109-modda","164-modda","166-modda","277-modda","169-modda","118-modda","267-modda",],
+      legend: ["97-модда","104-модда", "105-модда","109-модда","164-модда","166-модда","277-модда","169-модда","118-модда","267-модда",],
     data: [10, 15,13,12,10,9,7,14,12,11]
   },
   3: { // Yil
-      legend: ["97-modda","104-modda", "105-modda","109-modda","164-modda","166-modda","277-modda","169-modda","118-modda","267-modda",],
+      legend: ["97-модда","104-модда", "105-модда","109-модда","164-модда","166-модда","277-модда","169-модда","118-модда","267-модда",],
     data: [34, 35,30,24,20,12,32,27,22,21]
   }
 };
 
 // 🔽 Filter uchun ro‘yxat
 const crimesFilters = [
-  { id: 0, name: "Hammasi" },
-  { id: 1, name: "Bugun" },
-  { id: 2, name: "Oy bo‘yicha" },
-  { id: 3, name: "Yil bo‘yicha" }
+  { id: 0, name: "Ҳаммаси" },
+  { id: 1, name: "Бугун" },
+  { id: 2, name: "Ой бўйича" },
+  { id: 3, name: "Йил бўйича" }
 ];
 
 /* 🎨 Chart funksiyasi */
@@ -1117,30 +1117,30 @@ get_crimes(initialCrimesData, totalCrimesInitial);
 
 
 const mamuriyHuquqDataByFilter = {
-  0: { // Hammasi
-    labels: ["Toshkent", "Samarqand", "Farg‘ona", "Andijon", "Namangan", "Xorazm", "Surxondaryo"],
+  0: { // Ҳаммаси
+    labels: ["Тошкент", "Самарқанд", "Фарғона", "Андижон", "Наманган", "Хоразм", "Сурхондарё"],
     values: [120, 150, 100, 120, 60, 140, 100]
   },
-  1: { // Bugun
-    labels: ["Toshkent", "Samarqand", "Farg‘ona", "Andijon", "Namangan", "Xorazm", "Surxondaryo"],
+  1: { // Бугун
+    labels: ["Тошкент", "Самарқанд", "Фарғона", "Андижон", "Наманган", "Хоразм", "Сурхондарё"],
     values: [5, 3, 2, 4, 1, 0, 2]
   },
   2: { // Oy
-    labels: ["Toshkent", "Samarqand", "Farg‘ona", "Andijon", "Namangan", "Xorazm", "Surxondaryo"],
+    labels: ["Тошкент", "Самарқанд", "Фарғона", "Андижон", "Наманган", "Хоразм", "Сурхондарё"],
     values: [50, 40, 30, 35, 20, 15, 10]
   },
   3: { // Yil
-    labels: ["Toshkent", "Samarqand", "Farg‘ona", "Andijon", "Namangan", "Xorazm", "Surxondaryo"],
+    labels: ["Тошкент", "Самарқанд", "Фарғона", "Андижон", "Наманган", "Хоразм", "Сурхондарё"],
     values: [600, 480, 450, 400, 300, 250, 200]
   }
 };
 
 /* 🔽 Filter variantlari */
 const mamuriyHuquqFilters = [
-  { id: 0, name: "Hammasi" },
-  { id: 1, name: "Bugun" },
-  { id: 2, name: "Oy bo‘yicha" },
-  { id: 3, name: "Yil bo‘yicha" }
+  { id: 0, name: "Ҳаммаси" },
+  { id: 1, name: "Бугун" },
+  { id: 2, name: "Ой бўйича" },
+  { id: 3, name: "Йил бўйича" }
 ];
 
 /* 📊 Chart funksiyasi */
@@ -1221,30 +1221,30 @@ mamuriy_huquq_chart(mamuriyHuquqDataByFilter[0]);
 
 
 const jinoiyHuquqDataByFilter = {
-  0: { // Hammasi
-    labels: ["Toshkent", "Samarqand", "Farg‘ona", "Andijon", "Namangan", "Buxoro", "Xorazm"],
+  0: { // Ҳаммаси
+    labels: ["Тошкент", "Самарқанд", "Фарғона", "Андижон", "Наманган", "Бухоро", "Хоразм"],
     values: [250, 300, 150, 200, 340, 100, 120]
   },
-  1: { // Bugun
-    labels: ["Toshkent", "Samarqand", "Farg‘ona", "Andijon", "Namangan", "Buxoro", "Xorazm"],
+  1: { // Бугун
+    labels: ["Тошкент", "Самарқанд", "Фарғона", "Андижон", "Наманган", "Бухоро", "Хоразм"],
     values: [10, 8, 5, 6, 4, 2, 3]
   },
   2: { // Oy
-    labels: ["Toshkent", "Samarqand", "Farg‘ona", "Andijon", "Namangan", "Buxoro", "Xorazm"],
+    labels: ["Тошкент", "Самарқанд", "Фарғона", "Андижон", "Наманган", "Бухоро", "Хоразм"],
     values: [80, 70, 60, 55, 50, 30, 25]
   },
   3: { // Yil
-    labels: ["Toshkent", "Samarqand", "Farg‘ona", "Andijon", "Namangan", "Buxoro", "Xorazm"],
+    labels: ["Тошкент", "Самарқанд", "Фарғона", "Андижон", "Наманган", "Бухоро", "Хоразм"],
     values: [1200, 950, 880, 850, 760, 640, 500]
   }
 };
 
 /* 🔽 Filter variantlari */
 const jinoiyHuquqFilters = [
-  { id: 0, name: "Hammasi" },
-  { id: 1, name: "Bugun" },
-  { id: 2, name: "Oy bo‘yicha" },
-  { id: 3, name: "Yil bo‘yicha" }
+  { id: 0, name: "Ҳаммаси" },
+  { id: 1, name: "Бугун" },
+  { id: 2, name: "Ой бўйича" },
+  { id: 3, name: "Йил бўйича" }
 ];
 
 /* 📊 Chart funksiyasi */
@@ -1298,19 +1298,19 @@ function jinoiy_huquq_chart(data) {
   window.addEventListener('resize', myChart.resize);
 }
 
-/* 🔽 Filter select to‘ldirish */
+/* Filter select to‘ldirish */
 jinoiyHuquqFilters.forEach(item => {
   $('#jinoiy_huquq_select').append(`<option value="${item.id}">${item.name}</option>`);
 });
 
-/* 🔁 Filter o‘zgarsa chart yangilansin */
+/* Filter o‘zgarsa chart yangilansin */
 $('#jinoiy_huquq_select').change(function () {
   const id = $(this).val();
   const selected = jinoiyHuquqDataByFilter[id] || jinoiyHuquqDataByFilter[0];
   jinoiy_huquq_chart(selected);
 });
 
-/* 🚀 Dastlab yuklash */
+/* Dastlab yuklash */
 jinoiy_huquq_chart(jinoiyHuquqDataByFilter[0]);
 
 
