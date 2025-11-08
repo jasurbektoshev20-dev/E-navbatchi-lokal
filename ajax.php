@@ -1034,6 +1034,55 @@ switch ($Action) {
 
 		$res = json_encode($data);
 		break;
+
+	case "jts_objects":
+		$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
+
+		// 1) Statistika (COUNT)
+		$query = "SELECT COUNT(t.id) as value, b.name{$slang} as name
+		FROM hr.jts_objects t
+		LEFT JOIN hr.involved_objects b ON b.id = t.object_type
+		WHERE 1=1 ";
+
+		if ($UserStructure > 1) {
+			$query .= " AND t.structure_id = {$UserStructure} ";
+		}
+		if ($structure_id > 0) {
+			$query .= " AND t.structure_id = {$structure_id} ";
+		}
+		$query .= " GROUP BY b.id ORDER BY b.id ASC";
+
+		$sql->query($query);
+		$stats = $sql->fetchAll();
+
+
+		// 2) Ob'ektlar ro'yxati (id, location, type nomi va boshqalar)
+		$listQuery = "SELECT 
+			t.id,
+			t.object_name,
+			b.name{$slang} AS type_name
+		FROM hr.jts_objects t
+		LEFT JOIN hr.involved_objects b ON b.id = t.object_type
+		WHERE 1=1 ";
+
+		if ($UserStructure > 1) {
+			$listQuery .= " AND t.structure_id = {$UserStructure} ";
+		}
+		if ($structure_id > 0) {
+			$listQuery .= " AND t.structure_id = {$structure_id} ";
+		}
+
+		$listQuery .= " ORDER BY t.id ASC";
+
+		$sql->query($listQuery);
+		$list = $sql->fetchAll();
+
+		// Final response
+		$res = json_encode([
+			"stats" => $stats,
+			"list" => $list
+		]);
+		break;
 }
 
 // echo iconv("cp1251", "UTF-8", $res);
