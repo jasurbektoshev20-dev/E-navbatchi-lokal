@@ -289,31 +289,31 @@
     <div class="map-icon-about-container">
       <div class="map-about-box map-about-box-bozor">
         <img src="https://icons.iconarchive.com/icons/paomedia/small-n-flat/512/map-marker-icon.png"
-          alt="Bozor uchun marker">
-        <p>Bozor-<span>0</span> ta</p>
+          alt="Бозор учун маркер">
+        <p>Бозор-<span>0</span> та</p>
       </div>
       <div class="map-about-box map-about-box-xiyobon">
         <img src="https://www.nicepng.com/png/full/15-159490_small-google-maps-marker-blue.png"
           alt="Xiyobon uchun marker">
-        <p>Xiyobon-<span>0</span> ta</p>
+        <p>Хиёбон-<span>0</span> та</p>
       </div>
       <div class="map-about-box map-about-box-bog">
         <img src="https://images.freeimages.com/fic/images/icons/2463/glossy/512/location.png"
           alt="Isritohat bog'i uchun marker">
-        <p>Isritohat bog'i-<span>0</span> ta</p>
+        <p>Исритоҳат боғи-<span>0</span> та</p>
       </div>
       <div class="map-about-box map-about-box-boshqa">
         <img src="https://cdn-icons-png.flaticon.com/512/6284/6284577.png" alt="Boshqa joy uchun marker">
-        <p>Boshqa joy-<span>0</span> ta</p>
+        <p>Бошқа жой-<span>0</span> та</p>
       </div>
     </div>
   </div>
 
   <div class="filters bg-white rounded shadow" style="z-index: 200;">
     <div>
-      <label for="viloyatSelect" class="form-label">Hududlar</label>
+      <label for="viloyatSelect" class="form-label">Ҳудудлар</label>
       <select id="viloyatSelect" class="form-select">
-        <option value="">Hududni tanlang</option>
+        <option value="">Ҳудудни танланг</option>
         {foreach from=$Regions item=Item1 key=ikey1}
         <option value="{$Item1.id}">{$Item1.name}</option>
         {/foreach}
@@ -321,9 +321,9 @@
     </div>
 
     <div>
-      <label for="objectTypeSelect" class="form-label">Obyekt turi</label>
+      <label for="objectTypeSelect" class="form-label">Объект тури</label>
       <select id="objectTypeSelect" class="form-select">
-        <option value="">Jami obyektlar</option>
+        <option value="">Жами объектлар</option>
         {foreach from=$ObjectTypes item=Item1 key=ikey1}
         <option value="{$Item1.id}">{$Item1.name}</option>
         {/foreach}
@@ -331,9 +331,9 @@
     </div>
 
     <div>
-      <label for="objectSelect" id="objectLabelLabel" class="form-label">Obyektlar</label>
+      <label for="objectSelect" id="objectLabelLabel" class="form-label">Объектлар</label>
       <select id="objectSelect" class="form-select">
-        <option value="">Obyektni tanlang</option>
+        <option value="">Объектни танланг</option>
         {foreach from=$Objects item=Item1 key=ikey1}
         <option value="{$Item1.id}">{$Item1.name}</option>
         {/foreach}
@@ -350,7 +350,7 @@
       <div class="modal-content">
         <div class="modal-header position-relative">
           <h2 class="modal-title position-absolute start-50 translate-middle-x" id="markerModalTitle">
-            Marker nomi
+            Маркер номи
           </h2>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
@@ -365,11 +365,11 @@
               {*  *}
               <div class="col-6">
               <div class="space-main-head">
-                <h4 class="m-0">Xarita</h4>
+                <h4 class="m-0">Харита</h4>
               </div>
               <div id="dialogMap" class="mt-1"></div>
               <div class="space-main-head mt-3">
-                <h4 class="">Pasport Ma'lumotlari</h4>
+                <h4 class="">Паспорт Маълумотлари</h4>
               </div>
                 <div class="space-main-body-passport">
 
@@ -379,7 +379,7 @@
               <div class="col-6">
                 <div class="space-main-body-umumu">
                   <div class="space-main-head">
-                    <h4 class="m-0">Kameralar</h4>
+                    <h4 class="m-0">Камералар</h4>
                   </div>
                   <div class="row text-center">
                     <div id="playWind" style="width: 800px; height: 400px;"></div>
@@ -404,7 +404,7 @@
                           <div style="padding-left: 10px; width: 100%">
                             <div class="d-flex w-full justify-content-between" style="border-bottom: 1px solid #ccc;">
                               <span class="text-yellow" style="font-size: 22px;"><span
-                                  class=""></span> Jami kamera: &nbsp;
+                                  class=""></span> Жами камера: &nbsp;
                                 <span class="text-white camera_length"></span></span>
                               <div>
                                 <ul class="nav nav-pills mb-0">
@@ -420,7 +420,7 @@
 
                             <div class="d-flex w-full justify-content-between">
                               <span class="text-yellow" style="font-size: 22px;"><span
-                                  class=""></span> Jami body: &nbsp;
+                                  class=""></span> Жами бодй: &nbsp;
                                 <span class="text-white body_camera_length"></span>&nbsp;</span>
                               <div>
                                 <ul class="nav nav-pills mb-0">
@@ -459,7 +459,7 @@
                 </div>
                 <div class="mt-4">
                   <div class="space-main-head">
-                    <h4>MG tomonidan ajratilgan kuch vositalar</h4>
+                    <h4>МГ томонидан ажратилган куч воситалар</h4>
                   </div>
                   <div class="space-main-body-duty">
 
@@ -629,7 +629,7 @@
               layer.on("click", (e) => {
                 const selected = feature.properties.shapeName;
                 map.fitBounds(e.target.getBounds());
-                console.log(`Tanlangan viloyat: ${selected}`);
+              //  console.log(`Tanlangan viloyat: ${selected}`);
                 // showMarkersByRegion(selected);
               });
             },
@@ -972,7 +972,7 @@
                   style="margin-top:8px; padding:6px 10px; border:none; border-radius:5px; cursor:pointer; background-color:#16a34a; color:#fff;"
                 >
                 <span class="btn-text">
-                  📹 Kamerani ko‘rish
+                  📹 Камерани кўриш
                 </span>
                 </button>
               </div>
@@ -1180,7 +1180,7 @@
                   <path
                     d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10" />
                   <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
-                </svg></span> Manzili: </h6>
+                </svg></span> Манзили: </h6>
                 <p> ${params.address} </p>
           </li>
           <li>
@@ -1188,14 +1188,14 @@
                   class="bi bi-telephone-forward" viewBox="0 0 16 16">
                   <path
                     d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877zm10.762.135a.5.5 0 0 1 .708 0l2.5 2.5a.5.5 0 0 1 0 .708l-2.5 2.5a.5.5 0 0 1-.708-.708L14.293 4H9.5a.5.5 0 0 1 0-1h4.793l-1.647-1.646a.5.5 0 0 1 0-.708" />
-                </svg></span>Administrator telefon raqami: </h6>
+                </svg></span>Администратор телефон рақами: </h6>
                 <p>${params.admin_phone}</p>
           </li>
           <li>
             <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
                   class="bi bi-border-all" viewBox="0 0 16 16">
                   <path d="M0 0h16v16H0zm1 1v6.5h6.5V1zm7.5 0v6.5H15V1zM15 8.5H8.5V15H15zM7.5 15V8.5H1V15z" />
-                </svg></span>Maydoni: </h6>
+                </svg></span>Майдони: </h6>
                 <p> ${params.area} m²</p>
           </li>
           <li>
@@ -1204,15 +1204,15 @@
                   <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1" />
                   <path
                     d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117M11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5M4 1.934V15h6V1.077z" />
-                </svg></span>Kirish chiqish eshiklar soni: </h6>
-                <p>${params.count_doors} ta</p>
+                </svg></span>Кириш чиқиш эшиклар сони: </h6>
+                <p>${params.count_doors} та</p>
           </li>
           <li>
             <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
                   class="bi bi-person" viewBox="0 0 16 16">
                   <path
                     d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
-                </svg></span>Bozor rahbari: </h6>
+                </svg></span>Ҳудуд раҳбари: </h6>
                 <p>${params.object_head} ${params.head_phone}</p>
           </li>
           <li>
@@ -1220,7 +1220,7 @@
                   class="bi bi-person" viewBox="0 0 16 16">
                   <path
                     d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
-                </svg></span>Bozor uchastkavoyi: </h6>
+                </svg></span>Ҳудуд участкавойи: </h6>
                 <p>${params.police_name} ${params.police_phone}</p>
           </li>
           <li>
@@ -1228,7 +1228,7 @@
                   class="bi bi-telephone-forward" viewBox="0 0 16 16">
                   <path
                     d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877zm10.762.135a.5.5 0 0 1 .708 0l2.5 2.5a.5.5 0 0 1 0 .708l-2.5 2.5a.5.5 0 0 1-.708-.708L14.293 4H9.5a.5.5 0 0 1 0-1h4.793l-1.647-1.646a.5.5 0 0 1 0-.708" />
-                </svg></span> Hamkor tashkilotlar aloqa: </h6>
+                </svg></span>Ҳамкор ташкилотлар алоқа: </h6>
                 <p> ${params.cooperate}</p>
           </li>
 
@@ -1244,17 +1244,17 @@
       // <li class="alert alert-dark" role="alert">Sektorlar soni: <span>4 ${params.responsible_name} ta</span> </li>
       container.innerHTML = `
         <ul class="d-flex flex-wrap gap-3">
-          <li class="alert alert-dark m-0" role="alert">MG javobgar: <span>${params.responsible_name} </span>
+          <li class="alert alert-dark m-0" role="alert">МГ жавобгар: <span>${params.responsible_name} </span>
           </li>
-          <li class="alert alert-dark m-0" role="alert">Jami shaxsiy tarkib: <span>${params.all_staff} nafar</span> </li>
-          <li class="alert alert-dark m-0" role="alert">Piyoda patrullar: <span>${params.walker_patrul} nafar</span> </li>
-          <li class="alert alert-dark m-0" role="alert">Avto patrullar: <span>${params.avto_patrul} nafar</span> </li>
-          <li class="alert alert-dark m-0" role="alert">Yo'nalishlar: <span>${params.patrul_types_count} ta</span> </li>
-          <li class="alert alert-dark m-0" role="alert">Kameralar soni: <span>${params.count_cameras} ta</span> </li>
-          <li class="alert alert-dark m-0" role="alert">Tashvish tugmalar soni: <span>${params.count_sos} ta</span> </li>
-          <li class="alert alert-dark m-0" role="alert">Xizmat hayvonlari: <span>${params.horse_patrul} ta</span> </li>
-          <li class="alert alert-dark m-0" role="alert">Maxsus vositalar soni: <span>${params.epikirofka_count} ta</span> </li>
-          <li class="alert alert-dark m-0" role="alert">Texnikalar: <span>${params.car_count} ta</span></li>
+          <li class="alert alert-dark m-0" role="alert">Жами шахсий таркиб: <span>${params.all_staff} нафар</span> </li>
+          <li class="alert alert-dark m-0" role="alert">Пиёда патруллар: <span>${params.walker_patrul} нафар</span> </li>
+          <li class="alert alert-dark m-0" role="alert">Авто патруллар: <span>${params.avto_patrul} нафар</span> </li>
+          <li class="alert alert-dark m-0" role="alert">Йўналишлар: <span>${params.patrul_types_count} та</span> </li>
+          <li class="alert alert-dark m-0" role="alert">Камералар сони: <span>${params.count_cameras} та</span> </li>
+          <li class="alert alert-dark m-0" role="alert">Ташвиш тугмалар сони: <span>${params.count_sos} та</span> </li>
+          <li class="alert alert-dark m-0" role="alert">Хизмат ҳайвонлари: <span>${params.horse_patrul} та</span> </li>
+          <li class="alert alert-dark m-0" role="alert">Махсус воситалар сони: <span>${params.epikirofka_count} та</span> </li>
+          <li class="alert alert-dark m-0" role="alert">Техникалар: <span>${params.car_count} та</span></li>
         </ul>
         `
 
@@ -1321,7 +1321,7 @@
       btn.prop('disabled', true);
       const originalText = btn.find('.btn-text').text();
       btn.find('.btn-text').html(`
-        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Yuklanmoqda...
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Юкланмоқда...
       `);
 
       // ⏳ 3. 1 soniyadan keyin yana aktiv holatga keltirish
@@ -1342,7 +1342,7 @@
         
         target.trigger('click');
       } else {
-        console.warn(`Camera ID ${id} uchun element topilmadi`);
+        console.warn(`Камера ИД ${id} учун элемент топилмади`);
       }
     });
 
@@ -1358,7 +1358,7 @@
       btn.prop('disabled', true);
       const originalText = btn.find('.btn-text').text();
       btn.find('.btn-text').html(`
-        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Yuklanmoqda...
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Юкланмоқда...
       `);
 
       // ⏳ 3. 1 soniyadan keyin yana aktiv holatga keltirish
@@ -1378,12 +1378,9 @@
       if (target.length) {
         target.trigger('click');
       } else {
-        console.warn(`Camera ID ${id} uchun element topilmadi`);
+        console.warn(`Камера ИД ${id} учун элемент топилмади`);
       }
     });
-
-
-
 
       // camera
 

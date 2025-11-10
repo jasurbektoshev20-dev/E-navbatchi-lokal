@@ -25,8 +25,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body text-center">
-                    <h4>Milliy gvardiyaning hududiy boshqarmalari javobgarlik obyektlari to‘g‘risida <br>
-                      <p class="m-0">MA'LUMOT</p>
+                    <h4>Миллий гвардиянинг ҳудудий бошқармалари жавобгарлик объектлари тўғрисида <br>
+                      <p class="m-0">МАЪЛУМОТ</p>
                    </h4>
                 </div>
             </div>
@@ -43,23 +43,23 @@
                     <table class="datatables-projects table border-top table-hover table-striped table-bordered">
                         <thead>
                         <tr class="text-center">
-                            <th>T/r</th>
-                            <th>Obyekt nomi</th>
-                            <th>Toshkent shahar</th>
-                            <th>Andijon</th>
-                            <th>Buxoro</th>
-                            <th>Farg'ona</th>
-                            <th>Jizzax</th>
-                            <th>Qashqadaryo</th>
-                            <th>Xorazm</th>
-                            <th>Namangan</th>
-                            <th>Navoiy</th>
-                            <th>Samarqand</th>                           
-                            <th>Sirdaryo</th>
-                            <th>Surxandaryo</th>
-                            <th>Toshkent viloyati</th>
-                            <th>Qoraqalpog'iston</th>
-                            <th>Jami</th>
+                            <th>Т/р</th>
+                            <th>Объект номи</th>
+                            <th>Тошкент шаҳар</th>
+                            <th>Андижон</th>
+                            <th>Бухоро</th>
+                            <th>Фарғона</th>
+                            <th>Жиззах</th>
+                            <th>Қашқадарё</th>
+                            <th>Хоразм</th>
+                            <th>Наманган</th>
+                            <th>Навоий</th>
+                            <th>Самарқанд</th>                           
+                            <th>Сирдарё</th>
+                            <th>Сурхандарё</th>
+                            <th>Тошкент вилояти</th>
+                            <th>Қорақалпоғистон</th>
+                            <th>Жами</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -67,7 +67,7 @@
                             <td class="text-right">1</td>
                             <td>
                                 <a
-                                        href="hr.php?act=about_markets&mid={$smarty.get.mid}&date=">Bozorlar</a>
+                                        href="hr.php?act=about_markets&mid={$smarty.get.mid}&date=">Бозорлар</a>
                             </td>
                             <td>48</td>
                             <td>24</td>
@@ -89,7 +89,7 @@
                             <td class="text-right">2</td>
                             <td>
                                 <a
-                                        href="hr.php?act=''&mid={$smarty.get.mid}&date=Toshkent shahar">Istirohat bog'lari</a>
+                                        href="hr.php?act=''&mid={$smarty.get.mid}&date=Toshkent shahar">Истироҳат боғлари</a>
                             </td>
                             <td>55</td>
                             <td>34</td>
@@ -111,7 +111,7 @@
                             <td class="text-right">3</td>
                             <td>
                                 <a
-                                        href="hr.php?act=''&mid={$smarty.get.mid}&date=Toshkent shahar">Sayilgohlar</a>
+                                        href="hr.php?act=''&mid={$smarty.get.mid}&date=Toshkent shahar">Сайилгоҳлар</a>
                             </td>
                             <td>41</td>
                             <td>25</td>
@@ -133,7 +133,7 @@
                             <td class="text-right">4</td>
                             <td>
                                 <a
-                                        href="hr.php?act=''&mid={$smarty.get.mid}&date=Toshkent shahar">Boshqa joylar</a>
+                                        href="hr.php?act=''&mid={$smarty.get.mid}&date=Toshkent shahar">Бошқа жойлар</a>
                             </td>
                             <td>30</td>
                             <td>19</td>
@@ -173,8 +173,8 @@
 <script>
 window.addEventListener('load', function() {
   Swal.fire({
-    title: 'Sahifa yuklanmoqda...',
-    text: 'Iltimos, kuting',
+    title: 'Саҳифа юкланмоқда...',
+    text: 'Илтимос, кутинг',
     timer: 1000,
     timerProgressBar: true,
     allowOutsideClick: false,

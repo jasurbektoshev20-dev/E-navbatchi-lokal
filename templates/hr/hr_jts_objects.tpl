@@ -24,9 +24,9 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body d-flex justify-content-between">
-                    <h4>JTSB obyektlari</h4>
+                    <h4>ЖТСБ объектлари</h4>
                     <button id="new" type="button" class="btn btn-primary waves-effect waves-light">
-                        <i class="menu-icon tf-icons ti ti-plus"></i> Qo‘shish
+                        <i class="menu-icon tf-icons ti ti-plus"></i> Қўшиш
                     </button>
                 </div>
             </div>
@@ -41,11 +41,11 @@
                     <table class="datatables-projects table border-top">
                         <thead>
                             <tr>
-                                <th class="text-center">No̱</th>
-                                <th class="text-center">Viloyat</th>
-                                <th class="text-center">Turi</th>
-                                <th class="text-center">Nomi</th>
-                                <th  class="text-center">Amallar</th>
+                                <th class="text-center">Т/р</th>
+                                <th class="text-center">Вилоят</th>
+                                <th class="text-center">Тури</th>
+                                <th class="text-center">Номи</th>
+                                <th  class="text-center">Амаллар</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -80,11 +80,11 @@
         <form id="localForm" class="needs-validation" novalidate>
           <div class="row g-3">
             
-            <!-- Viloyat -->
+            <!-- Вилоят -->
             <div class="col-sm-4">
-              <label>Viloyat</label>
+              <label>Вилоят</label>
               <select required class="form-select" id="structure_id">
-                <option value="">Tanlang...</option>
+                <option value="">Танланг...</option>
                 {foreach from=$Regions item=Item1 key=ikey1}
                   <option value="{$Item1.id}">{$Item1.name}</option>
                 {/foreach}
@@ -92,39 +92,39 @@
               </select>
             </div>
 
-            <!-- Turi -->
+            <!-- Тури -->
             <div class="col-sm-4">
-              <label>Turi</label>
+              <label>Тури</label>
               <select required class="form-select" id="object_type">
-                <option value="">Tanlang...</option>
+                <option value="">Танланг...</option>
                 {foreach from=$ObjectTypes item=Item1 key=ikey1}
                   <option value="{$Item1.id}">{$Item1.name}</option>
                 {/foreach}
               </select>
             </div>
 
-            <!-- Nomi -->
+            <!-- Номи -->
             <div class="col-sm-4">
-              <label>Nomi</label>
-              <input required type="text" class="form-control" id="object_name" placeholder="Masalan: Registon maydoni" />
+              <label>Номи</label>
+              <input required type="text" class="form-control" id="object_name" placeholder="Масалан: Регистон майдони" />
             </div>
 
               <!-- Manzili -->
             <div class="col-sm-4">
-              <label>Manzili</label>
-              <input required type="text" class="form-control" id="address" placeholder="Manzilni kiriting..." />
+              <label>Манзили</label>
+              <input required type="text" class="form-control" id="address" placeholder="Манзилни киритинг..." />
             </div>
 
               <!-- Maydoni -->
             <div class="col-sm-4">
-              <label>Maydoni</label>
-              <input required type="text" class="form-control" id="area" placeholder="Maydonini kiriting..." />
+              <label>Майдони</label>
+              <input required type="text" class="form-control" id="area" placeholder="Майдонини киритинг гектарда..." />
             </div>
 
                <!-- Admin tel -->
             <div class="col-sm-4">
-              <label>Administrator telefon raqamlari</label>
-              <input required type="text" class="form-control" id="admin_phone" placeholder="Telefon raqam kiriting..." />
+              <label>Администратор телефон рақамлари</label>
+              <input required type="text" class="form-control" id="admin_phone" placeholder="Телефон рақам киритинг..." />
             </div>
 
                  <!-- Admin tel -->
@@ -137,55 +137,55 @@
 
                <!-- Bozor raxbari -->
             <div class="col-sm-4">
-              <label>Rahbari</label>
-              <input required type="text" class="form-control" id="object_head" placeholder="Bozor rahbarini kiriting..." />
+              <label>Раҳбари</label>
+              <input required type="text" class="form-control" id="object_head" placeholder="Ҳудуд раҳбарини киритинг..." />
             </div>
 
             <div class="col-sm-4">
-              <label>Rahbar telefon raqami</label>
-              <input required type="text" class="form-control" id="head_phone" placeholder="Telefon raqamini kiriting..." />
+              <label>Раҳбар телефон рақами</label>
+              <input required type="text" class="form-control" id="head_phone" placeholder="Телефон рақамини киритинг..." />
             </div>
 
               <!-- Bozor uchaskavoy -->
             <div class="col-sm-4">
-              <label>Hudud uchastkavoyi FISH</label>
-              <input required type="text" class="form-control" id="police_name" placeholder="FISHni kiriting..." />
+              <label>Ҳудуд участкавойи ФИШ</label>
+              <input required type="text" class="form-control" id="police_name" placeholder="ФИШни киритинг..." />
             </div>
 
               <!-- Bozor uchaskavoy tel -->
             <div class="col-sm-4">
-              <label>Hudud uchastkavoyi telefon raqami</label>
-              <input required type="text" class="form-control" id="police_phone" placeholder="Telefon raqam kiriting..." />
+              <label>Ҳудуд участкавойи телефон рақами</label>
+              <input required type="text" class="form-control" id="police_phone" placeholder="Телефон рақам киритинг..." />
             </div>
 
               <!-- Bozor rasmi -->
             <div class="col-sm-4">
-               <label for="photo" class="form-label">Hudud rasmi</label>
+               <label for="photo" class="form-label">Ҳудуд расми</label>
                <input class="form-control" type="file" id="photo">
             </div>
 
               <div class="col-sm-4">
-              <label>Nazorat kuzatuv maskani kengligi(lat)</label>
-              <input required type="text" class="form-control" id="lat" placeholder="kengligini kiriting..." />
+              <label>Назорат кузатув маскани кенглиги(lat)</label>
+              <input required type="text" class="form-control" id="lat" placeholder="кенглигини киритинг..." />
             </div>
 
              <!-- Bozor uchaskavoy tel -->
             <div class="col-sm-4">
-              <label>Nazorat kuzatuv maskani uzunligi(lot)</label>
-              <input required type="text" class="form-control" id="long" placeholder="uzunligini kiriting..." />
+              <label>Назорат кузатув маскани узунлиги(lot)</label>
+              <input required type="text" class="form-control" id="long" placeholder="узунлигини киритинг..." />
             </div>
 
              <div class="col-sm-4">
-              <label>Hamkorlikdagi tashkilotlar</label>
+              <label>Ҳамкорликдаги ташкилотлар</label>
               <select required class="form-select" id="cooperate_id">
-                <option value="">Tanlang...</option>
+                <option value="">Танланг...</option>
                 {foreach from=$CooperateTypes item=Item1 key=ikey1}
                   <option value="{$Item1.id}">{$Item1.name}</option>
                 {/foreach}
               </select>
             </div>
             <div class="col-sm-12">
-              <label>Obyekt hududini chizish</label>
+              <label>Объект ҳудудини чизиш</label>
                 <div id="uzbMap" style="height: 350px;"></div>
             </div>
 
@@ -194,9 +194,9 @@
             <div class="col-12 text-center">
               <input type="hidden" id="editId" value="">
               <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">
-                Bekor qilish
+                Бекор қилиш
               </button>
-              <button id="saveBtn" class="btn btn-primary me-sm-3 me-1">Saqlash</button>
+              <button id="saveBtn" class="btn btn-primary me-sm-3 me-1">Сақлаш</button>
             </div>
           </div>
         </form>
@@ -252,7 +252,7 @@
         $('.loader').append(`
             <div class="text-center my-5 py-5">
                 <div class="spinner-border spinner-border-lg text-info my-5" role="status">
-                    <span class="visually-hidden">Loading...</span>
+                    <span class="visually-hidden">Лоадинг...</span>
                 </div>
             </div>
         `);
@@ -274,7 +274,7 @@
                 $('#pagination').hide();
                 $('.loader').append(`
                     <div class="text-center my-5" style="padding: 10vh 0">
-                        Ma'lumot mavjud emas!
+                        Маълумот мавжуд эмас!
                     </div>
                 `);
             } else {
@@ -288,17 +288,17 @@
                       <td class="jts-object-icons-box">
                         <div>
                           <a href="hr.php?act=jts_objects_sos&id=${item.id}" class="p-2">
-                              <i class="ti ti-bell me-1"></i> SOS tugma
+                              <i class="ti ti-bell me-1"></i> Ташвиш тугма
                           </a>
                         </div>
                         <div>
                           <a href="hr.php?act=jts_objects_camera&id=${item.id}" class="p-2">
-                              <i class="ti ti-camera me-1"></i> Kamera
+                              <i class="ti ti-camera me-1"></i> Камера
                           </a>
                         </div>
                         <div>
                           <a href="hr.php?act=jts_objects_door&id=${item.id}" class="p-2">
-                              <i class="ti ti-door me-1"></i> Eshik
+                              <i class="ti ti-door me-1"></i> Эшик
                           </a>
                         </div>
       
@@ -310,10 +310,10 @@
                               </button>
                               <div class="dropdown-menu">
                                   <a href="#" class="dropdown-item editAction" data-id="${item.id}">
-                                      <i class="ti ti-pencil me-1"></i> Tahrirlash
+                                      <i class="ti ti-pencil me-1"></i> Таҳрирлаш
                                   </a>
                                   <a href="#" class="dropdown-item deleteAction" data-id="${item.id}">
-                                      <i class="ti ti-trash me-1"></i> O‘chirish
+                                      <i class="ti ti-trash me-1"></i> Ўчириш
                                   </a>
                               </div>
                           </div>
@@ -375,7 +375,7 @@
           !long || 
           !drawCoords || 
           !cooperate_id
-        ) return alert("Barcha majburiy maydonlarni to‘ldiring!");
+        ) return alert("Барча мажбурий майдонларни тўлдиринг!");
 
 
         const formData = new FormData()
@@ -404,7 +404,7 @@
             processData: false,         // jQuery FormData’ni stringify qilib yubormasligi uchun
             contentType: false,         // headerni avtomatik belgilasin
             success: function(response) {
-              console.log('Yuborildi:', response);
+              console.log('Юборилди:', response);
               renderTable();
             },
             error: function(xhr, status, error) {
@@ -419,7 +419,7 @@
             processData: false,         // jQuery FormData’ni stringify qilib yubormasligi uchun
             contentType: false,         // headerni avtomatik belgilasin
             success: function(response) {
-              console.log('Yuborildi:', response);
+              console.log('Юборилди:', response);
               renderTable();
             },
             error: function(xhr, status, error) {
@@ -438,7 +438,7 @@
         const id = $(target).data('id');
 
         if (target.classList.contains("deleteAction")) {
-            if (confirm("Haqiqatan o‘chirmoqchimisiz?")) {
+            if (confirm("Ҳақиқатан ўчирмоқчимисиз?")) {
                 $.ajax({
                   url: `${HRAJAXPHP}?act=del_jts_objects&rowid=${id}`,
                   type: 'GET',
@@ -517,8 +517,8 @@
       map.addControl(new L.Control.Fullscreen({
         position: 'topleft', // joylashuvi (topleft, topright, bottomleft, bottomright)
         title: {
-          'false': 'To‘liq ekranga o‘tish',
-          'true': 'To‘liq ekrandan chiqish'
+          'false': 'Тўлиқ экранга ўтиш',
+          'true': 'Тўлиқ экрандан чиқиш'
         }
       }));
 

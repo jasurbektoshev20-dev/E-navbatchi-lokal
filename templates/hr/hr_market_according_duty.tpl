@@ -49,7 +49,7 @@
     .date-box-container{
         display: flex;
         justify-content:space-between;
-      width: 81%;
+      width: 80%;
     }
     .date-box .date-box-select{
         display: flex;
@@ -95,7 +95,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body text-center">
-                   <h4>Milliy gvardiya {$smarty.get.shahar} buyicha boshkarmasi {$smarty.get.market}ga jamoat tartibini saqlash va <br> jamoat xavfsizligini ta’minlashga jalb etilgan kuch va vositalar to‘g‘risida <br> <span>MA'LUMOT</span> </h4>
+                   <h4>Миллий гвардия {$smarty.get.shahar}  буйича бошкармаси {$smarty.get.market}га жамоат тартибини сақлаш ва <br> жамоат хавфсизлигини таъминлашга жалб этилган куч ва воситалар тўғрисида <br> <span>МАЪЛУМОТ</span> </h4>
                 </div>
             </div>
         </div>
@@ -109,14 +109,14 @@
             <div class="card">
                 <div class="date-box">
                  <div class="date-box-container">
-                    <h5 class="pt-2 pb-2 p-4 m-0">Sana: 29.10.2025-yil</h5>
+                    <h5 class="pt-2 pb-2 p-4 m-0">Сана: 10.11.2025-йил</h5>
                    <div class="date-box-select col-3">
                      
                       <a href="#" class="date-box-sel-link">
                         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-file-earmark-text" viewBox="0 0 16 16">
   <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5"/>
   <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>
-</svg>  Yuklab olish
+</svg>  Юклаб олиш
                       </a>
                    </div>
                  </div>
@@ -127,44 +127,44 @@
                     <table class="datatables-projects table border-top table-hover table-striped table-bordered">
                         <thead>
                         <tr class="text-center">
-                            <th>T/r</th>
-                            <th>Unvoni</th>
-                            <th>Naryad FISH</th>
-                            <th>Bo'linma nomi</th>
-                            <th>Tel raqami</th>
-                            <th>Smenasi</th>
-                            <th>Yo'nalishi</th>
-                            <th>Qurol turi</th>
-                            <th>Planshet</th>
-                            <th>Body kamera</th>
-                            <th>Aloqa vositasi</th>
-                            <th>Metallodetektor</th>
-                            <th>Megafon</th>
-                            <th>Rezina tayoq</th>
-                            <th>Qo'l kishani</th>
-                            <th>Cho'ntak fonari</th>
-                            <th>Xushtak</th>
-                            <th>Tibbiy himoya vositalari</th>
-                            <th>Individual bog'lov paketi</th>
-                            <th>Aerozol</th>                           
-                            <th>Xizmat iti</th>
-                            <th>Xizmat oti</th>
-                            <th>Avtotransport</th>
+                            <th>Т/р</th>
+                            <th>Унвони</th>
+                            <th>Наряд ФИШ</th>
+                            <th>Бўлинма номи</th>
+                            <th>Тел рақами</th>
+                            <th>Сменаси</th>
+                            <th>Йўналиши</th>
+                            <th>Қурол тури</th>
+                            <th>Планшет</th>
+                            <th>Бодй камера</th>
+                            <th>Алоқа воситаси</th>
+                            <th>Металлодетектор</th>
+                            <th>Мегафон</th>
+                            <th>Резина таёқ</th>
+                            <th>Қўл кишани</th>
+                            <th>Чўнтак фонари</th>
+                            <th>Хуштак</th>
+                             <th>Тиббий ҳимоя воситалари</th>
+                            <th>Индивидуал боғлов пакети</th>
+                           <th>Аэрозол</th>                      
+                            <th>Хизмат ити</th>
+                            <th>Хизмат оти</th>
+                            <th>Автотранспорт</th>
 
                         </tr>
                         </thead>
                         <tbody>
                         <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">1</td>
-                            <td> mayor </td>
+                            <td> майор </td>
                             <td>
-                               Sattorov A.N
+                               Сатторов А.Н
                             </td>
-                            <td>Bars1</td>
+                            <td>Барс1</td>
                             <td>+998 90 123 45 67</td>
-                            <td>1-bosqich(08:00-16:00)</td>
-                            <td>PP 2-yo'nalish</td>
-                             <td>Glok</td>
+                            <td>1-босқич(08:00-16:00)</td>
+                            <td>ПП 2-йўналиш</td>
+                             <td>Глок</td>
                             <td>1</td>
                             <td>1</td>
                             <td>1</td>
@@ -178,22 +178,22 @@
                             <td>0</td>
                             <td>1</td>
                            
-                            <td>Giyoxvand modda qidiruvchi</td>
+                            <td>Гиёхванд модда қидирувчи</td>
                             <td>0</td>
-                            <td>Patriot</td>
+                            <td>Патриот</td>
                         </tr>
                                <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">2</td>
-                             <td>serjant</td>
+                             <td>сержант</td>
                             <td>
-                               Bo'riyev S.N
+                               Бўриев С.Н
                             </td>
-                            <td>Bars2</td>
+                            <td>Барс2</td>
                             <td>+998 91 234 47 77</td>
                            
-                            <td>1-bosqich(08:00-16:00)</td>
-                            <td>PP 2-yo'nalish</td>
-                             <td>Glok</td>
+                            <td>1-босқич(08:00-16:00)</td>
+                            <td>ПП 2-йўналиш</td>
+                             <td>Глок</td>
                             <td>1</td>
                             <td>1</td>
                             <td>1</td>
@@ -207,22 +207,22 @@
                             <td>0</td>
                             <td>1</td>
                            
-                            <td>Mina qidiruvchi</td>
+                            <td>Мина қидирувчи</td>
                              <td>0</td>
                             <td>0</td>
                         </tr>
                                <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">3</td>
-                              <td>Oddiy askar</td>
+                              <td>Оддий аскар</td>
                             <td>
-                               Tolipov A.Sh
+                               Толипов A.Sh
                             </td>
-                            <td>Bars2</td>
+                            <td>Барс2</td>
                             <td>+998 88 223 55 69</td>
                           
-                            <td>2-bosqich(16:00-24:00)</td>
-                            <td>AP 2-yo'nalish</td>
-                                <td>PM</td>
+                            <td>2-босқич(16:00-24:00)</td>
+                            <td>АП 2-йўналиш</td>
+                                <td>ПМ</td>
                             <td>1</td>
                             <td>1</td>
                             <td>0</td>
@@ -238,20 +238,20 @@
                         
                             <td>0</td>
                              <td>1</td>
-                            <td>BYD</td>
+                            <td>БЙД</td>
                            </tr>
                          <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">4</td>
-                              <td>Oddiy askar</td>
+                              <td>Оддий аскар</td>
                             <td>
-                             Rajabov T.D
+                             Ражабов Т.Д
                             </td>
-                            <td>O'rikzor</td>
+                            <td>Ўрикзор</td>
                             <td>+998 93 312 65 67</td>
                           
-                            <td>2-bosqich(16:00-24:00)</td>
-                            <td>PP 2-yo'nalish</td>
-                               <td>PM</td>
+                            <td>2-босқич(16:00-24:00)</td>
+                            <td>ПП 2-йўналиш</td>
+                               <td>ПМ</td>
                             <td>1</td>
                             <td>1</td>
                             <td>0</td>
@@ -271,15 +271,15 @@
                         </tr>
                          <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">5</td>
-                             <td>serjant</td>
+                             <td>сержант</td>
                             <td>
-                               Shermatov A.J
+                               Шерматов А.Ж
                             </td>
-                            <td>Bars1</td>
+                            <td>Барс1</td>
                             <td>+998 99 923 95 97</td>
                            
-                            <td>1-bosqich(08:00-16:00)</td>
-                            <td>PP 1-yo'nalish</td>
+                            <td>1-босқич(08:00-16:00)</td>
+                            <td>ПП 1-йўналиш</td>
                              <td>0</td>
                             <td>1</td>
                             <td>1</td>
@@ -300,16 +300,16 @@
                         </tr>
                          <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">6</td>
-                            <td>leytenant</td>
+                            <td>лейтенант</td>
                              <td>
-                              Umrzoqov J.O
+                              Умрзоқов Ж.О
                             </td>
-                            <td>O'rikzor</td>
+                            <td>Ўрикзор</td>
                             <td>+998 55 123 45 90</td>
                            
-                            <td>1-bosqich(08:00-16:00)</td>
-                            <td>PP 1-yo'nalish</td>
-                              <td>Boshqa</td>
+                            <td>1-босқич(08:00-16:00)</td>
+                            <td>ПП 1-йўналиш</td>
+                              <td>Бошқа</td>
                             <td>1</td>
                             <td>0</td>
                             <td>1</td>
@@ -323,7 +323,7 @@
                             <td>0</td>
                             <td>0</td>
                           
-                            <td>Qorovul</td>
+                            <td>Қоровул</td>
                              <td>0</td>
                             <td>0</td>
                         </tr>
@@ -340,7 +340,7 @@
         <div class="col-12 mt-3">
             <button type="button" class="btn btn-primary waves-effect waves-light" onclick="window.history.back()"
             >
-                Ortga
+                Ортга
             </button>
         </div>
     </div>
@@ -359,8 +359,8 @@
 <script>
 window.addEventListener('load', function() {
   Swal.fire({
-    title: 'Sahifa yuklanmoqda...',
-    text: 'Iltimos, kuting',
+    title: 'Саҳифа юкланмоқда...',
+    text: 'Илтимос, кутинг',
     timer: 1000,
     timerProgressBar: true,
     allowOutsideClick: false,
@@ -402,19 +402,19 @@ window.addEventListener('load', function() {
 // DataTable sozlamalari
 if (dt_basic_table.length) {
   dt_basic = dt_basic_table.DataTable({
-    pageLength: 5,
+    pageLength: 15,
     lengthMenu: [5, 10, 25, 50, 75, 100, 1000],
     ordering: false, 
     language: {
-      lengthMenu: "Ko‘rsatish _MENU_ ta yozuv",
-      zeroRecords: "Hech narsa topilmadi",
-      info: "_TOTAL_ tadan _START_ dan _END_ gacha ko‘rsatilmoqda",
-      infoEmpty: "Ma’lumot yo‘q",
-      infoFiltered: "(jami _MAX_ yozuvdan filtrlandi)",
-      search: "Qidirish:",
+      lengthMenu: "Кўрсатиш _MENU_ та ёзув",
+      zeroRecords: "Ҳеч нарса топилмади",
+      info: "_TOTAL_ тадан _START_ дан _END_ гача кўрсатилмоқда",
+      infoEmpty: "Маълумот йўқ",
+      infoFiltered: "(Жами _MAX_ ёзувдан фильтрланди)",
+      search: "Қидириш:",
       paginate: {
-        previous: "Oldingi",
-        next: "Keyingi"
+        previous: "Олдинги",
+        next: "Кейинги"
       }
     },
   });

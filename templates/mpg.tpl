@@ -255,7 +255,7 @@
         <div class="card-body text-center">
             <div id="playWind" style="width: 640px; height: 400px;"></div>
             <div class="rounded" id="offline_bg">
-                <span>Kamera offline!</span>
+                <span>Камера оффлине!</span>
             </div>
             <div class="items">
                 <div class="row w-100 mt-3">

@@ -58,7 +58,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body text-center">
-                    <h4> Milliy gvardiya hududiy boshqarmalaridan bozorlarga jamoat tartibini saqlash va jamoat xavfsizligini <br> ta’minlashga jalb etilgan kuch va vositalar to‘g‘risida <br> <span>MA'LUMOT</span> </h4>
+                    <h4>Миллий гвардия ҳудудий бошқармаларидан бозорларга жамоат тартибини сақлаш ва жамоат хавфсизлигини <br> таъминлашга жалб этилган куч ва воситалар тўғрисида <br> <span>МАЪЛУМОТ</span> </h4>
                 </div>
             </div>
         </div>
@@ -71,15 +71,15 @@
         <div class="col-12">
             <div class="card">
                 <div class="date-box">
-                   <h5 class="pt-2 pb-2 p-4 m-0">Sana: 29.10.2025-yil</h5>
+                   <h5 class="pt-2 pb-2 p-4 m-0">Сана: 10.11.2025-йил</h5>
                    <div class="date-box-select">
-                       <input class="form-control" type="date" placeholder="Boshlang'ich vaqtni tanlang">
-                       <input class="form-control" type="date" placeholder="Oxirgi vaqtni tanlang">
+                       <input class="form-control" type="date" placeholder="Бошланғич вақтни танланг">
+                       <input class="form-control" type="date" placeholder="Охирги вақтни танланг">
                       <a href="#" class="date-box-sel-link">
                         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-file-earmark-text" viewBox="0 0 16 16">
   <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5"/>
   <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>
-</svg>  Yuklab olish
+</svg>  Юклаб олиш
                       </a>
                    </div>
                
@@ -88,19 +88,19 @@
                     <table class="datatables-projects table border-top table-hover table-striped table-bordered">
                         <thead>
                         <tr class="text-center">
-                            <th>T/r</th>
-                            <th>Viloyatlar kesimida̱</th>
-                            <th>Bozorlar soni̱</th>
-                            <th>Savdo obyektlari</th>
-                            <th>Yo'nalishlar soni</th>
-                            <th>Kirish-chiqish eshiklar soni</th>
-                            <th>Kameralar soni</th>
-                            <th>Tashvish tugmalar</th>
-                            <th>Shaxiy tarkib soni</th>
-                            <th>Avtotransportlar soni</th>
-                            <th>Qurol biriktirilgan harbiy xizmatchilar soni</th>
-                            <th>Xizmat hayvonlari</th>
-                            <th>Maxsus vositalar soni</th>
+                            <th>Т/р</th>
+                            <th>Вилоятлар кесимида̱</th>
+                            <th>Бозорлар сони̱</th>
+                            <th>Савдо объектлари</th>
+                            <th>Йўналишлар сони</th>
+                            <th>Кириш-чиқиш эшиклар сони</th>
+                            <th>Камералар сони</th>
+                            <th>Ташвиш тугмалар</th>
+                            <th>Шахий таркиб сони</th>
+                            <th>Автотранспортлар сони</th>
+                            <th>Қурол бириктирилган ҳарбий хизматчилар сони</th>
+                            <th>Хизмат ҳайвонлари</th>
+                            <th>Махсус воситалар сони</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -108,7 +108,7 @@
                             <td class="text-right">1</td>
                             <td>
                                 <a
-                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Toshkent shahar">Toshkent shahar</a>
+                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Тошкент шаҳар">Тошкент шаҳар</a>
                             </td>
                             <td>48</td>
                             <td>212</td>
@@ -126,7 +126,7 @@
                             <td class="text-right">2</td>
                             <td>
                              <a
-                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Andijon viloyati">Andijon viloyati</a>
+                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Андижон вилояти">Андижон вилояти</a>
                                
                             </td>
                             <td>37</td>
@@ -145,7 +145,7 @@
                             <td class="text-right">3</td>
                             <td>
                              <a
-                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Buxoro viloyati">Buxoro viloyati</a>
+                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Бухоро вилояти">Бухоро вилояти</a>
                                
                             </td>
                             <td>32</td>
@@ -164,7 +164,7 @@
                             <td class="text-right">4</td>
                             <td>
                                <a
-                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Fargona viloyati">Farg'ona viloyati</a>
+                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Фарғона вилояти">Фарғона вилояти</a>
                               
                             </td>
                             <td>36</td>
@@ -183,7 +183,7 @@
                             <td class="text-right">5</td>
                             <td>
                               <a
-                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Jizzax viloyati">Jizzax viloyati</a>
+                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Жиззах вилояти">Жиззах вилояти</a>
                               
                             </td>
                             <td>39</td>
@@ -202,7 +202,7 @@
                             <td class="text-right">6</td>
                             <td>
                                <a
-                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Qashqadaryo viloyati">Qashqadaryo viloyati</a>
+                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Қашқадарё вилояти">Қашқадарё вилояти</a>
                               
                             </td>
                             <td>23</td>
@@ -221,7 +221,7 @@
                             <td class="text-right">7</td>
                             <td>
                               <a
-                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Xorazm viloyati">Xorazm viloyati</a>
+                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Хоразм вилояти">Хоразм вилояти</a>
                               
                               
                             </td>
@@ -241,7 +241,7 @@
                             <td class="text-right">8</td>
                             <td>
                              <a
-                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Namangan viloyati">Namangan viloyati</a>
+                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Наманган вилояти">Наманган вилояти</a>
                                 
                             </td>
                             <td>40</td>
@@ -260,7 +260,7 @@
                             <td class="text-right">9</td>
                             <td>
                              <a
-                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Navoiy viloyati">Navoiy viloyati</a>
+                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Навоий вилояти">Навоий вилояти</a>
                               
                             </td>
                             <td>34</td>
@@ -279,7 +279,7 @@
                             <td class="text-right">10</td>
                             <td>
                                <a
-                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Samarqand viloyati">Samarqand viloyati</a>
+                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Самарқанд вилояти">Самарқанд вилояти</a>
                             
                             </td>
                             <td>38</td>
@@ -298,7 +298,7 @@
                             <td class="text-right">11</td>
                             <td>
                               <a
-                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Sirdaryo viloyati">Sirdaryo viloyati</a>
+                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Сирдарё вилояти">Сирдарё вилояти</a>
                               
                             </td>
                             <td>35</td>
@@ -317,7 +317,7 @@
                             <td class="text-right">12</td>
                             <td>
                                 <a
-                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Surxandaryo viloyati">Surxandaryo viloyati</a>
+                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Сурхандарё вилояти">Сурхандарё вилояти</a>
                             </td>
                             <td>32</td>
                             <td>150</td>
@@ -335,7 +335,7 @@
                             <td class="text-right">13</td>
                             <td>
                                  <a
-                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Toshkent viloyati">Toshkent viloyati</a>
+                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Тошкент вилояти">Тошкент вилояти</a>
                             </td>
                             <td>42</td>
                             <td>170</td>
@@ -353,7 +353,7 @@
                             <td class="text-right">14</td>
                             <td>
                                 <a
-                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Qoraqalpog'iston Respublikasi">Qoraqalpog'iston Respublikasi</a>
+                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Қорақалпоғистон Республикаси">Қорақалпоғистон Республикаси</a>
                             </td>
                             <td>60</td>
                             <td>270</td>
@@ -370,7 +370,7 @@
                         <tr class="lb text-center table-success" id="row_{$Table.id|crypt}">
                             <td class="text-right">15</td>
                             <td>
-                              Jami
+                              Жами
                             </td>
                             <td>1118</td>
                             <td>4780</td>
@@ -397,7 +397,7 @@
         <div class="col-12 mt-3">
             <button type="button" class="btn btn-primary waves-effect waves-light" onclick="window.history.back()"
             >
-                Ortga
+                Ортга
             </button>
         </div>
     </div>
@@ -416,8 +416,8 @@
 <script>
 window.addEventListener('load', function() {
   Swal.fire({
-    title: 'Sahifa yuklanmoqda...',
-    text: 'Iltimos, kuting',
+    title: 'Саҳифа юкланмоқда...',
+    text: 'Илтимос, кутинг',
     timer: 1000,
     timerProgressBar: true,
     allowOutsideClick: false,

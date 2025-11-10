@@ -115,7 +115,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body text-center">
-                    <h4>{$smarty.get.date} markazida o'tkaziladigan {$smarty.get.dataTadbir} va ularga jalb etiladigan kuch va vositalar to'g'risida  <br> <span>MA'LUMOT</span> </h4>
+                    <h4>{$smarty.get.date} марказида ўтказиладиган {$smarty.get.dataTadbir} ва уларга жалб этиладиган куч ва воситалар тўғрисида  <br> <span>МАЪЛУМОТ</span> </h4>
                 </div>
             </div>
         </div>
@@ -139,42 +139,41 @@
                
                 </div>    *}
                  <div class="date-box">
-                   <h5 class="pt-2 pb-2 p-4 m-0">Sana: 08.11.2025-yil</h5>
+                   <h5 class="pt-2 pb-2 p-4 m-0">Сана: 08.11.2025-йил</h5>
                    <div class="date-box-select">
                      
                       <a href="#" class="date-box-sel-link">
                         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-file-earmark-text" viewBox="0 0 16 16">
   <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5"/>
   <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>
-</svg>  Yuklab olish
+</svg>  Юклаб олиш
                       </a>
                    </div>
-               
                 </div>
                 <div class="card-datatable table-responsive">
                 
                     <table class="datatables-projects table table-hover vertical-header table-bordered">
                         <thead>
                         <tr class="text-center card-datatable-tr">
-                            <th class="horizon-th">T/r</th>
-                            <th class="horizon-th">Tadbir nomi</th>
-                             <th class="horizon-th">Tadbir turi</th>
-                             <th class="horizon-th">Tadbir toifasi</th>
-                            <th class="horizon-th">Tadbir o'tkaziladigan joy nomi</th>                         
-                            <th>Tadbir boshlanish vaqti</th>
-                            <th>Tadbir tugash vaqti</th>
-                            <th>Qatnashadigan fuqoralarning taxminiy soni</th>
-                            <th>Shaxsiy tarkib</th>
-                            <th>MG HX soni</th>                         
-                            <th>IIV HX soni</th>
-                            <th>FVV HX soni</th>
-                            <th>MG MSGr soni</th>
-                            <th>IIV Spring soni</th>
-                            <th>MHXlar soni</th>
-                            <th>Transport vositalari</th>
-                            <th>Maxsus vositalar</th>
-                            <th class="horizon-th">Tadbirga mas'ul</th>
-                            <th class="horizon-th">Tadbirni o'tkazuvchi tashabbuskor</th>
+                            <th class="horizon-th">Т/р</th>
+                            <th class="horizon-th">Тадбир номи</th>
+                             <th class="horizon-th">Тадбир тури</th>
+                             <th class="horizon-th">Тадбир тоифаси</th>
+                            <th class="horizon-th">Тадбир ўтказиладиган жой номи</th>                         
+                            <th>Тадбир бошланиш вақти</th>
+                            <th>Тадбир тугаш вақти</th>
+                            <th>Қатнашадиган фуқораларнинг тахминий сони</th>
+                            <th>Шахсий таркиб</th>
+                            <th>МГ ҲХ сони</th>                         
+                            <th>ИИВ ҲХ сони</th>
+                            <th>ФВВ ҲХ сони</th>
+                            <th>МГ МСГр сони</th>
+                            <th>ИИВ Спринг сони</th>
+                            <th>МҲХлар сони</th>
+                            <th>Транспорт воситалари</th>
+                            <th>Махсус воситалар</th>
+                            <th class="horizon-th">Тадбирга масъул</th>
+                            <th class="horizon-th">Тадбирни ўтказувчи ташаббускор</th>
                         </tr>
                         </thead>
                         <tbody id="event-tbody">
@@ -191,7 +190,7 @@
         <div class="col-12 mt-3">
             <button type="button" class="btn btn-primary waves-effect waves-light" onclick="window.history.back()"
             >
-                Ortga
+                Ортга
             </button>
         </div>
     </div>
@@ -222,12 +221,12 @@ document.addEventListener('DOMContentLoaded', function() {
         let selectedData;
     const dataSiyosiy1 = [
         {
-            eventName: "YUNЕSKO Bosh konferensiyasining 43 sessiyasi",
-            eventType:"Xalqaro",
-            eventCategory: "Hukumat qarori asosidagi tadbir",
-            eventPlace: "“Silk Road” turizm markazi",
-            evetDate:"05.11.2025-y 10:00",
-            evetFinishDate:"07.11.2025-y 16:00",
+            eventName: "ЮНЕСКО Бош конференциясининг 43 сессияси",
+            eventType:"Халқаро",
+            eventCategory: "Ҳукумат қарори асосидаги тадбир",
+            eventPlace: "“Силк Роад” туризм маркази",
+            evetDate:"05.11.2025-й 10:00",
+            evetFinishDate:"07.11.2025-й 16:00",
             evetPersonCount:500,
             evetDutyCount:831,
             evetMGCount:345,
@@ -238,16 +237,16 @@ document.addEventListener('DOMContentLoaded', function() {
             evetMHXCount:6,
             evetTransportCount:12,
             evetSpecialTools:312,
-            evetResponsible:"84007 h/q mayor A.Nabiyev",
-            evetorganizer:"Viloyat hokimligi",
+            evetResponsible:"84007 ҳ/қ майор А.Набиев",
+            evetorganizer:"Вилоят ҳокимлиги",
         },
         {
-            eventName: "AQSh prezidentining Samarqandga tashrifi",
-            eventType:"Xalqaro",
-            eventCategory: "Hukumat qarori asosidagi tadbir",
-            eventPlace: "Registon Maydoni",
-            evetDate:"07.11.2025-y 08:00",
-            evetFinishDate:"08.11.2025-y 12:00",
+            eventName: "АҚШ президентининг Самарқандга ташрифи",
+            eventType:"Халқаро",
+            eventCategory: "Ҳукумат қарори асосидаги тадбир",
+            eventPlace: "Регистон Майдони",
+            evetDate:"07.11.2025-й 08:00",
+            evetFinishDate:"08.11.2025-й 12:00",
             evetPersonCount:100,
             evetDutyCount:40,
             evetMGCount:25,
@@ -258,19 +257,19 @@ document.addEventListener('DOMContentLoaded', function() {
             evetMHXCount:3,
             evetTransportCount:6,
             evetSpecialTools:30,
-            evetResponsible:"81140 h/q p/p-k X.Xomidov",
-            evetorganizer:"Viloyat hokimligi",
+            evetResponsible:"81140 ҳ/қ п/п-к Х.Хомидов",
+            evetorganizer:"Вилоят ҳокимлиги",
         }
     ]     
 
      const dataSiyosiy2 = [
         {
-            eventName: "Davlat rahbarining Navoiy viloyatiga tashrifi",
-              eventType:"Respublika",
-            eventCategory: "Hukumat qarori asosidagi tadbir",
-            eventPlace: "Navoiy viloyati Navoiy shahar",
-            evetDate:"08.11.2025-y 09:00",
-            evetFinishDate:"08.11.2025-y 17:00",
+            eventName: "Давлат раҳбарининг Навоий вилоятига ташрифи",
+              eventType:"Республика",
+            eventCategory: "Ҳукумат қарори асосидаги тадбир",
+            eventPlace: "Навоий вилояти Навоий шаҳар",
+            evetDate:"08.11.2025-й 09:00",
+            evetFinishDate:"08.11.2025-й 17:00",
             evetPersonCount:120,
             evetDutyCount:40,
             evetMGCount:35,
@@ -281,19 +280,19 @@ document.addEventListener('DOMContentLoaded', function() {
             evetMHXCount:5,
             evetTransportCount:10,
             evetSpecialTools:35,
-            evetResponsible:"MG NVBB leytenant I.Esonboyev",
-            evetorganizer:"Viloyat hokimligi",
+            evetResponsible:"МГ НВББ лейтенант И.Эсонбоев",
+            evetorganizer:"Вилоят ҳокимлиги",
         }
     ]     
 
      const dataSiyosiy3 = [
         {
-            eventName: "O‘zbekiston–Pokiston siyosiy maslahatlashuvlari",
-              eventType:"Xalqaro",
-            eventCategory: "Hukumat qarori asosidagi tadbir",
-            eventPlace: "“Do‘stlik saroyi” (Xalqlar do‘stligi saroyi)",
-             evetDate:"08.11.2025-y 09:00",
-            evetFinishDate:"08.11.2025-y 17:00",
+            eventName: "Ўзбекистон–Покистон сиёсий маслаҳатлашувлари",
+              eventType:"Халқаро",
+            eventCategory: "Ҳукумат қарори асосидаги тадбир",
+            eventPlace: "“Дўстлик саройи” (Халқлар дўстлиги саройи)",
+             evetDate:"08.11.2025-й 09:00",
+            evetFinishDate:"08.11.2025-й 17:00",
             evetPersonCount:120,
             evetDutyCount:40,
             evetMGCount:35,
@@ -305,16 +304,16 @@ document.addEventListener('DOMContentLoaded', function() {
             evetTransportCount:10,
             evetSpecialTools:35,
 
-            evetResponsible:"84007 h/q mayor B.Oblaqulov",
-            evetorganizer:"Shahar hokimligi",
+            evetResponsible:"84007 ҳ/қ майор Б.Облақулов",
+            evetorganizer:"Шаҳар ҳокимлиги",
         },
           {
-            eventName: "Xalqaro konferensiya: Turk davlatlari fikr markazlari",
-            eventType:"Xalqaro",
-            eventCategory: "Hukumat qarori asosidagi tadbir",
-            eventPlace: "O‘zbekiston Respublikasi Tashqi ishlar vazirligi",          
-            evetDate:"08.11.2025-y 09:00",
-            evetFinishDate:"08.11.2025-y 17:00",
+            eventName: "Халқаро конференция: Турк давлатлари фикр марказлари",
+            eventType:"Халқаро",
+            eventCategory: "Ҳукумат қарори асосидаги тадбир",
+            eventPlace: "Ўзбекистон Республикаси Ташқи ишлар вазирлиги",          
+            evetDate:"08.11.2025-й 09:00",
+            evetFinishDate:"08.11.2025-й 17:00",
             evetPersonCount:120,
             evetDutyCount:40,
             evetMGCount:35,
@@ -325,16 +324,16 @@ document.addEventListener('DOMContentLoaded', function() {
             evetMHXCount:5,
             evetTransportCount:10,
             evetSpecialTools:35,
-            evetResponsible:"81109 h/q kapitan X.Dehqonov",
-            evetorganizer:"Shahar hokimligi",
+            evetResponsible:"81109 ҳ/қ капитан Х.Деҳқонов",
+            evetorganizer:"Шаҳар ҳокимлиги",
         },
           {
-            eventName: "V Toshkent Antikorrupsiya Forumi",
-              eventType:"Respublika",
-            eventCategory: "Hukumat qarori asosidagi tadbir",
-            eventPlace: "Oliy Majlis Qonunchilik palatasi majlislar zali",
-            evetDate:"08.11.2025-y 09:00",
-            evetFinishDate:"08.11.2025-y 17:00",
+            eventName: "V Тошкент Антикоррупция Форуми",
+              eventType:"Республика",
+            eventCategory: "Ҳукумат қарори асосидаги тадбир",
+            eventPlace: "Олий Мажлис Қонунчилик палатаси мажлислар зали",
+            evetDate:"08.11.2025-й 09:00",
+            evetFinishDate:"08.11.2025-й 17:00",
             evetPersonCount:120,
             evetDutyCount:40,
             evetMGCount:35,
@@ -345,20 +344,20 @@ document.addEventListener('DOMContentLoaded', function() {
             evetMHXCount:5,
             evetTransportCount:10,
             evetSpecialTools:35,
-            evetResponsible:"84007 h/q mayor Sh.Ibragimov",
-            evetorganizer:"Shahar hokimligi",
+            evetResponsible:"84007 ҳ/қ майор Ш.Ибрагимов",
+            evetorganizer:"Шаҳар ҳокимлиги",
         },
     ]     
 
     // madaniy uchun 
       const dataSiyosiy4 = [
         {
-            eventName: "Xazina nomli teatr tomoshosi",
-              eventType:"Respublika",
-            eventCategory: "Hukumat qarori asosidagi tadbir",
-            eventPlace: "San’at saroyi binosida",
-            evetDate:"08.11.2025-y 09:00",
-            evetFinishDate:"08.11.2025-y 17:00",
+            eventName: "Хазина номли театр томошоси",
+              eventType:"Республика",
+            eventCategory: "Ҳукумат қарори асосидаги тадбир",
+            eventPlace: "Санъат саройи биносида",
+            evetDate:"08.11.2025-й 09:00",
+            evetFinishDate:"08.11.2025-й 17:00",
             evetPersonCount:120,
             evetDutyCount:40,
             evetMGCount:35,
@@ -369,19 +368,19 @@ document.addEventListener('DOMContentLoaded', function() {
             evetMHXCount:5,
             evetTransportCount:10,
             evetSpecialTools:35,
-            evetResponsible:"MG SVBB  k-n X.Xolmirzayev",
-            evetorganizer:"“Arena sirk shapito” MCHJ",
+            evetResponsible:"МГ СВББ  к-н Х.Холмирзаев",
+            evetorganizer:"“Арена цирк шапито” МЧЖ",
         },
     ]     
 
       const dataSiyosiy5 = [
         {
-            eventName: "Aholini teatrga tashrifini tizimli yo‘lga qo‘yish hamda “Teatr-ibodatxonadir” davlat dasturini amalga oshirish maqsadida “Hokim va mahalla raislari” uchrashuvi",
-              eventType:"Respublika",
-            eventCategory: "Pulli xizmat asosida tadbir",
-            eventPlace: "San’at saroyi binosida",
-           evetDate:"08.11.2025-y 09:00",
-            evetFinishDate:"08.11.2025-y 17:00",
+            eventName: "Аҳолини театрга ташрифини тизимли йўлга қўйиш ҳамда “Театр-ибодатхонадир” давлат дастурини амалга ошириш мақсадида “Ҳоким ва маҳалла раислари” учрашуви",
+              eventType:"Республика",
+            eventCategory: "Пулли хизмат асосида тадбир",
+            eventPlace: "Санъат саройи биносида",
+           evetDate:"08.11.2025-й 09:00",
+            evetFinishDate:"08.11.2025-й 17:00",
             evetPersonCount:120,
             evetDutyCount:40,
             evetMGCount:35,
@@ -392,16 +391,16 @@ document.addEventListener('DOMContentLoaded', function() {
             evetMHXCount:5,
             evetTransportCount:10,
             evetSpecialTools:35,
-            evetResponsible:"MG 88926 h/q kt l-nt A.Po‘latov",
-            evetorganizer:"Viloyat hokimligi",
+            evetResponsible:"МГ 88926 ҳ/қ кт л-нт A.Poълатов",
+            evetorganizer:"Вилоят ҳокимлиги",
         },
          {
-            eventName: "Xalqaro zamonaviy san’at Biyennalesi tadbiri",
-              eventType:"Xalqaro",
-            eventCategory: "Hukumat qarori asosidagi tadbir",
-            eventPlace: "San’at saroyi binosida",
-              evetDate:"08.11.2025-y 09:00",
-            evetFinishDate:"08.11.2025-y 17:00",
+            eventName: "Халқаро zamonaviy san’at Biyennalesi tadbiri",
+              eventType:"Халқаро",
+            eventCategory: "Ҳукумат қарори асосидаги тадбир",
+            eventPlace: "Санъат саройи биносида",
+              evetDate:"08.11.2025-й 09:00",
+            evetFinishDate:"08.11.2025-й 17:00",
             evetPersonCount:120,
             evetDutyCount:40,
             evetMGCount:35,
@@ -412,19 +411,19 @@ document.addEventListener('DOMContentLoaded', function() {
             evetMHXCount:5,
             evetTransportCount:10,
             evetSpecialTools:35,
-            evetResponsible:"MG 88926 h/q kt l-nt  Sh.Bolliyev",
-            evetorganizer:"Viloyat hokimligi",
+            evetResponsible:"МГ 88926 ҳ/қ кт л-нт  Ш.Боллиев",
+            evetorganizer:"Вилоят ҳокимлиги",
         },
     ]     
 
       const dataSiyosiy6 = [
         {
-            eventName: "Kino namoyishlari yangi prem’era",
-              eventType:"Respublika",
-            eventCategory: "Hukumat qarori asosidagi tadbir",
-            eventPlace: "A.Navoiy nomidagi kinochilar uyi",
-             evetDate:"08.11.2025-y 09:00",
-            evetFinishDate:"08.11.2025-y 17:00",
+            eventName: "Кино намойишлари янги премъера",
+              eventType:"Республика",
+            eventCategory: "Ҳукумат қарори асосидаги тадбир",
+            eventPlace: "А.Навоий номидаги киночилар уйи",
+             evetDate:"08.11.2025-й 09:00",
+            evetFinishDate:"08.11.2025-й 17:00",
             evetPersonCount:120,
             evetDutyCount:40,
             evetMGCount:35,
@@ -435,16 +434,16 @@ document.addEventListener('DOMContentLoaded', function() {
             evetMHXCount:5,
             evetTransportCount:10,
             evetSpecialTools:35,
-            evetResponsible:"MG 84007 h/q kt l-nt A.Nabiyev",
-            evetorganizer:"Viloyat hokimligi",
+            evetResponsible:"МГ 84007 ҳ/қ кт л-нт А.Набиев",
+            evetorganizer:"Вилоят ҳокимлиги",
         },
          {
-            eventName: "“OBJ” spektakli",
-              eventType:"Respublika",
-            eventCategory: "Pulli xizmat asosida tadbir",
-            eventPlace: "SShayxontohur t. Yosh tomoshabinlar teatri",
-             evetDate:"08.11.2025-y 09:00",
-            evetFinishDate:"08.11.2025-y 17:00",
+            eventName: "“ОБЖ” спектакли",
+              eventType:"Республика",
+            eventCategory: "Пулли хизмат асосида тадбир",
+            eventPlace: "Шайхонтоҳур т. Ёш томошабинлар театри",
+             evetDate:"08.11.2025-й 09:00",
+            evetFinishDate:"08.11.2025-й 17:00",
             evetPersonCount:120,
             evetDutyCount:40,
             evetMGCount:35,
@@ -455,19 +454,19 @@ document.addEventListener('DOMContentLoaded', function() {
             evetMHXCount:5,
             evetTransportCount:10,
             evetSpecialTools:35,
-            evetResponsible:"MG 88926 h/q kt l-nt  Sh.Bolliyev",
-            evetorganizer:"Davlat yosh tomoshabinlar teatri",
+            evetResponsible:"МГ 88926 ҳ/қ кт л-нт  Ш.Боллиев",
+            evetorganizer:"Давлат ёш томошабинлар театри",
         },
     ]     
 
       const dataSiyosiy7 = [
         {
-            eventName: "“Maysaraning ishi” nomlangan spektaql namoyishi",
-              eventType:"Respublika",
-            eventCategory: "Hukumat qarori asosidagi tadbir",
-            eventPlace: "Viloyat musiqali drama teatri",
-             evetDate:"08.11.2025-y 09:00",
-            evetFinishDate:"08.11.2025-y 17:00",
+            eventName: "“Майсаранинг иши” номланган спектақл намойиши",
+              eventType:"Республика",
+            eventCategory: "Ҳукумат қарори асосидаги тадбир",
+            eventPlace: "Вилоят мусиқали драма театри",
+             evetDate:"08.11.2025-й 09:00",
+            evetFinishDate:"08.11.2025-й 17:00",
             evetPersonCount:120,
             evetDutyCount:40,
             evetMGCount:35,
@@ -478,19 +477,19 @@ document.addEventListener('DOMContentLoaded', function() {
             evetMHXCount:5,
             evetTransportCount:10,
             evetSpecialTools:35,
-            evetResponsible:"MG XVBB mayor A.Madreymov",
-            evetorganizer:"Viloyat musiqali drama teatri",
+            evetResponsible:"МГ ХВББ майор А.Мадреймов",
+            evetorganizer:"Вилоят мусиқали драма театри",
         },
     ]   
     
       const dataSiyosiy8 = [
         {
-            eventName: "Sportning Gandbol turi bo‘yicha yoshlar o‘rtasida O‘zbekiston chempionati",
-              eventType:"Respublika",
-            eventCategory: "Hukumat qarori asosidagi tadbir",
-            eventPlace: "Navoiy sh. Gandbol sport zalida",
-            evetDate:"08.11.2025-y 09:00",
-            evetFinishDate:"08.11.2025-y 17:00",
+            eventName: "Спортнинг Гандбол тури бўйича ёшлар ўртасида Ўзбекистон чемпионати",
+              eventType:"Республика",
+            eventCategory: "Ҳукумат қарори асосидаги тадбир",
+            eventPlace: "Навоий ш. Гандбол спорт залида",
+            evetDate:"08.11.2025-й 09:00",
+            evetFinishDate:"08.11.2025-й 17:00",
             evetPersonCount:120,
             evetDutyCount:40,
             evetMGCount:35,
@@ -501,19 +500,19 @@ document.addEventListener('DOMContentLoaded', function() {
             evetMHXCount:5,
             evetTransportCount:10,
             evetSpecialTools:35,
-            evetResponsible:"MG NVBB leytenant I.Esonboyev",
-            evetorganizer:"Sport boshqarmasi",
+            evetResponsible:"МГ НВББ лейтенант И.Эсонбоев",
+            evetorganizer:"Спорт бошқармаси",
         },
     ]   
 
       const dataSiyosiy9 = [
         {
-            eventName: "Kamondan o‘q otish bo‘yicha QR kubogi.",
-              eventType:"Xalqaro",
-            eventCategory: "Hukumat qarori asosidagi tadbir",
-            eventPlace: "Olimriya va paralimpiya sport turlariga ixtisoslashtirilgan sport maktabi",
-           evetDate:"08.11.2025-y 09:00",
-            evetFinishDate:"08.11.2025-y 17:00",
+            eventName: "Камондан ўқ отиш бўйича QR кубоги.",
+              eventType:"Халқаро",
+            eventCategory: "Ҳукумат қарори асосидаги тадбир",
+            eventPlace: "Олимрия ва паралимпия спорт турларига ихтисослаштирилган спорт мактаби",
+           evetDate:"08.11.2025-й 09:00",
+            evetFinishDate:"08.11.2025-й 17:00",
             evetPersonCount:120,
             evetDutyCount:40,
             evetMGCount:35,
@@ -524,19 +523,19 @@ document.addEventListener('DOMContentLoaded', function() {
             evetMHXCount:5,
             evetTransportCount:10,
             evetSpecialTools:35,
-            evetResponsible:"MG 81416 h/q kt l-nt E.Xasanov",
-            evetorganizer:"QR Sport vazirligi",
+            evetResponsible:"МГ 81416 ҳ/қ кт л-нт Э.Хасанов",
+            evetorganizer:"QR Спорт вазирлиги",
         },
     ]   
 
       const dataSiyosiy10 = [
         {
-            eventName: "Sportning yunon-rum turi bo‘yicha O‘zbekiston chempionati",
-              eventType:"Respublika",
-            eventCategory: "Pulli xizmat asosida tadbir",
-            eventPlace: "Yashnobod t.Olimpiya shaxarchasi",
-             evetDate:"08.11.2025-y 09:00",
-            evetFinishDate:"08.11.2025-y 17:00",
+            eventName: "Спортнинг юнон-рум тури бўйича Ўзбекистон чемпионати",
+              eventType:"Республика",
+            eventCategory: "Пулли хизмат асосида тадбир",
+            eventPlace: "Яшнобод т.Олимпия шахарчаси",
+             evetDate:"08.11.2025-й 09:00",
+            evetFinishDate:"08.11.2025-й 17:00",
             evetPersonCount:120,
             evetDutyCount:40,
             evetMGCount:35,
@@ -547,20 +546,20 @@ document.addEventListener('DOMContentLoaded', function() {
             evetMHXCount:5,
             evetTransportCount:10,
             evetSpecialTools:35,
-            evetResponsible:"84007 h/q mayor Sh.Ibragimov",
-            evetorganizer:"Oliy talim, fan va inovatsiyalar vazirligi",
+            evetResponsible:"84007 ҳ/қ майор Ш.Ибрагимов",
+            evetorganizer:"Олий талим, фан ва иновациялар вазирлиги",
         },
     ]   
 
 
       const dataSiyosiy11 = [
         {
-            eventName: "O‘qituvchilarga kasbiy sertifikatlash malaka sinovlvrini o‘tkazish",
-              eventType:"Respublika",
-            eventCategory: "Hukumat qarori asosidagi tadbir",
-            eventPlace: "Olmazor t.Beruniy k. 83A-uy (“IMZO” firmasi eski binosi)",
-             evetDate:"08.11.2025-y 09:00",
-            evetFinishDate:"08.11.2025-y 17:00",
+            eventName: "Ўқитувчиларга касбий сертификатлаш малака синовлврини ўтказиш",
+              eventType:"Республика",
+            eventCategory: "Ҳукумат қарори асосидаги тадбир",
+            eventPlace: "Олмазор т.Беруний к. 83А-уй (“ИМЗО” фирмаси эски биноси)",
+             evetDate:"08.11.2025-й 09:00",
+            evetFinishDate:"08.11.2025-й 17:00",
             evetPersonCount:120,
             evetDutyCount:40,
             evetMGCount:35,
@@ -571,19 +570,19 @@ document.addEventListener('DOMContentLoaded', function() {
             evetMHXCount:5,
             evetTransportCount:10,
             evetSpecialTools:35,
-            evetResponsible:"84007 h/q mayor Sh.Ibragimov",
-            evetorganizer:"Maktabgacha va maktab talimi boshqarmasi",
+            evetResponsible:"84007 ҳ/қ майор Ш.Ибрагимов",
+            evetorganizer:"Мактабгача ва мактаб талими бошқармаси",
         },
     ]   
 
       const dataSiyosiy12 = [
         {
-            eventName: "O‘qituvchilarga kasbiy sertifikatlash malaka sinovlvrini o‘tkazish",
-              eventType:"Respublika",
-            eventCategory: "Hukumat qarori asosidagi tadbir",
-            eventPlace: "Jizzax shaxar  4-sonli umumiy o‘rta ta’lim maktabi binosi",
-           evetDate:"08.11.2025-y 09:00",
-            evetFinishDate:"08.11.2025-y 17:00",
+            eventName: "Ўқитувчиларга касбий сертификатлаш малака синовлврини ўтказиш",
+              eventType:"Республика",
+            eventCategory: "Ҳукумат қарори асосидаги тадбир",
+            eventPlace: "Жиззах шахар  4-сонли умумий ўрта таълим мактаби биноси",
+           evetDate:"08.11.2025-й 09:00",
+            evetFinishDate:"08.11.2025-й 17:00",
             evetPersonCount:120,
             evetDutyCount:40,
             evetMGCount:35,
@@ -594,19 +593,19 @@ document.addEventListener('DOMContentLoaded', function() {
             evetMHXCount:5,
             evetTransportCount:10,
             evetSpecialTools:35,
-            evetResponsible:"MG JVBB mayor S.Mamatqulov",
-            evetorganizer:"Ta’lim vazirligi",
+            evetResponsible:"МГ ЖВББ майор С.Маматқулов",
+            evetorganizer:"Таълим вазирлиги",
         },
     ]   
 
      const dataSiyosiy13 = [
         {
-            eventName: "Professional va maktabdan tashqari talim tashkilotlari pedagogik kadrlarni attestatsiyasi",
-              eventType:"Respublika",
-            eventCategory: "Pulli xizmat asosida tadbir",
-            eventPlace: "Namangan shaxar 15-sonli maktab",
-            evetDate:"08.11.2025-y 09:00",
-            evetFinishDate:"08.11.2025-y 17:00",
+            eventName: "Профессионал ва мактабдан ташқари талим ташкилотлари педагогик кадрларни аттестацияси",
+              eventType:"Республика",
+            eventCategory: "Пулли хизмат асосида тадбир",
+            eventPlace: "Наманган шахар 15-сонли мактаб",
+            evetDate:"08.11.2025-й 09:00",
+            evetFinishDate:"08.11.2025-й 17:00",
             evetPersonCount:120,
             evetDutyCount:40,
             evetMGCount:35,
@@ -617,37 +616,37 @@ document.addEventListener('DOMContentLoaded', function() {
             evetMHXCount:5,
             evetTransportCount:10,
             evetSpecialTools:35,
-            evetResponsible:"MG NVBB kapitan Sh.Xurramov",
-            evetorganizer:"M va mt boshqarmasi",
+            evetResponsible:"МГ НВББ капитан Ш.Хуррамов",
+            evetorganizer:"М ва мт бошқармаси",
         },
     ]   
 
     
-        if (region === "Toshkent shahar" && dateTadbir === "Siyosiy tadbirlar") {
+        if (region === "Тошкент шаҳар" && dateTadbir === "Сиёсий тадбирлар") {
             selectedData = dataSiyosiy3;
-        } else if (region === "Samarqand viloyati" && dateTadbir === "Siyosiy tadbirlar") {
+        } else if (region === "Самарқанд вилояти" && dateTadbir === "Сиёсий тадбирлар") {
             selectedData = dataSiyosiy1;
-        } else if (region === "Navoiy viloyati" && dateTadbir === "Siyosiy tadbirlar") {
+        } else if (region === "Навоий вилояти" && dateTadbir === "Сиёсий тадбирлар") {
             selectedData = dataSiyosiy2;
-        } else if (region === "Surxandaryo viloyati" && dateTadbir === "Madaniy tadbirlar") {
+        } else if (region === "Сурхандарё вилояти" && dateTadbir === "Маданий тадбирлар") {
             selectedData = dataSiyosiy4;
-        } else if (region === "Buxoro viloyati" && dateTadbir === "Madaniy tadbirlar") {
+        } else if (region === "Бухоро вилояти" && dateTadbir === "Маданий тадбирлар") {
             selectedData = dataSiyosiy5;
-        } else if (region === "Toshkent viloyati" && dateTadbir === "Madaniy tadbirlar") {
+        } else if (region === "Тошкент вилояти" && dateTadbir === "Маданий тадбирлар") {
             selectedData = dataSiyosiy6;
-        } else if (region === "Xorazm viloyati" && dateTadbir === "Madaniy tadbirlar") {
+        } else if (region === "Хоразм вилояти" && dateTadbir === "Маданий тадбирлар") {
             selectedData = dataSiyosiy7;
-        } else if (region === "Navoiy viloyati" && dateTadbir === "Sport tadbirlar") {
+        } else if (region === "Навоий вилояти" && dateTadbir === "Спорт тадбирлар") {
             selectedData = dataSiyosiy8;
-        } else if (region === "Qoraqalpog'iston Respublikasi" && dateTadbir === "Sport tadbirlar") {
+        } else if (region === "Қорақалпоғистон Республикаси" && dateTadbir === "Спорт тадбирлар") {
             selectedData = dataSiyosiy9;
-        }else if (region === "Toshkent shahar" && dateTadbir === "Sport tadbirlar") {
+        }else if (region === "Тошкент шаҳар" && dateTadbir === "Спорт тадбирлар") {
             selectedData = dataSiyosiy10;
-        }else if (region === "Toshkent viloyati" && dateTadbir === "Boshqa tadbirlar") {
+        }else if (region === "Тошкент вилояти" && dateTadbir === "Бошқа тадбирлар") {
             selectedData = dataSiyosiy11;
-        }else if (region === "Jizzax viloyati" && dateTadbir === "Boshqa tadbirlar") {
+        }else if (region === "Жиззах вилояти" && dateTadbir === "Бошқа тадбирлар") {
             selectedData = dataSiyosiy12;
-        }else if (region === "Namangan viloyati" && dateTadbir === "Boshqa tadbirlar") {
+        }else if (region === "Наманган вилояти" && dateTadbir === "Бошқа тадбирлар") {
             selectedData = dataSiyosiy13;
         }
         else{
@@ -697,8 +696,8 @@ const tbody = document.getElementById("event-tbody");
 <script>
 window.addEventListener('load', function() {
   Swal.fire({
-    title: 'Sahifa yuklanmoqda...',
-    text: 'Iltimos, kuting',
+    title: 'Саҳифа юкланмоқда...',
+    text: 'Илтимос, кутинг',
     timer: 1000,
     timerProgressBar: true,
     allowOutsideClick: false,

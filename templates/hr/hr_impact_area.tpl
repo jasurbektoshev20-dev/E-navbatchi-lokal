@@ -19,9 +19,9 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body d-flex justify-content-between">
-                    <h4>Ta'sir hududlari</h4>
+                    <h4>Таъсир ҳудудлари</h4>
                     <button id="new" type="button" class="btn btn-primary waves-effect waves-light">
-                        <i class="menu-icon tf-icons ti ti-plus"></i> Qo‘shish
+                        <i class="menu-icon tf-icons ti ti-plus"></i> Қўшиш
                     </button>
                 </div>
             </div>
@@ -36,11 +36,11 @@
                     <table class="datatables-projects table border-top">
                         <thead>
                             <tr>
-                                <th class="text-center">No̱</th>
-                                <th class="text-center">Viloyat</th>
-                                <th class="text-center">Bo'linma</th>
-                                <th class="text-center">Nomi</th>
-                                <th>Amallar</th>
+                                <th class="text-center">Т/р</th>
+                                <th class="text-center">Вилоят</th>
+                                <th class="text-center">Бўлинма</th>
+                                <th class="text-center">Номи</th>
+                                <th>Амаллар</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -75,11 +75,11 @@
         <form id="localForm" class="needs-validation" novalidate>
           <div class="row g-3">
             
-            <!-- Viloyat -->
+            <!-- Вилоят -->
             <div class="col-sm-4">
-              <label>Viloyat</label>
+              <label>Вилоят</label>
               <select required class="form-select" id="structure_id">
-                <option value="">Tanlang...</option>
+                <option value="">Танланг...</option>
                 {foreach from=$Regions item=Item1 key=ikey1}
                   <option value="{$Item1.id}">{$Item1.name}</option>
                 {/foreach}
@@ -89,21 +89,21 @@
 
             <!-- Turi -->
             <div class="col-sm-4">
-              <label>Turi</label>
+              <label>Тури</label>
               <select required class="form-select" id="division_id">
-                <option value="">Tanlang...</option>
+                <option value="">Танланг...</option>
                 
               </select>
             </div>
 
-            <!-- Nomi -->
+            <!-- Номи -->
             <div class="col-sm-4">
-              <label>Nomi</label>
+              <label>Номи</label>
               <input required type="text" class="form-control" id="division_child" placeholder="Masalan: Registon maydoni" />
             </div>
 
             <div class="col-sm-12">
-              <label>Obyekt hududini chizish</label>
+              <label>Объект ҳудудини чизиш</label>
                 <div id="uzbMap" style="height: 350px;"></div>
             </div>
 
@@ -112,9 +112,9 @@
             <div class="col-12 text-center">
               <input type="hidden" id="editId" value="">
               <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">
-                Bekor qilish
+                Бекор қилиш
               </button>
-              <button id="saveBtn" class="btn btn-primary me-sm-3 me-1">Saqlash</button>
+              <button id="saveBtn" class="btn btn-primary me-sm-3 me-1">Сақлаш</button>
             </div>
           </div>
         </form>
@@ -164,7 +164,7 @@
         $('.loader').append(`
             <div class="text-center my-5 py-5">
                 <div class="spinner-border spinner-border-lg text-info my-5" role="status">
-                    <span class="visually-hidden">Loading...</span>
+                    <span class="visually-hidden">Лоадинг...</span>
                 </div>
             </div>
         `);
@@ -186,7 +186,7 @@
                 $('#pagination').hide();
                 $('.loader').append(`
                     <div class="text-center my-5" style="padding: 10vh 0">
-                        Ma'lumot mavjud emas!
+                       Маълумот мавжуд эмас!
                     </div>
                 `);
             } else {
@@ -249,12 +249,12 @@
           !division_id || 
           !division_child ||
           !drawCoords
-        ) return alert("Barcha majburiy maydonlarni to‘ldiring!");
+        ) return alert("Барча мажбурий майдонларни тўлдиринг!");
 
 
 
         if (!structure_id || !division_id || !division_child || !drawCoords) {
-          alert("Barcha majburiy maydonlarni to‘ldiring!");
+          alert("Барча мажбурий майдонларни тўлдиринг!");
           return;
         }
 
@@ -296,7 +296,7 @@
         const id = $(target).data('id');
 
         if (target.classList.contains("deleteAction")) {
-            if (confirm("Haqiqatan o‘chirmoqchimisiz?")) {
+            if (confirm("Ҳақиқатан ўчирмоқчимисиз?")) {
                 $.ajax({
                   url: `${HRAJAXPHP}?act=del_impact_area&rowid=${id}`,
                   type: 'GET',
@@ -352,7 +352,7 @@
         type: 'GET',
         dataType: 'json',
         success: function(response) {
-          $('#division_id').append('<option value="">Tanlang...</option>')
+          $('#division_id').append('<option value="">Танланг...</option>')
           response.forEach(item => {
             $('#division_id').append(`
               <option value="${item.id}">${item.name}</option>
@@ -393,8 +393,8 @@
       map.addControl(new L.Control.Fullscreen({
         position: 'topleft', // joylashuvi (topleft, topright, bottomleft, bottomright)
         title: {
-          'false': 'To‘liq ekranga o‘tish',
-          'true': 'To‘liq ekrandan chiqish'
+          'false': 'Тўлиқ экранга ўтиш',
+          'true': 'Тўлиқ экрандан чиқиш'
         }
       }));
 

@@ -1046,14 +1046,14 @@ ${escapeHtml(ev.title)}
                                                       <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-border-all" viewBox="0 0 16 16">
                             <path d="M0 0h16v16H0zm1 1v6.5h6.5V1zm7.5 0v6.5H15V1zM15 8.5H8.5V15H15zM7.5 15V8.5H1V15z"/>
                           </svg></span>Камералар сони: </h6>
-                                                      <p>50 ta</p>
+                                                      <p>50 та</p>
                                                                     </li>
                                                                     <li> 
                                                                         <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
                           <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1"/>
                           <path d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117M11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5M4 1.934V15h6V1.077z"/>
                         </svg></span>Кириш чиқиш эшиклар сони: </h6>
-                                                                        <p>4 ta</p>
+                                                                        <p>4 та</p>
                                                                     </li>
                                                   <li>
                                                       <h6><span><svg xmlns="http://www.w3.org/2000/svg"  width="18" height="18" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
@@ -1087,9 +1087,9 @@ ${escapeHtml(ev.title)}
                             <li class="alert alert-dark" role="alert">ФВВ ҳарбий хизматчилари:  <span>4 нафар</span> </li>
                             <li class="alert alert-dark" role="alert">МГ МСГр:  <span>4 нафар</span> </li>
                             <li class="alert alert-dark" role="alert">ИИВ спринг:  <span>3 нафар</span> </li>
-                            <li class="alert alert-dark" role="alert">Техникалар:  <span>12 ta</span></li>       
-                            <li class="alert alert-dark" role="alert">Алоқа воситалари:  <span>12 ta</span></li>       
-                            <li class="alert alert-dark" role="alert">Металодетектор:  <span>8 ta</span></li>       
+                            <li class="alert alert-dark" role="alert">Техникалар:  <span>12 та</span></li>       
+                            <li class="alert alert-dark" role="alert">Алоқа воситалари:  <span>12 та</span></li>       
+                            <li class="alert alert-dark" role="alert">Металодетектор:  <span>8 та</span></li>       
                             <li class="alert alert-dark" role="alert">Тадбир ўтказувчи ташаббускор:  <span>Алишер Навоий номидаги киночилар уйи</span></li>       
                     </ul>
                </div>
@@ -1187,14 +1187,14 @@ ${escapeHtml(ev.title)}
                                                       <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-border-all" viewBox="0 0 16 16">
                             <path d="M0 0h16v16H0zm1 1v6.5h6.5V1zm7.5 0v6.5H15V1zM15 8.5H8.5V15H15zM7.5 15V8.5H1V15z"/>
                           </svg></span>Камералар сони: </h6>
-                                                      <p>50 ta</p>
+                                                      <p>50 та</p>
                                                                     </li>
                                                                     <li> 
                                                                         <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
                           <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1"/>
                           <path d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117M11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5M4 1.934V15h6V1.077z"/>
                         </svg></span>Кириш чиқиш эшиклар сони: </h6>
-                                                                        <p>4 ta</p>
+                                                                        <p>4 та</p>
                                                                     </li>
                                                   <li>
                                                       <h6><span><svg xmlns="http://www.w3.org/2000/svg"  width="18" height="18" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
@@ -1228,9 +1228,9 @@ ${escapeHtml(ev.title)}
                             <li class="alert alert-dark" role="alert">ФВВ ҳарбий хизматчилари:  <span>4 нафар</span> </li>
                             <li class="alert alert-dark" role="alert">МГ МСГр:  <span>4 нафар</span> </li>
                             <li class="alert alert-dark" role="alert">ИИВ спринг:  <span>3 нафар</span> </li>
-                            <li class="alert alert-dark" role="alert">Техникалар:  <span>12 ta</span></li>       
-                            <li class="alert alert-dark" role="alert">Алоқа воситалари:  <span>12 ta</span></li>       
-                            <li class="alert alert-dark" role="alert">Металодетектор:  <span>8 ta</span></li>       
+                            <li class="alert alert-dark" role="alert">Техникалар:  <span>12 та</span></li>       
+                            <li class="alert alert-dark" role="alert">Алоқа воситалари:  <span>12 та</span></li>       
+                            <li class="alert alert-dark" role="alert">Металодетектор:  <span>8 та</span></li>       
                             <li class="alert alert-dark" role="alert">Тадбир ўтказувчи ташаббускор:  <span>Алишер Навоий номидаги киночилар уйи</span></li>       
                     </ul>
                </div>
@@ -1796,13 +1796,13 @@ ${escapeHtml(ev.title)}
                             <li class="alert alert-dark" role="alert">Жами шахсий таркиб:  <span>20 нафар</span> </li>
                             <li class="alert alert-dark" role="alert">Пиёда патруллар:  <span>12 нафар</span> </li>
                             <li class="alert alert-dark" role="alert">Авто патруллар:  <span>8 нафар</span>  </li>
-                            <li class="alert alert-dark" role="alert">Йўналишлар:  <span>4 ta</span>   </li>
-                                <li class="alert alert-dark" role="alert">Секторлар сони:  <span>4 ta</span>   </li>
-                              <li class="alert alert-dark" role="alert">Камералар сони:  <span>12 ta</span>   </li>
-                              <li class="alert alert-dark" role="alert">Ташвиш тугмалар сони:  <span>4 ta</span>   </li>
-                              <li class="alert alert-dark" role="alert">Хизмат ҳайвонлари:  <span>8 ta</span>  </li>
-                              <li class="alert alert-dark" role="alert">Махсус воситалар сони:  <span>12 ta</span>  </li>
-                              <li class="alert alert-dark" role="alert">Техникалар:  <span>12 ta</span></li>          
+                            <li class="alert alert-dark" role="alert">Йўналишлар:  <span>4 та</span>   </li>
+                                <li class="alert alert-dark" role="alert">Секторлар сони:  <span>4 та</span>   </li>
+                              <li class="alert alert-dark" role="alert">Камералар сони:  <span>12 та</span>   </li>
+                              <li class="alert alert-dark" role="alert">Ташвиш тугмалар сони:  <span>4 та</span>   </li>
+                              <li class="alert alert-dark" role="alert">Хизмат ҳайвонлари:  <span>8 та</span>  </li>
+                              <li class="alert alert-dark" role="alert">Махсус воситалар сони:  <span>12 та</span>  </li>
+                              <li class="alert alert-dark" role="alert">Техникалар:  <span>12 та</span></li>          
                       </ul>
                  </div>
               </div>
