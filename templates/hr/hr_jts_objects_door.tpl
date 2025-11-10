@@ -21,7 +21,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body d-flex" style="justify-content: space-between;">
-                    <h4 class="m-0">Hudud kirish chiqish eshiklari</h4>
+                    <h4 class="m-0">Ҳудуд кириш чиқиш эшиклари</h4>
                     {* <h4>{$ThisMenu.name}</h4> *}
                     <button id="new" type="button" class="btn btn-primary waves-effect waves-light"
                         data-bs-toggle="submitModal" data-bs-target="#modal">
@@ -40,10 +40,10 @@
                     <table class="datatables-projects table border-top">
                         <thead>
                             <tr>
-                                <th>No̱</th>
-                                <th class="text-center">Nomi</th>
-                                <th class="text-center">Koordinata X</th>
-                                <th class="text-center">Koordinata Y</th>
+                                <th>Т/р</th>
+                                <th class="text-center">Номи</th>
+                                <th class="text-center">Координата Х</th>
+                                <th class="text-center">Координата Й</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -93,15 +93,15 @@
   <input type="hidden" name="object_id" id="object_id">
                     <div class="row g-3">
                         <div class="col-sm-12">
-                            <label>Nomini kiriting</label>
+                            <label>Номини киритинг</label>
                             <input required type="text" class="form-control" name="address" id="address">
                         </div>
                         <div class="col-sm-6">
-                            <label>Uzunlik Y </label>
+                                 <label>Узунлик Й </label>
                             <input required type="text" class="form-control" name="lat" id="lat" value="">
                         </div>
                         <div class="col-sm-6">
-                            <label>Kenglik X</label>
+                            <label>Кенглик Х</label>
                             <input required type="text" class="form-control" name="long" id="long" value="">
                         </div>
                    
@@ -247,9 +247,9 @@ $('#new').on('click', function (e) {
                 },
                 error: function () {
                     Swal.fire({
-                        icon: 'error',
-                        title: 'Aloqa xatosi!',
-                        text: 'Server bilan bog‘lanishda muammo.'
+                         icon: 'error',
+                        title: 'Алоқа хатоси!',
+                        text: 'Сервер билан боғланишда муаммо.'
                     });
                 }
             });

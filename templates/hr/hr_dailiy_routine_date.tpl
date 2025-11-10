@@ -22,11 +22,11 @@
         <div class="card-body d-flex justify-content-between">
           {if isset($daily_outfit2[0])}
             <h4 style="margin: 0;">
-              {$daily_outfit2[0].object_name}ga {$daily_outfit2[0].day_name} sanasida tushgan naryadlar ro'yxati.
+              {$daily_outfit2[0].object_name}га {$daily_outfit2[0].day_name} санасида тушган нарядлар рўйхати.
               </h4>
             {/if}
             <button id="new" type="button" class="btn btn-primary waves-effect waves-light">
-              <i class="menu-icon tf-icons ti ti-plus"></i> Qo‘shish
+              <i class="menu-icon tf-icons ti ti-plus"></i> Қўшиш
             </button>
           </div>
         </div>
@@ -41,15 +41,15 @@
             <table class="datatables-projects table border-top">
               <thead>
                 <tr>
-                  <th class="text-center">№</th>
-                  <th class="text-center">Patrul Turi</th>
-                  <th class="text-center">Yo‘nalishi</th>
-                  <th class="text-center">Smenasi</th>
-                  <th class="text-center">F.I.Sh</th>
-                  <th class="text-center">Bo'linma</th>
-                  <th class="text-center">Epikrofka</th>
-                  <th class="text-center">Body kamera</th>
-                  <th class="text-center">Avtomobil</th>
+                  <th class="text-center">Т/р</th>
+                  <th class="text-center">Патрул Тури</th>
+                  <th class="text-center">Йўналиши</th>
+                  <th class="text-center">Сменаси</th>
+                  <th class="text-center">ФИШ</th>
+                  <th class="text-center">Бўлинма</th>
+                  <th class="text-center">Эпикрофка</th>
+                  <th class="text-center">Бодй камера</th>
+                  <th class="text-center">Автомобил</th>
                  
                   <th></th>
                 </tr>
@@ -103,9 +103,9 @@
             <div class="row g-3">
 
               <div class="col-sm-4">
-                <label>Patrul turini tanlang</label>
+                <label>Патрул турини танланг</label>
                 <select class="form-control" id="patrul_type">
-                  <option value="">Tanlang...</option>
+                  <option value="">Танланг...</option>
                   {foreach from=$PatrulTypes item=obj}
                         <option value="{$obj.id}">{$obj.name}</option>
                   {/foreach}
@@ -113,19 +113,19 @@
               </div>
 
               <div class="col-sm-4">
-                  <label>Yo'nalishni kiriting</label>
+                  <label>Йўналишни киритинг</label>
                   <input required type="number" class="form-control" name="direction" id="direction">
               </div>
 
               <div class="col-sm-4">
-                  <label>Smenani kiriting</label>
+                  <label>Сменани киритинг</label>
                   <input required type="number" class="form-control" name="smena" id="smena">
               </div>
              
               <div class="col-sm-6 mt-3">
-                <label>Bo'linmani tanlang</label>
+                <label>Бўлинмани Танланг</label>
                 <select required class="form-control" id="division_id">
-                  <option value="">Tanlang...</option>
+                  <option value="">Танланг...</option>
                    {foreach from=$Divisions item=obj}
                     <option value="{$obj.id}">{$obj.name}</option>
                    {/foreach}
@@ -133,7 +133,7 @@
               </div>
 
               <div class="col-sm-6 mt-3">
-                <label for="responsible_person_date">Harbiy xizmatchilarni tanlang</label>
+                <label for="responsible_person_date">Ҳарбий хизматчиларни танланг</label>
                 <select required id="staff_id" class="select2 form-select" multiple>
                    {foreach from=$Staffs item=obj}
                       <option value="{$obj.id}">{$obj.name}</option>
@@ -142,7 +142,7 @@
               </div>
 
               <div class="col-sm-4">
-                  <label for="select2Multiple" class="form-label">Epikirovkani tanlang</label>
+                  <label for="select2Multiple" class="form-label">Эпикировкани танланг</label>
                   <select id="epikirofka_id" class="select2 form-select" multiple>
                 {foreach from=$Epikirovka item=obj}
                       <option value="{$obj.id}">{$obj.name}</option>
@@ -151,9 +151,9 @@
               </div>
 
               <div class="col-sm-4">
-                <label>Avtomobilni tanlang</label>
+                <label>Автомобилни танланг</label>
                 <select id="car_id" class="form-control">
-                  <option value="">Tanlang...</option>
+                  <option value="">Танланг...</option>
                   {foreach from=$Cars item=obj}
                         <option value="{$obj.id}">{$obj.name}</option>
                   {/foreach}
@@ -164,9 +164,9 @@
               <div class="col-12 text-center mt-5">
                 <input type="hidden" id="id" value="">
                 <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">
-                  Bekor qilish
+                  Бекор қилиш
                 </button>
-                <button id="saveBtn" class="btn btn-primary me-sm-3 me-1">Saqlash</button>
+                <button id="saveBtn" class="btn btn-primary me-sm-3 me-1">Сақлаш</button>
               </div>
             </div>
           </form>
@@ -197,7 +197,7 @@
           select2.each(function() {
             const $this = $(this);
             $this.wrap('<div class="position-relative"></div>').select2({
-              placeholder: 'Tanlang...',
+              placeholder: 'Танланг...',
               dropdownParent: $this.parent()
             });
           });
@@ -219,12 +219,12 @@
         // $('#division_id').change(function () {
         //   const division_id = $(this).val();
         //   if (!division_id) {
-        //     $('#staff_id').empty().append('<option value="">Tanlang...</option>').trigger('change');
+        //     $('#staff_id').empty().append('<option value="">Танланг...</option>').trigger('change');
         //     return;
         //   }
 
         //   $.get('hrajax.php', { act: 'get_staff', division_id: division_id }, function (data) {
-        //     $('#staff_id').empty().append('<option value="">Tanlang...</option>');
+        //     $('#staff_id').empty().append('<option value="">Танланг...</option>');
         //     $.each(data, function (i, d) {
         //       $('#staff_id').append('<option value="' + d.id + '">' + d.name + '</option>');
         //     });
@@ -237,7 +237,7 @@
         const structure_id = $('#structure_id').val(); 
 
         if (!division_id) {
-          $('#staff_id').empty().append('<option value="">Tanlang...</option>').trigger('change');
+          $('#staff_id').empty().append('<option value="">Танланг...</option>').trigger('change');
           return;
         }
 
@@ -247,7 +247,7 @@
             structure_id: structure_id 
           }, 
           function (data) {
-            $('#staff_id').empty().append('<option value="">Tanlang...</option>');
+            $('#staff_id').empty().append('<option value="">Танланг...</option>');
             $.each(data, function (i, d) {
               $('#staff_id').append('<option value="' + d.id + '">' + d.name + '</option>');
             });
@@ -280,7 +280,7 @@
 
    
             $.get('hrajax.php', { act: 'get_staff', division_id: sInfo.division_id }, function (staff) {
-              $('#staff_id').empty().append('<option value="">Tanlang...</option>');
+              $('#staff_id').empty().append('<option value="">Танланг...</option>');
               $.each(staff, function (i, d) {
                 $('#staff_id').append('<option value="' + d.id + '">' + d.name + '</option>');
               });
@@ -330,18 +330,18 @@
               if (res.status === 'ok' || res == 0) {
                 Swal.fire({
                   icon: 'success',
-                  title: id ? 'Maʼlumot yangilandi!' : 'Maʼlumot saqlandi!',
+                  title: id ? 'Маълумот янгиланди!' : 'Маълумот сақланди!',
                   timer: 1000,
                   showConfirmButton: false
                 });
                 $('#submitModal').modal('hide');
                 setTimeout(() => location.reload(), 1000);
               } else {
-                Swal.fire({ icon: 'error', title: 'Xatolik!', text: res.message || 'Saqlashda muammo yuz berdi.' });
+                Swal.fire({ icon: 'error', title: 'Хатолик!', text: res.message || 'Сақлашда муаммо юз берди.' });
               }
             },
             error: function (xhr) {
-              Swal.fire({ icon: 'error', title: 'Server bilan aloqa yo‘q!', text: xhr.responseText });
+              Swal.fire({ icon: 'error', title: 'Сервер билан алоқа йўқ!', text: xhr.responseText });
             }
           });
         });
@@ -350,20 +350,20 @@
         $('.datatables-projects tbody').on('click', '.delete', function () {
           const RowId = $(this).attr('rel');
           Swal.fire({
-            title: "Ishonchingiz komilmi?",
-            text: "Bu yozuv o‘chiriladi!",
+            title: "Ишончингиз комилми?",
+            text: "Бу ёзув ўчирилади!",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonText: "Ha, o‘chirilsin!",
-            cancelButtonText: "Bekor qilish"
+            confirmButtonText: "Ҳа, ўчирилсин!",
+            cancelButtonText: "Бекор қилиш"
           }).then((result) => {
             if (result.isConfirmed) {
               $.get('hrajax.php?act=del_dailiy_routine_date&rowid=' + RowId, function (res) {
                 if (parseInt(res) === 0) {
-                  Swal.fire({ icon: 'success', title: 'O‘chirildi!', timer: 1000, showConfirmButton: false });
+                  Swal.fire({ icon: 'success', title: 'Ўчирилди!', timer: 1000, showConfirmButton: false });
                   setTimeout(() => location.reload(), 1200);
                 } else {
-                  Swal.fire({ icon: 'error', title: 'Xatolik!', text: 'O‘chirishda muammo yuz berdi.' });
+                  Swal.fire({ icon: 'error', title: 'Хатолик!', text: 'Ўчиришда муаммо юз берди.' });
                 }
               });
             }

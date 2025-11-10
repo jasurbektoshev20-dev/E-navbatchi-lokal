@@ -21,7 +21,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body d-flex" style="justify-content: space-between;">
-                    <h4 class="m-0">Hudud kameralari</h4>
+                    <h4 class="m-0">Ҳудуд камералари</h4>
                     {* <h4>{$ThisMenu.name}</h4> *}
                     <button id="new" type="button" class="btn btn-primary waves-effect waves-light"
                         data-bs-toggle="submitModal" data-bs-target="#modal">
@@ -40,12 +40,12 @@
                     <table class="datatables-projects table border-top">
                         <thead>
                             <tr>
-                                <th>No̱</th>
-                                <th class="text-center">Kamera nomi</th>
-                                <th class="text-center">Kamera kodi</th>
-                                <th class="text-center">Kamera turi</th>
-                                <th class="text-center">Lat</th>
-                                <th class="text-center">Long</th>
+                               <th>Т/р</th>
+                                <th class="text-center">Камера номи</th>
+                                <th class="text-center">Камера коди</th>
+                                <th class="text-center">Камера тури</th>
+                                <th class="text-center">Лат</th>
+                                <th class="text-center">Лонг</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -97,24 +97,24 @@
                     <input type="hidden" name="object_id" id="object_id">
                     <div class="row g-3">
                         <div class="col-sm-6">
-                            <label>Nomini kiriting</label>
+                            <label>Номини киритинг</label>
                             <input required type="text" class="form-control" name="camName" id="camName">
                         </div>
                         <div class="col-sm-6">
-                            <label>Kamera kodini kiriting</label>
+                            <label>Камера кодини киритинг</label>
                             <input required type="text" class="form-control" name="cam_code" id="cam_code" value="">
                         </div>
 
                         <div class="col-sm-6">
-                            <label>Latitudeni kiriting</label>
+                            <label>Латитудени киритинг</label>
                             <input required type="text" class="form-control" name="lat" id="lat" value="">
                         </div>
                         <div class="col-sm-6">
-                            <label>Longitudeni kiriting</label>
+                            <label>Лонгитудени киритинг</label>
                             <input required type="text" class="form-control" name="long" id="long" value="">
                         </div>
                         <div class="col-sm-6">
-                            <label>360 gradusli Kamera</label>
+                            <label>360 градусли Камера</label>
                             <input type="checkbox" id="is_ptz" value="1">
                         </div>
 
@@ -266,8 +266,8 @@
                     error: function() {
                         Swal.fire({
                             icon: 'error',
-                            title: 'Aloqa xatosi!',
-                            text: 'Server bilan bog‘lanishda muammo.'
+                        title: 'Алоқа хатоси!',
+                        text: 'Сервер билан боғланишда муаммо.'
                         });
                     }
                 });

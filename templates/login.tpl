@@ -8,7 +8,7 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>{$Dict.site_title}</title>
+    <title>Е-Гвардия тизими</title>
 
     <meta name="description" content="" />
 
@@ -70,7 +70,8 @@
                     <!-- /Logo -->
 
                     <div class="row" style="justify-content: center;">
-                        <h3 class="mb-1 text-center">{$Dict.site_title}</h3>
+                        {* <h3 class="mb-1 text-center">{$Dict.site_title}</h3> *}
+                        <h3 class="mb-1 text-center">Е-Гвардия тизимига хуш келибсиз</h3>
                     </div>
 
                     <form id="formAuthentication" class="mb-3" action="auth.php" method="POST">
