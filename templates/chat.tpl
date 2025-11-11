@@ -45,6 +45,14 @@
             padding: 10px;
         }
 
+        .card-text, .card-title{
+            font-size: 17px !important;
+        }
+
+        small, .small {
+            font-size: 1.25rem !important;
+        }
+
     {/literal}
 </style>
 
@@ -70,9 +78,9 @@
                                         src="pictures/cooperates/{$item.logo}">
                                 </div>
                                 <div class="card-body px-1 py-2">
-                                    <h6 class="pb-0 mb-0 card-title">{$item.name}</h6>
-                                    <p class="pb-0 mb-0 card-text"> {$item.phone} </p>
-                                    <p class="pb-0 mb-0 card-text"><small class="text-muted">{$item.phone2}</small></p>
+                                    <h6 class="pb-0 mb-0 card-title" >{$item.name}</h6>
+                                    <p class="pb-0 mb-0 card-text" > {$item.phone} </p>
+                                    <p class="pb-0 mb-0 card-text" >{$item.phone2}</p>
                                 </div>
                             </div>
                         </div>
@@ -249,7 +257,13 @@
                                         <h6 class="mt-2 mb-0 card-title">${item.staff}</h6>
                                         <p class="mb-0 card-text">${item.position}</p>
                                         <p class="mb-0 card-text"><small class="text-muted">${item.role} ${item.lastname}</small></p>
-                                        <p class="mb-0 card-text"><small class="text-muted">${item.phone}</small></p>
+                                        <p class="mb-0 card-text"><small class="text-muted">
+                                           <a href="tel:${item.phone}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-forward-fill" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877zm10.761.135a.5.5 0 0 1 .708 0l2.5 2.5a.5.5 0 0 1 0 .708l-2.5 2.5a.5.5 0 0 1-.708-.708L14.293 4H9.5a.5.5 0 0 1 0-1h4.793l-1.647-1.646a.5.5 0 0 1 0-.708"/>
+</svg> ${item.phone}
+                                            </a>
+                                        </small></p>
                                     </div>
                                 `;
                             });

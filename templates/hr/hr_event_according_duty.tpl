@@ -109,7 +109,7 @@
             <div class="card">
                 <div class="date-box">
                  <div class="date-box-container">
-                    <h5 class="pt-2 pb-2 p-4 m-0">Сана: 11.11.2025-йил</h5>
+                    <h5 class="pt-2 pb-2 p-4 m-0" id="date_h5"></h5>
                    <div class="date-box-select col-3">
                      
                       <a href="#" class="date-box-sel-link">
@@ -342,6 +342,20 @@ window.addEventListener('load', function() {
   });
 
   document.body.style.opacity = '0.5';
+
+    const today = new Date();
+
+  // kun, oy, yilni olish
+  const day = String(today.getDate()).padStart(2, '0');      // 01–31
+  const month = String(today.getMonth() + 1).padStart(2, '0'); // 0 dan boshlanadi, shuning uchun +1
+  const year = today.getFullYear();
+
+  // format: 11.11.2025
+  const formattedDate = `${day}.${month}.${year}`;
+
+  document.getElementById('date_h5').textContent =`Сана: ${formattedDate}-йил`;
+
+
 });
 </script>
 {/literal}
