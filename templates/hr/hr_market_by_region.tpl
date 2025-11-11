@@ -189,27 +189,40 @@
   background-color: #23262b; 
 }
 
-.table.vertical-header th:nth-child(n+15):nth-child(-n+19),
+/* .table.vertical-header th:nth-child(n+15):nth-child(-n+19),
 .table.vertical-header td:nth-child(n+15):nth-child(-n+19) {
+  background-color: #2b2f33; 
+} */
+
+.table.vertical-header th:nth-child(n+15):nth-child(-n+26),
+.table.vertical-header td:nth-child(n+15):nth-child(-n+26) {
   background-color: #2b2f33; 
 }
 
-.table.vertical-header th:nth-child(n+20):nth-child(-n+24),
-.table.vertical-header td:nth-child(n+20):nth-child(-n+24) {
-  /* background-color: #272a2f;  */
-  background-color: #30343a; 
-}
-
-.table.vertical-header th:nth-child(n+25):nth-child(-n+36),
-.table.vertical-header td:nth-child(n+25):nth-child(-n+36) {
-  /*   */
+.table.vertical-header th:nth-child(n+27):nth-child(-n+32),
+.table.vertical-header td:nth-child(n+27):nth-child(-n+32) {
   background-color: #272a2f
 }
 
-.table.vertical-header th:nth-child(n+37):nth-child(-n+42),
-.table.vertical-header td:nth-child(n+37):nth-child(-n+42) {
+.table.vertical-header th:nth-child(n+33):nth-child(-n+40),
+.table.vertical-header td:nth-child(n+33):nth-child(-n+40) {
  background-color: #35393f; 
 }
+
+/* .table.vertical-header th:nth-child(n+20):nth-child(-n+24),
+.table.vertical-header td:nth-child(n+20):nth-child(-n+24) {
+  background-color: #30343a; 
+} */
+
+/* .table.vertical-header th:nth-child(n+25):nth-child(-n+36),
+.table.vertical-header td:nth-child(n+25):nth-child(-n+36) {
+  background-color: #272a2f
+} */
+
+/* .table.vertical-header th:nth-child(n+37):nth-child(-n+42),
+.table.vertical-header td:nth-child(n+37):nth-child(-n+42) {
+ background-color: #35393f; 
+} */
 
 .table.vertical-header th:nth-child(n+43):nth-child(-n+50),
 .table.vertical-header td:nth-child(n+43):nth-child(-n+50) {
@@ -285,7 +298,7 @@
       <th colspan="5">Умумий</th>
       <th colspan="7">Йўналишлар ва уларга жалб этилган шахсий таркиб  
       </th>
-      <th colspan="10">Қуроллар</th>
+      {* <th colspan="10">Қуроллар</th> *}
       <th colspan="12">Махсус воситалар</th>
       <th colspan="6">Хизмат ҳайвонлари</th>
       <th colspan="9">Авто транспортлар</th>
@@ -306,7 +319,9 @@
                             <th>Сержантлар сони</th>
                             <th>МҲХлар сони</th>
                             <th>Жами</th>
-                            <th>ПМ</th>
+
+
+                            {* <th>ПМ</th>
                             <th>Глок</th>
                             <th>Автоматик қурол</th>
                             <th>Бошқа</th>
@@ -315,7 +330,9 @@
                             <th>Глок</th>
                             <th>Автоматик қурол</th>
                             <th>Бошқа</th>
-                            <th>Жами</th>
+                            <th>Жами</th> *}
+
+
                             <th>Планшет</th>
                             <th>Бодй камера</th>
                             <th>Алоқа воситаси</th>
@@ -338,7 +355,7 @@
                             <th>Исузу Д-мах</th>
                             <th>ТИГР</th>
                             <th>Қалқон</th>
-                            <th>БЙД</th>
+                            <th>BYD</th>
                             <th>Автобус</th>
                             <th>Бошқа енгил транспорт</th>
                             <th>Жами</th>
@@ -349,7 +366,7 @@
                             <td class="text-right">1</td>
                             <td>
                                 <a
-                                        href="hr.php?act=region_objects&mid={$smarty.get.mid}&date=Тошкент шаҳар">Аския бозори</a>
+                                        href="hr.php?act=market_according_duty&mid={$smarty.get.mid}&date=Тошкент шаҳри&market=Аския бозори">Аския бозори</a>
                             </td>
                             <td>1.4 ga</td>
                             <td>4</td>
@@ -363,6 +380,7 @@
                             <td>7</td>
                             <td>22</td>
                             <td>8</td>
+                            {*     
                             <td>15</td>
                             <td>12</td>
                             <td>12</td>
@@ -373,6 +391,7 @@
                             <td>22</td>
                             <td>8</td>
                             <td>15</td>
+                            *}
                             <td>12</td>
                             <td>4</td>
                             <td>6</td>
@@ -418,6 +437,7 @@
                             <td>6</td>
                             <td>21</td>
                             <td>7</td>
+                         {*
                             <td>16</td>
                             <td>11</td>
                             <td>5</td>
@@ -428,6 +448,7 @@
                             <td>9</td>
                             <td>14</td>
                             <td>13</td>
+                                          *}
                             <td>5</td>
                             <td>50</td>
                             <td>5</td>
@@ -474,6 +495,7 @@
                             <td>8</td>
                             <td>21</td>
                             <td>9</td>
+                          {*
                             <td>14</td>
                             <td>12</td>
                             <td>4</td>
@@ -484,6 +506,7 @@
                             <td>21</td>
                             <td>9</td>
                             <td>15</td>
+                            *}
                             <td>12</td>
                             <td>4</td>
                             <td>6</td>
@@ -530,6 +553,7 @@
                             <td>7</td>
                             <td>24</td>
                             <td>9</td>
+                            {*
                             <td>18</td>
                             <td>11</td>
                             <td>6</td>
@@ -540,6 +564,7 @@
                             <td>10</td>
                             <td>13</td>
                             <td>15</td>
+                                     *}
                             <td>5</td>
                             <td>8</td>
                             <td>12</td>
@@ -603,13 +628,13 @@
 document.addEventListener('DOMContentLoaded', function() {
     const region = "{/literal}{$smarty.get.date}{literal}"; // PHP dan kelgan viloyat nomi
     
-  if (region === 'Тошкент шаҳар') {
+  if (region === 'Тошкент шаҳри') {
       document.querySelectorAll('table tr td:nth-child(2)').forEach((td, index) => {
           const names = [
               { name: 'Аския бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Аския бозори&shahar=Тошкент шаҳар' },
               { name: 'Миробод деҳқон бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Миробод деҳқон бозори&shahar=Тошкент шаҳар' },
-              { name: 'Қойлиқ деҳқон бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Қойлиқ деҳқон бозориi&shahar=Тошкент шаҳар' },
-              { name: 'Наврўз деҳқон бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Наврўз деҳқон бозориi&shahar=Тошкент шаҳар' }
+              { name: 'Қойлиқ деҳқон бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Қойлиқ деҳқон бозори&shahar=Тошкент шаҳар' },
+              { name: 'Наврўз деҳқон бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Наврўз деҳқон бозори&shahar=Тошкент шаҳар' }
           ];
 
           if (names[index]) {
@@ -676,7 +701,7 @@ document.addEventListener('DOMContentLoaded', function() {
           }
     }
 
-        else if (region === 'Navoiy viloyati') {
+        else if (region === 'Навоий вилояти') {
           document.querySelectorAll('table tr td:nth-child(2)').forEach((td, index) => {
           const names = [
               { name: 'Саховат деҳқон бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Аския' },
@@ -690,7 +715,7 @@ document.addEventListener('DOMContentLoaded', function() {
           }
       });
     }
-        else if (region === 'Buxoro viloyati') {
+        else if (region === 'Бухоро вилояти') {
           document.querySelectorAll('table tr td:nth-child(2)').forEach((td, index) => {
           const names = [
               { name: 'Марказий деҳқон бозор', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Аския' },

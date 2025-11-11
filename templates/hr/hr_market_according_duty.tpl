@@ -2,10 +2,7 @@
 
 <style>
     {literal}
-    .table thead th,
-    .table tbody td {
-        text-transform: none !important;
-    }
+
 
     .dt-buttons {
         gap: 10px;
@@ -43,7 +40,7 @@
       position: absolute;
       display: flex;
       justify-content: center;
-      padding: 10px 20px;
+      padding: 10px 60px 20px 0px;
       width: 100%;
     }
     .date-box-container{
@@ -83,6 +80,19 @@
           width: 100%;
         }
     }
+           .table thead th,
+    .table tbody td {
+        /* text-transform: none !important; */
+        vertical-align: middle;
+      text-align: center;
+    }
+
+    /* Kichik ustunlar */
+    .small-col { width: 60px !important; }
+    /* O‘rta ustunlar */
+    .medium-col { width: 120px !important; }
+    /* Katta ustunlar (matn sig‘adiganlar) */
+    .large-col { width: 200px !important; }
 
 
 
@@ -95,7 +105,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body text-center">
-                   <h4>Миллий гвардия {$smarty.get.shahar}  буйича бошкармаси {$smarty.get.market}га жамоат тартибини сақлаш ва <br> жамоат хавфсизлигини таъминлашга жалб этилган куч ва воситалар тўғрисида <br> <span>МАЪЛУМОТ</span> </h4>
+                   <h4>{$smarty.get.shahar} буйича бошкармаси {$smarty.get.market}га жамоат тартибини сақлаш ва <br> жамоат хавфсизлигини таъминлашга жалб этилган куч ва воситалар тўғрисида <br> <span>МАЪЛУМОТ</span> </h4>
                 </div>
             </div>
         </div>
@@ -127,29 +137,29 @@
                     <table class="datatables-projects table border-top table-hover table-striped table-bordered">
                         <thead>
                         <tr class="text-center">
-                            <th>Т/р</th>
-                            <th>Унвони</th>
-                            <th>Наряд ФИШ</th>
-                            <th>Бўлинма номи</th>
-                            <th>Тел рақами</th>
-                            <th>Сменаси</th>
-                            <th>Йўналиши</th>
-                            <th>Қурол тури</th>
-                            <th>Планшет</th>
-                            <th>Бодй камера</th>
-                            <th>Алоқа воситаси</th>
-                            <th>Металлодетектор</th>
-                            <th>Мегафон</th>
-                            <th>Резина таёқ</th>
-                            <th>Қўл кишани</th>
-                            <th>Чўнтак фонари</th>
-                            <th>Хуштак</th>
-                             <th>Тиббий ҳимоя воситалари</th>
-                            <th>Индивидуал боғлов пакети</th>
-                           <th>Аэрозол</th>                      
-                            <th>Хизмат ити</th>
-                            <th>Хизмат оти</th>
-                            <th>Автотранспорт</th>
+                            <th class="small-col">Т/р</th>
+                            <th class="medium-col">Унвони</th>
+                            <th class="large-col">Наряд ФИШ</th>
+                            <th class="medium-col">Бўлинма номи</th>
+                            <th class="large-col">Тел рақами</th>
+                            <th class="large-col">Сменаси</th>
+                            <th class="large-col">Йўналиши</th>
+                            {* <th>Қурол тури</th> *}
+                            <th class="small-col">Планшет</th>
+                            <th class="small-col">Бодикамера</th>
+                            <th class="small-col">Алоқа воситаси</th>
+                            <th class="small-col">Металлодетектор</th>
+                            <th class="small-col">Мегафон</th>
+                            <th class="small-col">Резина таёқ</th>
+                            <th class="small-col">Қўл кишани</th>
+                            <th class="small-col">Чўнтак фонари</th>
+                            <th class="small-col">Хуштак</th>
+                             <th class="small-col">Тиббий ҳимоя воситалари</th>
+                            <th class="small-col">Индивидуал боғлов пакети</th>
+                           <th class="small-col">Аэрозол</th>                      
+                            <th class="medium-col">Хизмат ити</th>
+                            <th class="small-col">Хизмат оти</th>
+                            <th class="medium-col">Автотранспорт</th>
 
                         </tr>
                         </thead>
@@ -161,10 +171,10 @@
                                Сатторов А.Н
                             </td>
                             <td>Барс1</td>
-                            <td>+998 90 123 45 67</td>
-                            <td>1-босқич(08:00-16:00)</td>
+                            <td>90-123-45-67</td>
+                            <td>1-босқич (08:00-16:00)</td>
                             <td>ПП 2-йўналиш</td>
-                             <td>Глок</td>
+                             {* <td>Глок</td> *}
                             <td>1</td>
                             <td>1</td>
                             <td>1</td>
@@ -189,11 +199,11 @@
                                Бўриев С.Н
                             </td>
                             <td>Барс2</td>
-                            <td>+998 91 234 47 77</td>
+                            <td>91-234-47-77</td>
                            
-                            <td>1-босқич(08:00-16:00)</td>
+                            <td>1-босқич (08:00-16:00)</td>
                             <td>ПП 2-йўналиш</td>
-                             <td>Глок</td>
+                             {* <td>Глок</td> *}
                             <td>1</td>
                             <td>1</td>
                             <td>1</td>
@@ -213,16 +223,16 @@
                         </tr>
                                <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">3</td>
-                              <td>Оддий аскар</td>
+                              <td>оддий аскар</td>
                             <td>
                                Толипов A.Sh
                             </td>
                             <td>Барс2</td>
-                            <td>+998 88 223 55 69</td>
+                            <td>88-223-55-69</td>
                           
-                            <td>2-босқич(16:00-24:00)</td>
+                            <td>2-босқич (16:00-24:00)</td>
                             <td>АП 2-йўналиш</td>
-                                <td>ПМ</td>
+                                {* <td>ПМ</td> *}
                             <td>1</td>
                             <td>1</td>
                             <td>0</td>
@@ -242,16 +252,15 @@
                            </tr>
                          <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">4</td>
-                              <td>Оддий аскар</td>
+                              <td>оддий аскар</td>
                             <td>
                              Ражабов Т.Д
                             </td>
                             <td>Ўрикзор</td>
-                            <td>+998 93 312 65 67</td>
-                          
-                            <td>2-босқич(16:00-24:00)</td>
+                            <td>93-312-65-67</td>
+                            <td>2-босқич (16:00-24:00)</td>
                             <td>ПП 2-йўналиш</td>
-                               <td>ПМ</td>
+                               {* <td>ПМ</td> *}
                             <td>1</td>
                             <td>1</td>
                             <td>0</td>
@@ -264,7 +273,6 @@
                             <td>1</td>
                             <td>0</td>
                             <td>1</td>
-                         
                             <td>0</td>
                              <td>1</td>
                             <td>0</td>
@@ -276,11 +284,10 @@
                                Шерматов А.Ж
                             </td>
                             <td>Барс1</td>
-                            <td>+998 99 923 95 97</td>
-                           
-                            <td>1-босқич(08:00-16:00)</td>
+                            <td>99-923-95-97</td>
+                            <td>1-босқич (08:00-16:00)</td>
                             <td>ПП 1-йўналиш</td>
-                             <td>0</td>
+                             {* <td>0</td> *}
                             <td>1</td>
                             <td>1</td>
                             <td>0</td>
@@ -305,11 +312,10 @@
                               Умрзоқов Ж.О
                             </td>
                             <td>Ўрикзор</td>
-                            <td>+998 55 123 45 90</td>
-                           
-                            <td>1-босқич(08:00-16:00)</td>
+                            <td>55-123-45-90</td>
+                            <td>1-босқич (08:00-16:00)</td>
                             <td>ПП 1-йўналиш</td>
-                              <td>Бошқа</td>
+                              {* <td>Бошқа</td> *}
                             <td>1</td>
                             <td>0</td>
                             <td>1</td>
@@ -322,7 +328,6 @@
                             <td>1</td>
                             <td>0</td>
                             <td>0</td>
-                          
                             <td>Қоровул</td>
                              <td>0</td>
                             <td>0</td>
@@ -406,7 +411,7 @@ if (dt_basic_table.length) {
     lengthMenu: [5, 10, 25, 50, 75, 100, 1000],
     ordering: false, 
     language: {
-      lengthMenu: "Кўрсатиш _MENU_ та ёзув",
+      lengthMenu: "Кўрсатиш _MENU_",
       zeroRecords: "Ҳеч нарса топилмади",
       info: "_TOTAL_ тадан _START_ дан _END_ гача кўрсатилмоқда",
       infoEmpty: "Маълумот йўқ",

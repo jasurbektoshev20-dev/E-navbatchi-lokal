@@ -61,7 +61,7 @@
                         <input class="form-control" type="date" placeholder="Boshlang'ich vaqtni tanlang">
                         <input class="form-control" type="date" placeholder="Oxirgi vaqtni tanlang">
                     
-                        <button class="btn btn-primary">Кўрсатиш</button>
+                        <button class="btn btn-primary">Кўриш</button>
                      </div>   
             </div>
             <div class="card">
@@ -69,22 +69,22 @@
                     <table class="datatables-projects table border-top table-hover table-striped table-bordered">
                         <thead>
                         <tr class="text-center">
-                            <th>Т/р</th>
-                            <th>Тадбир тури</th>
-                            <th>Тошкент шаҳар</th>
-                            <th>Андижон</th>
-                            <th>Бухоро</th>
-                            <th>Фарғона</th>
-                            <th>Жиззах</th>
-                            <th>Қашқадарё</th>
-                            <th>Хоразм</th>
-                            <th>Наманган</th>
-                            <th>Навоий</th>
-                            <th>Самарқанд</th>                           
-                            <th>Сирдарё</th>
-                            <th>Сурхандарё</th>
-                            <th>Тошкент вилояти</th>
-                            <th>Қорақалпоғистон</th>
+                            <th style="width: 200px !important;">Т-р</th>
+                            <th>Тадбирлар</th>
+                            <th>Қорақалпоғистон Республикаси</th>
+                            <th>Тошкент шаҳри</th>
+                            <th>Андижон вилояти</th>
+                            <th>Бухоро вилояти</th>
+                            <th>Фарғона вилояти</th>
+                            <th>Жиззах вилояти</th>
+                            <th>Қашқадарё вилояти</th>
+                            <th>Хоразм вилояти</th>
+                            <th>Наманган вилояти</th>
+                            <th>Навоий вилояти</th>
+                            <th>Самарқанд вилояти</th>                           
+                            <th>Сирдарё вилояти</th>
+                            <th>Сурхандарё вилояти</th>
+                            <th>Тошкент вилояти</th>   
                             <th>Жами</th>
                         </tr>
                         </thead>

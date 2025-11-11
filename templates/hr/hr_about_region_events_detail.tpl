@@ -115,7 +115,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body text-center">
-                    <h4>{$smarty.get.date} марказида ўтказиладиган {$smarty.get.dataTadbir} ва уларга жалб этиладиган куч ва воситалар тўғрисида  <br> <span>МАЪЛУМОТ</span> </h4>
+                    <h4>{$smarty.get.date} марказида ўтказиладиган <span class="text-lowercase">{$smarty.get.dataTadbir}</span>  ва уларга жалб этиладиган куч ва воситалар тўғрисида  <br> <span>МАЪЛУМОТ</span> </h4>
                 </div>
             </div>
         </div>
@@ -156,12 +156,12 @@
                         <thead>
                         <tr class="text-center card-datatable-tr">
                             <th class="horizon-th">Т/р</th>
-                            <th class="horizon-th">Тадбир номи</th>
-                             <th class="horizon-th">Тадбир тури</th>
-                             <th class="horizon-th">Тадбир тоифаси</th>
-                            <th class="horizon-th">Тадбир ўтказиладиган жой номи</th>                         
-                            <th>Тадбир бошланиш вақти</th>
-                            <th>Тадбир тугаш вақти</th>
+                            <th class="horizon-th">Номи</th>
+                             <th class="horizon-th">Тури</th>
+                             <th class="horizon-th">Тоифаси</th>
+                            <th class="horizon-th">Ўтказиладиган жой номи</th>                         
+                            <th>Бошланиш вақти</th>
+                            <th>Тугаш вақти</th>
                             <th>Қатнашадиган фуқораларнинг тахминий сони</th>
                             <th>Шахсий таркиб</th>
                             <th>МГ ҲХ сони</th>                         
@@ -622,7 +622,7 @@ document.addEventListener('DOMContentLoaded', function() {
     ]   
 
     
-        if (region === "Тошкент шаҳар" && dateTadbir === "Сиёсий тадбирлар") {
+        if (region === "Тошкент шаҳри" && dateTadbir === "Сиёсий тадбирлар") {
             selectedData = dataSiyosiy3;
         } else if (region === "Самарқанд вилояти" && dateTadbir === "Сиёсий тадбирлар") {
             selectedData = dataSiyosiy1;
@@ -640,7 +640,7 @@ document.addEventListener('DOMContentLoaded', function() {
             selectedData = dataSiyosiy8;
         } else if (region === "Қорақалпоғистон Республикаси" && dateTadbir === "Спорт тадбирлар") {
             selectedData = dataSiyosiy9;
-        }else if (region === "Тошкент шаҳар" && dateTadbir === "Спорт тадбирлар") {
+        }else if (region === "Тошкент шаҳри" && dateTadbir === "Спорт тадбирлар") {
             selectedData = dataSiyosiy10;
         }else if (region === "Тошкент вилояти" && dateTadbir === "Бошқа тадбирлар") {
             selectedData = dataSiyosiy11;

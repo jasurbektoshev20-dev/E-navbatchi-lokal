@@ -58,7 +58,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body text-center">
-                    <h4> МГ жавобгарлик ҳудудларида ўтказиладиган <strong>{$smarty.get.date}</strong> ва уларга жалб этиладиган куч ва воситалари тўғрисида <br> <span>МАЪЛУМОТ</span> </h4>
+                    <h4><strong>{$smarty.get.date}</strong> ва уларга жалб этиладиган куч ва воситалари тўғрисида <br> <span>МАЪЛУМОТ</span> </h4>
                 </div>
             </div>
         </div>
@@ -93,15 +93,18 @@
                     <table class="datatables-projects table border-top table-hover table-striped table-bordered">
                         <thead>
                         <tr class="text-center">
-                            <th>Т/р</th>
-                            <th>Вилоятлар кесимида̱</th>
-                            <th>Тадбир сони̱</th>
-                            <th>Ҳукумат қарори асосидаги тадбир</th>
-                            <th>Пулли хизмат асосида тадбир</th>
-                            <th>Қатнашадиган фуқаролар сони</th>
-                            <th>Шахсий таркиб</th>
-                            <th>Техникалар</th>
-                            <th>Махсус воситалар</th>
+                            <th rowspan="2">Т/р</th>
+                            <th rowspan="2">Ҳудудлар</th>
+                            <th colspan="3">Тадбирлар</th>
+                            <th rowspan="2">Тахминий фуқаролар сони</th>
+                            <th rowspan="2">Шахсий таркиб</th>
+                            <th rowspan="2">Техникалар</th>
+                            <th rowspan="2">Махсус воситалар</th>
+                        </tr>
+                         <tr>
+                          <th>Жами</th>
+                          <th>Ҳукумат қарорлари асосида</th>
+                          <th>Пулли хизмат асосида</th>
                         </tr>
                         </thead>
                         <tbody id="event-tbody">
@@ -184,7 +187,7 @@ window.addEventListener('load', function() {
      const allEvents = {
   "Сиёсий тадбирлар": [
     { eventRegion: "Қорақалпоғистон Республикаsi", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
-    { eventRegion: "Тошкент шаҳар", eventCount: 3, hukumatqarori: 2, pullixizmat: 1, evetPersonCount: 900, evetDutyCount: 220, evetTransportCount: 30, evetVositaCount: 170 },
+    { eventRegion: "Тошкент шаҳри", eventCount: 3, hukumatqarori: 2, pullixizmat: 1, evetPersonCount: 900, evetDutyCount: 220, evetTransportCount: 30, evetVositaCount: 170 },
     { eventRegion: "Андижон вилояти", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
     { eventRegion: "Бухоро вилояти", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
     { eventRegion: "Фарғона вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
@@ -201,7 +204,7 @@ window.addEventListener('load', function() {
   ],
   "Маданий тадбирлар": [
     { eventRegion: "Қорақалпоғистон Республикаsi", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
-   { eventRegion: "Тошкент шаҳар", eventCount: 3, hukumatqarori: 2, pullixizmat: 1, evetPersonCount: 900, evetDutyCount: 16, evetTransportCount: 4, evetVositaCount: 16 },
+   { eventRegion: "Тошкент шаҳри", eventCount: 3, hukumatqarori: 2, pullixizmat: 1, evetPersonCount: 900, evetDutyCount: 16, evetTransportCount: 4, evetVositaCount: 16 },
     { eventRegion: "Андижон вилояти", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
    { eventRegion: "Бухоро вилояти", eventCount: 2, hukumatqarori: 1, pullixizmat: 1, evetPersonCount: 300, evetDutyCount: 20, evetTransportCount: 3, evetVositaCount: 20 },
     { eventRegion: "Фарғона вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
@@ -218,7 +221,7 @@ window.addEventListener('load', function() {
   ],
   "Спорт тадбирлар": [
    { eventRegion: "Қорақалпоғистон Республикаsi", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
-    { eventRegion: "Тошкент шаҳар", eventCount: 4, hukumatqarori: 3, pullixizmat: 1, evetPersonCount: 1000, evetDutyCount: 50, evetTransportCount: 12, evetVositaCount: 50 },
+    { eventRegion: "Тошкент шаҳри", eventCount: 4, hukumatqarori: 3, pullixizmat: 1, evetPersonCount: 1000, evetDutyCount: 50, evetTransportCount: 12, evetVositaCount: 50 },
     { eventRegion: "Андижон вилояти", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
    { eventRegion: "Бухоро вилояти",eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
     { eventRegion: "Фарғона вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
@@ -234,7 +237,7 @@ window.addEventListener('load', function() {
   ],
   "Бошқа тадбирлар": [
      { eventRegion: "Қорақалпоғистон Республикаsi",  eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,   evetTransportCount: 0, evetVositaCount: 0  },
-    { eventRegion: "Тошкент шаҳар", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
+    { eventRegion: "Тошкент шаҳри", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
     { eventRegion: "Андижон вилояти", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
    { eventRegion: "Бухоро вилояти",eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
     { eventRegion: "Фарғона вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
