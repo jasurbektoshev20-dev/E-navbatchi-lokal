@@ -8,7 +8,7 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>{$Dict.site_title}</title>
+    <title>Е-Гвардия тизими</title>
 
     <meta name="description" content="" />
 
@@ -119,8 +119,8 @@
                         <span class="app-brand-logo demo">
                             <img style="width: 30px !important;" src="/assets/images/logo.png" />
                         </span>
-                        <!--<span style="color: #d8dcee !important" class="app-brand-text demo menu-text fw-bold">{$Dict.site_name}</span>-->
-                             <span style="color: #d8dcee !important" class="app-brand-text demo menu-text fw-bold">E-Gvardiya</span>
+                        <span style="color: #d8dcee !important" class="app-brand-text demo menu-text fw-bold">{$Dict.site_name}</span>
+                          
                     </a>
 
                     <a style="color:#d8dcee" href="javascript:void(0);"

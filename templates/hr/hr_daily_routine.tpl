@@ -107,7 +107,7 @@
                             <select id="division_id" class="form-select">
                                 <option value="">Танланг...</option>
                                 {foreach from=$Divisions item=str}
-                                    <option value="{$str.id}">{$str.name}</option>
+                                    <option value="{$str.id}">{$str.name2}</option>
                                 {/foreach}
                             </select>
                         </div>

@@ -58,7 +58,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body text-center">
-                    <h4>Миллий гвардия ҳудудий бошқармаларидан бозорларга жамоат тартибини сақлаш ва жамоат хавфсизлигини <br> таъминлашга жалб этилган куч ва воситалар тўғрисида <br> <span>МАЪЛУМОТ</span> </h4>
+                    <h4>Бозорларга жамоат тартибини сақлаш ва жамоат хавфсизлигини таъминлашга жалб этилган куч ва воситалар тўғрисида <br> <span>МАЪЛУМОТ</span> </h4>
                 </div>
             </div>
         </div>
@@ -89,8 +89,8 @@
                         <thead>
                         <tr class="text-center">
                             <th>Т/р</th>
-                            <th>Вилоятлар кесимида̱</th>
-                            <th>Бозорлар сони̱</th>
+                            <th>Ҳудудлар</th>
+                            <th>Бозорлар сони</th>
                             <th>Савдо объектлари</th>
                             <th>Йўналишлар сони</th>
                             <th>Кириш-чиқиш эшиклар сони</th>
@@ -98,17 +98,35 @@
                             <th>Ташвиш тугмалар</th>
                             <th>Шахий таркиб сони</th>
                             <th>Автотранспортлар сони</th>
-                            <th>Қурол бириктирилган ҳарбий хизматчилар сони</th>
+                            {* <th>Қурол бириктирилган ҳарбий хизматчилар сони</th> *}
                             <th>Хизмат ҳайвонлари</th>
                             <th>Махсус воситалар сони</th>
                         </tr>
                         </thead>
                         <tbody>
+                             <tr class="lb text-center" id="row_{$Table.id|crypt}">
+                            <td class="text-right">14</td>
+                            <td>
+                                <a
+                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Қорақалпоғистон Республикаси">Қорақалпоғистон Республикаси</a>
+                            </td>
+                            <td>60</td>
+                            <td>270</td>
+                            <td>285</td>
+                            <td>232</td>
+                            <td>242</td>
+                            <td>112</td>
+                            <td>80</td>
+                            <td>38</td>
+                            {* <td>107</td> *}
+                            <td>44</td>
+                            <td>51</td>
+                        </tr>
                         <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">1</td>
                             <td>
                                 <a
-                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Тошкент шаҳар">Тошкент шаҳар</a>
+                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Тошкент шаҳри">Тошкент шаҳри</a>
                             </td>
                             <td>48</td>
                             <td>212</td>
@@ -118,7 +136,7 @@
                             <td>128</td>
                             <td>141</td>
                             <td>35</td>
-                            <td>107</td>
+                            {* <td>107</td> *}
                             <td>22</td>
                             <td>100</td>
                         </tr>
@@ -137,7 +155,7 @@
                             <td>76</td>
                             <td>67</td>
                             <td>30</td>
-                            <td>78</td>
+                            {* <td>78</td> *}
                             <td>18</td>
                             <td>21</td>
                         </tr>
@@ -156,7 +174,7 @@
                             <td>76</td>
                             <td>45</td>
                             <td>25</td>
-                            <td>70</td>
+                            {* <td>70</td> *}
                             <td>24</td>
                             <td>20</td>
                         </tr>
@@ -175,7 +193,7 @@
                             <td>90</td>
                             <td>58</td>
                             <td>29</td>
-                            <td>52</td>
+                            {* <td>52</td> *}
                             <td>22</td>
                             <td>17</td>
                         </tr>
@@ -194,7 +212,7 @@
                             <td>99</td>
                             <td>67</td>
                             <td>28</td>
-                            <td>32</td>
+                            {* <td>32</td> *}
                             <td>42</td>
                             <td>38</td>
                         </tr>
@@ -213,7 +231,7 @@
                             <td>75</td>
                             <td>60</td>
                             <td>26</td>
-                            <td>74</td>
+                            {* <td>74</td> *}
                             <td>29</td>
                             <td>24</td>
                         </tr>
@@ -233,7 +251,7 @@
                             <td>79</td>
                             <td>68</td>
                             <td>25</td>
-                            <td>69</td>
+                            {* <td>69</td> *}
                             <td>26</td>
                             <td>20</td>
                         </tr>
@@ -252,7 +270,7 @@
                             <td>85</td>
                             <td>78</td>
                             <td>21</td>
-                            <td>65</td>
+                            {* <td>65</td> *}
                             <td>30</td>
                             <td>31</td>
                         </tr>
@@ -271,7 +289,7 @@
                             <td>78</td>
                             <td>70</td>
                             <td>33</td>
-                            <td>89</td>
+                            {* <td>89</td> *}
                             <td>17</td>
                             <td>23</td>
                         </tr>
@@ -290,7 +308,7 @@
                             <td>73</td>
                             <td>67</td>
                             <td>31</td>
-                            <td>55</td>
+                            {* <td>55</td> *}
                             <td>23</td>
                             <td>21</td>
                         </tr>
@@ -309,7 +327,7 @@
                             <td>65</td>
                             <td>60</td>
                             <td>27</td>
-                            <td>62</td>
+                            {* <td>62</td> *}
                             <td>21</td>
                             <td>20</td>
                         </tr>
@@ -327,7 +345,7 @@
                             <td>61</td>
                             <td>57</td>
                             <td>30</td>
-                            <td>43</td>
+                            {* <td>43</td> *}
                             <td>16</td>
                             <td>23</td>
                         </tr>
@@ -345,28 +363,11 @@
                             <td>63</td>
                             <td>64</td>
                             <td>22</td>
-                            <td>47</td>
+                            {* <td>47</td> *}
                             <td>27</td>
                             <td>20</td>
                         </tr>
-                        <tr class="lb text-center" id="row_{$Table.id|crypt}">
-                            <td class="text-right">14</td>
-                            <td>
-                                <a
-                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Қорақалпоғистон Республикаси">Қорақалпоғистон Республикаси</a>
-                            </td>
-                            <td>60</td>
-                            <td>270</td>
-                            <td>285</td>
-                            <td>232</td>
-                            <td>242</td>
-                            <td>112</td>
-                            <td>80</td>
-                            <td>38</td>
-                            <td>107</td>
-                            <td>44</td>
-                            <td>51</td>
-                        </tr>
+                   
                         <tr class="lb text-center table-success" id="row_{$Table.id|crypt}">
                             <td class="text-right">15</td>
                             <td>
@@ -380,7 +381,7 @@
                             <td>1112</td>
                             <td>580</td>
                             <td>467</td>
-                            <td>978</td>
+                            {* <td>978</td> *}
                             <td>448</td>
                             <td>578</td>
                         </tr>

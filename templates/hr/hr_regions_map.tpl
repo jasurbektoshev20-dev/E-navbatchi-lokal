@@ -290,21 +290,21 @@
       <div class="map-about-box map-about-box-bozor">
         <img src="https://icons.iconarchive.com/icons/paomedia/small-n-flat/512/map-marker-icon.png"
           alt="Бозор учун маркер">
-        <p>Бозор-<span>0</span> та</p>
+        <p>Бозорлар-<span>0</span> та</p>
       </div>
       <div class="map-about-box map-about-box-xiyobon">
         <img src="https://www.nicepng.com/png/full/15-159490_small-google-maps-marker-blue.png"
           alt="Xiyobon uchun marker">
-        <p>Хиёбон-<span>0</span> та</p>
+        <p>Хиёбонлар-<span>0</span> та</p>
       </div>
       <div class="map-about-box map-about-box-bog">
         <img src="https://images.freeimages.com/fic/images/icons/2463/glossy/512/location.png"
           alt="Isritohat bog'i uchun marker">
-        <p>Исритоҳат боғи-<span>0</span> та</p>
+        <p>Исритоҳат боғлари-<span>0</span> та</p>
       </div>
       <div class="map-about-box map-about-box-boshqa">
         <img src="https://cdn-icons-png.flaticon.com/512/6284/6284577.png" alt="Boshqa joy uchun marker">
-        <p>Бошқа жой-<span>0</span> та</p>
+        <p>Бошқа жойлар-<span>0</span> та</p>
       </div>
     </div>
   </div>
@@ -313,7 +313,7 @@
     <div>
       <label for="viloyatSelect" class="form-label">Ҳудудлар</label>
       <select id="viloyatSelect" class="form-select">
-        <option value="">Ҳудудни танланг</option>
+        <option value="">Танланг</option>
         {foreach from=$Regions item=Item1 key=ikey1}
         <option value="{$Item1.id}">{$Item1.name}</option>
         {/foreach}
@@ -323,7 +323,7 @@
     <div>
       <label for="objectTypeSelect" class="form-label">Объект тури</label>
       <select id="objectTypeSelect" class="form-select">
-        <option value="">Жами объектлар</option>
+        <option value="">Танланг</option>
         {foreach from=$ObjectTypes item=Item1 key=ikey1}
         <option value="{$Item1.id}">{$Item1.name}</option>
         {/foreach}
@@ -331,9 +331,9 @@
     </div>
 
     <div>
-      <label for="objectSelect" id="objectLabelLabel" class="form-label">Объектлар</label>
+      <label for="objectSelect" id="objectLabelLabel" class="form-label">Объект номи</label>
       <select id="objectSelect" class="form-select">
-        <option value="">Объектни танланг</option>
+        <option value="">Танланг</option>
         {foreach from=$Objects item=Item1 key=ikey1}
         <option value="{$Item1.id}">{$Item1.name}</option>
         {/foreach}
@@ -369,7 +369,7 @@
               </div>
               <div id="dialogMap" class="mt-1"></div>
               <div class="space-main-head mt-3">
-                <h4 class="">Паспорт Маълумотлари</h4>
+                <h4 class="">Объект ҳақида маълумотлар</h4>
               </div>
                 <div class="space-main-body-passport">
 
@@ -404,7 +404,7 @@
                           <div style="padding-left: 10px; width: 100%">
                             <div class="d-flex w-full justify-content-between" style="border-bottom: 1px solid #ccc;">
                               <span class="text-yellow" style="font-size: 22px;"><span
-                                  class=""></span> Жами камера: &nbsp;
+                                  class=""></span> Жами камералар: &nbsp;
                                 <span class="text-white camera_length"></span></span>
                               <div>
                                 <ul class="nav nav-pills mb-0">
@@ -420,7 +420,7 @@
 
                             <div class="d-flex w-full justify-content-between">
                               <span class="text-yellow" style="font-size: 22px;"><span
-                                  class=""></span> Жами бодй: &nbsp;
+                                  class=""></span> Жами бодикамералар: &nbsp;
                                 <span class="text-white body_camera_length"></span>&nbsp;</span>
                               <div>
                                 <ul class="nav nav-pills mb-0">
@@ -459,7 +459,7 @@
                 </div>
                 <div class="mt-4">
                   <div class="space-main-head">
-                    <h4>МГ томонидан ажратилган куч воситалар</h4>
+                    <h4>Жалб қилинган куч воситалар</h4>
                   </div>
                   <div class="space-main-body-duty">
 
@@ -1220,7 +1220,7 @@
                   class="bi bi-person" viewBox="0 0 16 16">
                   <path
                     d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
-                </svg></span>Ҳудуд участкавойи: </h6>
+                </svg></span>Ҳудуд профилактика инспектори: </h6>
                 <p>${params.police_name} ${params.police_phone}</p>
           </li>
           <li>
@@ -1228,7 +1228,7 @@
                   class="bi bi-telephone-forward" viewBox="0 0 16 16">
                   <path
                     d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877zm10.762.135a.5.5 0 0 1 .708 0l2.5 2.5a.5.5 0 0 1 0 .708l-2.5 2.5a.5.5 0 0 1-.708-.708L14.293 4H9.5a.5.5 0 0 1 0-1h4.793l-1.647-1.646a.5.5 0 0 1 0-.708" />
-                </svg></span>Ҳамкор ташкилотлар алоқа: </h6>
+                </svg></span>Ҳамкор ташкилотлар: </h6>
                 <p> ${params.cooperate}</p>
           </li>
 
