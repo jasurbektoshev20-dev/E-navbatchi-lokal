@@ -88,7 +88,7 @@
                     <table class="datatables-projects table border-top table-hover table-striped table-bordered">
                         <thead>
                         <tr class="text-center">
-                            <th>Т/р</th>
+                            <th style="white-space: nowrap;">Т/р</th>
                             <th>Ҳудудлар</th>
                             <th>Бозорлар сони</th>
                             <th>Савдо объектлари</th>

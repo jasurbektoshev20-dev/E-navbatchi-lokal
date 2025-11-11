@@ -275,6 +275,12 @@
       }
     }
 
+    .my-tooltip {
+  font-size: 18px !important;
+  font-weight: 600;
+  color: yellow;
+  transition: all 0.3s ease;
+}
 
   {/literal}
 </style>
@@ -718,7 +724,7 @@
             // Markerlarni LayerGroup ga qo'shamiz
             response.forEach(m => {
               const marker = L.marker([m.lat, m.long], { icon: markerIcons[m.object_type] })
-                .bindTooltip(m.object_name, { direction: 'top', offset: [0, -10] });
+                .bindTooltip(m.object_name, { direction: 'top', offset: [0, -10],  className: 'my-tooltip' });
 
               marker.id = m.id;
               marker.type = m.object_type;
@@ -869,7 +875,7 @@
               .setLngLat([lon, lat])
               .setPopup(new mapboxgl.Popup()
                 .setHTML(
-                  `<div style="color: #000">${door.name}</div>`
+                  `<div style="color: #000; font-size:18px;">${door.name}</div>`
                 ))
               .addTo(map);
           });
@@ -895,7 +901,7 @@
               .setLngLat([lon, lat])
               .setPopup(
                 new mapboxgl.Popup().setHTML(
-                  `<div style="color: #000"> <b>${track.car_name}</b><br>Tezlik: ${track.speed} km/h<br>${track.date} </div>`
+                  `<div style="color: #000; font-size:20px;"> <b>${track.car_name}</b><br>Tezlik: ${track.speed} km/h<br>${track.date} </div>`
                 )
               )
               .addTo(map);
@@ -912,10 +918,11 @@
             const el = document.createElement('div');
             el.className = 'camera-marker';
             // el.style.backgroundImage = `url('/assets/images/video-camera-recording-yellow.png')`;
-            el.style.backgroundImage = `url('/assets/images/security-camera-real.png')`;
+            el.style.backgroundImage = `url('/assets/images/security-camera-real2.png')`;
             el.style.backgroundSize = 'cover';
             el.title = camera.comment;
-
+             el.style.width = '25px';
+            el.style.height = '25px';
             const popupHTML = `
               <div style="color: #000; text-align:center">
                 <b style="font-size: 18px">${camera.comment}</b><br>
@@ -947,31 +954,31 @@
             el.style.backgroundImage = `url('/assets/images/policeman.png')`;
             el.style.backgroundSize = 'cover';
             el.title = camera.comment;
+                 el.style.width = '25px';
+            el.style.height = '25px';
             // Xodim rasmi
             const photoUrl = camera.staff_photo
               ? `/pictures/staffs/${camera.staff_photo}`
-              : '/assets/images/default-user.png';
+              : '/assets/images/nophoto2.png';
 
             // Popup HTML
             const popupHTML = `
               <div style="color: #000; text-align:center; font-family: sans-serif; max-width: 240px">
-                <b style="font-size: 17px; color:#1e3a8a;">${camera.comment}</b>
-                <hr style="margin:6px 0; border:0; border-top:1px solid #ccc;" />
-
+      
                 <img 
                   src="${photoUrl}" 
                   alt="staff photo" 
                   style="width:70px; height:70px; border-radius:50%; object-fit:cover; margin-bottom:6px;"
                 /><br>
-                <div style="font-weight:600;">${camera.staff_name || 'Xodim nomi yo‘q'}</div>
-                <div style="font-size:13px; color:#555;">${camera.staff_phone || ''}</div>
+                <div style="font-weight:600; font-size:20px;">${camera.staff_name || 'Xodim nomi yo‘q'}</div>
+                <div style="font-size:18px; color:#555; ">${camera.staff_phone || ''}</div>
 
                 <button 
-                  class="btn btn-sm btn-success popup-body-camera-btn" 
+                  class="btn btn-success popup-body-camera-btn" 
                   data-id="${camera.id}"
                   style="margin-top:8px; padding:6px 10px; border:none; border-radius:5px; cursor:pointer; background-color:#16a34a; color:#fff;"
                 >
-                <span class="btn-text">
+                <span class="btn-text" style="font-size:16px;">
                   📹 Камерани кўриш
                 </span>
                 </button>
@@ -1006,8 +1013,8 @@
 
             const el = document.createElement('div');
             el.className = 'sos-marker';
-            el.style.width = '14px';
-            el.style.height = '14px';
+            el.style.width = '18px';
+            el.style.height = '18px';
             el.style.background = 'red';
             el.style.borderRadius = '50%';
             el.style.border = '2px solid white';
@@ -1016,7 +1023,7 @@
             new mapboxgl.Marker(el)
               .setLngLat([lon, lat])
               .setPopup(new mapboxgl.Popup().setHTML(
-                `<div style="color: #000">${sos.name}</div>`
+                `<div style="color: #000; font-size:18px;">${sos.name}</div>`
               ))
               .addTo(map);
           });

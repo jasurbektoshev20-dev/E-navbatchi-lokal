@@ -155,7 +155,7 @@
                     <table class="datatables-projects table table-hover vertical-header table-bordered">
                         <thead>
                         <tr class="text-center card-datatable-tr">
-                            <th class="horizon-th">Т/р</th>
+                            <th class="horizon-th" style="white-space: nowrap;">Т/р</th>
                             <th class="horizon-th">Номи</th>
                              <th class="horizon-th">Тури</th>
                              <th class="horizon-th">Тоифаси</th>

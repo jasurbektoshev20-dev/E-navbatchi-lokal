@@ -81,6 +81,7 @@
         }
          .date-box-container{
           width: 100%;
+     
         }
     }
 
@@ -126,7 +127,7 @@
                     <table class="datatables-projects table border-top table-hover table-striped table-bordered">
                         <thead>
                         <tr class="text-center">
-                            <th>Т/р</th>
+                            <th style="white-space: nowrap;">Т/р</th>
                             <th>Унвони</th>
                             <th>Наряд ФИШ</th>
                             <th>Бўлинма номи</th>
@@ -148,12 +149,12 @@
                         <tbody>
                         <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">1</td>
-                            <td> майор </td>
-                            <td>
+                            <td  style="white-space: nowrap;"> майор </td>
+                            <td  style="white-space: nowrap;">
                                Сатторов А.Н
                             </td>
                             <td>Барс1</td>
-                            <td>90-123-45-67</td>
+                            <td  style="white-space: nowrap;">90-123-45-67</td>
     
                              {* <td>Глок</td> *}
                             <td>1</td>
@@ -194,7 +195,7 @@
                         </tr>
                                <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">3</td>
-                              <td>Оддий аскар</td>
+                              <td>оддий аскар</td>
                             <td>
                                Толипов A.Sh
                             </td>
@@ -214,11 +215,11 @@
                             <td>1</td>
                             <td>1</td>
                          
-                           <td>БЙД</td>
+                           <td>BYD</td>
                            </tr>
                          <tr class="lb text-center" id="row_{$Table.id|crypt}">
                              <td class="text-right">4</td>
-                              <td>Оддий аскар</td>
+                              <td>оддий аскар</td>
                             <td>
                              Ражабов Т.Д
                             </td>

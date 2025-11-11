@@ -305,7 +305,7 @@
      
     </tr>
                         <tr class="text-center card-datatable-tr">
-                            <th class="horizon-th">Т/р</th>
+                            <th class="horizon-th" style="white-space: nowrap;">Т/р</th>
                             <th class="horizon-th">Бозорлар</th>
                             <th>Майдони</th>
                             <th>Секторлар сони</th>
@@ -368,7 +368,7 @@
                                 <a
                                         href="hr.php?act=market_according_duty&mid={$smarty.get.mid}&date=Тошкент шаҳри&market=Аския бозори">Аския бозори</a>
                             </td>
-                            <td>1.4 ga</td>
+                            <td style="white-space: nowrap;">1.4 га</td>
                             <td>4</td>
                             <td>3</td>
                             <td>3</td>
@@ -425,7 +425,7 @@
                                 <a
                                         href="hr.php?act=region_objects&mid={$smarty.get.mid}&date=Тошкент шаҳар">Миробод деҳқон бозори</a>
                             </td>
-                            <td>1.9 ga</td>
+                            <td>1.9 га</td>
                             <td>5</td>
                             <td>4</td>
                             <td>4</td>
@@ -483,7 +483,7 @@
                                 <a
                                         href="hr.php?act=region_objects&mid={$smarty.get.mid}&date=Тошкент шаҳар">Қўйлик деҳқон бозори</a>
                             </td>
-                            <td>2.2 ga</td>
+                            <td>2.2 га</td>
                             <td>5</td>
                             <td>4</td>
                             <td>4</td>
@@ -541,7 +541,7 @@
                                 <a
                                         href="hr.php?act=region_objects&mid={$smarty.get.mid}&date=Тошкент шаҳар">Наврўз деҳқон бозори</a>
                             </td>
-                            <td>1.6 ga</td>
+                            <td>1.6 га</td>
                             <td>3</td>
                             <td>4</td>
                             <td>4</td>

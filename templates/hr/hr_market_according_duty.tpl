@@ -87,12 +87,10 @@
       text-align: center;
     }
 
-    /* Kichik ustunlar */
-    .small-col { width: 60px !important; }
-    /* O‘rta ustunlar */
-    .medium-col { width: 120px !important; }
-    /* Katta ustunlar (matn sig‘adiganlar) */
-    .large-col { width: 200px !important; }
+    .table th {
+     text-transform:none;
+     font-size: 16px;
+    }
 
 
 
@@ -137,29 +135,29 @@
                     <table class="datatables-projects table border-top table-hover table-striped table-bordered">
                         <thead>
                         <tr class="text-center">
-                            <th class="small-col">Т/р</th>
-                            <th class="medium-col">Унвони</th>
-                            <th class="large-col">Наряд ФИШ</th>
-                            <th class="medium-col">Бўлинма номи</th>
-                            <th class="large-col">Тел рақами</th>
-                            <th class="large-col">Сменаси</th>
-                            <th class="large-col">Йўналиши</th>
+                            <th style="white-space: nowrap;">Т/р</th>
+                            <th>Унвони</th>
+                            <th>Ф.И.Ш</th>
+                            <th>Бўлинма номи</th>
+                            <th >Тел рақами</th>
+                            <th>Сменаси</th>
+                            <th>Йўналиши</th>
                             {* <th>Қурол тури</th> *}
-                            <th class="small-col">Планшет</th>
-                            <th class="small-col">Бодикамера</th>
-                            <th class="small-col">Алоқа воситаси</th>
-                            <th class="small-col">Металлодетектор</th>
-                            <th class="small-col">Мегафон</th>
-                            <th class="small-col">Резина таёқ</th>
-                            <th class="small-col">Қўл кишани</th>
-                            <th class="small-col">Чўнтак фонари</th>
-                            <th class="small-col">Хуштак</th>
-                             <th class="small-col">Тиббий ҳимоя воситалари</th>
-                            <th class="small-col">Индивидуал боғлов пакети</th>
-                           <th class="small-col">Аэрозол</th>                      
-                            <th class="medium-col">Хизмат ити</th>
-                            <th class="small-col">Хизмат оти</th>
-                            <th class="medium-col">Автотранспорт</th>
+                            <th>Планшет</th>
+                            <th>Бодикамера</th>
+                            <th>Алоқа воситаси</th>
+                            <th>Металлодетектор</th>
+                            <th>Мегафон</th>
+                            <th>Резина таёқ</th>
+                            <th>Қўл кишани</th>
+                            <th>Чўнтак фонари</th>
+                            <th>Хуштак</th>
+                             <th>Тиббий ҳимоя воситалари</th>
+                            <th >Индивидуал боғлов пакети</th>
+                           <th >Аэрозол</th>                      
+                            <th >Хизмат ити</th>
+                            <th>Хизмат оти</th>
+                            <th>Автотранспорт</th>
 
                         </tr>
                         </thead>
@@ -167,13 +165,13 @@
                         <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">1</td>
                             <td> майор </td>
-                            <td>
+                            <td style="white-space: nowrap;">
                                Сатторов А.Н
                             </td>
                             <td>Барс1</td>
-                            <td>90-123-45-67</td>
-                            <td>1-босқич (08:00-16:00)</td>
-                            <td>ПП 2-йўналиш</td>
+                            <td style="white-space: nowrap;">90-123-45-67</td>
+                            <td style="white-space: nowrap;">1-босқич (08:00-16:00)</td>
+                            <td style="white-space: nowrap;">ПП 2-йўналиш</td>
                              {* <td>Глок</td> *}
                             <td>1</td>
                             <td>1</td>
@@ -223,7 +221,7 @@
                         </tr>
                                <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">3</td>
-                              <td>оддий аскар</td>
+                              <td style="white-space: nowrap;">оддий аскар</td>
                             <td>
                                Толипов A.Sh
                             </td>

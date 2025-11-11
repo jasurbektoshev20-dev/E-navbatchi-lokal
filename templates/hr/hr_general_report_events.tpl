@@ -69,7 +69,7 @@
                     <table class="datatables-projects table border-top table-hover table-striped table-bordered">
                         <thead>
                         <tr class="text-center">
-                            <th style="width: 200px !important;">Т-р</th>
+                            <th style="white-space: nowrap;">Т/р</th>
                             <th>Тадбирлар</th>
                             <th>Қорақалпоғистон Республикаси</th>
                             <th>Тошкент шаҳри</th>
