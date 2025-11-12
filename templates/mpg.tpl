@@ -129,7 +129,7 @@
         #staffInfoModal {
             position: absolute;
             width: 820px;
-            height:430px;
+            height:500px;
             right: 1.2vw;
             top: 0.7vh;
             z-index: 55555 !important;
@@ -236,9 +236,13 @@
                         <label class="form-label text-warning fs-5">{$Dict.regions}</label>
                         <select class="form-select" id="select_region">
                             <option value="0">{$Dict.all}</option>
-                            {foreach from=$Regions item=Item key=key name=name}
-                                <option value="{$Item.id}" data-lat="{$Item.latitude}" data-lon="{$Item.longtitude}" data-zoom="{$Item.zoom}">{$Item.name}</option>
-                            {/foreach}
+                          {foreach from=$Regions item=Item key=key name=regionsLoop}
+                            {if $smarty.foreach.regionsLoop.iteration <= 14}
+                                <option value="{$Item.id}" data-lat="{$Item.latitude}" data-lon="{$Item.longtitude}" data-zoom="{$Item.zoom}">
+                                    {$Item.name}
+                                </option>
+                            {/if}
+                        {/foreach}
                         </select>
                     </div>
 
@@ -680,14 +684,14 @@
                     if (data.staffs.length) {
                         data.staffs.forEach(item => {
                             $("#staffInfoModal .card-body").append(`
-                                <div class="col-3 text-center">
+                                <div class="col-3 text-center"">
                                         <div style="width: 100%;">
                                             <img style="height: 240px; object-fit: cover; width: 100%; object-position:top" class="rounded" src="/pictures/staffs/${item.photo}" alt="">
                                         </div>
-                                        <div class="text-info" style="font-size:1rem">
+                                        <div class="text-info" style="font-size:1.25rem">
                                             <span class="text-white">${item.staff_name}</span>
                                         </div>
-                                        <div class="text-info" style="font-size:1rem">
+                                        <div class="text-info" style="font-size:1.25rem">
                                             <span class="text-white">${item.phone}</span>
                                         </div>
                                     </div>
