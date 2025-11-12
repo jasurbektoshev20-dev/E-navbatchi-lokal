@@ -36,7 +36,7 @@
             position: fixed;
             z-index: 2000;
             top: 0;
-            left: 45%;
+            left: 38%;
             transform: translateY(30px);
             display: flex;
             gap: 10px;
@@ -63,17 +63,16 @@
             <div class="col-8">
                 <div class="form-select-box">
                    <select class="form-select card" id="regions">
-                        {* <option class="selectOption" value="">Boshqarmani tanlang...</option> *}
                         {foreach from=$Regions item=region key=mkey}
                             <option class="selectOption" value="{$region.id}">{$region.name}</option>
                         {/foreach}
                   </select>
-                    <select class="form-select" id="region_division">
-                        <option class="selectOption" value="">Bo'linmani tanlang...</option>
-                        {foreach from=$Regions item=region key=mkey}
-                            <option class="selectOption" value="{$region.id}">{$region.name}</option>
-                        {/foreach}
-                  </select> 
+                   <select id="division_id" class="form-select">
+                                <option value="">Танланг...</option>
+                                {foreach from=$Divisions item=str}
+                                    <option value="{$str.id}">{$str.name2}</option>
+                                {/foreach}
+                  </select>
                 </div>
              
 
@@ -235,73 +234,177 @@
         scrollToBottom();
 
 
-        $(document).ready(function () {
+//         $(document).ready(function () {
 
-            function loadDutyByRegion(region) {
-                $.ajax({
-                    type: "GET",
-                    url: `${AJAXPHP}?act=get_duty&id=${region}`,
-                    dataType: "json",
-                    encode: true,
-                    success: function (data) {
-                        $('#card_duty').empty();
+//             function loadDutyByRegion(region) {
+//                 $.ajax({
+//                     type: "GET",
+//                     url: `${AJAXPHP}?act=get_duty&id=${region}`,
+//                     dataType: "json",
+//                     encode: true,
+//                     success: function (data) {
+//                         $('#card_duty').empty();
 
-                        if (!data || data.length === 0) {
-                            $('#card_duty').append(`
-                                <div class="card text-center">
-                                    <div class="mt-3">
-                                        <img style="width: 270px; height: 293px; border-radius: 20px" src="assets/images/nophoto2.png">
-                                    </div>
-                                    <div class="card-body px-3 py-3">
-                                        ${no_data_found}
-                                    </div>
-                                </div>
-                            `);
-                        } else {
-                            let cardContent = '';
+//                         if (!data || data.length === 0) {
+//                             $('#card_duty').append(`
+//                                 <div class="card text-center">
+//                                     <div class="mt-3">
+//                                         <img style="width: 270px; height: 293px; border-radius: 20px" src="assets/images/nophoto2.png">
+//                                     </div>
+//                                     <div class="card-body px-3 py-3">
+//                                         ${no_data_found}
+//                                     </div>
+//                                 </div>
+//                             `);
+//                         } else {
+//                             let cardContent = '';
 
-                            data.forEach(item => {
-                                cardContent += `
-                                    <div class="staff-item text-center">
-                                        <img style="width: 230px; height: 230px; border-radius: 20px" src="pictures/staffs/${item.photo}">
-                                        <h6 class="mt-2 mb-0 card-title">${item.staff}</h6>
-                                        <p class="mb-0 card-text">${item.position}</p>
-                                        <p class="mb-0 card-text"><small class="text-muted">${item.role} ${item.lastname}</small></p>
-                                        <p class="mb-0 card-text"><small class="text-muted">
-                                           <a href="tel:${item.phone}">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-forward-fill" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877zm10.761.135a.5.5 0 0 1 .708 0l2.5 2.5a.5.5 0 0 1 0 .708l-2.5 2.5a.5.5 0 0 1-.708-.708L14.293 4H9.5a.5.5 0 0 1 0-1h4.793l-1.647-1.646a.5.5 0 0 1 0-.708"/>
-</svg> ${item.phone}
-                                            </a>
-                                        </small></p>
-                                    </div>
-                                `;
-                            });
+//                             data.forEach(item => {
+//                                 cardContent += `
+//                                     <div class="staff-item text-center">
+//                                         <img style="width: 230px; height: 230px; border-radius: 20px" src="pictures/staffs/${item.photo}">
+//                                         <h6 class="mt-2 mb-0 card-title">${item.staff}</h6>
+//                                         <p class="mb-0 card-text">${item.position}</p>
+//                                         <p class="mb-0 card-text"><small class="text-muted">${item.role} ${item.lastname}</small></p>
+//                                         <p class="mb-0 card-text"><small class="text-muted">
+//                                            <a href="tel:${item.phone}">
+//                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-forward-fill" viewBox="0 0 16 16">
+//   <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877zm10.761.135a.5.5 0 0 1 .708 0l2.5 2.5a.5.5 0 0 1 0 .708l-2.5 2.5a.5.5 0 0 1-.708-.708L14.293 4H9.5a.5.5 0 0 1 0-1h4.793l-1.647-1.646a.5.5 0 0 1 0-.708"/>
+// </svg> ${item.phone}
+//                                             </a>
+//                                         </small></p>
+//                                     </div>
+//                                 `;
+//                             });
 
-                            $('#card_duty').append(`
-                                <div class="card text-center p-3">
-                                    <div class="d-flex justify-content-center gap-4 flex-wrap">
-                                        ${cardContent}
-                                    </div>
-                                </div>
-                            `);
-                        }
-                    }
-                });
-            }
+//                             $('#card_duty').append(`
+//                                 <div class="card text-center p-3">
+//                                     <div class="d-flex justify-content-center gap-4 flex-wrap">
+//                                         ${cardContent}
+//                                     </div>
+//                                 </div>
+//                             `);
+//                         }
+//                     }
+//                 });
+//             }
 
-            // 🔹 Select o‘zgarsa
-            $('#regions').change(function () {
-                const region = $(this).val();
-                loadDutyByRegion(region);
-            });
+//             // 🔹 Select o‘zgarsa
+//             $('#regions').change(function () {
+//                 const region = $(this).val();
+//                 loadDutyByRegion(region);
+//             });
 
-            // 🔹 Sahifa yuklanganda ham ishlasin (dastlabki qiymat uchun)
-            const initialRegion = $('#regions').val();
-            if (initialRegion) {
-                loadDutyByRegion(initialRegion);
+//             // 🔹 Sahifa yuklanganda ham ishlasin (dastlabki qiymat uchun)
+//             const initialRegion = $('#regions').val();
+//             if (initialRegion) {
+//                 loadDutyByRegion(initialRegion);
+            
+
+//         });
+
+
+
+$(document).ready(function () {
+
+    function loadDutyByRegion(region) {
+        $.ajax({
+            type: "GET",
+            url: `${AJAXPHP}?act=get_duty&id=${region}`,
+            dataType: "json",
+            success: function (data) {
+                $('#card_duty').empty();
+
+                if (!data || data.length === 0) {
+                    $('#card_duty').append(`
+                        <div class="card text-center">
+                            <div class="mt-3">
+                                <img style="width: 270px; height: 293px; border-radius: 20px" src="assets/images/nophoto2.png">
+                            </div>
+                            <div class="card-body px-3 py-3">
+                                ${no_data_found}
+                            </div>
+                        </div>
+                    `);
+                } else {
+                    let cardContent = '';
+                    data.forEach(item => {
+                        cardContent += `
+                            <div class="staff-item text-center">
+                                <img style="width: 230px; height: 230px; border-radius: 20px" src="pictures/staffs/${item.photo}">
+                                <h6 class="mt-2 mb-0 card-title">${item.staff}</h6>
+                                <p class="mb-0 card-text">${item.position}</p>
+                                <p class="mb-0 card-text"><small class="text-muted">${item.role} ${item.lastname}</small></p>
+                                <p class="mb-0 card-text"><small class="text-muted">
+                                   <a href="tel:${item.phone}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-forward-fill" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877zm10.761.135a.5.5 0 0 1 .708 0l2.5 2.5a.5.5 0 0 1 0 .708l-2.5 2.5a.5.5 0 0 1-.708-.708L14.293 4H9.5a.5.5 0 0 1 0-1h4.793l-1.647-1.646a.5.5 0 0 1 0-.708"/>
+                                    </svg> ${item.phone}
+                                    </a>
+                                </small></p>
+                            </div>
+                        `;
+                    });
+
+                    $('#card_duty').append(`
+                        <div class="card text-center p-3">
+                            <div class="d-flex justify-content-center gap-4 flex-wrap">
+                                ${cardContent}
+                            </div>
+                        </div>
+                    `);
+                }
             }
         });
+    }
+
+    // 🔹 Bo‘linmalarni yuklash funksiyasi
+    function loadDivisionsByRegion(regionId) {
+        $.get(`${AJAXPHP}?act=get_divisions&structure_id=${regionId}`, function (data) {
+            $('#division_id').empty().append('<option value="">Танланг...</option>');
+            if (data && data.length > 0) {
+                $.each(data, function (i, d) {
+                    $('#division_id').append(`<option value="${d.id}">${d.name}</option>`);
+                });
+            }
+        }, 'json');
+    }
+
+    // 🔹 Boshqarma (region) o‘zgarganda
+    $('#regions').change(function () {
+        const region = $(this).val();
+        if (!region) {
+            $('#division_id').empty().append('<option value="">Танланг...</option>');
+            $('#card_duty').empty();
+            return;
+        }
+
+        // 1️⃣ Bo‘linmalarni yuklash
+        loadDivisionsByRegion(region);
+
+        // 2️⃣ Navbatchilarni yuklash
+        loadDutyByRegion(region);
+    });
+
+    // 🔹 Dastlab sahifa ochilganda
+    const initialRegion = $('#regions').val();
+    if (initialRegion) {
+        loadDivisionsByRegion(initialRegion);
+        loadDutyByRegion(initialRegion);
+    }
+
+});
+
+
+
+
+
+
+
+
+
+
+
 
 
 
