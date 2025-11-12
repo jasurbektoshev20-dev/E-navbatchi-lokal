@@ -247,9 +247,12 @@
                         <select id="searchCars" class="select2 form-select">
                             <option value="0">{$Dict.search}</option>
                         </select>
-                        <table class="table border-top" style="color: #dddddd;">
+                      <div style="max-height:60vh; overflow-y:auto;">
+                        <table class="table border-top mb-0" style="color: #dddddd;">
                             <tbody id="carList"></tbody>
                         </table>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -337,7 +340,7 @@
         let cluster = L.markerClusterGroup({ chunkedLoading: true });
         let gps_url = 'uzgps.php';
         let isOnOffTime = 60;
-        let isOnOffSpeed = 3;
+        let isOnOffSpeed = 5;
         let region_id = 0;
         let in_service = 0;
         let lastCarsPositions;
@@ -360,17 +363,19 @@
 
         // Create custom icons for markers
         function myIcon(marker) {
+            console.log("marker", marker.car_width)
             const unixtime = marker.unixtime;
             if (marker.speed > isOnOffSpeed) {
                 let myIcon = L.icon({
-                    iconUrl: `/pictures/cars/${marker.car_photo}`,
-                    iconSize: [marker.car_width, marker.car_height],
+                    iconUrl: `/pictures/cars/patriot_old.gif`,
+                  iconSize: [parseInt(marker.car_width) || 25, parseInt(marker.car_height) || 50],
                 });
                 return myIcon;
             } else {
                 let myIcon = L.icon({
-                    iconUrl: `/pictures/cars/${marker.car_photo}`,
-                    iconSize: [marker.car_width, marker.car_height],
+                    // iconUrl: `/pictures/cars/${marker.car_photo}`,
+                    iconUrl: `/pictures/cars/patriot_old.png`,
+               iconSize: [parseInt(marker.car_width) || 25, parseInt(marker.car_height) || 50],
                 });
                 return myIcon;
             }
@@ -689,11 +694,12 @@
                             `);
                         })
                     }else{
-                        $("#staffInfoModal .card-body").append(`
-                                <div class="col-xl-12 text-center">
-                                    ${dict_no_data}
-                                </div>
-                        `)
+                      $("#staffInfoModal .card-body").append(`
+                        <div class="col-xl-12 text-center d-flex align-items-center justify-content-center">
+                             <h3 style="color: white;">Транспортга навбатчилар бириктирилмаган !!!</h3>
+                        </div>
+                    `)
+
                     }
                 }
             })
