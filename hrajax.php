@@ -261,7 +261,6 @@ switch ($Action) {
         $role    = $_POST['role'];
         $position_id    = $_POST['position_id'];
         $rank_id    = $_POST['rank_id'];
-        $division_id    = $_POST['division_id'];
         $lastname    = $_POST['lastname'];
         $firstname    = $_POST['firstname'];
         $surname    = $_POST['surname'];
@@ -275,7 +274,6 @@ switch ($Action) {
                 role_id = '{$role}',
                 position_id = '{$position_id}',
                 rank_id = '{$rank_id}',
-                division_id = '{$division_id}',
                 lastname = '{$lastname}',
                 firstname = '{$firstname}',
                 surname = '{$surname}',
@@ -299,7 +297,6 @@ switch ($Action) {
                             role_id,
                             position_id,
                             rank_id,
-                            division_id,
                             lastname,
                             firstname,
                             surname,
@@ -312,7 +309,6 @@ switch ($Action) {
                             '{$role}',
                             '{$position_id}',
                             '{$rank_id}',
-                            '{$division_id}',
                             '{$lastname}',
                             '{$firstname}',
                             '{$surname}',
@@ -1451,7 +1447,11 @@ switch ($Action) {
         $structure_id = isset($_POST['structure_id']) ? $_POST['structure_id'] : $UserStructure;
         $date = isset($_POST['day']) ? strtotime($_POST['day']) : null;
         $responsible_id = $_POST['responsible_id'];
-        $division_id = $_POST['division_id'];
+
+        // echo '<pre>';
+        // print_r($date);
+        // echo '</pre>';
+        // die();
 
         if ($RowId != "0") {
             // Update existing record
@@ -1459,8 +1459,7 @@ switch ($Action) {
                 object_id = '{$object_id}',
                 structure_id = '{$structure_id}',
                 date = to_timestamp('{$date}'),
-                responsible_id = '{$responsible_id}',
-                division_id = '{$division_id}'
+                responsible_id = '{$responsible_id}'
                 WHERE id = {$RowId}";
             $sql->query($updquery);
             if ($sql->error() == "") {
@@ -1474,14 +1473,12 @@ switch ($Action) {
                     object_id,
                     structure_id,
                     date,
-                    responsible_id,
-                    division_id
+                    responsible_id
                 ) VALUES (
                     '{$object_id}',
                     '{$structure_id}',
                     to_timestamp('{$date}'),
-                    '{$responsible_id}',
-                    '{$division_id}'
+                    '{$responsible_id}'
                 )";
             $sql->query($insquery);
 
@@ -1524,12 +1521,11 @@ switch ($Action) {
         break;
 
     case "act_dailiy_routine_date":
-        $RowId = (!empty($_POST['id'])) ? MyPiDeCrypt($_POST['id']) : 0;
+        $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
         $routine_id = $_POST['routine_id'];
         $patrul_type = $_POST['patrul_type'];
         $direction = $_POST['direction'];
         $smena = $_POST['smena'];
-        $division_id = isset($_POST['division_id']) ? $_POST['division_id'] : 0;
         $car_id = !empty($_POST['car_id']) ? $_POST['car_id'] : 0;
         $bodycam_id = isset($_POST['bodycam_id']) ? $_POST['bodycam_id'] : 0;
 
@@ -1575,15 +1571,15 @@ switch ($Action) {
                 patrul_type = '{$patrul_type}',
                 direction = '{$direction}',
                 smena = '{$smena}',
-                division_id = '{$division_id}',
-                staff_id = '{$staff_id}',
+                staff_id = '{$staff_id[0]}',
                 car_id = '{$car_id}',
                 epikirofka_id = '{$epikirofka_pg_array_string}',
                 bodycam_id = '{$bodycam_id}'
                 WHERE id = {$RowId}";
             $sql->query($updquery);
             if ($sql->error() == "") {
-                $res = "0<&sep&>" . MyPiCrypt($RowId);
+                $status = "ok";
+                $res = json_encode(['status' => $status, 'rowid' => MyPiCrypt($RowId)]);
             } else {
                 $res = $sql->error();
                 $success = false;
@@ -1598,7 +1594,6 @@ switch ($Action) {
                     patrul_type,
                     direction,
                     smena,
-                    division_id,
                     staff_id,
                     car_id,
                     epikirofka_id
@@ -1607,7 +1602,6 @@ switch ($Action) {
                     '{$patrul_type}',
                     '{$direction}',
                     '{$smena}',
-                    '{$division_id}',
                     '{$current_staff_id}', -- Siklning joriy IDsi ishlatiladi
                     '{$car_id}',
                     '{$epikirofka_pg_array_string}' -- PostgreSQL array stringi ishlatiladi
@@ -2211,7 +2205,6 @@ switch ($Action) {
     case "act_impact_area":
         $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
         $structure_id = $_POST['structure_id'];
-        $division_id = $_POST['division_id'];
         $division_child = $_POST['division_child'];
 
 
@@ -2282,7 +2275,6 @@ switch ($Action) {
             // Update existing record
             $updquery = "UPDATE hr.impact_area SET
                 structure_id = '{$structure_id}',
-                division_id = '{$division_id}',
                 division_child = '{$division_child}',
                 geom = ST_GeomFromText('{$wkt}', 4326)
                 WHERE id = {$RowId}";
@@ -2296,12 +2288,10 @@ switch ($Action) {
             // Insert new record
             $insquery = "INSERT INTO hr.impact_area (
                     structure_id,
-                    division_id,
                     division_child,
                     geom
                 ) VALUES (
                     '{$structure_id}',
-                    '{$division_id}',
                     '{$division_child}',
                     ST_GeomFromText('{$wkt}', 4326)
                 )";

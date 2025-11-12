@@ -40,8 +40,6 @@
                                 <th>Сана</th>
                                 <th>Ҳудуд</th>
                                 <th>Объект номи</th>
-                         
-                                <th>Бўлинма</th>
                                 <th>Жавобгар шахс</th>
                                 <th></th>
                             </tr>
@@ -54,7 +52,6 @@
                                             class="text-primary text-decoration-underline">{$obekt.date} </a></td>
                                     <td>{$obekt.structure}</td>
                                     <td>{$obekt.object}</td>
-                                    <td>{$obekt.division}</td>
                                     <td>{$obekt.responsible}</td>
                                     <td>
                                         <div class="dropdown">
@@ -92,49 +89,51 @@
                             <label>Сана</label>
                             <input type="date" class="form-control" id="day" required />
                         </div>
-                   
+
                         <div class="col-sm-6">
                             <label>Ҳудудни танланг</label>
-                            <select id="structure_id" class="form-select" required>
-                                <option value="">Танланг...</option>
+                            <select id="region_id" class="form-select" required>
+                                <option value="">{$Dict.choose}</option>
                                 {foreach from=$Regions item=str}
                                     <option value="{$str.id}">{$str.name}</option>
                                 {/foreach}
                             </select>
                         </div>
+
                         <div class="col-sm-6">
-                            <label>Бўлинмани Танланг</label>
-                            <select id="division_id" class="form-select">
-                                <option value="">Танланг...</option>
-                                {foreach from=$Divisions item=str}
-                                    <option value="{$str.id}">{$str.name2}</option>
-                                {/foreach}
-                            </select>
-                        </div>
-                          
-                        <!-- Жавобгар шахс -->
-                        <div class="col-sm-6">
-                            <label>Жавобгар шахс</label>
-                            <select id="responsible_id" class="form-select">
-                                <option value="">Танланг...</option>
-                                  {foreach from=$Responsible item=obj}
+                            <label>{$Dict.territorial_short}</label>
+                            <select id="structure_id" class="form-select">
+                                <option value="">{$Dict.choose}</option>
+                                {foreach from=$Structures item=obj}
                                     <option value="{$obj.id}">{$obj.name}</option>
                                 {/foreach}
                             </select>
                         </div>
-                           <div class="col-sm-6">
+
+                        <!-- Жавобгар шахс -->
+                        <div class="col-sm-6">
+                            <label>Жавобгар шахс</label>
+                            <select id="responsible_id" class="form-select">
+                                <option value="">{$Dict.choose}</option>
+                                {foreach from=$Responsible item=obj}
+                                    <option value="{$obj.id}">{$obj.name}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                        <div class="col-sm-6">
                             <label>Объектни Танланг</label>
                             <select id="object_id" class="form-select" required>
-                                <option value="">Танланг...</option>
+                                <option value="">{$Dict.choose}</option>
                                 {foreach from=$Objects item=obj}
                                     <option value="{$obj.id}">{$obj.name}</option>
                                 {/foreach}
                             </select>
                         </div>
-                 
+
                         <div class="col-12 text-center mt-3">
-                               <input type="hidden" id="id" value="">
-                            <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Бекор  қилиш</button>
+                            <input type="hidden" id="id" value="">
+                            <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Бекор
+                                қилиш</button>
                             <button id="saveBtn" type="submit" class="btn btn-primary">Сақлаш</button>
                         </div>
                     </div>
@@ -155,256 +154,145 @@
 <script src="/assets/assets/vendor/libs/@form-validation/umd/bundle/popular.min.js"></script>
 <script src="/assets/assets/vendor/libs/@form-validation/umd/plugin-bootstrap5/index.min.js"></script>
 <script src="/assets/assets/vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js"></script>
+
 <script>
-   {literal}
-       $(document).ready(function () {
+    var dict_infraction = "{$Dict.infraction}"
+    var dict_action_taken = "{$Dict.action_taken}"
+    var dict_person_drafted = "{$Dict.person_drafted}"
+    var dict_old_photo = "{$Dict.old_photo}"
+    var dict_new_photo = "{$Dict.new_photo}"
+    var dict_download_pdf = "{$Dict.download_pdf}"
+    var dict_docx_download = "{$Dict.docx_download}"
+    var dict_choose = "{$Dict.choose}"
 
+    {literal}
 
-    $('#new').click(function () {
-        const modal = new bootstrap.Modal(document.getElementById('submitModal'));
-        modal.show();
+        var dt_basic_table = $('.datatables-projects'),
+            dt_basic;
 
-        const form = $('.needs-validation')[0];
-        form.reset();
-        form.classList.remove('was-validated');
-
-        $('#id').val('');
-        $('#structure_id').val('').trigger('change');
-        $('#division_id').val('').trigger('change');
-        $('#responsible_id').empty().append('<option value="">Танланг...</option>');
-        $('#object_id').val('');
-        $('#day').val('');
-    });
-
-    $('.datatables-projects tbody').on('click', '.editAction', function () {
-        const RowId = $(this).attr('rel');
-
-        // 🔹 1. Asosiy ma’lumotni olish
-        $.get('hrajax.php', { act: 'get_daily_routine', rowid: RowId })
-            .done(function (html) {
-                const sInfo = jQuery.parseJSON(html);
-                if (!sInfo) return console.error('Xatolik: sInfo bo‘sh.');
-
-                // 🔹 Form maydonlarini to‘ldirish
-                $('#day').val(sInfo.date || '');
-                $('#id').val(sInfo.id || '');
-                $('#object_id').val(sInfo.object_id || '').trigger('change');
-                $('#structure_id').val(sInfo.structure_id || '').trigger('change');
-
-                // 🔹 2. Bo‘linmalarni yuklash
-                $.get('ajax.php', {
-                    act: 'get_divisions',
-                    structure_id: sInfo.structure_id
-                })
-                    .done(function (divisions) {
-                        if (!divisions || !divisions.length) {
-                            console.warn('Bo‘linmalar topilmadi');
-                            return;
-                        }
-
-                        const $division = $('#division_id');
-                        $division.empty().append('<option value="">Танланг...</option>');
-
-                        $.each(JSON.parse(divisions), function (_, d) {
-                            $division.append(`<option value="${d.id}">${d.name}</option>`);
-                        });
-
-                        // Agar sInfo.division_id bo‘lsa, o‘shani tanlash
-                        $division.val(sInfo.division_id || '').trigger('change');
-
-                        // 🔹 3. Xodimlarni yuklash
-                        $.get('ajax.php', {
-                            act: 'get_staff',
-                            division_id: sInfo.division_id || sInfo.structure_id
-                        })
-                            .done(function (staff) {                                
-                                const $staff = $('#responsible_id');
-                                $staff.empty().append('<option value="">Танланг...</option>');
-
-                                $.each(JSON.parse(staff), function (_, d) {
-                                    console.log(111, d);
-                                    
-                                    $staff.append(`<option value="${d.id}">${d.name}</option>`);
-                                });
-
-                                $staff.val(sInfo.responsible_id || '').trigger('change');
-                            })
-                            .fail(function (xhr) {
-                                console.error('Xodimlar yuklanmadi:', xhr.status, xhr.statusText);
-                            });
-                    })
-                    .fail(function (xhr) {
-                        console.error('Bo‘linmalar yuklanmadi:', xhr.status, xhr.statusText);
-                    });
-
-                // 🔹 4. Modalni ochish
-                const modal = new bootstrap.Modal(document.getElementById('submitModal'));
-                modal.show();
-            })
-            .fail(function (xhr) {
-                console.error('get_daily_routine so‘rovi xato:', xhr.status, xhr.statusText);
+        // DataTable with buttons
+        if (dt_basic_table.length) {
+            dt_basic = dt_basic_table.DataTable({
+                displayLength: 10,
+                lengthMenu: [5, 10, 25, 50, 75, 100, 1000]
             });
-    });
-
-
-
-   // selectlar
-    $('#structure_id').change(function () {
-        const structureId = $(this).val();
-        if (!structureId) {
-            $('#division_id').empty().append('<option value="">Танланг...</option>');
-            $('#responsible_id').empty().append('<option value="">Танланг...</option>');
-            return;
         }
 
-        // Hududga mos bo‘linmalar
-        $.get('ajax.php', {
-            act: 'get_divisions',
-            structure_id: structureId
-        }, function (divisions) {
-            $('#division_id').empty().append('<option value="">Танланг...</option>');
-            $.each(divisions, function (i, d) {
-                $('#division_id').append('<option value="' + d.id + '">' + d.name + '</option>');
+        // Filtering
+        $('#region_id').change(function(event) {
+            $.get("ajax.php?act=get_divisions&region_id=" + this.value, function(html) {
+                var sInfo = jQuery.parseJSON(html);
+
+                $('#structure_id').empty();
+                $('#structure_id').append(`<option value="">${dict_choose}</option>`);
+                sInfo.forEach((item, index) => {
+                    $('#structure_id').append(`<option value="${item.id}">${item.name}</option>`);
+                });
             });
-        }, 'json');
 
-        // Hududga mos xodimlar
-        $.get('ajax.php', {
-            act: 'get_staff',
-            structure_id: structureId
-        }, function (staff) {
-            $('#responsible_id').empty().append('<option value="">Танланг...</option>');
-            $.each(staff, function (i, d) {
-                $('#responsible_id').append('<option value="' + d.id + '">' + d.name + '</option>');
-            });
-        }, 'json');
-    });
+            // $.get("ajax.php?act=get_divisions&region_id=" + this.value, function(html) {
+            //     var sInfo = jQuery.parseJSON(html);
 
-    $('#division_id').change(function () {
-        const divisionId = $(this).val();
-        if (!divisionId) {
-            $('#responsible_id').empty().append('<option value="">Танланг...</option>');
-            return;
-        }
+            //     $('#structure_id').empty();
+            //     $('#structure_id').append(`<option value="">${dict_choose}</option>`);
+            //     sInfo.forEach((item, index) => {
+            //         $('#structure_id').append(`<option value="${item.id}">${item.name}</option>`);
+            //     });
+            // });
+        });
 
-        $.get('ajax.php', {
-            act: 'get_staff',
-            division_id: divisionId
-        }, function (staff) {
-            $('#responsible_id').empty().append('<option value="">Танланг...</option>');
-            $.each(staff, function (i, d) {
-                $('#responsible_id').append('<option value="' + d.id + '">' + d.name + '</option>');
-            });
-        }, 'json');
-    });
-
-
-    // Malumot yuborish
-   
-    const bsForms = $('.needs-validation');
-    Array.prototype.slice.call(bsForms).forEach(function (form) {
-        form.addEventListener('submit', function (event) {
-            event.preventDefault();
-            event.stopPropagation();
-
-            if (!form.checkValidity()) {
-                form.classList.add('was-validated');
-                return;
-            }
-
-            const form_data = new FormData();
-            form_data.append('id', $('#id').val());
-            form_data.append('day', $('#day').val());
-            form_data.append('structure_id', $('#structure_id').val());
-            form_data.append('division_id', $('#division_id').val());
-            form_data.append('responsible_id', $('#responsible_id').val());
-            form_data.append('object_id', $('#object_id').val());
-
-            $.ajax({
-                url: 'hrajax.php?act=act_daily_routine',
-                type: 'POST',
-                data: form_data,
-                contentType: false,
-                processData: false,
-                dataType: 'json',
-                success: function (res) {
-                    if (res == 0) {
-                        $('#submitModal').modal('hide');
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Ма\'лумот сақланди!',
-                            showConfirmButton: false,
-                            timer: 1000
-                        });
-                        setTimeout(() => location.reload(), 1000);
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Xatolik!',
-                            text: res.message || 'Сақлашда хатолик юз берди.'
-                        });
-                    }
-                },
-                error: function (xhr) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Сервер билан алоқа йўқ!',
-                        text: xhr.responseText
-                    });
+        // Delete Record
+        $('.datatables-projects tbody').on('click', '.delete', function() {
+            var RowId = $(this).attr('rel');
+            $.get("hrajax.php?act=del_daily_routine&rowid=" + RowId, function(html) {
+                if (html == 0) {
+                    $("#row_" + RowId).remove();
+                    // dt_basic.row($(this).parents('tr')).remove().draw();
                 }
             });
-
-            form.classList.add('was-validated');
         });
-    });
 
-  
-    // O'chirish
-  
-    $('.datatables-projects tbody').on('click', '.delete', function () {
-        const RowId = $(this).attr('rel');
-        Swal.fire({
-            title: "Ишончингиз комилми?",
-            text: "Бу ёзув ўчирилади!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Ҳа, ўчирилсин!",
-            cancelButtonText: "Бекор қилиш"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.get("hrajax.php?act=del_daily_routine&rowid=" + RowId, function (html) {
-                    if (parseInt(html) === 0) {
-                        $("#row_" + RowId).remove();
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Ўчирилди!',
-                            showConfirmButton: false,
-                            timer: 1000
-                        });
+        $('#new').click(function() {
+            $('#submitModal').modal('toggle');
+
+            $('#structure_id').val(0);
+            $('#structure_id').trigger("change");
+            $('#responsible_id').val(0);
+            $('#responsible_id').trigger("change");
+            $('#object_id').val(0);
+            $('#object_id').trigger("change");
+            $('#day').val("");
+            $('#id').val(0);
+        });
+
+        $('.datatables-projects tbody').on('click', '.editAction', function() {
+            $('#submitModal').modal('toggle');
+
+            var RowId = $(this).attr('rel');
+            $.get("hrajax.php?act=get_daily_routine&rowid=" + RowId, function(html) {
+                console.log(html);
+
+                var sInfo = jQuery.parseJSON(html);
+
+                $('#structure_id').val(sInfo.structure_id);
+                $('#region_id').val(sInfo.structure_id);
+                $('#responsible_id').val(sInfo.responsible_id);
+                $('#object_id').val(sInfo.object_id);
+                $('#day').val(sInfo.day);
+                $('#id').val(sInfo.id);
+
+            });
+        });
+
+        // Form validation and submit
+        const bsValidationForms = $('.needs-validation');
+        Array.prototype.slice.call(bsValidationForms).forEach(function(form) {
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                } else {
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    var form_data = new FormData();
+                    form_data.append('id', $('#id').val());
+
+                    if ($('#structure_id').val() == 0) {
+                        form_data.append('structure_id', $('#region_id').val());
                     } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Хатолик!',
-                            text: 'Ўчиришда хато юз берди.'
-                        });
+                        form_data.append('structure_id', $('#structure_id').val());
                     }
-                }).fail(function (xhr) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Сервер билан алоқа йўқ!',
-                        text: xhr.statusText
+
+                    form_data.append('responsible_id', $('#responsible_id').val());
+                    form_data.append('object_id', $('#object_id').val());
+                    form_data.append('day', $('#day').val());
+
+                    $.ajax({
+                        url: 'hrajax.php?act=act_daily_routine',
+                        dataType: 'text',
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        data: form_data,
+                        type: 'post',
+                        success: function(resdata) {
+                            //console.log(resdata);
+                            var NewArray = resdata.split("<&sep&>");
+                            if (NewArray[0] == 0) {
+                                location.reload();
+                            } else {
+                                alert(resdata);
+                            }
+                        }
                     });
-                });
-            }
+                }
+
+                form.classList.add('was-validated');
+            });
         });
-    });
-
-});
-
 
     {/literal}
-
 </script>
-
 
 {include file="footer.tpl"}

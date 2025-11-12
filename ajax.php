@@ -829,12 +829,12 @@ switch ($Action) {
 		break;
 
 	case "get_divisions":
-		$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
+		$region_id = isset($_GET['region_id']) ? $_GET['region_id'] : 0;
 		$query  = "SELECT t.id, t.name{$slang} as name
-		FROM ref.divisions t 
+		FROM hr.structure t 
 		WHERE 1=1 ";
-		if ($structure_id > 0) {
-			$query .= " AND t.structure_id = {$structure_id} ";
+		if ($region_id > 0) {
+			$query .= " AND t.parent = {$region_id} ";
 		}
 		$query .= " ORDER BY t.id ASC";
 		$sql->query($query);
@@ -894,17 +894,13 @@ switch ($Action) {
 		$start = ($page - 1) * $limit;
 
 		$ImpactAreas = [];
-		$query  = "SELECT t.id, s.name{$slang} as structure, d.name{$slang} as division, t.division_child,
+		$query  = "SELECT t.id, s.name{$slang} as structure, t.division_child,
 		ST_AsGeoJSON(ST_FlipCoordinates(t.geom)) AS geom
 		FROM hr.impact_area t 
 		left join hr.structure s on s.id  = t.structure_id
-		left join ref.divisions d on d.id = t.division_id
 		WHERE 1=1 ";
 		if ($structure_id > 0) {
 			$query .= " AND t.structure_id = {$structure_id} ";
-		}
-		if ($division_id > 0) {
-			$query .= " AND t.division_id = {$division_id} ";
 		}
 		$query .= " ORDER BY t.id desc LIMIT {$limit} OFFSET {$start}";
 		$sql->query($query);
@@ -917,9 +913,6 @@ switch ($Action) {
 		$count_query = "SELECT COALESCE(COUNT(*) , 0) as total FROM hr.impact_area t WHERE 1=1 ";
 		if ($structure_id > 0) {
 			$count_query .= " AND t.structure_id = {$structure_id} ";
-		}
-		if ($division_id > 0) {
-			$count_query .= " AND t.division_id = {$division_id} ";
 		}
 		$sql->query($count_query);
 		$total_count = $sql->fetchAssoc();
@@ -935,7 +928,7 @@ switch ($Action) {
 		break;
 
 	case "get_mpg_by_id":
-		$id = isset($_GET['id']) ? $_GET['id'] : 6;
+		$car_id = isset($_GET['car_id']) ? $_GET['car_id'] : 6;
 
 		$Data = [];
 		$car_ids = [];
@@ -956,7 +949,7 @@ switch ($Action) {
         INNER JOIN hr.tech_guard_cars cr ON cr.uzgps_id = uzg.mobject_id
         LEFT JOIN hr.structure s ON s.id = cr.structure_id
         LEFT JOIN ref.car_models cm ON cm.id = cr.car_model_id
-        WHERE cr.id = {$id} ";
+        WHERE cr.id = {$car_id} ";
 		$sql->query($query);
 		$Track = $sql->fetchAssoc();
 		$Data['car'] = $Track;
@@ -968,7 +961,7 @@ switch ($Action) {
 		LEFT JOIN hr.daily_routine d ON d.id = t.routine_id
 		LEFT JOIN hr.staff s ON s.id = t.staff_id
 		LEFT JOIN ref.ranks r ON r.id = s.rank_id
-		WHERE d.date = CURRENT_DATE AND t.car_id = {$id}
+		WHERE d.date = CURRENT_DATE AND t.car_id = {$car_id}
 		ORDER BY t.id desc ";
 		$sql->query($query);
 		$Staffs = $sql->fetchAll();

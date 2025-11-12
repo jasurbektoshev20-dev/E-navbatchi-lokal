@@ -216,11 +216,9 @@ switch ($Act) {
 	/// hr_staff
 	case "hr_staff":
 		$query = "SELECT t.id, t.lastname, t.firstname, t.surname, t.username, t.phone, t.photo, 
-		s.name{$slang} as structure, r.role_name, p.name{$slang} as position, ra.name{$slang} as rank, 
-		d.name{$slang} as division
+		s.name{$slang} as structure, r.role_name, p.name{$slang} as position, ra.name{$slang} as rank
 		FROM hr.staff t 
 		left join hr.structure s on s.id  = t.structure_id
-		left join ref.divisions d on d.id  = t.division_id
 		left join bcms.roles r on r.id  = t.role_id
 		left join hr.positions p on p.id  = t.position_id
 		left join ref.ranks ra on ra.id  = t.rank_id
@@ -246,22 +244,12 @@ switch ($Act) {
 		$sql->query($query);
 		$RefRanks = $sql->fetchAll();
 
-		$query = "SELECT id,name{$slang} as name from ref.divisions order by id desc";
-		$sql->query($query);
-		$Divisions = $sql->fetchAll();
-
-		// echo '<pre>';
-		// print_r($Divisions);
-		// echo '</pre>';
-		// die();
-
 		$smarty->assign(array(
 			'Staffs' => $Staffs,
 			'Structures' => $Structures,
 			'Roles' => $Roles,
 			'HrPositions' => $HrPositions,
 			'RefRanks' => $RefRanks,
-			'Divisions' => $Divisions,
 		));
 		break;
 	/// hr_staff
@@ -442,10 +430,9 @@ switch ($Act) {
 		FROM hr.staff t
 		LEFT JOIN hr.positions p ON p.id = t.position_id
 		LEFT JOIN ref.ranks r ON r.id = t.rank_id 
-		where t.id != 1 and t.structure_id = {$RegDyn} ORDER BY id";
+		where d.structure_id = {$RegDyn} ORDER BY id";
 		$sql->query($query);
 		$Staffs = $sql->fetchAll();
-
 
 		$smarty->assign(array(
 			'Duty' => $Duty,
@@ -679,7 +666,7 @@ switch ($Act) {
 		$object_id = isset($_GET['obyekt']) ? ($_GET['obyekt']) : 1;
 
 
-		$query = "SELECT t.id, t.direction, t.smena, d.name{$slang} AS division, 
+		$query = "SELECT t.id, t.direction, t.smena, 
          p.name{$slang} AS patrul_type,
          CONCAT(s.lastname,' ',s.firstname,' ', s.surname) AS staff, 
          c.plate_number AS car,
@@ -693,7 +680,6 @@ switch ($Act) {
          ) AS epic
          FROM hr.dailiy_routine_date t 
          LEFT JOIN ref.patrul_types p ON p.id = t.patrul_type
-         LEFT JOIN ref.divisions d ON d.id = t.division_id
          LEFT JOIN hr.staff s ON s.id = t.staff_id
          LEFT JOIN hr.tech_guard_cars c ON c.id = t.car_id
          
@@ -713,13 +699,6 @@ switch ($Act) {
 		ORDER BY t.id desc ";
 		$sql->query($query);
 		$PatrulTypes = $sql->fetchAll();
-
-		$query  = "SELECT t.id, t.name{$slang} as name
-		FROM ref.divisions t 
-		ORDER BY t.id desc ";
-		$sql->query($query);
-		$Divisions = $sql->fetchAll();
-
 
 		$query  = "SELECT t.id, t.name{$slang} as name
 		FROM ref.epic t 
@@ -765,7 +744,6 @@ switch ($Act) {
 		$smarty->assign(array(
 			'RoutineDate' => $RoutineDate,
 			'PatrulTypes' => $PatrulTypes,
-			'Divisions' => $Divisions,
 			'Epikirovka' => $Epikirovka,
 			'Staffs' => $Staffs,
 			'Cars' => $Cars,
@@ -855,11 +833,10 @@ switch ($Act) {
 		$sql->query($query);
 		$Objects = $sql->fetchAll();
 
-		$query  = "SELECT t.id, t.date, s.name{$slang} as structure, d.name{$slang} as division,
+		$query  = "SELECT t.id, t.date, s.name{$slang} as structure,
 		CONCAT(r.name{$slang},' ',st.lastname,' ',st.firstname,' ', st.surname) as responsible, o.object_name as object
 		FROM hr.daily_routine t 
 		LEFT JOIN hr.structure s on s.id = t.structure_id
-		LEFT JOIN ref.divisions d on d.id = t.division_id
 		LEFT JOIN hr.staff st on st.id = t.responsible_id
 		LEFT JOIN hr.jts_objects o on o.id = t.object_id
 		left JOIN ref.ranks r on r.id = st.rank_id
@@ -877,11 +854,10 @@ switch ($Act) {
 		$sql->query($query);
 		$Regions = $sql->fetchAll();
 
-		$query  = "SELECT t.id, t.name{$slang} as name FROM ref.divisions t 
-		ORDER BY t.id ASC";
+		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.structure t 
+		ORDER BY t.turn ASC";
 		$sql->query($query);
-		$Divisions = $sql->fetchAll();
-
+		$Structures = $sql->fetchAll();
 
 		$query  = "SELECT t.id, CONCAT(t.lastname,' ',t.firstname,' ', t.surname) as name
 		FROM hr.staff t ";
@@ -902,7 +878,7 @@ switch ($Act) {
 		$smarty->assign(array(
 			'Objects' => $Objects,
 			'Regions' => $Regions,
-			'Divisions' => $Divisions,
+			'Structures' => $Structures,
 			'Responsible' => $Responsible,
 			'Rountines' => $Rountines,
 		));
@@ -931,7 +907,7 @@ switch ($Act) {
 			'Tables' => $Tables,
 		));
 		break;
-	
+
 	case "hr_car_models":
 		$query  = "SELECT t.id
 			,t.name
@@ -955,11 +931,10 @@ switch ($Act) {
 	/// hr_car_models
 
 	case "hr_impact_area":
-		$query  = "SELECT t.id, s.name{$slang} as structure, d.name{$slang} as division,
+		$query  = "SELECT t.id, s.name{$slang} as structure,
 		ST_AsGeoJSON(ST_FlipCoordinates(t.geom)) AS geom
 		FROM hr.impact_area t 
 		left join hr.structure s on s.id  = t.structure_id
-		left join ref.divisions d on d.id = t.division_id
 		ORDER BY t.id desc LIMIT 10";
 		$sql->query($query);
 		$ImpactAreas = $sql->fetchAll();
