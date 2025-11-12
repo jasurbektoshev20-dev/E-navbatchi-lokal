@@ -32,13 +32,14 @@
             padding-bottom: 10px;
         }
 
-        .form-select {
+        .form-select-box{
             position: fixed;
             z-index: 2000;
             top: 0;
             left: 45%;
-            width: 450px;
             transform: translateY(30px);
+            display: flex;
+            gap: 10px;
         }
 
         .form-select .selectOption {
@@ -60,12 +61,21 @@
     <div class="app-chat">
         <div style="height: calc(100vh - 7rem);" class="row">
             <div class="col-8">
-
-              <select class="form-select card" id="regions">
-                    {foreach from=$Regions item=region key=mkey}
-                        <option class="selectOption" value="{$region.id}">{$region.name}</option>
-                    {/foreach}
-                </select>
+                <div class="form-select-box">
+                   <select class="form-select card" id="regions">
+                        {* <option class="selectOption" value="">Boshqarmani tanlang...</option> *}
+                        {foreach from=$Regions item=region key=mkey}
+                            <option class="selectOption" value="{$region.id}">{$region.name}</option>
+                        {/foreach}
+                  </select>
+                    <select class="form-select" id="region_division">
+                        <option class="selectOption" value="">Bo'linmani tanlang...</option>
+                        {foreach from=$Regions item=region key=mkey}
+                            <option class="selectOption" value="{$region.id}">{$region.name}</option>
+                        {/foreach}
+                  </select> 
+                </div>
+             
 
                  <div id="card_duty"></div>
 
