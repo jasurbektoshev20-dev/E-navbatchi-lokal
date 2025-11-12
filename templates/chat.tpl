@@ -68,10 +68,10 @@
                         {/foreach}
                   </select>
                    <select id="division_id" class="form-select">
-                                <option value="">Танланг...</option>
-                                {foreach from=$Divisions item=str}
-                                    <option value="{$str.id}">{$str.name2}</option>
-                                {/foreach}
+                        <option value="">Танланг...</option>
+                        {* {foreach from=$Structures item=str}
+                            <option value="{$str.id}">{$str.name2}</option>
+                        {/foreach} *}
                   </select>
                 </div>
              

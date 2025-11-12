@@ -180,7 +180,7 @@
 
         // Filtering
         $('#region_id').change(function(event) {
-            $.get("ajax.php?act=get_divisions&region_id=" + this.value, function(html) {
+            $.get("ajax.php?act=get_divisions&structure_id=" + this.value, function(html) {
                 var sInfo = jQuery.parseJSON(html);
 
                 $('#structure_id').empty();

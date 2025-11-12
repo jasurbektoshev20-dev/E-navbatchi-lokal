@@ -137,13 +137,18 @@ switch ($TheAct) {
 		$sql->query($query);
 		$Messages = $sql->fetchAll();
 
-		$query = "SELECT id, name{$slang} as name FROM hr.structure where id < 100 ";
+		$query = "SELECT id, name{$slang} as name FROM hr.structure where id < 15 ";
 		if ($UserStructure > 1) {
 			$query .= " and id = {$UserStructure}";
 		}
 		$query .= " order by turn";
 		$sql->query($query);
 		$Regions = $sql->fetchAll();
+
+		$query = "SELECT id, name{$slang} as name FROM hr.structure where id > 15";
+		$query .= " order by turn";
+		$sql->query($query);
+		$Structures = $sql->fetchAll();
 
 
 
@@ -175,6 +180,7 @@ switch ($TheAct) {
 		$smarty->assign(array(
 			'Messages'            =>    $Messages,
 			'Regions'            =>    $Regions,
+			'Structures'            =>    $Structures,
 			'Duty'            =>    $Duty,
 			'Cooperates'            =>    $Cooperates,
 		));

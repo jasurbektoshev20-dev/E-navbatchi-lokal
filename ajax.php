@@ -829,12 +829,12 @@ switch ($Action) {
 		break;
 
 	case "get_divisions":
-		$region_id = isset($_GET['region_id']) ? $_GET['region_id'] : 0;
+		$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
 		$query  = "SELECT t.id, t.name{$slang} as name
 		FROM hr.structure t 
 		WHERE 1=1 ";
-		if ($region_id > 0) {
-			$query .= " AND t.parent = {$region_id} ";
+		if ($structure_id > 0) {
+			$query .= " AND t.parent = {$structure_id} ";
 		}
 		$query .= " ORDER BY t.id ASC";
 		$sql->query($query);
