@@ -92,8 +92,6 @@
      font-size: 16px;
     }
 
-
-
     {/literal}
 </style>
 
@@ -103,7 +101,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body text-center">
-                   <h4>{$smarty.get.shahar} буйича бошкармаси {$smarty.get.market}га жамоат тартибини сақлаш ва <br> жамоат хавфсизлигини таъминлашга жалб этилган куч ва воситалар тўғрисида <br> <span>МАЪЛУМОТ</span> </h4>
+                   <h4>{$smarty.get.market}га жамоат тартибини сақлаш ва <br> жамоат хавфсизлигини таъминлашга жалб этилган куч ва воситалар тўғрисида <br> <span>МАЪЛУМОТ</span> </h4>
                 </div>
             </div>
         </div>
@@ -136,28 +134,28 @@
                         <thead>
                         <tr class="text-center">
                             <th style="white-space: nowrap;">Т/р</th>
-                            <th>Унвони</th>
-                            <th>Ф.И.Ш</th>
-                            <th>Бўлинма номи</th>
-                            <th >Тел рақами</th>
-                            <th>Сменаси</th>
-                            <th>Йўналиши</th>
+                            <th class="text-center">Унвони</th>
+                            <th class="text-center">Ф.И.Ш</th>
+                            <th class="text-center">Бўлинма номи</th>
+                            <th class="text-center" >Тел рақами</th>
+                            <th class="text-center">Сменаси</th>
+                            <th class="text-center">Йўналиши</th>
                             {* <th>Қурол тури</th> *}
-                            <th>Планшет</th>
-                            <th>Бодикамера</th>
-                            <th>Алоқа воситаси</th>
-                            <th>Металлодетектор</th>
-                            <th>Мегафон</th>
-                            <th>Резина таёқ</th>
-                            <th>Қўл кишани</th>
-                            <th>Чўнтак фонари</th>
-                            <th>Хуштак</th>
-                             <th>Тиббий ҳимоя воситалари</th>
-                            <th >Индивидуал боғлов пакети</th>
-                           <th >Аэрозол</th>                      
-                            <th >Хизмат ити</th>
-                            <th>Хизмат оти</th>
-                            <th>Автотранспорт</th>
+                            <th class="text-center">Планшет</th>
+                            <th class="text-center">Бодикамера</th>
+                            <th class="text-center">Алоқа воситаси</th>
+                            <th class="text-center">Металлодетектор</th>
+                            <th class="text-center">Мегафон</th>
+                            <th class="text-center">Резина таёқ</th>
+                            <th class="text-center">Қўл кишани</th>
+                            <th class="text-center">Чўнтак фонари</th>
+                            <th class="text-center">Хуштак</th>
+                             <th class="text-center">Тиббий ҳимоя воситалари</th>
+                            <th class="text-center">Индивидуал боғлов пакети</th>
+                           <th class="text-center">Аэрозол</th>                      
+                            <th class="text-center">Хизмат ити</th>
+                            <th class="text-center">Хизмат оти</th>
+                            <th class="text-center">Автотранспорт</th>
 
                         </tr>
                         </thead>

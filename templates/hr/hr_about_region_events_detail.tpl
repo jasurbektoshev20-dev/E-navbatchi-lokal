@@ -213,9 +213,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
          const today = new Date();
 
-  // kun, oy, yilni olish
-  const day = String(today.getDate()).padStart(2, '0');      // 01–31
-  const month = String(today.getMonth() + 1).padStart(2, '0'); // 0 dan boshlanadi, shuning uchun +1
+
+  const day = String(today.getDate()).padStart(2, '0');     
+  const month = String(today.getMonth() + 1).padStart(2, '0'); 
   const year = today.getFullYear();
 
   // format: 11.11.2025
@@ -228,7 +228,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // dataTadbir parametrini olamiz
         const dateTadbir = urlParams.get("dataTadbir");
         const region = urlParams.get("date");
-        console.log("data tadbir: ", dateTadbir, region);
 
         let selectedData;
     const dataSiyosiy1 = [
