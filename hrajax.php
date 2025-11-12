@@ -261,6 +261,7 @@ switch ($Action) {
         $role    = $_POST['role'];
         $position_id    = $_POST['position_id'];
         $rank_id    = $_POST['rank_id'];
+        $division_id    = $_POST['division_id'];
         $lastname    = $_POST['lastname'];
         $firstname    = $_POST['firstname'];
         $surname    = $_POST['surname'];
@@ -274,6 +275,7 @@ switch ($Action) {
                 role_id = '{$role}',
                 position_id = '{$position_id}',
                 rank_id = '{$rank_id}',
+                division_id = '{$division_id}',
                 lastname = '{$lastname}',
                 firstname = '{$firstname}',
                 surname = '{$surname}',
@@ -297,6 +299,7 @@ switch ($Action) {
                             role_id,
                             position_id,
                             rank_id,
+                            division_id,
                             lastname,
                             firstname,
                             surname,
@@ -309,6 +312,7 @@ switch ($Action) {
                             '{$role}',
                             '{$position_id}',
                             '{$rank_id}',
+                            '{$division_id}',
                             '{$lastname}',
                             '{$firstname}',
                             '{$surname}',

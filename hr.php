@@ -216,8 +216,11 @@ switch ($Act) {
 	/// hr_staff
 	case "hr_staff":
 		$query = "SELECT t.id, t.lastname, t.firstname, t.surname, t.username, t.phone, t.photo, 
-		s.name{$slang} as structure, r.role_name, p.name{$slang} as position, ra.name{$slang} as rank FROM hr.staff t 
+		s.name{$slang} as structure, r.role_name, p.name{$slang} as position, ra.name{$slang} as rank, 
+		d.name{$slang} as division
+		FROM hr.staff t 
 		left join hr.structure s on s.id  = t.structure_id
+		left join ref.divisions d on d.id  = t.division_id
 		left join bcms.roles r on r.id  = t.role_id
 		left join hr.positions p on p.id  = t.position_id
 		left join ref.ranks ra on ra.id  = t.rank_id
@@ -243,8 +246,12 @@ switch ($Act) {
 		$sql->query($query);
 		$RefRanks = $sql->fetchAll();
 
+		$query = "SELECT id,name{$slang} as name from ref.divisions order by id desc";
+		$sql->query($query);
+		$Divisions = $sql->fetchAll();
+
 		// echo '<pre>';
-		// print_r($Roles);
+		// print_r($Divisions);
 		// echo '</pre>';
 		// die();
 
@@ -254,6 +261,7 @@ switch ($Act) {
 			'Roles' => $Roles,
 			'HrPositions' => $HrPositions,
 			'RefRanks' => $RefRanks,
+			'Divisions' => $Divisions,
 		));
 		break;
 	/// hr_staff

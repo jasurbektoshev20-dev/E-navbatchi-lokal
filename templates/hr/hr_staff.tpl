@@ -49,6 +49,7 @@
                                 <th class="text-center">{$Dict.role}</th>
                                 <th class="text-center">{$Dict.position}</th>
                                 <th class="text-center">{$Dict.rank}</th>
+                                <th class="text-center">{$Dict.division}</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -71,6 +72,7 @@
                                 <td>{$Table.role_name}</td>
                                 <td>{$Table.position}</td>
                                 <td>{$Table.rank}</td>
+                                <th>{$Table.division}</th>
                                 <td>
                                     <div class="dropdown">
                                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -121,6 +123,15 @@
                             <select required class="select form-control" name="role" id="role">
                                 <option value="">{$Dict.choose}</option>
                                 {foreach from=$Roles item=Item6 key=ikey6}
+                                    <option value="{$Item6.id}">{$Item6.name}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label>{$Dict.division}</label>
+                            <select required class="select form-control" name="division_id" id="division_id">
+                                <option value="">{$Dict.choose}</option>
+                                {foreach from=$Divisions item=Item6 key=ikey6}
                                     <option value="{$Item6.id}">{$Item6.name}</option>
                                 {/foreach}
                             </select>
@@ -240,6 +251,8 @@
         $('#position_id').trigger("change");
         $('#rank_id').val(0);
         $('#rank_id').trigger("change");
+        $('#division_id').val(0);
+        $('#division_id').trigger("change");
         $('#lastname').val("");
         $('#firstname').val("");
         $('#surname').val("");
@@ -260,6 +273,7 @@
             $('#role').val(sInfo.role_id);
             $('#position_id').val(sInfo.position_id);
             $('#rank_id').val(sInfo.rank_id);
+            $('#division_id').val(sInfo.division_id_id);
             $('#lastname').val(sInfo.lastname);
             $('#firstname').val(sInfo.firstname);
             $('#surname').val(sInfo.surname);
@@ -317,6 +331,7 @@
                 form_data.append('role', $('#role').val());
                 form_data.append('position_id', $('#position_id').val());
                 form_data.append('rank_id', $('#rank_id').val());
+                form_data.append('division_id', $('#division_id').val());
                 form_data.append('lastname', $('#lastname').val());
                 form_data.append('firstname', $('#firstname').val());
                 form_data.append('surname', $('#surname').val());
