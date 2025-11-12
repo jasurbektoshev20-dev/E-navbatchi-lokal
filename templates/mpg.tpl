@@ -225,6 +225,14 @@
             <div class="card">
                 <div class="card-body px-3 py-1" style="height: 88vh;">
                     <div class="mb-1 col-12">
+                        <label class="form-label text-warning fs-5">{$Dict.in_service}</label>
+                        <select id="in_service" class="select2 form-select">
+                            <option value="0">{$Dict.today_serviced}</option>
+                            <option value="1">{$Dict.all}</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-1 col-12">
                         <label class="form-label text-warning fs-5">{$Dict.regions}</label>
                         <select class="form-select" id="select_region">
                             <option value="0">{$Dict.all}</option>
@@ -331,6 +339,7 @@
         let isOnOffTime = 60;
         let isOnOffSpeed = 3;
         let region_id = 0;
+        let in_service = 0;
         let lastCarsPositions;
         let allCars = [];
 
@@ -368,7 +377,7 @@
         }
 
         $(document).ready(function() {
-            callCars(UserStructure);
+            callCars(UserStructure, in_service);
         });
 
         // Create interval for repositioning a car in map
@@ -398,8 +407,14 @@
         // Filtering regions
         $('#select_region').change(function(event) {
             region_id = this.value;
-            callCars(region_id);
-        })
+            callCars(region_id, in_service);
+        });
+
+        // Filtering in service
+        $('#in_service').change(function(event) {
+            in_service = this.value;
+            callCars(region_id, in_service);
+        });
 
         // Finding cars
         $(document).ready(function() {
@@ -465,12 +480,12 @@
         }
         // --- Find functions
 
-        function callCars(region) {
+        function callCars(region, in_service) {
             allCars.forEach(item => { item.remove(); });
             allCars = [];
             $.ajax({
                 type: "POST",
-                url: `${gps_url}?region=${region}`,
+                url: `${gps_url}?region=${region}&isAll=${in_service}`,
                 dataType: "json",
                 encode: true,
                 success: function(data) {                    
