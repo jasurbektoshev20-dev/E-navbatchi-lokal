@@ -952,12 +952,15 @@ switch ($Act) {
 		$ImpactAreas = $sql->fetchAll();
 
 		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t 
-		where id > 1 and id < 16
+		where t.id > 1 and t.id < 16
 		ORDER BY t.turn ASC";
 		$sql->query($query);
 		$Regions = $sql->fetchAll();
 
-
+		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.structure t 
+		ORDER BY t.turn ASC";
+		$sql->query($query);
+		$Structures = $sql->fetchAll();
 
 		// echo '<pre>';
 		// print_r($ImpactAreas);
@@ -966,6 +969,7 @@ switch ($Act) {
 
 		$smarty->assign(array(
 			'ImpactAreas' => $ImpactAreas,
+			'Structures' => $Structures,
 			'Regions' => $Regions,
 		));
 		break;
