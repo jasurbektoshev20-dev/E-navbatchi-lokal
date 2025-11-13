@@ -36,35 +36,50 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-datatable table-responsive">
-                    <table class="datatables-projects table border-top">
+                    <table class="datatables-projects table table-bordered">
                         <thead>
                             <tr>
-                                <th>No̱</th>
-                                <th class="text-center">{$Dict.region}</th>
-                                <th class="text-center">{$Dict.distcity}</th>
-                                <th class="text-center">{$Dict.type}</th>
-                                <th class="text-center">{$Dict.date}</th>
-                                <th class="text-center">{$Dict.contingent}</th>
-                                <th class="text-center">{$Dict.stand}</th>
-                                <th class="text-center">{$Dict.transport}</th>
-                                <th class="text-center">{$Dict.masul}</th>
-                                <th class="text-center">{$Dict.case_summary}</th>
+                                <th>t/r</th>
+                                <th class="text-center">Hudud</th>
+                                <th class="text-center">Manzil</th>
+                                <th class="text-center">Turi</th>
+                                <th class="text-center">Nomi</th>
+                                <th class="text-center">Yo'nalishi</th>
+                                <th class="text-center">Ko'rinishi</th>
+                                <th class="text-center">Boshlanish vaqti</th>
+                                <th class="text-center">Tugash vaqti</th>
+                                <th class="text-center">Fuqarolar soni</th>
+                                <th class="text-center">ИИВ ҲХ сони</th>
+                                <th class="text-center">ФВВ ҲХ сони</th>
+                                <th class="text-center">МГ МСГр сони</th>
+                                <th class="text-center">ИИВ Спринг сони</th>
+                                <th class="text-center">Тадбирга масъул</th>
+                                <th class="text-center">Тадбирни ўтказувчи ташаббускор</th>
                                 <th></th>
                             </tr>
                         </thead>
-                        <tbody>
-                            {foreach from=$Events item=Table key=tkey}
+                         <tbody>
                             <tr class="lb" id="row_{$Table.id|crypt}">
                                 <td class="text-right">{$tkey+1}</td>
-                                <td class="text-center">{$Table.region_id}</td>
-                                <td class="text-center">{$Table.distcity_id}</td>
-                                <td class="text-center">{$Table.type}</td>
-                                <td class="text-center">{$Table.date}</td>
-                                <td class="text-center">{$Table.staff_count}</td>
-                                <td class="text-center">{$Table.stand}</td>
-                                <td class="text-center">{$Table.transport}</td>
-                                <td class="text-center">{$Table.responsible}</td>
-                                <td class="text-center">{$Table.text}</td>
+                                <td class="text-center">
+                                     <a href="hr.php?act=public_event_duty&mid=&date=">
+                                          Navoiy viloyati
+                                    </a>
+                                </td>
+                                <td class="text-center">Навоий ш. Гандбол спорт залида</td>
+                                <td class="text-center">Sport tadbiri</td>
+                                <td class="text-center">Спортнинг Гандбол тури бўйича ёшлар ўртасида Ўзбекистон чемпионати</td>
+                                <td class="text-center">Республика</td>
+                                <td class="text-center">Ҳукумат қарори асосидаги тадбир</td>
+                                <td class="text-center">08.11.2025-й 09:00</td>
+                                <td class="text-center">08.11.2025-й 17:00</td>
+                                <td class="text-center">120</td>
+                                <td class="text-center">12</td>
+                                <td class="text-center">4</td>
+                                <td class="text-center">6</td>
+                                <td class="text-center">8</td>
+                                <td class="text-center">МГ НВББ лейтенант И.Эсонбоев</td>
+                                <td class="text-center">Спорт бошқармаси</td>
                                 <td>
                                     <div class="dropdown">
                                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -82,8 +97,8 @@
                                     </div>
                                 </td>
                             </tr>
-                            {/foreach}
-                        </tbody>
+                         
+                        </tbody> 
                     </table>
                 </div>
             </div>
@@ -95,13 +110,14 @@
 
 <!-- Edit Modal -->
 <div class="modal fade" id="submitModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-simple modal-edit-user">
+    <div class="modal-dialog modal-xl modal-simple modal-edit-user">
         <div class="modal-content p-3 p-md-5">
             <div class="modal-body">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <form class="needs-validation" novalidate>
                     <div class="row g-3">
-                        <div class="col-sm-6">
+
+                        <div class="col-sm-4">
                             <label>{$Dict.region}</label>
                             <select required class="select form-control" name="region_id" id="region_id">
                                 <option value="">{$Dict.choose}</option>
@@ -110,67 +126,104 @@
                                 {/foreach}
                             </select>
                         </div>
-                        <div class="col-sm-6">
-                            <label>{$Dict.distcity}</label>
-                            <select class="select form-control" name="distcity_id" id="distcity_id">
+
+                       <div class="col-sm-4">
+                            <label>Tadbir o'tkaziladigan joy</label>
+                            <select required class="select form-control" name="event_place" id="event_place">
                                 <option value="">{$Dict.choose}</option>
-                                {foreach from=$Distcity item=Item1 key=ikey1}
-                                    <option value="{$Item1.id}">{$Item1.name}</option>
-                                {/foreach}
+                                    <option value="Ўзбекистон Республикаси Ташқи ишлар вазирлиги">Ўзбекистон Республикаси Ташқи ишлар вазирлиги</option>
+                                    <option value="Олий Мажлис Қонунчилик палатаси мажлислар зали">Олий Мажлис Қонунчилик палатаси мажлислар зали</option>
+                                    <option value="“Дўстлик саройи” (Халқлар дўстлиги саройи)">“Дўстлик саройи” (Халқлар дўстлиги саройи)</option>
+                                    <option value="“Силк Роад” туризм маркази">“Силк Роад” туризм маркази</option>
                             </select>
                         </div>
-                        <div class="col-sm-6">
-                            <label>{$Dict.type}</label>
-                            <select required class="select form-control" name="type" id="type">
+
+                          <div class="col-sm-4">
+                            <label>Tadbir turi</label>
+                            <select required class="select form-control" name="event_type" id="event_type">
                                 <option value="">{$Dict.choose}</option>
-                                {foreach from=$EventTypes item=Item3 key=ikey3}
-                                    <option value="{$Item3.id}">{$Item3.name}</option>
-                                {/foreach}
+                                    <option value="Сиёсий тадбирлар	">Сиёсий тадбирлар</option>
+                                    <option value="Маданий тадбирлар	">Маданий тадбирлар	</option>
+                                    <option value="Спорт тадбирлар">“Спорт тадбирлар</option>
+                                    <option value="Бошқа тадбирлар	">Бошқа тадбирлар</option>
                             </select>
                         </div>
-                        <div class="col-sm-6">
-                            <label for="date" class="form-label">{$Dict.date}</label>
-                            <input type="text" class="form-control" placeholder="DD-MM-YYYY" id="date" />
+
+                         <div class="col-sm-4">
+                            <label>Tadbir nomi</label>
+                            <input required type="text" class="form-control" name="event_name" id="event_name" value="">
                         </div>
+
+                         <div class="col-sm-4">
+                            <label>Tadbir yo'nalishi</label>
+                            <select required class="select form-control" name="event_direction" id="event_direction">
+                                <option value="">{$Dict.choose}</option>
+                                    <option value="Xalqaro">Xalqaro</option>
+                                    <option value="Respublika">Respublika	</option>      
+                            </select>
+                        </div>
+
                         <div class="col-sm-4">
-                            <label>{$Dict.contingent}</label>
-                            <input required type="number" class="form-control" name="staff_count" id="staff_count" value="">
+                            <label>Tadbir ko'rinishi</label>
+                            <select required class="select form-control" name="event_view" id="event_view">
+                                <option value="">{$Dict.choose}</option>
+                                    <option value="Ҳукумат қарори асосидаги тадбир">Ҳукумат қарори асосидаги тадбир</option>
+                                    <option value="Пулли хизмат асосида тадбир">Пулли хизмат асосида тадбир</option>      
+                            </select>
                         </div>
+
                         <div class="col-sm-4">
-                            <label>{$Dict.stand}</label>
-                            <input required type="text" class="form-control" name="stand" id="stand" value="">
+                            <label for="start_event_date" class="form-label">Boshlanish vaqti</label>
+                            <input type="date" class="form-control" placeholder="DD-MM-YYYY" id="start_event_date" />
                         </div>
+
                         <div class="col-sm-4">
-                            <label>{$Dict.transport}</label>
-                            <input required type="text" class="form-control" name="transport" id="transport" value="">
+                            <label for="finish_event_date" class="form-label">Tugash vaqti</label>
+                            <input type="date" class="form-control" placeholder="DD-MM-YYYY" id="finish_event_date" />
                         </div>
-                        <div class="col-sm-6">
-                            <label>{$Dict.auto_number}</label>
-                            <input required type="number" class="form-control" name="auto_number" id="auto_number" value="">
+
+                       <div class="col-sm-4">
+                            <label>{$Dict.event_participants}</label>
+                            <input required type="number" class="form-control" name="event_participants" id="event_participants" value="">
                         </div>
+
+                        <div class="col-sm-4">
+                            <label>ИИВ ҲХ сони</label>
+                            <input required type="number" class="form-control" name="event_number_iiv" id="event_number_iiv" value="">
+                        </div>
+
+                       <div class="col-sm-4">
+                            <label>ФВВ ҲХ сони</label>
+                            <input required type="number" class="form-control" name="event_number_fvv" id="event_number_fvv" value="">
+                        </div>
+
+                        <div class="col-sm-4">
+                            <label>МГ МСГр сони</label>
+                            <input required type="number" class="form-control" name="event_number_msgr" id="event_number_msgr" value="">
+                        </div>
+
+                          <div class="col-sm-4">
+                            <label>ИИВ Спринг сони</label>
+                            <input required type="number" class="form-control" name="event_number_spring" id="event_number_spring" value="">
+                        </div>
+                         <div class="col-sm-8">
+                            <label>Тадбирни ўтказувчи ташаббускор</label>
+                            <input required type="text" class="form-control" name="event_initiator" id="event_initiator" value="">
+                        </div>
+
                         <div class="col-sm-6">
                             <label>{$Dict.masul}</label>
                             <input required type="text" class="form-control" name="responsible" id="responsible" value="">
                         </div>
-                        <div class="col-sm-6">
-                            <label>{$Dict.event_participants}</label>
-                            <input required type="number" class="form-control" name="event_participants" id="event_participants" value="">
-                        </div>
-                        <div class="col-sm-6">
-                            <label>{$Dict.guard_staffs}</label>
-                            <input required type="number" class="form-control" name="guard_staffs" id="guard_staffs" value="">
-                        </div>
-                        <div class="col-sm-12">
-                            <label>{$Dict.case_summary}</label>
-                            <textarea required class="form-control" rows=4 name="text" id="text"></textarea>
-                        </div>
-                        <div class="col-12 text-center">
+                      <div class="col-12 text-center">
                             <input type="hidden" name="id" id="id" value="">
                             <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">
                                 {$Dict.cancel}
                             </button>
                             <button id="SubButtonHrSetMarker" class="btn btn-primary me-sm-3 me-1">{$Dict.save}</button>
                         </div>
+
+                       
                     </div>
                 </form>
             </div>
@@ -203,18 +256,36 @@
     var Var_main_photo	= "{$Dict.main_photo}";
     var Var_ObjectId	= "{$Organization.id}";
     {literal}
-    const flatpickrDate = document.querySelector('#date');
+
+    const flatpickrDate = document.querySelector('#start_event_date');
     if (flatpickrDate) {
         flatpickrDate.flatpickr({
             monthSelectorType: 'static'
         });
     }
 
-    let date;
-    $('#date').on('change', function() {
+    let start_event_date;
+    $('#start_event_date').on('change', function() {
         var dateComponents = this.value.split('-');
-        date = dateComponents[2] + '-' + dateComponents[1] + '-' + dateComponents[0];
+        start_event_date = dateComponents[2] + '-' + dateComponents[1] + '-' + dateComponents[0];
     })
+
+
+
+    const flatpickrDate2 = document.querySelector('#finish_event_date');
+    if (flatpickrDate2) {
+        flatpickrDate2.flatpickr({
+            monthSelectorType: 'static'
+        });
+    }
+
+    let finish_event_date;
+    $('#finish_event_date').on('change', function() {
+        var dateComponents = this.value.split('-');
+        finish_event_date = dateComponents[2] + '-' + dateComponents[1] + '-' + dateComponents[0];
+    })
+
+
 
     $('#region_id').change(function(event) {
         $.ajax({
@@ -250,16 +321,31 @@
             var sInfo = jQuery.parseJSON(html);
             
             $('#region_id').val(sInfo.region_id);
+            $('#event_place').val(sInfo.event_place);
+            $('#event_type').val(sInfo.event_type);
+            $('#event_direction').val(sInfo.event_direction);
+            $('#event_view').val(sInfo.event_view);
             $('#region_id').trigger("change");
-            $('#type').val(sInfo.type);
-            $('#type').trigger("change");
-            $('#date').val(sInfo.date);
+            $('#event_place').trigger("change");
+            $('#event_type').trigger("change");
+            $('#event_direction').trigger("change");
+            $('#event_view').trigger("change");
+
+
+            $('#start_event_date').val(sInfo.start_event_date);
+            $('#finish_event_date').val(sInfo.finish_event_date);
             $('#staff_count').val(sInfo.staff_count);
             $('#stand').val(sInfo.stand);
             $('#transport').val(sInfo.transport);
             $('#responsible').val(sInfo.responsible);
+            $('#event_name').val(sInfo.event_name);
+            $('#event_initiator').val(sInfo.event_initiator);
             $('#text').val(sInfo.text);
             $('#event_participants').val(sInfo.event_participants);
+            $('#event_number_iiv').val(sInfo.event_number_iiv);
+            $('#event_number_fvv').val(sInfo.event_number_fvv);
+            $('#event_number_msgr').val(sInfo.event_number_msgr);
+            $('#event_number_spring').val(sInfo.event_number_spring);
             $('#auto_number').val(sInfo.auto_number);
             $('#guard_staffs').val(sInfo.guard_staffs);
             $('#id').val(sInfo.id);
@@ -271,17 +357,24 @@
 
         $('#region_id').val(0);
         $('#region_id').trigger("change");
-        $('#type').val(0);
-        $('#type').trigger("change");
-        $('#date').val("");
-        $('#staff_count').val("");
-        $('#stand').val("");
-        $('#transport').val("");
+        $('#event_place').val(0);
+        $('#event_place').trigger("change");
+        $('#event_type').val(0);
+        $('#event_type').trigger("change");
+        $('#event_direction').val(0);
+        $('#event_direction').trigger("change");
+        $('#event_view').val(0);
+        $('#event_view').trigger("change");
         $('#responsible').val("");
-        $('#text').val("");
+        $('#event_initiator').val("");
+        $('#event_name').val("");
+        $('#start_event_date').val("");
+        $('#finish_event_date').val("");
         $('#event_participants').val("");
-        $('#auto_number').val("");
-        $('#guard_staffs').val("");
+        $('#event_number_msgr').val("");
+        $('#event_number_spring').val("");
+        $('#event_number_fvv').val("");
+        $('#event_number_iiv').val("");
         $('#id').val(0)
     });
 
@@ -296,21 +389,22 @@
                 event.preventDefault();
                 event.stopPropagation();
                 var form_data = new FormData();
-
                 form_data.append('region_id', $('#region_id').val());
-                form_data.append('distcity_id', $('#distcity_id').val());
-                form_data.append('type', $('#type').val());
-                form_data.append('date', $('#date').val());
-                form_data.append('staff_count', $('#staff_count').val());
-                form_data.append('stand', $('#stand').val());
-                form_data.append('transport', $('#transport').val());
+                form_data.append('event_place', $('#event_place').val());
+                form_data.append('event_type', $('#event_type').val());
+                form_data.append('event_direction', $('#event_direction').val());
+                form_data.append('event_view', $('#event_view').val());
+                form_data.append('start_event_date', $('#start_event_date').val());
+                form_data.append('finish_event_date', $('#finish_event_date').val());
                 form_data.append('responsible', $('#responsible').val());
-                form_data.append('text', $('#text').val());
+                form_data.append('event_initiator', $('#event_initiator').val());
+                form_data.append('event_name', $('#event_name').val());
                 form_data.append('event_participants', $('#event_participants').val());
-                form_data.append('auto_number', $('#auto_number').val());
-                form_data.append('guard_staffs', $('#guard_staffs').val());
+                form_data.append('event_number_msgr', $('#event_number_msgr').val());
+                form_data.append('event_number_spring', $('#event_number_spring').val());
+                form_data.append('event_number_fvv', $('#event_number_fvv').val());
+                form_data.append('event_number_iiv', $('#event_number_iiv').val());
                 form_data.append('id', $('#id').val());
-
                 $.ajax({
                     url: 'hrajax.php?act=act_events',
                     dataType: 'text',
