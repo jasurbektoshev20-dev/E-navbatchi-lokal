@@ -226,8 +226,14 @@ switch ($Act) {
 		$sql->query($query);
 		$Staffs = $sql->fetchAll();
 
-		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.structure t where parent < 2
-		ORDER BY t.id ASC";
+		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t 
+		where t.id > 1 and t.id < 16
+		ORDER BY t.turn ASC";
+		$sql->query($query);
+		$Regions = $sql->fetchAll();
+
+		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.structure t 
+		ORDER BY t.turn ASC";
 		$sql->query($query);
 		$Structures = $sql->fetchAll();
 
@@ -246,6 +252,7 @@ switch ($Act) {
 
 		$smarty->assign(array(
 			'Staffs' => $Staffs,
+			'Regions' => $Regions,
 			'Structures' => $Structures,
 			'Roles' => $Roles,
 			'HrPositions' => $HrPositions,
@@ -430,9 +437,14 @@ switch ($Act) {
 		FROM hr.staff t
 		LEFT JOIN hr.positions p ON p.id = t.position_id
 		LEFT JOIN ref.ranks r ON r.id = t.rank_id 
-		where d.structure_id = {$RegDyn} ORDER BY id";
+		where t.structure_id = {$RegDyn} ORDER BY id";
 		$sql->query($query);
 		$Staffs = $sql->fetchAll();
+
+		// echo '<pre>';
+		// print_r($Staffs);
+		// echo '</pre>';
+		// die();
 
 		$smarty->assign(array(
 			'Duty' => $Duty,
@@ -931,8 +943,8 @@ switch ($Act) {
 	/// hr_car_models
 
 	case "hr_impact_area":
-		$query  = "SELECT t.id, s.name{$slang} as structure,
-		ST_AsGeoJSON(ST_FlipCoordinates(t.geom)) AS geom
+		$query  = "SELECT t.id, s.name{$slang} as structure, t.name
+		--ST_AsGeoJSON(ST_FlipCoordinates(t.geom)) AS geom
 		FROM hr.impact_area t 
 		left join hr.structure s on s.id  = t.structure_id
 		ORDER BY t.id desc LIMIT 10";

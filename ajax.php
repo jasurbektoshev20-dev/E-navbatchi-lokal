@@ -894,7 +894,7 @@ switch ($Action) {
 		$start = ($page - 1) * $limit;
 
 		$ImpactAreas = [];
-		$query  = "SELECT t.id, s.name{$slang} as structure, t.division_child,
+		$query  = "SELECT t.id, s.name{$slang} as structure, t.name,
 		ST_AsGeoJSON(ST_FlipCoordinates(t.geom)) AS geom
 		FROM hr.impact_area t 
 		left join hr.structure s on s.id  = t.structure_id

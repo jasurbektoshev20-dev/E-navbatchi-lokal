@@ -257,7 +257,7 @@ switch ($Action) {
 
         $photo = isset($photo) ? $photo : $_POST['photo'];
 
-        $region    = $_POST['region'];
+        $structure_id    = $_POST['structure_id'];
         $role    = $_POST['role'];
         $position_id    = $_POST['position_id'];
         $rank_id    = $_POST['rank_id'];
@@ -270,7 +270,7 @@ switch ($Action) {
 
         if ($RowId != "0") {
             $updquery = "UPDATE hr.staff set 
-                structure_id = '{$region}',
+                structure_id = '{$structure_id}',
                 role_id = '{$role}',
                 position_id = '{$position_id}',
                 rank_id = '{$rank_id}',
@@ -305,7 +305,7 @@ switch ($Action) {
                             password,
                             photo
                         ) values (
-                            '{$region}',
+                            '{$structure_id}',
                             '{$role}',
                             '{$position_id}',
                             '{$rank_id}',
@@ -684,28 +684,28 @@ switch ($Action) {
         $staff2 = $_POST['staff2'];
         $staff3 = $_POST['staff3'];
 
-        // Check if today's data already exists
-        $sql->query("SELECT COUNT(*) AS ccount FROM hr.duty_staff WHERE date = '{$date}' and structure_id = '{$structure_id}'");
-        $row = $sql->fetchAssoc();
-
-        if ($row['ccount'] > 0) {
-            $res = 500;
-        } else {
-            if ($RowId != "0") {
-                // Update existing record
-                $updquery = "UPDATE hr.duty_staff SET
+        if ($RowId != "0") {
+            // Update existing record
+            $updquery = "UPDATE hr.duty_staff SET
                     date = '{$date}',
                     structure_id = '{$structure_id}',
                     staff1 = '{$staff1}',
                     staff2 = '{$staff2}',
                     staff3 = '{$staff3}'
                     WHERE id = {$RowId}";
-                $sql->query($updquery);
-                if ($sql->error() == "") {
-                    $res = "0<&sep&>" . MyPiCrypt($RowId);
-                } else {
-                    $res = $sql->error();
-                }
+            $sql->query($updquery);
+            if ($sql->error() == "") {
+                $res = "0<&sep&>" . MyPiCrypt($RowId);
+            } else {
+                $res = $sql->error();
+            }
+        } else {
+            // Check if today's data already exists
+            $sql->query("SELECT COUNT(*) AS ccount FROM hr.duty_staff WHERE date = '{$date}' and structure_id = '{$structure_id}'");
+            $row = $sql->fetchAssoc();
+
+            if ($row['ccount'] > 0) {
+                $res = 500;
             } else {
                 // Insert new record
                 $insquery = "INSERT INTO hr.duty_staff (
@@ -2205,7 +2205,7 @@ switch ($Action) {
     case "act_impact_area":
         $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
         $structure_id = $_POST['structure_id'];
-        $division_child = $_POST['division_child'];
+        $name = $_POST['name'];
 
 
         $geom_raw = isset($_POST['geom']) ? trim($_POST['geom']) : null;
@@ -2270,12 +2270,10 @@ switch ($Action) {
         $wkt = 'POLYGON((' . implode(',', $pairs) . '))';
 
         if ($RowId != "0") {
-
-            $photo_sql = $photo_name ? ", photo = '{$photo_name}'" : "";
             // Update existing record
             $updquery = "UPDATE hr.impact_area SET
                 structure_id = '{$structure_id}',
-                division_child = '{$division_child}',
+                name = '{$name}',
                 geom = ST_GeomFromText('{$wkt}', 4326)
                 WHERE id = {$RowId}";
             $sql->query($updquery);
@@ -2288,11 +2286,11 @@ switch ($Action) {
             // Insert new record
             $insquery = "INSERT INTO hr.impact_area (
                     structure_id,
-                    division_child,
+                    name,
                     geom
                 ) VALUES (
                     '{$structure_id}',
-                    '{$division_child}',
+                    '{$name}',
                     ST_GeomFromText('{$wkt}', 4326)
                 )";
             $sql->query($insquery);

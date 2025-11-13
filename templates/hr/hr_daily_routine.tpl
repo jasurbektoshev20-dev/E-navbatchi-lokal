@@ -261,7 +261,7 @@
                     if ($('#structure_id').val() == 0) {
                         form_data.append('structure_id', $('#region_id').val());
                     } else {
-                        form_data.append('structure_id', $('#structure_id').val());
+                        form_data.append('structure_id', $('#structure_id').val() || $('#region_id').val());
                     }
 
                     form_data.append('responsible_id', $('#responsible_id').val());
