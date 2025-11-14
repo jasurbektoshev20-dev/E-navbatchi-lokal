@@ -97,7 +97,7 @@
 				<form id="localForm" class="needs-validation" novalidate>
 					<div class="row g-3">
                      
-						<div class="col-sm-4">
+						<div class="col-sm-6">
 							<label>Hududni танланг</label>
 							  <select class="form-select" id="regions">
 								    <option value="">Танланг...</option>
@@ -107,7 +107,7 @@
                             </select>
 						</div>
 
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
 							<label>Bo'linmani танланг</label>
 							  <select id="division_id" class="form-select">
                                     <option value="">Танланг...</option>
@@ -124,7 +124,7 @@
 							</select>
 						</div>
 
-						<div class="col-sm-4">
+						<div class="col-sm-6">
 							<label for="select2Multiple" class="form-label">Эпикировкани танланг</label>
 							<select id="epikirofka_id" class="select2 form-select" multiple>
 								{foreach from=$Epikirovka item=obj}
@@ -133,7 +133,7 @@
 							</select>
 						</div>
 
-						<div class="col-sm-4">
+						<div class="col-sm-6">
 							<label>Автомобилни танланг</label>
 							<select id="car_id" class="form-control">
 								<option value="">Танланг...</option>

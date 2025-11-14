@@ -40,15 +40,15 @@
                         <thead>
                             <tr>
                                 <th>t/r</th>
-                                <th class="text-center">Hudud</th>
-                                <th class="text-center">Manzil</th>
-                                <th class="text-center">Turi</th>
-                                <th class="text-center">Nomi</th>
-                                <th class="text-center">Yo'nalishi</th>
-                                <th class="text-center">Ko'rinishi</th>
-                                <th class="text-center">Boshlanish vaqti</th>
-                                <th class="text-center">Tugash vaqti</th>
-                                <th class="text-center">Fuqarolar soni</th>
+                                <th class="text-center">Ҳудуд</th>
+                                <th class="text-center">Манзил</th>
+                                <th class="text-center">Тури</th>
+                                <th class="text-center">Номи</th>
+                                <th class="text-center">Йўналиши</th>
+                                <th class="text-center">Кўриниши</th>
+                                <th class="text-center">Бошланиш вақти</th>
+                                <th class="text-center">Тугаш вақти</th>
+                                <th class="text-center">Фуқаролар сони</th>
                                 <th class="text-center">ИИВ ҲХ сони</th>
                                 <th class="text-center">ФВВ ҲХ сони</th>
                                 <th class="text-center">МГ МСГр сони</th>
@@ -67,7 +67,7 @@
                                     </a>
                                 </td>
                                 <td class="text-center">Навоий ш. Гандбол спорт залида</td>
-                                <td class="text-center">Sport tadbiri</td>
+                                <td class="text-center">Спорт тадбири</td>
                                 <td class="text-center">Спортнинг Гандбол тури бўйича ёшлар ўртасида Ўзбекистон чемпионати</td>
                                 <td class="text-center">Республика</td>
                                 <td class="text-center">Ҳукумат қарори асосидаги тадбир</td>
@@ -128,7 +128,7 @@
                         </div>
 
                        <div class="col-sm-4">
-                            <label>Tadbir o'tkaziladigan joy</label>
+                            <label>Тадбир ўтказиладиган жой</label>
                             <select required class="select form-control" name="event_place" id="event_place">
                                 <option value="">{$Dict.choose}</option>
                                     <option value="Ўзбекистон Республикаси Ташқи ишлар вазирлиги">Ўзбекистон Республикаси Ташқи ишлар вазирлиги</option>
@@ -139,7 +139,7 @@
                         </div>
 
                           <div class="col-sm-4">
-                            <label>Tadbir turi</label>
+                            <label>Тадбир тури</label>
                             <select required class="select form-control" name="event_type" id="event_type">
                                 <option value="">{$Dict.choose}</option>
                                     <option value="Сиёсий тадбирлар	">Сиёсий тадбирлар</option>
@@ -150,21 +150,21 @@
                         </div>
 
                          <div class="col-sm-4">
-                            <label>Tadbir nomi</label>
+                            <label>Тадбир номи</label>
                             <input required type="text" class="form-control" name="event_name" id="event_name" value="">
                         </div>
 
                          <div class="col-sm-4">
-                            <label>Tadbir yo'nalishi</label>
+                            <label>Тадбир йўналиши</label>
                             <select required class="select form-control" name="event_direction" id="event_direction">
                                 <option value="">{$Dict.choose}</option>
-                                    <option value="Xalqaro">Xalqaro</option>
-                                    <option value="Respublika">Respublika	</option>      
+                                    <option value="Xalqaro">Халқаро</option>
+                                    <option value="Respublika">Республика</option>      
                             </select>
                         </div>
 
                         <div class="col-sm-4">
-                            <label>Tadbir ko'rinishi</label>
+                            <label>Тадбир кўриниши</label>
                             <select required class="select form-control" name="event_view" id="event_view">
                                 <option value="">{$Dict.choose}</option>
                                     <option value="Ҳукумат қарори асосидаги тадбир">Ҳукумат қарори асосидаги тадбир</option>
@@ -173,12 +173,12 @@
                         </div>
 
                         <div class="col-sm-4">
-                            <label for="start_event_date" class="form-label">Boshlanish vaqti</label>
+                            <label for="start_event_date" class="form-label">Бошланиш вақти</label>
                             <input type="date" class="form-control" placeholder="DD-MM-YYYY" id="start_event_date" />
                         </div>
 
                         <div class="col-sm-4">
-                            <label for="finish_event_date" class="form-label">Tugash vaqti</label>
+                            <label for="finish_event_date" class="form-label">Тугаш вақти</label>
                             <input type="date" class="form-control" placeholder="DD-MM-YYYY" id="finish_event_date" />
                         </div>
 
