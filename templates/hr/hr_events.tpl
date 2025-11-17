@@ -59,14 +59,12 @@
                             </tr>
                         </thead>
                          <tbody>
-                        {foreach from=collection item=item key=key name=name}
-                            
-                        {/foreach}
-                            <tr class="lb" id="row_{$Table.id|crypt}">
+                        {foreach from=$Events item=item key=tkey name=name}
+                             <tr class="lb" id="row_{$item.id|crypt}">
                                 <td class="text-right">{$tkey+1}</td>
                                 <td class="text-center">
                                      <a href="hr.php?act=public_event_duty&mid=&date=">
-                                          Navoiy viloyati
+                                         {$item.name3}
                                     </a>
                                 </td>
                                 <td class="text-center">Навоий ш. Гандбол спорт залида</td>
@@ -100,6 +98,8 @@
                                     </div>
                                 </td>
                             </tr>
+                        {/foreach}
+                           
                          
                         </tbody> 
                     </table>
