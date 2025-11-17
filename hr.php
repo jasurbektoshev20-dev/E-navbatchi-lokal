@@ -261,6 +261,12 @@ switch ($Act) {
 		break;
 	/// hr_staff
 
+
+
+
+
+
+
 	case "hr_events":
 		$query = "SELECT id, name{$slang} as name FROM hr.structure ";
 		if ($UserStructure > 1) {
@@ -271,24 +277,26 @@ switch ($Act) {
 		$sql->query($query);
 		$Regions = $sql->fetchAll();
 
-		$query = "SELECT id, name{$slang} as name FROM hr.structure";
-		if ($UserStructure > 1) {
-			$query .= " where parent = {$UserStructure}";
-		} else {
-			$query .= " where id > 999 order by id";
-		}
-		$sql->query($query);
+		// $query = "SELECT id, name{$slang} as name FROM hr.structure";
+		// if ($UserStructure > 1) {
+		// 	$query .= " where parent = {$UserStructure}";
+		// } else {
+		// 	$query .= " where id > 999 order by id";
+		// }
+		// $sql->query($query);
 		// $Distcity = $sql->fetchAll();
 
-		$query = "SELECT id, name{$slang} as name FROM tur.event_types order by turn";
+		$query = "SELECT id, name3 as name FROM tur.public_event_types";
 		$sql->query($query);
 		$EventTypes = $sql->fetchAll();
 
-		$query = "SELECT m.id, r.shortname{$slang} as region_id, d.name{$slang} as distcity_id, t.name{$slang} as type, m.date, m.staff_count, 
-		m.stand, m.transport, m.responsible, m.text FROM tur.events m
-		left join hr.v_head_structure r on r.id = m.region_id
-		left join hr.v_structure d on d.id = m.distcity_id
-		left join tur.event_types t on t.id = m.type where 1=1";
+		$query = "SELECT m.id, t.name{$slang} as type, m.citizens_count, m.iiv_count, 
+		m.fvv_count, p.lastname,p.firstname, m.name3,mg_count,m.command,m.start_time,m.end_time,m.iiv_spring_count,m.jts_object_id,m.organizer,r.name3 FROM hr.public_event1 m
+		left join tur.public_event_types t on t.id = m.public_event_type
+		left join ref.regions r on r.id = m.region_id
+		left join hr.staff p on p.id = m.respons_person_id
+		";
+
 		if ($UserStructure > 1) {
 			$query .= " and m.region_id = {$UserStructure}";
 		}
@@ -296,18 +304,25 @@ switch ($Act) {
 		$sql->query($query);
 		$Events = $sql->fetchAll();
 
-		// echo '<pre>';
-		// print_r($Events);
-		// echo '</pre>';
-		// die();
+		echo '<pre>';
+		print_r($Events);
+		echo '</pre>';
+		die();
 
 		$smarty->assign(array(
 			'Regions'        =>    $Regions,
-			'Distcity'       =>    $Distcity,
+			// 'Distcity'       =>    $Distcity,
 			'EventTypes'       =>    $EventTypes,
 			'Events'       =>    $Events,
 		));
 		break;
+
+
+
+
+
+
+
 
 	case "hr_reyd_events":
 		$query = "SELECT id, name{$slang} as name FROM hr.structure ";
@@ -339,10 +354,10 @@ switch ($Act) {
 		$sql->query($query);
 		$Events = $sql->fetchAll();
 
-		// echo '<pre>';
-		// print_r($Events);
-		// echo '</pre>';
-		// die();
+		echo '<pre>';
+		print_r($Events);
+		echo '</pre>';
+		die();
 
 		$smarty->assign(array(
 			'Regions'        =>    $Regions,
@@ -350,7 +365,6 @@ switch ($Act) {
 			'Events'       =>    $Events,
 		));
 		break;
-
 	case "hr_violations":
 		$query = "SELECT id, name{$slang} as name FROM hr.structure where id != 1 and id < 16 order by turn";
 		$sql->query($query);

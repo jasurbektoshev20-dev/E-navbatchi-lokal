@@ -59,6 +59,9 @@
                             </tr>
                         </thead>
                          <tbody>
+                        {foreach from=collection item=item key=key name=name}
+                            
+                        {/foreach}
                             <tr class="lb" id="row_{$Table.id|crypt}">
                                 <td class="text-right">{$tkey+1}</td>
                                 <td class="text-center">
