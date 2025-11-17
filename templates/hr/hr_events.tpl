@@ -354,7 +354,6 @@
 
     $('#new').click(function() {
         $('#submitModal').modal('toggle');
-
         $('#region_id').val(0);
         $('#region_id').trigger("change");
         $('#event_place').val(0);
