@@ -377,7 +377,7 @@
             <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title">Mashina tarixi</h5>
+                <h5 class="modal-title">Босиб ўтилган масофа</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
@@ -385,15 +385,15 @@
 
                 <div class="row mb-3 history-filter-section">
                 <div class="col-4">
-                    <label>Boshlanish sanasi</label>
+                    <label>{$Dict.bdate}</label>
                     <input type="date" id="fromDate" class="form-control">
                 </div>
                 <div class="col-4">
-                    <label>Tugash sanasi</label>
+                    <label>{$Dict.tdate}</label>
                     <input type="date" id="toDate" class="form-control">
                 </div>
                 <div class="col-4">
-                      <button id="searchHistory" class="btn btn-primary w-100">Qidirish</button>
+                      <button id="searchHistory" class="btn btn-primary w-100">{$Dict.search}</button>
                 </div>
                 </div>
 
@@ -408,20 +408,28 @@
                         <div class="col-12"><strong> <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
   <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/>
   <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"/>
-</svg> Vaqt:</strong> <span id="telemetryTime">--:--:--</span></div>
+</svg> {$Dict.time}:</strong> <span id="telemetryTime">--:--:--</span></div>
                         <div class="col-12"><strong>  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-speedometer" viewBox="0 0 16 16">
   <path d="M8 2a.5.5 0 0 1 .5.5V4a.5.5 0 0 1-1 0V2.5A.5.5 0 0 1 8 2M3.732 3.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707M2 8a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 8m9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5m.754-4.246a.39.39 0 0 0-.527-.02L7.547 7.31A.91.91 0 1 0 8.85 8.569l3.434-4.297a.39.39 0 0 0-.029-.518z"/>
   <path fill-rule="evenodd" d="M6.664 15.889A8 8 0 1 1 9.336.11a8 8 0 0 1-2.672 15.78zm-4.665-4.283A11.95 11.95 0 0 1 8 10c2.186 0 4.236.585 6.001 1.606a7 7 0 1 0-12.002 0"/>
-</svg> Tezlik:</strong> <span id="telemetrySpeed">0 km/h</span></div>
+</svg>  {$Dict.speed}:</strong> <span id="telemetrySpeed">0 km/h</span></div>
                         <div class="col-12"><strong>  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-arrow-right-square" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm4.5 5.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z"/>
-</svg> Masofa:</strong> <span id="telemetryDistance">0 km</span></div>
+</svg>  {$Dict.distance}:</strong> <span id="telemetryDistance">0 km</span></div>
                         <div class="col-12"><strong><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-building" viewBox="0 0 16 16">
   <path d="M4 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zM4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM7.5 5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM4.5 8a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z"/>
   <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1zm11 0H3v14h3v-2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V15h3z"/>
-</svg> Hudud:</strong> <span id="telemetryRegion">-</span></div>
+</svg>  {$Dict.region}:</strong> <span id="telemetryRegion">Ташкент</span></div>
                      </div>
-                 
+
+                     <hr style="border-color: white;">
+
+                    <div class="d-flex justify-content-between" style="padding-bottom: 10px; gap:5px;">
+                        <button id="btnPause" class="btn btn-warning btn-sm">⏸ Тўхтатмоқ</button>
+                        <button id="btnPlay" class="btn btn-success btn-sm">▶ Давом этмоқ</button>
+                        <button id="btnRestart" class="btn btn-danger btn-sm">⟲ Қайта бошлаш</button>
+                    </div>
+                                
                 </div>
 
 
@@ -526,6 +534,18 @@
         let selectedCarId = null;
         let currentMarker;
         let replayMarker; // replay animatsiya uchun
+
+        let isPaused = false;
+        let replayIndex = 0;
+
+        let replayLatLngs = [];
+        let replayTimeArray = [];
+        let replaySpeedArray = [];
+        let replayDuration = 1000;
+        let currentTimer = null;
+
+
+
         $(document).ready(function() {
             $('#historyModal').on('shown.bs.modal', function () {
                       setTimeout(() => {
@@ -545,10 +565,26 @@
          
             if(currentMarker) historyMap.removeLayer(currentMarker);
              currentMarker = L.marker([currentCarPos.lat, currentCarPos.lng]).addTo(historyMap)
-                .bindPopup('<span style="color: white;">Hozirgi mashina pozitsiyasi</span>')
+                .bindPopup('<span style="color: white;">Ҳозирги машина позицияси</span>')
             .openPopup();
 
                historyMap.setView([currentCarPos.lat, currentCarPos.lng], 15);
+
+
+                  // Faqat HUDUDNI chizish
+                 const geofenceCoords = [
+                    [41.323238002671104, 69.23698976904528],  // yaqin nuqta
+                    [41.28888775241128, 69.23362138773061],
+                    [41.28596223874519, 69.30989438509913],
+                    [41.33838705993267, 69.30770949258125],
+                    ];
+
+
+                    L.polygon(geofenceCoords, {
+                        color: 'blue',
+                        fillColor: 'blue',
+                        fillOpacity: 0.2
+                    }).addTo(historyMap);
 
             }, 200);
             });
@@ -627,93 +663,169 @@
       }
 
 
+          function smoothReplay(latlngs, marker, durationPerSegment, timeArray, speedArray) {
+                replayLatLngs = latlngs;
+                replayTimeArray = timeArray;
+                replaySpeedArray = speedArray;
+                replayDuration = durationPerSegment;
 
-       function smoothReplay(latlngs, marker, durationPerSegment, timeArray, speedArray) {
-            let i = 0;
-            prevPoint = null; // replay boshida reset
+                replayIndex = 0;
+                isPaused = false;
+                prevPoint = null;
 
-            function move() {
-                if(i >= latlngs.length-1) return;
+                function move(i) {
+                    if (i >= latlngs.length - 1) return;
 
-                const start = latlngs[i];
-                const end = latlngs[i+1];
-                const steps = 20;
-                let step = 0;
+                    replayIndex = i;
 
-                // oldingi point
-                const currPrev = prevPoint ? prevPoint : {lat:start[0], lng:start[1], time: timeArray[i], speed:speedArray[i]};
+                    const start = latlngs[i];
+                    const end = latlngs[i + 1];
+                    const steps = 20;
+                    let step = 0;
 
-                const angle = getAngle(start, end); // yo‘nalish burchagi
-                marker.setRotationAngle(angle); // markerni burish
+                    const angle = getAngle(start, end);
+                    marker.setRotationAngle(angle);
 
-                function animate() {
-                    if(step > steps) {
-                        i++;
-                        prevPoint = {lat:end[0], lng:end[1], time: timeArray[i], speed: speedArray[i]};
-                        move();
-                        return;
+                    function animate() {
+
+                        // PAUSE holati
+                        if (isPaused) {
+                            setTimeout(animate, 100);
+                            return;
+                        }
+
+                        if (step > steps) {
+                            prevPoint = {
+                                lat: end[0],
+                                lng: end[1],
+                                time: timeArray[i],
+                                speed: speedArray[i]
+                            };
+
+                            move(i + 1);
+                            return;
+                        }
+
+                        const lat = start[0] + (end[0] - start[0]) * (step / steps);
+                        const lng = start[1] + (end[1] - start[1]) * (step / steps);
+
+                        marker.setLatLng([lat, lng]);
+                        historyMap.panTo([lat, lng], { animate: false });
+
+                        // index
+                        const tIndex = i + (step / steps);
+                        const t = timeArray[Math.min(Math.floor(tIndex), timeArray.length - 1)];
+                        const s = speedArray[Math.min(Math.floor(tIndex), speedArray.length - 1)];
+
+                        updateTelemetry({
+                            lat,
+                            lng,
+                            time: t,
+                            speed: s
+                        });
+
+                        step++;
+                        // setTimeout(animate, durationPerSegment / steps);
+                        currentTimer = setTimeout(animate, durationPerSegment/steps);
+
                     }
 
-                    const lat = start[0] + (end[0]-start[0])*(step/steps);
-                    const lng = start[1] + (end[1]-start[1])*(step/steps);
-
-                    marker.setLatLng([lat, lng]);
-
-                    // Xaritani markazlash
-                    historyMap.panTo([lat, lng], {animate: false});
-
-                    // Telemetry uchun vaqt va pozitsiya
-                    const tIndex = i + (step/steps); // approximate index
-                    const t = timeArray[Math.min(Math.floor(tIndex), timeArray.length-1)];
-                    const s = speedArray[Math.min(Math.floor(tIndex), timeArray.length-1)];
-
-                    updateTelemetry({lat, lng, time:t, speed: s });
-
-                    step++;
-                    setTimeout(animate, durationPerSegment/steps);
+                    animate();
                 }
 
-                animate();
+                move(0);
             }
 
-            move();
-}
+
+        function updateTelemetry(currPoint) {
+            // Masofa
+            if(prevPoint) {
+                const prevLatLng = L.latLng(prevPoint.lat, prevPoint.lng);
+                const currLatLng = L.latLng(currPoint.lat, currPoint.lng);
+
+                const dist = prevLatLng.distanceTo(currLatLng)/1000; // km
+                totalDistance += dist;
+
+                $('#telemetryDistance').text(totalDistance.toFixed(2) + " km");            
+            }
+
+            // Vaqt va sana
+            $('#telemetryTime').text(currPoint.time);
+
+            $('#telemetrySpeed').text(currPoint.speed + " km/h");
+
+            // Hudud chiqarish
+            // fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${currPoint.lat}&lon=${currPoint.lng}`)
+            //     .then(res => res.json())
+            //     .then(data => {
+            //         console.log("Address: ", data)
+            //         $('#telemetryRegion').text(data.address.city || data.address.town || data.address.state || "-");
+            //     })
+            //     .catch(err => console.log(err));
+
+            // Keyingi update uchun oldingi nuqta sifatida saqlash
+            prevPoint = currPoint;
+        }
 
 
 
-function updateTelemetry(currPoint) {
-    // Masofa
-    if(prevPoint) {
-        const prevLatLng = L.latLng(prevPoint.lat, prevPoint.lng);
-        const currLatLng = L.latLng(currPoint.lat, currPoint.lng);
+      // PAUSE
+      $("#btnPause").on("click", function () {
+    isPaused = true;
 
-        const dist = prevLatLng.distanceTo(currLatLng)/1000; // km
-        totalDistance += dist;
+    if (currentTimer) clearTimeout(currentTimer);
+});
 
-        $('#telemetryDistance').text(totalDistance.toFixed(2) + " km");
+        // PLAY
+        $("#btnPlay").on("click", function () {
+            if (isPaused) {
+                resumeReplay();
+            }
+        });
 
-        // 2️⃣ Tezlik — BAZADAN
+        $("#btnRestart").on("click", function () {
+    isPaused = false;
 
-      
-    }
-    console.log("current Point: ", currPoint)
+    // Replay indeksini boshidan boshlash
+    replayIndex = 0;
+    prevPoint = null;
+    totalDistance = 0;
 
-    // Vaqt va sana
-    $('#telemetryTime').text(currPoint.time);
+    // eski animatsiyani o‘chirib tashlash
+    if (currentTimer) clearTimeout(currentTimer);
 
-    $('#telemetrySpeed').text(currPoint.speed + " km/h");
+    // Replay markerini boshidagi nuqtaga qo‘yish
+    const start = replayLatLngs[0];
+    replayMarker.setLatLng([start[0], start[1]]);
+    historyMap.panTo([start[0], start[1]], {animate: false});
 
-    // Hudud (Reverse Geocoding)
-    fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${currPoint.lat}&lon=${currPoint.lng}`)
-        .then(res => res.json())
-        .then(data => {
-            $('#telemetryRegion').text(data.address.city || data.address.town || data.address.state || "-");
-        })
-        .catch(err => console.log(err));
+    // Smooth replay boshidan boshlash
+    smoothReplay(
+        replayLatLngs,
+        replayMarker,
+        replayDuration,
+        replayTimeArray,
+        replaySpeedArray
+    );
+});
 
-    // Keyingi update uchun oldingi nuqta sifatida saqlash
-    prevPoint = currPoint;
-}
+
+
+
+      function resumeReplay() {
+                isPaused = false;
+
+                // eski animatsiyani o‘chirib yuboramiz
+                if (currentTimer) clearTimeout(currentTimer);
+
+                smoothReplay(
+                    replayLatLngs.slice(replayIndex),
+                    replayMarker,
+                    replayDuration,
+                    replayTimeArray.slice(replayIndex),
+                    replaySpeedArray.slice(replayIndex)
+                );
+            }
 
 
 
