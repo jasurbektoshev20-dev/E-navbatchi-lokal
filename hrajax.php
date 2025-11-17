@@ -350,17 +350,18 @@ switch ($Action) {
 
     /// events ==========================================================
     case "get_events":
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "SELECT t.* from tur.events t where t.id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+
         echo '<pre>';
         print_r(233434);
         echo '</pre>';
         die();
 
 
-        $RowId = MyPiDeCrypt($_GET['rowid']);
-
-        $query = "SELECT t.* from tur.events t where t.id = {$RowId}";
-        $sql->query($query);
-        $result = $sql->fetchAssoc();
         $result['rowid'] = MyPiCrypt($result['id']);
 
         $res = json_encode($result);
