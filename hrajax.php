@@ -350,6 +350,12 @@ switch ($Action) {
 
     /// events ==========================================================
     case "get_events":
+        echo '<pre>';
+        print_r(233434);
+        echo '</pre>';
+        die();
+
+
         $RowId = MyPiDeCrypt($_GET['rowid']);
 
         $query = "SELECT t.* from tur.events t where t.id = {$RowId}";
@@ -374,6 +380,8 @@ switch ($Action) {
         $event_participants     = $_POST['event_participants'];
         $auto_number     = $_POST['auto_number'];
         $guard_staffs     = $_POST['guard_staffs'];
+
+
 
         if ($RowId != "0") {
             $updquery = "UPDATE tur.events set
