@@ -67,8 +67,8 @@
                                          {$item.name3}
                                     </a>
                                 </td>
-                                <td class="text-center">Навоий ш. Гандбол спорт залида</td>
-                                <td class="text-center">Спорт тадбири</td>
+                                <td class="text-center">{$item.jts_object_id}</td>
+                                <td class="text-center">{$item.type}</td>
                                 <td class="text-center">Спортнинг Гандбол тури бўйича ёшлар ўртасида Ўзбекистон чемпионати</td>
                                 <td class="text-center">Республика</td>
                                 <td class="text-center">Ҳукумат қарори асосидаги тадбир</td>
