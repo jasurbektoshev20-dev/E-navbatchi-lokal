@@ -291,10 +291,11 @@ switch ($Act) {
 		$EventTypes = $sql->fetchAll();
 
 		$query = "SELECT m.id, t.name{$slang} as type, m.citizens_count, m.iiv_count, 
-		m.fvv_count, p.lastname,p.firstname, m.name3,mg_count,m.command,m.start_time,m.end_time,m.iiv_spring_count,m.jts_object_id,m.organizer,r.name3 FROM hr.public_event1 m
+		m.fvv_count, p.lastname,p.firstname, m.name3,mg_count,m.command,m.start_time,m.end_time,m.iiv_spring_count,j.object_name,m.organizer,r.name3 FROM hr.public_event1 m
 		left join tur.public_event_types t on t.id = m.public_event_type
 		left join ref.regions r on r.id = m.region_id
 		left join hr.staff p on p.id = m.respons_person_id
+		left join hr.jts_objects j on j.id = m.jts_object_id
 		";
 
 		if ($UserStructure > 1) {
