@@ -34,7 +34,7 @@
     <div class="row mt-3">
         <!-- Projects table -->
         <div class="col-12">
-            <div class="card">  
+            <div class="card">
                 <div class="card-datatable table-responsive">
                     <table class="datatables-projects table table-bordered">
                         <thead>
@@ -100,7 +100,7 @@
                             </tr>
                         {/foreach}
                            
-                         
+
                         </tbody> 
                     </table>
                 </div>
