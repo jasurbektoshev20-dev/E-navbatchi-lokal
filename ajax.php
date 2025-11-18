@@ -1196,10 +1196,10 @@ switch ($Action) {
 				WHERE 1=1 ";
 
 				if ($UserStructure > 1) {
-					$query .= " AND t.structure_id = {$UserStructure} ";
+					$query .= " AND t.region_id = {$UserStructure} ";
 				}
 				if ($structure_id > 0) {
-					$query .= " AND t.structure_id = {$structure_id} ";
+					$query .= " AND t.region_id = {$structure_id} ";
 				}
 				$query .= " GROUP BY b.id ORDER BY b.id ASC";
 
@@ -1212,15 +1212,15 @@ switch ($Action) {
 						s.name{$slang} as name,
 						COUNT(t.id) as value
 					FROM hr.public_event1 t
-					LEFT JOIN hr.structure s ON s.id = t.structure_id
+					LEFT JOIN hr.structure s ON s.id = t.region_id
 					WHERE 1=1
 				";
 
 				if ($UserStructure > 1) {
-					$regionQuery .= " AND t.structure_id = {$UserStructure} ";
+					$regionQuery .= " AND t.region_id = {$UserStructure} ";
 				}
 				if ($structure_id > 0) {
-					$regionQuery .= " AND t.structure_id = {$structure_id} ";
+					$regionQuery .= " AND t.region_id = {$structure_id} ";
 				}
 
 				$regionQuery .= " GROUP BY s.id ORDER BY s.id ASC";
@@ -1232,7 +1232,7 @@ switch ($Action) {
 				// 3) Ob'ektlar ro'yxati
 				$listQuery = "SELECT 
 						t.id,
-						t.object_name,
+						j.object_name,
 						b.id as type_id,
 						b.name{$slang} AS type_name
 					FROM hr.public_event1 t
@@ -1242,10 +1242,10 @@ switch ($Action) {
 				";
 
 				if ($UserStructure > 1) {
-					$listQuery .= " AND t.structure_id = {$UserStructure} ";
+					$listQuery .= " AND t.region_id = {$UserStructure} ";
 				}
 				if ($structure_id > 0) {
-					$listQuery .= " AND t.structure_id = {$structure_id} ";
+					$listQuery .= " AND t.region_id = {$structure_id} ";
 				}
 
 				$listQuery .= " ORDER BY b.name{$slang} ASC, j.object_name ASC";
