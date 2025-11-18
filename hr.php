@@ -396,7 +396,7 @@ switch ($Act) {
 			s.name{$slang} as structure_name,
 			CONCAT(t.lastname,' ',t.firstname,' ', t.surname) AS staff, 
 			bodycam_id,
-			c.name as car_name,
+			c.plate_number as car_name,
 			(
             SELECT 
                 STRING_AGG(e.name{$slang}, ', ') 
@@ -407,8 +407,8 @@ switch ($Act) {
          ) AS epic
 		FROM hr.public_event_duty m
 		left join hr.structure s on s.id = m.structure_id
-		left join hr.staff t on t.id = m.troops_id
-		left join hr.tech_guard_cars c on c.id = m.avto_id
+		left join hr.staff t on t.id = m.staff_id
+		left join hr.tech_guard_cars c on c.id = m.car_id
 		";
 
 

@@ -516,9 +516,9 @@ switch ($Action) {
             id,
             public_event1_id,
             structure_id,
-            troops_id,
+            staff_id,
             bodycam_id,
-            avto_id,
+            car_id,
            (
             SELECT 
                 STRING_AGG(e.name{$slang}, ', ') 
@@ -537,68 +537,164 @@ switch ($Action) {
         $res = json_encode($result);
         break;
 
-    case "act_event_duty":
+    // case "act_event_duty":
 
-        $RowId    = (!empty($_POST['id'])) ? $_POST['id'] : 0;
+    //     $RowId    = (!empty($_POST['id'])) ? $_POST['id'] : 0;
+    //     $public_event1_id =MyPiDeCrypt($_POST['public_event1_id']);
+    //     $structure_id =  $_POST['structure_id'];
+    //     $troops_id = $_POST['staff_id'];
+    //     $epikirofka_id = $_POST['epikirofka_id'];
+    //     $avto_id = $_POST['car_id'];
+
+
+    //     // echo '<pre>';
+	// 	// print_r($type_id);
+	// 	// echo '</pre>';
+	// 	// die();
+
+    //     if ($RowId != "0") {
+    //         $updquery = "UPDATE hr.public_event_duty set
+    //         public_event1_id = '{$public_event1_id}',
+    //         structure_id = '{$structure_id}',
+    //         troops_id = '{$troops_id}',
+    //         epikirofka_id = '{$epikirofka_id}',
+    //         avto_id = '{$avto_id}',
+           
+    //         WHERE id = {$RowId}";
+    //         $sql->query($updquery);
+    //         if ($sql->error() == "") {
+    //             $res = "0<&sep&>" . MyPiCrypt($RowId);
+    //         } else {
+    //             $res = $sql->error();
+    //         }
+    //     } else {
+    //         $sql->query("SELECT count(*) ccount FROM hr.public_event_duty t WHERE 0=1");
+    //         $isNotNew = $sql->fetchAssoc();
+    //         if ($isNotNew['ccount'] == 0) {
+    //             $insquery = "INSERT into hr.public_event_duty (
+    //                      public_event1_id
+    //                     ,structure_id
+    //                     ,troops_id
+    //                     ,epikirofka_id
+    //                     ,avto_id
+    //                 ) values (
+    //                      '{$public_event1_id}'
+    //                     ,'{$structure_id}'
+    //                     ,'{$troops_id}'
+    //                     ,'{$epikirofka_id}'
+    //                     ,'{$avto_id}'
+    //                 )";
+    //             $sql->query($insquery);
+    //             if ($sql->error() == "") {
+    //                 $sql->query("SELECT CURRVAL('hr.public_event_duty_id_seq') AS last_id;");
+    //                 $result = $sql->fetchAssoc();
+    //                 $LastId = $result['last_id'];
+
+    //                 $res = "0<&sep&>" . MyPiCrypt($LastId);
+    //             } else {
+    //                 $res = $sql->error();
+    //             }
+    //         } else {
+    //             $res = 1;
+    //         }
+    //     }
+    //     break;
+
+        
+    case "act_event_duty":
+        $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
         $public_event1_id =MyPiDeCrypt($_POST['public_event1_id']);
         $structure_id =  $_POST['structure_id'];
-        $troops_id = $_POST['staff_id'];
-        $epikirofka_id = $_POST['epikirofka_id'];
-        $avto_id = $_POST['car_id'];
-
+        $car_id = !empty($_POST['car_id']) ? $_POST['car_id'] : 0;
 
         // echo '<pre>';
-		// print_r($type_id);
-		// echo '</pre>';
-		// die();
+        // print_r($car_id);
+        // echo '</pre>';
+        // die();
+
+        // Epikirofka IDs ni olish va tozalash
+        $epikirofka_ids_input = isset($_POST['epikirofka_id']) ? $_POST['epikirofka_id'] : '';
+        // staff_ids massiv ekanligini ta'minlash
+        $staff_id = is_array($_POST['staff_id']) ? $_POST['staff_id'] : explode(',', $_POST['staff_id']);
+
+
+
+        // PostgreSQL Array formatiga o'tkazish
+        // Array format: '{12, 34, 56}'
+        //epikirofka_id = 2,1
+
+        $ids_array = array_filter(
+            preg_split('/,\s*/', $epikirofka_ids_input, -1, PREG_SPLIT_NO_EMPTY)
+        );
+
+        // 3. PostgreSQL Array String formatiga konvertatsiya qilish: "{2,3,1}"
+
+        if (!empty($ids_array)) {
+            // Array elementlarini vergul bilan birlashtirish
+            $epikirofka_pg_array_string = '{' . implode(',', $ids_array) . '}';
+        } else {
+            // Agar massiv bo'sh bo'lsa yoki 'NULL' qabul qilinsa, 'NULL' stringini ishlatish
+            $epikirofka_pg_array_string = 'NULL';
+        }
+
+
+
+        $LastId = null; // So'nggi qo'shilgan ID ni saqlash uchun
+        $success = true;
 
         if ($RowId != "0") {
-            $updquery = "UPDATE hr.public_event_duty set
-            public_event1_id = '{$public_event1_id}',
-            structure_id = '{$structure_id}',
-            troops_id = '{$troops_id}',
-            epikirofka_id = '{$epikirofka_id}',
-            bodycam_id = '{$bodycam_id}',
-            avto_id = '{$avto_id}',
-           
-            WHERE id = {$RowId}";
+            // Update existing record
+            $updquery = "UPDATE hr.public_event_duty SET
+                public_event1_id = '{$public_event1_id}',
+                structure_id = '{$structure_id}',
+                staff_id = '{$staff_id[0]}',
+                car_id = '{$car_id}',
+                epikirofka_id = '{$epikirofka_pg_array_string}'
+                WHERE id = {$RowId}";
             $sql->query($updquery);
             if ($sql->error() == "") {
-                $res = "0<&sep&>" . MyPiCrypt($RowId);
+                $status = "ok";
+                $res = json_encode(['status' => $status, 'rowid' => MyPiCrypt($RowId)]);
             } else {
                 $res = $sql->error();
+                $success = false;
             }
         } else {
-            $sql->query("SELECT count(*) ccount FROM hr.public_event_duty t WHERE 0=1");
-            $isNotNew = $sql->fetchAssoc();
-            if ($isNotNew['ccount'] == 0) {
-                $insquery = "INSERT into hr.public_event_duty (
-                         public_event1_id
-                        ,structure_id
-                        ,troops_id
-                        ,epikirofka_id
-                        ,avto_id
-                        
-                    ) values (
-                         '{$public_event1_id}'
-                        ,'{$structure_id}'
-                        ,'{$troops_id}'
-                        ,'{$epikirofka_id}'
-                        ,'{$avto_id}
+            foreach ($staff_id as $staff) {
+                // Har bir aylanmada alohida staff_id o'zgaradi
+                $current_staff_id = (int) $staff;
 
-                    )";
+                $insquery = "INSERT INTO hr.public_event_duty (
+                    public_event1_id,
+                    structure_id,
+                    staff_id,
+                    car_id,
+                    epikirofka_id
+                ) VALUES (
+                    '{$public_event1_id}',
+                    '{$structure_id}',
+                    '{$current_staff_id}', -- Siklning joriy IDsi ishlatiladi
+                    '{$car_id}',
+                    '{$epikirofka_pg_array_string}' -- PostgreSQL array stringi ishlatiladi
+                )";
+
                 $sql->query($insquery);
-                if ($sql->error() == "") {
-                    $sql->query("SELECT CURRVAL('hr.public_event_duty_id_seq') AS last_id;");
-                    $result = $sql->fetchAssoc();
-                    $LastId = $result['last_id'];
 
-                    $res = "0<&sep&>" . MyPiCrypt($LastId);
-                } else {
+                // Har bir INSERT dan keyin xatoni tekshirish
+                if ($sql->error() != "") {
                     $res = $sql->error();
+                    $success = false;
+                    // Xato yuz bersa siklni to'xtatish
+                    break;
                 }
-            } else {
-                $res = 1;
+            }
+            if ($success) {
+                // Oxirgi qo'shilgan IDni olish. Agar bitta sikl bo'lsa to'g'ri ishlaydi,
+                // ko'p sikl bo'lsa, oxirgi kiritilgan IDni qaytaradi.
+                $sql->query("SELECT CURRVAL('hr.public_event_duty_id_seq') AS last_id;");
+                $result = $sql->fetchAssoc();
+                $LastId = $result['last_id'];
+                $res = 0;
             }
         }
         break;

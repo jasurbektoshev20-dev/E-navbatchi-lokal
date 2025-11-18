@@ -257,7 +257,7 @@
 				form_data.append('id', id);
 				form_data.append('public_event1_id', obyekt_id);
 				form_data.append('structure_id', $('#structure_id').val());
-				form_data.append('region_id', $('#structure_id').val());
+				form_data.append('structure_id', $('#region_id').val());
 				form_data.append('epikirofka_id', $('#epikirofka_id').val());
 				form_data.append('staff_id', $('#staff_id').val());
 				form_data.append('car_id', $('#car_id').val());
