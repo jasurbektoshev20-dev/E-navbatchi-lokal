@@ -352,14 +352,26 @@ switch ($Action) {
     case "get_events":
         $RowId = MyPiDeCrypt($_GET['rowid']);
 
-        $query = "SELECT t.* from tur.events t where t.id = {$RowId}";
+        $query = "SELECT 
+            id,
+            region_id,
+            public_event_type,
+            name{$slang} as event_name,
+            direction_event,
+            command,
+            start_time,
+            end_time,
+            citizens_count,
+            iiv_count,
+            fvv_count,
+            mg_count,
+            iiv_spring_count,
+            jts_object_id,
+            respons_person_id,
+            organizer
+         from hr.public_event1 t where t.id = {$RowId}";
         $sql->query($query);
         $result = $sql->fetchAssoc();
-
-        echo '<pre>';
-        print_r(233434);
-        echo '</pre>';
-        die();
 
 
         $result['rowid'] = MyPiCrypt($result['id']);
@@ -369,35 +381,47 @@ switch ($Action) {
 
     case "act_events":
         $RowId    = (!empty($_POST['id'])) ? $_POST['id'] : 0;
-        $region_id     = $_POST['region_id'];
-        $distcity_id     = $_POST['distcity_id'];
-        $type     = $_POST['type'];
-        $date     = $_POST['date'];
-        $staff_count     = $_POST['staff_count'];
-        $stand     = $_POST['stand'];
-        $transport     = $_POST['transport'];
-        $responsible     = $_POST['responsible'];
-        $text     = $_POST['text'];
-        $event_participants     = $_POST['event_participants'];
-        $auto_number     = $_POST['auto_number'];
-        $guard_staffs     = $_POST['guard_staffs'];
+        $region_id = $_POST['region_id'];
+        $object_id =  $_POST['object_id'];
+        $type_id = $_POST['event_type'];
+        $event_name = $_POST['event_name'];
+        $direction = $_POST['event_direction'];
+        $view = $_POST['event_view'];
+        $start_event = $_POST['start_event'];
+        $finish_event = $_POST['finish_event'];
+        $people_count = $_POST['people_count'];
+        $iiv_count = $_POST['iiv_count'];
+        $fvv_count = $_POST['fvv_count'];
+        $mg_count = $_POST['mg_count'];
+        $organizer = $_POST['organizer'];
+        $responsible_id = $_POST['responsible'];
+        $spring_count = $_POST['spring_count'];
 
 
+        // echo '<pre>';
+		// print_r($type_id);
+		// echo '</pre>';
+		// die();
 
         if ($RowId != "0") {
-            $updquery = "UPDATE tur.events set
+            $updquery = "UPDATE hr.public_event1 set
             region_id = '{$region_id}',
-            distcity_id = '{$distcity_id}',
-            type = '{$type}',
-            date = '{$date}',
-            staff_count = '{$staff_count}',
-            stand = '{$stand}',
-            transport = '{$transport}',
-            responsible = '{$responsible}',
-            event_participants = '{$event_participants}',
-            auto_number = '{$auto_number}',
-            guard_staffs = '{$guard_staffs}',
-            text = '{$text}'
+            jts_object_id = '{$object_id}',
+            public_event_type = '{$type_id}',
+            name1 = '{$event_name}',
+            name2 = '{$event_name}',
+            name3 = '{$event_name}',
+            direction_event = '{$direction}',
+            command = '{$view}',
+            start_time = '{$start_event}',
+            end_time = '{$finish_event}',
+            citizens_count = '{$people_count}',
+            iiv_count = '{$iiv_count}',
+            fvv_count = '{$fvv_count}',
+            mg_count = '{$mg_count}',
+            organizer = '{$organizer}',
+            respons_person_id = '{$responsible_id}',
+            iiv_spring_count = '{$spring_count}'
             WHERE id = {$RowId}";
             $sql->query($updquery);
             if ($sql->error() == "") {
@@ -406,39 +430,50 @@ switch ($Action) {
                 $res = $sql->error();
             }
         } else {
-            $sql->query("SELECT count(*) ccount FROM tur.events t WHERE 0=1");
+            $sql->query("SELECT count(*) ccount FROM hr.public_event1 t WHERE 0=1");
             $isNotNew = $sql->fetchAssoc();
             if ($isNotNew['ccount'] == 0) {
-                $insquery = "INSERT into tur.events (
+                $insquery = "INSERT into hr.public_event1 (
                          region_id
-                        ,distcity_id
-                        ,type
-                        ,date
-                        ,staff_count
-                        ,stand
-                        ,transport
-                        ,responsible
-                        ,event_participants
-                        ,auto_number
-                        ,guard_staffs
-                        ,text
+                        ,jts_object_id
+                        ,public_event_type
+                        ,name1
+                        ,name2
+                        ,name3
+                        ,direction_event
+                        ,command
+                        ,start_time
+                        ,end_time
+                        ,citizens_count
+                        ,iiv_count
+                        ,fvv_count
+                        ,mg_count
+                        ,organizer
+                        ,respons_person_id
+                        ,iiv_spring_count
                     ) values (
                          '{$region_id}'
-                        ,'{$distcity_id}'
-                        ,'{$type}'
-                        ,'{$date}'
-                        ,'{$staff_count}'
-                        ,'{$stand}'
-                        ,'{$transport}'
-                        ,'{$responsible}'
-                        ,'{$event_participants}'
-                        ,'{$auto_number}'
-                        ,'{$guard_staffs}'
-                        ,'{$text}'
+                        ,'{$object_id}'
+                        ,'{$type_id}'
+                        ,'{$event_name}'
+                        ,'{$event_name}'
+                        ,'{$event_name}'
+                        ,'{$direction}'
+                        ,'{$view}'
+                        ,'{$start_event}'
+                        ,'{$finish_event}'
+                        ,'{$people_count}'
+                        ,'{$iiv_count}'
+                        ,'{$fvv_count}'
+                        ,'{$mg_count}'
+                        ,'{$organizer}'
+                        ,'{$responsible_id}'
+                        ,'{$spring_count}'
+
                     )";
                 $sql->query($insquery);
                 if ($sql->error() == "") {
-                    $sql->query("SELECT CURRVAL('tur.events_id_seq') AS last_id;");
+                    $sql->query("SELECT CURRVAL('hr.public_event1_id_seq') AS last_id;");
                     $result = $sql->fetchAssoc();
                     $LastId = $result['last_id'];
 
@@ -455,7 +490,7 @@ switch ($Action) {
     case "del_events":
         $RowId = MyPiDeCrypt($_GET['rowid']);
 
-        $query = "DELETE FROM tur.events WHERE id = {$RowId}";
+        $query = "DELETE FROM hr.public_event1 WHERE id = {$RowId}";
         $sql->query($query);
         $result = $sql->fetchAssoc();
 
@@ -466,6 +501,130 @@ switch ($Action) {
         }
         break;
     /// events ==========================================================
+
+
+
+
+
+
+
+    /// events duty ==========================================================
+    case "get_event_duty":
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "SELECT 
+            id,
+            public_event1_id,
+            structure_id,
+            troops_id,
+            bodycam_id,
+            avto_id,
+           (
+            SELECT 
+                STRING_AGG(e.name{$slang}, ', ') 
+            FROM 
+                unnest(m.epikirofka_id) AS single_epic_id
+            JOIN 
+                ref.epic e ON e.id = single_epic_id
+         ) AS epic
+         from hr.public_event_duty t where t.id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+
+
+        $result['rowid'] = MyPiCrypt($result['id']);
+
+        $res = json_encode($result);
+        break;
+
+    case "act_event_duty":
+
+        $RowId    = (!empty($_POST['id'])) ? $_POST['id'] : 0;
+        $public_event1_id =MyPiDeCrypt($_POST['public_event1_id']);
+        $structure_id =  $_POST['structure_id'];
+        $troops_id = $_POST['staff_id'];
+        $epikirofka_id = $_POST['epikirofka_id'];
+        $avto_id = $_POST['car_id'];
+
+
+        // echo '<pre>';
+		// print_r($type_id);
+		// echo '</pre>';
+		// die();
+
+        if ($RowId != "0") {
+            $updquery = "UPDATE hr.public_event_duty set
+            public_event1_id = '{$public_event1_id}',
+            structure_id = '{$structure_id}',
+            troops_id = '{$troops_id}',
+            epikirofka_id = '{$epikirofka_id}',
+            bodycam_id = '{$bodycam_id}',
+            avto_id = '{$avto_id}',
+           
+            WHERE id = {$RowId}";
+            $sql->query($updquery);
+            if ($sql->error() == "") {
+                $res = "0<&sep&>" . MyPiCrypt($RowId);
+            } else {
+                $res = $sql->error();
+            }
+        } else {
+            $sql->query("SELECT count(*) ccount FROM hr.public_event_duty t WHERE 0=1");
+            $isNotNew = $sql->fetchAssoc();
+            if ($isNotNew['ccount'] == 0) {
+                $insquery = "INSERT into hr.public_event_duty (
+                         public_event1_id
+                        ,structure_id
+                        ,troops_id
+                        ,epikirofka_id
+                        ,avto_id
+                        
+                    ) values (
+                         '{$public_event1_id}'
+                        ,'{$structure_id}'
+                        ,'{$troops_id}'
+                        ,'{$epikirofka_id}'
+                        ,'{$avto_id}
+
+                    )";
+                $sql->query($insquery);
+                if ($sql->error() == "") {
+                    $sql->query("SELECT CURRVAL('hr.public_event_duty_id_seq') AS last_id;");
+                    $result = $sql->fetchAssoc();
+                    $LastId = $result['last_id'];
+
+                    $res = "0<&sep&>" . MyPiCrypt($LastId);
+                } else {
+                    $res = $sql->error();
+                }
+            } else {
+                $res = 1;
+            }
+        }
+        break;
+
+    case "del_event_duty":
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "DELETE FROM hr.public_event_duty WHERE id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+
+        if ($sql->error() == "") {
+            $res = 0;
+        } else {
+            $res = 2;
+        }
+        break;
+    /// events duty ==========================================================
+
+
+
+
+
+
+
+
 
     /// reyd_events =====================================================
     case "get_reyd_events":
@@ -1528,6 +1687,8 @@ switch ($Action) {
 
         $res = json_encode($result);
         break;
+
+
 
     case "act_dailiy_routine_date":
         $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;

@@ -51,11 +51,12 @@
 							</tr>
 						</thead>
 						<tbody id="table-body">
-								<tr>
-									<td class="text-center">1</td>
-									<td class="text-center">leytenant Umurzakov J.N</td>
-									<td class="text-center">Bars1</td>
-									<td class="text-center">Badikamera Ratsiya</td>
+						 {foreach from=$EventDuties item=item key=tkey name=name}
+								<tr id="row_{$item.id|crypt}">
+									<td class="text-center">{$tkey+1}</td>
+									<td class="text-center">{$item.staff}</td>
+									<td class="text-center">{$item.structure_name}</td>
+									<td class="text-center">{$item.epic}</td>
                                     <td class="text-center">
 										<a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 												fill="currentColor" class="bi bi-camera-video-fill" viewBox="0 0 16 16">
@@ -63,7 +64,7 @@
 													d="M0 5a2 2 0 0 1 2-2h7.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 4.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 13H2a2 2 0 0 1-2-2z" />
 											</svg></a>
 									</td>
-									<td class="text-center">211 PSF</td>
+									<td class="text-center">{$item.car_name}</td>
 									<td>
 										<div class="dropdown">
 											<button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -71,16 +72,17 @@
 												<i class="ti ti-dots-vertical"></i>
 											</button>
 											<div class="dropdown-menu">
-												<a rel="{$obekt.id|crypt}" class="dropdown-item editAction"
+												<a rel="{$item.id|crypt}" class="dropdown-item editAction"
 													href="javascript:void(0);"><i
 														class="ti ti-pencil me-1"></i>{$Dict.edit}</a>
-												<a rel="{$obekt.id|crypt}" class="dropdown-item delete"
+												<a rel="{$item.id|crypt}" class="dropdown-item delete"
 													href="javascript:void(0);"><i
 														class="ti ti-trash me-1"></i>{$Dict.delete}</a>
 											</div>
 										</div>
 									</td>
 								</tr>
+							{/foreach}
 						</tbody>
 					</table>
 				</div>
@@ -99,26 +101,38 @@
                      
 						<div class="col-sm-6">
 							<label>Hududni танланг</label>
-							  <select class="form-select" id="regions">
+							  <select class="form-select" id="region_id" name="region_id">
 								    <option value="">Танланг...</option>
-                                    {foreach from=$Regions item=region key=mkey}
-                                        <option class="selectOption" value="{$region.id}">{$region.name}</option>
+                                    {foreach from=$Structure item=st key=mkey}
+                                        <option class="selectOption" value="{$st.id}">{$st.name}</option>
                                     {/foreach}
                             </select>
 						</div>
 
-                        <div class="col-sm-6">
+                        {* <div class="col-sm-6">
 							<label>Bo'linmani танланг</label>
-							  <select id="division_id" class="form-select">
+							  <select id="division_id" class="form-select" name="division_id">
                                     <option value="">Танланг...</option>
+									{foreach from=$StructureAll item=st key=mkey}
+                                        <option class="selectOption" value="{$st.id}">{$st.name}</option>
+                                    {/foreach}
                             </select>
-						</div>
+						</div> *}
+						   <div class="col-sm-6">
+                            <label>{$Dict.territorial_short}</label>
+                            <select id="structure_id" class="form-select" name="structure_id">
+                                <option value="">{$Dict.choose}</option>
+                                {foreach from=$StructureAll item=obj}
+                                    <option value="{$obj.id}">{$obj.name}</option>
+                                {/foreach}
+                            </select>
+                        </div>
 
 
 						<div class="col-sm-6 mt-3">
 							<label for="responsible_person_date">Ҳарбий хизматчиларни танланг</label>
-							<select required id="staff_id" class="select2 form-select" multiple>
-								{foreach from=$Staffs item=obj}
+							<select required id="staff_id" class="select2 form-select" multiple name="staff_id">
+								{foreach from=$duties item=obj}
 									<option value="{$obj.id}">{$obj.name}</option>
 								{/foreach}
 							</select>
@@ -126,8 +140,8 @@
 
 						<div class="col-sm-6">
 							<label for="select2Multiple" class="form-label">Эпикировкани танланг</label>
-							<select id="epikirofka_id" class="select2 form-select" multiple>
-								{foreach from=$Epikirovka item=obj}
+							<select id="epikirofka_id" class="select2 form-select" multiple name="epikirofka_id">
+								{foreach from=$epic item=obj}
 									<option value="{$obj.id}">{$obj.name}</option>
 								{/foreach}
 							</select>
@@ -135,9 +149,9 @@
 
 						<div class="col-sm-6">
 							<label>Автомобилни танланг</label>
-							<select id="car_id" class="form-control">
+							<select id="car_id" class="form-control" name="car_id">
 								<option value="">Танланг...</option>
-								{foreach from=$Cars item=obj}
+								{foreach from=$cars item=obj}
 									<option value="{$obj.id}">{$obj.name}</option>
 								{/foreach}
 							</select>
@@ -195,18 +209,18 @@
 				$('#submitModal').modal('show');
 			});
 			const urlParams = new URLSearchParams(window.location.search);
-			const obyekt_id = urlParams.get('obyekt');
+			const obyekt_id = urlParams.get('mid');
 
 			$('.datatables-projects tbody').on('click', '.editAction', function() {
 				$('#submitModal').modal('toggle');
 				const RowId = $(this).attr('rel');
 
-				$.get('hrajax.php?act=get_dailiy_routine_date&rowid=' + RowId, function(html) {
+				$.get('hrajax.php?act=get_event_duty&rowid=' + RowId, function(html) {
 					const sInfo = jQuery.parseJSON(html);
 					console.log('Edit data:', sInfo);
 					$('#id').val(sInfo.id);				
-					$('#regions').val(sInfo.regions).trigger('change');
-					$('#division_id').val(sInfo.division_id).trigger('change');
+					$('#region_id').val(sInfo.regions).trigger('change');
+					$('#structure_id').val(sInfo.structure_id).trigger('change');
 					if (sInfo.epikirofka_id) {
 						const epik = sInfo.epikirofka_id.replace(/[{}]/g, '').split(',').map(x => x
 							.trim());
@@ -214,6 +228,18 @@
 					}
 				});
 			});
+
+			        // Filtering
+				$('#region_id').change(function(event) {
+					$.get("ajax.php?act=get_daily_routine&structure_id=" + this.value, function(html) {
+						var sInfo = jQuery.parseJSON(html);
+						$('#structure_id').empty();
+						$('#structure_id').append(`<option value="">${dict_choose}</option>`);
+						sInfo.forEach((item, index) => {
+							$('#structure_id').append(`<option value="${item.id}">${item.name}</option>`);
+						});
+					});
+				});
 
 			$('#localForm').on('submit', function(e) {
 				e.preventDefault();
@@ -229,14 +255,15 @@
 				const form_data = new FormData();
 
 				form_data.append('id', id);
-				form_data.append('routine_id', obyekt_id);
-				form_data.append('division_id', $('#division_id').val());
-				form_data.append('regions', $('#regions').val());
+				form_data.append('public_event1_id', obyekt_id);
+				form_data.append('structure_id', $('#structure_id').val());
+				form_data.append('region_id', $('#structure_id').val());
 				form_data.append('epikirofka_id', $('#epikirofka_id').val());
 				form_data.append('staff_id', $('#staff_id').val());
+				form_data.append('car_id', $('#car_id').val());
 
-				const actUrl = id ? 'hrajax.php?act=act_dailiy_routine_date' :
-					'hrajax.php?act=act_dailiy_routine_date';
+				const actUrl = id ? 'hrajax.php?act=act_event_duty' :
+					'hrajax.php?act=act_event_duty';
 
 				$.ajax({
 					url: actUrl,
@@ -288,7 +315,7 @@
 					cancelButtonText: "Бекор қилиш"
 				}).then((result) => {
 					if (result.isConfirmed) {
-						$.get('hrajax.php?act=del_dailiy_routine_date&rowid=' + RowId, function(res) {
+						$.get('hrajax.php?act=del_event_duty&rowid=' + RowId, function(res) {
 							if (parseInt(res) === 0) {
 								Swal.fire({
 									icon: 'success',

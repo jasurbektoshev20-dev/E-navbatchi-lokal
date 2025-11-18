@@ -268,6 +268,7 @@ switch ($Act) {
 
 
 	case "hr_events":
+
 		$query = "SELECT id, name{$slang} as name FROM hr.structure ";
 		if ($UserStructure > 1) {
 			$query .= " where id = {$UserStructure}";
@@ -286,35 +287,147 @@ switch ($Act) {
 		// $sql->query($query);
 		// $Distcity = $sql->fetchAll();
 
-		$query = "SELECT id, name3 as name FROM tur.public_event_types";
+		$query = "SELECT id, name{$slang} as event_type FROM tur.public_event_types";
 		$sql->query($query);
 		$EventTypes = $sql->fetchAll();
 
-		$query = "SELECT m.id, t.name{$slang} as type,m.name1, m.citizens_count, m.iiv_count, 
-		m.fvv_count, p.lastname,p.firstname, m.name3,mg_count,m.command,m.start_time,m.end_time,m.iiv_spring_count,j.object_name,m.organizer,r.name3 FROM hr.public_event1 m
+
+		$query = "SELECT id, object_name as name FROM hr.jts_objects";
+		$sql->query($query);
+		$jts_objects = $sql->fetchAll();
+
+		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.structure t 
+		ORDER BY t.turn ASC";
+		$sql->query($query);
+		$Structures = $sql->fetchAll();
+
+
+		$query  = "SELECT t.id, CONCAT(t.lastname,' ',t.firstname,' ', t.surname) as name
+		FROM hr.staff t ";
+		if ($UserStructure > 1) {
+			$query .= " WHERE t.structure_id = {$UserStructure} ";
+		}
+		$query .= " ORDER BY t.id ASC";
+		$sql->query($query);
+		$Responsible = $sql->fetchAll();
+
+
+
+		$query = "SELECT m.id, t.name{$slang} as event_type , m.name{$slang} as event_name, m.citizens_count,m.direction_event, m.iiv_count, 
+		m.fvv_count, p.lastname,p.firstname,mg_count,m.command,m.start_time,m.end_time,m.iiv_spring_count,
+		j.object_name as obj_name,m.organizer,s.name{$slang} as region_name 
+		FROM hr.public_event1 m
 		left join tur.public_event_types t on t.id = m.public_event_type
-		left join ref.regions r on r.id = m.region_id
+		left join hr.structure s on s.id = m.region_id
 		left join hr.staff p on p.id = m.respons_person_id
 		left join hr.jts_objects j on j.id = m.jts_object_id
 		";
 
-		if ($UserStructure > 1) {
-			$query .= " and m.region_id = {$UserStructure}";
-		}
+
 		$query .= " order by m.id";
 		$sql->query($query);
 		$Events = $sql->fetchAll();
 
-		echo '<pre>';
-		print_r($Events);
-		echo '</pre>';
-		die();
+		// echo '<pre>';
+		// print_r($Events);
+		// echo '</pre>';
+		// die();
 
 		$smarty->assign(array(
 			'Regions'        =>    $Regions,
 			// 'Distcity'       =>    $Distcity,
 			'EventTypes'       =>    $EventTypes,
 			'Events'       =>    $Events,
+			'jts_objects' => $jts_objects,
+			'structures' => $Structures,
+			'responsible' => $Responsible,
+		));
+		break;
+
+
+
+
+
+
+	case "hr_public_event_duty":
+		$query = "SELECT id, name{$slang} as name FROM hr.structure ";
+		if ($UserStructure > 1) {
+			$query .= " where id = {$UserStructure}";
+		} else {
+			$query .= " where id != 1 and id < 16 order by turn";
+		}
+		$sql->query($query);
+		$Structure = $sql->fetchAll();
+
+
+		$query = "SELECT id, name{$slang} as name FROM hr.structure ";
+		if ($UserStructure > 1) {
+			$query .= " where id = {$UserStructure}";
+		} else {
+			$query .= " where id != 1 and id >= 1 order by turn";
+		}
+		$sql->query($query);
+		$StructureAll = $sql->fetchAll();
+
+
+		$query  = "SELECT t.id, CONCAT(t.lastname,' ',t.firstname,' ', t.surname) as name
+		FROM hr.staff t ";
+		if ($UserStructure > 1) {
+			$query .= " WHERE t.structure_id = {$UserStructure} ";
+		}
+		$query .= " ORDER BY t.id ASC";
+		$sql->query($query);
+		$duties = $sql->fetchAll();
+
+
+		$query  = "SELECT e.id, e.name{$slang} as name FROM ref.epic e";
+		$sql->query($query);
+		$epic = $sql->fetchAll();
+
+		$query  = "SELECT e.id, e.plate_number as name FROM hr.tech_guard_cars e";
+		$sql->query($query);
+		$cars = $sql->fetchAll();
+
+
+
+		$query = "SELECT 
+			m.id, 
+			public_event1_id,
+			s.name{$slang} as structure_name,
+			CONCAT(t.lastname,' ',t.firstname,' ', t.surname) AS staff, 
+			bodycam_id,
+			c.name as car_name,
+			(
+            SELECT 
+                STRING_AGG(e.name{$slang}, ', ') 
+            FROM 
+                unnest(m.epikirofka_id) AS single_epic_id
+            JOIN 
+                ref.epic e ON e.id = single_epic_id
+         ) AS epic
+		FROM hr.public_event_duty m
+		left join hr.structure s on s.id = m.structure_id
+		left join hr.staff t on t.id = m.troops_id
+		left join hr.tech_guard_cars c on c.id = m.avto_id
+		";
+
+
+		$query .= " order by m.id";
+		$sql->query($query);
+		$EventDuties = $sql->fetchAll();
+
+		// echo '<pre>';
+		// print_r($StructureAll);
+		// echo '</pre>';
+		// die();
+
+		$smarty->assign(array(
+			'EventDuties'       =>    $EventDuties,
+			'Structure'       =>    $Structure,
+			'StructureAll'       =>    $StructureAll,
+			'duties'       =>    $duties,
+			'epic'       =>    $epic,
+			'cars'       =>    $cars,
 		));
 		break;
 
