@@ -52,6 +52,7 @@ if (isset($_POST['login']) and isset($_POST['password'])) {
         $_SESSION['userid'] = $error['id'];
         $_SESSION['role_id'] = $error['role_id'];
         $_SESSION['name'] = $error['name'];
+        $_SESSION['region_id'] = $error['region_id'];
         $_SESSION['role_name'] = $error['role_name'];
         $_SESSION['structure_id']     = $error['department_id'];
         $_SESSION['staff_id']         = $error['id'];
@@ -89,7 +90,7 @@ if (isset($_POST['login']) and isset($_POST['password'])) {
         $_SESSION['dashboard_menu'] = $error['dashboard_menu'];
 
         // echo '<pre>';
-        // print_r($error['dashboard_menu']);
+        // print_r($error);
         // echo '</pre>';
         // die();
 
