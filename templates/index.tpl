@@ -661,8 +661,6 @@
           structure_id = id
           getEvents()
         })
-
-
         
     });
 
