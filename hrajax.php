@@ -510,29 +510,16 @@ switch ($Action) {
 
     /// events duty ==========================================================
     case "get_event_duty":
-        $RowId = MyPiDeCrypt($_GET['rowid']);
-
-        $query = "SELECT 
-            id,
-            public_event1_id,
-            structure_id,
-            staff_id,
-            bodycam_id,
-            car_id,
-           (
-            SELECT 
-                STRING_AGG(e.name{$slang}, ', ') 
-            FROM 
-                unnest(m.epikirofka_id) AS single_epic_id
-            JOIN 
-                ref.epic e ON e.id = single_epic_id
-         ) AS epic
-         from hr.public_event_duty t where t.id = {$RowId}";
+         $RowId = MyPiDeCrypt($_GET['rowid']);
+        $query = "SELECT t.*
+              FROM hr.public_event_duty t 
+              WHERE t.id = {$RowId}";
         $sql->query($query);
         $result = $sql->fetchAssoc();
 
-
-        $result['rowid'] = MyPiCrypt($result['id']);
+        // JS tarafida ishlatish uchun date_formatted ni date deb yuboramiz
+        // $result['date'] = $result['date_formatted'];
+        // unset($result['date_formatted']);
 
         $res = json_encode($result);
         break;

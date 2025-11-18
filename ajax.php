@@ -1029,6 +1029,58 @@ switch ($Action) {
 		$res = json_encode($data);
 		break;
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	case "jts_objects":
 		$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
 
@@ -1125,6 +1177,118 @@ switch ($Action) {
 			"stat_region" => $stat_region
 		]);
 		break;
+
+
+
+
+
+
+
+
+
+		case "public_events":
+				$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
+
+				// 1) Statistika (COUNT)
+				$query = "SELECT COUNT(t.id) as value, b.id, b.name{$slang} as name
+				FROM hr.public_event1 t
+				LEFT JOIN tur.public_event_types b ON b.id = t.public_event_type
+				WHERE 1=1 ";
+
+				if ($UserStructure > 1) {
+					$query .= " AND t.structure_id = {$UserStructure} ";
+				}
+				if ($structure_id > 0) {
+					$query .= " AND t.structure_id = {$structure_id} ";
+				}
+				$query .= " GROUP BY b.id ORDER BY b.id ASC";
+
+				$sql->query($query);
+				$stats = $sql->fetchAll();
+
+				// 2) Statistika hududlar kesimida
+				$regionQuery = "SELECT 
+						s.id,
+						s.name{$slang} as name,
+						COUNT(t.id) as value
+					FROM hr.public_event1 t
+					LEFT JOIN hr.structure s ON s.id = t.structure_id
+					WHERE 1=1
+				";
+
+				if ($UserStructure > 1) {
+					$regionQuery .= " AND t.structure_id = {$UserStructure} ";
+				}
+				if ($structure_id > 0) {
+					$regionQuery .= " AND t.structure_id = {$structure_id} ";
+				}
+
+				$regionQuery .= " GROUP BY s.id ORDER BY s.id ASC";
+
+				$sql->query($regionQuery);
+				$stat_region = $sql->fetchAll();
+
+
+				// 3) Ob'ektlar ro'yxati
+				$listQuery = "SELECT 
+						t.id,
+						t.object_name,
+						b.id as type_id,
+						b.name{$slang} AS type_name
+					FROM hr.public_event1 t
+					LEFT JOIN tur.public_event_types b ON b.id = t.public_event_type
+					LEFT JOIN hr.jts_objects j ON j.id = t.jts_object_id
+					WHERE 1=1
+				";
+
+				if ($UserStructure > 1) {
+					$listQuery .= " AND t.structure_id = {$UserStructure} ";
+				}
+				if ($structure_id > 0) {
+					$listQuery .= " AND t.structure_id = {$structure_id} ";
+				}
+
+				$listQuery .= " ORDER BY b.name{$slang} ASC, j.object_name ASC";
+
+				$sql->query($listQuery);
+				$list = $sql->fetchAll();
+
+
+				// 3) Guruhlash (type → object list)
+				$grouped = [];
+				foreach ($list as $row) {
+					$typeId = $row['type_id'];
+
+					if (!isset($grouped[$typeId])) {
+						$grouped[$typeId] = [
+							"id" => $typeId,
+							"name" => $row['type_name'],
+							"objects" => []
+						];
+					}
+
+					$grouped[$typeId]["objects"][] = [
+						"id" => $row['id'],
+						"object_name" => $row['object_name']
+					];
+				}
+
+				// Convert to numeric array
+				$grouped = array_values($grouped);
+				echo '<pre>';
+				print_r($stats);
+				print_r($grouped);
+				print_r($stat_region);
+				echo '</pre>';
+				die();
+				// Final response
+				$res = json_encode([
+					"public_stats" => $stats,
+					"public_list" => $grouped,
+					"public_list_stat_region" => $stat_region
+				]);
+
+				break;
 }
 
 // echo iconv("cp1251", "UTF-8", $res);

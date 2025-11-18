@@ -226,12 +226,15 @@
 							.trim());
 						$('#epikirofka_id').val(epik).trigger('change');
 					}
+					$('#car_id').val(sInfo.car_id).trigger('change');
+					$('#staff_id').val(sInfo.staff_id).trigger('change');
+					
 				});
 			});
 
 			        // Filtering
 				$('#region_id').change(function(event) {
-					$.get("ajax.php?act=get_daily_routine&structure_id=" + this.value, function(html) {
+					$.get("ajax.php?act=get_event_duty&structure_id=" + this.value, function(html) {
 						var sInfo = jQuery.parseJSON(html);
 						$('#structure_id').empty();
 						$('#structure_id').append(`<option value="">${dict_choose}</option>`);
