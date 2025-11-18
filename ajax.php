@@ -1275,12 +1275,6 @@ switch ($Action) {
 
 				// Convert to numeric array
 				$grouped = array_values($grouped);
-				echo '<pre>';
-				print_r($stats);
-				print_r($grouped);
-				print_r($stat_region);
-				echo '</pre>';
-				die();
 				// Final response
 				$res = json_encode([
 					"public_stats" => $stats,
