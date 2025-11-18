@@ -268,7 +268,7 @@
             <select class="form-select" id="get_events_by_region_filter1"> </select>
           </div>
 
-          <div class="chart-container" id="get_events_by_region1"></div>
+          <div class="chart-container" id="public_events_by_region"></div>
         </div>
       </div>
     </div>
@@ -516,7 +516,7 @@
           dataType: 'json',
           success: function(response) {
             get_events_by_type(response?.stats);
-            get_events_by_region(response)
+            public_events_by_region(response)
           },
           error: function(xhr, status, error) {
             console.error('AJAX error:', error);
@@ -576,20 +576,20 @@
         // ⚡ Avvalgi click eventni olib tashlaymiz
         myChart.off('click');
 
-        myChart.on('click', function(params) {
-          if (structure_id) {
-            window.location.href = `hr.php?act=regions_map&region_id=${structure_id}&object_type=${params.data.id}`
-          }else{
-            window.location.href = `hr.php?act=regions_map&object_type=${params.data.id}`
-          }
+        // myChart.on('click', function(params) {
+        //   if (structure_id) {
+        //     window.location.href = `hr.php?act=regions_map&region_id=${structure_id}&object_type=${params.data.id}`
+        //   }else{
+        //     window.location.href = `hr.php?act=regions_map&object_type=${params.data.id}`
+        //   }
 
-        });
+        // });
       }
 
 
       // 📊 Pastdagi diagramma (faqat "Ҳаммаси" uchun)
-      function get_events_by_region(data) {
-        const dom = document.getElementById('get_events_by_region');
+      function public_events_by_region(data) {
+        const dom = document.getElementById('public_events_by_region');
         if (!dom) return console.error('❌ Diagramma konteyner topilmadi:', containerId);
 
 
