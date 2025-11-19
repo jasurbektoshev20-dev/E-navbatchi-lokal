@@ -34,6 +34,13 @@
             word-break: break-word;
             /* Break words if necessary */
         }
+        .form-select{
+            font-size: 18px;
+        }
+
+        .nav-item button{
+            font-size: 20px;
+        }
 
     {/literal}
 </style>
@@ -134,9 +141,9 @@
                     <div class="card">
                         <div class="mx-1 my-2 row">
                             <div class="col-9">
-                                <h5 class="card-title">{$Dict.get_crime_by_region}
+                                <h4 class="card-title">{$Dict.get_crime_by_region}
                                     <span class="text-success" id="get_crime_by_region_total"></span>
-                                </h5>
+                                </h4>
                             </div>
                             <div class="col-3">
                                 <select class="form-select" id="get_crime_by_region_filter">
@@ -168,7 +175,7 @@
 
                                 <div class="mx-1 my-2 row">
                                     <div class="col-8">
-                                        <h5 class="card-title">Мамурий ҳуқуқбузарликлар</h5>
+                                        <h4 class="card-title">Мамурий ҳуқуқбузарликлар</h4>
                                     </div>
                                     <div class="col-4">
                                         <select class="form-select" id="get_crime_by_type_filter">
@@ -186,7 +193,7 @@
                             <div class="card">
                                 <div class="mx-1 my-2 row">
                                     <div class="col-8">
-                                        <h5 class="card-title">Жиноий ҳуқуқбузарликлар</h5>
+                                        <h4 class="card-title">Жиноий ҳуқуқбузарликлар</h4>
                                     </div>
                                     <div class="col-4">
                                         <select class="form-select" id="get_crimes_filter">
@@ -212,10 +219,10 @@
                         <div class="card p-3">
                             <div class="row mb-3">
                             <div class="col-8">
-                                <h5 class="card-title">
+                                <h4 class="card-title">
                                 Маъмурий ҳуқуқбузарликлар ҳудудлар кесимида
                                 <span id="mamuriy_huquq_chart_total"></span>
-                                </h5>
+                                </h4>
                             </div>
                             <div class="col-4">
                                 <select class="form-select" id="mamuriy_huquq_select"></select>
@@ -230,10 +237,10 @@
                         <div class="card p-3">
                             <div class="row mb-3">
                             <div class="col-8">
-                                <h5 class="card-title">
+                                <h4 class="card-title">
                                 Жиноий ҳуқуқбузарликлар ҳудудлар кесимида
                                 <span id="jinoiy_huquq_chart_total"></span>
-                                </h5>
+                                </h4>
                             </div>
                             <div class="col-4">
                                 <select class="form-select" id="jinoiy_huquq_select"></select>
@@ -251,9 +258,9 @@
                         <div class="mx-1 my-2 row">
 
                             <div class="col-9">
-                                <h5 class="card-title">{$Dict.crime_by_week}
+                                <h4 class="card-title">{$Dict.crime_by_week}
                                     <span class="text-success" id="crime_by_week_total"></span>
-                                </h5>
+                                </h4>
                             </div>
 
                             <div class="col-3">
@@ -423,7 +430,7 @@
                 },
             ]
         let default_color = localStorage.getItem('templateCustomizer-vertical-menu-template-no-customizer--Style') == 'light' ?
-            '#000' : '#fff';
+            '#000' : '#b7b7b7';
 
         const flatpickrDate = document.querySelector('#date');
         const flatpickrbirthdate = document.querySelector('#birthdate');
@@ -604,7 +611,8 @@
             var option;
             option = {
                 textStyle: {
-                    fontFamily: "Arial, sans-serif"
+                    fontFamily: "Arial, sans-serif",
+                    fontSize:20
                 },
                 grid: {
                     containLabel: true,
@@ -617,7 +625,7 @@
                     name: 'score',
                     axisLabel: {
                         interval: 0,
-                        fontSize: '16px',
+                        fontSize: '20px',
                         color: default_color,
                     },
                     axisLine: {
@@ -633,7 +641,7 @@
 
                     axisLabel: {
                         interval: 0,
-                        fontSize: '16px',
+                        fontSize: '18px',
                         color: default_color,
                     },
                     label: {
@@ -654,7 +662,10 @@
                     }
                 },
                 tooltip: {
-                    backgroundColor: 'white',
+                    backgroundColor: 'white',     textStyle: {
+                  fontSize: 20,     // 🔥 shu yerda o'zgartirasan
+                  color: '#000'
+              }
                 },
                 series: [{
                     data: data.map(item => parseInt(item.gcount)),
@@ -671,7 +682,7 @@
                         y: 'product'
                     },
                     label: {
-                        fontSize: 12,
+                        fontSize: 18,
                         show: true, // Show the value on top of the bar
                         position: 'right',
                         color: default_color,
@@ -733,12 +744,12 @@
                     data: data.map(item => item.date),
                     axisLabel: {
                         // interval: 0,
-                        fontSize: '12px',
+                        fontSize: '20px',
                         color: default_color,
                     },
                     axisLine: {
                         lineStyle: {
-                            color: '#ccc' // x-axis line color
+                            color: '#ccc', // x-axis line color
                         }
                     }
                 },
@@ -754,7 +765,7 @@
                     type: 'value',
                     axisLabel: {
                         // interval: 0,
-                        fontSize: '12px',
+                        fontSize: '18px',
                         color: default_color,
                     },
                     axisLine: {
@@ -907,7 +918,7 @@
 
     let option = {
     textStyle: {
-        fontFamily: "Arial, sans-serif"
+        fontFamily: "Arial, sans-serif",
     },
     color,
     title: {
@@ -928,13 +939,17 @@
         itemGap: 15,
         textStyle: {
             color: '#b7b7b7',
-            fontSize: 14,
+            fontSize: 18,
             fontWeight: 'bold'
         }
     },
     tooltip: {
         trigger: 'item',
-        formatter: '{b}: {c}'  // Hoverda nom va qiymat chiqadi
+        formatter: '{b}: {c}' ,
+          textStyle: {
+                  fontSize: 20,     // 🔥 shu yerda o'zgartirasan
+                  color: '#000'
+        }// Hoverda nom va qiymat chiqadi
     },
     series: [{
         type: 'pie',
@@ -949,7 +964,7 @@
             show: true,
             position: 'outside',
             formatter: '{c}', // faqat raqam
-            fontSize: 15,
+            fontSize: 20,
             fontWeight: 'bold',
             color: '#b7b7b7'
         },
@@ -1051,9 +1066,12 @@ function get_crimes(dataset, total) {
       orient: 'horizontal',
       left: 'center',
       itemGap: 10,
-      textStyle: { color: '#b7b7b7', fontSize: '1rem' }
+      textStyle: { color: '#b7b7b7', fontSize: '1.3rem' }
     },
-    tooltip: { backgroundColor: 'white' },
+    tooltip: { backgroundColor: 'white',   textStyle: {
+                  fontSize: 20,     // 🔥 shu yerda o'zgartirasan
+                  color: '#000'
+              } },
     series: [{
       type: 'pie',
       radius: ['25%', '55%'],
@@ -1110,12 +1128,6 @@ const totalCrimesInitial = initialCrimesData.data.reduce((sum, v) => sum + v, 0)
 get_crimes(initialCrimesData, totalCrimesInitial);
 
 
-
-
-
-
-
-
 const mamuriyHuquqDataByFilter = {
   0: { // Ҳаммаси
     labels: ["Тошкент", "Самарқанд", "Фарғона", "Андижон", "Наманган", "Хоразм", "Сурхондарё"],
@@ -1164,17 +1176,23 @@ function mamuriy_huquq_chart(data) {
   const option = {
     textStyle: { fontFamily: "Arial, sans-serif" },
     grid: { bottom: 80, right: 30, left: 60 },
-    tooltip: { backgroundColor: 'white' },
+    tooltip: { backgroundColor: 'white' ,   textStyle: {
+                  fontSize: 20,     // 🔥 shu yerda o'zgartirasan
+                  color: '#000'
+              }},
     xAxis: {
       type: 'category',
       data: data.labels,
-      axisLabel: { interval: 0, rotate: 40, color: '#b7b7b7' },
+      axisLabel: { interval: 0, rotate: 40, color: '#b7b7b7',  fontSize: 20  },
       axisLine: { show: false },
       splitLine: { show: false }
     },
     yAxis: {
       type: 'value',
-      axisLabel: { color: '#b7b7b7' },
+    axisLabel: { 
+        color: '#b7b7b7',
+        fontSize: 18   // <-- shu yerda shrift kattaligi
+    },
       axisLine: { show: false },
       splitLine: { show: false }
     },
@@ -1192,7 +1210,7 @@ function mamuriy_huquq_chart(data) {
         show: true,
         position: 'top',
         color: '#b7b7b7',
-        fontSize: 14,
+        fontSize: 20,
         fontWeight: 'bold'
       }
     }]
@@ -1260,17 +1278,23 @@ function jinoiy_huquq_chart(data) {
   const option = {
     textStyle: { fontFamily: "Arial, sans-serif" },
     grid: { bottom: 100, right: 30, left: 70 },
-    tooltip: { backgroundColor: 'white' },
+    tooltip: { backgroundColor: 'white',   textStyle: {
+                  fontSize: 20,     // 🔥 shu yerda o'zgartirasan
+                  color: '#000'
+              } },
     xAxis: {
       type: 'category',
       data: data.labels,
-      axisLabel: { interval: 0, rotate: 40, color: '#b7b7b7' },
+      axisLabel: { interval: 0, rotate: 40, color: '#b7b7b7',  fontSize: 20  },
       axisLine: { show: false },
       splitLine: { show: false }
     },
     yAxis: {
       type: 'value',
-      axisLabel: { color: '#b7b7b7' },
+      axisLabel: { 
+        color: '#b7b7b7',
+        fontSize: 18   // <-- shu yerda shrift kattaligi
+    }, 
       axisLine: { show: false },
       splitLine: { show: false }
     },
@@ -1288,7 +1312,7 @@ function jinoiy_huquq_chart(data) {
         show: true,
         position: 'top',
         color: '#b7b7b7',
-        fontSize: 14,
+        fontSize: 20,
         fontWeight: 'bold'
       }
     }]
