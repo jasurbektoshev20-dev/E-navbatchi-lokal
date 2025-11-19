@@ -191,6 +191,7 @@
             align-items: center;
             padding-left: 25px;
             height: 70px;
+            font-size: 18px;
         }
 
         .telemetryCard .telementary-card-head img{
@@ -205,7 +206,7 @@
          .telemetryCard .telemetry-card-body .col-12{
             border: 1px solid #ece9e9;
             border-radius: 6px;
-            font-size: 16px;
+            font-size: 18px;
             margin-bottom: 10px;
             padding: 7px 10px;
             margin-right: 5px;
@@ -401,7 +402,7 @@
 
                 <div id="telemetryCard" class="telemetryCard">
                      <div class="telementary-card-head">
-                          <img src="/pictures/cars/patriot_old.gif">
+                          <img src="/pictures/cars/matiz.gif">
                           <p class="telement-date-now" id="telement_date_now"></p>
                      </div>
                      <div class="row telemetry-card-body">
@@ -424,10 +425,10 @@
 
                      <hr style="border-color: white;">
 
-                    <div class="d-flex justify-content-between" style="padding-bottom: 10px; gap:5px;">
-                        <button id="btnPause" class="btn btn-warning btn-sm">⏸ Тўхтатмоқ</button>
-                        <button id="btnPlay" class="btn btn-success btn-sm">▶ Давом этмоқ</button>
-                        <button id="btnRestart" class="btn btn-danger btn-sm">⟲ Қайта бошлаш</button>
+                    <div class="d-flex justify-content-between" style="padding-bottom: 10px; gap:5px; font-size:16px;">
+                        <button id="btnPause" class="btn btn-warning btn">⏸ Тўхтатмоқ</button>
+                        <button id="btnPlay" class="btn btn-success btn">▶ Давом этмоқ</button>
+                        <button id="btnRestart" class="btn btn-danger btn">⟲ Қайта бошлаш</button>
                     </div>
                                 
                 </div>
@@ -646,7 +647,7 @@
 
             if(replayMarker) historyMap.removeLayer(replayMarker);
             const startPos = filtered[0];
-            replayMarker = L.marker([startPos.lat, startPos.lng], {icon: L.icon({iconUrl: '/pictures/cars/patriot_old.png', iconSize: [25,50]}),
+            replayMarker = L.marker([startPos.lat, startPos.lng], {icon: L.icon({iconUrl: '/pictures/cars/matiz.png', iconSize: [25,50]}),
              rotationAngle: 0, 
              rotationOrigin: 'center center'
             }).addTo(historyMap);
@@ -866,14 +867,14 @@
             const unixtime = marker.unixtime;
             if (marker.speed > isOnOffSpeed) {
                 let myIcon = L.icon({
-                    iconUrl: `/pictures/cars/patriot_old.gif`,
+                    iconUrl: `/pictures/cars/matiz.gif`,
                   iconSize: [parseInt(marker.car_width) || 25, parseInt(marker.car_height) || 50],
                 });
                 return myIcon;
             } else {
                 let myIcon = L.icon({
                     // iconUrl: `/pictures/cars/${marker.car_photo}`,
-                    iconUrl: `/pictures/cars/patriot_old.png`,
+                    iconUrl: `/pictures/cars/matiz.png`,
                iconSize: [parseInt(marker.car_width) || 25, parseInt(marker.car_height) || 50],
                 });
                 return myIcon;

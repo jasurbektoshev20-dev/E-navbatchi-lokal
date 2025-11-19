@@ -85,6 +85,7 @@
         /* text-transform: none !important; */
         vertical-align: middle;
       text-align: center;
+      font-size: 18px;
     }
 
     .table th {
@@ -101,7 +102,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body text-center">
-                   <h4>{$smarty.get.market}га жамоат тартибини сақлаш ва <br> жамоат хавфсизлигини таъминлашга жалб этилган куч ва воситалар тўғрисида <br> <span>МАЪЛУМОТ</span> </h4>
+                   <h3>{$smarty.get.market}га жамоат тартибини сақлаш ва <br> жамоат хавфсизлигини таъминлашга жалб этилган куч ва воситалар тўғрисида <br> <span>МАЪЛУМОТ</span> </h3>
                 </div>
             </div>
         </div>
@@ -115,7 +116,7 @@
             <div class="card">
                 <div class="date-box">
                  <div class="date-box-container">
-                      <h5 class="pt-2 pb-2 p-4 m-0" id="date_h5"></h5>
+                      <h4 class="pt-2 pb-2 p-4 m-0" id="date_h5"></h4>
                    <div class="date-box-select col-3">
                      
                       <a href="#" class="date-box-sel-link">
