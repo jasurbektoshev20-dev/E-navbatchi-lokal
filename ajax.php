@@ -603,7 +603,8 @@ switch ($Action) {
 		$car_ids = [];
 
 		$query  = "SELECT t.id, s.name{$slang} as structure, t.object_name, o.name{$slang} as object_type, CONCAT(c.name{$slang}, ' ',c.phone) as cooperate,
-		t.address, t.area, t.admin_phone, t.object_head, t.head_phone, t.police_name, t.police_phone,
+		t.address, t.area, t.admin_phone, t.object_head, t.head_phone, t.police_name, t.police_phone,t.markets_count,t.eating_place_count,t.neighborhood_head,t.assistant_governor,t.youth_leader,t.womens_activist
+		,tax_inspector,t.social_employe,t.sales_places_count,
 		COALESCE(COUNT(jd.id), 0) AS count_doors,
 		t.photo, t.lat, t.long, ST_AsGeoJSON(geom) AS geom_geojson
 		FROM hr.jts_objects t 
@@ -615,7 +616,11 @@ switch ($Action) {
 		GROUP BY t.id, s.name{$slang}, o.name{$slang}, c.name{$slang}, c.phone ";
 		$sql->query($query);
 		$JtsObject = $sql->fetchAssoc();
-
+		
+		echo '<pre>';
+		print_r($JtsObject);
+		echo '</pre>';
+		die();
 		$query  = "SELECT t.id, t.name, t.lat, t.long
 		FROM hr.jts_objects_sos t 
 		WHERE t.object_id = {$JtsObject['id']}
