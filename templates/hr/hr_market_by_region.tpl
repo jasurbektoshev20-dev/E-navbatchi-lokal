@@ -5,6 +5,7 @@
     .table thead th,
     .table tbody td {
         text-transform: none !important;
+        font-size: 18px;
     }
 
     .dt-buttons {
@@ -258,7 +259,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body text-center">
-                    <h4>{$smarty.get.date} бошқармаси бўйича жавобгарлик ҳудудидаги бозорларга  жамоат тартибини <br> сақлаш ва жамоат хавфсизлигини таъминлашга жалб этилган куч  ва воситалар тўғрисида <br> <span>МАЪЛУМОТ</span> </h4>
+                    <h3>{$smarty.get.date} бошқармаси бўйича жавобгарлик ҳудудидаги бозорларга  жамоат тартибини <br> сақлаш ва жамоат хавфсизлигини таъминлашга жалб этилган куч  ва воситалар тўғрисида <br> <span>МАЪЛУМОТ</span> </h3>
                 </div>
             </div>
         </div>
@@ -271,7 +272,7 @@
         <div class="col-12">
             <div class="card">
                  <div class="date-box">
-                      <h5 class="pt-2 pb-2 p-4 m-0" id="date_h5"></h5>
+                      <h4 class="pt-2 pb-2 p-4 m-0" id="date_h5"></h4>
                    <div class="date-box-select">
                      <select class="form-select" aria-label="Default select example">
                             <option selected>Умумий смена</option>
@@ -308,17 +309,18 @@
                             <th class="horizon-th" style="white-space: nowrap;">Т/р</th>
                             <th class="horizon-th">Бозорлар</th>
                             <th>Майдони</th>
-                            <th>Секторлар сони</th>
-                            <th>Сменалар сони</th>
-                            <th>Кириш чиқиш эшиклар сони</th>
-                            <th>Камералар сони</th>
-                            <th>АП йўналишлар сони</th>
-                            <th>ПП йўналишлар сони</th>
-                            <th>Жами йўналишлар сони</th>
-                            <th>Офицерлар сони</th>
-                            <th>Сержантлар сони</th>
-                            <th>МҲХлар сони</th>
-                            <th>Жами</th>
+                            <th>Секторлар</th>
+                            <th>Сменалар</th>
+                            <th>Кириш чиқиш эшиклар</th>
+                            <th>Камералар</th>
+                            <th>Жами йўналишлар</th>
+                            <th>ПП йўналиш</th>
+                            <th>АП йўналиш</th>
+                            <th>Жами шахсий таркиб</th>
+                            <th>Офицерлар</th>
+                            <th>Сержантлар</th>
+                            <th>МҲХлар</th>
+                            
 
 
                             {* <th>ПМ</th>
@@ -332,9 +334,9 @@
                             <th>Бошқа</th>
                             <th>Жами</th> *}
 
-
+                             <th>Жами воситалар</th>
                             <th>Планшет</th>
-                            <th>Бодй камера</th>
+                            <th>Бодикамера</th>
                             <th>Алоқа воситаси</th>
                             <th>Металлодетектор</th>
                             <th>Мегафон</th>
@@ -344,13 +346,13 @@
                             <th>Хуштак</th>
                             <th>Тиббий ҳимоя воситалари</th>
                             <th>Аэрозол</th>
-                            <th>Жами</th>
+                            <th>Жами ҳайвонлар</th>
                             <th>Гиёхванд модда қидирувчи итлар</th>
                             <th>Мина қидирувчи итлар</th>
                             <th>Антитеррор итлар</th>
                             <th>Қоровул итлар</th>
                             <th>Отлар</th>
-                            <th>Жами</th>
+                            <th>Жами автомобиллар</th>
                             <th>Патриот</th>
                             <th>Исузу Д-мах</th>
                             <th>ТИГР</th>
@@ -358,7 +360,7 @@
                             <th>BYD</th>
                             <th>Автобус</th>
                             <th>Бошқа енгил транспорт</th>
-                            <th>Жами</th>
+                         
                         </tr>
                         </thead>
                         <tbody>
@@ -535,7 +537,7 @@
                             <td>45</td>
                         </tr>
 
-                         <tr class="lb text-center" id="row_{$Table.id|crypt}">
+                          <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">4</td>
                             <td>
                                 <a
@@ -592,7 +594,64 @@
                             <td>11</td>
                             <td>34</td>
                         </tr>
-                     
+
+                           <tr class="lb text-center" id="row_{$Table.id|crypt}">
+                            <td class="text-right">5</td>
+                            <td>
+                              Jami
+                            </td>
+                            <td>10 га</td>
+                            <td>15</td>
+                            <td>16</td>
+                            <td>14</td>
+                            <td>60</td>
+                            <td>40</td>
+                            <td>38</td>
+                            <td>20</td>
+                            <td>50</td>
+                            <td>28</td>
+                            <td>80</td>
+                            <td>38</td>
+                            {*
+                            <td>18</td>
+                            <td>11</td>
+                            <td>6</td>
+                            <td>11</td>
+                            <td>11</td>
+                            <td>8</td>
+                            <td>20</td>
+                            <td>10</td>
+                            <td>13</td>
+                            <td>15</td>
+                                     *}
+                            <td>23</td>
+                            <td>29</td>
+                            <td>49</td>
+                            <td>47</td>
+                             <td>21</td>
+                            <td>43</td>
+                            <td>30</td>
+                            <td>90</td>
+                            <td>39</td>
+                            <td>43</td>
+                            <td>14</td>
+                            <td>21</td>
+                            <td>22</td>
+                            <td>46</td>
+                            <td>47</td>
+                            <td>30</td>
+                            <td>29</td>
+                            <td>78</td>
+                            <td>26</td>
+                            <td>49</td>
+                            <td>52</td>
+                            <td>23</td>
+                            <td>30</td>
+                            <td>49</td>
+                            <td>45</td>
+                            <td>100</td>
+                        </tr>
+
                         </tbody>
                   
                         </table>
@@ -664,6 +723,20 @@ document.addEventListener('DOMContentLoaded', function() {
               { name: 'Бек топи бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Бек топи бозори&shahar=Тошкент вилояти' },
               { name: 'Чилонзор деҳқон бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Чилонзор деҳқон бозори&shahar=Тошкент вилояти' },
               { name: 'Орикзор буюм бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Орикзор буюм бозори&shahar=Тошкент вилояти' }
+          ];
+
+          if (names[index]) {
+              td.innerHTML = `<a href="${names[index].link}">${names[index].name}</a>`;
+          }
+      });
+    }
+       else if (region === 'Қорақалпоғистон Республикаси') {
+         document.querySelectorAll('table tr td:nth-child(2)').forEach((td, index) => {
+          const names = [
+              { name: 'Нукус марказий деҳқон бозор', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Нукус марказий деҳқон бозор&shahar=Қорақалпоғистон Республикаси' },
+              { name: 'Бек топи бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Бек топи бозори&shahar=Қорақалпоғистон Республикаси' },
+              { name: 'Эски шаҳар бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Эски шаҳар бозори&shahar=Қорақалпоғистон Республикаси' },
+              { name: 'Марказий деҳқон буюм бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Марказий деҳқон буюм бозори&shahar=Қорақалпоғистон Республикаси' }
           ];
 
           if (names[index]) {

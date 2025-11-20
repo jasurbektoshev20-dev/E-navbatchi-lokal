@@ -124,6 +124,10 @@
       height: 100%;
     }
 
+    .form-select{
+      font-size: 18px;
+    }
+
   {/literal}
 </style>
 
@@ -135,16 +139,19 @@
       <div class="card">
         <div class="mx-3 my-2 row">
           <div class="col-8">
-            <h5 class="card-title">Жавобгарлик объектлари</h5>
+            <h4 class="card-title">Жавобгарлик объектлари</h4>
           </div>
           <div class="col-4">
-            <select class="form-select" id="event_count">
+                <select class="form-select" id="event_count">
               <option value="">Ҳудудлар</option>
 
-              {foreach from=$Regions item=Item1 key=ikey1}
-                <option value="{$Item1.id}">{$Item1.name}</option>
+              {foreach from=$Regions item=Item1 key=ikey1 name=regionLoop}
+                  {if $smarty.foreach.regionLoop.iteration <= 14}
+                      <option value="{$Item1.id}">{$Item1.name}</option>
+                  {/if}
               {/foreach}
-            </select>
+
+          </select>
           </div>
           <div class="chart-container" id="all_events_by_type"></div>
         </div>
@@ -154,26 +161,29 @@
     <!-- JTSB html chartining html qismi tugashi -->
 
 
-
-
     <div class="col-md-4 col-lg-4 mb-2">
       <div class="card">
         <div class="mx-3 my-2 row">
           <div class="col-8">
-            <h5 class="card-title">Оммавий тадбирлар</h5> <br>
+            <h4 class="card-title">Оммавий тадбирлар</h4> <br>
           </div>
           <div class="col-4">
-            <select class="form-select" id="public_events">
+             <select class="form-select" id="public_events">
               <option value="">Ҳудудлар</option>
-              {foreach from=$Regions item=Item1 key=ikey1}
-                <option value="{$Item1.id}">{$Item1.name}</option>
+
+              {foreach from=$Regions item=Item1 key=ikey1 name=regionLoop}
+                  {if $smarty.foreach.regionLoop.iteration <= 14 }
+                      <option value="{$Item1.id}">{$Item1.name}</option>
+                  {/if}
               {/foreach}
-            </select>
+
+          </select>
           </div>
           <div class="chart-container" id="get_events_by_type"></div>
         </div>
       </div>
     </div>
+
    
     <!-- 1-modali: kategoriya → viloyatlar kesimi -->
     <div class="modal fade" id="eventTypeModal" tabindex="-1" aria-labelledby="eventTypeModalLabel" aria-hidden="true">
@@ -214,7 +224,7 @@
       <div class="card">
         <div class="mx-3 my-2 row">
           <div class="col-8">
-            <h5 class="card-title">Идоравий тадбирлар</h5> <br>
+            <h4 class="card-title">Идоравий тадбирлар</h4> <br>
           </div>
           <div class="col-4">
             <select class="form-select" id="public_events1"> </select>
@@ -242,8 +252,8 @@
       <div class="card">
         <div class="mx-3 my-2 row">
           <div class="col-8">
-            <h5 class="card-title">Жамоат тартибини сақлаш ҳудудлар кесимида
-            </h5>
+            <h4 class="card-title">Жамоат тартибини сақлаш ҳудудлар кесимида
+            </h4>
           </div>
           <div class="col-4">
             {* <select class="form-select" id="get_events_by_region_filter"> </select> *}
@@ -261,8 +271,8 @@
       <div class="card">
         <div class="mx-3 my-2 row">
           <div class="col-8">
-            <h5 class="card-title">Оммавий тадбирлар ҳудудлар кесимида
-            </h5>
+            <h4 class="card-title">Оммавий тадбирлар ҳудудлар кесимида
+            </h4>
           </div>
           <div class="col-4">
             <select class="form-select" id="get_events_by_region_filter1"> </select>
@@ -277,8 +287,8 @@
       <div class="card">
         <div class="mx-3 my-2 row">
           <div class="col-8">
-            <h5 class="card-title">Идоравий тадбирлар ҳудудлар кесимида
-            </h5>
+            <h4 class="card-title">Идоравий тадбирлар ҳудудлар кесимида
+            </h4>
           </div><br>
           <div class="col-4">
             <select class="form-select" id="get_events_by_region_filter2"> </select>
@@ -299,6 +309,7 @@
                 </div>
             </div>
         </div> *}
+
   </div>
 </div>
 
@@ -349,6 +360,7 @@
           success: function(response) {
             all_events_by_type(response?.stats);
             get_events_by_region(response)
+            console.log("Response: ", response)
           },
           error: function(xhr, status, error) {
             console.error('AJAX error:', error);
@@ -371,24 +383,32 @@
           title: {
             text: total,
             left: 'center',
-            top: '32%',
-            textStyle: { fontSize: 18, fontWeight: 'bold', color: '#b7b7b7' },
+            top: '37%',
+            textStyle: { fontSize: 28, fontWeight: 'bold', color: '#b7b7b7' },
           },
           legend: {
-            top: 'bottom',
-            left: 'center',
-            textStyle: { color: '#b7b7b7', fontSize: '1rem' }
+          
+           bottom: 0,
+           left: 'center',
+           padding: [20, 0, 0, 0],
+            textStyle: { color: '#b7b7b7', fontSize: '1.3rem' }
           },
-          tooltip: { backgroundColor: 'white' },
+                tooltip: {
+              backgroundColor: 'white',
+              textStyle: {
+                  fontSize: 20,     // 🔥 shu yerda o'zgartirasan
+                  color: '#000'
+              }
+          },
           series: [{
             type: 'pie',
             radius: ['20%', '60%'],
-            center: ['50%', '35%'],
+            center: ['50%', '43%'],
             label: {
               show: true,
               position: 'outside',
               formatter: '{c}',
-              textStyle: { fontSize: 16, fontWeight: 'bold', color: '#b7b7b7' }
+              textStyle: { fontSize: 22, fontWeight: 'bold', color: '#b7b7b7' }
             },
 
             itemStyle: {
@@ -464,24 +484,31 @@
 
           const myChart = echarts.init(dom);
           const option = {
-            textStyle: { fontFamily: "Arial, sans-serif" },
+            textStyle: { fontFamily: "Arial, sans-serif"},
             xAxis: {
               type: 'category',
               data: data?.stat_region?.map(item => item.name),
-              axisLabel: { interval: 0, fontSize: '1rem', rotate: 45, color: '#b7b7b7' },
+              axisLabel: { interval: 0, fontSize: '1.3rem', rotate: 45, color: '#b7b7b7' },
               axisLine: { show: false },
               splitLine: { show: false }
             },
             grid: { bottom: 110, right: 30, left: 100 },
-            yAxis: { type: 'value', axisLabel: { color: '#b7b7b7' }, axisLine: { show: false },
-            splitLine: { show: false } },
+            yAxis: { 
+                type: 'value', 
+                axisLabel: { 
+                    color: '#b7b7b7',
+                    fontSize: 20   // <-- shu yerda shrift kattaligi
+                }, 
+                axisLine: { show: false },
+                splitLine: { show: false }
+            },
             tooltip: { backgroundColor: 'white' },
             series: [{
               data: data?.stat_region?.map(item => parseInt(item.value)),
               type: 'bar',
               barMaxWidth: 60,
               itemStyle: { color: (p) => colors[p.dataIndex % colors.length], borderRadius: [8, 8, 0, 0] },
-              label: { fontSize: 16, show: true, position: 'top', color: '#b7b7b7' }
+              label: { fontSize: 22, show: true, position: 'top', color: '#b7b7b7' }
             }]
           };
   
@@ -504,167 +531,167 @@
 
 
         
-          function getEvents() {
-        let url = `${AJAXPHP}?act=public_events`;
-        let params = [];
-        if (structure_id) params.push(`structure_id=${structure_id}`);
+      //     function getEvents() {
+      //   let url = `${AJAXPHP}?act=public_events`;
+      //   let params = [];
+      //   if (structure_id) params.push(`structure_id=${structure_id}`);
 
-        if (params.length > 0) url += '&' + params.join('&');
-        $.ajax({
-          url: url,
-          type: 'GET',
-          dataType: 'json',
-          success: function(response) {
-            get_events_by_type(response?.stats);
-            public_events_by_region(response)
-          },
-          error: function(xhr, status, error) {
-            console.error('AJAX error:', error);
-          }
-        })
-      }
+      //   if (params.length > 0) url += '&' + params.join('&');
+      //   $.ajax({
+      //     url: url,
+      //     type: 'GET',
+      //     dataType: 'json',
+      //     success: function(response) {
+      //       get_events_by_type(response?.stats);
+      //       get_events_by_region(response)
+      //     },
+      //     error: function(xhr, status, error) {
+      //       console.error('AJAX error:', error);
+      //     }
+      //   })
+      // }
 
-      getEvents()
+      // getEvents()
       
 
-      function get_events_by_type(data = []) {
-        const dom = document.getElementById('get_events_by_type');
-        const myChart = echarts.init(dom);
+      // function get_events_by_type(data = []) {
+      //   const dom = document.getElementById('get_events_by_type');
+      //   const myChart = echarts.init(dom);
         
-        const total = data.reduce((sum, item) => sum + Number(item.value), 0);
+      //   const total = data.reduce((sum, item) => sum + Number(item.value), 0);
 
-        const option = {
-          color: colors,
-          textStyle: { fontFamily: "Arial, sans-serif" },
-          title: {
-            text: total,
-            left: 'center',
-            top: '32%',
-            textStyle: { fontSize: 18, fontWeight: 'bold', color: '#b7b7b7' },
-          },
-          legend: {
-            top: 'bottom',
-            left: 'center',
-            textStyle: { color: '#b7b7b7', fontSize: '1rem' }
-          },
-          tooltip: { backgroundColor: 'white' },
-          series: [{
-            type: 'pie',
-            radius: ['20%', '60%'],
-            center: ['50%', '35%'],
-            label: {
-              show: true,
-              position: 'outside',
-              formatter: '{c}',
-              textStyle: { fontSize: 16, fontWeight: 'bold', color: '#b7b7b7' }
-            },
+      //   const option = {
+      //     color: colors,
+      //     textStyle: { fontFamily: "Arial, sans-serif" },
+      //     title: {
+      //       text: total,
+      //       left: 'center',
+      //       top: '32%',
+      //       textStyle: { fontSize: 18, fontWeight: 'bold', color: '#b7b7b7' },
+      //     },
+      //     legend: {
+      //       top: 'bottom',
+      //       left: 'center',
+      //       textStyle: { color: '#b7b7b7', fontSize: '1.3rem' }
+      //     },
+      //     tooltip: { backgroundColor: 'white' },
+      //     series: [{
+      //       type: 'pie',
+      //       radius: ['20%', '60%'],
+      //       center: ['50%', '35%'],
+      //       label: {
+      //         show: true,
+      //         position: 'outside',
+      //         formatter: '{c}',
+      //         textStyle: { fontSize: 22, fontWeight: 'bold', color: '#b7b7b7' }
+      //       },
 
-            itemStyle: {
-              borderRadius: 10,
+      //       itemStyle: {
+      //         borderRadius: 10,
 
-              shadowColor: 'rgba(0,0,0,0.5)',
-              shadowBlur: 20
-            },
+      //         shadowColor: 'rgba(0,0,0,0.5)',
+      //         shadowBlur: 20
+      //       },
 
-            data: data.map((item) => ({ name: item.name, value: item.value, id: item.id }))
-          }]
-        };
+      //       data: data.map((item) => ({ name: item.name, value: item.value, id: item.id }))
+      //     }]
+      //   };
 
-        myChart.setOption(option);
-        window.addEventListener('resize', myChart.resize);
+      //   myChart.setOption(option);
+      //   window.addEventListener('resize', myChart.resize);
 
-        // ⚡ Avvalgi click eventni olib tashlaymiz
-        myChart.off('click');
+      //   // ⚡ Avvalgi click eventni olib tashlaymiz
+      //   myChart.off('click');
 
-        // myChart.on('click', function(params) {
-        //   if (structure_id) {
-        //     window.location.href = `hr.php?act=regions_map&region_id=${structure_id}&object_type=${params.data.id}`
-        //   }else{
-        //     window.location.href = `hr.php?act=regions_map&object_type=${params.data.id}`
-        //   }
+      //   myChart.on('click', function(params) {
+      //     if (structure_id) {
+      //       window.location.href = `hr.php?act=regions_map&region_id=${structure_id}&object_type=${params.data.id}`
+      //     }else{
+      //       window.location.href = `hr.php?act=regions_map&object_type=${params.data.id}`
+      //     }
 
-        // });
-      }
-
-
-      // 📊 Pastdagi diagramma (faqat "Ҳаммаси" uchun)
-      function public_events_by_region(data) {
-        const dom = document.getElementById('public_events_by_region');
-        if (!dom) return console.error('❌ Diagramma konteyner topilmadi:', containerId);
+      //   });
+      // }
 
 
-        if(structure_id){
-          let allHtml = `
-            <div class="col-12">
-              <div class="region-box">
-          `;
+      // // 📊 Pastdagi diagramma (faqat "Ҳаммаси" uchun)
+      // function get_events_by_region(data) {
+      //   const dom = document.getElementById('get_events_by_region');
+      //   if (!dom) return console.error('❌ Diagramma konteyner topilmadi:', containerId);
 
-          data?.list.forEach(cat => {
-            // Har bir kategoriya uchun
-            const places = cat.objects || [];
-            let listHtml = '<ul class="place-list scrollable">';
 
-            places.forEach(p => {
-              listHtml += `
-                <li class="alert alert-dark" role="alert" data-cat="${cat.name}" data-place="${p.object_name}">
-                  ${p.object_name}
-                </li>`;
-            });
+      //   if(structure_id){
+      //     let allHtml = `
+      //       <div class="col-12">
+      //         <div class="region-box">
+      //     `;
 
-            listHtml += '</ul>';
+      //     data?.list.forEach(cat => {
+      //       // Har bir kategoriya uchun
+      //       const places = cat.objects || [];
+      //       let listHtml = '<ul class="place-list scrollable">';
 
-            allHtml += `
-              <div class="category-block mb-2">
-                <h5 class="mb-2 text-primary">${cat.name}</h5>
-                ${listHtml}
-              </div>
-            `;
-          });
+      //       places.forEach(p => {
+      //         listHtml += `
+      //           <li class="alert alert-dark" role="alert" data-cat="${cat.name}" data-place="${p.object_name}">
+      //             ${p.object_name}
+      //           </li>`;
+      //       });
 
-          allHtml += `
-              </div>
-            </div>
-          `;
+      //       listHtml += '</ul>';
 
-          dom.innerHTML = allHtml;
+      //       allHtml += `
+      //         <div class="category-block mb-2">
+      //           <h5 class="mb-2 text-primary">${cat.name}</h5>
+      //           ${listHtml}
+      //         </div>
+      //       `;
+      //     });
 
-        }else{
+      //     allHtml += `
+      //         </div>
+      //       </div>
+      //     `;
 
-          const myChart = echarts.init(dom);
-          const option = {
-            textStyle: { fontFamily: "Arial, sans-serif" },
-            xAxis: {
-              type: 'category',
-              data: data?.stat_region?.map(item => item.name),
-              axisLabel: { interval: 0, fontSize: '1rem', rotate: 45, color: '#b7b7b7' },
-              axisLine: { show: false },
-              splitLine: { show: false }
-            },
-            grid: { bottom: 110, right: 30, left: 100 },
-            yAxis: { type: 'value', axisLabel: { color: '#b7b7b7' }, axisLine: { show: false },
-            splitLine: { show: false } },
-            tooltip: { backgroundColor: 'white' },
-            series: [{
-              data: data?.stat_region?.map(item => parseInt(item.value)),
-              type: 'bar',
-              barMaxWidth: 60,
-              itemStyle: { color: (p) => colors[p.dataIndex % colors.length], borderRadius: [8, 8, 0, 0] },
-              label: { fontSize: 16, show: true, position: 'top', color: '#b7b7b7' }
-            }]
-          };
+      //     dom.innerHTML = allHtml;
+
+      //   }else{
+
+      //     const myChart = echarts.init(dom);
+      //     const option = {
+      //       textStyle: { fontFamily: "Arial, sans-serif" },
+      //       xAxis: {
+      //         type: 'category',
+      //         data: data?.stat_region?.map(item => item.name),
+      //         axisLabel: { interval: 0, fontSize: '1.3rem', rotate: 45, color: '#b7b7b7' },
+      //         axisLine: { show: false },
+      //         splitLine: { show: false }
+      //       },
+      //       grid: { bottom: 110, right: 30, left: 100 },
+      //       yAxis: { type: 'value', axisLabel: { color: '#b7b7b7' }, axisLine: { show: false },
+      //       splitLine: { show: false } },
+      //       tooltip: { backgroundColor: 'white' },
+      //       series: [{
+      //         data: data?.stat_region?.map(item => parseInt(item.value)),
+      //         type: 'bar',
+      //         barMaxWidth: 60,
+      //         itemStyle: { color: (p) => colors[p.dataIndex % colors.length], borderRadius: [8, 8, 0, 0] },
+      //         label: { fontSize: 22, show: true, position: 'top', color: '#b7b7b7' }
+      //       }]
+      //     };
   
-          myChart.setOption(option);
-          window.addEventListener('resize', myChart.resize);
-        }
+      //     myChart.setOption(option);
+      //     window.addEventListener('resize', myChart.resize);
+      //   }
 
-      }
+      // }
 
 
-        $('#event_count').on('change', function() {
-          const id = parseInt($(this).val());
-          structure_id = id
-          getEvents()
-        })
+      //   $('#event_count').on('change', function() {
+      //     const id = parseInt($(this).val());
+      //     structure_id = id
+      //     getEvents()
+      //   })
 
 
         
@@ -692,31 +719,8 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     let default_color = localStorage.getItem('templateCustomizer-vertical-menu-template-no-customizer--Style') ==
-      'light' ? '#000' : '#fff';
+      'light' ? '#000' : '#b7b7b7';
 
     let filters = [{
         id: 0,
@@ -783,11 +787,15 @@
           itemGap: 10,
           textStyle: {
             color: default_color,
-            fontSize: '1rem'
+            fontSize: '1.3rem'
           }
         },
         tooltip: {
           backgroundColor: 'white',
+           textStyle: {
+                fontSize: 20,     // 🔥 shu yerda o'zgartirasan
+                color: '#000'
+            }
         },
         series: [{
           type: 'pie',
@@ -806,7 +814,7 @@
             position: 'outside', // Place labels outside the pie chart
             formatter: '{c}', // Format the labels
             textStyle: {
-              fontSize: 16, // Adjust the font size of the labels
+              fontSize: 22, // Adjust the font size of the labels
               fontWeight: 'bold',
               color: '#b7b7b7',
             },
@@ -984,7 +992,7 @@
           left: 'center',
           top: '32%',
           textStyle: {
-            fontSize: 18,
+            fontSize: 22,
             fontWeight: 'bold',
             color: '#b7b7b7'
           },
@@ -993,9 +1001,16 @@
           top: 'bottom',
           orient: 'horizontal',
           left: 'center',
-          textStyle: { color: '#b7b7b7', fontSize: '1rem' }
+          textStyle: { color: '#b7b7b7', fontSize: '1.3rem' }
         },
-        tooltip: { backgroundColor: 'white' },
+            tooltip: {
+            backgroundColor: 'white',
+            textStyle: {
+                fontSize: 20,     // 🔥 shu yerda o'zgartirasan
+                color: '#000'
+            }
+        },
+
         series: [{
           type: 'pie',
           radius: ['20%', '60%'],
@@ -1011,7 +1026,7 @@
             show: true,
             position: 'outside',
             formatter: '{c}',
-            textStyle: { fontSize: 16, fontWeight: 'bold', color: '#888' }
+            textStyle: { fontSize: 20, fontWeight: 'bold', color: '#b7b7b7' }
           },
           labelLine: { show: true, length: 20, length2: 12 },
           data: sdata.map((item, index) => ({
@@ -1412,20 +1427,9 @@ ${escapeHtml(ev.title)}
 
 
 
-  // 🔽 Filterni to‘ldirish
-  eventTypeFilters.forEach((item) => {
-    $("#public_events").append(
-      `<option value="${item.id}">${item.name}</option>`
-    );
-  });
 
-  // 🔁 Filter o‘zgarsa chartni yangilash
-  $("#public_events").change(function() {
-    const id = $(this).val();
-    const selected = eventTypeChartDataByFilter[id] || eventTypeChartDataByFilter[0];
-    const total = selected.data.reduce((sum, v) => sum + v, 0);
-    renderEventTypeChart(selected, total);
-  });
+
+
 
   // 🚀 Boshlang‘ich yuklash
   const initialData = eventTypeChartDataByFilter[0];
@@ -1434,25 +1438,15 @@ ${escapeHtml(ev.title)}
 
 
 
-
-
-
-
-
-
-
-
-
-
   /* qo'shimcha kiritgan joyim */
   // 🎯 Ma’lumotlar
   const chartDataByFilter2 = {
     0: {
       legend: [
-      "Ўқув-жанговар",
+      "Ўқув",
         "Тарбиявий",
-        "Назорат ва инспекцион",
-        "Техник ва хўжалик",
+        "Назорат",
+        "Техник",
         "Таълим ва касбий тайёргарлик",
         "Спорт ва жисмоний тайёргарлик"
       ],
@@ -1460,10 +1454,10 @@ ${escapeHtml(ev.title)}
     },
     2: {
       legend: [
-       "Ўқув-жанговар",
+       "Ўқув",
         "Тарбиявий",
-        "Назорат ва инспекцион",
-        "Техник ва хўжалик",
+        "Назорат",
+        "Техник",
         "Таълим ва касбий тайёргарлик",
         "Спорт ва жисмоний тайёргарлик"
       ],
@@ -1471,10 +1465,10 @@ ${escapeHtml(ev.title)}
     },
     3: {
       legend: [
-       "Ўқув-жанговар",
+       "Ўқув",
         "Тарбиявий",
-        "Назорат ва инспекцион",
-        "Техник ва хўжалик",
+        "Назорат",
+        "Техник",
         "Таълим ва касбий тайёргарлик",
         "Спорт ва жисмоний тайёргарлик"
       ],
@@ -1484,7 +1478,7 @@ ${escapeHtml(ev.title)}
 
   // 🧾 Tafsilotlar (modal uchun)
   const eventDetails3 = {
-   "Ўқув-жанговар": [
+   "Ўқув": [
       "Отиш машғулотлари - 12",
       "Тактик машғулотлар - 34",
       "Техник машқлар - 14",
@@ -1501,19 +1495,19 @@ ${escapeHtml(ev.title)}
       "Маданий-оммавий тадбирлар - 21",
       "Маънавий-психологик тайёргарлик машғулотлари - 24"
     ],
-   "Назорат ва инспекцион": [
+   "Назорат": [
       "Жанговар ва хизматга тайёргарлик текширувлари - 14",
       "Қўмондонлик ёки бошқарув томонидан инспекторлик текшируви - 17",
       "Энг яхши бўлинма (ҳарбий қисм) танлови - 19",
       "Қурол, техника ва ўқ-дорилар ҳисобини текшириш - 19"
     ],
-    "Техник ва хўжалик": [
+    "Техник": [
       "Техника ва қуролларга техник хизмат кўрсатиш ва таъмирлаш - 21",
       "Парклар, казармалар ва омборларда тартиб ўрнатиш - 24",
       "Мулкни инвентаризация қилиш - 25",
       "Ҳудудни ободонлаштириш, хўжалик ишлари - 19"
     ],
-    "Таълим ва касбий тайёргарлик": [
+    "Таълим": [
       "Офицер ва прапоршчиклар учун малака ошириш курслари - 24",
       "Янги қурол ва техникани ўрганиш бўйича машғулотлар - 10",
       "Қўмондонлик таркиби учун семинар ва услубий йиғилишлар - 9",
@@ -1564,15 +1558,18 @@ ${escapeHtml(ev.title)}
         text: total,
         left: "center",
         top: "32%",
-        textStyle: { fontSize: 18, fontWeight: "bold", color: "#444" }
+        textStyle: { fontSize: 20, fontWeight: "bold", color: "#b7b7b7" }
       },
       legend: {
         top: "bottom",
         orient: "horizontal",
         left: "center",
-        textStyle: { color: "#b7b7b7", fontSize: "1rem" }
+        textStyle: { color: "#b7b7b7", fontSize: "1.3rem" }
       },
-      tooltip: { backgroundColor: "white" },
+      tooltip: { backgroundColor: "white",  textStyle: {
+                fontSize: 20,    
+                color: '#000'
+            } },
       series: [{
         type: "pie",
         radius: ['20%', '60%'],
@@ -1588,7 +1585,7 @@ ${escapeHtml(ev.title)}
           show: true,
           position: "outside",
           formatter: "{c}",
-          textStyle: { fontSize: 15, fontWeight: "bold", color: "#b7b7b7" }
+          textStyle: { fontSize: 20, fontWeight: "bold", color: "#b7b7b7" }
         },
         labelLine: { show: true, length: 20 },
         data: sdata.map((item, index) => ({
@@ -1664,7 +1661,7 @@ ${escapeHtml(ev.title)}
         data: data.map(item => item.name),
         axisLabel: {
           interval: 0,
-          fontSize: '1rem',
+          fontSize: '1.3rem',
           rotate: 50, // Show all labels
           color: default_color,
         },
@@ -1687,6 +1684,7 @@ ${escapeHtml(ev.title)}
         },
         axisLabel: {
           color: default_color,
+           fontSize: 20
         },
         axisLine: {
           show: false // Remove the background Y line
@@ -1696,7 +1694,11 @@ ${escapeHtml(ev.title)}
         }
       },
       tooltip: {
-        backgroundColor: 'white',
+        backgroundColor: default_color,
+         textStyle: {
+                fontSize: 20,     // 🔥 shu yerda o'zgartirasan
+                color: '#000'
+            }
       },
       series: [{
         data: data.map(item => parseInt(item.gcount)),
@@ -1711,7 +1713,7 @@ ${escapeHtml(ev.title)}
           borderRadius: [8, 8, 0, 0] // Add border-radius only to the top of the bar line
         },
         label: {
-          fontSize: 16,
+          fontSize: 22,
           show: true, // Show the value on top of the bar
           position: 'top',
           color: default_color,
@@ -1773,7 +1775,7 @@ ${escapeHtml(ev.title)}
         data: data.map(item => item.name),
         axisLabel: {
           interval: 0,
-          fontSize: '1rem',
+          fontSize: '1.3rem',
           rotate: 50, // Show all labels
           color: default_color,
         },
@@ -1796,6 +1798,7 @@ ${escapeHtml(ev.title)}
         },
         axisLabel: {
           color: default_color,
+          fontSize:20
         },
         axisLine: {
           show: false // Remove the background Y line
@@ -1805,7 +1808,11 @@ ${escapeHtml(ev.title)}
         }
       },
       tooltip: {
-        backgroundColor: 'white',
+        backgroundColor: default_color,
+         textStyle: {
+                fontSize: 20,     // 🔥 shu yerda o'zgartirasan
+                color: '#000'
+            }
       },
       series: [{
         data: data.map(item => parseInt(item.gcount)),
@@ -1820,7 +1827,7 @@ ${escapeHtml(ev.title)}
         //     borderRadius: [8, 8, 0, 0] // Add border-radius only to the top of the bar line
         // },
         label: {
-          fontSize: 16,
+          fontSize: 22,
           show: true, // Show the value on top of the bar
           position: 'top',
           color: default_color,

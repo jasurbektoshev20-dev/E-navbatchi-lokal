@@ -5,6 +5,7 @@
     .table thead th,
     .table tbody td {
         text-transform: none !important;
+        font-size: 18px;
     }
 
     .dt-buttons {
@@ -58,7 +59,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body text-center">
-                    <h4>Бозорларга жамоат тартибини сақлаш ва жамоат хавфсизлигини таъминлашга жалб этилган куч ва воситалар тўғрисида <br> <span>МАЪЛУМОТ</span> </h4>
+                    <h3>Бозорларга жамоат тартибини сақлаш ва жамоат хавфсизлигини таъминлашга жалб этилган куч ва воситалар тўғрисида <br> <span>МАЪЛУМОТ</span> </h3>
                 </div>
             </div>
         </div>
@@ -71,7 +72,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="date-box">
-                   <h5 class="pt-2 pb-2 p-4 m-0" id="date_h5"></h5>
+                   <h4 class="pt-2 pb-2 p-4 m-0" id="date_h5"></h4>
                    <div class="date-box-select">
                        <input class="form-control" type="date" placeholder="Бошланғич вақтни танланг">
                        <input class="form-control" type="date" placeholder="Охирги вақтни танланг">

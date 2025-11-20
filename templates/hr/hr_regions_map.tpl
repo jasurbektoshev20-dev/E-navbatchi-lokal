@@ -5,6 +5,7 @@
 
 <link href="/assets/global_assets/css/icons/fontawesome/styles.min.css" rel="stylesheet" type="text/css">
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
 
 <style>
@@ -88,7 +89,7 @@
       object-fit: cover;
     }
 
-    .space-main-body-passport ul li img {
+    /* .space-main-body-passport ul li img {
       width: 100%;
       height: 450px;
       object-fit: cover;
@@ -102,7 +103,7 @@
 
     .space-main-body-passport ul li h4 {
       margin: 0%;
-    }
+    } */
 
     .space-main-modal-box ul {
       list-style-type: none;
@@ -282,6 +283,191 @@
   transition: all 0.3s ease;
 }
 
+.mapboxgl-popup-content {
+    width: fit-content;
+    padding: 0;
+}
+
+.passport-card {
+  background: rgba(0, 0, 0, 0.3); /* shaffof */
+  padding: 25px;
+  border-radius: 18px;
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(56, 189, 248, 0.4); /* neon cyan border */
+}
+
+.passport-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.passport-card li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.passport-card li:last-child {
+  border-bottom: none;
+}
+
+.passport-card h6 {
+  font-size: 17px;
+  font-weight: 600;
+  margin: 0;
+  color: #E2E8F0; /* oqga yaqin */
+}
+
+.passport-card p,
+.passport-card a {
+  margin: 0;
+  font-size: 16px;
+  color: #94A3B8; /* kulrang-oq */
+  text-decoration: none;
+}
+
+.passport-icon {
+  width: 38px;
+  height: 38px;
+  background: rgba(56, 189, 248, 0.1); /* cyan glow */
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  color: #38BDF8; /* neon cyan */
+  backdrop-filter: blur(3px);
+}
+
+.space-main-head h4 {
+  color: #fff;
+  border-bottom: 3px solid #38BDF8;
+  padding-bottom: 4px;
+}
+
+/* Ichki scroll berish */
+.space-main-body-passport {
+  max-height: 320px;      /* xohlagan balandlik */
+  overflow-y: auto;
+  padding-right: 6px;     /* scroll tegmasligi uchun */
+}
+
+.space-main-body-passport .passport-li-about{
+  display: flex;
+  gap: 7px;
+}
+.space-main-body-passport .passport-li-about h6, .space-main-body-passport .passport-li-about p{
+    padding: 0;
+}
+/* Scrollbar style (dark mode) */
+.space-main-body-passport::-webkit-scrollbar {
+  width: 6px;
+}
+
+.space-main-body-passport ul li{
+  align-items: center;
+}
+
+.space-main-body-passport::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+.space-main-body-passport::-webkit-scrollbar-thumb {
+  background: rgba(56, 189, 248, 0.45); /* cyan */
+  border-radius: 10px;
+}
+
+.space-main-body-passport::-webkit-scrollbar-thumb:hover {
+  background: rgba(56, 189, 248, 0.7);
+}
+/* Scroll konteyner */
+.space-main-body-duty {
+  max-height: 320px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+/* Scroll dizayni */
+.space-main-body-duty::-webkit-scrollbar {
+  width: 6px;
+}
+.space-main-body-duty::-webkit-scrollbar-thumb {
+  background: #38BDF8;
+  border-radius: 10px;
+}
+.space-main-body-duty::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* List umumiy */
+.space-main-body-duty ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Har bir element — UDAR neon cyan */
+.space-main-body-duty li {
+  background: rgba(0, 0, 0, 0.3); 
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  color: #E2E8F0;
+  padding: 14px 18px;
+  border-radius: 12px;
+  font-size: 17px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  backdrop-filter: blur(6px);
+  transition: 0.25s ease;
+}
+
+/* Hover effekti */
+.space-main-body-duty li:hover {
+  background: rgba(56, 189, 248, 0.08);
+  border-color: #38BDF8;
+  transform: translateX(6px);
+}
+
+/* Icon — cyan glow */
+.duty-icon {
+  width: 38px;
+  height: 38px;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #38BDF8;
+  font-size: 19px;
+  backdrop-filter: blur(4px);
+}
+
+/* Qiymatlar ranglari */
+.space-main-body-duty span {
+  color: #38BDF8;
+  font-weight: 600;
+}
+
+/* Title */
+.space-main-head h4 {
+  color: #fff;
+  border-bottom: 3px solid #38BDF8;
+  padding-bottom: 4px;
+}
+
+.button_box{
+  color: #000;
+  position: absolute;
+  bottom: 0px;
+}
+
   {/literal}
 </style>
 
@@ -317,7 +503,7 @@
 
   <div class="filters bg-white rounded shadow" style="z-index: 200;">
     <div>
-      <label for="viloyatSelect" class="form-label">Ҳудудлар</label>
+      <label for="viloyatSelect" class="form-label">Объектлар</label>
       <select id="viloyatSelect" class="form-select">
         <option value="">Танланг</option>
         {foreach from=$Regions item=Item1 key=ikey1}
@@ -374,10 +560,24 @@
                 <h4 class="m-0">Харита</h4>
               </div>
               <div id="dialogMap" class="mt-1"></div>
-              <div class="space-main-head mt-3">
-                <h4 class="">Объект ҳақида маълумотлар</h4>
+             {* <div class="space-main-head mt-3 text-center">
+                  <h4
+                    class="fw-bold"
+                    style="
+                      border-bottom: 3px solid #0ea5e9;
+                      display: inline-block;
+                      padding-bottom: 5px;
+                    "
+                  >
+                    Объект ҳақида маълумотлар
+                  </h4>
+              </div> *}
+              <div class="space-main-head mt-3 text-center">
+                <h4 class="fw-bold">
+                  Объект ҳақида маълумотлар
+                </h4>
               </div>
-                <div class="space-main-body-passport">
+                <div class="space-main-body-passport passport-card mt-3">
 
                 </div>
               </div>
@@ -387,8 +587,8 @@
                   <div class="space-main-head">
                     <h4 class="m-0">Камералар</h4>
                   </div>
-                  <div class="row text-center">
-                    <div id="playWind" style="width: 800px; height: 400px;"></div>
+                  <div class="row text-center position-relative">
+                    <div id="playWind" style="width: 800px; height:350px;"></div>
                     <div class="button_box" style="width: 100%;">
                       <div class="items">
                         <div class="d-flex gap-1 px-2 mt-2" style="align-items:center;">
@@ -464,11 +664,11 @@
                     </div> *}
                 </div>
                 <div class="mt-4">
-                  <div class="space-main-head">
+                  <div class="space-main-head text-center">
                     <h4>Жалб қилинган куч воситалар</h4>
                   </div>
                   <div class="space-main-body-duty">
-
+                    
                   </div>
                 </div>
 
@@ -865,9 +1065,9 @@
 
             const el = document.createElement('div');
             el.className = 'door-marker';
-            el.style.width = '20px';
-            el.style.height = '20px';
-            el.style.backgroundImage = `url('/assets/images/open-door.png')`;
+            el.style.width = '30px';
+            el.style.height = '30px';
+            el.style.backgroundImage = `url('/assets/images/open-door2.png')`;
             el.style.backgroundSize = 'cover';
             el.title = door.name;
 
@@ -918,7 +1118,7 @@
             const el = document.createElement('div');
             el.className = 'camera-marker';
             // el.style.backgroundImage = `url('/assets/images/video-camera-recording-yellow.png')`;
-            el.style.backgroundImage = `url('/assets/images/security-camera-real2.png')`;
+            el.style.backgroundImage = `url('/assets/images/image.png')`;
             el.style.backgroundSize = 'cover';
             el.title = camera.comment;
              el.style.width = '25px';
@@ -963,26 +1163,62 @@
 
             // Popup HTML
             const popupHTML = `
-              <div style="color: #000; text-align:center; font-family: sans-serif; max-width: 240px">
+                <div
+      class="user-card-about d-flex align-items-center gap-3 rounded-4 p-2"
+      style=" width: 450px; border: 1px solid #e5e7eb"
+    >
+      <div class="user-about-card-img">
+        <img
+          src="${photoUrl}"
+          alt="расм юкланмаган"
+          style="
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 6px;
+          "
+        />
+      </div>
+      <div class="user-card-about-text text-center flex-grow-1">
+       
+        <div style="font-weight: 700; font-size: 24px; color: #334155;  margin-bottom:10px;">
       
-                <img 
-                  src="${photoUrl}" 
-                  alt="staff photo" 
-                  style="width:70px; height:70px; border-radius:50%; object-fit:cover; margin-bottom:6px;"
-                /><br>
-                <div style="font-weight:600; font-size:20px;">${camera.staff_name || 'Xodim nomi yo‘q'}</div>
-                <div style="font-size:18px; color:#555; ">${camera.staff_phone || ''}</div>
+          ${camera.staff_name || 'Xodim nomi yo‘q'}
+        </div>
+        <div class="mt-2" style="font-size: 17px; color: #334155">
+          <i class="bi bi-telephone-fill text-success me-1"></i>
+          <a
+            href="tel:${camera.staff_phone || ''}"
+            style="
+              text-decoration: none;
+              color: #334155;
+              font-weight: 500;
+              font-size: 22px;
+            "
+          >
+           ${camera.staff_phone || ''}
+          </a>
+        </div>
 
-                <button 
-                  class="btn btn-success popup-body-camera-btn" 
-                  data-id="${camera.id}"
-                  style="margin-top:8px; padding:6px 10px; border:none; border-radius:5px; cursor:pointer; background-color:#16a34a; color:#fff;"
-                >
-                <span class="btn-text" style="font-size:16px;">
-                  📹 Камерани кўриш
-                </span>
-                </button>
-              </div>
+        <!-- BUTTON (beautiful camera icon) -->
+        <div class="d-flex align-items-center justify-content-center gap-2">
+          <button
+            class="btn mt-3 px-4 py-2 popup-body-camera-btn"
+            data-id="${camera.id}"
+            style="
+              background: #0ea5e9;
+              color: white;
+              font-size: 18px;
+              border-radius: 10px;
+              border: none;
+            "
+          >
+            <i class="bi bi-camera-video-fill" style="font-size: 18px; margin-right:5px;"></i>
+            Камерани кўриш
+          </button>
+        </div>
+      </div>
+    </div>
             `;
 
             const popup = new mapboxgl.Popup({ offset: 15 }).setHTML(popupHTML);
@@ -1109,8 +1345,8 @@
               type: 'line',
               source: 'object-polygon',
               paint: {
-                'line-color': '#1e3a8a',
-                'line-width': 2,
+                'line-color': '#481566',
+                'line-width': 4,
               },
             });
 
@@ -1180,74 +1416,86 @@
       //   <p>70 ta</p>
       // </li>
       container.innerHTML = `
-        <ul>
-          <li>
-            <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
-                  class="bi bi-geo-alt" viewBox="0 0 16 16">
-                  <path
-                    d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10" />
-                  <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
-                </svg></span> Манзили: </h6>
-                <p> ${params.address} </p>
-          </li>
-          <li>
-            <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
-                  class="bi bi-telephone-forward" viewBox="0 0 16 16">
-                  <path
-                    d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877zm10.762.135a.5.5 0 0 1 .708 0l2.5 2.5a.5.5 0 0 1 0 .708l-2.5 2.5a.5.5 0 0 1-.708-.708L14.293 4H9.5a.5.5 0 0 1 0-1h4.793l-1.647-1.646a.5.5 0 0 1 0-.708" />
-                </svg></span>Администратор телефон рақами: </h6>
-                <p>
-                   <a href="tel: ${params.admin_phone}">
-                      ${params.admin_phone}
-                    </a>
-                </p>
-          </li>
-          <li>
-            <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
-                  class="bi bi-border-all" viewBox="0 0 16 16">
-                  <path d="M0 0h16v16H0zm1 1v6.5h6.5V1zm7.5 0v6.5H15V1zM15 8.5H8.5V15H15zM7.5 15V8.5H1V15z" />
-                </svg></span>Майдони: </h6>
-                <p> ${params.area} m²</p>
-          </li>
-          <li>
-            <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
-                  class="bi bi-door-open" viewBox="0 0 16 16">
-                  <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1" />
-                  <path
-                    d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117M11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5M4 1.934V15h6V1.077z" />
-                </svg></span>Кириш чиқиш эшиклар сони: </h6>
-                <p>${params.count_doors} та</p>
-          </li>
-          <li>
-            <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
-                  class="bi bi-person" viewBox="0 0 16 16">
-                  <path
-                    d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
-                </svg></span>Ҳудуд раҳбари: </h6>
-                <p>${params.object_head}   <a href="tel:${params.head_phone}">
-                      ${params.head_phone}
-                    </a></p>
-          </li>
-          <li>
-            <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
-                  class="bi bi-person" viewBox="0 0 16 16">
-                  <path
-                    d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
-                </svg></span>Ҳудуд профилактика инспектори: </h6>
-                <p>${params.police_name} <a href="tel:${params.police_phone}">
-                     ${params.police_phone}
-                    </a> </p>
-          </li>
-          <li>
-            <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
-                  class="bi bi-telephone-forward" viewBox="0 0 16 16">
-                  <path
-                    d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877zm10.762.135a.5.5 0 0 1 .708 0l2.5 2.5a.5.5 0 0 1 0 .708l-2.5 2.5a.5.5 0 0 1-.708-.708L14.293 4H9.5a.5.5 0 0 1 0-1h4.793l-1.647-1.646a.5.5 0 0 1 0-.708" />
-                </svg></span>Ҳамкор ташкилотлар: </h6>
-                <p> ${params.cooperate}</p>
-          </li>
+    
+            <ul>
+    <li>
+      <div class="passport-icon">
+        <i class="bi bi-geo-alt-fill"></i>
+      </div>
+      <div class="passport-li-about">
+        <h6>Манзили:</h6>
+        <p>${params.address}</p>
+      </div>
+    </li>
 
-        </ul>
+    <li>
+      <div class="passport-icon">
+        <i class="bi bi-telephone-fill"></i>
+      </div>
+      <div class="passport-li-about">
+        <h6>Администратор телефон рақами:</h6>
+        <p><a href="tel:${params.admin_phone}">${params.admin_phone}</a></p>
+      </div>
+    </li>
+
+    <li>
+      <div class="passport-icon">
+        <i class="bi bi-border-all"></i>
+      </div>
+      <div class="passport-li-about">
+        <h6>Майдони:</h6>
+        <p>${params.area} m²</p>
+      </div>
+    </li>
+
+    <li>
+      <div class="passport-icon">
+        <i class="bi bi-door-open-fill"></i>
+      </div>
+      <div class="passport-li-about">
+        <h6>Кириш чиқиш эшиклар сони:</h6>
+        <p>${params.count_doors} та</p>
+      </div>
+    </li>
+
+    <li>
+      <div class="passport-icon">
+        <i class="bi bi-person-fill"></i>
+      </div>
+      <div class="passport-li-about">
+        <h6>Объект раҳбари:</h6>
+        <p>
+          ${params.object_head}
+          <a href="tel:${params.head_phone}">${params.head_phone}</a>
+        </p>
+      </div>
+    </li>
+
+    <li>
+      <div class="passport-icon">
+        <i class="bi bi-shield-lock-fill"></i>
+      </div>
+      <div class="passport-li-about">
+        <h6>Объект профилактика инспектори:</h6>
+        <p>
+          ${params.police_name}
+          <a href="tel:${params.police_phone}">${params.police_phone}</a>
+        </p>
+      </div>
+    </li>
+
+    <li>
+      <div class="passport-icon">
+        <i class="bi bi-people-fill"></i>
+      </div>
+      <div class="passport-li-about">
+        <h6>Ҳамкор ташкилотлар:</h6>
+        <p>${params.cooperate}</p>
+      </div>
+    </li>
+  </ul>
+ 
+       
        `
 
     }
@@ -1258,19 +1506,57 @@
 
       // <li class="alert alert-dark" role="alert">Sektorlar soni: <span>4 ${params.responsible_name} ta</span> </li>
       container.innerHTML = `
-        <ul class="d-flex flex-wrap gap-3">
-          <li class="alert alert-dark m-0" role="alert">МГ жавобгар: <span>${params.responsible_name} </span>
-          </li>
-          <li class="alert alert-dark m-0" role="alert">Жами шахсий таркиб: <span>${params.all_staff} нафар</span> </li>
-          <li class="alert alert-dark m-0" role="alert">Пиёда патруллар: <span>${params.walker_patrul} нафар</span> </li>
-          <li class="alert alert-dark m-0" role="alert">Авто патруллар: <span>${params.avto_patrul} нафар</span> </li>
-          <li class="alert alert-dark m-0" role="alert">Йўналишлар: <span>${params.patrul_types_count} та</span> </li>
-          <li class="alert alert-dark m-0" role="alert">Камералар сони: <span>${params.count_cameras} та</span> </li>
-          <li class="alert alert-dark m-0" role="alert">Ташвиш тугмалар сони: <span>${params.count_sos} та</span> </li>
-          <li class="alert alert-dark m-0" role="alert">Хизмат ҳайвонлари: <span>${params.horse_patrul} та</span> </li>
-          <li class="alert alert-dark m-0" role="alert">Махсус воситалар сони: <span>${params.epikirofka_count} та</span> </li>
-          <li class="alert alert-dark m-0" role="alert">Техникалар: <span>${params.car_count} та</span></li>
-        </ul>
+           <ul class="">
+        <li class="alert alert-dark m-0" role="alert">
+          <i class="duty-icon bi bi-person-badge"></i>
+          МГ жавобгар: <span>${params.responsible_name}</span>
+        </li>
+
+        <li class="alert alert-dark m-0" role="alert">
+          <i class="duty-icon bi bi-people-fill"></i>
+          Шахсий таркиб: <span>${params.all_staff} нафар</span>
+        </li>
+
+        <li class="alert alert-dark m-0" role="alert">
+          <i class="duty-icon bi bi-walk"></i>
+          Пиёда патруллар: <span>${params.walker_patrul} нафар</span>
+        </li>
+
+        <li class="alert alert-dark m-0" role="alert">
+          <i class="duty-icon bi bi-car-front-fill"></i>
+          Авто патруллар: <span>${params.avto_patrul} нафар</span>
+        </li>
+
+        <li class="alert alert-dark m-0" role="alert">
+          <i class="duty-icon bi bi-signpost-split"></i>
+          Йўналишлар: <span>${params.patrul_types_count} та</span>
+        </li>
+
+        <li class="alert alert-dark m-0" role="alert">
+          <i class="duty-icon bi bi-camera-video-fill"></i>
+          Камералар: <span>${params.count_cameras} та</span>
+        </li>
+
+        <li class="alert alert-dark m-0" role="alert">
+          <i class="duty-icon bi bi-bell-fill"></i>
+          Ташвиш тугмалар: <span>${params.count_sos} та</span>
+        </li>
+
+        <li class="alert alert-dark m-0" role="alert">
+          <i class="duty-icon bi bi-shield-fill-check"></i>
+          Хизмат ҳайвонлари: <span>${params.horse_patrul} та</span>
+        </li>
+
+        <li class="alert alert-dark m-0" role="alert">
+          <i class="duty-icon bi bi-lightning-charge-fill"></i>
+          Махсус воситалар: <span>${params.epikirofka_count} та</span>
+        </li>
+
+        <li class="alert alert-dark m-0" role="alert">
+          <i class="duty-icon bi bi-truck-front-fill"></i>
+          Техникалар: <span>${params.car_count} та</span>
+        </li>
+      </ul>
         `
 
 
@@ -1453,7 +1739,7 @@
           szId: "playWind",
           iType: 2,
           iWidth: 800,
-          iHeight: 400,
+          iHeight: 350,
           iMaxSplit: 4,
           iCurrentSplit: 1,
           szBasePath: "./dist",

@@ -13,7 +13,7 @@
     }
 
     .table tr th, .table tr td{
-        font-size: 16px !important;
+        font-size: 20px !important;
     }
 
     {/literal}
@@ -25,9 +25,9 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body text-center">
-                    <h4>Ҳудудий бошқармалар жавобгарлик объектлари тўғрисида <br>
+                    <h3>Ҳудудий бошқармалар жавобгарлик объектлари тўғрисида <br>
                       <p class="m-0">МАЪЛУМОТ</p>
-                   </h4>
+                   </h3>
                 </div>
             </div>
         </div>

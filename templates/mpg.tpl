@@ -170,6 +170,7 @@
         .history-filter-section{
             display: flex;
             align-items: flex-end;
+            font-size: 18px;
         }
 
         .telemetryCard{
@@ -191,6 +192,7 @@
             align-items: center;
             padding-left: 25px;
             height: 70px;
+            font-size: 18px;
         }
 
         .telemetryCard .telementary-card-head img{
@@ -205,13 +207,150 @@
          .telemetryCard .telemetry-card-body .col-12{
             border: 1px solid #ece9e9;
             border-radius: 6px;
-            font-size: 16px;
+            font-size: 18px;
             margin-bottom: 10px;
             padding: 7px 10px;
             margin-right: 5px;
             background-color: #fff;
             box-shadow: 2px 4px 20px 0px rgba(34, 60, 80, 0.34);
          }
+
+         .car-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #00ff88;
+  margin-bottom: 14px;
+}
+
+.car-region {
+  color: #d1ffd1;
+  font-size: 20px;
+}
+
+.car-plate {
+  color: #00c8ff;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.car-speed {
+  color: #ff4d4d;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.car-time {
+  color: #ffd34d;
+  font-size: 20px;
+}
+
+/* HR LINE */
+.hr-line {
+  border-color: rgba(255, 255, 255, 0.1);
+  margin-top: 10px !important;
+}
+
+/* ICON BUTTONS */
+.icon-btn {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(0, 255, 136, 0.2);
+  padding: 12px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: 0.25s ease;
+  color: #00ff88;
+  backdrop-filter: blur(4px);
+}
+
+.icon-btn i {
+  font-size: 22px;
+}
+
+.icon-btn:hover {
+  background: rgba(0, 255, 136, 0.12);
+  border-color: #00ff88;
+  transform: translateY(-3px);
+}
+
+.leaflet-popup-content {
+    width: 360px !important;
+}
+
+.leaflet-popup-content-wrapper {
+    width: 400px !important;
+}
+
+.staff-info-card {
+  border-radius: 18px;
+  border: 1px solid rgba(0, 255, 136, 0.25);
+  backdrop-filter: blur(10px);
+  padding: 20px 25px 30px;
+  box-shadow: 0 0 25px rgba(0, 255, 136, 0.15);
+}
+
+/* Close button */
+.close-staff-info {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  color: #00ff88;
+  font-size: 20px;
+  padding: 2px 10px;
+  border-radius: 8px;
+  transition: 0.25s ease;
+}
+
+.close-staff-info:hover {
+  background: rgba(0, 255, 136, 0.15);
+  border-color: #00ff88;
+  transform: scale(1.1);
+}
+
+/* Image box */
+.staff-photo-box {
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid rgba(0, 255, 136, 0.3);
+}
+
+.staff-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 14px;
+}
+
+/* Name */
+.staff-name {
+  font-size: 1.35rem;
+  color: #eaffea;
+  font-weight: 600;
+}
+
+/* Phone — clickable */
+.staff-phone {
+  font-size: 1.2rem;
+  color: #00ff88;
+  text-decoration: none;
+  display: inline-block;
+  padding: 6px 14px;
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.35);
+  transition: 0.25s ease;
+}
+
+.staff-phone:hover {
+  border-color: #00ff88;
+  background: rgba(0, 255, 136, 0.1);
+  transform: translateY(-2px);
+}
+
 
 
     {/literal}
@@ -361,8 +500,8 @@
         </div>
     </div>
     <div class="card" style="background-color: #26293D !important;" id="staffInfoModal">
-        <div class="card-header pb-0 pt-2" ></div>
-        <button type="button" class="btn close-staff-info" data-bs-dismiss="modal" aria-label="Close">x</button>
+       
+      <button type="button" class="btn close-staff-info" data-bs-dismiss="modal" aria-label="Close">×</button>
 
         <div class="card-body text-center row justify-content-center">
             
@@ -377,7 +516,7 @@
             <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title">Босиб ўтилган масофа</h5>
+                <h3 class="modal-title">Босиб ўтилган масофа</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
@@ -401,33 +540,33 @@
 
                 <div id="telemetryCard" class="telemetryCard">
                      <div class="telementary-card-head">
-                          <img src="/pictures/cars/patriot_old.gif">
+                          <img src="/pictures/cars/matiz.gif">
                           <p class="telement-date-now" id="telement_date_now"></p>
                      </div>
                      <div class="row telemetry-card-body">
                         <div class="col-12"><strong> <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
-  <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/>
-  <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"/>
-</svg> {$Dict.time}:</strong> <span id="telemetryTime">--:--:--</span></div>
-                        <div class="col-12"><strong>  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-speedometer" viewBox="0 0 16 16">
-  <path d="M8 2a.5.5 0 0 1 .5.5V4a.5.5 0 0 1-1 0V2.5A.5.5 0 0 1 8 2M3.732 3.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707M2 8a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 8m9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5m.754-4.246a.39.39 0 0 0-.527-.02L7.547 7.31A.91.91 0 1 0 8.85 8.569l3.434-4.297a.39.39 0 0 0-.029-.518z"/>
-  <path fill-rule="evenodd" d="M6.664 15.889A8 8 0 1 1 9.336.11a8 8 0 0 1-2.672 15.78zm-4.665-4.283A11.95 11.95 0 0 1 8 10c2.186 0 4.236.585 6.001 1.606a7 7 0 1 0-12.002 0"/>
-</svg>  {$Dict.speed}:</strong> <span id="telemetrySpeed">0 km/h</span></div>
-                        <div class="col-12"><strong>  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-arrow-right-square" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm4.5 5.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z"/>
-</svg>  {$Dict.distance}:</strong> <span id="telemetryDistance">0 km</span></div>
-                        <div class="col-12"><strong><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-building" viewBox="0 0 16 16">
-  <path d="M4 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zM4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM7.5 5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM4.5 8a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z"/>
-  <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1zm11 0H3v14h3v-2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V15h3z"/>
-</svg>  {$Dict.region}:</strong> <span id="telemetryRegion">Ташкент</span></div>
-                     </div>
+                                <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/>
+                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"/>
+                                </svg> {$Dict.time}:</strong> <span id="telemetryTime">--:--:--</span></div>
+                                                        <div class="col-12"><strong>  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-speedometer" viewBox="0 0 16 16">
+                                <path d="M8 2a.5.5 0 0 1 .5.5V4a.5.5 0 0 1-1 0V2.5A.5.5 0 0 1 8 2M3.732 3.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707M2 8a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 8m9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5m.754-4.246a.39.39 0 0 0-.527-.02L7.547 7.31A.91.91 0 1 0 8.85 8.569l3.434-4.297a.39.39 0 0 0-.029-.518z"/>
+                                <path fill-rule="evenodd" d="M6.664 15.889A8 8 0 1 1 9.336.11a8 8 0 0 1-2.672 15.78zm-4.665-4.283A11.95 11.95 0 0 1 8 10c2.186 0 4.236.585 6.001 1.606a7 7 0 1 0-12.002 0"/>
+                                </svg>  {$Dict.speed}:</strong> <span id="telemetrySpeed">0 km/h</span></div>
+                                                        <div class="col-12"><strong>  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-arrow-right-square" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm4.5 5.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z"/>
+                                </svg>  {$Dict.distance}:</strong> <span id="telemetryDistance">0 km</span></div>
+                                                        <div class="col-12"><strong><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-building" viewBox="0 0 16 16">
+                                <path d="M4 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zM4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM7.5 5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM4.5 8a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z"/>
+                                <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1zm11 0H3v14h3v-2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V15h3z"/>
+                                </svg>  {$Dict.region}:</strong> <span id="telemetryRegion">Ташкент</span></div>
+                                                    </div>
 
-                     <hr style="border-color: white;">
+                                                    <hr style="border-color: white;">
 
-                    <div class="d-flex justify-content-between" style="padding-bottom: 10px; gap:5px;">
-                        <button id="btnPause" class="btn btn-warning btn-sm">⏸ Тўхтатмоқ</button>
-                        <button id="btnPlay" class="btn btn-success btn-sm">▶ Давом этмоқ</button>
-                        <button id="btnRestart" class="btn btn-danger btn-sm">⟲ Қайта бошлаш</button>
+                    <div class="d-flex justify-content-between" style="padding-bottom: 10px; gap:5px; font-size:16px;">
+                        <button id="btnPause" class="btn btn-warning btn">⏸ Тўхтатмоқ</button>
+                        <button id="btnPlay" class="btn btn-success btn">▶ Давом этмоқ</button>
+                        <button id="btnRestart" class="btn btn-danger btn">⟲ Қайта бошлаш</button>
                     </div>
                                 
                 </div>
@@ -646,7 +785,7 @@
 
             if(replayMarker) historyMap.removeLayer(replayMarker);
             const startPos = filtered[0];
-            replayMarker = L.marker([startPos.lat, startPos.lng], {icon: L.icon({iconUrl: '/pictures/cars/patriot_old.png', iconSize: [25,50]}),
+            replayMarker = L.marker([startPos.lat, startPos.lng], {icon: L.icon({iconUrl: '/pictures/cars/matiz.png', iconSize: [25,50]}),
              rotationAngle: 0, 
              rotationOrigin: 'center center'
             }).addTo(historyMap);
@@ -866,14 +1005,14 @@
             const unixtime = marker.unixtime;
             if (marker.speed > isOnOffSpeed) {
                 let myIcon = L.icon({
-                    iconUrl: `/pictures/cars/patriot_old.gif`,
+                    iconUrl: `/pictures/cars/matiz.gif`,
                   iconSize: [parseInt(marker.car_width) || 25, parseInt(marker.car_height) || 50],
                 });
                 return myIcon;
             } else {
                 let myIcon = L.icon({
                     // iconUrl: `/pictures/cars/${marker.car_photo}`,
-                    iconUrl: `/pictures/cars/patriot_old.png`,
+                    iconUrl: `/pictures/cars/matiz.png`,
                iconSize: [parseInt(marker.car_width) || 25, parseInt(marker.car_height) || 50],
                 });
                 return myIcon;
@@ -945,42 +1084,44 @@
         function carPopUp(marker) {
             console.log(marker);
             let markerString = JSON.stringify(marker)
-            return `<div class="row text-center">
+            return ` <div class="row text-center">
                         <div class="col-12">
-                            <h6 class="mt-3">${marker.car_name}</h6>
+                        <h6 class="car-title">${marker.car_name}</h6>
                         </div>
                         <div class="col-6">
-                            <h6 class="mt-3">${marker.region}</h6>
+                        <h6 class="car-region">${marker.region}</h6>
                         </div>
                         <div class="col-6">
-                            <h6 class="mt-3 text-info">${marker.plate_number}</h6>
+                        <h6 class="car-plate">${marker.plate_number}</h6>
                         </div>
                         <div class="col-6">
-                            <h6 class="mt-3 text-danger" id="popSpeed_${marker.id}">${marker.speed} km/s</h6>
+                        <h6 class="car-speed" id="popSpeed_${marker.id}">
+                            ${marker.speed} km/s
+                        </h6>
                         </div>
                         <div class="col-6">
-                            <h6 class="mt-3 text-warning" id="time_${marker.id}">${marker.time}</h6>
-                        </div>
-                        <hr class="my-0"/>
-                        <div class="col-4 mt-2">
-                            <h6 class="badge rounded bg-label-white cursor-pointer" onclick='openBodyCam(${marker.car_id}, ${marker?.og_id})'>
-                                <i class="ti ti-camera-selfie me-1" id="bodycam_${marker.car_id}"></i>
-                            </h6>
-                        </div>
-                        <div class="col-4 mt-2">
-                            <h6 class="badge rounded bg-label-white cursor-pointer" onclick='openStaffInfo(${markerString})'>
-                                <i class="ti ti-users me-1" ></i>
-                            </h6>
+                        <h6 class="car-time" id="time_${marker.id}">
+                            ${marker.time}
+                        </h6>
                         </div>
 
+                        <hr class="my-0 hr-line" />
 
-                           <div class="col-4 mt-2">
-                            <h6 class="badge rounded bg-label-white cursor-pointer" id="show_car_history">
-                                <i class="ti ti-map me-1" ></i>
-                            </h6>
+                        <div class="col-4 mt-3">
+                        <h6 class="icon-btn" onclick="openBodyCam(${marker.car_id}, ${marker?.og_id})">
+                            <i class="ti ti-camera-selfie"></i>
+                        </h6>
                         </div>
-
-
+                        <div class="col-4 mt-3">
+                        <h6 class="icon-btn" onclick='openStaffInfo(${markerString})'>
+                            <i class="ti ti-users"></i>
+                        </h6>
+                        </div>
+                        <div class="col-4 mt-3">
+                        <h6 class="icon-btn" id="show_car_history">
+                            <i class="ti ti-map"></i>
+                        </h6>
+                        </div>
                     </div>`;
         }
         // --- Pop up element maker
@@ -1188,16 +1329,18 @@
                     if (data.staffs.length) {
                         data.staffs.forEach(item => {
                             $("#staffInfoModal .card-body").append(`
-                                <div class="col-3 text-center"">
-                                        <div style="width: 100%;">
-                                            <img style="height: 240px; object-fit: cover; width: 100%; object-position:top" class="rounded" src="/pictures/staffs/${item.photo}" alt="">
-                                        </div>
-                                        <div class="text-info" style="font-size:1.25rem">
-                                            <span class="text-white">${item.staff_name}</span>
-                                        </div>
-                                        <div class="text-info" style="font-size:1.25rem">
-                                            <span class="text-white">${item.phone}</span>
-                                        </div>
+                                <div class="col-3 text-center">
+                                    <div class="staff-photo-box">
+                                        <img class="staff-photo" src="/pictures/staffs/${item.photo}" alt="">
+                                    </div>
+
+                                    <div class="staff-name mt-3">
+                                        ${item.staff_name}
+                                    </div>
+
+                                    <a href="tel:${item.phone}" class="staff-phone mt-2">
+                                        📞 ${item.phone}
+                                    </a>
                                     </div>
                             `);
                         })
