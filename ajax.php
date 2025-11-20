@@ -347,7 +347,7 @@ switch ($Action) {
 
 		$staffs = [$Dict['masul'], $Dict['staff_2'], $Dict['staff_3']];
 		foreach ($Duty as $key => &$item) {
-			$item['staff'] = $staffs[$key];
+			$item['staff'] = $staffs[$key] ?? null;
 		}
 
 		// echo '<pre>';

@@ -63,6 +63,7 @@
 									<td class="text-center">{$obekt.direction}</td>
 									<td class="text-center">{$obekt.smena}</td>
 									<td class="text-center">{$obekt.staff}</td>
+									<td class="text-center">{$obekt.staff}</td>
 									<td class="text-center">{$obekt.epic}</td>
 									<td class="text-center">
 										<a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
