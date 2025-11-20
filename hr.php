@@ -810,6 +810,7 @@ switch ($Act) {
          p.name{$slang} AS patrul_type,
          CONCAT(s.lastname,' ',s.firstname,' ', s.surname) AS staff, 
          c.plate_number AS car,
+		 st.name2 AS structure_name,
          (
             SELECT 
                 STRING_AGG(e.name{$slang}, ', ') 
@@ -822,6 +823,8 @@ switch ($Act) {
          LEFT JOIN ref.patrul_types p ON p.id = t.patrul_type
          LEFT JOIN hr.staff s ON s.id = t.staff_id
          LEFT JOIN hr.tech_guard_cars c ON c.id = t.car_id
+		 LEFT JOIN hr.daily_routine dr ON dr.id = t.routine_id
+		 LEFT JOIN hr.structure st ON st.id = dr.structure_id
          
          WHERE t.routine_id = {$object_id}
          ORDER BY t.id DESC";
