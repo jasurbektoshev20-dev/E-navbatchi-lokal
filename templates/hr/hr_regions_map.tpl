@@ -89,21 +89,6 @@
       object-fit: cover;
     }
 
-    /* .space-main-body-passport ul li img {
-      width: 100%;
-      height: 450px;
-      object-fit: cover;
-    }
-
-    .space-main-body-passport ul li {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .space-main-body-passport ul li h4 {
-      margin: 0%;
-    } */
 
     .space-main-modal-box ul {
       list-style-type: none;
@@ -150,7 +135,7 @@
 } */
     #dialogMap {
       width: 100%;
-      height: 42vh;
+      height: 77vh;
       border-radius: 10px;
     }
 
@@ -288,14 +273,6 @@
     padding: 0;
 }
 
-.passport-card {
-  background: rgba(0, 0, 0, 0.3); /* shaffof */
-  padding: 25px;
-  border-radius: 18px;
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(56, 189, 248, 0.4); /* neon cyan border */
-}
-
 .passport-card ul {
   list-style: none;
   padding: 0;
@@ -306,8 +283,20 @@
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  padding: 14px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.3);
+   backdrop-filter: blur(6px);
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    border-radius: 6px;
+    margin-bottom: 2px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.passport-card li:hover {
+  background: rgba(56, 189, 248, 0.08);
+  border-color: #38BDF8;
+  transform: translateX(6px);
 }
 
 .passport-card li:last-child {
@@ -468,6 +457,43 @@
   bottom: 0px;
 }
 
+.tab-content{
+  padding: 0;
+}
+
+.text-yellow{
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.modal-body .nav-item button{
+  font-size: 20px;
+}
+
+.is-accordion{
+  margin-bottom: 0 !important;
+}
+
+.is-accordion summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.is-accordion .inner-list {
+  margin-top: 12px;
+  padding-left: 45px; /* ichkariga kiradi */
+  border-left: 1px solid rgba(255,255,255,0.08);
+}
+
+.summary-span{
+  font-size: 18px;
+  color: #fff;
+}
+
+
   {/literal}
 </style>
 
@@ -541,143 +567,114 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header position-relative">
-          <h2 class="modal-title position-absolute start-50 translate-middle-x" id="markerModalTitle">
+          <h2 class="modal-title position-absolute start-50 translate-middle-x" id="markerModalTitle" style="color: #fff;">
             Маркер номи
           </h2>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
 
-        <div class="modal-body">
-          {* <img id="markerModalImg" src="" alt="" class="img-fluid mb-3" style="max-height:200px;">
-              <p id="markerModalViloyat"></p>
-              <p id="markerModalType"></p>
-              <p id="markerModalInfo"></p> *}
-          <div class="space-main-modal-box">
-            <div class="row">
-              {*  *}
-              <div class="col-6">
-              <div class="space-main-head">
-                <h4 class="m-0">Харита</h4>
-              </div>
-              <div id="dialogMap" class="mt-1"></div>
-             {* <div class="space-main-head mt-3 text-center">
-                  <h4
-                    class="fw-bold"
-                    style="
-                      border-bottom: 3px solid #0ea5e9;
-                      display: inline-block;
-                      padding-bottom: 5px;
-                    "
-                  >
-                    Объект ҳақида маълумотлар
-                  </h4>
-              </div> *}
-              <div class="space-main-head mt-3 text-center">
-                <h4 class="fw-bold">
-                  Объект ҳақида маълумотлар
-                </h4>
-              </div>
-                <div class="space-main-body-passport passport-card mt-3">
+<div class="modal-body">
+  <div class="space-main-modal-box">
+    <div class="row">
+
+      <!-- LEFT SIDE — MAP -->
+      <div class="col-7">
+        <div class="space-main-head">
+          <h4 class="m-0">Харита</h4>
+        </div>
+
+        <div id="dialogMap" class="mt-1" ></div>
+      </div>
+
+      <!-- RIGHT SIDE -->
+      <div class="col-5 d-flex flex-column">
+
+        <!-- CAMERA BLOCK -->
+        <div>
+          <div class="space-main-head">
+            <h4 class="m-0">Камералар</h4>
+          </div>
+
+          <div class="camera-box position-relative" style="background: rgba(0,0,0,0.25); border-radius: 12px;">
+            <div id="playWind" style="width: 100%; height: 280px; border-radius: 12px;"></div>
+
+            <!-- BUTTONS (fixed) -->
+            <div class="button_box w-100 mt-2" style="position: static !important;">
+              <div class="d-flex gap-1 px-2" style="align-items:center;">
+
+                <button class="btn btn-warning unmute" type="button">
+                  <i class="icon-volume-medium"></i>
+                </button>
+
+                <button class="btn btn-info mute" type="button">
+                  <i class="icon-volume-mute5"></i>
+                </button>
+
+                <div style="padding-left: 10px; width: 100%;">
+                  
+                  <div class="d-flex justify-content-between border-bottom mb-1" style="border-color:#555;">
+                    <span class="text-yellow">Жами камералар:
+                      <span class="text-white camera_length"></span>
+                    </span>
+
+                    <ul class="nav nav-pills mb-0">
+                      <li class="nav-item dropdown dropup">
+                        <a href="#" id="current_camera" class="dropdown-toggle" data-toggle="dropdown"></a>
+                        <div class="dropdown-menu" id="change_camera"></div>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="d-flex justify-content-between mt-1">
+                    <span class="text-yellow">Жами бодикамералар:
+                      <span class="text-white body_camera_length"></span>
+                    </span>
+                    <ul class="nav nav-pills mb-0">
+                      <li class="nav-item dropdown dropup">
+                        <a href="#" id="body_current_camera" class="dropdown-toggle" data-toggle="dropdown"></a>
+                        <div class="dropdown-menu" id="body_change_camera"></div>
+                      </li>
+                    </ul>
+                  </div>
 
                 </div>
               </div>
-
-              <div class="col-6">
-                <div class="space-main-body-umumu">
-                  <div class="space-main-head">
-                    <h4 class="m-0">Камералар</h4>
-                  </div>
-                  <div class="row text-center position-relative">
-                    <div id="playWind" style="width: 800px; height:350px;"></div>
-                    <div class="button_box" style="width: 100%;">
-                      <div class="items">
-                        <div class="d-flex gap-1 px-2 mt-2" style="align-items:center;">
-                          {* <button class="btn btn-danger" type="button" onClick="fullSreen()">
-                            <i class="icon-screen-full"></i>
-                          </button> *}
-                          <button class="btn btn-warning ml-2 unmute" type="button">
-                            <i class="icon-volume-medium"></i>
-                          </button>
-                          <button class="btn btn-info ml-2 mute" type="button">
-                            <i class="icon-volume-mute5"></i>
-                          </button>
-                          {* <button class="btn btn-warning ml-2" type="button" onClick="CapturePicture('JPEG')">
-                            <i class="icon-camera"></i>
-                          </button> *}
-                          {* <span class="text-yellow ml-2" style="font-size: 22px;"> Joriy kamera<span class="current_camera"></span>:
-                            &nbsp; <span class="text-white camera_active"></span></span> &nbsp;&nbsp;&nbsp; *}
-
-                          <div style="padding-left: 10px; width: 100%">
-                            <div class="d-flex w-full justify-content-between" style="border-bottom: 1px solid #ccc;">
-                              <span class="text-yellow" style="font-size: 22px;"><span
-                                  class=""></span> Жами камералар: &nbsp;
-                                <span class="text-white camera_length"></span></span>
-                              <div>
-                                <ul class="nav nav-pills mb-0">
-                                  <li class="nav-item dropdown dropup">
-                                    <a href="#" id="current_camera" class="dropdown-toggle" data-toggle="dropdown"><span
-                                        class="select"></span></a>
-                                    <div class="dropdown-menu" style="max-height: 300px; overflow-y: scroll;"
-                                      id="change_camera"></div>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-
-                            <div class="d-flex w-full justify-content-between">
-                              <span class="text-yellow" style="font-size: 22px;"><span
-                                  class=""></span> Жами бодикамералар: &nbsp;
-                                <span class="text-white body_camera_length"></span>&nbsp;</span>
-                              <div>
-                                <ul class="nav nav-pills mb-0">
-                                  <li class="nav-item dropdown dropup">
-                                    <a href="#" id="body_current_camera" class="dropdown-toggle" data-toggle="dropdown"><span
-                                        class="select"></span></a>
-                                    <div class="dropdown-menu" style="max-height: 300px; overflow-y: scroll;"
-                                      id="body_change_camera"></div>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-
-                          </div>
-                      </div>
-                    </div>
-                  </div>
-                  {* <div class="row">
-                      <div class="col-12">
-                        <video width="100%" height="270px" autoplay loop controls muted>
-                          <source src="/templates/hr/videos/video-4.mp4" type="video/mp4">
-                        </video>
-                      </div>
-                      <div class="col-12">
-                        <video width="100%" height="270px" autoplay loop controls muted>
-                          <source src="/templates/hr/videos/video-5.mp4" type="video/mp4">
-                        </video>
-                      </div>
-                      <div class="col-12">
-                        <video width="100%" height="270px" autoplay loop controls muted>
-                          <source src="/templates/hr/videos/video-6.mp4" type="video/mp4">
-                        </video>
-                      </div>
-                    </div> *}
-                </div>
-                <div class="mt-4">
-                  <div class="space-main-head text-center">
-                    <h4>Жалб қилинган куч воситалар</h4>
-                  </div>
-                  <div class="space-main-body-duty">
-                    
-                  </div>
-                </div>
-
-
-              </div>
-
             </div>
+
           </div>
         </div>
+
+        <!-- TABS -->
+        <ul class="nav nav-tabs mt-3" id="myTab">
+          <li class="nav-item">
+            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab_passport">Объект маълумотлари</button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab_duty">Куч воситалар</button>
+          </li>
+        </ul>
+
+        <!-- TAB CONTENT -->
+        <div class="tab-content flex-grow-1">
+
+          <!-- TAB 1 -->
+          <div class="tab-pane fade show active" id="tab_passport">
+            <div class="space-main-body-passport passport-card"></div>
+          </div>
+
+          <!-- TAB 2 -->
+          <div class="tab-pane fade" id="tab_duty">
+            <div class="space-main-body-duty"></div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
       </div>
     </div>
   </div>
@@ -1398,26 +1395,31 @@
       const container = document.querySelector('.space-main-body-passport')
       if (!container || !params) return
 
-      // <li>
-      //   <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-      //         class="bi bi-dice-1" viewBox="0 0 16 16">
-      //         <circle cx="8" cy="8" r="1.5" />
-      //         <path
-      //           d="M13 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3z" />
-      //       </svg></span> Hudud joylashgan mahalla: </h6>
-      //   <p>Rohat mahallasi</p>
-      // </li>
-      // <li>
-      //   <h6><span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-      //         class="bi bi-shop-window" viewBox="0 0 16 16">
-      //         <path
-      //           d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.37 2.37 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0M1.5 8.5A.5.5 0 0 1 2 9v6h12V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5m2 .5a.5.5 0 0 1 .5.5V13h8V9.5a.5.5 0 0 1 1 0V13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5a.5.5 0 0 1 .5-.5" />
-      //       </svg></span> Savdo obyektlar soni: </h6>
-      //   <p>70 ta</p>
-      // </li>
       container.innerHTML = `
     
             <ul>
+     <li>
+      <div class="passport-icon">
+        <i class="bi bi-person-fill"></i>
+      </div>
+      <div class="passport-li-about">
+        <h6>Объект раҳбари:</h6>
+        <p>
+          ${params.object_head}
+        </p>
+      </div>
+    </li>
+         <li>
+      <div class="passport-icon">
+        <i class="bi bi-telephone-fill"></i>
+      </div>
+      <div class="passport-li-about">
+        <h6>Раҳбар телефони:</h6>
+        <p>
+          <a href="tel:${params.head_phone}">${params.head_phone}</a>
+        </p>
+      </div>
+    </li>
     <li>
       <div class="passport-icon">
         <i class="bi bi-geo-alt-fill"></i>
@@ -1444,9 +1446,29 @@
       </div>
       <div class="passport-li-about">
         <h6>Майдони:</h6>
-        <p>${params.area} m²</p>
+        <p>${params.area} га</p>
       </div>
     </li>
+
+     <li>
+  <div class="passport-icon">
+    <i class="bi bi-shop"></i>
+  </div>
+  <div class="passport-li-about">
+    <h6>Савдо дўконлари:</h6>
+    <p>${params?.markets_count ?? '12'} ta</p>
+  </div>
+</li>
+
+<li>
+  <div class="passport-icon">
+    <i class="bi bi-cup-hot"></i>
+  </div>
+  <div class="passport-li-about">
+    <h6>Овқатланиш шаҳобчалари:</h6>
+    <p>${params?.eating_place_count ?? '6'} ta</p>
+  </div>
+</li>
 
     <li>
       <div class="passport-icon">
@@ -1458,18 +1480,6 @@
       </div>
     </li>
 
-    <li>
-      <div class="passport-icon">
-        <i class="bi bi-person-fill"></i>
-      </div>
-      <div class="passport-li-about">
-        <h6>Объект раҳбари:</h6>
-        <p>
-          ${params.object_head}
-          <a href="tel:${params.head_phone}">${params.head_phone}</a>
-        </p>
-      </div>
-    </li>
 
     <li>
       <div class="passport-icon">
@@ -1479,6 +1489,16 @@
         <h6>Объект профилактика инспектори:</h6>
         <p>
           ${params.police_name}
+        </p>
+      </div>
+    </li>
+     <li>
+      <div class="passport-icon">
+        <i class="bi bi-telephone-fill"></i>
+      </div>
+      <div class="passport-li-about">
+        <h6>Профилактика инспектори telefoni:</h6>
+        <p>
           <a href="tel:${params.police_phone}">${params.police_phone}</a>
         </p>
       </div>
@@ -1490,9 +1510,97 @@
       </div>
       <div class="passport-li-about">
         <h6>Ҳамкор ташкилотлар:</h6>
-        <p>${params.cooperate}</p>
+        <p>${params.cooperate} ИИВ 71-252-70-01</p>
+
       </div>
     </li>
+
+<li class="is-accordion">
+  <details>
+    <summary>
+      <div class="passport-icon"><i class="bi bi-people-fill"></i></div>
+      <span class="summary-span">МФЙ</span>
+    </summary>
+
+    <ul class="inner-list">
+           <li>
+  <div class="passport-icon">
+    <i class="bi bi-geo"></i>
+  </div>
+  <div class="passport-li-about">
+    <h6>Номи:</h6>
+    <p>${params?.neighborhood_name ?? 'Binokor mahallasi'}</p>
+  </div>
+</li>
+
+<li>
+  <div class="passport-icon">
+    <i class="bi bi-person-badge"></i>
+  </div>
+  <div class="passport-li-about">
+    <h6>МФЙ раиси:</h6>
+    <p>${params?.neighborhood_head ?? 'Ismoilov I.N'}</p>
+  </div>
+</li>
+
+<li>
+  <div class="passport-icon">
+    <i class="bi bi-building"></i>
+  </div>
+  <div class="passport-li-about">
+    <h6>Хоким ёрдамчиси:</h6>
+    <p>${params?.assistant_governor ?? 'Ahmadov A.Y'}</p>
+  </div>
+</li>
+
+<li>
+  <div class="passport-icon">
+    <i class="bi bi-people"></i>
+  </div>
+  <div class="passport-li-about">
+    <h6>Ёшлар етакчиси:</h6>
+    <p>${params?.youth_leader ?? 'Jumayev A.D'}</p>
+  </div>
+</li>
+
+<li>
+  <div class="passport-icon">
+    <i class="bi bi-gender-female"></i>
+  </div>
+  <div class="passport-li-about">
+    <h6>Хотин-қизлар фаоли:</h6>
+    <p>${params?.womens_activist ?? 'Икромова Шохида Низомиддин қизи'}</p>
+  </div>
+</li>
+
+<li>
+  <div class="passport-icon">
+    <i class="bi bi-receipt"></i>
+  </div>
+  <div class="passport-li-about">
+    <h6>МФЙ солиқ инспектори:</h6>
+    <p>${params?.tax_inspector ?? "Холлиев Обиджон Рўзимуродович"}</p>
+  </div>
+</li>
+
+<li>
+  <div class="passport-icon">
+    <i class="bi bi-person-heart"></i>
+  </div>
+  <div class="passport-li-about">
+    <h6>Ижтмоий ходими:</h6>
+    <p>${params?.social_employe ?? 'Сулаймонова Иқболхон Мухаммадсолиевна'}</p>
+  </div>
+</li>
+
+
+    </ul>
+  </details>
+</li>
+
+
+
+
   </ul>
  
        
@@ -1511,21 +1619,28 @@
           <i class="duty-icon bi bi-person-badge"></i>
           МГ жавобгар: <span>${params.responsible_name}</span>
         </li>
+        <li class="is-accordion">
+            <details>
+              <summary>
+                <div class="passport-icon">  <i class="duty-icon bi bi-people-fill"></i></div>
+                <span class="summary-span"> <span style="color:#fff;">Шахсий таркиб:</span> <span>${params.all_staff} нафар</span>
+              </summary>
 
-        <li class="alert alert-dark m-0" role="alert">
-          <i class="duty-icon bi bi-people-fill"></i>
-          Шахсий таркиб: <span>${params.all_staff} нафар</span>
-        </li>
+              <ul class="inner-list">
+                        <li class="alert alert-dark m-0" role="alert">
+                      <i class="duty-icon bi bi bi-person-fill"></i>
+                      Пиёда патруллар: <span>${params.walker_patrul} нафар</span>
+                    </li>
 
-        <li class="alert alert-dark m-0" role="alert">
-          <i class="duty-icon bi bi-walk"></i>
-          Пиёда патруллар: <span>${params.walker_patrul} нафар</span>
-        </li>
+                    <li class="alert alert-dark m-0" role="alert">
+                      <i class="duty-icon bi bi-car-front-fill"></i>
+                      Авто патруллар: <span>${params.avto_patrul} нафар</span>
+                    </li>
+              </ul>
+            </details>
+          </li>
 
-        <li class="alert alert-dark m-0" role="alert">
-          <i class="duty-icon bi bi-car-front-fill"></i>
-          Авто патруллар: <span>${params.avto_patrul} нафар</span>
-        </li>
+
 
         <li class="alert alert-dark m-0" role="alert">
           <i class="duty-icon bi bi-signpost-split"></i>
@@ -1738,7 +1853,7 @@
       var jsDecoder = new JSPlugin({
           szId: "playWind",
           iType: 2,
-          iWidth: 800,
+          iWidth: 500,
           iHeight: 350,
           iMaxSplit: 4,
           iCurrentSplit: 1,
@@ -2129,7 +2244,7 @@
       }
 
       window.onresize = function() {
-          jsDecoder.JS_Resize(800, 400);
+          jsDecoder.JS_Resize(615, 300);
       }
 
 
