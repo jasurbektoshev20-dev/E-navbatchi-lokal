@@ -268,7 +268,7 @@
             <select class="form-select" id="get_events_by_region_filter1"> </select>
           </div>
 
-          <div class="chart-container" id="public_events_by_region"></div>
+          <div class="chart-container" id="get_events_by_region1"></div>
         </div>
       </div>
     </div>
