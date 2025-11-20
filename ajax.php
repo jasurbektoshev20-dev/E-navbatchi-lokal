@@ -617,10 +617,10 @@ switch ($Action) {
 		$sql->query($query);
 		$JtsObject = $sql->fetchAssoc();
 		
-		echo '<pre>';
-		print_r($JtsObject);
-		echo '</pre>';
-		die();
+		// echo '<pre>';
+		// print_r($JtsObject);
+		// echo '</pre>';
+		// // die();Xiyobonni shua
 		$query  = "SELECT t.id, t.name, t.lat, t.long
 		FROM hr.jts_objects_sos t 
 		WHERE t.object_id = {$JtsObject['id']}
