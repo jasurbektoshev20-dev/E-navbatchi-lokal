@@ -604,7 +604,7 @@ switch ($Action) {
 
 		$query  = "SELECT t.id, s.name{$slang} as structure, t.object_name, o.name{$slang} as object_type, CONCAT(c.name{$slang}, ' ',c.phone) as cooperate,
 		t.address, t.area, t.admin_phone, t.object_head, t.head_phone, t.police_name, t.police_phone,t.markets_count,t.eating_place_count,t.neighborhood_head,t.assistant_governor,t.youth_leader,t.womens_activist
-		,tax_inspector,t.social_employe,t.sales_places_count,
+		,tax_inspector,t.social_employe,t.sales_places_count,t.neighborhood_head_phone,t.assistant_governor_phone,t.youth_leader_phone,t.womens_activist_phone,tax_inspector_phone,t.social_employe_phone,
 		COALESCE(COUNT(jd.id), 0) AS count_doors,
 		t.photo, t.lat, t.long, ST_AsGeoJSON(geom) AS geom_geojson
 		FROM hr.jts_objects t 
@@ -639,29 +639,71 @@ switch ($Action) {
 		$JtsObject['sos'] = $Sos;
 		$JtsObject['door'] = $Door;
 
-		$query  = "SELECT t.id, CONCAT(r.name{$slang}, ' ', s.lastname, ' ', s.firstname, ' ', s.surname) AS responsible_name,
-		COALESCE(COUNT(td.id), 0) AS all_staff,
-		SUM(CASE WHEN td.patrul_type = 1 THEN 1 ELSE 0 END) AS walker_patrul,
-		SUM(CASE WHEN td.patrul_type = 2 THEN 1 ELSE 0 END) AS avto_patrul,
-		SUM(CASE WHEN td.patrul_type = 4 THEN 1 ELSE 0 END) AS horse_patrul,
-		COUNT(DISTINCT td.car_id) AS car_count,
-		COALESCE(SUM(cardinality(td.epikirofka_id)), 0) AS epikirofka_count,
-		COALESCE(COUNT(DISTINCT js.id), 0) AS count_sos,
-		COALESCE(COUNT(DISTINCT jc.id), 0) AS count_cameras,
-		COALESCE(COUNT(DISTINCT td.patrul_type), 0) AS patrul_types_count
-		FROM hr.daily_routine t 
-		LEFT JOIN hr.dailiy_routine_date td ON td.routine_id = t.id
-		LEFT JOIN hr.staff s ON s.id = t.responsible_id
-		LEFT JOIN ref.ranks r ON r.id = s.rank_id
-		left join hr.jts_objects_camera jc on jc.object_id = {$JtsObject['id']}
-		left join hr.jts_objects_sos js on js.object_id = {$JtsObject['id']}
-		WHERE t.object_id = {$JtsObject['id']} AND t.date = CURRENT_DATE
-		GROUP BY t.id, r.name{$slang}, s.lastname, s.firstname, s.surname
-		ORDER BY t.id desc LIMIT 1";
+		// $query  = "SELECT t.id, CONCAT(r.name{$slang}, ' ', s.lastname, ' ', s.firstname, ' ', s.surname) AS responsible_name,
+		// COALESCE(COUNT(td.id), 0) AS all_staff,
+		// SUM(CASE WHEN td.patrul_type = 1 THEN 1 ELSE 0 END) AS walker_patrul,
+		// SUM(CASE WHEN td.patrul_type = 2 THEN 1 ELSE 0 END) AS avto_patrul,
+		// SUM(CASE WHEN td.patrul_type = 4 THEN 1 ELSE 0 END) AS horse_patrul,
+		// COUNT(DISTINCT td.car_id) AS car_count,
+		// COALESCE(SUM(cardinality(td.epikirofka_id)), 0) AS epikirofka_count,
+		// COALESCE(COUNT(DISTINCT js.id), 0) AS count_sos,
+		// COALESCE(COUNT(DISTINCT jc.id), 0) AS count_cameras,
+		// COALESCE(COUNT(DISTINCT td.patrul_type), 0) AS patrul_types_count
+		// FROM hr.daily_routine t 
+		// LEFT JOIN hr.dailiy_routine_date td ON td.routine_id = t.id
+		// LEFT JOIN hr.staff s ON s.id = t.responsible_id
+		// LEFT JOIN ref.ranks r ON r.id = s.rank_id
+		// left join hr.jts_objects_camera jc on jc.object_id = {$JtsObject['id']}
+		// left join hr.jts_objects_sos js on js.object_id = {$JtsObject['id']}
+		// WHERE t.object_id = {$JtsObject['id']} AND t.date = CURRENT_DATE
+		// GROUP BY t.id, r.name{$slang}, s.lastname, s.firstname, s.surname
+		// ORDER BY t.id desc LIMIT 1";
+		$query = "SELECT  
+				t.id,
+				CONCAT(r.name{$slang}, ' ', s.lastname, ' ', s.firstname, ' ', s.surname) AS responsible_name,
+
+				COUNT(DISTINCT td.id) AS all_staff,
+
+				COUNT(DISTINCT td.id) FILTER (WHERE td.patrul_type = 1) AS walker_patrul,
+				COUNT(DISTINCT td.id) FILTER (WHERE td.patrul_type = 2) AS avto_patrul,
+				COUNT(DISTINCT td.id) FILTER (WHERE td.patrul_type = 4) AS horse_patrul,
+
+				COUNT(DISTINCT td.car_id) AS car_count,
+
+				COALESCE(SUM(cardinality(td.epikirofka_id)), 0) AS epikirofka_count,
+
+				-- Kameralar va SOS larni subquery orqali olish
+				(SELECT COUNT(*) FROM hr.jts_objects_camera WHERE object_id = t.object_id) AS count_cameras,
+				(SELECT COUNT(*) FROM hr.jts_objects_sos WHERE object_id = t.object_id) AS count_sos,
+
+				COUNT(DISTINCT td.patrul_type) AS patrul_types_count
+
+			FROM hr.daily_routine t
+			LEFT JOIN hr.dailiy_routine_date td ON td.routine_id = t.id
+			LEFT JOIN hr.staff s ON s.id = t.responsible_id
+			LEFT JOIN ref.ranks r ON r.id = s.rank_id
+
+			WHERE t.object_id = {$JtsObject['id']}
+			AND t.date = CURRENT_DATE
+
+			GROUP BY 
+				t.id, 
+				r.name{$slang}, 
+				s.lastname, 
+				s.firstname, 
+				s.surname
+
+			ORDER BY t.id DESC
+			LIMIT 1;
+
+		";
 		$sql->query($query);
 		$Routine = $sql->fetchAssoc();
 
-
+		// echo '<pre>';
+		// print_r($Routine);
+		// echo '</pre>';
+		// die();
 
 		$JtsObject['routine'] = $Routine;
 		$BodyCamUrl = [];
