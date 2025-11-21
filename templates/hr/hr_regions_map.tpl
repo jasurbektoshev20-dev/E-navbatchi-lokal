@@ -1398,28 +1398,28 @@
       container.innerHTML = `
     
             <ul>
-     <li>
-      <div class="passport-icon">
-        <i class="bi bi-person-fill"></i>
-      </div>
-      <div class="passport-li-about">
-        <h6>Объект раҳбари:</h6>
-        <p>
-          ${params.object_head}
-        </p>
-      </div>
-    </li>
-         <li>
-      <div class="passport-icon">
-        <i class="bi bi-telephone-fill"></i>
-      </div>
-      <div class="passport-li-about">
-        <h6>Раҳбар телефони:</h6>
-        <p>
-          <a href="tel:${params.head_phone}">${params.head_phone}</a>
-        </p>
-      </div>
-    </li>
+  
+        <li class="is-accordion">
+            <details>
+              <summary>
+                <div class="passport-icon">  <i class="duty-icon bi bi-person-fill"></i></div>
+                <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Объект раҳбари:</span> <span> ${params.object_head} нафар</span>
+              </summary>
+              <ul class="inner-list">
+                  <li>
+                    <div class="passport-icon">
+                      <i class="bi bi-telephone-fill"></i>
+                    </div>
+                    <div class="passport-li-about">
+                      <h6>Раҳбар телефони:</h6>
+                      <p>
+                        <a href="tel:${params.head_phone}">${params.head_phone}</a>
+                      </p>
+                    </div>
+                  </li>
+              </ul>
+            </details>
+          </li>
     <li>
       <div class="passport-icon">
         <i class="bi bi-geo-alt-fill"></i>
@@ -1480,41 +1480,61 @@
       </div>
     </li>
 
+    <li class="is-accordion">
+        <details>
+          <summary>
+            <div class="passport-icon">  <i class="duty-icon bi bi-person-fill"></i></div>
+            <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Объект профилактика инспектори:</span> <span> ${params.police_name}</span>
+          </summary>
+          <ul class="inner-list">
+              <li>
+                <div class="passport-icon">
+                  <i class="bi bi-telephone-fill"></i>
+                </div>
+                <div class="passport-li-about">
+                  <h6>Телефон рақами:</h6>
+                  <p>
+                    <a href="tel:${params.police_phone}">${params.police_phone}</a>
+                  </p>
+                </div>
+              </li>
+          </ul>
+        </details>
+      </li>
 
-    <li>
-      <div class="passport-icon">
-        <i class="bi bi-shield-lock-fill"></i>
-      </div>
-      <div class="passport-li-about">
-        <h6>Объект профилактика инспектори:</h6>
-        <p>
-          ${params.police_name}
-        </p>
-      </div>
-    </li>
-     <li>
-      <div class="passport-icon">
-        <i class="bi bi-telephone-fill"></i>
-      </div>
-      <div class="passport-li-about">
-        <h6>Профилактика инспектори telefoni:</h6>
-        <p>
-          <a href="tel:${params.police_phone}">${params.police_phone}</a>
-        </p>
-      </div>
-    </li>
 
-    <li>
-      <div class="passport-icon">
-        <i class="bi bi-people-fill"></i>
-      </div>
-      <div class="passport-li-about">
-        <h6>Ҳамкор ташкилотлар:</h6>
-        <p>${params.cooperate} ИИВ 71-252-70-01</p>
-
-      </div>
-    </li>
-
+      <li class="is-accordion">
+        <details>
+          <summary>
+            <div class="passport-icon">  <i class="duty-icon bi bi-person-fill"></i></div>
+            <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Ҳамкор ташкилотлар</span>
+          </summary>
+          <ul class="inner-list">
+              <li>
+                <div class="passport-icon">
+                  <i class="bi bi-telephone-fill"></i>
+                </div>
+                <div class="passport-li-about">
+                  <h6>ИИВ</h6>
+                  <p>
+                    <a href="tel:71-252-70-01">71-252-70-01</a>
+                  </p>
+                </div>
+              </li>
+               <li>
+                <div class="passport-icon">
+                  <i class="bi bi-telephone-fill"></i>
+                </div>
+                <div class="passport-li-about">
+                  <h6>ФВВ</h6>
+                  <p>
+                    <a href="tel:71-234-87-20">71-234-87-20</a>
+                  </p>
+                </div>
+              </li>
+          </ul>
+        </details>
+      </li>
 <li class="is-accordion">
   <details>
     <summary>
@@ -1524,74 +1544,146 @@
 
     <ul class="inner-list">
            <li>
-  <div class="passport-icon">
-    <i class="bi bi-geo"></i>
-  </div>
-  <div class="passport-li-about">
-    <h6>Номи:</h6>
-    <p>${params?.neighborhood_name ?? 'Binokor mahallasi'}</p>
-  </div>
-</li>
+            <div class="passport-icon">
+              <i class="bi bi-geo"></i>
+            </div>
+            <div class="passport-li-about">
+              <h6>Номи:</h6>
+              <p>${params?.neighborhood_name ?? 'Бинокор маҳалласи'}</p>
+            </div>
+          </li>
+          
+      <li class="is-accordion">
+        <details>
+          <summary>
+            <div class="passport-icon">  <i class="duty-icon bi bi-person-badge"></i></div>
+            <span class="summary-span"> <span style="color:#fff; font-weight:bold;">МФЙ раиси:</span> <span> ${params?.neighborhood_head ?? 'Исмоилов И.Н'}</span>
+          </summary>
+          <ul class="inner-list">
+              <li>
+                <div class="passport-icon">
+                  <i class="bi bi-telephone-fill"></i>
+                </div>
+                <div class="passport-li-about">
+                  <h6>Телефон рақами:</h6>
+                  <p>
+                    <a href="tel:${params?.neighborhood_head_phone}">${params?.neighborhood_head_phone}</a>
+                  </p>
+                </div>
+              </li>
+          </ul>
+        </details>
+      </li>
 
-<li>
-  <div class="passport-icon">
-    <i class="bi bi-person-badge"></i>
-  </div>
-  <div class="passport-li-about">
-    <h6>МФЙ раиси:</h6>
-    <p>${params?.neighborhood_head ?? 'Ismoilov I.N'}</p>
-  </div>
-</li>
 
-<li>
-  <div class="passport-icon">
-    <i class="bi bi-building"></i>
-  </div>
-  <div class="passport-li-about">
-    <h6>Хоким ёрдамчиси:</h6>
-    <p>${params?.assistant_governor ?? 'Ahmadov A.Y'}</p>
-  </div>
-</li>
+   <li class="is-accordion">
+        <details>
+          <summary>
+            <div class="passport-icon">  <i class="duty-icon bi bi-building"></i></div>
+            <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Хоким ёрдамчиси:</span> <span> ${params?.assistant_governor ?? 'Аҳмадов А.Й'}</span>
+          </summary>
+          <ul class="inner-list">
+              <li>
+                <div class="passport-icon">
+                  <i class="bi bi-telephone-fill"></i>
+                </div>
+                <div class="passport-li-about">
+                  <h6>Телефон рақами:</h6>
+                  <p>
+                    <a href="tel:${params?.assistant_governor_phone}">${params?.assistant_governor_phone}</a>
+                  </p>
+                </div>
+              </li>
+          </ul>
+        </details>
+      </li>
 
-<li>
-  <div class="passport-icon">
-    <i class="bi bi-people"></i>
-  </div>
-  <div class="passport-li-about">
-    <h6>Ёшлар етакчиси:</h6>
-    <p>${params?.youth_leader ?? 'Jumayev A.D'}</p>
-  </div>
-</li>
+      <li class="is-accordion">
+              <details>
+                <summary>
+                  <div class="passport-icon">  <i class="duty-icon bi bi-people"></i></div>
+                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Ёшлар етакчиси:</span> <span> ${params?.youth_leader ?? 'Жумаев А.Д'}</span>
+                </summary>
+                <ul class="inner-list">
+                    <li>
+                      <div class="passport-icon">
+                        <i class="bi bi-telephone-fill"></i>
+                      </div>
+                      <div class="passport-li-about">
+                        <h6>Телефон рақами:</h6>
+                        <p>
+                          <a href="tel:${params?.youth_leader_phone}">${params?.youth_leader_phone}</a>
+                        </p>
+                      </div>
+                    </li>
+                </ul>
+              </details>
+            </li>
 
-<li>
-  <div class="passport-icon">
-    <i class="bi bi-gender-female"></i>
-  </div>
-  <div class="passport-li-about">
-    <h6>Хотин-қизлар фаоли:</h6>
-    <p>${params?.womens_activist ?? 'Икромова Шохида Низомиддин қизи'}</p>
-  </div>
-</li>
+         <li class="is-accordion">
+              <details>
+                <summary>
+                  <div class="passport-icon">  <i class="duty-icon bi bi-gender-female"></i></div>
+                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Хотин-қизлар фаоли:</span> <span> ${params?.womens_activist ?? 'Икромова Ш.Н'}</span>
+                </summary>
+                <ul class="inner-list">
+                    <li>
+                      <div class="passport-icon">
+                        <i class="bi bi-telephone-fill"></i>
+                      </div>
+                      <div class="passport-li-about">
+                        <h6>Телефон рақами:</h6>
+                        <p>
+                          <a href="tel:${params?.womens_activist_phone}">${params?.womens_activist_phone}</a>
+                        </p>
+                      </div>
+                    </li>
+                </ul>
+              </details>
+            </li>
 
-<li>
-  <div class="passport-icon">
-    <i class="bi bi-receipt"></i>
-  </div>
-  <div class="passport-li-about">
-    <h6>МФЙ солиқ инспектори:</h6>
-    <p>${params?.tax_inspector ?? "Холлиев Обиджон Рўзимуродович"}</p>
-  </div>
-</li>
-
-<li>
-  <div class="passport-icon">
-    <i class="bi bi-person-heart"></i>
-  </div>
-  <div class="passport-li-about">
-    <h6>Ижтмоий ходими:</h6>
-    <p>${params?.social_employe ?? 'Сулаймонова Иқболхон Мухаммадсолиевна'}</p>
-  </div>
-</li>
+          <li class="is-accordion">
+              <details>
+                <summary>
+                  <div class="passport-icon">  <i class="duty-icon bi bi-receipt"></i></div>
+                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">МФЙ солиқ инспектори:</span> <span> ${params?.tax_inspector ?? 'Холлиев О.Р'}</span>
+                </summary>
+                <ul class="inner-list">
+                    <li>
+                      <div class="passport-icon">
+                        <i class="bi bi-telephone-fill"></i>
+                      </div>
+                      <div class="passport-li-about">
+                        <h6>Телефон рақами:</h6>
+                        <p>
+                          <a href="tel:${params?.tax_inspector_phone}">${params?.tax_inspector_phone}</a>
+                        </p>
+                      </div>
+                    </li>
+                </ul>
+              </details>
+            </li>
+            <li class="is-accordion">
+              <details>
+                <summary>
+                  <div class="passport-icon">  <i class="duty-icon bi bi-person-heart"></i></div>
+                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Ижтмоий ходими:</span> <span> ${params?.social_employe ?? 'Сулаймонова И.М'}</span>
+                </summary>
+                <ul class="inner-list">
+                    <li>
+                      <div class="passport-icon">
+                        <i class="bi bi-telephone-fill"></i>
+                      </div>
+                      <div class="passport-li-about">
+                        <h6>Телефон рақами:</h6>
+                        <p>
+                          <a href="tel:${params?.social_employe_phone}">${params?.social_employe_phone}</a>
+                        </p>
+                      </div>
+                    </li>
+                </ul>
+              </details>
+            </li>
 
 
     </ul>
@@ -1619,6 +1711,31 @@
           <i class="duty-icon bi bi-person-badge"></i>
           МГ жавобгар: <span>${params.responsible_name}</span>
         </li>
+
+          <li class="is-accordion">
+              <details>
+                <summary>
+                  <div class="passport-icon">  <i class="duty-icon bi bi-person-badge"></i></div>
+                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">МГ жавобгар:</span> <span> ${params?.responsible_name ?? 'Холлиев О.Р'}</span>
+                </summary>
+                <ul class="inner-list">
+                    <li>
+                      <div class="passport-icon">
+                        <i class="bi bi-telephone-fill"></i>
+                      </div>
+                      <div class="passport-li-about">
+                        <h6>Телефон рақами:</h6>
+                        <p>
+                          <a href="tel:${params?.responsible_phone}">${params?.responsible_phone}</a>
+                        </p>
+                      </div>
+                    </li>
+                </ul>
+              </details>
+            </li>
+
+
+
         <li class="is-accordion">
             <details>
               <summary>
@@ -1647,10 +1764,40 @@
           Йўналишлар: <span>${params.patrul_types_count} та</span>
         </li>
 
-        <li class="alert alert-dark m-0" role="alert">
-          <i class="duty-icon bi bi-camera-video-fill"></i>
-          Камералар: <span>${params.count_cameras} та</span>
-        </li>
+          <li class="is-accordion">
+  <details>
+    <summary>
+      <div class="passport-icon">
+        <i class="bi bi-camera-video-fill"></i>
+      </div>
+      <span class="summary-span">
+        <span style="color:#fff; font-weight:bold;">Камералар:</span>
+        <span>${params?.count_cameras}</span>
+      </span>
+    </summary>
+
+    <ul class="inner-list">
+      <li>
+        <div class="passport-icon">
+          <i class="bi bi-camera-reels"></i>
+        </div>
+        <div class="passport-li-about">
+          <h6>PTZ kameralar: ${params?.count_cameras}</h6>
+        </div>
+      </li>
+
+      <li>
+        <div class="passport-icon">
+          <i class="bi bi-camera-video"></i>
+        </div>
+        <div class="passport-li-about">
+          <h6>Panoramik kameralar (360°): 0</h6>
+        </div>
+      </li>
+
+    </ul>
+  </details>
+</li>
 
         <li class="alert alert-dark m-0" role="alert">
           <i class="duty-icon bi bi-bell-fill"></i>
