@@ -295,22 +295,28 @@ $(document).ready(function () {
             }
         }, 'json');
     }
+    let initialRegion = $('#regions').val();
+    let divisionId = $('#division_id').val();
 
     $('#regions').change(function () {
-        const region = $(this).val();
-        if (!region) {
+        initialRegion = $(this).val();
+        if (!initialRegion) {
             $('#division_id').empty().append('<option value="">Танланг...</option>');
             $('#card_duty').empty();
             return;
         }
 
-        loadDivisionsByRegion(region);
+        loadDivisionsByRegion(initialRegion);
 
-        loadDutyByRegion(region);
+        loadDutyByRegion(initialRegion);
+    });
+    $('#division_id').change(function () {
+        divisionId = $(this).val();
+        loadDutyByRegion(divisionId);
     });
 
    
-    const initialRegion = $('#regions').val();
+
     if (initialRegion) {
         loadDivisionsByRegion(initialRegion);
         loadDutyByRegion(initialRegion);
