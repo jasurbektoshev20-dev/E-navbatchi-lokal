@@ -156,24 +156,39 @@ switch ($TheAct) {
 		$sql->query($query);
 		$Cooperates = $sql->fetchAll();
 
-		$query = "SELECT 
-				t.lastname,
-				t.photo,
-				t.phone,
-				p.name{$slang} as position,
-				ra.shortname{$slang} as role
-			FROM hr.duty_staff d 
-			LEFT JOIN hr.staff t ON (t.id = d.staff1 OR t.id = d.staff2 OR t.id = d.staff3)
-			LEFT JOIN hr.positions p ON p.id = t.position_id
-			left join ref.ranks ra on ra.id  = t.rank_id
-			WHERE d.date = CURRENT_DATE and d.structure_id = {$UserStructure}
-			ORDER BY p.turn";
+		// $query = "SELECT 
+        //         d.id,
+        //         t.lastname,
+        //         t.photo,
+        //         t.phone,
+        //         p.name{$slang} as position
+        //     FROM hr.duty_staff d
+        //     LEFT JOIN hr.staff t ON (t.id = d.staff1 OR t.id = d.staff2 OR t.id = d.staff3)
+        //     LEFT JOIN hr.positions p ON p.id = t.position_id
+        //     LEFT JOIN ref.ranks ra ON ra.id = t.rank_id
+        //     WHERE d.structure_id = {$UserStructure}
+			
+        //     -- ORDER BY p.turn
+        //     ";
+			$query = "SELECT 
+                d.id,
+                t.lastname,
+                t.photo,
+                t.phone,
+                p.name{$slang} AS position
+            FROM hr.duty_staff d
+            LEFT JOIN hr.staff t ON (t.id = d.staff1 OR t.id = d.staff2 OR t.id = d.staff3)
+            LEFT JOIN hr.positions p ON p.id = t.position_id
+            LEFT JOIN ref.ranks ra ON ra.id = t.rank_id
+            WHERE d.date = CURRENT_DATE AND d.structure_id = {$UserStructure}
+            -- ORDER BY p.turn
+            ";
 
 		$sql->query($query);
 		$Duty = $sql->fetchAll();
 
 		// echo '<pre>';
-		// print_r($Regions);
+		// print_r($Duty);
 		// echo '</pre>';
 		// die();
 

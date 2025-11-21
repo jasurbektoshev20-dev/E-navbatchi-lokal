@@ -61,6 +61,7 @@
     <div class="app-chat">
         <div style="height: calc(100vh - 7rem);" class="row">
             <div class="col-8">
+
                 <div class="form-select-box">
                    <select class="form-select card" id="regions">
                         {foreach from=$Regions item=region key=mkey}
@@ -69,9 +70,6 @@
                   </select>
                    <select id="division_id" class="form-select">
                         <option value="">Танланг...</option>
-                        {* {foreach from=$Structures item=str}
-                            <option value="{$str.id}">{$str.name2}</option>
-                        {/foreach} *}
                   </select>
                 </div>
              
@@ -287,7 +285,6 @@ $(document).ready(function () {
         });
     }
 
-    // 🔹 Bo‘linmalarni yuklash funksiyasi
     function loadDivisionsByRegion(regionId) {
         $.get(`${AJAXPHP}?act=get_divisions&structure_id=${regionId}`, function (data) {
             $('#division_id').empty().append('<option value="">Танланг...</option>');
@@ -299,7 +296,6 @@ $(document).ready(function () {
         }, 'json');
     }
 
-    // 🔹 Boshqarma (region) o‘zgarganda
     $('#regions').change(function () {
         const region = $(this).val();
         if (!region) {
@@ -308,14 +304,12 @@ $(document).ready(function () {
             return;
         }
 
-        // 1️⃣ Bo‘linmalarni yuklash
         loadDivisionsByRegion(region);
 
-        // 2️⃣ Navbatchilarni yuklash
         loadDutyByRegion(region);
     });
 
-    // 🔹 Dastlab sahifa ochilganda
+   
     const initialRegion = $('#regions').val();
     if (initialRegion) {
         loadDivisionsByRegion(initialRegion);
