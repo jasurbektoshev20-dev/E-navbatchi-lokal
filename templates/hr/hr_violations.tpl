@@ -163,8 +163,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-12 d-flex align-items-center justify-content-end chart-btn-box">
-                                          <button id="total_button" class="btn btn-primary mb-2">Jami jinoyatlar</button>
-                                          <button id="compare_button" class="btn btn-warning mb-2">Solishtirish</button>
+                                          <button id="total_button" class="btn btn-primary mb-2">Жами жиноятлар</button>
+                                          <button id="compare_button" class="btn btn-warning mb-2">Солиштириш</button>
                                     </div>
                                      <div class="chart-container2" id="administrative_offenses"  style="height: 400px;"></div>
                                 </div>
@@ -191,8 +191,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-12 d-flex align-items-center justify-content-end chart-btn-box">
-                                          <button id="criminal_total_button" class="btn btn-primary mb-2">Jami jinoyatlar</button>
-                                          <button id="criminal_compare_button" class="btn btn-warning mb-2">Solishtirish</button>
+                                          <button id="criminal_total_button" class="btn btn-primary mb-2">Жами жиноятлар</button>
+                                          <button id="criminal_compare_button" class="btn btn-warning mb-2">Солиштириш</button>
                                     </div>
                                      <div class="chart-container2" id="criminal_offenses"  style="height: 400px;"></div>
                                 </div>
@@ -370,7 +370,7 @@
 const offenses = ["183-модда","187-модда", "223-модда","56°-модда", "194°-модда","195°-модда","185°-модда","196-модда","61-модда", "210°-модда","185²-модда","185³-модда"]
 
 const regions = [
-    "Qoraqalpog'iston Respublikasi", "Toshkent shahar", "Andijon", "Buxoro", "Farg‘ona", "Jizzax", "Namangan", "Navoiy", "Qashqadaryo","Samarqand","Surxandaryo", "Sirdaryo", "Toshkent viloyati", "Xorazm", 
+    "Қорақалпоғистон Республикаси", "Тошкент шаҳар", "Андижон", "Бухоро", "Фарғона", "Жиззах", "Наманган", "Navoiy", "Қашқадарё","Самарқанд","Сурхандарё", "Сирдарё", "Тошкент вилояти", "Хоразм", 
 ];
 
 // Modda → sana → son
@@ -408,43 +408,43 @@ const offenseData = {
 //     };
 // });
 const offenseRegionData = {
-     "Qoraqalpog'iston Respublikasi": {
+     "Қорақалпоғистон Республикаси": {
         "2025-11-01": [0, 5, 9, 1, 6, 3, 1, 8, 3, 7, 3, 5],
         "2025-11-02": [5, 2, 2, 8, 3, 6, 6, 4, 9, 3, 3, 5],
         "2025-11-03": [8, 7, 4, 7, 9, 9, 9, 2, 9, 4, 3, 5],
         "2025-11-04": [1, 4, 9, 3, 7, 1, 5, 1, 8, 4, 3, 5]
     },
-     "Toshkent shahar": {
+     "Тошкент шаҳар": {
         "2025-11-01": [4, 9, 9, 0, 4, 4, 8, 7, 0, 3, 0, 4],
         "2025-11-02": [9, 8, 0, 2, 4, 0, 1, 5, 0, 9, 0, 4],
         "2025-11-03": [9, 3, 7, 8, 8, 0, 4, 4, 8, 9, 0, 4],
         "2025-11-04": [2, 0, 3, 9, 9, 6, 4, 2, 3, 5, 0, 4]
     },
-    "Andijon": {
+    "Андижон": {
         "2025-11-01": [0, 5, 9, 1, 6, 3, 1, 8, 3, 7, 1, 3],
         "2025-11-02": [5, 2, 2, 8, 3, 6, 6, 4, 9, 3, 1, 3],
         "2025-11-03": [8, 7, 4, 7, 9, 9, 9, 2, 9, 4, 1, 3],
         "2025-11-04": [1, 4, 9, 3, 7, 1, 5, 1, 8, 4, 1, 3]
     },
-    "Buxoro": {
+    "Бухоро": {
         "2025-11-01": [3, 7, 2, 5, 3, 7, 7, 5, 5, 4, 2, 3],
         "2025-11-02": [1, 8, 2, 3, 3, 0, 1, 7, 2, 2, 2, 3],
         "2025-11-03": [2, 2, 6, 6, 8, 7, 5, 2, 5, 1, 2, 3],
         "2025-11-04": [4, 6, 4, 0, 3, 0, 2, 0, 1, 8, 2, 3]
     },
-    "Farg‘ona": {
+    "Фарғона": {
         "2025-11-01": [4, 6, 6, 2, 3, 9, 0, 1, 6, 0, 3, 1],
         "2025-11-02": [5, 8, 7, 1, 2, 6, 7, 8, 2, 1, 3, 1],
         "2025-11-03": [1, 9, 3, 6, 4, 2, 9, 1, 2, 8, 3, 1],
         "2025-11-04": [2, 8, 3, 0, 0, 6, 3, 1, 3, 9, 3, 1]
     },
-    "Jizzax":  {
+    "Жиззах":  {
         "2025-11-01": [2, 6, 5, 3, 9, 8, 2, 3, 6, 1, 0, 4],
         "2025-11-02": [7, 7, 8, 7, 2, 3, 1, 1, 6, 0, 0, 4],
         "2025-11-03": [1, 4, 7, 8, 3, 8, 2, 3, 4, 2, 0, 4],
         "2025-11-04": [1, 7, 5, 0, 7, 1, 5, 0, 9, 5, 0, 4]
     },
-    "Namangan": {
+    "Наманган": {
         "2025-11-01": [8, 9, 0, 6, 3, 5, 1, 7, 6, 9, 5, 1],
         "2025-11-02": [2, 5, 3, 1, 8, 8, 5, 3, 7, 3, 5, 1],
         "2025-11-03": [4, 8, 7, 1, 7, 7, 8, 2, 3, 5, 5, 1],
@@ -456,37 +456,37 @@ const offenseRegionData = {
         "2025-11-03": [0, 9, 9, 3, 7, 2, 1, 6, 4, 4, 2, 4],
         "2025-11-04": [9, 9, 8, 2, 5, 5, 6, 8, 8, 7, 2, 4]
     },
-    "Qashqadaryo": {
+    "Қашқадарё": {
         "2025-11-01": [9, 2, 9, 7, 5, 2, 4, 9, 4, 0, 1, 5],
         "2025-11-02": [5, 7, 7, 4, 4, 1, 8, 6, 8, 5, 1, 5],
         "2025-11-03": [8, 0, 9, 0, 5, 0, 8, 7, 3, 6, 1, 5],
         "2025-11-04": [0, 8, 8, 5, 2, 5, 6, 8, 3, 4, 1, 5]
     },
-    "Samarqand": {
+    "Самарқанд": {
         "2025-11-01": [1, 0, 3, 8, 5, 5, 8, 6, 3, 0, 0, 5],
         "2025-11-02": [6, 7, 4, 2, 5, 9, 0, 8, 2, 1, 0, 5],
         "2025-11-03": [9, 1, 4, 2, 2, 4, 0, 1, 5, 9, 0, 5],
         "2025-11-04": [9, 6, 6, 1, 1, 7, 4, 1, 8, 9, 0, 5]
     },
-     "Surxandaryo": {
+     "Сурхандарё": {
         "2025-11-01": [1, 0, 3, 8, 5, 5, 8, 6, 3, 0, 7, 1],
         "2025-11-02": [6, 7, 4, 2, 5, 9, 0, 8, 2, 1, 7, 1],
         "2025-11-03": [9, 1, 4, 2, 2, 4, 0, 1, 5, 9, 7, 1],
         "2025-11-04": [9, 6, 6, 1, 1, 7, 4, 1, 8, 9, 7, 1]
     },
-     "Sirdaryo": {
+     "Сирдарё": {
         "2025-11-01": [1, 0, 3, 8, 5, 5, 8, 6, 3, 0, 1, 4],
         "2025-11-02": [6, 7, 4, 2, 5, 9, 0, 8, 2, 1, 1, 4],
         "2025-11-03": [9, 1, 4, 2, 2, 4, 0, 1, 5, 9, 1, 4],
         "2025-11-04": [9, 6, 6, 1, 1, 7, 4, 1, 8, 9, 1, 4]
     },
-    "Toshkent viloyati": {
+    "Тошкент вилояти": {
         "2025-11-01": [4, 9, 9, 0, 4, 4, 8, 7, 0, 3, 3, 3],
         "2025-11-02": [9, 8, 0, 2, 4, 0, 1, 5, 0, 9, 3, 3],
         "2025-11-03": [9, 3, 7, 8, 8, 0, 4, 4, 8, 9, 3, 3],
         "2025-11-04": [2, 0, 3, 9, 9, 6, 4, 2, 3, 5, 3, 3]
     },
-    "Xorazm": {
+    "Хоразм": {
         "2025-11-01": [6, 3, 6, 7, 6, 8, 4, 6, 5, 4, 2, 5],
         "2025-11-02": [3, 4, 9, 1, 7, 3, 3, 8, 4, 6, 2, 5],
         "2025-11-03": [5, 5, 0, 9, 4, 8, 4, 5, 2, 5, 2, 5],
@@ -555,10 +555,10 @@ function loadDefaultCharts() {
         offenses.forEach(m => sum[m] += offenseData[date][m]);
     });
 
-    updatePie(sum);                // pie chart → jami sonlar
+    updatePie(sum);                // pie chart → Жами sonlar
     renderModdaList(sum);
 
-    // viloyatlar bo‘yicha jami
+    // viloyatlar bo‘yicha Жами
     let regionTotals = regions.map(r => offenses.map(() => 0));
 
     regions.forEach((region, ri) => {
@@ -569,7 +569,7 @@ function loadDefaultCharts() {
         });
     });
 
-    updateBar(regionTotals);       // bar chart → jami sonlar
+    updateBar(regionTotals);       // bar chart → Жами sonlar
 }
 
 
@@ -588,7 +588,7 @@ function updatePie(values) {
     left: "center",
     top: "center",
     style: {
-        text: total + "\nJami",
+        text: total + "\nЖами",
         textAlign: "center",
         fontSize: 24,
         fontWeight: "bold",
@@ -597,7 +597,7 @@ function updatePie(values) {
 },
            tooltip: {
         trigger: 'item',
-        formatter: p => `${p.name} <br> Jami: <b>${p.value}</b>`,
+        formatter: p => `${p.name} <br> Жами: <b>${p.value}</b>`,
           textStyle: {
                   fontSize: 20,     // 🔥 shu yerda o'zgartirasan
                   color: '#000'
@@ -650,12 +650,12 @@ function updatePie(values) {
 // =====================================
 
 function renderModdaList(values) {
-    let existing = document.getElementById("moddalar_box");
+    let existing = document.getElementById("moddalar_box_2");
     if (existing) existing.remove();
 
     // popup box yaratamiz
     let box = document.createElement("div");
-    box.id = "moddalar_box";
+    box.id = "moddalar_box_2";
     box.style.position = "absolute";
     box.style.left = "20px";
     box.style.top = "0px";
@@ -671,7 +671,7 @@ function renderModdaList(values) {
     box.style.display = "none";
     box.innerHTML = `
         <div id="moddalar_list_content">
-            ${offenses.map(m => `<div>${m} — ${values[m]} ta</div>`).join("")}
+            ${offenses.map(m => `<div>${m} — ${values[m]} та</div>`).join("")}
         </div>
     `;
     document.getElementById("administrative_offenses").appendChild(box);
@@ -682,7 +682,7 @@ function renderModdaList(values) {
     btn.style.position = "absolute";
     btn.style.top = "-50px";
     btn.style.left = "20px";   
-    btn.innerText = "Moddalarni ko‘rish";
+    btn.innerText = "Моддаларни кўриш";
     btn.style.fontSize = "18px";
 
     document.getElementById("administrative_offenses").appendChild(btn);
@@ -765,15 +765,15 @@ function sumRegions(date) {
 
 
 // =====================================
-// 7. FILTER (JAMI)
+// 7. FILTER (Жами)
 // =====================================
 
-document.getElementById("criminal_total_button").onclick = function () {
+document.getElementById("total_button").onclick = function () {
 
     let s = document.getElementById("start_date").value;
     let e = document.getElementById("end_date").value;
 
-    if (!s || !e) return alert("Ikkala sanani tanlang!");
+    if (!s || !e) return alert("Иккала санани танланг!");
 
     let sum = {};
     offenses.forEach(m => sum[m] = 0);
@@ -804,15 +804,15 @@ document.getElementById("criminal_total_button").onclick = function () {
 
 
 // =====================================
-// 8. SOLISHTIRISH
+// 8. Солиштириш
 // =====================================
 document.getElementById("compare_button").onclick = function () {
     let s = document.getElementById("start_date").value;
     let e = document.getElementById("end_date").value;
 
-    if (!s || !e) return alert("Ikkala sanani tanlang!");
+    if (!s || !e) return alert("Иккала санани танланг!");
 
-    // O‘zgarish + jami
+    // O‘zgarish + Жами
     let diff = {};
     let absValues = {};
 
@@ -836,7 +836,7 @@ document.getElementById("compare_button").onclick = function () {
                 let value = absValues[modda];
                 let change = diff[modda];
                 let sign = change > 0 ? "+" : "";
-                return `${modda}<br/>${value} ta (${sign}${change})`;
+                return `${modda}<br/>${value} та (${sign}${change})`;
             },
               textStyle: {
                   fontSize: 20,     
@@ -871,7 +871,7 @@ document.getElementById("compare_button").onclick = function () {
                     let value = absValues[modda];
                     let change = diff[modda];
                     let sign = change > 0 ? "+" : "";
-                    return `${value} ta (${sign}${change})`;
+                    return `${value} та (${sign}${change})`;
                 },
             
                 fontSize: 20,
@@ -955,43 +955,43 @@ const offenseDataCriminal = {
 
 
 const offenseRegionDataCriminal = {
-     "Qoraqalpog'iston Respublikasi": {
+     "Қорақалпоғистон Республикаси": {
         "2025-11-01": [0, 5, 9, 1, 6, 3, 1, 8, 3, 7],
         "2025-11-02": [5, 2, 2, 8, 3, 6, 6, 4, 9, 3],
         "2025-11-03": [8, 7, 4, 7, 9, 9, 9, 2, 9, 4],
         "2025-11-04": [1, 4, 9, 3, 7, 1, 5, 1, 8, 4]
     },
-     "Toshkent shahar": {
+     "Тошкент шаҳар": {
         "2025-11-01": [4, 9, 9, 0, 4, 4, 8, 7, 0, 3],
         "2025-11-02": [9, 8, 0, 2, 4, 0, 1, 5, 0, 9],
         "2025-11-03": [9, 3, 7, 8, 8, 0, 4, 4, 8, 9],
         "2025-11-04": [2, 0, 3, 9, 9, 6, 4, 2, 3, 5]
     },
-    "Andijon": {
+    "Андижон": {
         "2025-11-01": [0, 5, 9, 1, 6, 3, 1, 8, 3, 7],
         "2025-11-02": [5, 2, 2, 8, 3, 6, 6, 4, 9, 3],
         "2025-11-03": [8, 7, 4, 7, 9, 9, 9, 2, 9, 4],
         "2025-11-04": [1, 4, 9, 3, 7, 1, 5, 1, 8, 4]
     },
-    "Buxoro": {
+    "Бухоро": {
         "2025-11-01": [3, 7, 2, 5, 3, 7, 7, 5, 5, 4],
         "2025-11-02": [1, 8, 2, 3, 3, 0, 1, 7, 2, 2],
         "2025-11-03": [2, 2, 6, 6, 8, 7, 5, 2, 5, 1],
         "2025-11-04": [4, 6, 4, 0, 3, 0, 2, 0, 1, 8]
     },
-    "Farg‘ona": {
+    "Фарғона": {
         "2025-11-01": [4, 6, 6, 2, 3, 9, 0, 1, 6, 0],
         "2025-11-02": [5, 8, 7, 1, 2, 6, 7, 8, 2, 1],
         "2025-11-03": [1, 9, 3, 6, 4, 2, 9, 1, 2, 8],
         "2025-11-04": [2, 8, 3, 0, 0, 6, 3, 1, 3, 9]
     },
-    "Jizzax":  {
+    "Жиззах":  {
         "2025-11-01": [2, 6, 5, 3, 9, 8, 2, 3, 6, 1],
         "2025-11-02": [7, 7, 8, 7, 2, 3, 1, 1, 6, 0],
         "2025-11-03": [1, 4, 7, 8, 3, 8, 2, 3, 4, 2],
         "2025-11-04": [1, 7, 5, 0, 7, 1, 5, 0, 9, 5]
     },
-    "Namangan": {
+    "Наманган": {
         "2025-11-01": [8, 9, 0, 6, 3, 5, 1, 7, 6, 9],
         "2025-11-02": [2, 5, 3, 1, 8, 8, 5, 3, 7, 3],
         "2025-11-03": [4, 8, 7, 1, 7, 7, 8, 2, 3, 5],
@@ -1003,37 +1003,37 @@ const offenseRegionDataCriminal = {
         "2025-11-03": [0, 9, 9, 3, 7, 2, 1, 6, 4, 4],
         "2025-11-04": [9, 9, 8, 2, 5, 5, 6, 8, 8, 7]
     },
-    "Qashqadaryo": {
+    "Қашқадарё": {
         "2025-11-01": [9, 2, 9, 7, 5, 2, 4, 9, 4, 0],
         "2025-11-02": [5, 7, 7, 4, 4, 1, 8, 6, 8, 5],
         "2025-11-03": [8, 0, 9, 0, 5, 0, 8, 7, 3, 6],
         "2025-11-04": [0, 8, 8, 5, 2, 5, 6, 8, 3, 4]
     },
-    "Samarqand": {
+    "Самарқанд": {
         "2025-11-01": [1, 0, 3, 8, 5, 5, 8, 6, 3, 0],
         "2025-11-02": [6, 7, 4, 2, 5, 9, 0, 8, 2, 1],
         "2025-11-03": [9, 1, 4, 2, 2, 4, 0, 1, 5, 9],
         "2025-11-04": [9, 6, 6, 1, 1, 7, 4, 1, 8, 9]
     },
-     "Surxandaryo": {
+     "Сурхандарё": {
         "2025-11-01": [1, 0, 3, 8, 5, 5, 8, 6, 3, 0],
         "2025-11-02": [6, 7, 4, 2, 5, 9, 0, 8, 2, 1],
         "2025-11-03": [9, 1, 4, 2, 2, 4, 0, 1, 5, 9],
         "2025-11-04": [9, 6, 6, 1, 1, 7, 4, 1, 8, 9]
     },
-     "Sirdaryo": {
+     "Сирдарё": {
         "2025-11-01": [1, 0, 3, 8, 5, 5, 8, 6, 3, 0],
         "2025-11-02": [6, 7, 4, 2, 5, 9, 0, 8, 2, 1],
         "2025-11-03": [9, 1, 4, 2, 2, 4, 0, 1, 5, 9],
         "2025-11-04": [9, 6, 6, 1, 1, 7, 4, 1, 8, 9]
     },
-    "Toshkent viloyati": {
+    "Тошкент вилояти": {
         "2025-11-01": [4, 9, 9, 0, 4, 4, 8, 7, 0, 3],
         "2025-11-02": [9, 8, 0, 2, 4, 0, 1, 5, 0, 9],
         "2025-11-03": [9, 3, 7, 8, 8, 0, 4, 4, 8, 9],
         "2025-11-04": [2, 0, 3, 9, 9, 6, 4, 2, 3, 5]
     },
-    "Xorazm": {
+    "Хоразм": {
         "2025-11-01": [6, 3, 6, 7, 6, 8, 4, 6, 5, 4],
         "2025-11-02": [3, 4, 9, 1, 7, 3, 3, 8, 4, 6],
         "2025-11-03": [5, 5, 0, 9, 4, 8, 4, 5, 2, 5],
@@ -1089,10 +1089,10 @@ function loadDefaultChartsCriminal() {
         offenses_criminal.forEach(m => sum[m] += offenseDataCriminal[date][m]);
     });
 
-    updatePieCriminal(sum);                // pie chart → jami sonlar
+    updatePieCriminal(sum);                // pie chart → Жами sonlar
     renderModdaListCriminal(sum);
 
-    // viloyatlar bo‘yicha jami
+    // viloyatlar bo‘yicha Жами
     let regionTotals = regions.map(r => offenses_criminal.map(() => 0));
 
     regions.forEach((region, ri) => {
@@ -1103,7 +1103,7 @@ function loadDefaultChartsCriminal() {
         });
     });
 
-    updateBarCriminal(regionTotals);       // bar chart → jami sonlar
+    updateBarCriminal(regionTotals);       // bar chart → Жами sonlar
 }
 
 
@@ -1122,7 +1122,7 @@ function updatePieCriminal(values) {
     left: "center",
     top: "center",
     style: {
-        text: total + "\nJami",
+        text: total + "\nЖами",
         textAlign: "center",
         fontSize: 24,
         fontWeight: "bold",
@@ -1131,7 +1131,7 @@ function updatePieCriminal(values) {
 },
            tooltip: {
         trigger: 'item',
-        formatter: p => `${p.name} <br> Jami: <b>${p.value}</b>`,
+        formatter: p => `${p.name} <br> Жами: <b>${p.value}</b>`,
           textStyle: {
                   fontSize: 20,     // 🔥 shu yerda o'zgartirasan
                   color: '#000'
@@ -1205,7 +1205,7 @@ function renderModdaListCriminal(values) {
     box.style.display = "none";
     box.innerHTML = `
         <div id="moddalar_list_content">
-            ${offenses_criminal.map(m => `<div>${m} — ${values[m]} ta</div>`).join("")}
+            ${offenses_criminal.map(m => `<div>${m} — ${values[m]} та</div>`).join("")}
         </div>
     `;
     document.getElementById("criminal_offenses").appendChild(box);
@@ -1216,7 +1216,7 @@ function renderModdaListCriminal(values) {
     btn.style.position = "absolute";
     btn.style.top = "-50px";
     btn.style.left = "20px";   
-    btn.innerText = "Moddalarni ko‘rish";
+    btn.innerText = "Моддаларни кўриш";
     btn.style.fontSize = "18px";
 
     document.getElementById("criminal_offenses").appendChild(btn);
@@ -1299,7 +1299,7 @@ function sumRegionsCriminal(date) {
 
 
 // =====================================
-// 7. FILTER (JAMI)
+// 7. FILTER (Жами)
 // =====================================
 
 document.getElementById("criminal_total_button").onclick = function () {
@@ -1307,7 +1307,7 @@ document.getElementById("criminal_total_button").onclick = function () {
     let s = document.getElementById("criminal_start_date").value;
     let e = document.getElementById("criminal_end_date").value;
 
-    if (!s || !e) return alert("Ikkala sanani tanlang!");
+    if (!s || !e) return alert("Иккала санани танланг!");
 
     let sum = {};
     offenses_criminal.forEach(m => sum[m] = 0);
@@ -1338,15 +1338,15 @@ document.getElementById("criminal_total_button").onclick = function () {
 
 
 // =====================================
-// 8. SOLISHTIRISH
+// 8. Солиштириш
 // =====================================
 document.getElementById("criminal_compare_button").onclick = function () {
     let s = document.getElementById("criminal_start_date").value;
     let e = document.getElementById("criminal_end_date").value;
 
-    if (!s || !e) return alert("Ikkala sanani tanlang!");
+    if (!s || !e) return alert("Иккала санани танланг!");
 
-    // O‘zgarish + jami
+    // O‘zgarish + Жами
     let diff = {};
     let absValues = {};
 
@@ -1370,7 +1370,7 @@ document.getElementById("criminal_compare_button").onclick = function () {
                 let value = absValues[modda];
                 let change = diff[modda];
                 let sign = change > 0 ? "+" : "";
-                return `${modda}<br/>${value} ta (${sign}${change})`;
+                return `${modda}<br/>${value} та (${sign}${change})`;
             },
               textStyle: {
                   fontSize: 20,     
@@ -1405,7 +1405,7 @@ document.getElementById("criminal_compare_button").onclick = function () {
                     let value = absValues[modda];
                     let change = diff[modda];
                     let sign = change > 0 ? "+" : "";
-                    return `${value} ta (${sign}${change})`;
+                    return `${value} та (${sign}${change})`;
                 },
             
                 fontSize: 20,

@@ -1403,7 +1403,7 @@
             <details>
               <summary>
                 <div class="passport-icon">  <i class="duty-icon bi bi-person-fill"></i></div>
-                <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Объект раҳбари:</span> <span> ${params.object_head} нафар</span>
+                <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Объект раҳбари:</span> <span> ${params.object_head}</span>
               </summary>
               <ul class="inner-list">
                   <li>
