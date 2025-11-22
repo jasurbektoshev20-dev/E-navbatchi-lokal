@@ -42,12 +42,20 @@
             font-size: 20px;
         }
 
+        .chart-btn-box button{
+            margin-right: 5px;
+            font-size: 18px;
+        }
+        .administrative-card input{
+            font-size: 17px;
+        }
+
     {/literal}
 </style>
 
 <div class="flex-grow-1 container-p-y container-fluid">
     <!--/ Card Border Shadow -->
-    <div class="row">
+    {* <div class="row">
 
         <div class="col-12">
             <div class="card">
@@ -75,9 +83,9 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> *}
 
-    <div class="tab-content p-0 mt-3">
+    <div class="tab-content p-0">
         <div class="tab-pane fade card" id="tables" role="tabpanel">
             <div class="card-datatable table-responsive">
                 <table class="datatables-projects table border-top">
@@ -133,38 +141,6 @@
         <div class="tab-pane fade show active" id="charts" role="tabpanel">
             <div class="row">
 
-
-           {*O'zgartirgan joyim*}
-
-
-             {*   <div class="col-md-12 col-lg-5 mb-2">
-                    <div class="card">
-                        <div class="mx-1 my-2 row">
-                            <div class="col-9">
-                                <h4 class="card-title">{$Dict.get_crime_by_region}
-                                    <span class="text-success" id="get_crime_by_region_total"></span>
-                                </h4>
-                            </div>
-                            <div class="col-3">
-                                <select class="form-select" id="get_crime_by_region_filter">
-                                    
-                                </select>
-                            </div>
-                            <div class="chart-container" id="get_crime_by_region"></div>
-                        </div>
-                    </div>
-                </div>*}
-
-      
-
-
-
-
-                 
-
-
-
-
                 <div class="col-md-12 col-lg-12">
 
                     <div class="row">
@@ -173,46 +149,55 @@
 
                             <div class="card">
 
-                                <div class="mx-1 my-2 row">
-                                    <div class="col-8">
+                                <div class="mx-1 my-2 row administrative-card">
+                                    <div class="col-6">
                                         <h4 class="card-title">Мамурий ҳуқуқбузарликлар</h4>
                                     </div>
-                                    <div class="col-4">
-                                        <select class="form-select" id="get_crime_by_type_filter">
-                                            
-                                        </select>
+                                       <div class="col-3">
+                                        <input type="date" id="start_date" class="form-control">
                                     </div>
-                                    <div class="chart-container2" id="get_crime_by_type"  style="height: 400px;"></div>
 
+                                    <div class="col-3">
+                                        <input type="date" id="end_date" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 d-flex align-items-center justify-content-end chart-btn-box">
+                                          <button id="total_button" class="btn btn-primary mb-2">Jami jinoyatlar</button>
+                                          <button id="compare_button" class="btn btn-warning mb-2">Solishtirish</button>
+                                    </div>
+                                     <div class="chart-container2" id="administrative_offenses"  style="height: 400px;"></div>
                                 </div>
                             </div>
+
                         </div>
 
                     
                         <div class="col-6">
+
                             <div class="card">
-                                <div class="mx-1 my-2 row">
-                                    <div class="col-8">
+
+                                <div class="mx-1 my-2 row administrative-card">
+                                    <div class="col-6">
                                         <h4 class="card-title">Жиноий ҳуқуқбузарликлар</h4>
                                     </div>
-                                    <div class="col-4">
-                                        <select class="form-select" id="get_crimes_filter">
-                                            
-                                        </select>
+                                       <div class="col-3">
+                                        <input type="date" id="criminal_start_date" class="form-control">
                                     </div>
-                                    {* {if $UserStructure eq 1}
-                                        <div class="col-3">
-                                            <select class="form-select" id="listed_crimes">
-                                                <option value="0">{$Dict.all}</option>
-                                                {foreach from=$Regions item=region key=mkey}
-                                                    <option value="{$region.id}">{$region.name}</option>
-                                                {/foreach}
-                                            </select>
-                                        </div>
-                                    {/if} *}
-                                    <div class="chart-container2" id="get_crimes" style="height: 400px;"></div>
+
+                                    <div class="col-3">
+                                        <input type="date" id="criminal_end_date" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 d-flex align-items-center justify-content-end chart-btn-box">
+                                          <button id="criminal_total_button" class="btn btn-primary mb-2">Jami jinoyatlar</button>
+                                          <button id="criminal_compare_button" class="btn btn-warning mb-2">Solishtirish</button>
+                                    </div>
+                                     <div class="chart-container2" id="criminal_offenses"  style="height: 400px;"></div>
                                 </div>
                             </div>
+
                         </div>
 
                         <div class="col-md-6 col-lg-6 mt-4">
@@ -224,16 +209,14 @@
                                 <span id="mamuriy_huquq_chart_total"></span>
                                 </h4>
                             </div>
-                            <div class="col-4">
-                                <select class="form-select" id="mamuriy_huquq_select"></select>
-                            </div>
+                           
                             </div>
                             <div class="chart-container" id="mamuriy_huquq_chart" style="height: 400px;"></div>
                         </div>
                         </div>
 
 
-                          <div class="col-md-6 col-lg-6 mt-4">
+                           <div class="col-md-6 col-lg-6 mt-4">
                         <div class="card p-3">
                             <div class="row mb-3">
                             <div class="col-8">
@@ -242,42 +225,12 @@
                                 <span id="jinoiy_huquq_chart_total"></span>
                                 </h4>
                             </div>
-                            <div class="col-4">
-                                <select class="form-select" id="jinoiy_huquq_select"></select>
-                            </div>
+                           
                             </div>
                             <div class="chart-container" id="jinoiy_huquq_chart" style="height: 400px;"></div>
                         </div>
                         </div>
                     </div>
-
-
-
-               {*     <div class="card  mt-3">
-
-                        <div class="mx-1 my-2 row">
-
-                            <div class="col-9">
-                                <h4 class="card-title">{$Dict.crime_by_week}
-                                    <span class="text-success" id="crime_by_week_total"></span>
-                                </h4>
-                            </div>
-
-                            <div class="col-3">
-                                <select class="form-select" id="crime_by_week_total_filter">
-                                    
-                                </select>
-                            </div>
-                            
-                            <div class="chart-container2" id="crime_by_week"></div>
-
-                        </div>
-
-                    </div>*}
-
-
-
-
 
                 </div>
             </div>
@@ -411,931 +364,1094 @@
     var AJAXPHP = "ajax{$AddURL}.php";
 
     {literal}
-        let filters = [
-                {
-                    id: 0,
-                    name: dict_all
-                },
-                {
-                    id: 1,
-                    name: dict_by_day
-                },
-                {
-                    id: 2,
-                    name: dict_by_month
-                },
-                {
-                    id: 3,
-                    name: dict_by_year
-                },
-            ]
-        let default_color = localStorage.getItem('templateCustomizer-vertical-menu-template-no-customizer--Style') == 'light' ?
-            '#000' : '#b7b7b7';
+// 1. STATIC DATA (BAZA)
+// =====================================
 
-        const flatpickrDate = document.querySelector('#date');
-        const flatpickrbirthdate = document.querySelector('#birthdate');
-        if (flatpickrDate) {
-            flatpickrDate.flatpickr({
-                monthSelectorType: 'static'
-            });
-        }
-        if (flatpickrbirthdate) {
-            flatpickrbirthdate.flatpickr({
-                static: true
-            });
-        }
+const offenses = ["183-модда","187-модда", "223-модда","56°-модда", "194°-модда","195°-модда","185°-модда","196-модда","61-модда", "210°-модда","185²-модда","185³-модда"]
 
-        let date;
-        $('#date').on('change', function() {
-            var dateComponents = this.value.split('-');
-            date = dateComponents[2] + '-' + dateComponents[1] + '-' + dateComponents[0];
-        })
-        $('#birthdate').on('change', function() {
-            var dateComponents = this.value.split('-');
-            date = dateComponents[2] + '-' + dateComponents[1] + '-' + dateComponents[0];
-        })
+const regions = [
+    "Qoraqalpog'iston Respublikasi", "Toshkent shahar", "Andijon", "Buxoro", "Farg‘ona", "Jizzax", "Namangan", "Navoiy", "Qashqadaryo","Samarqand","Surxandaryo", "Sirdaryo", "Toshkent viloyati", "Xorazm", 
+];
 
-        $('#region_id').change(function(event) {
-            $.ajax({
-                type: "GET",
-                url: `ajax.php?act=get_distcity_by_id&id=${this.value}`,
-                dataType: "json",
-                encode: true,
-                success: function(data) {
-                    $("#distcity_id").empty();
-                    data.forEach(item => {
-                        $("#distcity_id").append(`<option value="${item.id}">${item.name}</option>`);
-                    });
-                }
-            })
-        })
+// Modda → sana → son
+const offenseData = {
+    "2025-11-01": {
+        "183-модда": 50,  "187-модда": 61,  "223-модда": 81,  "56°-модда": 61,
+        "194°-модда": 71, "195°-модда": 68, "185°-модда": 65, "196-модда": 88,
+        "61-модда": 55,  "210°-модда": 46, "185²-модда": 30, "185³-модда": 48
+    },
+    "2025-11-02": {
+        "183-модда": 70,  "187-модда": 84,  "223-модда": 60,  "56°-модда": 43,
+        "194°-модда": 59, "195°-модда": 60, "185°-модда": 41, "196-модда": 76,
+        "61-модда": 62,  "210°-модда": 44, "185²-модда": 30, "185³-модда": 48
+    },
+    "2025-11-03": {
+        "183-модда": 82,  "187-модда": 60,  "223-модда": 75,  "56°-модда": 69,
+        "194°-модда": 78, "195°-модда": 64, "185°-модда": 63, "196-модда": 41,
+        "61-модда": 72,  "210°-модда": 84, "185²-модда": 30, "185³-модда": 48
+    },
+    "2025-11-04": {
+        "183-модда": 55,  "187-модда": 65,  "223-модда": 81,  "56°-модда": 50,
+        "194°-модда": 63, "195°-модда": 65, "185°-модда": 59, "196-модда": 34,
+        "61-модда": 79,  "210°-модда": 90, "185²-модда": 30, "185³-модда": 48
+    }
+};
 
-        var dt_basic_table = $('.datatables-projects'),
-            dt_basic;
+// Tasodifiy region ma’lumotlari
+// const offenseRegionData = {};
+// regions.forEach(region => {
+//     offenseRegionData[region] = {
+//         "2025-11-01": offenses.map(() => Math.floor(Math.random() * 10)),
+//         "2025-11-02": offenses.map(() => Math.floor(Math.random() * 10)),
+//         "2025-11-03": offenses.map(() => Math.floor(Math.random() * 10)),
+//         "2025-11-04": offenses.map(() => Math.floor(Math.random() * 10))
+//     };
+// });
+const offenseRegionData = {
+     "Qoraqalpog'iston Respublikasi": {
+        "2025-11-01": [0, 5, 9, 1, 6, 3, 1, 8, 3, 7, 3, 5],
+        "2025-11-02": [5, 2, 2, 8, 3, 6, 6, 4, 9, 3, 3, 5],
+        "2025-11-03": [8, 7, 4, 7, 9, 9, 9, 2, 9, 4, 3, 5],
+        "2025-11-04": [1, 4, 9, 3, 7, 1, 5, 1, 8, 4, 3, 5]
+    },
+     "Toshkent shahar": {
+        "2025-11-01": [4, 9, 9, 0, 4, 4, 8, 7, 0, 3, 0, 4],
+        "2025-11-02": [9, 8, 0, 2, 4, 0, 1, 5, 0, 9, 0, 4],
+        "2025-11-03": [9, 3, 7, 8, 8, 0, 4, 4, 8, 9, 0, 4],
+        "2025-11-04": [2, 0, 3, 9, 9, 6, 4, 2, 3, 5, 0, 4]
+    },
+    "Andijon": {
+        "2025-11-01": [0, 5, 9, 1, 6, 3, 1, 8, 3, 7, 1, 3],
+        "2025-11-02": [5, 2, 2, 8, 3, 6, 6, 4, 9, 3, 1, 3],
+        "2025-11-03": [8, 7, 4, 7, 9, 9, 9, 2, 9, 4, 1, 3],
+        "2025-11-04": [1, 4, 9, 3, 7, 1, 5, 1, 8, 4, 1, 3]
+    },
+    "Buxoro": {
+        "2025-11-01": [3, 7, 2, 5, 3, 7, 7, 5, 5, 4, 2, 3],
+        "2025-11-02": [1, 8, 2, 3, 3, 0, 1, 7, 2, 2, 2, 3],
+        "2025-11-03": [2, 2, 6, 6, 8, 7, 5, 2, 5, 1, 2, 3],
+        "2025-11-04": [4, 6, 4, 0, 3, 0, 2, 0, 1, 8, 2, 3]
+    },
+    "Farg‘ona": {
+        "2025-11-01": [4, 6, 6, 2, 3, 9, 0, 1, 6, 0, 3, 1],
+        "2025-11-02": [5, 8, 7, 1, 2, 6, 7, 8, 2, 1, 3, 1],
+        "2025-11-03": [1, 9, 3, 6, 4, 2, 9, 1, 2, 8, 3, 1],
+        "2025-11-04": [2, 8, 3, 0, 0, 6, 3, 1, 3, 9, 3, 1]
+    },
+    "Jizzax":  {
+        "2025-11-01": [2, 6, 5, 3, 9, 8, 2, 3, 6, 1, 0, 4],
+        "2025-11-02": [7, 7, 8, 7, 2, 3, 1, 1, 6, 0, 0, 4],
+        "2025-11-03": [1, 4, 7, 8, 3, 8, 2, 3, 4, 2, 0, 4],
+        "2025-11-04": [1, 7, 5, 0, 7, 1, 5, 0, 9, 5, 0, 4]
+    },
+    "Namangan": {
+        "2025-11-01": [8, 9, 0, 6, 3, 5, 1, 7, 6, 9, 5, 1],
+        "2025-11-02": [2, 5, 3, 1, 8, 8, 5, 3, 7, 3, 5, 1],
+        "2025-11-03": [4, 8, 7, 1, 7, 7, 8, 2, 3, 5, 5, 1],
+        "2025-11-04": [4, 1, 8, 7, 2, 7, 3, 6, 6, 7, 5, 1]
+    },
+    "Navoiy": {
+        "2025-11-01": [7, 0, 8, 5, 7, 0, 5, 9, 8, 8, 2, 4],
+        "2025-11-02": [1, 4, 8, 0, 4, 0, 2, 1, 9, 0, 2, 4],
+        "2025-11-03": [0, 9, 9, 3, 7, 2, 1, 6, 4, 4, 2, 4],
+        "2025-11-04": [9, 9, 8, 2, 5, 5, 6, 8, 8, 7, 2, 4]
+    },
+    "Qashqadaryo": {
+        "2025-11-01": [9, 2, 9, 7, 5, 2, 4, 9, 4, 0, 1, 5],
+        "2025-11-02": [5, 7, 7, 4, 4, 1, 8, 6, 8, 5, 1, 5],
+        "2025-11-03": [8, 0, 9, 0, 5, 0, 8, 7, 3, 6, 1, 5],
+        "2025-11-04": [0, 8, 8, 5, 2, 5, 6, 8, 3, 4, 1, 5]
+    },
+    "Samarqand": {
+        "2025-11-01": [1, 0, 3, 8, 5, 5, 8, 6, 3, 0, 0, 5],
+        "2025-11-02": [6, 7, 4, 2, 5, 9, 0, 8, 2, 1, 0, 5],
+        "2025-11-03": [9, 1, 4, 2, 2, 4, 0, 1, 5, 9, 0, 5],
+        "2025-11-04": [9, 6, 6, 1, 1, 7, 4, 1, 8, 9, 0, 5]
+    },
+     "Surxandaryo": {
+        "2025-11-01": [1, 0, 3, 8, 5, 5, 8, 6, 3, 0, 7, 1],
+        "2025-11-02": [6, 7, 4, 2, 5, 9, 0, 8, 2, 1, 7, 1],
+        "2025-11-03": [9, 1, 4, 2, 2, 4, 0, 1, 5, 9, 7, 1],
+        "2025-11-04": [9, 6, 6, 1, 1, 7, 4, 1, 8, 9, 7, 1]
+    },
+     "Sirdaryo": {
+        "2025-11-01": [1, 0, 3, 8, 5, 5, 8, 6, 3, 0, 1, 4],
+        "2025-11-02": [6, 7, 4, 2, 5, 9, 0, 8, 2, 1, 1, 4],
+        "2025-11-03": [9, 1, 4, 2, 2, 4, 0, 1, 5, 9, 1, 4],
+        "2025-11-04": [9, 6, 6, 1, 1, 7, 4, 1, 8, 9, 1, 4]
+    },
+    "Toshkent viloyati": {
+        "2025-11-01": [4, 9, 9, 0, 4, 4, 8, 7, 0, 3, 3, 3],
+        "2025-11-02": [9, 8, 0, 2, 4, 0, 1, 5, 0, 9, 3, 3],
+        "2025-11-03": [9, 3, 7, 8, 8, 0, 4, 4, 8, 9, 3, 3],
+        "2025-11-04": [2, 0, 3, 9, 9, 6, 4, 2, 3, 5, 3, 3]
+    },
+    "Xorazm": {
+        "2025-11-01": [6, 3, 6, 7, 6, 8, 4, 6, 5, 4, 2, 5],
+        "2025-11-02": [3, 4, 9, 1, 7, 3, 3, 8, 4, 6, 2, 5],
+        "2025-11-03": [5, 5, 0, 9, 4, 8, 4, 5, 2, 5, 2, 5],
+        "2025-11-04": [2, 0, 3, 9, 9, 6, 4, 2, 3, 5, 2, 5]
+    }
+};
 
-        // DataTable with buttons
-        if (dt_basic_table.length) {
-            dt_basic = dt_basic_table.DataTable({
-                displayLength: 10,
-                lengthMenu: [5, 10, 25, 50, 75, 100, 1000]
-            });
-        }
+  const colors = [
+        "#6EB5FF", // ko‘k
+        "#5CC97B", // yashil
+        "#A472FF", // to‘q binafsha
+        "#FFB84D", // och sariq
+        "#99CCFF", // och ko‘k
+        "#FFD24C", // sariq (eng katta bo‘lak)
+        "#4BA3C7", // havorang
+        "#7AD67A", // och yashil
+        "#FF884C", // to‘q sariq
+        "#B266FF", // binafsha
+        "#FF6666", // qizil
+];
 
-        $('.datatables-projects tbody').on('click', '.editAction', function() {
-            $('#submitModal').modal('toggle');
-            var RowId = $(this).attr('rel');
+function sumAllRegionsByDate(offenseRegionData) {
+    const numElements = 12;
+    let dates = Object.keys(offenseRegionData[Object.keys(offenseRegionData)[0]]); 
+    // birinchi viloyat sanalarini olamiz
 
-            $.get("hrajax.php?act=get_violations&rowid=" + RowId, function(html) {
-                var sInfo = jQuery.parseJSON(html);
+    let result = {}; // sana: array
 
-                $('#region_id').val(sInfo.region_id);
-                $('#region_id').trigger("change");
-                $('#violation_type').val(sInfo.violation_type);
-                $('#violation_type').trigger("change");
-                $('#type').val(sInfo.type);
-                $('#type').trigger("change");
-                $('#date').val(sInfo.date);
-                $('#incident_place').val(sInfo.incident_place);
-                $('#citizen').val(sInfo.citizen);
-                $('#birthdate').val(sInfo.birthdate);
-                $('#live_adress').val(sInfo.live_adress);
-                $('#work_place').val(sInfo.work_place);
-                $('#text').val(sInfo.text);
-                $('#lat').val(sInfo.lat);
-                $('#lon').val(sInfo.lon);
-                $('#id').val(sInfo.id);
-            })
-        })
+    dates.forEach(date => {
+        result[date] = new Array(numElements).fill(0);
 
-        $('#new').click(function() {
-            $('#submitModal').modal('toggle');
-
-            $('#region_id').val(0);
-            $('#region_id').trigger("change");
-            $('#violation_type').val(0);
-            $('#violation_type').trigger("change");
-            $('#type').val(0);
-            $('#type').trigger("change");
-            $('#date').val("");
-            $('#incident_place').val("");
-            $('#citizen').val("");
-            $('#birthdate').val("");
-            $('#live_adress').val("");
-            $('#work_place').val("");
-            $('#text').val("");
-            $('#lat').val("");
-            $('#lon').val("");
-            $('#id').val(0);
+        Object.keys(offenseRegionData).forEach(region => {
+            const arr = offenseRegionData[region][date];
+            for (let i = 0; i < numElements; i++) {
+                result[date][i] += arr[i];
+            }
         });
-
-        // Form validation and submit
-        const bsValidationForms = $('.needs-validation');
-        Array.prototype.slice.call(bsValidationForms).forEach(function(form) {
-            form.addEventListener('submit', function(event) {
-                if (!form.checkValidity()) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                } else {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    var form_data = new FormData();
-
-                    form_data.append('region_id', $('#region_id').val());
-                    form_data.append('violation_type', $('#violation_type').val());
-                    form_data.append('type', $('#type').val());
-                    form_data.append('date', $('#date').val());
-                    form_data.append('incident_place', $('#incident_place').val());
-                    form_data.append('citizen', $('#citizen').val());
-                    form_data.append('birthdate', $('#birthdate').val());
-                    form_data.append('live_adress', $('#live_adress').val());
-                    form_data.append('work_place', $('#work_place').val());
-                    form_data.append('text', $('#text').val());
-                    form_data.append('lat', $('#lat').val());
-                    form_data.append('lon', $('#lon').val());
-                    form_data.append('id', $('#id').val());
-
-                    $.ajax({
-                        url: 'hrajax.php?act=act_violations',
-                        dataType: 'text',
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        data: form_data,
-                        type: 'post',
-                        success: function(resdata) {
-                            var NewArray = resdata.split("<&sep&>");
-                            if (NewArray[0] == 0) {
-                                location.reload();
-                            } else {
-                                alert(resdata);
-                            }
-                        }
-                    });
-                }
-                form.classList.add('was-validated');
-            });
-        });
-
-        // Delete Record
-        $('.datatables-projects tbody').on('click', '.delete', function() {
-            var RowId = $(this).attr('rel');
-            $.get("hrajax.php?act=del_violations&rowid=" + RowId, function(html) {
-                if (html == 0) {
-                    $("#row_" + RowId).remove();
-                }
-            });
-        });
-
-
-
-        // charts
-        function get_crime_by_region(data, total) {
-            let min = parseInt(data[0].gcount);
-            let max = parseInt(data[0].gcount);
-            data.forEach(obj => {
-                if (parseInt(obj.gcount) != 0) {
-                    if (parseInt(obj.gcount) < min) {
-                        min = parseInt(obj.gcount);
-                    }
-                    if (parseInt(obj.gcount) > max) {
-                        max = parseInt(obj.gcount);
-                    }
-                }
-            });
-
-            var dom = document.getElementById('get_crime_by_region');
-            var colors = ['#28C76F', '#00CFE8', '#7367F0', '#45FFCA', '#A149FA', '#E3FCBF', '#00FFAB',
-                '#B983FF', '#94B3FD', '#998CEB', '#00AF91', '#6499E9', '#F3CCFF',
-            ];
-            var myChart = echarts.init(dom);
-            var option;
-            option = {
-                textStyle: {
-                    fontFamily: "Arial, sans-serif",
-                    fontSize:20
-                },
-                grid: {
-                    containLabel: true,
-                    top: 10,
-                    bottom: 25,
-                    right: 20,
-                    left: 10
-                },
-                xAxis: {
-                    name: 'score',
-                    axisLabel: {
-                        interval: 0,
-                        fontSize: '20px',
-                        color: default_color,
-                    },
-                    axisLine: {
-                        show: false // Remove the background X line
-                    },
-                    splitLine: {
-                        show: false // Remove the background X line
-                    }
-                },
-                yAxis: {
-                    type: 'category',
-                    data: data.map(item => item.name),
-
-                    axisLabel: {
-                        interval: 0,
-                        fontSize: '18px',
-                        color: default_color,
-                    },
-                    label: {
-                        show: false,
-                    },
-                },
-                visualMap: {
-                    show: true,
-                    orient: 'horizontal',
-                    left: 'center',
-                    min: min,
-                    max: max,
-                    text: ['High Score', 'Low Score'],
-                    // Map the score column to color
-                    dimension: 0,
-                    inRange: {
-                        color: ['#28C76F', '#F7EC09', '#FF004D']
-                    }
-                },
-                tooltip: {
-                    backgroundColor: 'white',     textStyle: {
-                  fontSize: 20,     // 🔥 shu yerda o'zgartirasan
-                  color: '#000'
-              }
-                },
-                series: [{
-                    data: data.map(item => parseInt(item.gcount)),
-                    type: 'bar',
-                    barMaxWidth: 60,
-
-                    itemStyle: {
-                        borderRadius: [0, 8, 8, 0] // Add border-radius only to the top of the bar line
-                    },
-                    encode: {
-                        // Map the "amount" column to X axis.
-                        x: 'score',
-                        // Map the "product" column to Y axis
-                        y: 'product'
-                    },
-                    label: {
-                        fontSize: 18,
-                        show: true, // Show the value on top of the bar
-                        position: 'right',
-                        color: default_color,
-                    }
-                }]
-            };
-
-            if (option && typeof option === 'object') {
-                myChart.setOption(option);
-            }
-            window.addEventListener('resize', myChart.resize);
-        }
-        $.ajax({
-            type: "GET",
-            url: `${AJAXPHP}?act=get_crime_by_region`,
-            dataType: "json",
-            encode: true,
-            success: function(data) {
-                get_crime_by_region(data);
-                const totalValue = data.reduce((sum, item) => sum + parseInt(item.gcount), 0);
-                $("#get_crime_by_region_total").html(`(${totalValue})`)
-            }
-        })
-
-        filters.forEach((item) => {
-            $('#get_crime_by_region_filter').append(`
-                <option value="${item.id}">${item.name}</option>
-            `)
-        })
-        $('#get_crime_by_region_filter').change(function(data) {
-            let id = $(this).val();
-            $.ajax({
-                type: "GET",
-                url: `${AJAXPHP}?act=get_crime_by_region&date=${id}`,
-                dataType: "json",
-                encode: true,
-                success: function(data) {
-                    get_crime_by_region(data);
-                    const totalValue = data.reduce((sum, item) => parseInt(sum) + parseInt(item.gcount), 0);
-                    $("#get_crime_by_region_total").html(`(${totalValue})`)
-                }
-            })
-        })
-
-
-        function crime_by_week(data) {
-            var dom = document.getElementById('crime_by_week');
-            var myChart = echarts.init(dom, null, {
-                renderer: 'canvas',
-                useDirtyRect: false
-            });
-            console.log(data);
-            var option;
-            var colors = ['#00CFE8', '#7367F0', '#45FFCA', '#A149FA', '#E3FCBF', '#94B3FD', '#6499E9'];
-            option = {
-                xAxis: {
-                    type: 'category',
-                    boundaryGap: false,
-                    data: data.map(item => item.date),
-                    axisLabel: {
-                        // interval: 0,
-                        fontSize: '20px',
-                        color: default_color,
-                    },
-                    axisLine: {
-                        lineStyle: {
-                            color: '#ccc', // x-axis line color
-                        }
-                    }
-                },
-                grid: {
-                    containLabel: true,
-                    top: 10,
-                    bottom: 20,
-                    right: 20,
-                    left: 20
-                },
-
-                yAxis: {
-                    type: 'value',
-                    axisLabel: {
-                        // interval: 0,
-                        fontSize: '18px',
-                        color: default_color,
-                    },
-                    axisLine: {
-                        lineStyle: {
-                            color: '#ccc' 
-                        }
-                    },
-                    splitLine: {
-                        lineStyle: {
-                            color: 'grey' ,
-                            width: 1
-                        }
-                    }
-                },
-                tooltip: {
-                    triggerOn: 'mousemove', // Show tooltip on mousemove
-                    formatter: function(params) {
-                        var value = params.value; // Get the value of the hovered data point
-                        return 'Value: ' + value;
-                    },
-                    extraCssText: 'transform: translate(-50%, -100%);'
-                },
-                series: [
-                    {
-                        data: data.map(item => item.value),
-                        type: 'line',
-                        smooth: true,
-                        lineStyle: {
-                            color: '#009688', 
-                            width: 0
-                        },
-                        areaStyle: {
-                            color: 'rgba(0, 0, 255, 0.2)'
-                            // color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                            //     offset: 0,
-                            //     color: '#FF004D' // area gradient start color
-                            // },{
-                            //     offset: 0.5,
-                            //     color: '#F7EC09' // area gradient end color
-                            // }, {
-                            //     offset: 1,
-                            //     color: '#28C76F' // area gradient end color
-                            // },])
-                        },
-                       
-                        
-                    }
-                ]
-            };
-
-
-
-            if (option && typeof option === 'object') {
-                myChart.setOption(option);
-            }
-            window.addEventListener('resize', myChart.resize);
-        }
-        $.ajax({
-            type: "GET",
-            url: `${AJAXPHP}?act=crime_by_week&date=1`,
-            dataType: "json",
-            encode: true,
-            success: function(data) {
-                crime_by_week(data);
-                const totalValue = data.reduce((sum, item) => sum + parseInt(item.value), 0);
-                $("#crime_by_week_total").html(`(${totalValue})`)
-            }
-        })
-
-
-        filters.forEach((item) => {
-            if(item.id == 2 || item.id == 3){
-
-                $('#crime_by_week_total_filter').append(`
-                    <option value="${item.id == 2 ? 1 : 2}">${item.name}</option>
-                `)
-            }
-        })
-        $('#crime_by_week_total_filter').change(function(data) {
-            let id = $(this).val();
-            $.ajax({
-                type: "GET",
-                url: `${AJAXPHP}?act=crime_by_week&date=${id}`,
-                dataType: "json",
-                encode: true,
-                success: function(data) {
-                    crime_by_week(data);                    
-                    const totalValue = data.reduce((sum, item) => sum + parseInt(item.value), 0);
-                    $("#crime_by_week_total").html(`(${totalValue})`)
-                }
-            })
-        })
-
-
-
-    
-
-
-
- const crimeChartDataByFilter = {
-    0: {
-      legend: ["183-модда","187-модда", "223-модда","56\u00B9-модда", "194\u00B9-модда","195\u00B9-модда","185\u00B9-модда","196-модда","61-модда", "210\u00B9-модда","185\u00B2-модда","185\u00B3-модда"],
-      data: [20, 10, 25, 20, 10,12,23,8,9,11,4,6]
-    },
-     1: {
-      legend: ["183-модда","187-модда", "223-модда","56\u00B9-модда", "194\u00B9-модда","195\u00B9-модда","185\u00B9-модда","196-модда","61-модда", "210\u00B9-модда","185\u00B2-модда","185\u00B3-модда"],
-      data: [2, 1, 3, 2, 1, 2,1,0,0,1,4,2]
-    },
-      2: {
-      legend: ["183-модда","187-модда", "223-модда","56\u00B9-модда", "194\u00B9-модда","195\u00B9-модда","185\u00B9-модда","196-модда","61-модда", "210\u00B9-модда","185\u00B2-модда","185\u00B3-модда"],
-      data: [10, 10, 9, 12, 13,11,9,7,5,5,6,7]
-    },
-      3: {
-      legend: ["183-модда","187-модда", "223-модда","56\u00B9-модда", "194\u00B9-модда","195\u00B9-модда","185\u00B9-модда","196-модда","61-модда", "210\u00B9-модда","185\u00B2-модда","185\u00B3-модда"],
-      data: [40, 35, 31, 23, 17,13,23,10,9,11,24,36]
-    },
-  };
-
-  // 🔽 Filter variantlar
-  const crimeFilters = [
-    { id: 0, name: "Ҳаммаси" },
-    { id: 1, name: "Бугун" },
-    { id: 2, name: "Ой бўйича" },
-    { id: 3, name: "Йил бўйича" }
-  ];
-
-  // 📊 Asosiy funksiya (nom o‘zgarmaydi)
-  function get_crime_by_type(data, total) {
-    let sdata = data.legend.map((name, i) => ({
-      value: data.data[i],
-      name: name
-    }));
-
-    var dom = document.getElementById('get_crime_by_type');
-    var myChart = echarts.init(dom, null, {
-      renderer: 'canvas',
-      useDirtyRect: false
     });
 
-    //Korporativ to‘q ranglar palitrasi (modern dashboard)
-    let color = [
-      '#264653', // To‘q moviy-yashil
-      '#2A9D8F', // Yashil-moviy
-      '#E9C46A', // Oltin sariq
-      '#F4A261', // Iliq to‘q sariq
-      '#E76F51', // To‘q qizil
-      '#6A4C93', // Binafsha
-      '#457B9D'  // Moviy
-    ];
+    return result;
+}
 
-    let option = {
-    textStyle: {
-        fontFamily: "Arial, sans-serif",
-    },
-    color,
-    title: {
-        text: total.toLocaleString(),
-        left: 'center',
-        top: '35%',
-        textStyle: {
-            fontSize: 22,
-            fontWeight: 'bold',
-            color: '#E9C46A'
-        },
-    },
-    legend: {
-        show: true,            // ✅ pastdagi yozuvlar ko‘rinsin
-        bottom: 0,
-        orient: 'horizontal',
-        left: 'center',
-        itemGap: 15,
-        textStyle: {
-            color: '#b7b7b7',
-            fontSize: 18,
-            fontWeight: 'bold'
-        }
-    },
-    tooltip: {
+// Misol
+let totalByDate = sumAllRegionsByDate(offenseRegionData);
+
+
+// =====================================
+// 2. INIT CHARTS
+// =====================================
+
+let pieChart = echarts.init(document.getElementById("administrative_offenses"));
+let barChart = echarts.init(document.getElementById("mamuriy_huquq_chart"));
+
+// =====================================
+// 3. LOAD DEFAULT
+// =====================================
+
+loadDefaultCharts();
+
+function loadDefaultCharts() {
+    // Avval barcha sanalarni yig‘amiz
+    let sum = {};
+    offenses.forEach(m => sum[m] = 0);
+
+    Object.keys(offenseData).forEach(date => {
+        offenses.forEach(m => sum[m] += offenseData[date][m]);
+    });
+
+    updatePie(sum);                // pie chart → jami sonlar
+    renderModdaList(sum);
+
+    // viloyatlar bo‘yicha jami
+    let regionTotals = regions.map(r => offenses.map(() => 0));
+
+    regions.forEach((region, ri) => {
+        Object.keys(offenseRegionData[region]).forEach(date => {
+            offenseRegionData[region][date].forEach((val, mi) => {
+                regionTotals[ri][mi] += val;
+            });
+        });
+    });
+
+    updateBar(regionTotals);       // bar chart → jami sonlar
+}
+
+
+
+// =====================================
+// 4. PIE CHART (DUMALOQ)
+// =====================================
+
+function updatePie(values) {
+
+    let total = Object.values(values).reduce((a, b) => a + b, 0);
+
+    pieChart.setOption({
+      graphic: {
+    type: "text",
+    left: "center",
+    top: "center",
+    style: {
+        text: total + "\nJami",
+        textAlign: "center",
+        fontSize: 24,
+        fontWeight: "bold",
+        fill: "#b7b7b7",   // ✔ eng to‘g‘ri ishlaydi
+    }
+},
+           tooltip: {
         trigger: 'item',
-        formatter: '{b}: {c}' ,
+        formatter: p => `${p.name} <br> Jami: <b>${p.value}</b>`,
           textStyle: {
                   fontSize: 20,     // 🔥 shu yerda o'zgartirasan
                   color: '#000'
         }// Hoverda nom va qiymat chiqadi
-    },
-    series: [{
-        type: 'pie',
-        radius: ['30%', '55%'],
-        center: ['50%', '40%'],
-        avoidLabelOverlap: true,
-        itemStyle: {
-            borderRadius: 10,
-            borderWidth: 2
         },
-        label: {
+
+        series: [{
+            type: "pie",
+            radius: ['40%', '80%'],
+            center: ['50%', '50%'],
+            avoidLabelOverlap: true,
+
+            label: {
             show: true,
             position: 'outside',
             formatter: '{c}', // faqat raqam
             fontSize: 20,
             fontWeight: 'bold',
             color: '#b7b7b7'
-        },
-        labelLine: {
-            show: true,
-            length: 15
-        },
-        data: sdata.map((item, index) => ({
-            value: item.value,
-            name: item.name,
+            },
+            labelLine: {
+                show: true,
+                length: 15
+            },
+
             itemStyle: {
-                shadowColor: color[index],
-                shadowBlur: 10,
+                borderWidth: 2,
+                 borderRadius: 10
+            },
+
+            data: offenses.map((m, index )=> ({
+                name: m,
+                value: values[m],
+                  itemStyle: {
+                  color: colors[index],
+                 shadowColor: colors[index],
+                shadowBlur:2,
                 borderRadius: 10,
-                borderColor: color[index]
+                 borderColor: colors[index]
+
             }
-        }))
-    }]
-};
-
-    myChart.setOption(option);
-    window.addEventListener('resize', myChart.resize);
-  }
-
-  // 🔽 Select uchun variantlarni chiqarish
-  crimeFilters.forEach((item) => {
-    $('#get_crime_by_type_filter').append(`<option value="${item.id}">${item.name}</option>`);
-  });
-
-  // 🔁 Select o‘zgarsa — chart yangilansin
-  $('#get_crime_by_type_filter').change(function () {
-    let id = $(this).val();
-    const selected = crimeChartDataByFilter[id] || crimeChartDataByFilter[0];
-    const total = selected.data.reduce((sum, v) => sum + v, 0);
-    get_crime_by_type(selected, total);
-  });
-
-  // 🚀 Dastlabki chartni yuklash
-  const initialCrimeData = crimeChartDataByFilter[0];
-  const totalInitialCrime = initialCrimeData.data.reduce((sum, v) => sum + v, 0);
-  get_crime_by_type(initialCrimeData, totalInitialCrime);
-
-
-
-
-
-// 🧩 TEST MA’LUMOTLAR (faqat lokal uchun)
-const crimesChartDataByFilter = {
-  0: { // Ҳаммаси
-    legend: ["97-модда","104-модда", "105-модда","109-модда","164-модда","166-модда","277-модда","169-модда","118-модда","267-модда",],
-    data: [34, 35,30,24,20,12,32,27,22,21]
-  },
-  1: { // Бугун
-    legend: ["97-модда","104-модда", "105-модда","109-модда","164-модда","166-модда","277-модда","169-модда","118-модда","267-модда",],
-    data: [1, 3,3,2,2,0,2,1,2,1]
-  },
-  2: { // Oy
-      legend: ["97-модда","104-модда", "105-модда","109-модда","164-модда","166-модда","277-модда","169-модда","118-модда","267-модда",],
-    data: [10, 15,13,12,10,9,7,14,12,11]
-  },
-  3: { // Yil
-      legend: ["97-модда","104-модда", "105-модда","109-модда","164-модда","166-модда","277-модда","169-модда","118-модда","267-модда",],
-    data: [34, 35,30,24,20,12,32,27,22,21]
-  }
-};
-
-// 🔽 Filter uchun ro‘yxat
-const crimesFilters = [
-  { id: 0, name: "Ҳаммаси" },
-  { id: 1, name: "Бугун" },
-  { id: 2, name: "Ой бўйича" },
-  { id: 3, name: "Йил бўйича" }
-];
-
-/* 🎨 Chart funksiyasi */
-function get_crimes(dataset, total) {
-  // ❗ Ma’lumotlarni formatga o‘tkazamiz (map ishlashi uchun)
-  let sdata = dataset.legend.map((name, i) => ({
-    name: name,
-    value: dataset.data[i]
-  }));
-
-  var dom = document.getElementById('get_crimes');
-  var myChart = echarts.init(dom, null, { renderer: 'canvas', useDirtyRect: false });
-
-  let color = ['#00FA9A', '#00CFE8', '#4EF037', '#20B2AA', '#FFD700', '#ff9900'];
-
-  let option = {
-    textStyle: { fontFamily: "Arial, sans-serif" },
-    color,
-    title: {
-      text: total,
-      left: 'center',
-      top: '31%',
-      textStyle: { fontSize: 18, fontWeight: 'bold', color: '#333' },
-    },
-    legend: {
-      bottom: '0',
-      orient: 'horizontal',
-      left: 'center',
-      itemGap: 10,
-      textStyle: { color: '#b7b7b7', fontSize: '1.3rem' }
-    },
-    tooltip: { backgroundColor: 'white',   textStyle: {
-                  fontSize: 20,     // 🔥 shu yerda o'zgartirasan
-                  color: '#000'
-              } },
-    series: [{
-      type: 'pie',
-      radius: ['25%', '55%'],
-      center: ['50%', '34%'],
-      avoidLabelOverlap: false,
-      itemStyle: {
-        borderRadius: 10,
-        borderWidth: 2,
-        borderColor: 'none',
-        shadowColor: 'rgba(0, 0, 0, 0.5)',
-        shadowBlur: 20
-      },
-      label: {
-        show: true,
-        position: 'outside',
-        formatter: '{c}',
-        textStyle: { fontSize: 16, fontWeight: 'bold', color: '#b7b7b7' },
-      },
-      minAngle: 20,
-      labelLine: { show: true, length: 10 },
-      data: sdata.map((item, index) => ({
-        value: item.value,
-        name: item.name,
-        itemStyle: {
-          shadowColor: color[index],
-          shadowBlur: 10,
-          borderRadius: 10,
-          borderColor: color[index],
-        },
-      }))
-    }]
-  };
-
-  myChart.setOption(option);
-  window.addEventListener('resize', myChart.resize);
+            }))
+        }]
+    });
 }
 
-/* 🔽 Filter variantlarini yaratish */
-crimesFilters.forEach(item => {
-  $('#get_crimes_filter').append(`<option value="${item.id}">${item.name}</option>`);
-});
 
-/* 🔁 Filter tanlanganda yangilash */
-$('#get_crimes_filter').change(function () {
-  let id = $(this).val();
-  const selected = crimesChartDataByFilter[id] || crimesChartDataByFilter[0];
-  const total = selected.data.reduce((sum, v) => sum + v, 0);
-  get_crimes(selected, total);
-});
+// =====================================
+// 5. PASTIGA MODDALAR RO‘YXATI TUGMASI
+// =====================================
 
-// 🚀 Dastlab yuklash
-const initialCrimesData = crimesChartDataByFilter[0];
-const totalCrimesInitial = initialCrimesData.data.reduce((sum, v) => sum + v, 0);
-get_crimes(initialCrimesData, totalCrimesInitial);
+function renderModdaList(values) {
+    let existing = document.getElementById("moddalar_box");
+    if (existing) existing.remove();
+
+    // popup box yaratamiz
+    let box = document.createElement("div");
+    box.id = "moddalar_box";
+    box.style.position = "absolute";
+    box.style.left = "20px";
+    box.style.top = "0px";
+    box.style.width = "230px";
+    box.style.fontSize="20px"
+    box.style.background = "rgba(20, 20, 20, 0.85)";
+    box.style.backdropFilter = "blur(6px)";
+    box.style.border = "1px solid rgba(255,255,255,0.15)";
+    box.style.borderRadius = "12px";
+    box.style.padding = "12px";
+    box.style.color = "#fff";
+    box.style.zIndex = 1000;
+    box.style.display = "none";
+    box.innerHTML = `
+        <div id="moddalar_list_content">
+            ${offenses.map(m => `<div>${m} — ${values[m]} ta</div>`).join("")}
+        </div>
+    `;
+    document.getElementById("administrative_offenses").appendChild(box);
+
+    // Tugma yaratamiz
+    let btn = document.createElement("button");
+    btn.className = "btn btn-info";
+    btn.style.position = "absolute";
+    btn.style.top = "-50px";
+    btn.style.left = "20px";   
+    btn.innerText = "Moddalarni ko‘rish";
+    btn.style.fontSize = "18px";
+
+    document.getElementById("administrative_offenses").appendChild(btn);
+
+    btn.onclick = () => {
+        box.style.display = box.style.display === "none" ? "block" : "none";
+    };
+}
 
 
-const mamuriyHuquqDataByFilter = {
-  0: { // Ҳаммаси
-    labels: ["Тошкент", "Самарқанд", "Фарғона", "Андижон", "Наманган", "Хоразм", "Сурхондарё"],
-    values: [120, 150, 100, 120, 60, 140, 100]
-  },
-  1: { // Бугун
-    labels: ["Тошкент", "Самарқанд", "Фарғона", "Андижон", "Наманган", "Хоразм", "Сурхондарё"],
-    values: [5, 3, 2, 4, 1, 0, 2]
-  },
-  2: { // Oy
-    labels: ["Тошкент", "Самарқанд", "Фарғона", "Андижон", "Наманган", "Хоразм", "Сурхондарё"],
-    values: [50, 40, 30, 35, 20, 15, 10]
-  },
-  3: { // Yil
-    labels: ["Тошкент", "Самарқанд", "Фарғона", "Андижон", "Наманган", "Хоразм", "Сурхондарё"],
-    values: [600, 480, 450, 400, 300, 250, 200]
-  }
-};
 
-/* 🔽 Filter variantlari */
-const mamuriyHuquqFilters = [
-  { id: 0, name: "Ҳаммаси" },
-  { id: 1, name: "Бугун" },
-  { id: 2, name: "Ой бўйича" },
-  { id: 3, name: "Йил бўйича" }
-];
+// =====================================
+// 6. BAR CHART (DIAGRAMMA) — GRADIENT
+// =====================================
 
-/* 📊 Chart funksiyasi */
-function mamuriy_huquq_chart(data) {
-  const dom = document.getElementById('mamuriy_huquq_chart');
-  const myChart = echarts.init(dom, null, { renderer: 'canvas', useDirtyRect: false });
+function updateBar(regionValues) {
 
-      let colors = [
-      '#264653', // To‘q moviy-yashil
-      '#2A9D8F', // Yashil-moviy
-      '#E9C46A', // Oltin sariq
-      '#F4A261', // Iliq to‘q sariq
-      '#E76F51', // To‘q qizil
-      '#6A4C93', // Binafsha
-      '#457B9D'  // Moviy
-    ];
-
-  const totalValue = data.values.reduce((sum, v) => sum + v, 0);
-  document.getElementById("mamuriy_huquq_chart_total").innerText = `(${totalValue})`;
-
-  const option = {
-    textStyle: { fontFamily: "Arial, sans-serif" },
-    grid: { bottom: 80, right: 30, left: 60 },
-    tooltip: { backgroundColor: 'white' ,   textStyle: {
+    barChart.setOption({
+        textStyle: { fontFamily: "Arial, sans-serif" },
+        grid: { bottom: 80, right: 30, left: 60 },
+           tooltip: { trigger: "axis", backgroundColor: 'white' ,   textStyle: {
                   fontSize: 20,     // 🔥 shu yerda o'zgartirasan
                   color: '#000'
               }},
-    xAxis: {
-      type: 'category',
-      data: data.labels,
-      axisLabel: { interval: 0, rotate: 40, color: '#b7b7b7',  fontSize: 20  },
-      axisLine: { show: false },
-      splitLine: { show: false }
-    },
-    yAxis: {
-      type: 'value',
-    axisLabel: { 
+
+        xAxis: {
+            type: "category",
+            data: regions,
+           axisLabel: { interval: 0, rotate: 40, color: '#b7b7b7',  fontSize: 20  },
+            axisLine: { show: false },
+           splitLine: { show: false }
+        },
+
+        yAxis: { type: "value",axisLabel: { 
         color: '#b7b7b7',
         fontSize: 18   // <-- shu yerda shrift kattaligi
     },
       axisLine: { show: false },
       splitLine: { show: false }
-    },
-    series: [{
-      type: 'bar',
-      data: data.values,
-      barMaxWidth: 60,
-      itemStyle: {
-        color: function(params) {
+  },
+
+        series: [{
+            type: "bar",
+            barMaxWidth: 60,
+            data: regionValues.map(arr => arr.reduce((a, b) => a + b, 0)),
+
+            animation: true,
+            animationDuration: 1300,
+            animationEasing: "elasticOut",
+
+            itemStyle: {
+               color: function(params) {
           return colors[params.dataIndex % colors.length];
         },
         borderRadius: [8, 8, 0, 0]
-      },
-      label: {
-        show: true,
-        position: 'top',
-        color: '#b7b7b7',
-        fontSize: 20,
-        fontWeight: 'bold'
-      }
-    }]
-  };
 
-  myChart.setOption(option);
-  window.addEventListener('resize', myChart.resize);
+            },
+
+            label: {
+                show: true,
+                position: "top",
+                fontWeight: "bold",
+                 color: '#b7b7b7',
+                fontSize: 20,
+            },
+
+            barWidth: "55%"
+        }]
+    });
 }
 
-/* 🔽 Filter select to‘ldirish */
-mamuriyHuquqFilters.forEach(item => {
-  $('#mamuriy_huquq_select').append(`<option value="${item.id}">${item.name}</option>`);
-});
 
-/* 🔁 Filter o‘zgarsa chart yangilansin */
-$('#mamuriy_huquq_select').change(function () {
-  const id = $(this).val();
-  const selected = mamuriyHuquqDataByFilter[id] || mamuriyHuquqDataByFilter[0];
-  mamuriy_huquq_chart(selected);
-});
+// =====================================
+// HELPERS
+// =====================================
 
-/* 🚀 Dastlab yuklash */
-mamuriy_huquq_chart(mamuriyHuquqDataByFilter[0]);
+function sumRegions(date) {
+    return regions.map(r => offenseRegionData[r][date]);
+}
 
 
+// =====================================
+// 7. FILTER (JAMI)
+// =====================================
 
+document.getElementById("criminal_total_button").onclick = function () {
 
-const jinoiyHuquqDataByFilter = {
-  0: { // Ҳаммаси
-    labels: ["Тошкент", "Самарқанд", "Фарғона", "Андижон", "Наманган", "Бухоро", "Хоразм"],
-    values: [250, 300, 150, 200, 340, 100, 120]
-  },
-  1: { // Бугун
-    labels: ["Тошкент", "Самарқанд", "Фарғона", "Андижон", "Наманган", "Бухоро", "Хоразм"],
-    values: [10, 8, 5, 6, 4, 2, 3]
-  },
-  2: { // Oy
-    labels: ["Тошкент", "Самарқанд", "Фарғона", "Андижон", "Наманган", "Бухоро", "Хоразм"],
-    values: [80, 70, 60, 55, 50, 30, 25]
-  },
-  3: { // Yil
-    labels: ["Тошкент", "Самарқанд", "Фарғона", "Андижон", "Наманган", "Бухоро", "Хоразм"],
-    values: [1200, 950, 880, 850, 760, 640, 500]
-  }
+    let s = document.getElementById("start_date").value;
+    let e = document.getElementById("end_date").value;
+
+    if (!s || !e) return alert("Ikkala sanani tanlang!");
+
+    let sum = {};
+    offenses.forEach(m => sum[m] = 0);
+
+    Object.keys(offenseData).forEach(date => {
+        if (date >= s && date <= e) {
+            offenses.forEach(m => sum[m] += offenseData[date][m]);
+        }
+    });
+
+    updatePie(sum);
+    renderModdaList(sum);
+
+    let regionTotals = regions.map(r => offenses.map(() => 0));
+
+    regions.forEach((region, ri) => {
+        Object.keys(offenseRegionData[region]).forEach(date => {
+            if (date >= s && date <= e) {
+                offenseRegionData[region][date].forEach((val, mi) => {
+                    regionTotals[ri][mi] += val;
+                });
+            }
+        });
+    });
+
+    updateBar(regionTotals);
 };
 
-/* 🔽 Filter variantlari */
-const jinoiyHuquqFilters = [
-  { id: 0, name: "Ҳаммаси" },
-  { id: 1, name: "Бугун" },
-  { id: 2, name: "Ой бўйича" },
-  { id: 3, name: "Йил бўйича" }
-];
 
-/* 📊 Chart funksiyasi */
-function jinoiy_huquq_chart(data) {
-  const dom = document.getElementById('jinoiy_huquq_chart');
-  const myChart = echarts.init(dom, null, { renderer: 'canvas', useDirtyRect: false });
+// =====================================
+// 8. SOLISHTIRISH
+// =====================================
+document.getElementById("compare_button").onclick = function () {
+    let s = document.getElementById("start_date").value;
+    let e = document.getElementById("end_date").value;
 
-   let colors = ['#00FA9A', '#00CFE8', '#4EF037', '#20B2AA', '#FFD700', '#ff9900'];
+    if (!s || !e) return alert("Ikkala sanani tanlang!");
 
-  const totalValue = data.values.reduce((sum, v) => sum + v, 0);
-  document.getElementById("jinoiy_huquq_chart_total").innerText = `(${totalValue})`;
+    // O‘zgarish + jami
+    let diff = {};
+    let absValues = {};
 
-  const option = {
-    textStyle: { fontFamily: "Arial, sans-serif" },
-    grid: { bottom: 100, right: 30, left: 70 },
-    tooltip: { backgroundColor: 'white',   textStyle: {
+    offenses.forEach(m => {
+        let change = offenseData[e][m] - offenseData[s][m];
+        diff[m] = change;
+        absValues[m] = offenseData[e][m]; // end date asosiy qiymat
+    });
+
+    // DUMALOQ CHART
+    pieChart.setOption({
+            textStyle: {
+        fontFamily: "Arial, sans-serif",
+    },
+    color:colors,
+        tooltip: {
+            trigger: 'item',
+            show: true,
+            formatter: p => {
+                let modda = p.name;
+                let value = absValues[modda];
+                let change = diff[modda];
+                let sign = change > 0 ? "+" : "";
+                return `${modda}<br/>${value} ta (${sign}${change})`;
+            },
+              textStyle: {
+                  fontSize: 20,     
+                  color: '#000'
+        }
+        },
+        series: [{
+            type: "pie",
+            radius: ["50%", "75%"],
+            animation: true,
+            animationDuration: 1100,
+            avoidLabelOverlap: true,
+             itemStyle: {
+            borderRadius: 10,
+            borderWidth: 2
+        },
+            data: offenses.map((m, index )=> ({
+                name: m,
+                value: absValues[m], // end date qiymati asosiy
+                  itemStyle: {
+                        shadowColor: colors[index],
+                        shadowBlur: 2,
+                        borderRadius: 10,
+                        borderColor: colors[index]
+                    }
+            })),
+            label: {
+                show: true,
+                 position: 'outside',
+                formatter: p => {
+                    let modda = p.name;
+                    let value = absValues[modda];
+                    let change = diff[modda];
+                    let sign = change > 0 ? "+" : "";
+                    return `${value} ta (${sign}${change})`;
+                },
+            
+                fontSize: 20,
+                fontWeight: 'bold',
+                color: '#b7b7b7'
+            },
+               labelLine: {
+                    show: true,
+                    length: 15
+                },
+        }]
+    });
+
+    // BAR CHART
+    barChart.setOption({
+        series: [{
+            type: "bar",
+             barMaxWidth: 60,
+            data: regions.map(region => {
+                let startSum = offenseRegionData[region][s].reduce((a, b) => a + b, 0);
+                let endSum = offenseRegionData[region][e].reduce((a, b) => a + b, 0);
+                return endSum - startSum;
+            }),
+            animation: true,
+            animationDuration: 1000,
+            itemStyle: {
+               color: function(params) {
+                return colors[params.dataIndex % colors.length];
+                },
+                borderRadius: [8, 8, 0, 0]
+
+            },
+            label: {
+                show: true,
+                position: "top",
+                formatter: v => (v.value > 0 ? "+" : "") + v.value,
+               color: '#b7b7b7',
+            fontSize: 20,
+            fontWeight: 'bold'
+
+            },
+            barWidth: "55%"
+        }]
+    });
+};
+
+
+// Jinoiy huquqbuzarliklar
+
+
+
+
+
+
+
+const offenses_criminal = ["97-модда", "104-модда", "105-модда","109-модда","164-модда","166-модда","277-модда","169-модда","118-модда","267-модда"];
+
+// Modda → sana → son
+const offenseDataCriminal = {
+    "2025-11-01": {
+        "97-модда": 50,  "104-модда": 61,  "105-модда": 81,  "109-модда": 61,
+        "164-модда": 71, "166-модда": 68, "277-модда": 65, "169-модда": 88,
+        "118-модда": 55,  "267-модда": 46,
+    },
+    "2025-11-02": {
+        "97-модда": 70,  "104-модда": 84,  "105-модда": 60,  "109-модда": 43,
+        "164-модда": 59, "166-модда": 60, "277-модда": 41, "169-модда": 76,
+        "118-модда": 62,  "267-модда": 44,
+    },
+    "2025-11-03": {
+        "97-модда": 82,  "104-модда": 60,  "105-модда": 75,  "109-модда": 69,
+        "164-модда": 78, "166-модда": 64, "277-модда": 63, "169-модда": 41,
+        "118-модда": 72,  "267-модда": 84,
+    },
+    "2025-11-04": {
+        "97-модда": 55,  "104-модда": 65,  "105-модда": 81,  "109-модда": 50,
+        "164-модда": 63, "166-модда": 65, "277-модда": 59, "169-модда": 34,
+        "118-модда": 79,  "267-модда": 90, 
+    }
+};
+
+
+const offenseRegionDataCriminal = {
+     "Qoraqalpog'iston Respublikasi": {
+        "2025-11-01": [0, 5, 9, 1, 6, 3, 1, 8, 3, 7],
+        "2025-11-02": [5, 2, 2, 8, 3, 6, 6, 4, 9, 3],
+        "2025-11-03": [8, 7, 4, 7, 9, 9, 9, 2, 9, 4],
+        "2025-11-04": [1, 4, 9, 3, 7, 1, 5, 1, 8, 4]
+    },
+     "Toshkent shahar": {
+        "2025-11-01": [4, 9, 9, 0, 4, 4, 8, 7, 0, 3],
+        "2025-11-02": [9, 8, 0, 2, 4, 0, 1, 5, 0, 9],
+        "2025-11-03": [9, 3, 7, 8, 8, 0, 4, 4, 8, 9],
+        "2025-11-04": [2, 0, 3, 9, 9, 6, 4, 2, 3, 5]
+    },
+    "Andijon": {
+        "2025-11-01": [0, 5, 9, 1, 6, 3, 1, 8, 3, 7],
+        "2025-11-02": [5, 2, 2, 8, 3, 6, 6, 4, 9, 3],
+        "2025-11-03": [8, 7, 4, 7, 9, 9, 9, 2, 9, 4],
+        "2025-11-04": [1, 4, 9, 3, 7, 1, 5, 1, 8, 4]
+    },
+    "Buxoro": {
+        "2025-11-01": [3, 7, 2, 5, 3, 7, 7, 5, 5, 4],
+        "2025-11-02": [1, 8, 2, 3, 3, 0, 1, 7, 2, 2],
+        "2025-11-03": [2, 2, 6, 6, 8, 7, 5, 2, 5, 1],
+        "2025-11-04": [4, 6, 4, 0, 3, 0, 2, 0, 1, 8]
+    },
+    "Farg‘ona": {
+        "2025-11-01": [4, 6, 6, 2, 3, 9, 0, 1, 6, 0],
+        "2025-11-02": [5, 8, 7, 1, 2, 6, 7, 8, 2, 1],
+        "2025-11-03": [1, 9, 3, 6, 4, 2, 9, 1, 2, 8],
+        "2025-11-04": [2, 8, 3, 0, 0, 6, 3, 1, 3, 9]
+    },
+    "Jizzax":  {
+        "2025-11-01": [2, 6, 5, 3, 9, 8, 2, 3, 6, 1],
+        "2025-11-02": [7, 7, 8, 7, 2, 3, 1, 1, 6, 0],
+        "2025-11-03": [1, 4, 7, 8, 3, 8, 2, 3, 4, 2],
+        "2025-11-04": [1, 7, 5, 0, 7, 1, 5, 0, 9, 5]
+    },
+    "Namangan": {
+        "2025-11-01": [8, 9, 0, 6, 3, 5, 1, 7, 6, 9],
+        "2025-11-02": [2, 5, 3, 1, 8, 8, 5, 3, 7, 3],
+        "2025-11-03": [4, 8, 7, 1, 7, 7, 8, 2, 3, 5],
+        "2025-11-04": [4, 1, 8, 7, 2, 7, 3, 6, 6, 7]
+    },
+    "Navoiy": {
+        "2025-11-01": [7, 0, 8, 5, 7, 0, 5, 9, 8, 8],
+        "2025-11-02": [1, 4, 8, 0, 4, 0, 2, 1, 9, 0],
+        "2025-11-03": [0, 9, 9, 3, 7, 2, 1, 6, 4, 4],
+        "2025-11-04": [9, 9, 8, 2, 5, 5, 6, 8, 8, 7]
+    },
+    "Qashqadaryo": {
+        "2025-11-01": [9, 2, 9, 7, 5, 2, 4, 9, 4, 0],
+        "2025-11-02": [5, 7, 7, 4, 4, 1, 8, 6, 8, 5],
+        "2025-11-03": [8, 0, 9, 0, 5, 0, 8, 7, 3, 6],
+        "2025-11-04": [0, 8, 8, 5, 2, 5, 6, 8, 3, 4]
+    },
+    "Samarqand": {
+        "2025-11-01": [1, 0, 3, 8, 5, 5, 8, 6, 3, 0],
+        "2025-11-02": [6, 7, 4, 2, 5, 9, 0, 8, 2, 1],
+        "2025-11-03": [9, 1, 4, 2, 2, 4, 0, 1, 5, 9],
+        "2025-11-04": [9, 6, 6, 1, 1, 7, 4, 1, 8, 9]
+    },
+     "Surxandaryo": {
+        "2025-11-01": [1, 0, 3, 8, 5, 5, 8, 6, 3, 0],
+        "2025-11-02": [6, 7, 4, 2, 5, 9, 0, 8, 2, 1],
+        "2025-11-03": [9, 1, 4, 2, 2, 4, 0, 1, 5, 9],
+        "2025-11-04": [9, 6, 6, 1, 1, 7, 4, 1, 8, 9]
+    },
+     "Sirdaryo": {
+        "2025-11-01": [1, 0, 3, 8, 5, 5, 8, 6, 3, 0],
+        "2025-11-02": [6, 7, 4, 2, 5, 9, 0, 8, 2, 1],
+        "2025-11-03": [9, 1, 4, 2, 2, 4, 0, 1, 5, 9],
+        "2025-11-04": [9, 6, 6, 1, 1, 7, 4, 1, 8, 9]
+    },
+    "Toshkent viloyati": {
+        "2025-11-01": [4, 9, 9, 0, 4, 4, 8, 7, 0, 3],
+        "2025-11-02": [9, 8, 0, 2, 4, 0, 1, 5, 0, 9],
+        "2025-11-03": [9, 3, 7, 8, 8, 0, 4, 4, 8, 9],
+        "2025-11-04": [2, 0, 3, 9, 9, 6, 4, 2, 3, 5]
+    },
+    "Xorazm": {
+        "2025-11-01": [6, 3, 6, 7, 6, 8, 4, 6, 5, 4],
+        "2025-11-02": [3, 4, 9, 1, 7, 3, 3, 8, 4, 6],
+        "2025-11-03": [5, 5, 0, 9, 4, 8, 4, 5, 2, 5],
+        "2025-11-04": [2, 0, 3, 9, 9, 6, 4, 2, 3, 5]
+    }
+};
+
+
+function sumAllRegionsByDateCriminal(offenseRegionDataCriminal) {
+    const numElements = 12;
+    let dates = Object.keys(offenseRegionDataCriminal[Object.keys(offenseRegionDataCriminal)[0]]); 
+    // birinchi viloyat sanalarini olamiz
+
+    let result = {}; // sana: array
+
+    dates.forEach(date => {
+        result[date] = new Array(numElements).fill(0);
+
+        Object.keys(offenseRegionDataCriminal).forEach(region => {
+            const arr = offenseRegionDataCriminal[region][date];
+            for (let i = 0; i < numElements; i++) {
+                result[date][i] += arr[i];
+            }
+        });
+    });
+
+    return result;
+}
+
+// Misol
+let totalByDateCriminal = sumAllRegionsByDateCriminal(offenseRegionDataCriminal);
+
+
+// =====================================
+// 2. INIT CHARTS
+// =====================================
+
+let pieChartCriminal = echarts.init(document.getElementById("criminal_offenses"));
+let barChartCriminal = echarts.init(document.getElementById("jinoiy_huquq_chart"));
+
+// =====================================
+// 3. LOAD DEFAULT
+// =====================================
+
+loadDefaultChartsCriminal();
+
+function loadDefaultChartsCriminal() {
+    // Avval barcha sanalarni yig‘amiz
+    let sum = {};
+    offenses_criminal.forEach(m => sum[m] = 0);
+
+    Object.keys(offenseDataCriminal).forEach(date => {
+        offenses_criminal.forEach(m => sum[m] += offenseDataCriminal[date][m]);
+    });
+
+    updatePieCriminal(sum);                // pie chart → jami sonlar
+    renderModdaListCriminal(sum);
+
+    // viloyatlar bo‘yicha jami
+    let regionTotals = regions.map(r => offenses_criminal.map(() => 0));
+
+    regions.forEach((region, ri) => {
+        Object.keys(offenseRegionDataCriminal[region]).forEach(date => {
+            offenseRegionDataCriminal[region][date].forEach((val, mi) => {
+                regionTotals[ri][mi] += val;
+            });
+        });
+    });
+
+    updateBarCriminal(regionTotals);       // bar chart → jami sonlar
+}
+
+
+
+// =====================================
+// 4. PIE CHART (DUMALOQ)
+// =====================================
+
+function updatePieCriminal(values) {
+
+    let total = Object.values(values).reduce((a, b) => a + b, 0);
+
+    pieChartCriminal.setOption({
+      graphic: {
+    type: "text",
+    left: "center",
+    top: "center",
+    style: {
+        text: total + "\nJami",
+        textAlign: "center",
+        fontSize: 24,
+        fontWeight: "bold",
+        fill: "#b7b7b7",   // ✔ eng to‘g‘ri ishlaydi
+    }
+},
+           tooltip: {
+        trigger: 'item',
+        formatter: p => `${p.name} <br> Jami: <b>${p.value}</b>`,
+          textStyle: {
                   fontSize: 20,     // 🔥 shu yerda o'zgartirasan
                   color: '#000'
-              } },
-    xAxis: {
-      type: 'category',
-      data: data.labels,
-      axisLabel: { interval: 0, rotate: 40, color: '#b7b7b7',  fontSize: 20  },
-      axisLine: { show: false },
-      splitLine: { show: false }
-    },
-    yAxis: {
-      type: 'value',
-      axisLabel: { 
+        }// Hoverda nom va qiymat chiqadi
+        },
+
+        series: [{
+            type: "pie",
+            radius: ['40%', '80%'],
+            center: ['50%', '50%'],
+            avoidLabelOverlap: true,
+
+            label: {
+            show: true,
+            position: 'outside',
+            formatter: '{c}', // faqat raqam
+            fontSize: 20,
+            fontWeight: 'bold',
+            color: '#b7b7b7'
+            },
+            labelLine: {
+                show: true,
+                length: 15
+            },
+
+            itemStyle: {
+                borderWidth: 2,
+                 borderRadius: 10
+            },
+
+            data: offenses_criminal.map((m, index )=> ({
+                name: m,
+                value: values[m],
+                  itemStyle: {
+                  color: colors[index],
+                 shadowColor: colors[index],
+                shadowBlur:2,
+                borderRadius: 10,
+                 borderColor: colors[index]
+
+            }
+            }))
+        }]
+    });
+}
+
+
+// =====================================
+// 5. PASTIGA MODDALAR RO‘YXATI TUGMASI
+// =====================================
+
+function renderModdaListCriminal(values) {
+    let existing = document.getElementById("moddalar_box");
+    if (existing) existing.remove();
+
+    // popup box yaratamiz
+    let box = document.createElement("div");
+    box.id = "moddalar_box";
+    box.style.position = "absolute";
+    box.style.left = "20px";
+    box.style.top = "0px";
+    box.style.width = "230px";
+    box.style.fontSize="20px"
+    box.style.background = "rgba(20, 20, 20, 0.85)";
+    box.style.backdropFilter = "blur(6px)";
+    box.style.border = "1px solid rgba(255,255,255,0.15)";
+    box.style.borderRadius = "12px";
+    box.style.padding = "12px";
+    box.style.color = "#fff";
+    box.style.zIndex = 1000;
+    box.style.display = "none";
+    box.innerHTML = `
+        <div id="moddalar_list_content">
+            ${offenses_criminal.map(m => `<div>${m} — ${values[m]} ta</div>`).join("")}
+        </div>
+    `;
+    document.getElementById("criminal_offenses").appendChild(box);
+
+    // Tugma yaratamiz
+    let btn = document.createElement("button");
+    btn.className = "btn btn-info";
+    btn.style.position = "absolute";
+    btn.style.top = "-50px";
+    btn.style.left = "20px";   
+    btn.innerText = "Moddalarni ko‘rish";
+    btn.style.fontSize = "18px";
+
+    document.getElementById("criminal_offenses").appendChild(btn);
+
+    btn.onclick = () => {
+        box.style.display = box.style.display === "none" ? "block" : "none";
+    };
+}
+
+
+
+// =====================================
+// 6. BAR CHART (DIAGRAMMA) — GRADIENT
+// =====================================
+
+function updateBarCriminal(regionValues) {
+
+    barChartCriminal.setOption({
+        textStyle: { fontFamily: "Arial, sans-serif" },
+        grid: { bottom: 80, right: 30, left: 60 },
+           tooltip: { trigger: "axis", backgroundColor: 'white' ,   textStyle: {
+                  fontSize: 20,     // 🔥 shu yerda o'zgartirasan
+                  color: '#000'
+              }},
+
+        xAxis: {
+            type: "category",
+            data: regions,
+           axisLabel: { interval: 0, rotate: 40, color: '#b7b7b7',  fontSize: 20  },
+            axisLine: { show: false },
+           splitLine: { show: false }
+        },
+
+        yAxis: { type: "value",axisLabel: { 
         color: '#b7b7b7',
         fontSize: 18   // <-- shu yerda shrift kattaligi
-    }, 
+    },
       axisLine: { show: false },
       splitLine: { show: false }
-    },
-    series: [{
-      type: 'bar',
-      data: data.values,
-      barMaxWidth: 60,
-      itemStyle: {
-        color: function(params) {
+  },
+
+        series: [{
+            type: "bar",
+            barMaxWidth: 60,
+            data: regionValues.map(arr => arr.reduce((a, b) => a + b, 0)),
+
+            animation: true,
+            animationDuration: 1300,
+            animationEasing: "elasticOut",
+
+            itemStyle: {
+               color: function(params) {
           return colors[params.dataIndex % colors.length];
         },
         borderRadius: [8, 8, 0, 0]
-      },
-      label: {
-        show: true,
-        position: 'top',
-        color: '#b7b7b7',
-        fontSize: 20,
-        fontWeight: 'bold'
-      }
-    }]
-  };
 
-  myChart.setOption(option);
-  window.addEventListener('resize', myChart.resize);
+            },
+
+            label: {
+                show: true,
+                position: "top",
+                fontWeight: "bold",
+                 color: '#b7b7b7',
+                fontSize: 20,
+            },
+
+            barWidth: "55%"
+        }]
+    });
 }
 
-/* Filter select to‘ldirish */
-jinoiyHuquqFilters.forEach(item => {
-  $('#jinoiy_huquq_select').append(`<option value="${item.id}">${item.name}</option>`);
-});
 
-/* Filter o‘zgarsa chart yangilansin */
-$('#jinoiy_huquq_select').change(function () {
-  const id = $(this).val();
-  const selected = jinoiyHuquqDataByFilter[id] || jinoiyHuquqDataByFilter[0];
-  jinoiy_huquq_chart(selected);
-});
+// =====================================
+// HELPERS
+// =====================================
 
-/* Dastlab yuklash */
-jinoiy_huquq_chart(jinoiyHuquqDataByFilter[0]);
+function sumRegionsCriminal(date) {
+    return regions.map(r => offenseRegionDataCriminal[r][date]);
+}
+
+
+// =====================================
+// 7. FILTER (JAMI)
+// =====================================
+
+document.getElementById("criminal_total_button").onclick = function () {
+
+    let s = document.getElementById("criminal_start_date").value;
+    let e = document.getElementById("criminal_end_date").value;
+
+    if (!s || !e) return alert("Ikkala sanani tanlang!");
+
+    let sum = {};
+    offenses_criminal.forEach(m => sum[m] = 0);
+
+    Object.keys(offenseDataCriminal).forEach(date => {
+        if (date >= s && date <= e) {
+            offenses_criminal.forEach(m => sum[m] += offenseDataCriminal[date][m]);
+        }
+    });
+
+    updatePieCriminal(sum);
+    renderModdaListCriminal(sum);
+
+    let regionTotals = regions.map(r => offenses_criminal.map(() => 0));
+
+    regions.forEach((region, ri) => {
+        Object.keys(offenseRegionDataCriminal[region]).forEach(date => {
+            if (date >= s && date <= e) {
+                offenseRegionDataCriminal[region][date].forEach((val, mi) => {
+                    regionTotals[ri][mi] += val;
+                });
+            }
+        });
+    });
+
+    updateBarCriminal(regionTotals);
+};
+
+
+// =====================================
+// 8. SOLISHTIRISH
+// =====================================
+document.getElementById("criminal_compare_button").onclick = function () {
+    let s = document.getElementById("criminal_start_date").value;
+    let e = document.getElementById("criminal_end_date").value;
+
+    if (!s || !e) return alert("Ikkala sanani tanlang!");
+
+    // O‘zgarish + jami
+    let diff = {};
+    let absValues = {};
+
+    offenses_criminal.forEach(m => {
+        let change = offenseDataCriminal[e][m] - offenseDataCriminal[s][m];
+        diff[m] = change;
+        absValues[m] = offenseDataCriminal[e][m]; // end date asosiy qiymat
+    });
+
+    // DUMALOQ CHART
+    pieChartCriminal.setOption({
+            textStyle: {
+        fontFamily: "Arial, sans-serif",
+    },
+    color:colors,
+        tooltip: {
+            trigger: 'item',
+            show: true,
+            formatter: p => {
+                let modda = p.name;
+                let value = absValues[modda];
+                let change = diff[modda];
+                let sign = change > 0 ? "+" : "";
+                return `${modda}<br/>${value} ta (${sign}${change})`;
+            },
+              textStyle: {
+                  fontSize: 20,     
+                  color: '#000'
+        }
+        },
+        series: [{
+            type: "pie",
+            radius: ["50%", "75%"],
+            animation: true,
+            animationDuration: 1100,
+            avoidLabelOverlap: true,
+             itemStyle: {
+            borderRadius: 10,
+            borderWidth: 2
+        },
+            data: offenses_criminal.map((m, index )=> ({
+                name: m,
+                value: absValues[m], // end date qiymati asosiy
+                  itemStyle: {
+                        shadowColor: colors[index],
+                        shadowBlur: 2,
+                        borderRadius: 10,
+                        borderColor: colors[index]
+                    }
+            })),
+            label: {
+                show: true,
+                 position: 'outside',
+                formatter: p => {
+                    let modda = p.name;
+                    let value = absValues[modda];
+                    let change = diff[modda];
+                    let sign = change > 0 ? "+" : "";
+                    return `${value} ta (${sign}${change})`;
+                },
+            
+                fontSize: 20,
+                fontWeight: 'bold',
+                color: '#b7b7b7'
+            },
+               labelLine: {
+                    show: true,
+                    length: 15
+                },
+        }]
+    });
+
+    // BAR CHART
+    barChartCriminal.setOption({
+        series: [{
+            type: "bar",
+             barMaxWidth: 60,
+            data: regions.map(region => {
+                let startSum = offenseRegionDataCriminal[region][s].reduce((a, b) => a + b, 0);
+                let endSum = offenseRegionDataCriminal[region][e].reduce((a, b) => a + b, 0);
+                return endSum - startSum;
+            }),
+            animation: true,
+            animationDuration: 1000,
+            itemStyle: {
+               color: function(params) {
+                return colors[params.dataIndex % colors.length];
+                },
+                borderRadius: [8, 8, 0, 0]
+
+            },
+            label: {
+                show: true,
+                position: "top",
+                formatter: v => (v.value > 0 ? "+" : "") + v.value,
+               color: '#b7b7b7',
+            fontSize: 20,
+            fontWeight: 'bold'
+
+            },
+            barWidth: "55%"
+        }]
+    });
+};
+
 
 
 
