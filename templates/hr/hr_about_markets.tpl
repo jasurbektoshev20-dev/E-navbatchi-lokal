@@ -353,20 +353,19 @@
                         <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">13</td>
                             <td>
-                                 <a
-                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Тошкент вилояти">Тошкент вилояти</a>
+                              Тошкент вилояти
                             </td>
-                            <td></td>
-                            <td>170</td>
-                            <td>185</td>
-                            <td>88</td>
-                            <td>172</td>
-                            <td>63</td>
-                            <td>64</td>
-                            <td>22</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
                             {* <td>47</td> *}
-                            <td>27</td>
-                            <td>20</td>
+                            <td>0</td>
+                            <td>0</td>
                         </tr>
                    
                         <tr class="lb text-center table-success" id="row_{$Table.id|crypt}">

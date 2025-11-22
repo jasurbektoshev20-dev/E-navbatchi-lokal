@@ -368,20 +368,20 @@
                             <td class="text-right">1</td>
                             <td>
                                 <a
-                                        href="hr.php?act=market_according_duty&mid={$smarty.get.mid}&date=Тошкент шаҳри&market=Аския бозори">Аския бозори</a>
+                                        href="hr.php?act=market_according_duty&mid={$smarty.get.mid}&date=Тошкент шаҳри&market=Аския бозори">Чорсу бозори</a>
                             </td>
-                            <td style="white-space: nowrap;">1.4 га</td>
+                            <td style="white-space: nowrap;">13.7 га</td>
                             <td>4</td>
-                            <td>3</td>
-                            <td>3</td>
-                            <td>15</td>
-                            <td>10</td>
                             <td>12</td>
-                            <td>5</td>
-                            <td>10</td>
-                            <td>7</td>
-                            <td>22</td>
                             <td>8</td>
+                            <td>3</td>
+                            <td>12</td>
+                            <td>8</td>
+                            <td>4</td>
+                            <td>53</td>
+                            <td>2</td>
+                            <td>20</td>
+                            <td>31</td>
                             {*     
                             <td>15</td>
                             <td>12</td>
@@ -704,7 +704,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (region === 'Тошкент шаҳри') {
       document.querySelectorAll('table tr td:nth-child(2)').forEach((td, index) => {
           const names = [
-              { name: 'Аския бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Аския бозори&shahar=Тошкент шаҳар' },
+              { name: 'Чорсу бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Чорсу бозори&shahar=Тошкент шаҳар' },
               { name: 'Миробод деҳқон бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Миробод деҳқон бозори&shahar=Тошкент шаҳар' },
               { name: 'Қойлиқ деҳқон бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Қойлиқ деҳқон бозори&shahar=Тошкент шаҳар' },
               { name: 'Наврўз деҳқон бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Наврўз деҳқон бозори&shahar=Тошкент шаҳар' }
@@ -719,10 +719,10 @@ document.addEventListener('DOMContentLoaded', function() {
     else if (region === 'Тошкент вилояти') {
          document.querySelectorAll('table tr td:nth-child(2)').forEach((td, index) => {
           const names = [
-              { name: 'Эски жува бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Эски жува бозори&shahar=Тошкент вилояти' },
-              { name: 'Бек топи бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Бек топи бозори&shahar=Тошкент вилояти' },
-              { name: 'Чилонзор деҳқон бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Чилонзор деҳқон бозори&shahar=Тошкент вилояти' },
-              { name: 'Орикзор буюм бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Орикзор буюм бозори&shahar=Тошкент вилояти' }
+              // { name: 'Эски жува бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Эски жува бозори&shahar=Тошкент вилояти' },
+              // { name: 'Бек топи бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Бек топи бозори&shahar=Тошкент вилояти' },
+              // { name: 'Чилонзор деҳқон бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Чилонзор деҳқон бозори&shahar=Тошкент вилояти' },
+              // { name: 'Орикзор буюм бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Орикзор буюм бозори&shahar=Тошкент вилояти' }
           ];
 
           if (names[index]) {
@@ -734,9 +734,9 @@ document.addEventListener('DOMContentLoaded', function() {
          document.querySelectorAll('table tr td:nth-child(2)').forEach((td, index) => {
           const names = [
               { name: 'Нукус марказий деҳқон бозор', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Нукус марказий деҳқон бозор&shahar=Қорақалпоғистон Республикаси' },
-              { name: 'Бек топи бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Бек топи бозори&shahar=Қорақалпоғистон Республикаси' },
-              { name: 'Эски шаҳар бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Эски шаҳар бозори&shahar=Қорақалпоғистон Республикаси' },
-              { name: 'Марказий деҳқон буюм бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Марказий деҳқон буюм бозори&shahar=Қорақалпоғистон Республикаси' }
+              // { name: 'Бек топи бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Бек топи бозори&shahar=Қорақалпоғистон Республикаси' },
+              // { name: 'Эски шаҳар бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Эски шаҳар бозори&shahar=Қорақалпоғистон Республикаси' },
+              // { name: 'Марказий деҳқон буюм бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Марказий деҳқон буюм бозори&shahar=Қорақалпоғистон Республикаси' }
           ];
 
           if (names[index]) {
@@ -749,9 +749,7 @@ document.addEventListener('DOMContentLoaded', function() {
            document.querySelectorAll('table tr td:nth-child(2)').forEach((td, index) => {
           const names = [
               { name: 'Сирдарё бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Сирдарё бозори&shahar=Сирдарё вилояти' },
-              { name: 'Сирдарё савдо комплекси', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Сирдарё савдо комплекси&shahar=Сирдарё вилояти' },
-              { name: 'Гулистон савдо комплекси', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Гулистон савдо комплекси&shahar=Сирдарё вилояти' },
-              { name: 'Эски шаҳар бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Эски шаҳар бозори&shahar=Сирдарё вилояти' }
+            
           ];
 
           if (names[index]) {
@@ -766,7 +764,7 @@ document.addEventListener('DOMContentLoaded', function() {
               { name: 'Эски шаҳар бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Эски шаҳар бозори&shahar=Жиззах вилояти' },
               { name: 'Жиззах буюм бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Жиззах буюм бозори&shahar=Жиззах вилояти' },
               { name: 'Марказий деҳқон буюм бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Марказий деҳқон буюм бозори&shahar=Жиззах вилояти' },
-              { name: 'Жиззах шаҳар бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Жиззах шаҳар бозори&shahar=Жиззах вилояти' }
+             
           ];
 
           if (names[index]) {
@@ -777,10 +775,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         else if (region === 'Самарқанд вилояти') {
           const names = [
-              { name: 'Сиёб деҳқон бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Аския' },
-              { name: 'Темир ёл деҳқон бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Миробод' },
-              { name: 'Самарқанд шодиёнаси', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Қўйлиқ' },
-              { name: 'Ипак ёли СМ', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Наврўз' }
+              { name: 'Сиёб деҳқон бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Сиёб деҳқон бозори' },
+              { name: 'Темир ёл деҳқон бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Темир ёл деҳқон бозори' },
+              { name: 'Самарқанд шодиёнаси', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Самарқанд шодиёнаси' },
+              { name: 'Ипак ёли СМ', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Ипак ёли СМ' }
           ];
 
           if (names[index]) {
@@ -791,10 +789,7 @@ document.addEventListener('DOMContentLoaded', function() {
         else if (region === 'Навоий вилояти') {
           document.querySelectorAll('table tr td:nth-child(2)').forEach((td, index) => {
           const names = [
-              { name: 'Саховат деҳқон бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Аския' },
-              { name: 'Эски шаҳар бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Миробод' },
-              { name: 'Зарафшон бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Қўйлиқ' },
-              { name: 'Нурота бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Наврўз' }
+              { name: 'Саховат деҳқон бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Саховат деҳқон бозори' },
           ];
 
           if (names[index]) {
@@ -805,10 +800,9 @@ document.addEventListener('DOMContentLoaded', function() {
         else if (region === 'Бухоро вилояти') {
           document.querySelectorAll('table tr td:nth-child(2)').forEach((td, index) => {
           const names = [
-              { name: 'Марказий деҳқон бозор', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Аския' },
-              { name: 'Карвон буюм бозор', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Миробод' },
-              { name: 'Ситора автомобил бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Қўйлиқ' },
-              { name: 'Эски шаҳар бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Наврўз' }
+              { name: 'Марказий деҳқон бозор', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Марказий деҳқон бозор' },
+              { name: 'Карвон буюм бозор', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Карвон буюм бозор' },
+              { name: 'Ситора автомобил бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Ситора автомобил бозори' },
           ];
 
           if (names[index]) {
@@ -833,10 +827,9 @@ document.addEventListener('DOMContentLoaded', function() {
         else if (region === 'Наманган вилояти') {  
           document.querySelectorAll('table tr td:nth-child(2)').forEach((td, index) => {
           const names = [
-              { name: 'Жаҳон ихтисослаштирилган аралаш моллар комплекси', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Аския' },
-              { name: 'Чорсу деҳқон бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Миробод' },
-              { name: 'Яшил деҳқон бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Қўйлиқ' },
-              { name: 'Ёшлик барака бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Наврўз' }
+              { name: 'Жаҳон ихтисослаштирилган аралаш моллар комплекси', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Жаҳон ихтисослаштирилган аралаш моллар комплекси' },
+              { name: 'Яшил деҳқон бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Яшил деҳқон бозори' },
+              { name: 'Ёшлик барака бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Ёшлик барака бозори' }
           ];
 
           if (names[index]) {
@@ -847,10 +840,9 @@ document.addEventListener('DOMContentLoaded', function() {
         else if (region === 'Фарғона вилояти') {
               document.querySelectorAll('table tr td:nth-child(2)').forEach((td, index) => {
           const names = [
-              { name: 'Марказий деҳқон бозорi', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Аския' },
-              { name: 'Марказий буюм бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Миробод' },
-              { name: 'Фаргона шаҳар бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Қўйлиқ' },
-              { name: 'Эски шаҳар бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Наврўз' }
+              { name: 'Марказий деҳқон бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Марказий деҳқон бозори' },
+              { name: 'Марказий буюм бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Марказий буюм бозори' },
+            
           ];
 
           if (names[index]) {
@@ -862,10 +854,10 @@ document.addEventListener('DOMContentLoaded', function() {
     else if (region === 'Қашқадарё вилояти') {
           document.querySelectorAll('table tr td:nth-child(2)').forEach((td, index) => {
           const names = [
-              { name: 'Ерқоргон  деҳқон бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Аския' },
-              { name: 'Қарши деҳқон бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Миробод' },
-              { name: 'Қарши марказий бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Қўйлиқ' },
-              { name: 'Насаф бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Наврўз' }
+              { name: 'Ерқоргон  деҳқон бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Ерқоргон  деҳқон бозори' },
+              { name: 'Қарши деҳқон бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Қарши деҳқон бозори' },
+              { name: 'Қарши марказий бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Қарши марказий бозори' },
+              { name: 'Насаф бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Насаф бозори' }
           ];
 
           if (names[index]) {
@@ -879,8 +871,6 @@ document.addEventListener('DOMContentLoaded', function() {
       const names = [
           { name: 'Яшил дунё бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Аския' },
           { name: 'Марказий деҳқон бозорi', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Миробод' },
-          { name: 'Сурхандарё шаҳар бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Қўйлиқ' },
-          { name: 'Эски шаҳар бозири', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Наврўз' }
       ];
       if (names[index]) {
           td.innerHTML = `<a href="${names[index].link}">${names[index].name}</a>`;
@@ -890,10 +880,8 @@ document.addEventListener('DOMContentLoaded', function() {
     else if (region === 'Хоразм вилояти') {
           document.querySelectorAll('table tr td:nth-child(2)').forEach((td, index) => {
           const names = [
-              { name: 'Марказий деҳқон бозорi', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Аския' },
-              { name: 'Урганч Марказий буюм бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Миробод' },
-              { name: 'Хоразм шаҳар бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Қўйлиқ' },
-              { name: 'Эски шаҳар бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Наврўз' }
+              { name: 'Марказий деҳқон бозорi', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Марказий деҳқон бозорi' },
+              { name: 'Урганч Марказий буюм бозори', link: 'hr.php?act=market_according_duty&mid={$smarty.get.mid}&market=Урганч Марказий буюм бозори' },  
           ];
 
           if (names[index]) {

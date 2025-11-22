@@ -82,7 +82,7 @@
                             <td>5</td>
                             <td>1</td>
                             <td>2</td>
-                            <td></td>
+                            <td>0</td>
                             <td>52</td>
                         </tr>
                         <tr class="lb text-center" id="row_{$Table.id|crypt}">
@@ -104,7 +104,7 @@
                             <td>2</td>
                             <td>1</td>
                             <td>2</td>
-                            <td></td>
+                            <td>0</td>
                             <td>41</td>
                         </tr>
                         <tr class="lb text-center" id="row_{$Table.id|crypt}">
@@ -126,7 +126,7 @@
                             <td>3</td>
                             <td>2</td>
                             <td>1</td>
-                            <td></td>
+                            <td>0</td>
                             <td>34</td>
                         </tr>
                         <tr class="lb text-center" id="row_{$Table.id|crypt}">
@@ -146,9 +146,9 @@
                             <td>6</td>
                             <td>2</td>
                             <td>5</td>
-                            <td>8</td>
-                            <td>1</td>
                             <td>2</td>
+                            <td>1</td>
+                            <td>0</td>
                             <td>22</td>
                         </tr>
                         </tr>
@@ -158,20 +158,20 @@
                                 <a
                                         href="hr.php?act=''&mid={$smarty.get.mid}&date=Toshkent shahar">Жами</a>
                             </td>
-                            <td>6</td>
-                            <td>41</td>
-                            <td>11</td>
+                            <td>9</td>
+                            <td>50</td>
+                            <td>17</td>
+                            <td>12</td>
                             <td>7</td>
-                            <td>5</td>
-                            <td>8</td>
+                            <td>15</td>
+                            <td>13</td>
                             <td>11</td>
-                            <td>9</td>
-                            <td>8</td>
-                            <td>9</td>
-                            <td>10</td>
-                            <td>4</td>
-                            <td>5</td>
-                            <td></td>
+                            <td>14</td>
+                            <td>11</td>
+                            <td>15</td>
+                            <td>6</td>
+                            <td>6</td>
+                            <td>0</td>
                             <td>127</td>
                         </tr>
                         </tbody>
