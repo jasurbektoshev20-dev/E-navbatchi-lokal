@@ -111,10 +111,10 @@
                                 <a
                                         href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Қорақалпоғистон Республикаси">Қорақалпоғистон Республикаси</a>
                             </td>
-                            <td>60</td>
-                            <td>270</td>
-                            <td>285</td>
-                            <td>232</td>
+                            <td>1</td>
+                            <td>19</td>
+                            <td>4</td>
+                            <td>3</td>
                             <td>242</td>
                             <td>112</td>
                             <td>80</td>
@@ -129,7 +129,7 @@
                                 <a
                                         href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Тошкент шаҳри">Тошкент шаҳри</a>
                             </td>
-                            <td>48</td>
+                            <td>19</td>
                             <td>212</td>
                             <td>345</td>
                             <td>100</td>
@@ -148,7 +148,7 @@
                                         href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Андижон вилояти">Андижон вилояти</a>
                                
                             </td>
-                            <td>37</td>
+                            <td>4</td>
                             <td>157</td>
                             <td>123</td>
                             <td>98</td>
@@ -167,7 +167,7 @@
                                         href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Бухоро вилояти">Бухоро вилояти</a>
                                
                             </td>
-                            <td>32</td>
+                            <td>3</td>
                             <td>130</td>
                             <td>113</td>
                             <td>88</td>
@@ -186,7 +186,7 @@
                                         href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Фарғона вилояти">Фарғона вилояти</a>
                               
                             </td>
-                            <td>36</td>
+                            <td>2</td>
                             <td>145</td>
                             <td>178</td>
                             <td>88</td>
@@ -205,7 +205,7 @@
                                         href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Жиззах вилояти">Жиззах вилояти</a>
                               
                             </td>
-                            <td>39</td>
+                            <td>3</td>
                             <td>175</td>
                             <td>208</td>
                             <td>100</td>
@@ -224,7 +224,7 @@
                                         href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Қашқадарё вилояти">Қашқадарё вилояти</a>
                               
                             </td>
-                            <td>23</td>
+                            <td>4</td>
                             <td>125</td>
                             <td>118</td>
                             <td>78</td>
@@ -244,7 +244,7 @@
                               
                               
                             </td>
-                            <td>29</td>
+                            <td>2</td>
                             <td>134</td>
                             <td>119</td>
                             <td>76</td>
@@ -263,7 +263,7 @@
                                         href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Наманган вилояти">Наманган вилояти</a>
                                 
                             </td>
-                            <td>40</td>
+                            <td>5</td>
                             <td>175</td>
                             <td>190</td>
                             <td>95</td>
@@ -282,7 +282,7 @@
                                         href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Навоий вилояти">Навоий вилояти</a>
                               
                             </td>
-                            <td>34</td>
+                            <td>1</td>
                             <td>155</td>
                             <td>170</td>
                             <td>85</td>
@@ -301,7 +301,7 @@
                                         href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Самарқанд вилояти">Самарқанд вилояти</a>
                             
                             </td>
-                            <td>38</td>
+                            <td>5</td>
                             <td>165</td>
                             <td>180</td>
                             <td>88</td>
@@ -320,7 +320,7 @@
                                         href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Сирдарё вилояти">Сирдарё вилояти</a>
                               
                             </td>
-                            <td>35</td>
+                            <td>1</td>
                             <td>155</td>
                             <td>170</td>
                             <td>82</td>
@@ -338,7 +338,7 @@
                                 <a
                                         href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Сурхандарё вилояти">Сурхандарё вилояти</a>
                             </td>
-                            <td>32</td>
+                            <td>2</td>
                             <td>150</td>
                             <td>165</td>
                             <td>78</td>
@@ -356,7 +356,7 @@
                                  <a
                                         href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Тошкент вилояти">Тошкент вилояти</a>
                             </td>
-                            <td>42</td>
+                            <td></td>
                             <td>170</td>
                             <td>185</td>
                             <td>88</td>
@@ -374,7 +374,7 @@
                             <td>
                               Жами
                             </td>
-                            <td>1118</td>
+                            <td>41</td>
                             <td>4780</td>
                             <td>2232</td>
                             <td>3188</td>

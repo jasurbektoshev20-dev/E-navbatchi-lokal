@@ -44,8 +44,8 @@
                         <thead>
                         <tr class="text-center">
                             <th style="white-space: nowrap;">т/р</th>
-                            <th>Қорақалпоғистон Республикаси</th>
                             <th>Объект турлари</th>
+                            <th>Қорақалпоғистон Республикаси</th>
                             <th>Тошкент шаҳри</th>
                             <th>Андижон вилояти</th>
                             <th>Бухоро вилояти</th>
@@ -69,21 +69,21 @@
                                 <a
                                         href="hr.php?act=about_markets&mid={$smarty.get.mid}&date=">Бозорлар</a>
                             </td>
-                            <td>48</td>
-                            <td>24</td>
-                            <td>14</td>
-                            <td>15</td>
-                            <td>18</td>
-                            <td>24</td>
-                            <td>30</td>
-                            <td>21</td>
-                            <td>24</td>
-                            <td>25</td>
-                            <td>15</td>
-                            <td>28</td>
-                            <td>12</td>
-                            <td>34</td>
-                            <td>300</td>
+                            <td>1</td>
+                            <td>19</td>
+                            <td>4</td>
+                            <td>3</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>2</td>
+                            <td>5</td>
+                            <td>1</td>
+                            <td>5</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td></td>
+                            <td>52</td>
                         </tr>
                         <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">2</td>
@@ -91,43 +91,43 @@
                                 <a
                                         href="hr.php?act=''&mid={$smarty.get.mid}&date=Toshkent shahar">Истироҳат боғлари</a>
                             </td>
-                            <td>55</td>
-                            <td>34</td>
-                            <td>23</td>
-                            <td>25</td>
-                            <td>30</td>
-                            <td>24</td>
-                            <td>31</td>
-                            <td>29</td>
-                            <td>24</td>
-                            <td>35</td>
-                            <td>19</td>
-                            <td>20</td>
-                            <td>34</td>
-                            <td>38</td>
-                            <td>420</td>
+                            <td>2</td>
+                            <td>15</td>
+                            <td>4</td>
+                            <td>3</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>3</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td></td>
+                            <td>41</td>
                         </tr>
                         <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">3</td>
                             <td>
                                 <a
-                                        href="hr.php?act=''&mid={$smarty.get.mid}&date=Toshkent shahar">Сайилгоҳлар</a>
+                                        href="hr.php?act=''&mid={$smarty.get.mid}&date=Toshkent shahar">Хиёбонлар</a>
                             </td>
-                            <td>41</td>
-                            <td>25</td>
-                            <td>16</td>
-                            <td>21</td>
-                            <td>19</td>
-                            <td>24</td>
-                            <td>32</td>
-                            <td>23</td>
-                            <td>20</td>
-                            <td>33</td>
-                            <td>18</td>
-                            <td>27</td>
-                            <td>18</td>
-                            <td>39</td>
-                            <td>398</td>
+                            <td>3</td>
+                            <td>7</td>
+                            <td>3</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>4</td>
+                            <td>6</td>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>3</td>
+                            <td>2</td>
+                            <td>1</td>
+                            <td></td>
+                            <td>34</td>
                         </tr>
                         <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">4</td>
@@ -135,21 +135,44 @@
                                 <a
                                         href="hr.php?act=''&mid={$smarty.get.mid}&date=Toshkent shahar">Бошқа жойлар</a>
                             </td>
-                            <td>30</td>
-                            <td>19</td>
-                            <td>16</td>
-                            <td>15</td>
-                            <td>21</td>
-                            <td>27</td>
+                            <td>3</td>
+                            <td>9</td>
+                            <td>6</td>
+                            <td>5</td>
+                            <td>2</td>
+                            <td>7</td>
+                            <td>2</td>
+                            <td>2</td>
+                            <td>6</td>
+                            <td>2</td>
+                            <td>5</td>
+                            <td>8</td>
+                            <td>1</td>
+                            <td>2</td>
                             <td>22</td>
-                            <td>21</td>
-                            <td>26</td>
-                            <td>20</td>
-                            <td>15</td>
-                            <td>18</td>
-                            <td>12</td>
-                            <td>24</td>
-                            <td>232</td>
+                        </tr>
+                        </tr>
+                        <tr class="lb text-center" id="row_{$Table.id|crypt}">
+                            <td class="text-right">4</td>
+                            <td>
+                                <a
+                                        href="hr.php?act=''&mid={$smarty.get.mid}&date=Toshkent shahar">Жами</a>
+                            </td>
+                            <td>6</td>
+                            <td>41</td>
+                            <td>11</td>
+                            <td>7</td>
+                            <td>5</td>
+                            <td>8</td>
+                            <td>11</td>
+                            <td>9</td>
+                            <td>8</td>
+                            <td>9</td>
+                            <td>10</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td></td>
+                            <td>127</td>
                         </tr>
                         </tbody>
                     </table>
