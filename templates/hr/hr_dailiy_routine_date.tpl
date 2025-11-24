@@ -65,7 +65,7 @@
 									<td class="text-center">{$obekt.staff}</td>
 									<td class="text-center">{$obekt.structure_name}</td>
 									<td class="text-center">{$obekt.epic}</td>
-									<td class="text-center" id="body_attachment">
+									<td class="text-center" onclick="attachmentBody({$tkey + 1})">
 										<a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 												fill="currentColor" class="bi bi-camera-video-fill" viewBox="0 0 16 16">
 												<path fill-rule="evenodd"
@@ -181,7 +181,7 @@
                 <div class="row g-3">
                     <div class="col-12">
                         <label>Kamera tanlang</label>
-                        <select required class="form-control" name="body_camera_id" id="structure_id">
+                        <select required class="form-control" name="body_camera_id" id="body_camera_id">
                             <option value="">{$Dict.choose}</option>
                             {foreach from=$BodyCams item=Item key=ikey}
                                 <option value="{$Item.id}">{$Item.name}</option>
@@ -229,6 +229,13 @@
 			}
 		});
 
+		function attachmentBody(body_id){
+			$('#body_id').val(body_id);
+			$('#bodyModal').modal('toggle');
+			$('#body_camera_id').val('');
+			$('#body_camera_id').trigger("change");
+		}
+
 		$(document).ready(function() {
 
 			$('#new').click(function() {
@@ -238,20 +245,17 @@
 				$('#submitModal').modal('show');
 			});
 
-			$('#body_attachment').click(function() {
-				$('#body_id').val('');
-                $('#bodyModal').modal('toggle');
-			    $('#body_camera_id').val('');
-                $('#body_camera_id').trigger("change");
-			})
+	
 
-			   $('#submit').on('click', function() {
+
+		 $('#submit').on('click', function() {
             var form_data = new FormData();
-
-          
+             console.log("body ", $('#body_id').val())
             form_data.append('body_camera_id', $('#body_camera_id').val());
+            form_data.append('rowid', $('#body_id').val());
+
             $.ajax({
-                url: 'hrajax.php?act=act_body_cameras',
+                url: 'hrajax.php?act=update_dailiy_routine_bodycam',
                 dataType: 'text',
                 cache: false,
                 contentType: false,
