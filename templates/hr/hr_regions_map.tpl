@@ -3519,7 +3519,7 @@
             data.forEach(function (marker) {
                 bounds.extend([marker.lat, marker.lon]);
             });
-            map.flyToBounds(bounds, { duration: 2, maxZoom: 14 });
+            // map.flyToBounds(bounds, { duration: 2, maxZoom: 14 });
         }
         
         // Pop up element maker
