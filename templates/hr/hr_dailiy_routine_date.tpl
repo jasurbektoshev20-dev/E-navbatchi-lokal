@@ -263,9 +263,9 @@
                 data: form_data,
                 type: 'post',
                 success: function(resdata) {
-                    //console.log(resdata);
-                    var NewArray = resdata.split("<&sep&>");
-                    if (NewArray[0] == 0) {
+					let obj = JSON.parse(resdata);
+                 
+                    if (obj.status == 'ok') {
                         location.reload();
                     } else {
                         alert(resdata);
