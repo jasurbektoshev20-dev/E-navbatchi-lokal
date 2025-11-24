@@ -399,9 +399,9 @@ switch ($Action) {
 
 
         // echo '<pre>';
-		// print_r($type_id);
-		// echo '</pre>';
-		// die();
+        // print_r($type_id);
+        // echo '</pre>';
+        // die();
 
         if ($RowId != "0") {
             $updquery = "UPDATE hr.public_event1 set
@@ -510,7 +510,7 @@ switch ($Action) {
 
     /// events duty ==========================================================
     case "get_event_duty":
-         $RowId = MyPiDeCrypt($_GET['rowid']);
+        $RowId = MyPiDeCrypt($_GET['rowid']);
         $query = "SELECT t.*
               FROM hr.public_event_duty t 
               WHERE t.id = {$RowId}";
@@ -535,9 +535,9 @@ switch ($Action) {
 
 
     //     // echo '<pre>';
-	// 	// print_r($type_id);
-	// 	// echo '</pre>';
-	// 	// die();
+    // 	// print_r($type_id);
+    // 	// echo '</pre>';
+    // 	// die();
 
     //     if ($RowId != "0") {
     //         $updquery = "UPDATE hr.public_event_duty set
@@ -546,7 +546,7 @@ switch ($Action) {
     //         troops_id = '{$troops_id}',
     //         epikirofka_id = '{$epikirofka_id}',
     //         avto_id = '{$avto_id}',
-           
+
     //         WHERE id = {$RowId}";
     //         $sql->query($updquery);
     //         if ($sql->error() == "") {
@@ -587,10 +587,10 @@ switch ($Action) {
     //     }
     //     break;
 
-        
+
     case "act_event_duty":
         $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
-        $public_event1_id =MyPiDeCrypt($_POST['public_event1_id']);
+        $public_event1_id = MyPiDeCrypt($_POST['public_event1_id']);
         $structure_id =  $_POST['structure_id'];
         $car_id = !empty($_POST['car_id']) ? $_POST['car_id'] : 0;
 
@@ -1772,16 +1772,20 @@ switch ($Action) {
         break;
 
     case "update_dailiy_routine_bodycam":
-        $RowId = MyPiDeCrypt($_GET['rowid']);
+        $RowId = $_POST['rowid'];
         $bodycam_id = isset($_POST['bodycam_id']) ? $_POST['bodycam_id'] : 0;
 
         $query = "UPDATE hr.dailiy_routine_date SET 
             bodycam_id = '{$bodycam_id}'
-        where t.id = {$RowId}";
+        where id = {$RowId}";
         $sql->query($query);
-        $result = $sql->fetchAssoc();
-
-        $res = json_encode($result);
+        if ($sql->error() == "") {
+            $status = "ok";
+            $res = json_encode(['status' => $status, 'rowid' => MyPiCrypt($RowId)]);
+        } else {
+            $res = $sql->error();
+            $success = false;
+        }
         break;
 
 
