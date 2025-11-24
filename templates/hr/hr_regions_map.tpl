@@ -1084,11 +1084,11 @@
             const lat = parseFloat(track.lat);
             const lon = parseFloat(track.lon);
             if (isNaN(lat) || isNaN(lon)) return;
-
             const el = document.createElement('div');
             el.className = 'car-marker';
             el.style.width = track.car_width + 'px';
             el.style.height = track.car_height + 'px';
+            // el.style.backgroundImage = `url('/pictures/cars/${track.car_photo || 'car.png'}')`;
             el.style.backgroundImage = `url('/pictures/cars/${track.car_photo || 'car.png'}')`;
             el.style.backgroundSize = 'cover';
             el.style.transform = `rotate(${track.angle || 0}deg)`;
