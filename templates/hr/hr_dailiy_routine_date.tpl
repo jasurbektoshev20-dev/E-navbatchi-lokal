@@ -183,7 +183,7 @@
                         <label>Kamera tanlang</label>
                         <select required class="form-control" name="body_camera_id" id="structure_id">
                             <option value="">{$Dict.choose}</option>
-                            {foreach from=$Regions item=Item key=ikey}
+                            {foreach from=$BodyCams item=Item key=ikey}
                                 <option value="{$Item.id}">{$Item.name}</option>
                             {/foreach}
                         </select>

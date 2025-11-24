@@ -1771,6 +1771,19 @@ switch ($Action) {
         $res = json_encode($result);
         break;
 
+    case "update_dailiy_routine_bodycam":
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+        $bodycam_id = isset($_POST['bodycam_id']) ? $_POST['bodycam_id'] : 0;
+
+        $query = "UPDATE hr.dailiy_routine_date SET 
+            bodycam_id = '{$bodycam_id}'
+        where t.id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+
+        $res = json_encode($result);
+        break;
+
 
 
     case "act_dailiy_routine_date":
