@@ -65,7 +65,7 @@
 									<td class="text-center">{$obekt.staff}</td>
 									<td class="text-center">{$obekt.structure_name}</td>
 									<td class="text-center">{$obekt.epic}</td>
-									<td class="text-center" onclick="attachmentBody({$tkey + 1})">
+									<td class="text-center" onclick="attachmentBody({$obekt.id})">
 										<a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 												fill="currentColor" class="bi bi-camera-video-fill" viewBox="0 0 16 16">
 												<path fill-rule="evenodd"
