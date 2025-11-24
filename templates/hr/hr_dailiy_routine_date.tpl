@@ -65,7 +65,7 @@
 									<td class="text-center">{$obekt.staff}</td>
 									<td class="text-center">{$obekt.structure_name}</td>
 									<td class="text-center">{$obekt.epic}</td>
-									<td class="text-center">
+									<td class="text-center" id="body_attachment">
 										<a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 												fill="currentColor" class="bi bi-camera-video-fill" viewBox="0 0 16 16">
 												<path fill-rule="evenodd"
@@ -171,6 +171,36 @@
 	</div>
 </div>
 
+
+{* Bodikamera modal *}
+<div class="modal fade" id="bodyModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-simple modal-edit-user">
+        <div class="modal-content p-3 p-md-5">
+            <div class="modal-body">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label>Kamera tanlang</label>
+                        <select required class="form-control" name="body_camera_id" id="structure_id">
+                            <option value="">{$Dict.choose}</option>
+                            {foreach from=$Regions item=Item key=ikey}
+                                <option value="{$Item.id}">{$Item.name}</option>
+                            {/foreach}
+                        </select>
+                    </div>  
+                    <div class="col-12 text-center">
+                        <input type="hidden" name="body_id" id="body_id" value="">
+                        <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">
+                            {$Dict.cancel}
+                        </button>
+                        <button type="submit" id="submit" class="btn btn-primary me-sm-3 me-1">{$Dict.save}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -200,12 +230,45 @@
 		});
 
 		$(document).ready(function() {
+
 			$('#new').click(function() {
 				$('#localForm')[0].reset();
 				$('#id').val('');
 				$('.select2').val(null).trigger('change');
 				$('#submitModal').modal('show');
 			});
+
+			$('#body_attachment').click(function() {
+				$('#body_id').val('');
+                $('#bodyModal').modal('toggle');
+			    $('#body_camera_id').val('');
+                $('#body_camera_id').trigger("change");
+			})
+
+			   $('#submit').on('click', function() {
+            var form_data = new FormData();
+
+          
+            form_data.append('body_camera_id', $('#body_camera_id').val());
+            $.ajax({
+                url: 'hrajax.php?act=act_body_cameras',
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: form_data,
+                type: 'post',
+                success: function(resdata) {
+                    //console.log(resdata);
+                    var NewArray = resdata.split("<&sep&>");
+                    if (NewArray[0] == 0) {
+                        location.reload();
+                    } else {
+                        alert(resdata);
+                    }
+                }
+            });
+           });
 			const urlParams = new URLSearchParams(window.location.search);
 			const obyekt_id = urlParams.get('obyekt');
 
