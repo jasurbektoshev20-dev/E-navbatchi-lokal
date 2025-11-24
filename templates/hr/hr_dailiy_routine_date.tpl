@@ -181,7 +181,7 @@
                 <div class="row g-3">
                     <div class="col-12">
                         <label>Kamera tanlang</label>
-                        <select required class="form-control" name="body_camera_id" id="body_camera_id">
+                        <select required class="form-control" name="bodycam_id" id="bodycam_id">
                             <option value="">{$Dict.choose}</option>
                             {foreach from=$BodyCams item=Item key=ikey}
                                 <option value="{$Item.id}">{$Item.name}</option>
@@ -232,8 +232,8 @@
 		function attachmentBody(body_id){
 			$('#body_id').val(body_id);
 			$('#bodyModal').modal('toggle');
-			$('#body_camera_id').val('');
-			$('#body_camera_id').trigger("change");
+			$('#bodycam_id').val('');
+			$('#bodycam_id').trigger("change");
 		}
 
 		$(document).ready(function() {
@@ -251,7 +251,7 @@
 		 $('#submit').on('click', function() {
             var form_data = new FormData();
              console.log("body ", $('#body_id').val())
-            form_data.append('body_camera_id', $('#body_camera_id').val());
+            form_data.append('bodycam_id', $('#bodycam_id').val());
             form_data.append('rowid', $('#body_id').val());
 
             $.ajax({

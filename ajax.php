@@ -616,7 +616,7 @@ switch ($Action) {
 		GROUP BY t.id, s.name{$slang}, o.name{$slang}, c.name{$slang}, c.phone ";
 		$sql->query($query);
 		$JtsObject = $sql->fetchAssoc();
-		
+
 		// echo '<pre>';
 		// print_r($JtsObject);
 		// echo '</pre>';
@@ -737,6 +737,10 @@ switch ($Action) {
 			}
 		}
 
+		// echo '<pre>';
+		// print_r($Bodys);
+		// echo '</pre>';
+		// die();
 
 
 		if ($Bodys) {
@@ -1233,28 +1237,28 @@ switch ($Action) {
 
 
 
-		case "public_events":
-				$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
+	case "public_events":
+		$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
 
-				// 1) Statistika (COUNT)
-				$query = "SELECT COUNT(t.id) as value, b.id, b.name{$slang} as name
+		// 1) Statistika (COUNT)
+		$query = "SELECT COUNT(t.id) as value, b.id, b.name{$slang} as name
 				FROM hr.public_event1 t
 				LEFT JOIN tur.public_event_types b ON b.id = t.public_event_type
 				WHERE 1=1 ";
 
-				if ($UserStructure > 1) {
-					$query .= " AND t.region_id = {$UserStructure} ";
-				}
-				if ($structure_id > 0) {
-					$query .= " AND t.region_id = {$structure_id} ";
-				}
-				$query .= " GROUP BY b.id ORDER BY b.id ASC";
+		if ($UserStructure > 1) {
+			$query .= " AND t.region_id = {$UserStructure} ";
+		}
+		if ($structure_id > 0) {
+			$query .= " AND t.region_id = {$structure_id} ";
+		}
+		$query .= " GROUP BY b.id ORDER BY b.id ASC";
 
-				$sql->query($query);
-				$stats = $sql->fetchAll();
+		$sql->query($query);
+		$stats = $sql->fetchAll();
 
-				// 2) Statistika hududlar kesimida
-				$regionQuery = "SELECT 
+		// 2) Statistika hududlar kesimida
+		$regionQuery = "SELECT 
 						s.id,
 						s.name{$slang} as name,
 						COUNT(t.id) as value
@@ -1263,21 +1267,21 @@ switch ($Action) {
 					WHERE 1=1
 				";
 
-				if ($UserStructure > 1) {
-					$regionQuery .= " AND t.region_id = {$UserStructure} ";
-				}
-				if ($structure_id > 0) {
-					$regionQuery .= " AND t.region_id = {$structure_id} ";
-				}
+		if ($UserStructure > 1) {
+			$regionQuery .= " AND t.region_id = {$UserStructure} ";
+		}
+		if ($structure_id > 0) {
+			$regionQuery .= " AND t.region_id = {$structure_id} ";
+		}
 
-				$regionQuery .= " GROUP BY s.id ORDER BY s.id ASC";
+		$regionQuery .= " GROUP BY s.id ORDER BY s.id ASC";
 
-				$sql->query($regionQuery);
-				$stat_region = $sql->fetchAll();
+		$sql->query($regionQuery);
+		$stat_region = $sql->fetchAll();
 
 
-				// 3) Ob'ektlar ro'yxati
-				$listQuery = "SELECT 
+		// 3) Ob'ektlar ro'yxati
+		$listQuery = "SELECT 
 						t.id,
 						j.object_name,
 						b.id as type_id,
@@ -1288,48 +1292,48 @@ switch ($Action) {
 					WHERE 1=1
 				";
 
-				if ($UserStructure > 1) {
-					$listQuery .= " AND t.region_id = {$UserStructure} ";
-				}
-				if ($structure_id > 0) {
-					$listQuery .= " AND t.region_id = {$structure_id} ";
-				}
+		if ($UserStructure > 1) {
+			$listQuery .= " AND t.region_id = {$UserStructure} ";
+		}
+		if ($structure_id > 0) {
+			$listQuery .= " AND t.region_id = {$structure_id} ";
+		}
 
-				$listQuery .= " ORDER BY b.name{$slang} ASC, j.object_name ASC";
+		$listQuery .= " ORDER BY b.name{$slang} ASC, j.object_name ASC";
 
-				$sql->query($listQuery);
-				$list = $sql->fetchAll();
+		$sql->query($listQuery);
+		$list = $sql->fetchAll();
 
 
-				// 3) Guruhlash (type → object list)
-				$grouped = [];
-				foreach ($list as $row) {
-					$typeId = $row['type_id'];
+		// 3) Guruhlash (type → object list)
+		$grouped = [];
+		foreach ($list as $row) {
+			$typeId = $row['type_id'];
 
-					if (!isset($grouped[$typeId])) {
-						$grouped[$typeId] = [
-							"id" => $typeId,
-							"name" => $row['type_name'],
-							"objects" => []
-						];
-					}
+			if (!isset($grouped[$typeId])) {
+				$grouped[$typeId] = [
+					"id" => $typeId,
+					"name" => $row['type_name'],
+					"objects" => []
+				];
+			}
 
-					$grouped[$typeId]["objects"][] = [
-						"id" => $row['id'],
-						"object_name" => $row['object_name']
-					];
-				}
+			$grouped[$typeId]["objects"][] = [
+				"id" => $row['id'],
+				"object_name" => $row['object_name']
+			];
+		}
 
-				// Convert to numeric array
-				$grouped = array_values($grouped);
-				// Final response
-				$res = json_encode([
-					"public_stats" => $stats,
-					"public_list" => $grouped,
-					"public_list_stat_region" => $stat_region
-				]);
+		// Convert to numeric array
+		$grouped = array_values($grouped);
+		// Final response
+		$res = json_encode([
+			"public_stats" => $stats,
+			"public_list" => $grouped,
+			"public_list_stat_region" => $stat_region
+		]);
 
-				break;
+		break;
 }
 
 // echo iconv("cp1251", "UTF-8", $res);
