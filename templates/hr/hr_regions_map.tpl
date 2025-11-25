@@ -951,7 +951,82 @@
   box-shadow: 0 0 20px rgba(0,0,0,0.7);
 }
 
+.stylish-card {
+  width: 450px;
+  background: #1e293b; /* dark slate */
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+  transition: 0.3s ease;
+}
 
+.stylish-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.6);
+}
+
+/* Rasm */
+.staff-photo {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Xodim nomi */
+.staff-name {
+  font-weight: 700;
+  font-size: 24px;
+  color: #f1f5f9; /* light text */
+  margin-bottom: 6px;
+}
+
+/* Telefon qismi */
+.staff-phone {
+  font-size: 18px;
+  color: #cbd5e1;
+}
+.staff-phone-link {
+  text-decoration: none;
+  color: #38bdf8;
+  font-weight: 600;
+  font-size: 20px;
+}
+.staff-phone-link:hover {
+  color: #0ea5e9;
+}
+
+/* Button */
+.view-camera-btn {
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4);
+  transition: 0.3s ease;
+}
+
+.view-camera-btn:hover {
+  background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+  box-shadow: 0 6px 22px rgba(56, 189, 248, 0.35);
+  transform: translateY(-2px);
+}
+
+.view-camera-btn .camera-icon-style {
+  font-size: 20px;
+}
+
+.modal-object-about .mapboxgl-popup-content {
+    background: #000;
+  }
+
+  .modal-object-about .mapboxgl-popup-content .mapboxgl-popup-close-button{
+    font-size: 30px;
+  }
 
   {/literal}
 </style>
@@ -1004,7 +1079,7 @@
             <div class="row">
 
               <!-- LEFT SIDE — MAP -->
-              <div class="col-7">
+              <div class="col-7 modal-object-about">
                 <div class="space-main-head">
                   <h4 class="m-0">Харита</h4>
                 </div>
@@ -1840,62 +1915,32 @@
 
             // Popup HTML
             const popupHTML = `
-                <div
-      class="user-card-about d-flex align-items-center gap-3 rounded-4 p-2"
-      style=" width: 450px; border: 1px solid #e5e7eb"
-    >
-      <div class="user-about-card-img">
-        <img
-          src="${photoUrl}"
-          alt="расм юкланмаган"
-          style="
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 6px;
-          "
-        />
+                <div class="user-card-about p-3 stylish-card">
+      <div class="user-about-card-img text-center mb-3">
+        <img src="${photoUrl}" alt="расм юкланмаган" class="staff-photo" />
       </div>
-      <div class="user-card-about-text text-center flex-grow-1">
-       
-        <div style="font-weight: 700; font-size: 24px; color: #334155;  margin-bottom:10px;">
-      
-          ${camera.staff_name || 'Xodim nomi yo‘q'}
-        </div>
-        <div class="mt-2" style="font-size: 17px; color: #334155">
+
+      <div class="user-card-about-text text-center">
+        <div class="staff-name">${camera.staff_name || 'Xodim nomi yo‘q'}</div>
+
+        <div class="mt-2 staff-phone">
           <i class="bi bi-telephone-fill text-success me-1"></i>
-          <a
-            href="tel:${camera.staff_phone || ''}"
-            style="
-              text-decoration: none;
-              color: #334155;
-              font-weight: 500;
-              font-size: 22px;
-            "
-          >
-           ${camera.staff_phone || ''}
+          <a href="tel:${camera.staff_phone || ''}" class="staff-phone-link">
+            ${camera.staff_phone || ''}
           </a>
         </div>
 
-        <!-- BUTTON (beautiful camera icon) -->
-        <div class="d-flex align-items-center justify-content-center gap-2">
+        <div class="d-flex align-items-center justify-content-center">
           <button
-            class="btn mt-3 px-4 py-2 popup-body-camera-btn"
+            class="btn mt-2 px-4 py-2 popup-body-camera-btn view-camera-btn"
             data-id="${camera.id}"
-            style="
-              background: #0ea5e9;
-              color: white;
-              font-size: 18px;
-              border-radius: 10px;
-              border: none;
-            "
           >
-            <i class="bi bi-camera-video-fill" style="font-size: 18px; margin-right:5px;"></i>
-            Камерани кўриш
+            <i class="bi bi-camera-video-fill me-2 camera-icon-style"></i>
           </button>
         </div>
       </div>
     </div>
+
             `;
 
             const popup = new mapboxgl.Popup({ offset: 15 }).setHTML(popupHTML);
@@ -1926,12 +1971,11 @@
 
             const el = document.createElement('div');
             el.className = 'sos-marker';
-            el.style.width = '18px';
-            el.style.height = '18px';
-            el.style.background = 'red';
-            el.style.borderRadius = '50%';
-            el.style.border = '2px solid white';
+            el.style.backgroundImage = `url('/assets/images/sos_btn.png')`;
+            el.style.backgroundSize = 'cover';
             el.title = sos.name;
+            el.style.width = '25px';
+            el.style.height = '25px';
 
             new mapboxgl.Marker(el)
               .setLngLat([lon, lat])
@@ -2074,7 +2118,7 @@
     function renderPassportDetails(params) {
       const container = document.querySelector('.space-main-body-passport')
       if (!container || !params) return
-
+      console.log("Param", params)
       container.innerHTML = `
     
             <ul>
