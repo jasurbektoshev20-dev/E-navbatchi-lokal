@@ -995,7 +995,9 @@ switch ($Action) {
             cm.name AS car_name,
             cm.photo AS car_photo,
             cm.car_width,
-            cm.car_height
+            cm.car_height,
+			cr.external_cam,
+			cr.internal_cam
         FROM reports.uzgps uzg
         INNER JOIN hr.tech_guard_cars cr ON cr.uzgps_id = uzg.mobject_id
         LEFT JOIN hr.structure s ON s.id = cr.structure_id
@@ -1018,49 +1020,32 @@ switch ($Action) {
 		$Staffs = $sql->fetchAll();
 		$Data['staffs'] = $Staffs;
 
+		$Cameras = [];
+		if ($Track) {
+			$external_cam = $Track['external_cam'];
+			$internal_cam = $Track['internal_cam'];
 
-		$BodyCamUrl = [];
-		$Bodys = [];
-		if (isset($Staffs)) {
-			foreach ($Staffs as $key => $value) {
-				if (isset($value['bodycam_id'])) {
-					$query  = "SELECT t.id, t.cam_code, t.comment
-					FROM hr.body_cameras t 
-					WHERE t.id = {$value['bodycam_id']}";
-					$sql->query($query);
-					$Bodys = $sql->fetchAll();
-				}
-			}
+			$data = GetCamUrlBody($external_cam);
+			$url = $data['data']['url'] ?? null;
+			$msg = $data['msg'] ?? '';
+
+			$Cameras[] = (object)[
+				'url' => $url,
+				'status' => !empty($url) ? 1 : 0,
+				'msg' => $msg,
+			];
+
+			$data = GetCamUrlBody($internal_cam);
+			$url = $data['data']['url'] ?? null;
+			$msg = $data['msg'] ?? '';
+
+			$Cameras[] = (object)[
+				'url' => $url,
+				'status' => !empty($url) ? 1 : 0,
+				'msg' => $msg,
+			];
 		}
-
-
-		if ($Bodys) {
-			foreach ($Bodys as $bkey => $body_c) {
-				$bodycamindex = $body_c['cam_code'];
-				$bodyCamId = $body_c['id'];
-				$comment = $body_c['comment'];
-
-				$dataBodyCam = GetCamUrlBody($bodycamindex);
-				if (isset($dataBodyCam['data']['url'])) {
-					$BodyCamUrl[] = [
-						'id' => $bodyCamId,
-						'url' => $dataBodyCam['data']['url'],
-						'status' => 1,
-						'cam_index' => $bodycamindex,
-						'comment' => $comment
-					];
-				} else {
-					$BodyCamUrl[] = [
-						'id' => $bodyCamId,
-						'url' => '',
-						'status' => 0,
-						'cam_index' => $bodycamindex,
-						'comment' => $comment
-					];
-				}
-			}
-		}
-		$Data['cams'] = $BodyCamUrl;
+		$Data['cams'] = $Cameras;
 
 		$res = json_encode($Data);
 		break;
