@@ -105,24 +105,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                             <tr class="lb text-center" id="row_{$Table.id|crypt}">
-                            <td class="text-right">14</td>
-                            <td>
-                                <a
-                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Қорақалпоғистон Республикаси">Қорақалпоғистон Республикаси</a>
-                            </td>
-                            <td>1</td>
-                            <td>19</td>
-                            <td>4</td>
-                            <td>3</td>
-                            <td>242</td>
-                            <td>112</td>
-                            <td>80</td>
-                            <td>38</td>
-                            {* <td>107</td> *}
-                            <td>44</td>
-                            <td>51</td>
-                        </tr>
+                           
                         <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">1</td>
                             <td>
@@ -366,6 +349,24 @@
                             {* <td>47</td> *}
                             <td>0</td>
                             <td>0</td>
+                        </tr>
+                          <tr class="lb text-center" id="row_{$Table.id|crypt}">
+                            <td class="text-right">14</td>
+                            <td>
+                                <a
+                                        href="hr.php?act=market_by_region&mid={$smarty.get.mid}&date=Қорақалпоғистон Республикаси">Қорақалпоғистон Республикаси</a>
+                            </td>
+                            <td>1</td>
+                            <td>19</td>
+                            <td>4</td>
+                            <td>3</td>
+                            <td>242</td>
+                            <td>112</td>
+                            <td>80</td>
+                            <td>38</td>
+                            {* <td>107</td> *}
+                            <td>44</td>
+                            <td>51</td>
                         </tr>
                    
                         <tr class="lb text-center table-success" id="row_{$Table.id|crypt}">

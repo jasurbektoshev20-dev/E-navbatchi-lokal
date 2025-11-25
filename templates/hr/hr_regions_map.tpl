@@ -1343,11 +1343,11 @@
                             <i class="tf-icons ti ti-camera"></i>
                         </button>
                     </div>
-                    <div class="col-1">
+                    {* <div class="col-1">
                         <button class="px-2 py-1 btn btn-success ml-2" type="button" onClick="takeScreenshot()">
                             <i class="tf-icons ti ti-screenshot"></i>
                         </button>
-                    </div>
+                    </div> *}
                     <div class="col radio_call text-danger" style="text-align: right; font-size: 20px">
                         
                     </div>
@@ -1990,10 +1990,10 @@
 
             const el = document.createElement('div');
             el.className = 'sos-marker';
-            el.style.backgroundImage = `url('/assets/images/sos_btn.png')`;
+            el.style.backgroundImage = `url('/assets/images/sos1.png')`;
             el.style.backgroundSize = 'cover';
             el.title = sos.name;
-            el.style.width = '25px';
+            el.style.width = '40px';
             el.style.height = '25px';
 
             new mapboxgl.Marker(el)
