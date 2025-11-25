@@ -50,6 +50,10 @@
             font-size: 17px;
         }
 
+        .tab-content{
+            padding: 0;
+        }
+
     {/literal}
 </style>
 
@@ -85,67 +89,40 @@
         </div>
     </div> *}
 
-    <div class="tab-content p-0">
-        <div class="tab-pane fade card" id="tables" role="tabpanel">
-            <div class="card-datatable table-responsive">
-                <table class="datatables-projects table border-top">
-                    <thead>
-                        <tr>
-                            <th>No̱</th>
-                            <th class="text-center">{$Dict.region}</th>
-                            <th class="text-center">{$Dict.crime_type}</th>
-                            <th class="text-center">{$Dict.comitted_crime}</th>
-                            <th class="text-center">{$Dict.comitted_date}</th>
-                            <th class="text-center">{$Dict.incident_place}</th>
-                            <th class="text-center">{$Dict.citizen}</th>
-                            <th class="text-center">{$Dict.work_place}</th>
-                            <th class="text-center">{$Dict.case_summary}</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {foreach from=$Violations item=Table key=tkey}
-                            <tr class="lb" id="row_{$Table.id|crypt}">
-                                <td class="text-right">{$tkey+1}</td>
-                                <td class="text-center">{$Table.region_id}</td>
-                                <td class="text-center">{$Table.violation_type}</td>
-                                <td class="text-center">
-                                    {if $Table.type == 1} {$Dict.crime} {else} {$Dict.notable_crime} {/if}
-                                </td>
-                                <td class="text-center">{$Table.date}</td>
-                                <td class="text-center">{$Table.incident_place}</td>
-                                <td class="text-center">{$Table.citizen}</td>
-                                <td class="text-center">{$Table.work_place}</td>
-                                <td class="text-center">{$Table.text}</td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                            data-bs-toggle="dropdown">
-                                            <i class="ti ti-dots-vertical"></i>
+
+
+
+            <div class="tab-content p-0">
+
+                    <div class="tab-pane fade show active" id="charts" role="tabpanel">
+
+                                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="pills-home-tab"
+                                            data-bs-toggle="pill"
+                                            data-bs-target="#pills-home"
+                                            type="button">
+                                            Хуқуқий статистика
                                         </button>
-                                        <div class="dropdown-menu">
-                                            <a rel="{$Table.id|crypt}" class="dropdown-item editAction"
-                                                href="javascript:void(0);"><i class="ti ti-pencil me-1"></i>{$Dict.edit}</a>
-                                            <a rel="{$Table.id|crypt}" class="dropdown-item delete"
-                                                href="javascript:void(0);"><i
-                                                    class="ti ti-trash me-1"></i>{$Dict.delete}</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        {/foreach}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="tab-pane fade show active" id="charts" role="tabpanel">
-            <div class="row">
+                                    </li>
 
-                <div class="col-md-12 col-lg-12">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="pills-profile-tab"
+                                            data-bs-toggle="pill"
+                                            data-bs-target="#pills-profile"
+                                            type="button">
+                                            Ҳудудлар кесимида
+                                        </button>
+                                    </li>
+                                </ul>
 
-                    <div class="row">
+                          
+                                <div class="tab-content" id="pills-tabContent">
 
-                      <div class="col-6">
+                                    <!-- TAB 1 -->
+                                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel">
+                                        <div class="row">
+                                               <div class="col-6">
 
                             <div class="card">
 
@@ -166,20 +143,19 @@
                                           <button id="total_button" class="btn btn-primary mb-2">Жами жиноятлар</button>
                                           <button id="compare_button" class="btn btn-warning mb-2">Солиштириш</button>
                                     </div>
-                                     <div class="chart-container2" id="administrative_offenses"  style="height: 400px;"></div>
+                                     <div class="chart-container2" id="administrative_offenses"  style="height: 600px;"></div>
                                 </div>
                             </div>
 
                         </div>
 
-                    
-                        <div class="col-6">
+                       <div class="col-6 ">
 
                             <div class="card">
 
                                 <div class="mx-1 my-2 row administrative-card">
                                     <div class="col-6">
-                                        <h4 class="card-title">Жиноий ҳуқуқбузарликлар</h4>
+                                        <h4 class="card-title">Жиноятлар</h4>
                                     </div>
                                        <div class="col-3">
                                         <input type="date" id="criminal_start_date" class="form-control">
@@ -194,48 +170,51 @@
                                           <button id="criminal_total_button" class="btn btn-primary mb-2">Жами жиноятлар</button>
                                           <button id="criminal_compare_button" class="btn btn-warning mb-2">Солиштириш</button>
                                     </div>
-                                     <div class="chart-container2" id="criminal_offenses"  style="height: 400px;"></div>
+                                     <div class="chart-container2" id="criminal_offenses"  style="height: 600px;"></div>
                                 </div>
                             </div>
 
                         </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-profile" role="tabpanel">
+                                        <div class="row">
+                                            <div class="col-md-6 col-lg-6">
+                            <div class="card p-3">
+                                <div class="row">
+                                <div class="col-8">
+                                    <h4 class="card-title">
+                                    Маъмурий ҳуқуқбузарликлар ҳудудлар кесимида
+                                    <span id="mamuriy_huquq_chart_total"></span>
+                                    </h4>
+                                </div>
+                            
+                                </div>
+                                <div class="chart-container" id="mamuriy_huquq_chart" style="height: 600px;"></div>
+                            </div>
+                        </div>
+                       <div class="col-md-6 col-lg-6">
+                            <div class="card p-3">
+                                <div class="row mb-3">
+                                <div class="col-8">
+                                    <h4 class="card-title">
+                                    Жиноятлар ҳудудлар кесимида
+                                    <span id="jinoiy_huquq_chart_total"></span>
+                                    </h4>
+                                </div>
+                            
+                                </div>
+                                <div class="chart-container" id="jinoiy_huquq_chart" style="height: 600px;"></div>
+                            </div>
+                        </div>
 
-                        <div class="col-md-6 col-lg-6 mt-4">
-                        <div class="card p-3">
-                            <div class="row mb-3">
-                            <div class="col-8">
-                                <h4 class="card-title">
-                                Маъмурий ҳуқуқбузарликлар ҳудудлар кесимида
-                                <span id="mamuriy_huquq_chart_total"></span>
-                                </h4>
-                            </div>
-                           
-                            </div>
-                            <div class="chart-container" id="mamuriy_huquq_chart" style="height: 400px;"></div>
-                        </div>
-                        </div>
+                                         </div>
+                                    </div>
 
+                                </div>
 
-                           <div class="col-md-6 col-lg-6 mt-4">
-                        <div class="card p-3">
-                            <div class="row mb-3">
-                            <div class="col-8">
-                                <h4 class="card-title">
-                                Жиноий ҳуқуқбузарликлар ҳудудлар кесимида
-                                <span id="jinoiy_huquq_chart_total"></span>
-                                </h4>
-                            </div>
-                           
-                            </div>
-                            <div class="chart-container" id="jinoiy_huquq_chart" style="height: 400px;"></div>
-                        </div>
-                        </div>
                     </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
+       </div>
 </div>
 
 
@@ -364,13 +343,20 @@
     var AJAXPHP = "ajax{$AddURL}.php";
 
     {literal}
+
 // 1. STATIC DATA (BAZA)
 // =====================================
+document.getElementById('pills-profile-tab')
+.addEventListener('shown.bs.tab', function () {
+    echarts.getInstanceByDom(document.getElementById('mamuriy_huquq_chart')).resize();
+    echarts.getInstanceByDom(document.getElementById('jinoiy_huquq_chart')).resize();
+});
+
 
 const offenses = ["183-модда","187-модда", "223-модда","56°-модда", "194°-модда","195°-модда","185°-модда","196-модда","61-модда", "210°-модда","185²-модда","185³-модда"]
 
 const regions = [
-    "Қ.Р", "Тошкент ш", "Андижон", "Бухоро", "Фарғона", "Жиззах", "Наманган", "Navoiy", "Қашқадарё","Самарқанд","Сурхандарё", "Сирдарё", "Тошкент в", "Хоразм", 
+    "Қорақалпоғистон", "Тошкент ш", "Андижон", "Бухоро", "Фарғона", "Жиззах", "Наманган", "Navoiy", "Қашқадарё","Самарқанд","Сурхандарё", "Сирдарё", "Тошкент в", "Хоразм", 
 ];
 
 // Modda → sana → son
@@ -418,7 +404,7 @@ const offenseData = {
 //     };
 // });
 const offenseRegionData = {
-     "Қ.Р": {
+     "Қорақалпоғистон": {
         "2025-11-01": [0, 5, 9, 1, 6, 3, 1, 8, 3, 7, 3, 5],
         "2025-11-02": [5, 2, 2, 8, 3, 6, 6, 4, 9, 3, 3, 5],
         "2025-11-03": [8, 7, 4, 7, 9, 9, 9, 2, 9, 4, 3, 5],
@@ -749,7 +735,7 @@ function updateBar(regionValues) {
         xAxis: {
             type: "category",
             data: regions,
-           axisLabel: { interval: 0, rotate: 40, color: '#b7b7b7',  fontSize: 20  },
+           axisLabel: { interval: 0, rotate: 40, color: '#b7b7b7',  fontSize: 14  },
             axisLine: { show: false },
            splitLine: { show: false }
         },
@@ -1003,7 +989,7 @@ const offenseDataCriminal = {
 
 
 const offenseRegionDataCriminal = {
-     "Қ.Р": {
+     "Қорақалпоғистон": {
         "2025-11-01": [0, 5, 9, 1, 6, 3, 1, 8, 3, 7],
         "2025-11-02": [5, 2, 2, 8, 3, 6, 6, 4, 9, 3],
         "2025-11-03": [8, 7, 4, 7, 9, 9, 9, 2, 9, 4],
@@ -1321,7 +1307,7 @@ function updateBarCriminal(regionValues) {
         xAxis: {
             type: "category",
             data: regions,
-           axisLabel: { interval: 0, rotate: 40, color: '#b7b7b7',  fontSize: 20  },
+           axisLabel: { interval: 0, rotate: 40, color: '#b7b7b7',  fontSize: 14  },
             axisLine: { show: false },
            splitLine: { show: false }
         },

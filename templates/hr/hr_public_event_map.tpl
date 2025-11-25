@@ -267,18 +267,28 @@
         opacity: 0.6;
       }
     }
-
-    .my-tooltip {
-  font-size: 18px !important;
+ .my-tooltip {
+  font-size: 20px !important;
   font-weight: 600;
-  color: yellow;
   transition: all 0.3s ease;
-}
+} 
+
 
 .mapboxgl-popup-content {
     width: fit-content;
-    padding: 0;
 }
+
+.modal-object-about .mapboxgl-popup-content {
+    background: #1e293b;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-object-about .mapboxgl-popup-content .mapboxgl-popup-close-button{
+    font-size: 30px;
+  }
 
 .passport-card ul {
   list-style: none;
@@ -535,6 +545,83 @@
     display: none;
   }
 
+  #dialogScheme img {
+    height: 77vh;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .stylish-card {
+  width: 450px;
+  background:#1e293b; 
+  /* border: 1px solid rgba(255, 255, 255, 0.08); */
+  /* border-radius: 14px; */
+  /* box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45); */
+  transition: 0.3s ease;
+  color: #fff;
+}
+
+.stylish-card:hover {
+  /* transform: translateY(-6px);
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.6); */
+}
+
+
+/* Rasm */
+.staff-photo {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Xodim nomi */
+.staff-name {
+  font-weight: 700;
+  font-size: 24px;
+  color: #f1f5f9; /* light text */
+  margin-bottom: 6px;
+}
+
+/* Telefon qismi */
+.staff-phone {
+  font-size: 18px;
+  color: #cbd5e1;
+}
+.staff-phone-link {
+  text-decoration: none;
+  color: #38bdf8;
+  font-weight: 600;
+  font-size: 20px;
+}
+.staff-phone-link:hover {
+  color: #0ea5e9;
+}
+
+/* Button */
+.view-camera-btn {
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4);
+  transition: 0.3s ease;
+}
+
+.view-camera-btn:hover {
+  background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+  box-shadow: 0 6px 22px rgba(56, 189, 248, 0.35);
+  transform: translateY(-2px);
+}
+
+.view-camera-btn .camera-icon-style {
+  font-size: 20px;
+}
+
 
   {/literal}
 </style>
@@ -597,13 +684,45 @@
     <div class="row">
 
       <!-- LEFT SIDE — MAP -->
-      <div class="col-7">
-        <div class="space-main-head">
-          <h4 class="m-0">Харита</h4>
-        </div>
+        <!-- LEFT SIDE — MAP -->
+              <div class="col-7 modal-object-about">
+                {* <div class="space-main-head">
+                  <h4 class="m-0">Харита</h4>
+                </div>
 
-        <div id="dialogMap" class="mt-1" ></div>
-      </div>
+                <div id="dialogMap" class="mt-1" ></div> *}
+                   <div class="space-main-head d-flex justify-content-between align-items-center">
+                      <ul class="nav nav-tabs" id="mapTabs" role="tablist">
+                          <li class="nav-item" role="presentation">
+                              <button class="nav-link active" id="map-tab" data-bs-toggle="tab" data-bs-target="#mapTabPane" type="button" role="tab">
+                                  Xarita
+                              </button>
+                          </li>
+                          <li class="nav-item" role="presentation">
+                              <button class="nav-link" id="scheme-tab" data-bs-toggle="tab" data-bs-target="#schemeTabPane" type="button" role="tab">
+                                  Sxema
+                              </button>
+                          </li>
+                      </ul>
+                    </div>
+                    <div class="tab-content mt-2" id="mapTabsContent">
+
+                        <!-- Xarita -->
+                        <div class="tab-pane fade show active" id="mapTabPane" role="tabpanel">
+                            <div id="dialogMap"></div>
+                        </div>
+
+                        <!-- Sxema -->
+                        <div class="tab-pane fade" id="schemeTabPane" role="tabpanel">
+                            <div id="dialogScheme">
+                                 <img src="/assets/images/sxema.jpg">
+                            </div>
+                        </div>
+
+                    </div>
+
+
+              </div>
 
       <!-- RIGHT SIDE -->
       <div class="col-5 d-flex flex-column">
@@ -1109,7 +1228,7 @@
               .setLngLat([lon, lat])
               .setPopup(new mapboxgl.Popup()
                 .setHTML(
-                  `<div style="color: #000; font-size:18px;">${door.name}</div>`
+                  `<div style="color: #38BDF8; font-size:18px; padding-top:7px;">${door.name}</div>`
                 ))
               .addTo(map);
           });
@@ -1135,7 +1254,7 @@
               .setLngLat([lon, lat])
               .setPopup(
                 new mapboxgl.Popup().setHTML(
-                  `<div style="color: #000; font-size:20px;"> <b>${track.car_name}</b><br>Tezlik: ${track.speed} km/h<br>${track.date} </div>`
+                  `<div style="color: #38BDF8; font-size:20px; padding:7px; text-align:center;"> <b>${track.car_name}</b><br>Tezlik: ${track.speed} km/h<br>${track.date} </div>`
                 )
               )
               .addTo(map);
@@ -1158,8 +1277,8 @@
              el.style.width = '25px';
             el.style.height = '25px';
             const popupHTML = `
-              <div style="color: #000; text-align:center">
-                <b style="font-size: 18px">${camera.comment}</b><br>
+               <div style="color: #38BDF8; text-align:center; display:flex; flex-direction:column; align-items:center;">
+                <b style="font-size: 18px; padding-top:5px;">${camera.comment}</b>
                 <button 
                   class="btn btn-primary popup-camera-btn" 
                   style="padding: 6px 12px; margin-top:6px;"
@@ -1249,29 +1368,28 @@
         }
 
         // ✅ 5. SOS markerlar
-        if (Array.isArray(params.sos)) {
-          params.sos.forEach(sos => {
-            const lat = parseFloat(sos.lat);
-            const lon = parseFloat(sos.long);
-            if (isNaN(lat) || isNaN(lon)) return;
+      if (Array.isArray(params.sos)) {
+              params.sos.forEach(sos => {
+                const lat = parseFloat(sos.lat);
+                const lon = parseFloat(sos.long);
+                if (isNaN(lat) || isNaN(lon)) return;
 
-            const el = document.createElement('div');
-            el.className = 'sos-marker';
-            el.style.width = '18px';
-            el.style.height = '18px';
-            el.style.background = 'red';
-            el.style.borderRadius = '50%';
-            el.style.border = '2px solid white';
-            el.title = sos.name;
+                const el = document.createElement('div');
+                el.className = 'sos-marker';
+                el.style.backgroundImage = `url('/assets/images/sos1.png')`;
+                el.style.backgroundSize = 'cover';
+                el.title = sos.name;
+                el.style.width = '60px';
+                el.style.height = '40px';
 
-            new mapboxgl.Marker(el)
-              .setLngLat([lon, lat])
-              .setPopup(new mapboxgl.Popup().setHTML(
-                `<div style="color: #000; font-size:18px;">${sos.name}</div>`
-              ))
-              .addTo(map);
-          });
-        }
+                new mapboxgl.Marker(el)
+                  .setLngLat([lon, lat])
+                  .setPopup(new mapboxgl.Popup().setHTML(
+                    `<div style="color: #38BDF8; font-size:18px; padding-top:7px;">${sos.name}</div>`
+                  ))
+                  .addTo(map);
+              });
+            }
       });
 
       map.on('style.load', () => {
