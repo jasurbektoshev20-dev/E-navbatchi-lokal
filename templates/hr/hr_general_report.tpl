@@ -153,10 +153,9 @@
                         </tr>
                         </tr>
                         <tr class="lb text-center" id="row_{$Table.id|crypt}">
-                            <td class="text-right">4</td>
+                            <td class="text-right">5</td>
                             <td>
-                                <a
-                                        href="hr.php?act=''&mid={$smarty.get.mid}&date=Toshkent shahar">Жами</a>
+                               Жами
                             </td>
                             <td>9</td>
                             <td>50</td>

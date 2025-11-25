@@ -522,6 +522,19 @@
     gap: 2px;
 }
 
+  .staff-cal-word{
+    font-size: 20px;
+    color: #38BDF8;
+  }
+
+  .cal-word.hidden{
+    display: none;
+  }
+
+  .responsible-key-text.hidden{
+    display: none;
+  }
+
 
   {/literal}
 </style>
@@ -1184,58 +1197,32 @@
 
             // Popup HTML
             const popupHTML = `
-                <div
-      class="user-card-about d-flex align-items-center gap-3 rounded-4 p-2"
-      style=" width: 450px; border: 1px solid #e5e7eb"
-    >
-      <div class="user-about-card-img">
-        <img
-          src="${photoUrl}"
-          alt="расм юкланмаган"
-          style="
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 6px;
-          "
-        />
+                <div class="user-card-about p-3 stylish-card">
+      <div class="user-about-card-img text-center mb-3">
+        <img src="${photoUrl}" alt="расм юкланмаган" class="staff-photo" />
       </div>
-      <div class="user-card-about-text text-center flex-grow-1">
-       
-        <div style="font-weight: 700; font-size: 24px; color: #334155;  margin-bottom:10px;">
-      
-          ${camera.staff_name || 'Xodim nomi yo‘q'}
-        </div>
-        <div class="mt-2" style="font-size: 17px; color: #334155">
+
+      <div class="user-card-about-text text-center">
+        <div class="staff-name">${camera.staff_name || 'Xodim nomi yo‘q'}</div>
+
+        <div class="mt-2 staff-phone">
           <i class="bi bi-telephone-fill text-success me-1"></i>
-          <a
-            href="tel:${camera.staff_phone || ''}"
-            style="
-              text-decoration: none;
-              color: #334155;
-              font-weight: 500;
-              font-size: 22px;
-            "
-          >
-           ${camera.staff_phone || ''}
+          <a href="tel:${camera.staff_phone || ''}" class="staff-phone-link">
+            ${camera.staff_phone || ''}
           </a>
+        </div> <br>
+
+         <div class="mt-2 staff-cal-word">
+         <i class="bi bi-shield-lock-fill text-warning me-1 cursor-pointer" id="cal-word-id"></i>
+         <span class="cal-word hidden">lochin21</span>
         </div>
 
-        <!-- BUTTON (beautiful camera icon) -->
-        <div class="d-flex align-items-center justify-content-center gap-2">
+        <div class="d-flex align-items-center justify-content-center">
           <button
-            class="btn mt-3 px-4 py-2 popup-body-camera-btn"
+            class="btn mt-2 px-4 py-2 popup-body-camera-btn view-camera-btn"
             data-id="${camera.id}"
-            style="
-              background: #0ea5e9;
-              color: white;
-              font-size: 18px;
-              border-radius: 10px;
-              border: none;
-            "
           >
-            <i class="bi bi-camera-video-fill" style="font-size: 18px; margin-right:5px;"></i>
-            Камерани кўриш
+            <i class="bi bi-camera-video-fill me-2 camera-icon-style"></i>
           </button>
         </div>
       </div>
@@ -1332,6 +1319,18 @@
 
       // DOMga joylash
       map.getContainer().appendChild(layerSwitcher);
+
+      
+      $(document).on('click','#cal-word-id', function(){
+        let calWord = document.querySelector('.cal-word')
+        calWord.classList.toggle('hidden')
+      })
+
+      $(document).on('click','#responsible-key-icon', function(){
+        let calWord = document.querySelector('.responsible-key-text')
+        calWord.classList.toggle('hidden')
+      })
+
 
 
       function drawPolygon() {
@@ -1740,6 +1739,16 @@
                         <h6>Телефон рақами:</h6>
                         <p>
                           <a href="tel:${params?.responsible_phone}">${params?.responsible_phone}</a>
+                        </p>
+                      </div>
+                    </li>
+                      <li>
+                      <div class="passport-icon">
+                        <i class="bi bi-shield-lock-fill cursor-pointer" id="responsible-key-icon"></i>
+                      </div>
+                      <div class="passport-li-about">
+                        <p class="responsible-key-text hidden">
+                          lochin21
                         </p>
                       </div>
                     </li>

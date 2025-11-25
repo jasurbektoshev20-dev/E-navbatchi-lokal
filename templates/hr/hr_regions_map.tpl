@@ -1028,6 +1028,19 @@
     font-size: 30px;
   }
 
+  .staff-cal-word{
+    font-size: 20px;
+    color: #38BDF8;
+  }
+
+  .cal-word.hidden{
+    display: none;
+  }
+
+  .responsible-key-text.hidden{
+    display: none;
+  }
+
   {/literal}
 </style>
 
@@ -1793,6 +1806,7 @@
       const map = new mapboxgl.Map({
         container: 'dialogMap',
         style: `mapbox://styles/mapbox/standard`,
+        // style: `mapbox://styles/mapbox/dark-v11`,
         center: map_center,
         zoom: 6,
         pitch: 0,
@@ -1928,6 +1942,11 @@
           <a href="tel:${camera.staff_phone || ''}" class="staff-phone-link">
             ${camera.staff_phone || ''}
           </a>
+        </div> <br>
+
+         <div class="mt-2 staff-cal-word">
+         <i class="bi bi-shield-lock-fill text-warning me-1 cursor-pointer" id="cal-word-id"></i>
+         <span class="cal-word hidden">lochin21</span>
         </div>
 
         <div class="d-flex align-items-center justify-content-center">
@@ -2096,7 +2115,7 @@
             }
           })
         }
-      }, 1000);
+      }, 2000);
     }
 
 
@@ -2431,11 +2450,6 @@
       // <li class="alert alert-dark" role="alert">Sektorlar soni: <span>4 ${params.responsible_name} ta</span> </li>
       container.innerHTML = `
            <ul class="">
-        <li class="alert alert-dark m-0" role="alert">
-          <i class="duty-icon bi bi-person-badge"></i>
-          МГ жавобгар: <span>${params.responsible_name}</span>
-        </li>
-
           <li class="is-accordion">
               <details>
                 <summary>
@@ -2451,6 +2465,16 @@
                         <h6>Телефон рақами:</h6>
                         <p>
                           <a href="tel:${params?.responsible_phone}">${params?.responsible_phone}</a>
+                        </p>
+                      </div>
+                    </li>
+                       <li>
+                      <div class="passport-icon">
+                        <i class="bi bi-shield-lock-fill" id="responsible-key-icon"></i>
+                      </div>
+                      <div class="passport-li-about">
+                        <p class="responsible-key-text hidden">
+                          lochin21
                         </p>
                       </div>
                     </li>
@@ -2575,6 +2599,8 @@
 
 
 
+
+
     function getMarkerImage(type) {
       switch (type) {
         case 'bozor':
@@ -2590,9 +2616,18 @@
       }
     }
 
+      
 
 
+      $(document).on('click','#cal-word-id', function(){
+        let calWord = document.querySelector('.cal-word')
+        calWord.classList.toggle('hidden')
+      })
 
+      $(document).on('click','#responsible-key-icon', function(){
+        let calWord = document.querySelector('.responsible-key-text')
+        calWord.classList.toggle('hidden')
+      })
 
 
     // === POPUP ICHIDAGI TUGMA TRIGGER ===
