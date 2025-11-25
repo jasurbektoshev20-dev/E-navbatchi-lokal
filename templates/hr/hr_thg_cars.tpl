@@ -40,10 +40,12 @@
                         <thead>
                             <tr>
                                 <th>No̱</th>
-                                <th>{$Dict.distcity}</th>
+                                <th>{$Dict.region}</th>
                                 <th>{$Dict.car_model}</th>
                                 <th>{$Dict.state_number}</th>
                                 <th>{$Dict.uzgps}</th>
+                                <th>{$Dict.internal_cam}</th>
+                                <th>{$Dict.external_cam}</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -55,6 +57,8 @@
                                     <td>{$Table.car_model_id}</td>
                                     <td>{$Table.plate_number}</td>
                                     <td>{$Table.uzgps_id}</td>
+                                    <td>{$Table.internal_cam}</td>
+                                    <td>{$Table.external_cam}</td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -92,6 +96,15 @@
                 <form class="needs-validation" novalidate>
                     <div class="row g-3">
                         <div class="col-12">
+                            <label>{$Dict.structure}</label>
+                            <select required class="form-control" name="structure_id" id="structure_id">
+                                <option value="">{$Dict.choose}</option>
+                                {foreach from=$Structures item=Item3 key=ikey3}
+                                    <option value="{$Item3.id}">{$Item3.name}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                        <div class="col-12">
                             <label>{$Dict.car_model}</label>
                             <select required class="form-control" name="car_model_id" id="car_model_id">
                                 <option value="">{$Dict.choose}</option>
@@ -107,6 +120,14 @@
                         <div class="col-12">
                             <label>{$Dict.uzgps}</label>
                             <input required type="number" class="form-control" name="uzgps_id" id="uzgps_id" value="">
+                        </div>
+                        <div class="col-6">
+                            <label>{$Dict.internal_cam}</label>
+                            <input type="number" class="form-control" name="internal_cam" id="internal_cam" value="">
+                        </div>
+                        <div class="col-6">
+                            <label>{$Dict.external_cam}</label>
+                            <input type="number" class="form-control" name="external_cam" id="external_cam" value="">
                         </div>
                         <div class="col-12 text-center">
                             <input type="hidden" name="id" id="id" value="">
@@ -172,6 +193,8 @@
             $('#car_model_id').trigger("change");
             $('#plate_number').val("");
             $('#uzgps_id').val("");
+            $('#internal_cam').val("");
+            $('#external_cam').val("");
             $('#id').val(0);
         });
 
@@ -188,6 +211,8 @@
                 $('#car_model_id').trigger("change");
                 $('#plate_number').val(sInfo.plate_number);
                 $('#uzgps_id').val(sInfo.uzgps_id);
+                $('#internal_cam').val(sInfo.internal_cam);
+                $('#external_cam').val(sInfo.external_cam);
                 $('#id').val(sInfo.id);
             });
         })
@@ -204,10 +229,12 @@
                     event.stopPropagation();
 
                     var form_data = new FormData();
-                    form_data.append('structure_id', StructureId);
+                    form_data.append('structure_id', $('#structure_id').val());
                     form_data.append('car_model_id', $('#car_model_id').val());
                     form_data.append('plate_number', $('#plate_number').val());
                     form_data.append('uzgps_id', $('#uzgps_id').val());
+                    form_data.append('internal_cam', $('#internal_cam').val());
+                    form_data.append('external_cam', $('#external_cam').val());
                     form_data.append('id', $('#id').val());
 
                     $.ajax({

@@ -2322,13 +2322,22 @@ switch ($Action) {
         $car_model_id    = $_POST['car_model_id'];
         $plate_number    = $_POST['plate_number'];
         $uzgps_id    = $_POST['uzgps_id'];
+        $internal_cam = !empty($_POST['internal_cam']) ? (int)$_POST['internal_cam'] : "NULL";
+        $external_cam = !empty($_POST['external_cam']) ? (int)$_POST['external_cam'] : "NULL";
+
+        // echo '<pre>';
+        // print_r($internal_cam);
+        // echo '</pre>';
+        // die();
 
         if ($RowId != "0") {
             $updquery = "UPDATE hr.tech_guard_cars set 
                 structure_id = '{$structure_id}',
                 car_model_id = '{$car_model_id}',
                 plate_number = '{$plate_number}',
-                uzgps_id = '{$uzgps_id}'
+                uzgps_id = '{$uzgps_id}',
+                internal_cam = {$internal_cam},
+                external_cam = {$external_cam}
             WHERE id = {$RowId}";
             $sql->query($updquery);
             if ($sql->error() == "") {
@@ -2344,12 +2353,16 @@ switch ($Action) {
                             structure_id,
                             car_model_id,
                             plate_number,
-                            uzgps_id
+                            uzgps_id,
+                            internal_cam,
+                            external_cam
                         ) values (
                             '{$structure_id}',
                             '{$car_model_id}',
                             '{$plate_number}',
-                            '{$uzgps_id}'
+                            '{$uzgps_id}',
+                            {$internal_cam},
+                            {$external_cam}
                         )";
                 $sql->query($insquery);
                 if ($sql->error() == "") {

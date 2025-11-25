@@ -109,26 +109,27 @@ switch ($Act) {
 
 	// hr_thg_cars
 	case "hr_thg_cars":
-		$StructureId = MyPiDeCrypt($_GET['str']);
+		// $StructureId = MyPiDeCrypt($_GET['str']);
 
 		$query  = "SELECT id, name from ref.car_models";
 		$sql->query($query);
 		$RefCarModels = $sql->fetchAll();
 
-		$query  = "SELECT id, shortname{$slang} as name from hr.structure where parent = {$StructureId}";
+		$query  = "SELECT id, name{$slang} as name from hr.structure order by turn";
 		$sql->query($query);
 		$Structures = $sql->fetchAll();
 
 		$query = "SELECT t.id
-			,(SELECT name{$slang} FROM hr.structure s WHERE s.id = t.structure_id LIMIT 1) as structure_id
+			,st.name{$slang} as structure_id
 			,(SELECT count(*) FROM hr.tech_guard_car_cameras s WHERE s.car_id = t.id and camera_types = 1 LIMIT 1) as camera
 			,(SELECT name FROM ref.car_models s WHERE s.id = t.car_model_id LIMIT 1) as car_model_id
 			,t.plate_number
 			,t.uzgps_id
-			,'Бугунги' as current
+			,t.internal_cam
+			,t.external_cam
 			from hr.tech_guard_cars t
 			left join hr.structure st on st.id = t.structure_id
-			where st.id = {$StructureId}
+			left join ref.car_models cm on cm.id = t.car_model_id
 			order by t.id";
 		$sql->query($query);
 		$HrTechGuardCars = $sql->fetchAll();
@@ -139,7 +140,7 @@ switch ($Act) {
 		// die();
 
 		$smarty->assign(array(
-			'StructureId'        => $StructureId,
+			// 'StructureId'        => $StructureId,
 			'RefCarModels'        => $RefCarModels,
 			'Structures'         => $Structures,
 			'HrTechGuardCars'         => $HrTechGuardCars,
