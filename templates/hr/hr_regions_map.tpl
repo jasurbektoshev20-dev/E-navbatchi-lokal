@@ -170,7 +170,7 @@
 
         #carCameraModal {
             position: absolute;
-            width: 690px;
+            width: 370px;
             height: 520px;
             right: 1.2vw;
             bottom: 0.7vh;
@@ -547,6 +547,12 @@
 
     #playWind .parent-wnd {
       text-align: center !important;
+    }
+
+      
+    #playWind2 .parent-wnd {
+      display: flex;
+      flex-direction: column;
     }
 
     #controller {
@@ -1327,7 +1333,7 @@
             <div class="items">
                 <div class="row w-100 mt-3">
                     <div class="col-1">
-                        <button class="px-2 py-1 btn btn-danger" type="button" onClick="fullSreen()">
+                        <button class="px-2 py-1 btn btn-danger" type="button" onClick="fullScreenSingle(1)">
                             <i class="tf-icons ti ti-maximize"></i>
                         </button>
                     </div>
@@ -2802,6 +2808,9 @@
               console.log("stop failed");
           });
           console.log("clodsed all camera");
+
+          jsDecoder = null
+          $("#playWind").empty();
           // clearInterval(camera_status_interval_id);
       })
 
@@ -3157,8 +3166,8 @@
           jsDecoder.JS_FullScreenDisplay(true);
       }
 
-      function fullScreenSingle() {
-          jsDecoder.JS_FullScreenSingle(iWind);
+      function fullScreenSingle(id) {
+          jsDecoder.JS_FullScreenSingle(id);
       }
 
       function GetSelectWndInfo(xml) {
@@ -3166,9 +3175,6 @@
           iWind = xml;
       }
 
-      window.onresize = function() {
-          jsDecoder.JS_Resize(615, 300);
-      }
 
 
       function initCamera() {
@@ -3186,6 +3192,8 @@
               background: "#000 url('/assets/online.svg') no-repeat center center;"
           }
         })
+        jsDecoder.JS_Resize(615, 300);
+
         get_camera()
       }
 
@@ -3845,27 +3853,16 @@
         // $jq2('#fixedModal').draggable();
         
         //初始化插件
-        let jsDecoder = new JSPlugin2({
-            szId: "playWind2",
-            iType: 2,
-            iWidth: 640,
-            iHeight: 400,
-            iMaxSplit: 4,
-            iCurrentSplit: 2,
-            szBasePath: "./dist1",
-            oStyle: {
-                border: "#343434",
-                borderSelect: "transparent",
-                background: "#000 url('/assets/online.svg') no-repeat center center;"
-            }
-        });
+        let jsDecoder
         
         $('.close-camera').click(function(e) {
             // console.log("closed all camera");
             StopRealPlayAll();
             $("#carCameraModal").hide();
             $("#offline_bg").hide();
-            $("#playWind2").show();
+            jsDecoder = null
+            $("#playWind2").empty();
+            
         })
         $('.close-staff-info').click(function(e) {
             $("#staffInfoModal").hide();
@@ -3874,8 +3871,8 @@
 
         function openBodyCam(car_id, og_id) {
           console.log(car_id, og_id)
+            initCamera()
             $("#carCameraModal").show();
-            arrangeWindow(1);
 
             $.ajax({
                 type: "POST",
@@ -3889,9 +3886,17 @@
                     $("#carCameraModal .radio_call").empty();
                     $("#carCameraModal .radio_call").html(data.cams[0]?.comment);
                     if (isOnCam) {
+                        arrangeWindow(2)
                         $("#offline_bg").hide();
                         $("#playWind2").show();
                         play_camera(data.cams[0].url, 0);
+                        setTimeout(() => {
+                          if(data.cams?.[1]?.url){
+                            console.log(2222);
+                            
+                            play_camera(data.cams[1].url, 1);
+                          }
+                        }, 1000);
                     } else {
                         $("#offline_bg").show();
                         $("#playWind2").hide();
@@ -4019,8 +4024,24 @@
         function fullScreenSingle () {
             jsDecoder.JS_FullScreenSingle(iWind);
         }
-        window.onresize = function () {
-            jsDecoder.JS_Resize(640, 400);
+ 
+
+        function initCamera() {
+          jsDecoder = new JSPlugin2({
+            szId: "playWind2",
+            iType: 2,
+            iWidth: 640,
+            iHeight: 400,
+            iMaxSplit: 2,
+            iCurrentSplit: 2,
+            szBasePath: "./dist1",
+            oStyle: {
+                border: "#343434",
+                borderSelect: "transparent",
+                background: "#000 url('/assets/online.svg') no-repeat center center;"
+            }
+          });
+          jsDecoder.JS_Resize(640, 400);
         }
     {/literal}
 </script>
