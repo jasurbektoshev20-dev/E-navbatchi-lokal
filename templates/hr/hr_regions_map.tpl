@@ -1830,9 +1830,9 @@
 
             const el = document.createElement('div');
             el.className = 'door-marker';
-            el.style.width = '30px';
+            el.style.width = '100px';
             el.style.height = '30px';
-            el.style.backgroundImage = `url('/assets/images/open-door2.png')`;
+            el.style.backgroundImage = `url('/pictures/marker_icons/door_icon.png')`;
             el.style.backgroundSize = 'cover';
             el.title = door.name;
 
@@ -1992,8 +1992,8 @@
             el.style.backgroundImage = `url('/assets/images/sos1.png')`;
             el.style.backgroundSize = 'cover';
             el.title = sos.name;
-            el.style.width = '40px';
-            el.style.height = '25px';
+            el.style.width = '60px';
+            el.style.height = '40px';
 
             new mapboxgl.Marker(el)
               .setLngLat([lon, lat])

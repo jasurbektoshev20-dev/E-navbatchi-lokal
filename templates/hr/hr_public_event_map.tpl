@@ -1220,9 +1220,9 @@
 
             const el = document.createElement('div');
             el.className = 'door-marker';
-            el.style.width = '30px';
+            el.style.width = '100px';
             el.style.height = '30px';
-            el.style.backgroundImage = `url('/assets/images/open-door2.png')`;
+            el.style.backgroundImage = `url('/pictures/marker_icons/door_icon.png')`;
             el.style.backgroundSize = 'cover';
             el.title = door.name;
 
