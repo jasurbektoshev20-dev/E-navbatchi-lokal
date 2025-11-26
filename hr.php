@@ -319,7 +319,7 @@ switch ($Act) {
 		j.object_name as obj_name,m.organizer,s.name{$slang} as region_name 
 		FROM hr.public_event1 m
 		left join tur.public_event_types t on t.id = m.public_event_type
-		left join hr.structure s on s.id = m.region_id
+		left join hr.structure s on s.id = m.structure_id
 		left join hr.staff p on p.id = m.respons_person_id
 		left join hr.jts_objects j on j.id = m.jts_object_id
 		";
@@ -951,6 +951,37 @@ switch ($Act) {
 		$Regions = $sql->fetchAll();
 
 		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.involved_objects t ORDER BY t.id ASC";
+		$sql->query($query);
+		$ObjectTypes = $sql->fetchAll();
+
+		// echo '<pre>';
+		// print_r($Objects);
+		// echo '</pre>';
+		// die();
+
+		$smarty->assign(array(
+			'Objects' => $Objects,
+			'Regions' => $Regions,
+			'ObjectTypes' => $ObjectTypes,
+		));
+		break;
+
+
+		/// event_map
+	case "hr_public_event_map":
+		$query  = "SELECT t.id, t.name{$slang} as name
+		FROM hr.public_event1 t 
+		ORDER BY t.id desc";
+		$sql->query($query);
+		$Objects = $sql->fetchAll();
+
+		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t 
+		where t.id > 1 and t.id < 16
+		ORDER BY t.turn ASC";
+		$sql->query($query);
+		$Regions = $sql->fetchAll();
+
+		$query  = "SELECT t.id, t.name{$slang} as name FROM tur.public_event_types t ORDER BY t.id ASC";
 		$sql->query($query);
 		$ObjectTypes = $sql->fetchAll();
 

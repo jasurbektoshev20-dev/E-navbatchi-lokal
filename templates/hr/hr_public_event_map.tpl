@@ -1098,9 +1098,9 @@
                     $("#markerModal").modal("show");
 
                     renderDialogMap(response?.data, response?.cameras)
-                    renderPassportDetails(response?.data)
-                    renderDutyDetails(response?.data?.routine)
-                    renderEventDetails(response?.data?.routine)
+                    renderPassportDetails(response?.data,)
+                    renderDutyDetails(response?.data)
+                    renderEventDetails(response?.data?.event,response?.data,)
 
 
                     $('#change_camera').empty();
@@ -1838,9 +1838,9 @@
     }
 
     function renderDutyDetails(params) {
+      console.log("params", params)
       const container = document.querySelector('.space-main-body-duty')
-      if (!container || !params) return
-
+     
       // <li class="alert alert-dark" role="alert">Sektorlar soni: <span>4 ${params.responsible_name} ta</span> </li>
       container.innerHTML = `
            <ul class="">
@@ -1848,7 +1848,7 @@
               <details>
                 <summary>
                   <div class="passport-icon">  <i class="duty-icon bi bi-person-badge"></i></div>
-                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">МГ жавобгар:</span> <span> ${params?.responsible_name ?? 'Холлиев О.Р'}</span>
+                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">МГ жавобгар:</span>${params.event.respons_person}<span> </span>
                 </summary>
                 <ul class="inner-list">
                     <li>
@@ -1882,7 +1882,7 @@
             <details>
               <summary>
                 <div class="passport-icon">  <i class="duty-icon bi bi-people-fill"></i></div>
-                <span class="summary-span"> <span style="color:#fff;">Xizmat turi:</span> <span>561 нафар</span>
+                <span class="summary-span"> <span style="color:#fff;">Xizmat turi:</span> <span> нафар</span>
               </summary>
 
               <ul class="inner-list">
@@ -2165,7 +2165,7 @@
                     </div>
                     <span class="summary-span">
                         <span style="color:#fff; font-weight:bold;">Камералар:</span>
-                        <span>${params?.count_cameras}</span>
+                        <span>${params.routine[0].count_cameras}</span>
                     </span>
                     </summary>
 
@@ -2318,30 +2318,59 @@
       // <li class="alert alert-dark" role="alert">Sektorlar soni: <span>4 ${params.responsible_name} ta</span> </li>
       container.innerHTML = `
            <ul class="">
-          <li class="alert alert-dark m-0" role="alert">
+            <li class="alert alert-dark m-0" role="alert">
             <i class="duty-icon bi bi-signpost-split"></i>
-            O'tkaziladigan joyi: <span>Toshkent sh. Bunyodkor o'yingohi</span>
+            Tadbir nomi <span>${params.event_name}</span>
         </li>
-
+        <li class="alert alert-dark m-0" role="alert">
+            <i class="duty-icon bi bi-signpost-split"></i>
+            javobgar shaxs <span>${params.respons_person}</span>
+        </li>
           <li class="alert alert-dark m-0" role="alert">
             <i class="duty-icon bi bi-signpost-split"></i>
-            Jamoalar: <span>O'zbekiston - Eron</span>
+            Tadbir turi <span>${params.event_type}</span>
         </li>
 
          <li class="alert alert-dark m-0" role="alert">
             <i class="duty-icon bi bi-signpost-split"></i>
-            O'yin turi: <span>Osiyo chempionlar ligasi</span>
+            Tadbir yo'nalishi <span>${params.direction_event}</span>
+        </li>
+         <li class="alert alert-dark m-0" role="alert">
+            <i class="duty-icon bi bi-signpost-split"></i>
+            Tadbirga asos <span>${params.command}</span>
+        </li>
+         <li class="alert alert-dark m-0" role="alert">
+            <i class="duty-icon bi bi-signpost-split"></i>
+            Tadbir yo'nalishi <span>${params.direction_event}</span>
+        </li>
+        <li class="alert alert-dark m-0" role="alert">
+            <i class="duty-icon bi bi-signpost-split"></i>
+            Fuqarolar soni: <span>${params.citizens_count}</span>
+        </li>
+         <li class="alert alert-dark m-0" role="alert">
+            <i class="duty-icon bi bi-signpost-split"></i>
+            Ichki ishlar xizmatchilari soni <span>${params.iiv_count}</span>
+        </li>
+         <li class="alert alert-dark m-0" role="alert">
+            <i class="duty-icon bi bi-signpost-split"></i>
+            Milliy Gvardiya xizmatchilari soni <span>${params.mg_count}</span>
+        </li>
+         <li class="alert alert-dark m-0" role="alert">
+            <i class="duty-icon bi bi-signpost-split"></i>
+            FVV xizmatchilari soni <span>${params.fvv_count}</span>
         </li>
 
           <li class="alert alert-dark m-0" role="alert">
             <i class="duty-icon bi bi-signpost-split"></i>
-            Boshlanish vaqti: <span>18:45</span>
+            Boshlanish vaqti <span>${params.start_time}</span>
         </li>
 
-          <li class="alert alert-dark m-0" role="alert">
+         <li class="alert alert-dark m-0" role="alert">
             <i class="duty-icon bi bi-signpost-split"></i>
-            Fuqarolar soni: <span>3000</span>
+            tugash vaqti: <span>${params.end_time}</span>
         </li>
+
+          
       </ul>
         `
     }

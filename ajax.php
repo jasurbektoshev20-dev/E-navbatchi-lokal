@@ -879,6 +879,293 @@ switch ($Action) {
 		$res = json_encode($JtsObjects);
 		break;
 
+	case "get_public_events":
+		$structure_id = isset($_GET['region_id']) ? $_GET['region_id'] : 0;
+		$object_type = isset($_GET['object_type']) ? $_GET['object_type'] : 0;
+		$object_id = isset($_GET['object_id']) ? $_GET['object_id'] : 0;
+
+		$query  = "SELECT t.id, t.name{$slang}, o.object_type, o.lat, o.long
+		FROM hr.public_event1 t 
+		LEFT JOIN hr.jts_objects o on o.id = t.jts_object_id
+		WHERE 1=1 ";
+		if ($structure_id > 0) {
+			$query .= " AND t.structure_id = {$structure_id} ";
+		}
+		if ($object_type > 0) {
+			$query .= " AND t.object_type = {$object_type} ";
+		}
+		if ($object_id > 0) {
+			$query .= " AND t.id = {$object_id} ";
+		}
+		$sql->query($query);
+		$JtsObjects = $sql->fetchAll();
+
+		$res = json_encode($JtsObjects);
+		break;
+		
+	case "get_public_events_by_id":
+		$id = isset($_GET['id']) ? $_GET['id'] : 0;
+		$car_ids = [];
+
+		$query  = "SELECT t.id, p.id as event_id, s.name{$slang} as structure, t.object_name, o.name{$slang} as object_type, CONCAT(c.name{$slang}, ' ',c.phone) as cooperate,
+		t.address, t.area, t.admin_phone, t.object_head, t.head_phone, t.police_name, t.police_phone,t.markets_count,t.eating_place_count,t.neighborhood_head,t.assistant_governor,t.youth_leader,t.womens_activist
+		,tax_inspector,t.social_employe,t.sales_places_count,t.neighborhood_head_phone,t.assistant_governor_phone,t.youth_leader_phone,t.womens_activist_phone,tax_inspector_phone,t.social_employe_phone,
+		COALESCE(COUNT(jd.id), 0) AS count_doors,
+		t.photo, t.lat, t.long, ST_AsGeoJSON(geom) AS geom_geojson
+		FROM hr.public_event1 p
+		left join hr.jts_objects t on t.id  = p.jts_object_id
+		left join hr.structure s on s.id  = t.structure_id
+		left join hr.jts_objects_door jd on jd.object_id = t.id
+		left join hr.involved_objects o on o.id = t.object_type
+		left join hr.cooperate c on c.id = t.cooperate_id
+		WHERE p.id = {$id}
+		GROUP BY t.id, p.id, s.name{$slang}, o.name{$slang}, c.name{$slang}, c.phone ";
+		$sql->query($query);
+		$JtsObject = $sql->fetchAssoc();
+
+		$query  = "SELECT t.id, s.name{$slang} as structure, 
+		t.name{$slang} as name, t.name{$slang} as event_type,p.name{$slang} as event_name,
+		p.direction_event, p.command, p.citizens_count, p.iiv_count, 
+		p.fvv_count, p.mg_count, p.iiv_spring_count,p.start_time,p.end_time,
+		CONCAT(st.lastname, ' ', st.firstname, ' ', st.surname) as respons_person,
+		p.organizer,
+
+		p.horse_patrul,p.walker_patrul,p.avto_patrul,p.war_ekipaj,p.sapyors,p.zaxira,p.horses,p.dogs,p.metalldetektor,p.signals,p.car_count
+		FROM hr.public_event1 p
+		left join hr.jts_objects j on j.id  = p.jts_object_id
+		left join hr.structure s on s.id  = j.structure_id
+		left join hr.staff st on st.id  = p.respons_person_id
+		left join tur.public_event_types t on t.id  = p.public_event_type
+		WHERE p.id = {$id}";
+		$sql->query($query);
+		$Event = $sql->fetchAssoc();
+		$JtsObject['event'] = $Event;
+
+		// echo '<pre>';
+		// print_r($JtsObject);
+		// echo '</pre>';
+		// die();
+		
+		$query  = "SELECT t.id, t.name, t.lat, t.long
+		FROM hr.jts_objects_sos t 
+		WHERE t.object_id = {$JtsObject['id']}
+		ORDER BY t.id desc ";
+		$sql->query($query);
+		$Sos = $sql->fetchAll();
+
+		$object_id = ($_GET['id']);
+		$query  = "SELECT t.id, t.name, t.lat, t.long
+		FROM hr.jts_objects_door t 
+		WHERE t.object_id = {$JtsObject['id']}
+		ORDER BY t.id desc ";
+		$sql->query($query);
+		$Door = $sql->fetchAll();
+
+		$JtsObject['sos'] = $Sos;
+		$JtsObject['door'] = $Door;
+
+		// $query = "SELECT  
+    	// t.id,
+		// 	CONCAT(r.name{$slang}, ' ', sf.lastname, ' ', sf.firstname, ' ', sf.surname) AS staff_name,
+
+		// 	-- Epikirofka nomlari
+		// 	(
+		// 		SELECT STRING_AGG(e.name{$slang}, ', ')
+		// 		FROM (
+		// 			SELECT DISTINCT unnest(t.epikirofka_id) AS epic_id
+		// 			FROM hr.public_event_duty t
+		// 			WHERE t.public_event1_id = {$JtsObject['event_id']}
+		// 		) x
+		// 		JOIN ref.epic e ON e.id = x.epic_id
+		// 	) AS epic
+			
+
+		// FROM hr.public_event_duty t
+		// LEFT JOIN hr.staff sf ON sf.id = t.staff_id
+		// LEFT JOIN ref.ranks r ON r.id = sf.rank_id
+		// where t.public_event1_id = {$JtsObject['event_id']}";
+		$query = "SELECT pe.id AS event_id,
+		 COUNT(DISTINCT t.staff_id) AS all_staff, 
+		 COUNT(t.car_id) AS car_count,
+		  -- Epikirofka soni 
+		  COALESCE(SUM(cardinality(t.epikirofka_id)), 0) AS epikirofka_count,
+		 -- Epikirofka nomlari 
+		 ( SELECT STRING_AGG(e.name{$slang}, ', ')
+		  FROM 
+		  ( SELECT DISTINCT unnest(t.epikirofka_id) AS epic_id 
+		  FROM hr.public_event_duty t 
+		  WHERE t.public_event1_id = pe.id ) x JOIN ref.epic e ON e.id = x.epic_id ) AS epic,
+		   -- Camera va SOS lar 
+		   (SELECT COUNT(*) FROM hr.jts_objects_camera WHERE object_id = pe.jts_object_id) AS count_cameras,
+		   (SELECT COUNT(*) FROM hr.jts_objects_sos WHERE object_id = pe.jts_object_id) AS count_sos
+		    FROM hr.public_event1 pe 
+			LEFT JOIN hr.public_event_duty t ON t.public_event1_id = pe.id 
+			LEFT JOIN hr.staff sf ON sf.id = pe.respons_person_id 
+			LEFT JOIN ref.ranks r ON r.id = sf.rank_id 
+			GROUP BY pe.id, r.name{$slang},
+			sf.lastname,
+			sf.firstname,
+			sf.surname,
+			pe.jts_object_id
+			ORDER BY pe.id DESC LIMIT 1; ";
+		$sql->query($query);
+		$Routine = $sql->fetchAll();
+
+		// echo '<pre>';
+		// print_r($JtsObject);
+		// echo '</pre>';
+		// die();
+
+		$JtsObject['routine'] = $Routine;
+		$BodyCamUrl = [];
+		$Bodys = [];
+		$Staffs = [];
+		// if ($Routine) {
+		// 	$query  = "SELECT t.id, t.car_id, t.bodycam_id, t.patrul_type,
+		// 	CONCAT(r.name{$slang}, ' ', s.lastname, ' ', s.firstname, ' ', s.surname) AS staff_name,
+		// 	s.photo AS staff_photo, s.phone AS staff_phone
+		// 	FROM hr.dailiy_routine_date t 
+		// 	LEFT JOIN hr.staff s ON s.id = t.staff_id
+		// 	LEFT JOIN ref.ranks r ON r.id = s.rank_id
+		// 	WHERE t.routine_id = {$Routine['id']}
+		// 	ORDER BY t.id desc";
+		// 	$sql->query($query);
+		// 	$RoutineDate = $sql->fetchAll();
+
+		// 	foreach ($RoutineDate as $key => $value) {
+		// 		$car_ids[] = $value['car_id'];
+		// 		if (isset($value['bodycam_id']) && $value['patrul_type'] == 1) {
+		// 			$query  = "SELECT t.id, t.cam_code, t.comment, t.lat, t.long
+		// 			FROM hr.body_cameras t 
+		// 			WHERE t.id = {$value['bodycam_id']}";
+		// 			$sql->query($query);
+		// 			$Bodys[] = $sql->fetchAssoc();
+
+		// 			$Bodys[count($Bodys) - 1]['staff_name'] = $value['staff_name'];
+		// 			$Bodys[count($Bodys) - 1]['staff_photo'] = $value['staff_photo'];
+		// 			$Bodys[count($Bodys) - 1]['staff_phone'] = $value['staff_phone'];
+		// 		}
+		// 	}
+		// }
+
+		// echo '<pre>';
+		// print_r($Bodys);
+		// echo '</pre>';
+		// die();
+
+
+		if ($Bodys) {
+			foreach ($Bodys as $bkey => $body_c) {
+				$bodycamindex = $body_c['cam_code'];
+				$bodyCamId = $body_c['id'];
+				$comment = $body_c['comment'];
+
+				$dataBodyCam = GetCamUrlBody($bodycamindex);
+				if (isset($dataBodyCam['data']['url'])) {
+					$BodyCamUrl[] = [
+						'id' => $bodyCamId,
+						'url' => $dataBodyCam['data']['url'],
+						'status' => 1,
+						'cam_index' => $bodycamindex,
+						'comment' => $comment,
+						'lat' => $body_c['lat'],
+						'long' => $body_c['long'],
+						'staff_name' => $body_c['staff_name'],
+						'staff_photo' => $body_c['staff_photo'],
+						'staff_phone' => $body_c['staff_phone']
+					];
+				} else {
+					$BodyCamUrl[] = [
+						'id' => $bodyCamId,
+						'url' => '',
+						'status' => 0,
+						'cam_index' => $bodycamindex,
+						'comment' => $comment,
+						'lat' => $body_c['lat'],
+						'long' => $body_c['long'],
+						'staff_name' => isset($body_c['staff_name']) ? $body_c['staff_name'] : '',
+						'staff_photo' => isset($body_c['staff_photo']) ? $body_c['staff_photo'] : '',
+						'staff_phone' => isset($body_c['staff_phone']) ? $body_c['staff_phone'] : '',
+					];
+				}
+			}
+		}
+
+		$JtsObject['body_cameras'] = $BodyCamUrl;
+		$JtsObject['tracks'] = [];
+		if ($car_ids) {
+			$query = "SELECT 
+			cr.id AS car_id,
+			uzg.tp_timestamp_fmt AS date,
+			uzg.angle,
+			uzg.lat,
+			uzg.lon,
+			uzg.speed,
+			cm.name AS car_name,
+			cm.photo AS car_photo,
+			cm.car_width,
+			cm.car_height
+			FROM reports.uzgps uzg
+			INNER JOIN hr.tech_guard_cars cr ON cr.uzgps_id = uzg.mobject_id
+			LEFT JOIN hr.structure s ON s.id = cr.structure_id
+			LEFT JOIN ref.car_models cm ON cm.id = cr.car_model_id
+			WHERE cr.id IN (" . implode(',', $car_ids) . ")
+			order by uzg.speed asc";
+			$sql->query($query);
+			$Tracks = $sql->fetchAll();
+
+			$JtsObject['tracks'] = $Tracks;
+		}
+
+
+		$query  = "SELECT t.id, t.cam_code, t.name, t.lat, t.long,
+		case when t.is_ptz then 1 else 0 end as is_ptz
+		FROM hr.jts_objects_camera t 
+		WHERE t.object_id = {$JtsObject['id']}";
+		$sql->query($query);
+		$Cams = $sql->fetchAll();
+
+		$CamUrl = [];
+		if ($Cams) {
+			foreach ($Cams as $mkey => $cam_c) {
+				$camindex = $cam_c['cam_code'];
+				$camId = $cam_c['id'];
+				$IsPtz = $cam_c['is_ptz'];
+				$comment = $cam_c['name'];
+				$lat = $cam_c['lat'];
+				$long = $cam_c['long'];
+
+				$dataCam = GetCamUrl($camindex);
+				if (isset($dataCam['data']['url'])) {
+					$CamUrl[] = [
+						'id' => $camId,
+						'url' => $dataCam['data']['url'],
+						'isptz' => $IsPtz,
+						'status' => 1,
+						'cam_index' => $camindex,
+						'comment' => $comment,
+						'lat' => $lat,
+						'long' => $long
+					];
+				} else {
+					$CamUrl[] = [
+						'id' => $camId,
+						'url' => '',
+						'status' => 0,
+						'isptz' => $IsPtz,
+						'cam_index' => $camindex,
+						'comment' => $comment,
+						'lat' => $lat,
+						'long' => $long
+					];
+				}
+			}
+		}
+
+		$result['data'] = $JtsObject;
+		$result['cameras'] = $CamUrl;
+		$res = json_encode($result);
+		break;
 	case "get_divisions":
 		$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
 		$query  = "SELECT t.id, t.name{$slang} as name
@@ -1232,10 +1519,10 @@ switch ($Action) {
 				WHERE 1=1 ";
 
 		if ($UserStructure > 1) {
-			$query .= " AND t.region_id = {$UserStructure} ";
+			$query .= " AND t.structure_id = {$UserStructure} ";
 		}
 		if ($structure_id > 0) {
-			$query .= " AND t.region_id = {$structure_id} ";
+			$query .= " AND t.structure_id = {$structure_id} ";
 		}
 		$query .= " GROUP BY b.id ORDER BY b.id ASC";
 
@@ -1248,15 +1535,15 @@ switch ($Action) {
 						s.name{$slang} as name,
 						COUNT(t.id) as value
 					FROM hr.public_event1 t
-					LEFT JOIN hr.structure s ON s.id = t.region_id
+					LEFT JOIN hr.structure s ON s.id = t.structure_id
 					WHERE 1=1
 				";
 
 		if ($UserStructure > 1) {
-			$regionQuery .= " AND t.region_id = {$UserStructure} ";
+			$regionQuery .= " AND t.structure_id = {$UserStructure} ";
 		}
 		if ($structure_id > 0) {
-			$regionQuery .= " AND t.region_id = {$structure_id} ";
+			$regionQuery .= " AND t.structure_id = {$structure_id} ";
 		}
 
 		$regionQuery .= " GROUP BY s.id ORDER BY s.id ASC";
@@ -1278,10 +1565,10 @@ switch ($Action) {
 				";
 
 		if ($UserStructure > 1) {
-			$listQuery .= " AND t.region_id = {$UserStructure} ";
+			$listQuery .= " AND t.structure_id = {$UserStructure} ";
 		}
 		if ($structure_id > 0) {
-			$listQuery .= " AND t.region_id = {$structure_id} ";
+			$listQuery .= " AND t.structure_id = {$structure_id} ";
 		}
 
 		$listQuery .= " ORDER BY b.name{$slang} ASC, j.object_name ASC";
@@ -1313,9 +1600,9 @@ switch ($Action) {
 		$grouped = array_values($grouped);
 		// Final response
 		$res = json_encode([
-			"public_stats" => $stats,
-			"public_list" => $grouped,
-			"public_list_stat_region" => $stat_region
+			"stats" => $stats,
+			"list" => $grouped,
+			"stat_region" => $stat_region
 		]);
 
 		break;
