@@ -2759,7 +2759,7 @@
       $(".ptz_zoom_out").click(function(e) { control_ptz(cam_idx_code, 9) })
 
       //初始化插件
-      var jsDecoder = new JSPlugin({
+      let jsDecoder = new JSPlugin({
           szId: "playWind",
           iType: 2,
           iWidth: 500,
@@ -3155,6 +3155,41 @@
       window.onresize = function() {
           jsDecoder.JS_Resize(615, 300);
       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3756,10 +3791,10 @@
 
 
 
-<script src="/dist/jsPlugin-1.2.0.min.js"></script>
-<script src="/dist/cryptico.min.js"></script>
-<script src="/dist/uuid.js"></script>
-<script src="/dist/jquery.cookie.js"></script>
+<script src="/dist1/jsPlugin-1.2.0.min.js"></script>
+<script src="/dist1/cryptico.min.js"></script>
+<script src="/dist1/uuid.js"></script>
+<script src="/dist1/jquery.cookie.js"></script>
 
 <script>
     {literal}
@@ -3779,14 +3814,14 @@
         // $jq2('#fixedModal').draggable();
         
         //初始化插件
-        var jsDecoder = new JSPlugin({
+        var jsDecoder = new JSPlugin2({
             szId: "playWind2",
             iType: 2,
             iWidth: 640,
             iHeight: 400,
             iMaxSplit: 4,
             iCurrentSplit: 2,
-            szBasePath: "./dist",
+            szBasePath: "./dist1",
             oStyle: {
                 border: "#343434",
                 borderSelect: "transparent",
@@ -3799,7 +3834,7 @@
             StopRealPlayAll();
             $("#carCameraModal").hide();
             $("#offline_bg").hide();
-            $("#playWind").show();
+            $("#playWind2").show();
         })
         $('.close-staff-info').click(function(e) {
             $("#staffInfoModal").hide();
