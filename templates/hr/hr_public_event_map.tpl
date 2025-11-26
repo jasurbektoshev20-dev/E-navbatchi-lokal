@@ -1070,7 +1070,7 @@
             const xiyobon = response.filter(item => item.object_type == 2)
             const boshqa = response.filter(item => item.object_type == 4)
            
-       
+            console.log('response', response)
 
             // LayerGroup
 
@@ -1082,10 +1082,10 @@
               marker.id = m.id;
               marker.type = m.object_type;
               allMarkers.addLayer(marker);
-
+             
               marker.on('click', function() {
-                // document.getElementById('markerModalTitle').innerText = m.object_name;
-                document.getElementById('markerModalTitle').innerText = "Bunyodkor stadioni";
+                document.getElementById('markerModalTitle').innerText = m.object_name;
+                
 
                 $.ajax({
                   url: `${AJAXPHP}?act=get_public_events_by_id&id=${m.id}`,
@@ -1563,113 +1563,123 @@
               </ul>
             </details>
           </li>
-            <li>
-              <div class="passport-icon">
-                <i class="bi bi-geo-alt-fill"></i>
-              </div>
-              <div class="passport-li-about">
-                <h6>Қурулиш тугалланган вақти:</h6>
-                <p>${params.address}</p>
-              </div>
-          </li>
              <li>
-              <div class="passport-icon">
-                <i class="bi bi-geo-alt-fill"></i>
-              </div>
-              <div class="passport-li-about">
-                <h6>Ишга тушган вақти:</h6>
-                <p>${params.address}</p>
-              </div>
+        <div class="passport-icon">
+          <i class="bi bi-clock-history"></i>
+        </div>
+        <div class="passport-li-about">
+          <h6>Ишга тушган вақти:</h6>
+          <p>${params.address}</p>
+        </div>
+      </li>
+          <li>
+            <div class="passport-icon">
+              <i class="bi bi-geo-alt-fill"></i>
+            </div>
+            <div class="passport-li-about">
+              <h6>Манзили:</h6>
+              <p>${params.address}</p>
+            </div>
           </li>
-    <li>
-      <div class="passport-icon">
-        <i class="bi bi-geo-alt-fill"></i>
-      </div>
-      <div class="passport-li-about">
-        <h6>Манзили:</h6>
-        <p>${params.address}</p>
-      </div>
-    </li>
 
-    <li>
-      <div class="passport-icon">
-        <i class="bi bi-telephone-fill"></i>
-      </div>
-      <div class="passport-li-about">
-        <h6>Администратор телефон рақами:</h6>
-        <p><a href="tel:${params.admin_phone}">${params.admin_phone}</a></p>
-      </div>
-    </li>
+          <li>
+            <div class="passport-icon">
+              <i class="bi bi-telephone-fill"></i>
+            </div>
+            <div class="passport-li-about">
+              <h6>Администратор телефон рақами:</h6>
+              <p><a href="tel:${params.admin_phone}">${params.admin_phone}</a></p>
+            </div>
+          </li>
 
-    <li>
-      <div class="passport-icon">
-        <i class="bi bi-border-all"></i>
-      </div>
-      <div class="passport-li-about">
-        <h6>Майдони:</h6>
-        <p>${params.area} га</p>
-      </div>
-    </li>
+          <li>
+        <div class="passport-icon">
+          <i class="bi bi-aspect-ratio"></i>
+        </div>
+        <div class="passport-li-about">
+          <h6>Майдони:</h6>
+          <p>${params.area} га</p>
+        </div>
+      </li>
 
       <li>
-      <div class="passport-icon">
-        <i class="bi bi-border-all"></i>
-      </div>
-      <div class="passport-li-about">
-        <h6>Sig'imi:</h6>
-        <p>${params.area} nafar</p>
-      </div>
-    </li>
-
-     <li>
-      <div class="passport-icon">
-        <i class="bi bi-border-all"></i>
-      </div>
-      <div class="passport-li-about">
-        <h6>O'yingohga kirish yo'laklari:</h6>
-        <p>${params.area} ta</p>
-      </div>
-    </li>
+        <div class="passport-icon">
+          <i class="bi bi-people-fill"></i>
+        </div>
+        <div class="passport-li-about">
+          <h6>Sig'imi:</h6>
+          <p>${params.capacity} nafar</p>
+        </div>
+      </li>
 
       <li>
-      <div class="passport-icon">
-        <i class="bi bi-border-all"></i>
-      </div>
-      <div class="passport-li-about">
-        <h6>Bloklar soni:</h6>
-        <p>${params.area} ta</p>
-      </div>
-    </li>
+        <div class="passport-icon">
+          <i class="bi bi-grid-fill"></i>
+        </div>
+        <div class="passport-li-about">
+          <h6>Bloklar soni:</h6>
+          <p>${params.blocks} ta</p>
+        </div>
+      </li>
 
       <li>
-      <div class="passport-icon">
-        <i class="bi bi-border-all"></i>
-      </div>
-      <div class="passport-li-about">
-        <h6>Sektorlar soni:</h6>
-        <p>${params.area} ta</p>
-      </div>
-    </li>
+        <div class="passport-icon">
+          <i class="bi bi-diagram-3-fill"></i>
+        </div>
+        <div class="passport-li-about">
+          <h6>Sektorlar soni:</h6>
+          <p>${params.sectors} ta</p>
+        </div>
+      </li>
 
-    <li>
-      <div class="passport-icon">
-        <i class="bi bi-door-open-fill"></i>
-      </div>
-      <div class="passport-li-about">
-        <h6>Кириш чиқиш эшиклар сони:</h6>
-        <p>${params.count_doors} та</p>
-      </div>
-    </li>
+          <li>
+            <div class="passport-icon">
+              <i class="bi bi-door-open-fill"></i>
+            </div>
+            <div class="passport-li-about">
+              <h6>Кириш чиқиш эшиклар сони:</h6>
+              <p>${params.count_doors} та</p>
+            </div>
+          </li>
 
-     <li>
-      <div class="passport-icon">
-        <i class="bi bi-door-open-fill"></i>
-      </div>
-      <div class="passport-li-about">
-        <h6>Yoritish chiroqlari soni:</h6>
-        <p>${params.count_doors} та</p>
-      </div>
-    </li>
+          <li>
+        <div class="passport-icon">
+          <i class="bi bi-lightbulb-fill"></i>
+        </div>
+        <div class="passport-li-about">
+          <h6>Yoritish chiroqlari soni:</h6>
+          <p>${params.count_doors} та</p>
+        </div>
+      </li>
+      <li class="is-accordion">
+        <details>
+          <summary>
+            <div class="passport-icon">  <i class="duty-icon bi bi-person-fill"></i></div>
+            <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Ҳамкор ташкилотлар</span>
+          </summary>
+          <ul class="inner-list">
+             <li>
+                <div class="passport-icon">
+                  <i class="bi bi-telephone-fill"></i>
+                </div>
+                <div class="passport-li-about">
+                  <h6>ИИВ</h6>
+                  <p><a href="tel:71-252-70-01">71-252-70-01</a></p>
+                </div>
+              </li>
+
+              <li>
+                <div class="passport-icon">
+                  <i class="bi bi-telephone-plus-fill"></i>
+                </div>
+                <div class="passport-li-about">
+                  <h6>ФВВ</h6>
+                  <p><a href="tel:71-234-87-20">71-234-87-20</a></p>
+                </div>
+              </li>
+          </ul>
+        </details>
+      </li>
 
 
 <li class="is-accordion">
@@ -1880,321 +1890,78 @@
 
         <li class="is-accordion">
             <details>
-              <summary>
-                <div class="passport-icon">  <i class="duty-icon bi bi-people-fill"></i></div>
-                <span class="summary-span"> <span style="color:#fff;">Xizmat turi:</span> <span> нафар</span>
-              </summary>
+            <summary>
+                <div class="passport-icon">
+                    <i class="duty-icon bi bi-shield-check"></i>
+                </div>
+                <span class="summary-span">
+                    <span style="color:#fff;">Xizmat turi:</span>
+                    <span>
+                        ${Number(params?.event.walker_patrul) 
+                        + Number(params?.event.horse_patrul)
+                        + Number(params?.event.zaxira)
+                        + Number(params?.event.war_ekipaj)}
+                    </span>
+                </span>
+            </summary>
+
 
               <ul class="inner-list">
-                  
-                          <li class="is-accordion">
-                                <details>
-                                    <summary>
-                                    <div class="passport-icon">
-                                        <i class="bi bi-camera-video-fill"></i>
-                                    </div>
-                                    <span class="summary-span">
-                                        <span style="color:#fff; font-weight:bold;"> Piyoda patrul:</span>
-                                        <span>250</span>
-                                    </span>
-                                    </summary>
-
-                                    <ul class="inner-list">
-                                    <li>
-                                        <div class="passport-icon">
-                                        <i class="bi bi-camera-reels"></i>
-                                        </div>
-                                        <div class="passport-li-about">
-                                        <h6>MG: 80</h6>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="passport-icon">
-                                        <i class="bi bi-camera-video"></i>
-                                        </div>
-                                        <div class="passport-li-about">
-                                        <h6>IIBB: 170</h6>
-                                        </div>
-                                    </li>
-
-                                     <li>
-                                        <div class="passport-icon">
-                                        <i class="bi bi-camera-video"></i>
-                                        </div>
-                                        <div class="passport-li-about">
-                                        <h6>FVB: -</h6>
-                                        </div>
-                                    </li>
-
-                                     <li>
-                                        <div class="passport-icon">
-                                        <i class="bi bi-camera-video"></i>
-                                        </div>
-                                        <div class="passport-li-about">
-                                        <h6>SSB: -</h6>
-                                        </div>
-                                    </li>
-
-                                    </ul>
-                                </details>
-                          </li>
+                   <li>
+                      <div class="passport-icon">
+                          <i class="bi bi-person-walking"></i>
+                      </div>
+                      <div class="passport-li-about">
+                          <h6>Piyoda patrul:</h6>
+                          <p>${params?.event.walker_patrul}</p>
+                      </div>
+                  </li>
 
 
-                           <li class="is-accordion">
-                                <details>
-                                    <summary>
-                                    <div class="passport-icon">
-                                        <i class="bi bi-camera-video-fill"></i>
-                                    </div>
-                                    <span class="summary-span">
-                                        <span style="color:#fff; font-weight:bold;"> Otliq patrul:</span>
-                                        <span>13</span>
-                                    </span>
-                                    </summary>
+                     <li>
+                        <div class="passport-icon">
+                            <i class="bi bi-shield-fill-check"></i>
+                        </div>
+                        <div class="passport-li-about">
+                            <h6>Otliq patrul:</h6>
+                            <p>${params?.event.horse_patrul}</p>
+                        </div>
+                    </li>
 
-                                    <ul class="inner-list">
-                                    <li>
-                                        <div class="passport-icon">
-                                        <i class="bi bi-camera-reels"></i>
-                                        </div>
-                                        <div class="passport-li-about">
-                                        <h6>MG: 8</h6>
-                                        </div>
-                                    </li>
 
-                                    <li>
-                                        <div class="passport-icon">
-                                        <i class="bi bi-camera-video"></i>
-                                        </div>
-                                        <div class="passport-li-about">
-                                        <h6>IIBB: 5</h6>
-                                        </div>
-                                    </li>
+                    <li>
+                        <div class="passport-icon">
+                            <i class="bi bi-truck-front-fill"></i>
+                        </div>
+                        <div class="passport-li-about">
+                            <h6>Jangavor ekipaj:</h6>
+                            <p>${params?.event.war_ekipaj}</p>
+                        </div>
+                    </li>
 
-                                     <li>
-                                        <div class="passport-icon">
-                                        <i class="bi bi-camera-video"></i>
-                                        </div>
-                                        <div class="passport-li-about">
-                                        <h6>FVB: -</h6>
-                                        </div>
-                                    </li>
+                    <li>
+                        <div class="passport-icon">
+                            <i class="bi bi-backpack-fill"></i>
+                        </div>
+                        <div class="passport-li-about">
+                            <h6>Zaxira:</h6>
+                            <p>${params?.event.zaxira}</p>
+                        </div>
+                    </li>
 
-                                     <li>
-                                        <div class="passport-icon">
-                                        <i class="bi bi-camera-video"></i>
-                                        </div>
-                                        <div class="passport-li-about">
-                                        <h6>SSB: -</h6>
-                                        </div>
-                                    </li>
-
-                                    </ul>
-                                </details>
-                          </li>
-
-                            <li class="is-accordion">
-                                <details>
-                                    <summary>
-                                    <div class="passport-icon">
-                                        <i class="bi bi-camera-video-fill"></i>
-                                    </div>
-                                    <span class="summary-span">
-                                        <span style="color:#fff; font-weight:bold;"> Jangavor ekipaj:</span>
-                                        <span>28</span>
-                                    </span>
-                                    </summary>
-
-                                    <ul class="inner-list">
-                                    <li>
-                                        <div class="passport-icon">
-                                        <i class="bi bi-camera-reels"></i>
-                                        </div>
-                                        <div class="passport-li-about">
-                                        <h6>MG: 28</h6>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="passport-icon">
-                                        <i class="bi bi-camera-video"></i>
-                                        </div>
-                                        <div class="passport-li-about">
-                                        <h6>IIBB: -</h6>
-                                        </div>
-                                    </li>
-
-                                     <li>
-                                        <div class="passport-icon">
-                                        <i class="bi bi-camera-video"></i>
-                                        </div>
-                                        <div class="passport-li-about">
-                                        <h6>FVB: -</h6>
-                                        </div>
-                                    </li>
-
-                                     <li>
-                                        <div class="passport-icon">
-                                        <i class="bi bi-camera-video"></i>
-                                        </div>
-                                        <div class="passport-li-about">
-                                        <h6>SSB: -</h6>
-                                        </div>
-                                    </li>
-
-                                    </ul>
-                                </details>
-                          </li>
-
-                           <li class="is-accordion">
-                                <details>
-                                    <summary>
-                                    <div class="passport-icon">
-                                        <i class="bi bi-camera-video-fill"></i>
-                                    </div>
-                                    <span class="summary-span">
-                                        <span style="color:#fff; font-weight:bold;"> Sapyorlar guruhi:</span>
-                                        <span>20</span>
-                                    </span>
-                                    </summary>
-
-                                    <ul class="inner-list">
-                                    <li>
-                                        <div class="passport-icon">
-                                        <i class="bi bi-camera-reels"></i>
-                                        </div>
-                                        <div class="passport-li-about">
-                                        <h6>MG: 10</h6>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="passport-icon">
-                                        <i class="bi bi-camera-video"></i>
-                                        </div>
-                                        <div class="passport-li-about">
-                                        <h6>IIBB: 10</h6>
-                                        </div>
-                                    </li>
-
-                                     <li>
-                                        <div class="passport-icon">
-                                        <i class="bi bi-camera-video"></i>
-                                        </div>
-                                        <div class="passport-li-about">
-                                        <h6>FVB: -</h6>
-                                        </div>
-                                    </li>
-
-                                     <li>
-                                        <div class="passport-icon">
-                                        <i class="bi bi-camera-video"></i>
-                                        </div>
-                                        <div class="passport-li-about">
-                                        <h6>SSB: -</h6>
-                                        </div>
-                                    </li>
-
-                                    </ul>
-                                </details>
-                          </li>
-
-                           <li class="is-accordion">
-                                <details>
-                                    <summary>
-                                    <div class="passport-icon">
-                                        <i class="bi bi-camera-video-fill"></i>
-                                    </div>
-                                    <span class="summary-span">
-                                        <span style="color:#fff; font-weight:bold;"> Zaxira:</span>
-                                        <span>250</span>
-                                    </span>
-                                    </summary>
-
-                                    <ul class="inner-list">
-                                    <li>
-                                        <div class="passport-icon">
-                                        <i class="bi bi-camera-reels"></i>
-                                        </div>
-                                        <div class="passport-li-about">
-                                        <h6>MG: 200</h6>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="passport-icon">
-                                        <i class="bi bi-camera-video"></i>
-                                        </div>
-                                        <div class="passport-li-about">
-                                        <h6>IIBB: 50</h6>
-                                        </div>
-                                    </li>
-
-                                     <li>
-                                        <div class="passport-icon">
-                                        <i class="bi bi-camera-video"></i>
-                                        </div>
-                                        <div class="passport-li-about">
-                                        <h6>FVB: -</h6>
-                                        </div>
-                                    </li>
-
-                                     <li>
-                                        <div class="passport-icon">
-                                        <i class="bi bi-camera-video"></i>
-                                        </div>
-                                        <div class="passport-li-about">
-                                        <h6>SSB: -</h6>
-                                        </div>
-                                    </li>
-
-                                    </ul>
-                                </details>
-                          </li>                        
               </ul>
             </details>
           </li>
 
-
-          <li class="is-accordion">
-                <details>
-                    <summary>
-                    <div class="passport-icon">
-                        <i class="bi bi-camera-video-fill"></i>
-                    </div>
-                    <span class="summary-span">
-                        <span style="color:#fff; font-weight:bold;">Камералар:</span>
-                        <span>${params.routine[0].count_cameras}</span>
-                    </span>
-                    </summary>
-
-                    <ul class="inner-list">
-                    <li>
-                        <div class="passport-icon">
-                        <i class="bi bi-camera-reels"></i>
-                        </div>
-                        <div class="passport-li-about">
-                        <h6>PTZ kameralar: ${params?.count_cameras}</h6>
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="passport-icon">
-                        <i class="bi bi-camera-video"></i>
-                        </div>
-                        <div class="passport-li-about">
-                        <h6>Panoramik kameralar (360°): 0</h6>
-                        </div>
-                    </li>
-
-                    </ul>
-                </details>
-           </li>
+      
+         <li class="alert alert-dark m-0" role="alert">
+          <i class="duty-icon bi bi-bell-fill"></i>
+          Камералар: <span>${params.routine[0].count_cameras ?? '0'} та</span>
+         </li>
 
         <li class="alert alert-dark m-0" role="alert">
           <i class="duty-icon bi bi-bell-fill"></i>
-          Ташвиш тугмалар: <span>${params.count_sos} та</span>
+          Ташвиш тугмалар: <span>${params.routine[0].count_sos} та</span>
         </li>
 
   
@@ -2207,28 +1974,30 @@
                     </div>
                     <span class="summary-span">
                         <span style="color:#fff; font-weight:bold;">Хизмат ҳайвонлари:</span>
-                        <span>${params?.count_cameras}</span>
+                        <span>${Number(params?.event.horses) + Number(params?.event.dogs)} та</span>
                     </span>
                     </summary>
 
                     <ul class="inner-list">
-                    <li>
-                        <div class="passport-icon">
-                        <i class="bi bi-camera-reels"></i>
-                        </div>
-                        <div class="passport-li-about">
-                        <h6>Mina qidiruvchi it : ${params?.count_cameras}</h6>
-                        </div>
-                    </li>
+                   <li>
+                      <div class="passport-icon">
+                          <i class="bi bi-shield-fill-check"></i>
+                      </div>
+                      <div class="passport-li-about">
+                          <h6>Itlar: ${params?.event.dogs} та</h6>
+                      </div>
+                  </li>
 
-                    <li>
-                        <div class="passport-icon">
-                        <i class="bi bi-camera-video"></i>
-                        </div>
-                        <div class="passport-li-about">
-                        <h6>Ot: 0</h6>
-                        </div>
-                    </li>
+
+                  <li>
+                      <div class="passport-icon">
+                          <i class="bi bi-shield-fill-check"></i>
+                      </div>
+                      <div class="passport-li-about">
+                          <h6>Otlar: ${params?.event.horses} та</h6>
+                      </div>
+                  </li>
+
 
                     </ul>
                 </details>
@@ -2242,72 +2011,34 @@
                     </div>
                     <span class="summary-span">
                         <span style="color:#fff; font-weight:bold;">Махсус воситалар:</span>
-                        <span>${params.epikirofka_count}</span>
+                      <span>${Number(params?.event.metalldetektor) + Number(params?.event.signals)} та</span>
+
                     </span>
                     </summary>
 
                     <ul class="inner-list">
                     <li>
                         <div class="passport-icon">
-                        <i class="bi bi-camera-reels"></i>
+                            <i class="bi bi-shield-lock-fill"></i>
                         </div>
                         <div class="passport-li-about">
-                        <h6>Metallodetektor : ${params?.count_cameras}</h6>
+                            <h6>Metallodetektor: ${params?.event.metalldetektor} та</h6>
                         </div>
                     </li>
 
                     <li>
                         <div class="passport-icon">
-                        <i class="bi bi-camera-video"></i>
+                            <i class="bi bi-broadcast-pin"></i>
                         </div>
                         <div class="passport-li-about">
-                        <h6>Aloqa vositalari: 0</h6>
+                            <h6>Aloqa vositalari: ${params?.event.signals} та</h6>
                         </div>
                     </li>
-
-                    </ul>
-                </details>
-           </li>
-
-
-          <li class="is-accordion">
-                <details>
-                    <summary>
-                    <div class="passport-icon">
-                        <i class="bi bi-truck-front-fill"></i>
-                    </div>
-                    <span class="summary-span">
-                        <span style="color:#fff; font-weight:bold;">Техникалар:</span>
-                        <span>${params.car_count}</span>
-                    </span>
-                    </summary>
-
-                    <ul class="inner-list">
-                    <li>
-                        <div class="passport-icon">
-                        <i class="bi bi-camera-reels"></i>
-                        </div>
-                        <div class="passport-li-about">
-                        <h6>BYD : ${params?.count_cameras}</h6>
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="passport-icon">
-                        <i class="bi bi-camera-video"></i>
-                        </div>
-                        <div class="passport-li-about">
-                        <h6>Patriot: 0</h6>
-                        </div>
-                    </li>
-
                     </ul>
                 </details>
            </li>
       </ul>
         `
-
-
     }
 
     // tadbir malumotlari
@@ -2317,61 +2048,43 @@
 
       // <li class="alert alert-dark" role="alert">Sektorlar soni: <span>4 ${params.responsible_name} ta</span> </li>
       container.innerHTML = `
-           <ul class="">
-            <li class="alert alert-dark m-0" role="alert">
-            <i class="duty-icon bi bi-signpost-split"></i>
-            Tadbir nomi <span>${params.event_name}</span>
-        </li>
-        <li class="alert alert-dark m-0" role="alert">
-            <i class="duty-icon bi bi-signpost-split"></i>
-            javobgar shaxs <span>${params.respons_person}</span>
-        </li>
-          <li class="alert alert-dark m-0" role="alert">
-            <i class="duty-icon bi bi-signpost-split"></i>
-            Tadbir turi <span>${params.event_type}</span>
-        </li>
+         <ul class="">
+              <li class="alert alert-dark m-0" role="alert">
+                  <i class="duty-icon bi bi-flag"></i>
+                  Tadbir nomi <span>${params.event_name}</span>
+              </li>
 
-         <li class="alert alert-dark m-0" role="alert">
-            <i class="duty-icon bi bi-signpost-split"></i>
-            Tadbir yo'nalishi <span>${params.direction_event}</span>
-        </li>
-         <li class="alert alert-dark m-0" role="alert">
-            <i class="duty-icon bi bi-signpost-split"></i>
-            Tadbirga asos <span>${params.command}</span>
-        </li>
-         <li class="alert alert-dark m-0" role="alert">
-            <i class="duty-icon bi bi-signpost-split"></i>
-            Tadbir yo'nalishi <span>${params.direction_event}</span>
-        </li>
-        <li class="alert alert-dark m-0" role="alert">
-            <i class="duty-icon bi bi-signpost-split"></i>
-            Fuqarolar soni: <span>${params.citizens_count}</span>
-        </li>
-         <li class="alert alert-dark m-0" role="alert">
-            <i class="duty-icon bi bi-signpost-split"></i>
-            Ichki ishlar xizmatchilari soni <span>${params.iiv_count}</span>
-        </li>
-         <li class="alert alert-dark m-0" role="alert">
-            <i class="duty-icon bi bi-signpost-split"></i>
-            Milliy Gvardiya xizmatchilari soni <span>${params.mg_count}</span>
-        </li>
-         <li class="alert alert-dark m-0" role="alert">
-            <i class="duty-icon bi bi-signpost-split"></i>
-            FVV xizmatchilari soni <span>${params.fvv_count}</span>
-        </li>
+              <li class="alert alert-dark m-0" role="alert">
+                  <i class="duty-icon bi bi-diagram-3-fill"></i>
+                  Tadbir turi <span>${params.event_type}</span>
+              </li>
 
-          <li class="alert alert-dark m-0" role="alert">
-            <i class="duty-icon bi bi-signpost-split"></i>
-            Boshlanish vaqti <span>${params.start_time}</span>
-        </li>
+              <li class="alert alert-dark m-0" role="alert">
+                  <i class="duty-icon bi bi-journal-text"></i>
+                  Tadbirga asos <span>${params.command}</span>
+              </li>
 
-         <li class="alert alert-dark m-0" role="alert">
-            <i class="duty-icon bi bi-signpost-split"></i>
-            tugash vaqti: <span>${params.end_time}</span>
-        </li>
+              <li class="alert alert-dark m-0" role="alert">
+                  <i class="duty-icon bi bi-compass"></i>
+                  Tadbir yo'nalishi <span>${params.direction_event}</span>
+              </li>
 
-          
-      </ul>
+              <li class="alert alert-dark m-0" role="alert">
+                  <i class="duty-icon bi bi-people-fill"></i>
+                  Fuqarolar soni: <span>${params.citizens_count} nafar</span>
+              </li>
+
+              <li class="alert alert-dark m-0" role="alert">
+                  <i class="duty-icon bi bi-clock-history"></i>
+                  Boshlanish vaqti <span>${params.start_time}</span>
+              </li>
+
+              <li class="alert alert-dark m-0" role="alert">
+                  <i class="duty-icon bi bi-clock"></i>
+                  Tugash vaqti: <span>${params.end_time}</span>
+              </li>
+          </ul>
+
         `
     }
 
