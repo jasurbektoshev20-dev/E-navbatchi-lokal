@@ -1502,20 +1502,20 @@
 <script src="/assets/assets/vendor/libs/toastr/toastr.js"></script>
 
 <script>
-  var AJAXPHP = "ajax{$AddURL}.php";
-  var HRAJAXPHP = "hrajax{$AddURL}.php";
+  let AJAXPHP = "ajax{$AddURL}.php";
+  let HRAJAXPHP = "hrajax{$AddURL}.php";
 
-    var text_more = "{$Dict.more}";
-    var dict_select = "{$Dict.select}";
-    var dict_search = "{$Dict.search}";
-    var dict_alarm_msg = "{$Dict.alarm_msg}";
-    var dict_alarm_calls = "{$Dict.alarm_calls}";
-    var dict_total_time = "{$Dict.total_time}";
-    var dict_distance = "{$Dict.distance}";
-    var dict_watch = "{$Dict.watch}";
-    var UserStructure = "{$UserStructure}";
+    let text_more = "{$Dict.more}";
+    let dict_select = "{$Dict.select}";
+    let dict_search = "{$Dict.search}";
+    let dict_alarm_msg = "{$Dict.alarm_msg}";
+    let dict_alarm_calls = "{$Dict.alarm_calls}";
+    let dict_total_time = "{$Dict.total_time}";
+    let dict_distance = "{$Dict.distance}";
+    let dict_watch = "{$Dict.watch}";
+    let UserStructure = "{$UserStructure}";
     
-    var $jq2 = jQuery.noConflict(true);
+    let $jq2 = jQuery.noConflict(true);
     $jq2('#camera_modal').draggable();
   {literal}
 
@@ -1533,7 +1533,7 @@
 
 
 
-      var urlParams = new URLSearchParams(window.location.search);
+      let urlParams = new URLSearchParams(window.location.search);
 
         let cluster = L.markerClusterGroup({ chunkedLoading: true });
         let gps_url = '../uzgps.php';
@@ -1643,7 +1643,7 @@
         setTimeout(() => {
           urlParams.set('region_id', '');
           urlParams.set('object_type', '');
-          var newUrl = window.location.pathname + '?' + urlParams.toString();
+          let newUrl = window.location.pathname + '?' + urlParams.toString();
           window.history.replaceState({}, '', newUrl);
         }, 2000);
         getObjects()
@@ -1719,14 +1719,12 @@
                     $('#change_camera').empty();
                     if (response?.cameras && response?.cameras?.length) {
                       fetched_camera = response.cameras;
-
-                      get_camera()
-
+                      initCamera()
+                      
                     }
                     if (response?.data?.body_cameras && response?.data?.body_cameras.length) {
                       fetched_body = response.data.body_cameras;
-
-                      get_camera()
+                      initCamera()
 
                     }
 
@@ -1766,19 +1764,19 @@
 
 
     $('#viloyatSelect').on('change', function() {
-      var id = this.value;
+      let id = this.value;
       region_id = id
       getObjects()
     })
     
     $('#objectTypeSelect').on('change', function() {
-      var id = this.value;
+      let id = this.value;
       object_type = id
 
       getObjects()
     })
     $('#objectSelect').on('change', function() {
-      var id = this.value;
+      let id = this.value;
       object_id = id
       getObjects()
     })
@@ -2707,9 +2705,38 @@
       }
     });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       // camera
 
-      var iWind = 0;
+
+
+      let iWind = 0;
       let camera_status_interval_id;
       let camera_status_interval_time = 60000;
 
@@ -2759,20 +2786,7 @@
       $(".ptz_zoom_out").click(function(e) { control_ptz(cam_idx_code, 9) })
 
       //初始化插件
-      let jsDecoder = new JSPlugin({
-          szId: "playWind",
-          iType: 2,
-          iWidth: 500,
-          iHeight: 350,
-          iMaxSplit: 4,
-          iCurrentSplit: 1,
-          szBasePath: "./dist",
-          oStyle: {
-              border: "#343434",
-              borderSelect: "transparent",
-              background: "#000 url('/assets/online.svg') no-repeat center center;"
-          }
-      });
+      let jsDecoder;
 
       let counter = 0;
 
@@ -2872,8 +2886,8 @@
           // camera_status_interval_id = setInterval(() => {
           //     fetched_camera.forEach(async (item, index) => {
           //         const current_status = await get_camera_status(item.cam_index);
-          //         var classValue = $(`#change_camera a[cam_index="${item.cam_index}"]`).attr('class');
-          //         var remove_class = classValue.split(' ')[2];
+          //         let classValue = $(`#change_camera a[cam_index="${item.cam_index}"]`).attr('class');
+          //         let remove_class = classValue.split(' ')[2];
           //         if (current_status) {
           //             $(`#change_camera a[cam_index="${item.cam_index}"]`).removeClass(remove_class).addClass('g_status');
           //         } else {
@@ -2933,8 +2947,8 @@
           let playURL = $(this).attr("playURL");
           let status = $(this).attr("status");
           let this_cam_item = $(this);
-          var classValue = this_cam_item.attr('class');
-          var remove_class = classValue.split(' ')[2];
+          let classValue = this_cam_item.attr('class');
+          let remove_class = classValue.split(' ')[2];
           // $(".camera_active").html(el_count + 1);
 
           // const current_status = await get_camera_status(cam_index);
@@ -3005,8 +3019,8 @@
           let playURL = $(this).attr("playURL");
           let status = $(this).attr("status");
           let this_cam_item = $(this);
-          var classValue = this_cam_item.attr('class');
-          var remove_class = classValue.split(' ')[2];
+          let classValue = this_cam_item.attr('class');
+          let remove_class = classValue.split(' ')[2];
           // $(".camera_active").html(el_count + 1);
 
           // const current_status = await get_camera_status(cam_index);
@@ -3069,7 +3083,7 @@
       
       $('.unmute').hide();
       $('.mute').click(function(e) {
-          var iRet = jsDecoder.JS_OpenSound(iWind);
+          let iRet = jsDecoder.JS_OpenSound(iWind);
           if (iRet == 0) {
               console.log("Ушбу камерада овоз бор, уни ёқишни тасдиқлайсизми?");
               $('.mute').hide();
@@ -3089,7 +3103,7 @@
           jsDecoder.JS_Stop(iWind).then(function() {
               console.log("stop success");
           }, function() {
-              var html = "stop failed";
+              let html = "stop failed";
               document.getElementById("error").innerHTML = "<div>" + html + "</div>";
               console.log("stop failed");
           });
@@ -3103,14 +3117,14 @@
           jsDecoder.JS_CapturePicture(iWind, "img", szType).then(function() {
               console.log("CapturePicture success");
           }, function() {
-              var html = "CapturePicture failed";
+              let html = "CapturePicture failed";
               document.getElementById("error").innerHTML = "<div>" + html + "</div>";
               console.log("CapturePicture failed");
           });
       }
 
       function OpenSound() {
-          var iRet = jsDecoder.JS_OpenSound(iWind);
+          let iRet = jsDecoder.JS_OpenSound(iWind);
           if (iRet == 0) alert("Ушбу камерада овоз бор, уни ёқишни тасдиқлайсизми?");
           else {
               alert("Ушбу камерада овоз йўқ");
@@ -3157,7 +3171,23 @@
       }
 
 
-
+      function initCamera() {
+        jsDecoder = new JSPlugin({
+          szId: "playWind",
+          iType: 2,
+          iWidth: 500,
+          iHeight: 350,
+          iMaxSplit: 4,
+          iCurrentSplit: 1,
+          szBasePath: "./dist",
+          oStyle: {
+              border: "#343434",
+              borderSelect: "transparent",
+              background: "#000 url('/assets/online.svg') no-repeat center center;"
+          }
+        })
+        get_camera()
+      }
 
 
 
@@ -3632,7 +3662,7 @@
 
         // Function to fly to the bounds of all markers
         function flyToMarkers(data) {
-            var bounds = new L.LatLngBounds();
+            let bounds = new L.LatLngBounds();
             data.forEach(function (marker) {
                 bounds.extend([marker.lat, marker.lon]);
             });
@@ -3796,10 +3826,11 @@
 <script src="/dist1/uuid.js"></script>
 <script src="/dist1/jquery.cookie.js"></script>
 
+
 <script>
     {literal}
         //外部回调
-        var iWind = 0;
+        let iWind = 0;
         function GetSelectWndInfo (xml) {
             console.log(xml);
             iWind = xml;
@@ -3814,7 +3845,7 @@
         // $jq2('#fixedModal').draggable();
         
         //初始化插件
-        var jsDecoder = new JSPlugin2({
+        let jsDecoder = new JSPlugin2({
             szId: "playWind2",
             iType: 2,
             iWidth: 640,
@@ -3920,7 +3951,7 @@
 
         $('.unmute').hide();
         $('.mute').click(function(e) {
-            var iRet = jsDecoder.JS_OpenSound(iWind);
+            let iRet = jsDecoder.JS_OpenSound(iWind);
             if(iRet == 0) {
                 console.log("Ушбу камерада овоз бор, уни ёқишни тасдиқлайсизми?");
                 $('.mute').hide();
@@ -3940,7 +3971,7 @@
             jsDecoder.JS_Stop(iWind).then(function () {
                 console.log("stop success");
             }, function () {
-                var html = "stop failed";
+                let html = "stop failed";
                 document.getElementById("error").innerHTML = "<div>" + html + "</div>";
                 console.log("stop failed");
             });
@@ -3958,14 +3989,14 @@
             jsDecoder.JS_CapturePicture (iWind, "img", szType).then(function () {
                 console.log("CapturePicture success");
             }, function () {
-                var html = "CapturePicture failed";
+                let html = "CapturePicture failed";
                 document.getElementById("error").innerHTML = "<div>" + html + "</div>";
                 console.log("CapturePicture failed");
             });
         }
 
         function OpenSound () {
-            var iRet = jsDecoder.JS_OpenSound (iWind);
+            let iRet = jsDecoder.JS_OpenSound (iWind);
             if(iRet == 0) alert("Ушбу камерада овоз бор, уни ёқишни тасдиқлайсизми?"); 
             else {
                 alert("Ушбу камерада овоз йўқ");
