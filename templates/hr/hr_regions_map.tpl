@@ -1040,6 +1040,10 @@
     display: none;
   }
 
+  #staffInfoModal .card-body{
+    padding: 0% 15px;
+  }
+
   {/literal}
 </style>
 

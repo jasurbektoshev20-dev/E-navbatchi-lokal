@@ -258,22 +258,25 @@ switch ($Action) {
         $photo = isset($photo) ? $photo : $_POST['photo'];
 
         $structure_id    = $_POST['structure_id'];
-        $role    = $_POST['role'];
-        $position_id    = $_POST['position_id'];
         $rank_id    = $_POST['rank_id'];
+        $position_id    = isset($_POST['position_id']) ? $_POST['position_id'] : 'null';
+        $role    = isset($_POST['role']) ? $_POST['role'] : 'null';
         $lastname    = $_POST['lastname'];
-        $firstname    = $_POST['firstname'];
+        $firstname    = $_POST['firstname'];   
         $surname    = $_POST['surname'];
         $phone    = $_POST['phone'];
-        $username    = $_POST['username'];
-        $password    = md5($_POST['password']);
+        $username    = isset($_POST['username']) ? $_POST['username']: '';
+        // $password    =isset(md5($_POST['password'])) ? md5($_POST['password']) : '';
+        $password = isset($_POST['password']) ? md5($_POST['password']) : '';
+
+
 
         if ($RowId != "0") {
             $updquery = "UPDATE hr.staff set 
-                structure_id = '{$structure_id}',
-                role_id = '{$role}',
-                position_id = '{$position_id}',
-                rank_id = '{$rank_id}',
+                structure_id = {$structure_id},
+                role_id = {$role},
+                position_id = {$position_id},
+                rank_id = {$rank_id},
                 lastname = '{$lastname}',
                 firstname = '{$firstname}',
                 surname = '{$surname}',
@@ -283,6 +286,7 @@ switch ($Action) {
                 photo = '{$photo}'
             WHERE id = {$RowId}";
             $sql->query($updquery);
+
             if ($sql->error() == "") {
                 $res = "0<&sep&>" . MyPiCrypt($RowId);
             } else {
@@ -306,9 +310,9 @@ switch ($Action) {
                             photo
                         ) values (
                             '{$structure_id}',
-                            '{$role}',
-                            '{$position_id}',
-                            '{$rank_id}',
+                            {$role},
+                            {$position_id},
+                            {$rank_id},
                             '{$lastname}',
                             '{$firstname}',
                             '{$surname}',
