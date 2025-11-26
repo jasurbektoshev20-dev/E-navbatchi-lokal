@@ -65,7 +65,11 @@
     }
 
 
+
+
+
     .filters {
+      background: #1e293b;
       position: absolute;
       left: 100px;
       top: 34px;
@@ -75,11 +79,12 @@
       width: 640px;
       display: flex;
       justify-content: space-between;
+      color: #fff;
     }
 
     .filters label {
       font-size: 18px;
-      color: #000;
+      color: #fff;
     }
 
     .filters select {
@@ -89,6 +94,14 @@
      .filters select{
         width: 200px;
      }
+
+     
+
+
+
+
+
+
 
     .space-main-body-img img {
       width: 100%;
@@ -633,7 +646,7 @@
   </section>
 
 
-  <div class="filters bg-white rounded shadow" style="z-index: 200;">
+  <div class="filters rounded shadow" style="z-index: 200;">
     <div>
       <label for="viloyatSelect" class="form-label">Hududlar</label>
       <select id="viloyatSelect" class="form-select">

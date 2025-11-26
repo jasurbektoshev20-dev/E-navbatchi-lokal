@@ -360,7 +360,7 @@
 }
 
 /* Image box */
-.staff-photo-box {
+.card-body .staff-photo-box {
   width: 100%;
   height: 240px;
   overflow: hidden;
@@ -368,7 +368,7 @@
   border: 1px solid rgba(0, 255, 136, 0.3);
 }
 
-.staff-photo {
+.card-body .staff-photo2 {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -377,14 +377,14 @@
 }
 
 /* Name */
-.staff-name {
+.card-body .staff-name2 {
   font-size: 1.35rem;
   color: #eaffea;
   font-weight: 600;
 }
 
 /* Phone — clickable */
-.staff-phone {
+.card-body .staff-phone2 {
   font-size: 1.2rem;
   color: #00ff88;
   text-decoration: none;
@@ -396,7 +396,7 @@
   transition: 0.25s ease;
 }
 
-.staff-phone:hover {
+.card-body .staff-phone2:hover {
   border-color: #00ff88;
   background: rgba(0, 255, 136, 0.1);
   transform: translateY(-2px);
@@ -915,7 +915,7 @@
   border-radius: 8px;
   backdrop-filter: blur(6px);
   cursor: pointer;
-  z-index: 2000;
+  z-index: 150;
   transition: all .3s ease;
 }
 
@@ -953,16 +953,15 @@
 
 .stylish-card {
   width: 450px;
-  background: #1e293b; /* dark slate */
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 14px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+  /* background: #1e293b; /* dark slate */
+  /* border-radius: 14px; */
+  /* box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45); */
   transition: 0.3s ease;
 }
 
 .stylish-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.6);
+  /* transform: translateY(-6px);
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.6); */
 }
 
 /* Rasm */
@@ -1021,7 +1020,7 @@
 }
 
 .modal-object-about .mapboxgl-popup-content {
-    background: #000;
+    background: #1e293b;
   }
 
   .modal-object-about .mapboxgl-popup-content .mapboxgl-popup-close-button{
@@ -1841,7 +1840,7 @@
               .setLngLat([lon, lat])
               .setPopup(new mapboxgl.Popup()
                 .setHTML(
-                  `<div style="color: #000; font-size:18px;">${door.name}</div>`
+                  `<div style="color: #38BDF8; font-size:18px;">${door.name}</div>`
                 ))
               .addTo(map);
           });
@@ -1867,7 +1866,7 @@
               .setLngLat([lon, lat])
               .setPopup(
                 new mapboxgl.Popup().setHTML(
-                  `<div style="color: #000; font-size:20px;"> <b>${track.car_name}</b><br>Tezlik: ${track.speed} km/h<br>${track.date} </div>`
+                  `<div style="color: #38BDF8; font-size:20px;"> <b>${track.car_name}</b><br>Tezlik: ${track.speed} km/h<br>${track.date} </div>`
                 )
               )
               .addTo(map);
@@ -1890,7 +1889,7 @@
              el.style.width = '25px';
             el.style.height = '25px';
             const popupHTML = `
-              <div style="color: #000; text-align:center">
+              <div style="color: #38BDF8; text-align:center">
                 <b style="font-size: 18px">${camera.comment}</b><br>
                 <button 
                   class="btn btn-primary popup-camera-btn" 
@@ -1999,7 +1998,7 @@
             new mapboxgl.Marker(el)
               .setLngLat([lon, lat])
               .setPopup(new mapboxgl.Popup().setHTML(
-                `<div style="color: #000; font-size:18px;">${sos.name}</div>`
+                `<div style="color: #38BDF8; font-size:18px;">${sos.name}</div>`
               ))
               .addTo(map);
           });
@@ -3846,14 +3845,14 @@
                             $("#staffInfoModal .card-body").append(`
                                 <div class="col-3 text-center">
                                     <div class="staff-photo-box">
-                                        <img class="staff-photo" src="/pictures/staffs/${item.photo}" alt="">
+                                        <img class="staff-photo2" src="/pictures/staffs/${item.photo}" alt="">
                                     </div>
 
-                                    <div class="staff-name mt-3">
+                                    <div class="staff-name2 mt-3">
                                         ${item.staff_name}
                                     </div>
 
-                                    <a href="tel:${item.phone}" class="staff-phone mt-2">
+                                    <a href="tel:${item.phone}" class="staff-phone2 mt-2">
                                         📞 ${item.phone}
                                     </a>
                                     </div>

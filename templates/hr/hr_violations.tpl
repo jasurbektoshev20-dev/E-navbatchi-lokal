@@ -721,62 +721,65 @@ function renderModdaList(values) {
 // =====================================
 // 6. BAR CHART (DIAGRAMMA) — GRADIENT
 // =====================================
-
 function updateBar(regionValues) {
 
+    // 1. Viloyatlarni jami bilan juftlab olamiz
+    let totals = regions.map((region, index) => ({
+        name: region,
+        value: regionValues[index].reduce((a, b) => a + b, 0)
+    }));
+
+    // 2. 🔥 O‘sish tartibida sort qilamiz
+    totals.sort((a, b) => a.value - b.value);
+
+    // 3. Sortdan keyin nom va qiymatlarni ajratamiz
+    let sortedRegions = totals.map(t => t.name);
+    let sortedValues = totals.map(t => t.value);
+
+    // 4. Echarts update
     barChart.setOption({
         textStyle: { fontFamily: "Arial, sans-serif" },
         grid: { bottom: 80, right: 30, left: 60 },
-           tooltip: { trigger: "axis", backgroundColor: 'white' ,   textStyle: {
-                  fontSize: 20,     // 🔥 shu yerda o'zgartirasan
-                  color: '#000'
-              }},
+
+        tooltip: {
+            trigger: "axis",
+            backgroundColor: 'white',
+            textStyle: { fontSize: 20, color: '#000' }
+        },
 
         xAxis: {
             type: "category",
-            data: regions,
-           axisLabel: { interval: 0, rotate: 40, color: '#b7b7b7',  fontSize: 14  },
-            axisLine: { show: false },
-           splitLine: { show: false }
+            data: sortedRegions,
+            axisLabel: { interval: 0, rotate: 40, color: '#b7b7b7', fontSize: 14 }
         },
 
-        yAxis: { type: "value",axisLabel: { 
-        color: '#b7b7b7',
-        fontSize: 18   // <-- shu yerda shrift kattaligi
-    },
-      axisLine: { show: false },
-      splitLine: { show: false }
-  },
+        yAxis: {
+            type: "value",
+            axisLabel: { color: '#b7b7b7', fontSize: 18 },
+            axisLine: { show: false },
+            splitLine: { show: false }
+        },
 
         series: [{
             type: "bar",
             barMaxWidth: 60,
-            data: regionValues.map(arr => arr.reduce((a, b) => a + b, 0)),
-
-            animation: true,
-            animationDuration: 1300,
-            animationEasing: "elasticOut",
-
+            data: sortedValues,
             itemStyle: {
-               color: function(params) {
-          return colors[params.dataIndex % colors.length];
-        },
-        borderRadius: [8, 8, 0, 0]
-
+                color: p => colors[p.dataIndex % colors.length],
+                borderRadius: [8, 8, 0, 0]
             },
-
             label: {
                 show: true,
                 position: "top",
                 fontWeight: "bold",
-                 color: '#b7b7b7',
                 fontSize: 20,
+                color: '#b7b7b7'
             },
-
             barWidth: "55%"
         }]
     });
 }
+
 
 
 // =====================================
@@ -1293,55 +1296,70 @@ function renderModdaListCriminal(values) {
 // =====================================
 // 6. BAR CHART (DIAGRAMMA) — GRADIENT
 // =====================================
-
 function updateBarCriminal(regionValues) {
+
+    // 1️⃣ Har bir hududning umumiy qiymatini hisoblaymiz
+    const totals = regionValues.map(arr => arr.reduce((a, b) => a + b, 0));
+
+    // 2️⃣ regions, totals va regionValues ni birga sort qilamiz
+    const combined = regions.map((name, i) => ({
+        name: name,
+        total: totals[i],
+        values: regionValues[i]
+    }));
+
+    combined.sort((a, b) => a.total - b.total); // ⬅️ o‘sish tartibi
+
+    // 3️⃣ Sort qilib bo'lingan qiymatlar
+    const sortedRegions = combined.map(i => i.name);
+    const sortedTotals  = combined.map(i => i.total);
 
     barChartCriminal.setOption({
         textStyle: { fontFamily: "Arial, sans-serif" },
         grid: { bottom: 80, right: 30, left: 60 },
-           tooltip: { trigger: "axis", backgroundColor: 'white' ,   textStyle: {
-                  fontSize: 20,     // 🔥 shu yerda o'zgartirasan
-                  color: '#000'
-              }},
+
+        tooltip: { 
+            trigger: "axis", 
+            backgroundColor: 'white',
+            textStyle: { fontSize: 20, color: "#000" }
+        },
 
         xAxis: {
             type: "category",
-            data: regions,
-           axisLabel: { interval: 0, rotate: 40, color: '#b7b7b7',  fontSize: 14  },
+            data: sortedRegions,
+            axisLabel: { interval: 0, rotate: 40, color: '#b7b7b7', fontSize: 14 },
             axisLine: { show: false },
-           splitLine: { show: false }
+            splitLine: { show: false }
         },
 
-        yAxis: { type: "value",axisLabel: { 
-        color: '#b7b7b7',
-        fontSize: 18   // <-- shu yerda shrift kattaligi
-    },
-      axisLine: { show: false },
-      splitLine: { show: false }
-  },
+        yAxis: {
+            type: "value",
+            axisLabel: { color: '#b7b7b7', fontSize: 18 },
+            axisLine: { show: false },
+            splitLine: { show: false }
+        },
 
         series: [{
             type: "bar",
             barMaxWidth: 60,
-            data: regionValues.map(arr => arr.reduce((a, b) => a + b, 0)),
+            data: sortedTotals,
 
             animation: true,
             animationDuration: 1300,
             animationEasing: "elasticOut",
 
             itemStyle: {
-               color: function(params) {
-          return colors[params.dataIndex % colors.length];
-        },
-        borderRadius: [8, 8, 0, 0]
-
+                color: function(params) {
+                    return colors[params.dataIndex % colors.length];
+                },
+                borderRadius: [8, 8, 0, 0]
             },
 
             label: {
                 show: true,
                 position: "top",
                 fontWeight: "bold",
-                 color: '#b7b7b7',
+                color: '#b7b7b7',
                 fontSize: 20,
             },
 
@@ -1349,6 +1367,7 @@ function updateBarCriminal(regionValues) {
         }]
     });
 }
+
 
 
 // =====================================

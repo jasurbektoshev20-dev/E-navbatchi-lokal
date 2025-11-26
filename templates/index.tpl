@@ -488,7 +488,7 @@
             xAxis: {
               type: 'category',
               data: data?.stat_region?.map(item => item.name),
-              axisLabel: { interval: 0, fontSize: '1.3rem', rotate: 45, color: '#b7b7b7' },
+              axisLabel: { interval: 0, fontSize: '1rem', rotate: 45, color: '#b7b7b7' },
               axisLine: { show: false },
               splitLine: { show: false }
             },
@@ -1661,7 +1661,7 @@ ${escapeHtml(ev.title)}
         data: data.map(item => item.name),
         axisLabel: {
           interval: 0,
-          fontSize: '1.3rem',
+          fontSize: '1rem',
           rotate: 50, // Show all labels
           color: default_color,
         },
@@ -1775,7 +1775,7 @@ ${escapeHtml(ev.title)}
         data: data.map(item => item.name),
         axisLabel: {
           interval: 0,
-          fontSize: '1.3rem',
+          fontSize: '1rem',
           rotate: 50, // Show all labels
           color: default_color,
         },
