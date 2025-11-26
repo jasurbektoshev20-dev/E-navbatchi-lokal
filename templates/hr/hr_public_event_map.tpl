@@ -2831,6 +2831,7 @@
       });
       
       $('.unmute').hide();
+      
       $('.mute').click(function(e) {
           var iRet = jsDecoder.JS_OpenSound(iWind);
           if (iRet == 0) {
