@@ -3803,6 +3803,7 @@
         })
 
         function openBodyCam(car_id, og_id) {
+          console.log(car_id, og_id)
             $("#carCameraModal").show();
             arrangeWindow(1);
 
