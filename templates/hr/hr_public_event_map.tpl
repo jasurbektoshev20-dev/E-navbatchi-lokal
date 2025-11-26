@@ -1100,7 +1100,7 @@
                     renderDialogMap(response?.data, response?.cameras)
                     renderPassportDetails(response?.data)
                     renderDutyDetails(response?.data?.routine)
-                    renderEventDetails(response?.data?.routine)
+                    renderEventDetails(response?.data?.event)
 
 
                     $('#change_camera').empty();
@@ -2318,30 +2318,59 @@
       // <li class="alert alert-dark" role="alert">Sektorlar soni: <span>4 ${params.responsible_name} ta</span> </li>
       container.innerHTML = `
            <ul class="">
-          <li class="alert alert-dark m-0" role="alert">
+            <li class="alert alert-dark m-0" role="alert">
             <i class="duty-icon bi bi-signpost-split"></i>
-            O'tkaziladigan joyi: <span>Toshkent sh. Bunyodkor o'yingohi</span>
+            Tadbir nomi <span>${params.event_name}</span>
         </li>
-
+        <li class="alert alert-dark m-0" role="alert">
+            <i class="duty-icon bi bi-signpost-split"></i>
+            javobgar shaxs <span>${params.respons_person}</span>
+        </li>
           <li class="alert alert-dark m-0" role="alert">
             <i class="duty-icon bi bi-signpost-split"></i>
-            Jamoalar: <span>O'zbekiston - Eron</span>
+            Tadbir turi <span>${params.event_type}</span>
         </li>
 
          <li class="alert alert-dark m-0" role="alert">
             <i class="duty-icon bi bi-signpost-split"></i>
-            O'yin turi: <span>Osiyo chempionlar ligasi</span>
+            Tadbir yo'nalishi <span>${params.direction_event}</span>
+        </li>
+         <li class="alert alert-dark m-0" role="alert">
+            <i class="duty-icon bi bi-signpost-split"></i>
+            Tadbirga asos <span>${params.command}</span>
+        </li>
+         <li class="alert alert-dark m-0" role="alert">
+            <i class="duty-icon bi bi-signpost-split"></i>
+            Tadbir yo'nalishi <span>${params.direction_event}</span>
+        </li>
+        <li class="alert alert-dark m-0" role="alert">
+            <i class="duty-icon bi bi-signpost-split"></i>
+            Fuqarolar soni: <span>${params.citizens_count}</span>
+        </li>
+         <li class="alert alert-dark m-0" role="alert">
+            <i class="duty-icon bi bi-signpost-split"></i>
+            Ichki ishlar xizmatchilari soni <span>${params.iiv_count}</span>
+        </li>
+         <li class="alert alert-dark m-0" role="alert">
+            <i class="duty-icon bi bi-signpost-split"></i>
+            Milliy Gvardiya xizmatchilari soni <span>${params.mg_count}</span>
+        </li>
+         <li class="alert alert-dark m-0" role="alert">
+            <i class="duty-icon bi bi-signpost-split"></i>
+            FVV xizmatchilari soni <span>${params.fvv_count}</span>
         </li>
 
           <li class="alert alert-dark m-0" role="alert">
             <i class="duty-icon bi bi-signpost-split"></i>
-            Boshlanish vaqti: <span>18:45</span>
+            Boshlanish vaqti <span>${params.start_time}</span>
         </li>
 
-          <li class="alert alert-dark m-0" role="alert">
+         <li class="alert alert-dark m-0" role="alert">
             <i class="duty-icon bi bi-signpost-split"></i>
-            Fuqarolar soni: <span>3000</span>
+            tugash vaqti: <span>${params.end_time}</span>
         </li>
+
+          
       </ul>
         `
     }
