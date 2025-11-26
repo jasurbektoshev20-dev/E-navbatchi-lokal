@@ -319,7 +319,7 @@ switch ($Act) {
 		j.object_name as obj_name,m.organizer,s.name{$slang} as region_name 
 		FROM hr.public_event1 m
 		left join tur.public_event_types t on t.id = m.public_event_type
-		left join hr.structure s on s.id = m.region_id
+		left join hr.structure s on s.id = m.structure_id
 		left join hr.staff p on p.id = m.respons_person_id
 		left join hr.jts_objects j on j.id = m.jts_object_id
 		";

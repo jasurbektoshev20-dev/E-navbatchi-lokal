@@ -1316,7 +1316,7 @@
         <button type="button" class="btn close-camera" data-bs-dismiss="modal" aria-label="Close">x</button>
 
         <div class="card-body text-center">
-            <div id="playWind" style="width: 640px; height: 400px;"></div>
+            <div id="playWind2" style="width: 640px; height: 400px;"></div>
             <div class="rounded" id="offline_bg">
                 <span>Камера оффлине!</span>
             </div>
@@ -3170,7 +3170,7 @@
 
       // mpg 
 
-             function pad2(n) {
+         function pad2(n) {
             return n < 10 ? '0' + n : String(n);
         }
 
@@ -3776,7 +3776,7 @@
         
         //初始化插件
         var jsDecoder = new JSPlugin({
-            szId: "playWind",
+            szId: "playWind2",
             iType: 2,
             iWidth: 640,
             iHeight: 400,
@@ -3820,11 +3820,11 @@
                     $("#carCameraModal .radio_call").html(data.cams[0]?.comment);
                     if (isOnCam) {
                         $("#offline_bg").hide();
-                        $("#playWind").show();
+                        $("#playWind2").show();
                         play_camera(data.cams[0].url, 0);
                     } else {
                         $("#offline_bg").show();
-                        $("#playWind").hide();
+                        $("#playWind2").hide();
                     }
                 }
             })

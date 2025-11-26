@@ -1098,9 +1098,9 @@
                     $("#markerModal").modal("show");
 
                     renderDialogMap(response?.data, response?.cameras)
-                    renderPassportDetails(response?.data)
-                    renderDutyDetails(response?.data?.routine)
-                    renderEventDetails(response?.data?.event)
+                    renderPassportDetails(response?.data,)
+                    renderDutyDetails(response?.data)
+                    renderEventDetails(response?.data?.event,response?.data,)
 
 
                     $('#change_camera').empty();
@@ -1838,9 +1838,9 @@
     }
 
     function renderDutyDetails(params) {
+      console.log("params", params)
       const container = document.querySelector('.space-main-body-duty')
-      if (!container || !params) return
-
+     
       // <li class="alert alert-dark" role="alert">Sektorlar soni: <span>4 ${params.responsible_name} ta</span> </li>
       container.innerHTML = `
            <ul class="">
@@ -1848,7 +1848,7 @@
               <details>
                 <summary>
                   <div class="passport-icon">  <i class="duty-icon bi bi-person-badge"></i></div>
-                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">МГ жавобгар:</span> <span> ${params?.responsible_name ?? 'Холлиев О.Р'}</span>
+                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">МГ жавобгар:</span>${params.event.respons_person}<span> </span>
                 </summary>
                 <ul class="inner-list">
                     <li>
@@ -1882,7 +1882,7 @@
             <details>
               <summary>
                 <div class="passport-icon">  <i class="duty-icon bi bi-people-fill"></i></div>
-                <span class="summary-span"> <span style="color:#fff;">Xizmat turi:</span> <span>561 нафар</span>
+                <span class="summary-span"> <span style="color:#fff;">Xizmat turi:</span> <span> нафар</span>
               </summary>
 
               <ul class="inner-list">
@@ -2165,7 +2165,7 @@
                     </div>
                     <span class="summary-span">
                         <span style="color:#fff; font-weight:bold;">Камералар:</span>
-                        <span>${params?.count_cameras}</span>
+                        <span>${params.routine[0].count_cameras}</span>
                     </span>
                     </summary>
 
