@@ -1044,9 +1044,6 @@
         getObjects()
       }
 
-
-
-
       const allMarkers = L.layerGroup()
 
       function getObjects() {
@@ -1091,7 +1088,7 @@
                 document.getElementById('markerModalTitle').innerText = "Bunyodkor stadioni";
 
                 $.ajax({
-                  url: `${AJAXPHP}?act=get_jts_object_by_id&id=${m.id}`,
+                  url: `${AJAXPHP}?act=get_public_events_by_id&id=${m.id}`,
                   type: 'GET',
                   dataType: 'json',
                   success: function(response) {
