@@ -932,7 +932,7 @@ switch ($Action) {
 		p.organizer,
 
 		p.horse_patrul,p.walker_patrul,p.avto_patrul,p.war_ekipaj,p.sapyors,p.zaxira,p.horses,p.dogs,p.metalldetektor,p.signals,p.car_count,
-		p.respons_person_xname as pazivnoy
+		p.respons_person_xname as pazivnoy,p.respons_person_phone
 		FROM hr.public_event1 p
 		left join hr.jts_objects j on j.id  = p.jts_object_id
 		left join hr.structure s on s.id  = j.structure_id
@@ -1021,7 +1021,40 @@ switch ($Action) {
 		$JtsObject['routine'] = $Routine;
 		$BodyCamUrl = [];
 		$Bodys = [];
-		$Staffs = [];
+		$Staffs = [];.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		// if ($Routine) {
 		// 	$query  = "SELECT t.id, t.car_id, t.bodycam_id, t.patrul_type,
 		// 	CONCAT(r.name{$slang}, ' ', s.lastname, ' ', s.firstname, ' ', s.surname) AS staff_name,
