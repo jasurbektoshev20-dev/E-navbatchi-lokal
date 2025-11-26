@@ -1608,7 +1608,7 @@
         </div>
         <div class="passport-li-about">
           <h6>Sig'imi:</h6>
-          <p>${params.sigimi} nafar</p>
+          <p>${params.sigimi} та</p>
         </div>
       </li>
 
