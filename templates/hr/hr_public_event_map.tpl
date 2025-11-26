@@ -640,7 +640,7 @@
 
   <div class="filters rounded shadow" style="z-index: 200;">
     <div>
-      <label for="viloyatSelect" class="form-label">Hududlar</label>
+      <label for="viloyatSelect" class="form-label">Ҳудудлар</label>
       <select id="viloyatSelect" class="form-select">
         <option value="">Танланг</option>
         {foreach from=$Regions item=Item1 key=ikey1}
@@ -650,7 +650,7 @@
     </div>
 
     <div>
-      <label for="objectTypeSelect" class="form-label">Tadbir turi</label>
+      <label for="objectTypeSelect" class="form-label">Тадбир тури</label>
       <select id="objectTypeSelect" class="form-select">
         <option value="">Танланг</option>
         {foreach from=$ObjectTypes item=Item1 key=ikey1}
@@ -660,7 +660,7 @@
     </div>
 
     <div>
-      <label for="objectSelect" id="objectLabelLabel" class="form-label">Tadbir номи</label>
+      <label for="objectSelect" id="objectLabelLabel" class="form-label">Тадбир номи</label>
       <select id="objectSelect" class="form-select">
         <option value="">Танланг</option>
         {foreach from=$Objects item=Item1 key=ikey1}

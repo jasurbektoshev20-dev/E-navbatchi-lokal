@@ -274,9 +274,9 @@
             <h4 class="card-title">Оммавий тадбирлар ҳудудлар кесимида
             </h4>
           </div>
-          <div class="col-4">
+          {* <div class="col-4">
             <select class="form-select" id="get_events_by_region_filter1"> </select>
-          </div>
+          </div> *}
 
           <div class="chart-container" id="get_events_by_region1"></div>
         </div>
@@ -290,9 +290,9 @@
             <h4 class="card-title">Идоравий тадбирлар ҳудудлар кесимида
             </h4>
           </div><br>
-          <div class="col-4">
+          {* <div class="col-4">
             <select class="form-select" id="get_events_by_region_filter2"> </select>
-          </div>
+          </div> *}
 
           <div class="chart-container" id="get_events_by_region2"></div>
         </div>
@@ -1761,6 +1761,7 @@
     var colors = ['#28C76F', '#00CFE8', '#7367F0', '#45FFCA', '#A149FA', '#E3FCBF', '#00FFAB',
       '#B983FF', '#94B3FD', '#998CEB', '#00AF91', '#6499E9', '#F3CCFF',
     ];
+    
     option = {
       textStyle: {
         fontFamily: "Arial, sans-serif"

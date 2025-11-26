@@ -469,10 +469,10 @@ switch ($Act) {
 		$sql->query($query);
 		$Events = $sql->fetchAll();
 
-		echo '<pre>';
-		print_r($Events);
-		echo '</pre>';
-		die();
+		// echo '<pre>';
+		// print_r($Events);
+		// echo '</pre>';
+		// die();
 
 		$smarty->assign(array(
 			'Regions'        =>    $Regions,

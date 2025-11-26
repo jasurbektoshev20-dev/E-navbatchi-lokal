@@ -911,6 +911,7 @@ switch ($Action) {
 		t.address, t.area, t.admin_phone, t.object_head, t.head_phone, t.police_name, t.police_phone,t.markets_count,t.eating_place_count,t.neighborhood_head,t.assistant_governor,t.youth_leader,t.womens_activist
 		,tax_inspector,t.social_employe,t.sales_places_count,t.neighborhood_head_phone,t.assistant_governor_phone,t.youth_leader_phone,t.womens_activist_phone,tax_inspector_phone,t.social_employe_phone,
 		COALESCE(COUNT(jd.id), 0) AS count_doors,
+		t.start_work,t.sigimi,t.bloks_count,t.sektors_count,t.lamps_count,
 		t.photo, t.lat, t.long, ST_AsGeoJSON(geom) AS geom_geojson
 		FROM hr.public_event1 p
 		left join hr.jts_objects t on t.id  = p.jts_object_id
@@ -930,7 +931,8 @@ switch ($Action) {
 		CONCAT(st.lastname, ' ', st.firstname, ' ', st.surname) as respons_person,
 		p.organizer,
 
-		p.horse_patrul,p.walker_patrul,p.avto_patrul,p.war_ekipaj,p.sapyors,p.zaxira,p.horses,p.dogs,p.metalldetektor,p.signals,p.car_count
+		p.horse_patrul,p.walker_patrul,p.avto_patrul,p.war_ekipaj,p.sapyors,p.zaxira,p.horses,p.dogs,p.metalldetektor,p.signals,p.car_count,
+		p.respons_person_xname as pazivnoy
 		FROM hr.public_event1 p
 		left join hr.jts_objects j on j.id  = p.jts_object_id
 		left join hr.structure s on s.id  = j.structure_id
