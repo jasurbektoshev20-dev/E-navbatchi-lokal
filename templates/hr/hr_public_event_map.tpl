@@ -1608,7 +1608,7 @@
         </div>
         <div class="passport-li-about">
           <h6>Sig'imi:</h6>
-          <p>${params.capacity} nafar</p>
+          <p>${params.sigimi} nafar</p>
         </div>
       </li>
 
@@ -1618,7 +1618,7 @@
         </div>
         <div class="passport-li-about">
           <h6>Bloklar soni:</h6>
-          <p>${params.blocks} ta</p>
+          <p>${params.bloks_count} та</p>
         </div>
       </li>
 
@@ -1628,7 +1628,7 @@
         </div>
         <div class="passport-li-about">
           <h6>Sektorlar soni:</h6>
-          <p>${params.sectors} ta</p>
+          <p>${params.sektors_count} та</p>
         </div>
       </li>
 
@@ -1686,7 +1686,7 @@
   <details>
     <summary>
       <div class="passport-icon"><i class="bi bi-people-fill"></i></div>
-      <span class="summary-span">МФЙ</span>
+      <span class="summary-span" style="color:#fff; font-weight:bold;">МФЙ</span>
     </summary>
 
     <ul class="inner-list">
@@ -1867,9 +1867,9 @@
                       </div>
                       <div class="passport-li-about">
                         <h6>Телефон рақами:</h6>
-                        <p>
-                          <a href="tel:${params?.responsible_phone}">${params?.responsible_phone}</a>
-                        </p>
+                        <span>
+                          <a href="tel:${params.event.responsible_phone}">${params.event.responsible_phone}</a>
+                        </span>
                       </div>
                     </li>
                       <li>
@@ -1877,9 +1877,9 @@
                         <i class="bi bi-shield-lock-fill cursor-pointer" id="responsible-key-icon"></i>
                       </div>
                       <div class="passport-li-about">
-                        <p class="responsible-key-text hidden">
-                          lochin21
-                        </p>
+                        <span class="responsible-key-text hidden">
+                          ${params?.event.pazivnoy}
+                        </span>
                       </div>
                     </li>
                 </ul>
@@ -1901,7 +1901,7 @@
                         + Number(params?.event.horse_patrul)
                         + Number(params?.event.zaxira)
                         + Number(params?.event.war_ekipaj)}
-                    </span>
+                    </span> та
                 </span>
             </summary>
 
@@ -1913,7 +1913,7 @@
                       </div>
                       <div class="passport-li-about">
                           <h6>Piyoda patrul:</h6>
-                          <p>${params?.event.walker_patrul}</p>
+                          <span>${params?.event.walker_patrul} nafar</span>
                       </div>
                   </li>
 
@@ -1924,7 +1924,7 @@
                         </div>
                         <div class="passport-li-about">
                             <h6>Otliq patrul:</h6>
-                            <p>${params?.event.horse_patrul}</p>
+                            <span>${params?.event.horse_patrul} та</span>
                         </div>
                     </li>
 
@@ -1935,7 +1935,7 @@
                         </div>
                         <div class="passport-li-about">
                             <h6>Jangavor ekipaj:</h6>
-                            <p>${params?.event.war_ekipaj}</p>
+                            <p>${params?.event.war_ekipaj} та</p>
                         </div>
                     </li>
 
@@ -1945,7 +1945,7 @@
                         </div>
                         <div class="passport-li-about">
                             <h6>Zaxira:</h6>
-                            <p>${params?.event.zaxira}</p>
+                            <p>${params?.event.zaxira} та</p>
                         </div>
                     </li>
 
