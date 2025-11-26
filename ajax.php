@@ -884,7 +884,7 @@ switch ($Action) {
 		$object_type = isset($_GET['object_type']) ? $_GET['object_type'] : 0;
 		$object_id = isset($_GET['object_id']) ? $_GET['object_id'] : 0;
 
-		$query  = "SELECT t.id, t.name{$slang}, o.object_name, o.lat, o.long
+		$query  = "SELECT t.id, t.name{$slang}, o.object_type,o.object_name, o.lat, o.long
 		FROM hr.public_event1 t 
 		LEFT JOIN hr.jts_objects o on o.id = t.jts_object_id
 		WHERE 1=1 ";
