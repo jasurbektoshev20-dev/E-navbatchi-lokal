@@ -1051,7 +1051,7 @@
 
       function getObjects() {
 
-        let url = `${AJAXPHP}?act=get_jts_map`;
+        let url = `${AJAXPHP}?act=get_public_events`;
         let params = [];
         if (region_id) params.push(`region_id=${region_id}`);
         if (object_id) params.push(`object_id=${object_id}`);
@@ -2831,7 +2831,7 @@
       });
       
       $('.unmute').hide();
-      
+
       $('.mute').click(function(e) {
           var iRet = jsDecoder.JS_OpenSound(iWind);
           if (iRet == 0) {
