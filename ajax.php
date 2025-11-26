@@ -929,7 +929,7 @@ switch ($Action) {
 		p.direction_event, p.command, p.citizens_count, p.iiv_count, 
 		p.fvv_count, p.mg_count, p.iiv_spring_count,p.start_time,p.end_time,
 		CONCAT(st.lastname, ' ', st.firstname, ' ', st.surname) as respons_person,
-		p.organizer,
+		p.organizer,fvv_phone,
 
 		p.horse_patrul,p.walker_patrul,p.avto_patrul,p.war_ekipaj,p.sapyors,p.zaxira,p.horses,p.dogs,p.metalldetektor,p.signals,p.car_count,
 		p.respons_person_xname as pazivnoy,p.respons_person_phone
