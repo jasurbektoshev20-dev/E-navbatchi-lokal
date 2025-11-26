@@ -235,45 +235,156 @@ switch ($Action) {
         $res = json_encode($result);
         break;
 
+    // case "act_staffs":
+    //     $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
+
+    //     if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+    //         $file = $_FILES['photo'];
+    //         // Set the upload directory
+    //         $uploadDir = 'pictures/staffs/';
+
+    //         // Generate a unique filename
+    //         $newFileName = uniqid('staff_', true) . '.' . pathinfo($file['name'], PATHINFO_EXTENSION);
+    //         $uploadFile = $uploadDir . $newFileName;
+
+    //         // Upload the file
+    //         if (move_uploaded_file($file['tmp_name'], $uploadFile)) {
+    //             $photo = $newFileName;
+    //         } else {
+    //             echo "Possible file upload attack!\n";
+    //         }
+    //     }
+
+    //     $photo = isset($photo) ? $photo : $_POST['photo'];
+
+    //     $structure_id    = $_POST['structure_id'];
+    //     $rank_id    = $_POST['rank_id'];
+    //     $position_id    = isset($_POST['position_id']) ? $_POST['position_id'] : 'null';
+    //     $role    = isset($_POST['role']) ? $_POST['role'] : 'null';
+    //     $lastname    = $_POST['lastname'];
+    //     $firstname    = $_POST['firstname'];   
+    //     $surname    = $_POST['surname'];
+    //     $phone    = $_POST['phone'];
+    //     $username    = isset($_POST['username']) ? $_POST['username']: '';
+    //     // $password    =isset(md5($_POST['password'])) ? md5($_POST['password']) : '';
+    //     $password = isset($_POST['password']) ? md5($_POST['password']) : '';
+
+
+
+    //     if ($RowId != "0") {
+    //         $updquery = "UPDATE hr.staff set 
+    //             structure_id = {$structure_id},
+    //             role_id = {$role},
+    //             position_id = {$position_id},
+    //             rank_id = {$rank_id},
+    //             lastname = '{$lastname}',
+    //             firstname = '{$firstname}',
+    //             surname = '{$surname}',
+    //             phone = '{$phone}',
+    //             username = '{$username}',
+    //             password = '{$password}',
+    //             photo = '{$photo}'
+    //         WHERE id = {$RowId}";
+    //         $sql->query($updquery);
+
+    //         if ($sql->error() == "") {
+    //             $res = "0<&sep&>" . MyPiCrypt($RowId);
+    //         } else {
+    //             $res = $sql->error();
+    //         }
+    //     } else {
+    //         $sql->query("SELECT count(*) ccount FROM hr.staff t WHERE username='{$username}'");
+    //         $isNotNew = $sql->fetchAssoc();
+    //         if ($isNotNew['ccount'] == 0) {
+    //             $insquery = "INSERT into hr.staff (
+    //                         structure_id,
+    //                         role_id,
+    //                         position_id,
+    //                         rank_id,
+    //                         lastname,
+    //                         firstname,
+    //                         surname,
+    //                         phone,
+    //                         username,
+    //                         password,
+    //                         photo
+    //                     ) values (
+    //                         '{$structure_id}',
+    //                         {$role},
+    //                         {$position_id},
+    //                         {$rank_id},
+    //                         '{$lastname}',
+    //                         '{$firstname}',
+    //                         '{$surname}',
+    //                         '{$phone}',
+    //                         '{$username}',
+    //                         '{$password}',
+    //                         '{$photo}'
+    //                     )";
+    //             $sql->query($insquery);
+    //             if ($sql->error() == "") {
+    //                 $sql->query("SELECT CURRVAL('hr.staff_id_seq') AS last_id;");
+    //                 $result = $sql->fetchAssoc();
+    //                 $LastId = $result['last_id'];
+
+    //                 $res = "0<&sep&>" . MyPiCrypt($LastId);
+    //             } else {
+    //                 $res = $sql->error();
+    //             }
+    //         } else {
+    //             $res = "Ушбу username аввал олинган бошқа ном билан уриниб кўринг!";
+    //         }
+    //     }
+    //     break;
+
     case "act_staffs":
-        $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
+    $RowId = !empty($_POST['id']) ? $_POST['id'] : 0;
 
-        if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-            $file = $_FILES['photo'];
-            // Set the upload directory
-            $uploadDir = 'pictures/staffs/';
+    // ─────────────────────────────
+    // 📌 Rasm yuklash
+    // ─────────────────────────────
+    if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+        $file = $_FILES['photo'];
+        $uploadDir = 'pictures/staffs/';
 
-            // Generate a unique filename
-            $newFileName = uniqid('staff_', true) . '.' . pathinfo($file['name'], PATHINFO_EXTENSION);
-            $uploadFile = $uploadDir . $newFileName;
+        $newFileName = uniqid('staff_', true) . '.' . pathinfo($file['name'], PATHINFO_EXTENSION);
+        $uploadFile = $uploadDir . $newFileName;
 
-            // Upload the file
-            if (move_uploaded_file($file['tmp_name'], $uploadFile)) {
-                $photo = $newFileName;
-            } else {
-                echo "Possible file upload attack!\n";
-            }
+        if (move_uploaded_file($file['tmp_name'], $uploadFile)) {
+            $photo = $newFileName;
         }
+    }
 
-        $photo = isset($photo) ? $photo : $_POST['photo'];
+    // Agar yangi rasm yuklanmagan bo'lsa — eski rasmni olamiz
+    $photo = isset($photo) ? $photo : $_POST['photo'];
 
-        $structure_id    = $_POST['structure_id'];
-        $role    = $_POST['role'];
-        $position_id    = $_POST['position_id'];
-        $rank_id    = $_POST['rank_id'];
-        $lastname    = $_POST['lastname'];
-        $firstname    = $_POST['firstname'];
-        $surname    = $_POST['surname'];
-        $phone    = $_POST['phone'];
-        $username    = $_POST['username'];
-        $password    = md5($_POST['password']);
+    // ─────────────────────────────
+    // 📌 POST ma’lumotlar
+    // ─────────────────────────────
+    $structure_id = $_POST['structure_id'];
+    $rank_id      = $_POST['rank_id'];
+    $position_id  = !empty($_POST['position_id']) ? $_POST['position_id'] : "null";
+    $role         = !empty($_POST['role']) ? $_POST['role'] : "null";
 
-        if ($RowId != "0") {
-            $updquery = "UPDATE hr.staff set 
-                structure_id = '{$structure_id}',
-                role_id = '{$role}',
-                position_id = '{$position_id}',
-                rank_id = '{$rank_id}',
+    $lastname  = $_POST['lastname'];
+    $firstname = $_POST['firstname'];
+    $surname   = $_POST['surname'];
+    $phone     = $_POST['phone'];
+
+    $username  = !empty($_POST['username']) ? $_POST['username'] : "";
+    $password  = !empty($_POST['password']) ? md5($_POST['password']) : "";
+
+    // ─────────────────────────────
+    // 📌 UPDATE (agar mavjud bo'lsa)
+    // ─────────────────────────────
+    if ($RowId != "0") {
+
+        $updquery = "
+            UPDATE hr.staff SET 
+                structure_id = {$structure_id},
+                role_id = {$role},
+                position_id = {$position_id},
+                rank_id = {$rank_id},
                 lastname = '{$lastname}',
                 firstname = '{$firstname}',
                 surname = '{$surname}',
@@ -281,57 +392,66 @@ switch ($Action) {
                 username = '{$username}',
                 password = '{$password}',
                 photo = '{$photo}'
-            WHERE id = {$RowId}";
-            $sql->query($updquery);
-            if ($sql->error() == "") {
-                $res = "0<&sep&>" . MyPiCrypt($RowId);
-            } else {
-                $res = $sql->error();
-            }
-        } else {
-            $sql->query("SELECT count(*) ccount FROM hr.staff t WHERE username='{$username}'");
-            $isNotNew = $sql->fetchAssoc();
-            if ($isNotNew['ccount'] == 0) {
-                $insquery = "INSERT into hr.staff (
-                            structure_id,
-                            role_id,
-                            position_id,
-                            rank_id,
-                            lastname,
-                            firstname,
-                            surname,
-                            phone,
-                            username,
-                            password,
-                            photo
-                        ) values (
-                            '{$structure_id}',
-                            '{$role}',
-                            '{$position_id}',
-                            '{$rank_id}',
-                            '{$lastname}',
-                            '{$firstname}',
-                            '{$surname}',
-                            '{$phone}',
-                            '{$username}',
-                            '{$password}',
-                            '{$photo}'
-                        )";
-                $sql->query($insquery);
-                if ($sql->error() == "") {
-                    $sql->query("SELECT CURRVAL('hr.staff_id_seq') AS last_id;");
-                    $result = $sql->fetchAssoc();
-                    $LastId = $result['last_id'];
+            WHERE id = {$RowId}
+        ";
 
-                    $res = "0<&sep&>" . MyPiCrypt($LastId);
-                } else {
-                    $res = $sql->error();
-                }
-            } else {
-                $res = "Ушбу username аввал олинган бошқа ном билан уриниб кўринг!";
-            }
+        $sql->query($updquery);
+
+        if ($sql->error() == "") {
+            $res = "0<&sep&>" . MyPiCrypt($RowId);
+        } else {
+            $res = $sql->error();
         }
-        break;
+
+    } else {
+
+        // ─────────────────────────────
+        // 📌 INSERT (yangi xodim)
+        // ─────────────────────────────
+
+        $insquery = "
+            INSERT INTO hr.staff (
+                structure_id,
+                role_id,
+                position_id,
+                rank_id,
+                lastname,
+                firstname,
+                surname,
+                phone,
+                username,
+                password,
+                photo
+            ) VALUES (
+                '{$structure_id}',
+                {$role},
+                {$position_id},
+                {$rank_id},
+                '{$lastname}',
+                '{$firstname}',
+                '{$surname}',
+                '{$phone}',
+                '{$username}',
+                '{$password}',
+                '{$photo}'
+            )
+        ";
+
+        $sql->query($insquery);
+
+        if ($sql->error() == "") {
+            $sql->query("SELECT CURRVAL('hr.staff_id_seq') AS last_id;");
+            $result = $sql->fetchAssoc();
+            $LastId = $result['last_id'];
+
+            $res = "0<&sep&>" . MyPiCrypt($LastId);
+        } else {
+            $res = $sql->error();
+        }
+    }
+
+    break;
+
 
     case "del_staffs":
         $RowId = MyPiDeCrypt($_GET['rowid']);
