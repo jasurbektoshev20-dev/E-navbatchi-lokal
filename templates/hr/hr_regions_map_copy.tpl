@@ -2776,20 +2776,690 @@
           //         }
           //     })
           // }, camera_status_interval_time);
-      }
+        }
      
-      
+        async function get_body_camera() {
+        $('#body_change_camera').empty();
+        arrangeWindow(1);
+        if(!fetched_body || !fetched_body.length) return
+        fetched_body?.forEach((item, index) => {
+            if (item.status == 1) {
+                $('#body_change_camera').append(`<a href="#" class="dropdown-item camera_item g_status" tabindex="-1" data-toggle="tab" 
+                    style="font-size:22px;" ptz="0" cam_index="${item.cam_index}" el_count="${index}" 
+                    status="${item.status}" playURL="${item.url}">${item.comment}</a>`)
+                
+            } else {
+                $('#body_change_camera').append(`<a href="#" class="dropdown-item camera_item r_status" tabindex="-1" 
+                    data-toggle="tab" style="font-size:22px;" ptz="0" cam_index="${item.cam_index}" 
+                    el_count="${index}" status="${item.status}" playURL="${item.url}">${item.comment}</a>`)
+            }
+            })
+        
+        $("#body_current_camera").html(fetched_body[0].comment);
+        let playURL = fetched_body[0].url;
+        if (fetched_body[0].status) {
+            jsDecoder.JS_Play(playURL, { playURL }, 0).then(
+                function() { 
+                    cam_idx_code = fetched_body[0].cam_index;
+                    is_played = true; 
+                    $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/online.svg") no-repeat center center'); 
+                },
+                function() { 
+                    console.log("realplay failed");
+                    is_played = false;
+                    $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
+                });
+            $("#body_current_camera").html(fetched_body[0].comment);
+        } else {
+            is_played = false; 
+            $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
+        }
 
+        $(".body_camera_length").html(fetched_body.length);
+        }
+
+        $(document).on('click', '#change_camera a', async function() {
+            $("#current_camera").html($(this).text());
+            $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/online.svg") no-repeat center center');
+            $("#controller").hide();
+            
+            let ptz = $(this).attr("ptz");
+            let cam_index = $(this).attr("cam_index");
+            let el_count = parseInt($(this).attr("el_count"));
+            let playURL = $(this).attr("playURL");
+            let status = $(this).attr("status");
+            let this_cam_item = $(this);
+            var classValue = this_cam_item.attr('class');
+            var remove_class = classValue.split(' ')[2];
+            // $(".camera_active").html(el_count + 1);
+
+            // const current_status = await get_camera_status(cam_index);
+            const current_status = 1;
+            if (current_status) {
+                console.log('working');
+                
+                this_cam_item.removeClass(remove_class).addClass('g_status');
+                if (is_played) {
+                    jsDecoder.JS_Stop(0).then(function() {
+                        StopRealPlayAll();
+                        console.log("stop success");
+                        jsDecoder.JS_Play(playURL, { playURL }, 0).then(
+                            function() { 
+                                console.log("realplay success");
+                                // $(".camera_active").html(`${el_count + 1}`)
+                                cam_idx_code = cam_index;
+                                if (ptz == 1) $("#controller").show();
+                                is_played = true; 
+                            },
+                            function() { 
+                                console.log("realplay failed");
+                                is_played = false;
+                                $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
+                                StopRealPlayAll();
+                            }
+                        );
+                    }, function() {
+                        StopRealPlayAll();
+                        console.log("stop failed");
+                        $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
+                    });
+                } else {
+                    if (ptz == 1) $("#controller").show();
+                    jsDecoder.JS_Play(playURL, { playURL }, 0).then(
+                        function() { 
+                            console.log("realplay success");
+                            is_played = true;
+                            cam_idx_code = cam_index;
+                        },
+                        function() { 
+                            console.log("realplay failed");
+                            is_played = false;
+                            $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
+                            StopRealPlayAll();
+                        }
+                    );
+                }
+            } else {
+                this_cam_item.removeClass(remove_class).addClass('r_status');
+                $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
+                if (is_played) {
+                    jsDecoder.JS_Stop(iWind).then(
+                        function() { is_played = false; console.log("stop success"); }, 
+                        function() { console.log("stop failed"); });
+                    StopRealPlayAll();
+                }
+            }
+        });
    
-   
-   
-   
+        $(document).on('click', '#body_change_camera a', async function() {
+            $("#body_current_camera").html($(this).text());
+            $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/online.svg") no-repeat center center');
+            $("#controller").hide();
+            
+            let ptz = $(this).attr("ptz");
+            let cam_index = $(this).attr("cam_index");
+            let el_count = parseInt($(this).attr("el_count"));
+            let playURL = $(this).attr("playURL");
+            let status = $(this).attr("status");
+            let this_cam_item = $(this);
+            var classValue = this_cam_item.attr('class');
+            var remove_class = classValue.split(' ')[2];
+            // $(".camera_active").html(el_count + 1);
+
+            // const current_status = await get_camera_status(cam_index);
+            const current_status = 1;
+            if (current_status) {
+                console.log('working');
+                
+                this_cam_item.removeClass(remove_class).addClass('g_status');
+                if (is_played) {
+                    jsDecoder.JS_Stop(0).then(function() {
+                        StopRealPlayAll();
+                        console.log("stop success");
+                        jsDecoder.JS_Play(playURL, { playURL }, 0).then(
+                            function() { 
+                                console.log("realplay success");
+                                // $(".camera_active").html(`${el_count + 1}`)
+                                cam_idx_code = cam_index;
+                                if (ptz == 1) $("#controller").show();
+                                is_played = true; 
+                            },
+                            function() { 
+                                console.log("realplay failed");
+                                is_played = false;
+                                $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
+                                StopRealPlayAll();
+                            }
+                        );
+                    }, function() {
+                        StopRealPlayAll();
+                        console.log("stop failed");
+                        $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
+                    });
+                } else {
+                    if (ptz == 1) $("#controller").show();
+                    jsDecoder.JS_Play(playURL, { playURL }, 0).then(
+                        function() { 
+                            console.log("realplay success");
+                            is_played = true;
+                            cam_idx_code = cam_index;
+                        },
+                        function() { 
+                            console.log("realplay failed");
+                            is_played = false;
+                            $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
+                            StopRealPlayAll();
+                        }
+                    );
+                }
+            } else {
+                this_cam_item.removeClass(remove_class).addClass('r_status');
+                $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
+                if (is_played) {
+                    jsDecoder.JS_Stop(iWind).then(
+                        function() { is_played = false; console.log("stop success"); }, 
+                        function() { console.log("stop failed"); });
+                    StopRealPlayAll();
+                }
+            }
+        });
+        
+        $('.unmute').hide();
+        $('.mute').click(function(e) {
+        var iRet = jsDecoder.JS_OpenSound(iWind);
+        if (iRet == 0) {
+            console.log("Ушбу камерада овоз бор, уни ёқишни тасдиқлайсизми?");
+            $('.mute').hide();
+            $('.unmute').show();
+        } else {
+            alert("Ушбу камерада овоз йўқ");
+            return;
+        };
+        });
+        $('.unmute').click(function(e) {
+            $('.mute').show();
+            $('.unmute').hide();
+            CloseSound();
+        });
+       
+        function stop() {
+            jsDecoder.JS_Stop(iWind).then(function() {
+                console.log("stop success");
+            }, function() {
+                var html = "stop failed";
+                document.getElementById("error").innerHTML = "<div>" + html + "</div>";
+                console.log("stop failed");
+            });
+        }
+
+        function arrangeWindow(i) {
+            jsDecoder.JS_ArrangeWindow(i);
+        }
+
+        function CapturePicture(szType) {
+            jsDecoder.JS_CapturePicture(iWind, "img", szType).then(function() {
+                console.log("CapturePicture success");
+            }, function() {
+                var html = "CapturePicture failed";
+                document.getElementById("error").innerHTML = "<div>" + html + "</div>";
+                console.log("CapturePicture failed");
+            });
+        }
+
+         function OpenSound() {
+          var iRet = jsDecoder.JS_OpenSound(iWind);
+          if (iRet == 0) alert("Ушбу камерада овоз бор, уни ёқишни тасдиқлайсизми?");
+          else {
+              alert("Ушбу камерада овоз йўқ");
+              return;
+          }
+      }
+
+      function CloseSound() {
+          jsDecoder.JS_CloseSound(iWind)
+      }
+
+      function SetVolume() {
+          iVolume = parseInt(document.getElementById("volume").value);
+          jsDecoder.JS_SetVolume(iWind, iVolume);
+      }
+
+      function GetVolume() {
+          //iVolume = parseInt(document.getElementById("volume").value);
+          jsDecoder.JS_GetVolume(iWind, function(i) {
+              document.getElementById("error").innerHTML = "<div>音量：" + i + "</div>";
+              document.getElementById("volume").value = i;
+          });
+      }
+
+        function StopRealPlayAll() {
+            jsDecoder.JS_StopRealPlayAll()
+        }
+
+        function fullSreen() {
+            jsDecoder.JS_FullScreenDisplay(true);
+        }
+
+        function fullScreenSingle() {
+            jsDecoder.JS_FullScreenSingle(iWind);
+        }
+
+        function GetSelectWndInfo(xml) {
+            console.log(xml);
+            iWind = xml;
+        }
+
+        window.onresize = function() {
+            jsDecoder.JS_Resize(615, 300);
+        }
+
+
+        // mashina tarixi
+
+        // mashina tarixi
+
+
+         function myIcon(marker) {
+            console.log("marker", marker.car_width)
+            const unixtime = marker.unixtime;
+            if (marker.speed > isOnOffSpeed) {
+                let myIcon = L.icon({
+                    iconUrl: `/pictures/cars/matiz.gif`,
+                  iconSize: [parseInt(marker.car_width) || 25, parseInt(marker.car_height) || 50],
+                });
+                return myIcon;
+            } else {
+                let myIcon = L.icon({
+                    // iconUrl: `/pictures/cars/${marker.car_photo}`,
+                    iconUrl: `/pictures/cars/matiz.png`,
+               iconSize: [parseInt(marker.car_width) || 25, parseInt(marker.car_height) || 50],
+                });
+                return myIcon;
+            }
+        }
+
+        $(document).ready(function() {
+            callCars(UserStructure, in_service);
+        });
+
+        let moveCarMarkerInterval = setInterval(() => {
+            $.ajax({
+                type: "POST",
+                url: `ajax.php?act=get_cars&region=${region_id}`,
+                dataType: "json",
+                encode: true,
+                success: async function(data) {
+                    lastCarsPositions = data;
+                    data.forEach((marker, index) => {
+                        const car = allCars.find(car => car.options.id == marker.id);
+                        if (car) {
+                            car.setIcon(myIcon(marker));
+                            car.setLatLng([marker.lat ? marker.lat : 0 , marker.lon ? marker.lon : 0]).setRotationAngle(marker.angle);
+                        }
+
+                        $(`#speed_${marker.id}`).html(marker.speed);
+                        
+                        $(`#popSpeed_${marker.id}`).html(marker.speed + " km/s");
+                    })
+                }
+            })
+        }, 5000);
+
+           // Filtering regions
+        $('#select_region').change(function(event) {
+            region_id = this.value;
+            callCars(region_id, in_service);
+        });
+
+        // Filtering in service
+        $('#in_service').change(function(event) {
+            in_service = this.value;
+            callCars(region_id, in_service);
+        });
+
+        // Finding cars
+        $(document).ready(function() {
+            $('#searchCars').wrap('<div class="position-relative my-2"></div>').select2({
+                placeholder: dict_select,
+                dropdownParent: $('#searchCars').parent()
+            });
+
+                // Find functions
+            function findCarOnMap(id) {
+                let marker = allCars.find(item => item.options.id == id);
+                map.flyTo(marker.getLatLng(), 18, { duration: 3 })
+                setTimeout(() => { map.panTo(marker.getLatLng(), { animate: true, duration: 3000 }); marker.openPopup(); }, 3100)
+            }
+            // --- Find functions
+
+            $('#searchCars').on('select2:select', function (e) {
+                findCarOnMap(e.params.data.id)
+            });
+        });
+
+         // Function to fly to the bounds of all markers
+        function flyToMarkers(data) {
+            var bounds = new L.LatLngBounds();
+            data.forEach(function (marker) {
+                bounds.extend([marker.lat, marker.lon]);
+            });
+            // map.flyToBounds(bounds, { duration: 2, maxZoom: 14 });
+        }
+        
+        // Pop up element maker
+        function carPopUp(marker) {
+            console.log(marker);
+            let markerString = JSON.stringify(marker)
+            return ` <div class="row text-center">
+                        <div class="col-12">
+                        <h6 class="car-title">${marker.car_name}</h6>
+                        </div>
+                        <div class="col-6">
+                        <h6 class="car-region">${marker.region}</h6>
+                        </div>
+                        <div class="col-6">
+                        <h6 class="car-plate">${marker.plate_number}</h6>
+                        </div>
+                        <div class="col-6">
+                        <h6 class="car-speed" id="popSpeed_${marker.id}">
+                            ${marker.speed} km/s
+                        </h6>
+                        </div>
+                        <div class="col-6">
+                        <h6 class="car-time" id="time_${marker.id}">
+                            ${marker.time}
+                        </h6>
+                        </div>
+
+                        <hr class="my-0 hr-line" />
+
+                        <div class="col-4 mt-3">
+                        <h6 class="icon-btn" onclick="openBodyCam(${marker.car_id}, ${marker?.og_id})">
+                            <i class="ti ti-camera-selfie"></i>
+                        </h6>
+                        </div>
+                        <div class="col-4 mt-3">
+                        <h6 class="icon-btn" onclick='openStaffInfo(${markerString})'>
+                            <i class="ti ti-users"></i>
+                        </h6>
+                        </div>
+                        <div class="col-4 mt-3">
+                        <h6 class="icon-btn" id="show_car_history">
+                            <i class="ti ti-map"></i>
+                        </h6>
+                        </div>
+                    </div>`;
+        }
+
+        function callCars(region, in_service) {
+            allCars.forEach(item => { item.remove(); });
+            allCars = [];
+            $.ajax({
+                type: "POST",
+                url: `${gps_url}?region=${region}&isAll=${in_service}`,
+                dataType: "json",
+                encode: true,
+                success: function(data) {                    
+                    $("#total_thg").html(`(${data.length})`);
+                    lastCarsPositions = data;
+                    $('#carList').empty();
+                    $('#searchCars').empty();
+                    $('#searchCars').append(`<option value="0">${dict_search}</option>`);
+                    data.forEach((marker, index) => {
+                        $('#searchCars').append(`<option value="${marker.id}">${marker.plate_number}</option>`);
+                        $('#carList').append(`
+                            <tr class="cursor-pointer">
+                                <td style="width: 33%;" class="text-left" onclick="findCarOnMap(${marker.id})">${marker.plate_number}</td>
+                                <td style="width: 33%;">
+                                    <span class="badge rounded-pill bg-label-info text-warning" id="speed_${marker.id}">${marker.speed?marker.speed:0}</span> km/s
+                                </td>
+                                <td style="width: 33%;" id="status_${marker.car_id}">
+                                    <i class="text-${marker.speed > isOnOffSpeed ? 'success' : 'danger'} ti ti-video-plus"></i>
+                                    <span id="time_${marker.car_id}">${getInterTime(marker.time)}</span>
+                                </td>
+                            </tr>`
+                        );
+                        const LamMarker = new L.marker([marker.lat ? marker.lat : 0 , marker.lon ? marker.lon : 0], {
+                            icon: myIcon(marker),
+                            id: marker.id,
+                            type: 'car'
+                        });
+                        LamMarker.setRotationAngle(marker.angle).bindPopup(carPopUp(marker));
+                        map.addLayer(LamMarker);
+                        allCars.push(LamMarker);
+                    });
+
+                    flyToMarkers(data);
+                }
+            })
+        }
+
+            function getInterTime(timeStr) {
+            // Agar format "DD.MM.YYYY HH:mm" bo‘lsa, uni ISO formatga o‘zgartiramiz
+            const [datePart, timePart] = timeStr.split(' ');
+            const [day, month, year] = datePart.split('.');
+            const isoString = `${year}-${month}-${day}T${timePart}:00`;
+
+            const timestamp = new Date(isoString).getTime();
+            const currentTime = new Date().getTime();
+
+            const diff = currentTime - timestamp;
+
+            if (isNaN(timestamp)) return "Noto‘g‘ri sana formati";
+
+            const seconds = Math.floor(diff / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const hours = Math.floor(minutes / 60);
+            const days = Math.floor(hours / 24);
+
+            if (seconds < 60) return `${seconds} sek`;
+            else if (minutes < 60) return `${minutes} min`;
+            else if (hours < 24) return `${hours} soat`;
+            else return `${days} kun`;
+        }
+
+    
    
    
    {/literal}
 </script>
+<script>
+    {literal}
+        //外部回调
+        var iWind = 0;
+        function GetSelectWndInfo (xml) {
+            console.log(xml);
+            iWind = xml;
+        }
+        
+        $("#offline_bg").hide();
+        $("#carCameraModal").hide();
+        $jq2('#carCameraModal').draggable();
+        $("#staffInfoModal").hide();
+        $jq2('#staffInfoModal').draggable();
+        $("#fixedModal").hide();
+        // $jq2('#fixedModal').draggable();
+        
+        //初始化插件
+        var jsDecoder = new JSPlugin({
+            szId: "playWind",
+            iType: 2,
+            iWidth: 640,
+            iHeight: 400,
+            iMaxSplit: 4,
+            iCurrentSplit: 2,
+            szBasePath: "./dist",
+            oStyle: {
+                border: "#343434",
+                borderSelect: "transparent",
+                background: "#000 url('/assets/online.svg') no-repeat center center;"
+            }
+        });
+        
+        $('.close-camera').click(function(e) {
+            // console.log("closed all camera");
+            StopRealPlayAll();
+            $("#carCameraModal").hide();
+            $("#offline_bg").hide();
+            $("#playWind").show();
+        })
+        $('.close-staff-info').click(function(e) {
+            $("#staffInfoModal").hide();
+   
+        })
+
+        function openBodyCam(car_id, og_id) {
+          console.log(car_id, og_id)
+            $("#carCameraModal").show();
+            arrangeWindow(1);
+
+            $.ajax({
+                type: "POST",
+                url: `ajax.php?act=get_mpg_by_id&car_id=${car_id}&og_id=${og_id}`,
+                dataType: "json",
+                encode: true,
+                success: function(data) {
+                    const isOnCam = data.cams.find(cam => cam.status == 1);
+                    $("#carCameraModal .card-header").empty();
+                    $("#carCameraModal .card-header").html(data.car.plate_number);
+                    $("#carCameraModal .radio_call").empty();
+                    $("#carCameraModal .radio_call").html(data.cams[0]?.comment);
+                    if (isOnCam) {
+                        $("#offline_bg").hide();
+                        $("#playWind").show();
+                        play_camera(data.cams[0].url, 0);
+                    } else {
+                        $("#offline_bg").show();
+                        $("#playWind").hide();
+                    }
+                }
+            })
+        }
+
+        
+        function openStaffInfo(params) {
+            $("#staffInfoModal").show();
+            $.ajax({
+                type: "POST",
+                url: `ajax.php?act=get_mpg_by_id&car_id=${params.car_id}&og_id=${params.og_id}`,
+                dataType: "json",
+                encode: true,
+                success: function(data) {
+                    console.log(data);
+                    $("#staffInfoModal .card-body").empty();
+                    if (data.staffs.length) {
+                        data.staffs.forEach(item => {
+                            $("#staffInfoModal .card-body").append(`
+                                <div class="col-3 text-center">
+                                    <div class="staff-photo-box">
+                                        <img class="staff-photo2" src="/pictures/staffs/${item.photo}" alt="">
+                                    </div>
+
+                                    <div class="staff-name2 mt-3">
+                                        ${item.staff_name}
+                                    </div>
+
+                                    <a href="tel:${item.phone}" class="staff-phone2 mt-2">
+                                        📞 ${item.phone}
+                                    </a>
+                                    </div>
+                            `);
+                        })
+                    }else{
+                      $("#staffInfoModal .card-body").append(`
+                        <div class="col-xl-12 text-center d-flex align-items-center justify-content-center">
+                             <h3 style="color: white;">Транспортга навбатчилар бириктирилмаган !!!</h3>
+                        </div>
+                    `)
+
+                    }
+                }
+            })
+        }
 
 
+
+        function play_camera(url, iWindee) {
+            jsDecoder.JS_Play(url, { playURL: url }, iWindee).then(
+                function() { console.log("realplay success") },
+                function() { console.log("realplay failed") });
+        }
+
+        $('.unmute').hide();
+        $('.mute').click(function(e) {
+            var iRet = jsDecoder.JS_OpenSound(iWind);
+            if(iRet == 0) {
+                console.log("Ушбу камерада овоз бор, уни ёқишни тасдиқлайсизми?");
+                $('.mute').hide();
+                $('.unmute').show();
+            } else {
+                alert("Ушбу камерада овоз йўқ");
+                return;
+            };
+        })
+        $('.unmute').click(function(e) {
+            $('.mute').show();
+            $('.unmute').hide();
+            CloseSound();
+        })
+
+        function stop () {
+            jsDecoder.JS_Stop(iWind).then(function () {
+                console.log("stop success");
+            }, function () {
+                var html = "stop failed";
+                document.getElementById("error").innerHTML = "<div>" + html + "</div>";
+                console.log("stop failed");
+            });
+        }
+
+        function arrangeWindow (i) {
+            jsDecoder.JS_ArrangeWindow(i);
+        }
+
+        function Stop () {
+            jsDecoder.JS_Stop(iWind);
+        }
+        
+        function CapturePicture(szType) {
+            jsDecoder.JS_CapturePicture (iWind, "img", szType).then(function () {
+                console.log("CapturePicture success");
+            }, function () {
+                var html = "CapturePicture failed";
+                document.getElementById("error").innerHTML = "<div>" + html + "</div>";
+                console.log("CapturePicture failed");
+            });
+        }
+
+        function OpenSound () {
+            var iRet = jsDecoder.JS_OpenSound (iWind);
+            if(iRet == 0) alert("Ушбу камерада овоз бор, уни ёқишни тасдиқлайсизми?"); 
+            else {
+                alert("Ушбу камерада овоз йўқ");
+                return;
+            }   
+        }
+
+        function CloseSound () {
+            jsDecoder.JS_CloseSound (iWind)
+        }
+        
+        function StopRealPlayAll () {
+            jsDecoder.JS_StopRealPlayAll()
+        }
+
+        function fullSreen() {
+            jsDecoder.JS_FullScreenDisplay(true);
+        }
+        
+        function fullScreenSingle () {
+            jsDecoder.JS_FullScreenSingle(iWind);
+        }
+        window.onresize = function () {
+            jsDecoder.JS_Resize(640, 400);
+        }
+    {/literal}
+</script>
 
 
 {include file="footer.tpl"}
