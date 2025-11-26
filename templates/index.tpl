@@ -683,10 +683,7 @@
           myChart.setOption(option);
           window.addEventListener('resize', myChart.resize);
         }
-
       }
-
-
         $('#event_count').on('change', function() {
           const id = parseInt($(this).val());
           structure_id = id

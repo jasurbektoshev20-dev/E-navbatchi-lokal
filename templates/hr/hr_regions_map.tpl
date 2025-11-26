@@ -2129,7 +2129,7 @@
       // Yangi target koordinatalarni o‘rnatamiz
       camera.target = { lat: newLat, lon: newLon };
 
-      camera.setLngLat([newLon, newLat]);
+      // camera?.setLngLat([newLon, newLat]);
     }
 
 
