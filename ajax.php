@@ -1021,39 +1021,7 @@ switch ($Action) {
 		$JtsObject['routine'] = $Routine;
 		$BodyCamUrl = [];
 		$Bodys = [];
-		$Staffs = [];.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		$Staffs = [];
 
 		// if ($Routine) {
 		// 	$query  = "SELECT t.id, t.car_id, t.bodycam_id, t.patrul_type,
@@ -1201,6 +1169,9 @@ switch ($Action) {
 		$result['cameras'] = $CamUrl;
 		$res = json_encode($result);
 		break;
+
+
+
 	case "get_divisions":
 		$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
 		$query  = "SELECT t.id, t.name{$slang} as name
