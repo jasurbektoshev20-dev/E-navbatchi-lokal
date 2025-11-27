@@ -700,27 +700,27 @@
                       <ul class="nav nav-tabs" id="mapTabs" role="tablist">
                           <li class="nav-item" role="presentation">
                               <button class="nav-link active" id="map-tab" data-bs-toggle="tab" data-bs-target="#mapTabPane" type="button" role="tab">
-                                  Xarita
+                                  Харита
                               </button>
                           </li>
                           <li class="nav-item" role="presentation">
                               <button class="nav-link" id="scheme-tab" data-bs-toggle="tab" data-bs-target="#schemeTabPane" type="button" role="tab">
-                                  Sxema
+                                  Схема
                               </button>
                           </li>
                       </ul>
                     </div>
                     <div class="tab-content mt-2" id="mapTabsContent">
 
-                        <!-- Xarita -->
+                        <!-- Харита -->
                         <div class="tab-pane fade show active" id="mapTabPane" role="tabpanel">
                             <div id="dialogMap"></div>
                         </div>
 
-                        <!-- Sxema -->
+                        <!-- Схема -->
                         <div class="tab-pane fade" id="schemeTabPane" role="tabpanel">
                             <div id="dialogScheme">
-                                 <img src="/assets/images/sxema.jpg">
+                                 <img src="/assets/images/Sxema.jpg">
                             </div>
                         </div>
 
@@ -792,12 +792,12 @@
         <div class="row">
             <div class="col-4">
          <li class="nav-item">
-            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab_passport">Umumiy ma'lumotlar</button>
+            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab_passport">Умумий маълумотлар</button>
           </li>
             </div>
              <div class="col-4">
            <li class="nav-item">
-            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#public_event_about">Tadbir ma'lumotlari</button>
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#public_event_about">Тадбир маълумотлари</button>
           </li>
             </div>
              <div class="col-4">
@@ -944,7 +944,7 @@
       // O‘zbekiston markazi koordinatalari
       const uzbekistanCenter = [41.2995, 69.2401]; // Toshkent markazi
 
-      // Xaritani yaratish
+      // Харитаni yaratish
       const map = L.map("uzbMap", {
         center: [41.6384, 64.0202],
         zoom: 7,
@@ -1125,7 +1125,7 @@
               });
             });
 
-            // Markerlarni xaritaga qo‘shamiz
+            // Markerlarni Харитаga qo‘shamiz
             allMarkers.addTo(map);
 
             // Hamma marker koordinatalarini olish
@@ -1135,7 +1135,7 @@
               // Hamma markerlarni qamrab oladigan bounds
               const bounds = L.latLngBounds(markerCoords);
 
-              // Xarita markazlash + zoomni avtomatik o‘rnatish
+              // Харита markazlash + zoomni avtomatik o‘rnatish
               map.flyToBounds(bounds, { padding: [50, 50], duration: 1 }); // padding – biroz chet bo‘shliq
             }
 
@@ -1178,7 +1178,7 @@
     function renderDialogMap(params, cameras) {
       const mapContainer = document.querySelector('#dialogMap')
       if (!mapContainer || !params) return
-      // Eski xarita mavjud bo‘lsa, tozalaymiz
+      // Eski Харита mavjud bo‘lsa, tozalaymiz
       if (mapContainer._mapbox_instance) {
         mapContainer._mapbox_instance.remove();
       }
@@ -1192,7 +1192,7 @@
         parseFloat(params.lat) || 41.312123,
       ];
 
-      // Xarita yaratish
+      // Харита yaratish
       const map = new mapboxgl.Map({
         container: 'dialogMap',
         style: `mapbox://styles/mapbox/standard`,
@@ -1592,6 +1592,28 @@
             </div>
           </li>
 
+           <li class="is-accordion">
+        <details>
+          <summary>
+            <div class="passport-icon">  <i class="duty-icon bi bi-person-fill"></i></div>
+            <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Объект профилактика инспектори:</span> <span> ${params.police_name}</span>
+          </summary>
+          <ul class="inner-list">
+              <li>
+                <div class="passport-icon">
+                  <i class="bi bi-telephone-fill"></i>
+                </div>
+                <div class="passport-li-about">
+                  <h6>Телефон рақами:</h6>
+                  <p>
+                    <a href="tel:${params.police_phone}">${params.event.police_phone}</a>
+                  </p>
+                </div>
+              </li>
+          </ul>
+        </details>
+      </li>
+
           <li>
         <div class="passport-icon">
           <i class="bi bi-aspect-ratio"></i>
@@ -1607,7 +1629,7 @@
           <i class="bi bi-people-fill"></i>
         </div>
         <div class="passport-li-about">
-          <h6>Sig'imi:</h6>
+          <h6>Сиғими:</h6>
           <p>${params.sigimi} та</p>
         </div>
       </li>
@@ -1617,7 +1639,7 @@
           <i class="bi bi-grid-fill"></i>
         </div>
         <div class="passport-li-about">
-          <h6>Bloklar soni:</h6>
+          <h6>Блоклар сони:</h6>
           <p>${params.bloks_count} та</p>
         </div>
       </li>
@@ -1627,7 +1649,7 @@
           <i class="bi bi-diagram-3-fill"></i>
         </div>
         <div class="passport-li-about">
-          <h6>Sektorlar soni:</h6>
+          <h6>Секторлар сони:</h6>
           <p>${params.sektors_count} та</p>
         </div>
       </li>
@@ -1647,8 +1669,8 @@
           <i class="bi bi-lightbulb-fill"></i>
         </div>
         <div class="passport-li-about">
-          <h6>Yoritish chiroqlari soni:</h6>
-          <p>${params.count_doors} та</p>
+          <h6>Ёритиш чироқлари сони:</h6>
+          <p>${params.lamps_count} та</p>
         </div>
       </li>
       <li class="is-accordion">
@@ -1664,7 +1686,7 @@
                 </div>
                 <div class="passport-li-about">
                   <h6>ИИВ</h6>
-                  <p><a href="tel:71-252-70-01">71-252-70-01</a></p>
+                  <p><a href="tel:${params.police_phone}">${params.police_phone}</a></p>
                 </div>
               </li>
 
@@ -1674,7 +1696,7 @@
                 </div>
                 <div class="passport-li-about">
                   <h6>ФВВ</h6>
-                  <p><a href="tel:71-234-87-20">71-234-87-20</a></p>
+                  <p><a href="tel:${params.event.fvv_phone}">${params.event.fvv_phone}</a></p>
                 </div>
               </li>
           </ul>
@@ -1851,7 +1873,7 @@
       console.log("params", params)
       const container = document.querySelector('.space-main-body-duty')
      
-      // <li class="alert alert-dark" role="alert">Sektorlar soni: <span>4 ${params.responsible_name} ta</span> </li>
+      // <li class="alert alert-dark" role="alert">Секторлар сони: <span>4 ${params.responsible_name} ta</span> </li>
       container.innerHTML = `
            <ul class="">
           <li class="is-accordion">
@@ -1913,7 +1935,7 @@
                       </div>
                       <div class="passport-li-about">
                           <h6>Piyoda patrul:</h6>
-                          <span>${params?.event.walker_patrul} nafar</span>
+                          <span>${params?.event.walker_patrul} нафар</span>
                       </div>
                   </li>
 
@@ -2046,42 +2068,42 @@
       const container = document.querySelector('.space-main-body-event')
       if (!container || !params) return
 
-      // <li class="alert alert-dark" role="alert">Sektorlar soni: <span>4 ${params.responsible_name} ta</span> </li>
+      // <li class="alert alert-dark" role="alert">Секторлар сони: <span>4 ${params.responsible_name} ta</span> </li>
       container.innerHTML = `
          <ul class="">
               <li class="alert alert-dark m-0" role="alert">
                   <i class="duty-icon bi bi-flag"></i>
-                  Tadbir nomi <span>${params.event_name}</span>
+                  Номи:  <span>${params.event_name}</span>
               </li>
 
               <li class="alert alert-dark m-0" role="alert">
                   <i class="duty-icon bi bi-diagram-3-fill"></i>
-                  Tadbir turi <span>${params.event_type}</span>
+                  Тадбир тури: <span>${params.event_type}</span>
               </li>
 
               <li class="alert alert-dark m-0" role="alert">
                   <i class="duty-icon bi bi-journal-text"></i>
-                  Tadbirga asos <span>${params.command}</span>
+                  Асос: <span>${params.command}</span>
               </li>
 
               <li class="alert alert-dark m-0" role="alert">
                   <i class="duty-icon bi bi-compass"></i>
-                  Tadbir yo'nalishi <span>${params.direction_event}</span>
+                  Йўналиши: <span>${params.direction_event}</span>
               </li>
 
               <li class="alert alert-dark m-0" role="alert">
                   <i class="duty-icon bi bi-people-fill"></i>
-                  Fuqarolar soni: <span>${params.citizens_count} nafar</span>
+                  Фуқаролар сони: <span>${params.citizens_count} нафар</span>
               </li>
 
               <li class="alert alert-dark m-0" role="alert">
                   <i class="duty-icon bi bi-clock-history"></i>
-                  Boshlanish vaqti <span>${params.start_time}</span>
+                  Бошланиш вақти: <span>${params.start_time}</span>
               </li>
 
               <li class="alert alert-dark m-0" role="alert">
                   <i class="duty-icon bi bi-clock"></i>
-                  Tugash vaqti: <span>${params.end_time}</span>
+                  Тугаш вақти: <span>${params.end_time}</span>
               </li>
           </ul>
 

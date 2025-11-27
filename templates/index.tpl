@@ -688,7 +688,7 @@
           window.addEventListener('resize', myChart.resize);
         }
       }
-        $('#event_count').on('change', function() {
+        $('#public_events').on('change', function() {
           const id = parseInt($(this).val());
           structure_id = id
           getEvents()

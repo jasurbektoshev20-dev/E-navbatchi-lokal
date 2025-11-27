@@ -86,8 +86,13 @@
                                 </div>
                                 <div class="card-body px-1 py-2">
                                     <h6 class="pb-0 mb-0 card-title" >{$item.name}</h6>
-                                    <p class="pb-0 mb-0 card-text" > {$item.phone} </p>
-                                    <p class="pb-0 mb-0 card-text" >{$item.phone2}</p>
+                                  <p class="pb-0 mb-0 card-text">
+                                      <a href="tel:{$item.phone}">{$item.phone}</a>
+                                  </p>
+                                  <p class="pb-0 mb-0 card-text">
+                                      <a href="tel:{$item.phone2}">{$item.phone2}</a>
+                                  </p>
+                                  
                                 </div>
                             </div>
                         </div>
@@ -260,7 +265,7 @@ $(document).ready(function () {
                             <div class="staff-item text-center">
                                 <img style="width: 230px; height: 230px; border-radius: 20px" src="pictures/staffs/${item.photo}">
                                 <h6 class="mt-2 mb-0 card-title">${item.staff}</h6>
-                                <p class="mb-0 card-text">${item.position}</p>
+                            
                                 <p class="mb-0 card-text"><small class="text-muted">${item.role} ${item.lastname}</small></p>
                                 <p class="mb-0 card-text"><small class="text-muted">
                                    <a href="tel:${item.phone}">

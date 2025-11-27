@@ -170,7 +170,7 @@
 
         #carCameraModal {
             position: absolute;
-            width: 370px;
+            width: 660px;
             height: 520px;
             right: 1.2vw;
             bottom: 0.7vh;
@@ -1245,7 +1245,7 @@
 
 
             <button id="filterToggleBtn" class="filter-toggle-btn">
-                <i class="bi bi-funnel-fill"></i> Filter
+                <i class="bi bi-funnel-fill"></i> Фильтр
             </button>
 
           <div class="row filter-mpg hidden-panel">
@@ -1253,7 +1253,7 @@
                   <div class="card">
                       <div class="card-body px-3 py-1" style="height: 80vh;">
                               <div class="mb-1 col-12">
-                                <label for="viloyatSelect" class="form-label text-warning fs-5">Объектлар</label>
+                                <label for="viloyatSelect" class="form-label text-warning fs-5">{$Dict.regions}</label>
                                 <select id="viloyatSelect" class="form-select">
                                   <option value="">Танланг</option>
                                   {foreach from=$Regions item=Item1 key=ikey1}
@@ -1290,7 +1290,7 @@
                               </select>
                           </div>
 
-                          <div class="mb-1 col-12">
+                          {* <div class="mb-1 col-12">
                               <label class="form-label text-warning fs-5">{$Dict.regions}</label>
                               <select class="form-select" id="select_region">
                                   <option value="0">{$Dict.all}</option>
@@ -1302,7 +1302,7 @@
                                   {/if}
                               {/foreach}
                               </select>
-                          </div>
+                          </div> *}
 
                           <div class="col-12 mt-3">
                               <label class="form-label text-success fs-5">{$Dict.cars}<span style="color: #ddd;" id="total_thg"></span></label>
@@ -1773,7 +1773,22 @@
       let id = this.value;
       region_id = id
       getObjects()
+        callCars(region_id, in_service);
     })
+
+    // Filtering in service
+    $('#in_service').change(function(event) {
+        in_service = this.value;
+        callCars(region_id, in_service);
+    });
+
+          // Filtering regions
+        // $('#select_region').change(function(event) {
+        //     region_id = this.value;
+        //     callCars(region_id, in_service);
+        // });
+
+     
     
     $('#objectTypeSelect').on('change', function() {
       let id = this.value;
@@ -1942,7 +1957,7 @@
       </div>
 
       <div class="user-card-about-text text-center">
-        <div class="staff-name">${camera.staff_name || 'Xodim nomi yo‘q'}</div>
+        <div class="staff-name mb-3">${camera.staff_name || 'Xodim nomi yo‘q'}</div>
 
         <div class="mt-2 staff-phone">
           <i class="bi bi-telephone-fill text-success me-1"></i>
@@ -3637,17 +3652,7 @@
             })
         }, 5000);
 
-        // Filtering regions
-        $('#select_region').change(function(event) {
-            region_id = this.value;
-            callCars(region_id, in_service);
-        });
-
-        // Filtering in service
-        $('#in_service').change(function(event) {
-            in_service = this.value;
-            callCars(region_id, in_service);
-        });
+  
 
         // Finding cars
         $(document).ready(function() {
