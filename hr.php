@@ -939,7 +939,7 @@ switch ($Act) {
 	/// jts_objects
 	case "hr_regions_map":
 		$query  = "SELECT t.id, t.object_name as name
-		FROM hr.jts_objects t 
+		FROM hr.jts_objects t where t.id != 20
 		ORDER BY t.id desc";
 		$sql->query($query);
 		$Objects = $sql->fetchAll();
