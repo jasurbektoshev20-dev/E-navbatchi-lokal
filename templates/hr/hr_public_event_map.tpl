@@ -720,7 +720,7 @@
                         <!-- Sxema -->
                         <div class="tab-pane fade" id="schemeTabPane" role="tabpanel">
                             <div id="dialogScheme">
-                                 <img src="/assets/images/sxema.jpg">
+                                 <img src="/pictures/marker_icons/sxema.png">
                             </div>
                         </div>
 
