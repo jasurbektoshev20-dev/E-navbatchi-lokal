@@ -1953,7 +1953,7 @@
 
          <div class="mt-2 staff-cal-word">
          <i class="bi bi-shield-lock-fill text-warning me-1 cursor-pointer" id="cal-word-id"></i>
-         <span class="cal-word hidden">lochin21</span>
+         <span class="cal-word hidden">${camera.staff_sname}</span>
         </div>
 
         <div class="d-flex align-items-center justify-content-center">
@@ -2482,7 +2482,7 @@
                       </div>
                       <div class="passport-li-about">
                         <p class="responsible-key-text hidden">
-                          lochin21
+                          ${params?.responsible_sname}
                         </p>
                       </div>
                     </li>

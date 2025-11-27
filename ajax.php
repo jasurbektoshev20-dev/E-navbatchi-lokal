@@ -661,6 +661,8 @@ switch ($Action) {
 		$query = "SELECT  
 				t.id,
 				CONCAT(r.name{$slang}, ' ', s.lastname, ' ', s.firstname, ' ', s.surname) AS responsible_name,
+				t.responsible_sname,
+				t.responsible_phone,
 
 				COUNT(DISTINCT td.id) AS all_staff,
 
@@ -712,7 +714,7 @@ switch ($Action) {
 		if ($Routine) {
 			$query  = "SELECT t.id, t.car_id, t.bodycam_id, t.patrul_type,
 			CONCAT(r.name{$slang}, ' ', s.lastname, ' ', s.firstname, ' ', s.surname) AS staff_name,
-			s.photo AS staff_photo, s.phone AS staff_phone
+			s.photo AS staff_photo, s.phone AS staff_phone,s.sname AS staff_sname
 			FROM hr.dailiy_routine_date t 
 			LEFT JOIN hr.staff s ON s.id = t.staff_id
 			LEFT JOIN ref.ranks r ON r.id = s.rank_id
@@ -733,6 +735,7 @@ switch ($Action) {
 					$Bodys[count($Bodys) - 1]['staff_name'] = $value['staff_name'];
 					$Bodys[count($Bodys) - 1]['staff_photo'] = $value['staff_photo'];
 					$Bodys[count($Bodys) - 1]['staff_phone'] = $value['staff_phone'];
+					$Bodys[count($Bodys) - 1]['staff_sname'] = $value['staff_sname'];
 				}
 			}
 		}
@@ -761,7 +764,8 @@ switch ($Action) {
 						'long' => $body_c['long'],
 						'staff_name' => $body_c['staff_name'],
 						'staff_photo' => $body_c['staff_photo'],
-						'staff_phone' => $body_c['staff_phone']
+						'staff_phone' => $body_c['staff_phone'],
+						'staff_sname' => $body_c['staff_sname']
 					];
 				} else {
 					$BodyCamUrl[] = [
@@ -775,6 +779,7 @@ switch ($Action) {
 						'staff_name' => isset($body_c['staff_name']) ? $body_c['staff_name'] : '',
 						'staff_photo' => isset($body_c['staff_photo']) ? $body_c['staff_photo'] : '',
 						'staff_phone' => isset($body_c['staff_phone']) ? $body_c['staff_phone'] : '',
+						'staff_sname' => isset($body_c['staff_sname']) ? $body_c['staff_sname'] : '',
 					];
 				}
 			}
@@ -863,7 +868,7 @@ switch ($Action) {
 
 		$query  = "SELECT t.id, t.object_name, t.object_type, t.lat, t.long
 		FROM hr.jts_objects t 
-		WHERE 1=1 ";
+		WHERE 1=1 AND t.id != 20";
 		if ($structure_id > 0) {
 			$query .= " AND t.structure_id = {$structure_id} ";
 		}
