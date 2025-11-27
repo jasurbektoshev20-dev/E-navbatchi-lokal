@@ -936,8 +936,7 @@ switch ($Action) {
 		CONCAT(st.lastname, ' ', st.firstname, ' ', st.surname) as respons_person,
 		p.organizer,fvv_phone,
 
-		p.horse_patrul,p.walker_patrul,p.avto_patrul,p.war_ekipaj,p.sapyors,p.zaxira,p.horses,p.dogs,p.metalldetektor,p.signals,p.car_count,
-		p.respons_person_xname as pazivnoy,p.respons_person_phone
+		p.horse_patrul,p.walker_patrul,p.avto_patrul,p.war_ekipaj,p.sapyors,p.zaxira,p.horses,p.dogs,p.metalldetektor,p.signals,p.car_count
 		FROM hr.public_event1 p
 		left join hr.jts_objects j on j.id  = p.jts_object_id
 		left join hr.structure s on s.id  = j.structure_id
