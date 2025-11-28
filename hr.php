@@ -406,7 +406,8 @@ switch ($Act) {
 			m.horse_count,d.name{$slang} as dog_id,
 			CONCAT(t.lastname,' ',t.firstname,' ', t.surname) AS staff, 
 			bodycam_id,
-			c.plate_number as car_name,
+			pt.name{$slang} as patrul_type,
+ 			c.plate_number as car_name,
 			(
             SELECT 
                 STRING_AGG(e.name{$slang}, ', ') 
@@ -420,9 +421,7 @@ switch ($Act) {
 		left join hr.staff t on t.id = m.staff_id
 		left join hr.tech_guard_cars c on c.id = m.car_id
 		left join tur.dog_types d on d.id = m.dog_id
-		";
-
-
+		left join ref.patrul_types pt on pt.id = m.patrul_type_id";
 		$query .= " order by m.id";
 		$sql->query($query);
 		$EventDuties = $sql->fetchAll();
@@ -1152,6 +1151,30 @@ switch ($Act) {
 		$smarty->assign(array(
 			'ImpactAreas' => $ImpactAreas,
 			'Structures' => $Structures,
+			'Regions' => $Regions,
+		));
+		break;
+
+
+	case "hr_neighborhood":
+
+		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t 
+		where t.id > 1 and t.id < 16
+		ORDER BY t.turn ASC";
+		$sql->query($query);
+		$Regions = $sql->fetchAll();
+
+		$query  = "SELECT t.* FROM hr.neighborhoods t ";
+		$sql->query($query);
+		$neighborhoods = $sql->fetchAll();
+
+		// echo '<pre>';
+		// print_r($neighborhoods);
+		// echo '</pre>';
+		// die();
+
+		$smarty->assign(array(
+			'neighborhoods' => $neighborhoods,
 			'Regions' => $Regions,
 		));
 		break;
