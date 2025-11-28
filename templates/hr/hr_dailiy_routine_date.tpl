@@ -335,6 +335,7 @@
 
 				form_data.append('id', id);
 				form_data.append('routine_id', obyekt_id);
+				form_data.append('patrul_type', $('#patrul_type').val());
 				form_data.append('dog_id', $('#dog_id').val());
 				form_data.append('direction', $('#direction').val());
 				form_data.append('smena', $('#smena').val());
