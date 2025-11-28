@@ -42,6 +42,7 @@
 						<thead>
 							<tr>
 								<th class="text-center">Т/р</th>
+								<th class="text-center">Патрул Тури</th>
 								<th class="text-center">ФИШ</th>
 								<th class="text-center">Бўлинма</th>
 								<th class="text-center">Эпикрофка</th>
@@ -56,6 +57,7 @@
 						 {foreach from=$EventDuties item=item key=tkey name=name}
 								<tr id="row_{$item.id|crypt}">
 									<td class="text-center">{$tkey+1}</td>
+									<td class="text-center">{$item.patrul_type}</td>
 									<td class="text-center">{$item.staff}</td>
 									<td class="text-center">{$item.structure_name}</td>
 									<td class="text-center">{$item.epic}</td>
@@ -113,15 +115,6 @@
                             </select>
 						</div>
 
-                        {* <div class="col-sm-6">
-							<label>Bo'linmani танланг</label>
-							  <select id="division_id" class="form-select" name="division_id">
-                                    <option value="">Танланг...</option>
-									{foreach from=$StructureAll item=st key=mkey}
-                                        <option class="selectOption" value="{$st.id}">{$st.name}</option>
-                                    {/foreach}
-                            </select>
-						</div> *}
 						   <div class="col-sm-6">
                             <label>{$Dict.territorial_short}</label>
                             <select id="structure_id" class="form-select" name="structure_id">
@@ -131,6 +124,16 @@
                                 {/foreach}
                             </select>
                         </div>
+
+						<div class="col-sm-6">
+							<label>Патрул турини танланг</label>
+							<select class="form-control" id="patrul_type">
+								<option value="">Танланг...</option>
+								{foreach from=$PatrulTypes item=obj}
+									<option value="{$obj.id}">{$obj.name}</option>
+								{/foreach}
+							</select>
+						</div>
 
 
 						<div class="col-sm-6 mt-3">
@@ -246,6 +249,7 @@
 						$('#epikirofka_id').val(epik).trigger('change');
 					}
 					$('#car_id').val(sInfo.car_id).trigger('change');
+					$('#patrul_type').val(sInfo.patrul_type).trigger('change');
 					$('#horse_count').val(sInfo.horse_count);
 					$('#dog_id').val(sInfo.dog_id).trigger('change');
 					$('#staff_id').val(sInfo.staff_id).trigger('change');
@@ -285,9 +289,9 @@
 				form_data.append('epikirofka_id', $('#epikirofka_id').val());
 				form_data.append('staff_id', $('#staff_id').val());
 				form_data.append('car_id', $('#car_id').val());
+				form_data.append('patrul_type', $('#patrul_type').val());
 				form_data.append('horse_count', $('#horse_count').val());
 				form_data.append('dog_id', $('#dog_id').val());
-
 				const actUrl = id ? 'hrajax.php?act=act_event_duty' :
 					'hrajax.php?act=act_event_duty';
 
