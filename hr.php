@@ -385,6 +385,14 @@ switch ($Act) {
 		$sql->query($query);
 		$epic = $sql->fetchAll();
 
+		$query  = "SELECT e.id, e.name{$slang} as name FROM tur.dog_types e";
+		$sql->query($query);
+		$dog_types = $sql->fetchAll();
+
+		$query  = "SELECT e.id, e.name{$slang} as name FROM ref.patrul_types e";
+		$sql->query($query);
+		$patrul_types = $sql->fetchAll();
+
 		$query  = "SELECT e.id, e.plate_number as name FROM hr.tech_guard_cars e";
 		$sql->query($query);
 		$cars = $sql->fetchAll();
@@ -395,6 +403,7 @@ switch ($Act) {
 			m.id, 
 			public_event1_id,
 			s.name{$slang} as structure_name,
+			m.horse_count,d.name{$slang} as dog_id,
 			CONCAT(t.lastname,' ',t.firstname,' ', t.surname) AS staff, 
 			bodycam_id,
 			c.plate_number as car_name,
@@ -410,6 +419,7 @@ switch ($Act) {
 		left join hr.structure s on s.id = m.structure_id
 		left join hr.staff t on t.id = m.staff_id
 		left join hr.tech_guard_cars c on c.id = m.car_id
+		left join tur.dog_types d on d.id = m.dog_id
 		";
 
 
@@ -429,11 +439,10 @@ switch ($Act) {
 			'duties'       =>    $duties,
 			'epic'       =>    $epic,
 			'cars'       =>    $cars,
+			'dog_types' => $dog_types,
+			'patrul_types' =>$patrul_types
 		));
 		break;
-
-
-
 
 
 

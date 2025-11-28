@@ -129,7 +129,7 @@
 							<label>Патрул турини танланг</label>
 							<select class="form-control" id="patrul_type">
 								<option value="">Танланг...</option>
-								{foreach from=$PatrulTypes item=obj}
+								{foreach from=$patrul_types item=obj}
 									<option value="{$obj.id}">{$obj.name}</option>
 								{/foreach}
 							</select>
@@ -173,7 +173,7 @@
 							<label>Itni танланг</label>
 							<select id="dog_id" class="form-control">
 								<option value="">Танланг...</option>
-								{foreach from=$Cars item=obj}
+								{foreach from=$dog_types item=obj}
 									<option value="{$obj.id}">{$obj.name}</option>
 								{/foreach}
 							</select>

@@ -713,6 +713,9 @@ switch ($Action) {
         $public_event1_id = MyPiDeCrypt($_POST['public_event1_id']);
         $structure_id =  $_POST['structure_id'];
         $car_id = !empty($_POST['car_id']) ? $_POST['car_id'] : 0;
+        $horse_count = !empty($_POST['horse_count']) ? $_POST['horse_count'] : 0;
+        $dog_id = !empty($_POST['dog_id']) ? $_POST['dog_id'] : 0;
+        $patrul_type = $_POST['patrul_type'];
 
         // echo '<pre>';
         // print_r($car_id);
@@ -756,7 +759,10 @@ switch ($Action) {
                 structure_id = '{$structure_id}',
                 staff_id = '{$staff_id[0]}',
                 car_id = '{$car_id}',
-                epikirofka_id = '{$epikirofka_pg_array_string}'
+                epikirofka_id = '{$epikirofka_pg_array_string}',
+                patrul_type_id = '{$patrul_type}',
+                horse_count = '{$horse_count}',
+                dog_id = '{$dog_id}'
                 WHERE id = {$RowId}";
             $sql->query($updquery);
             if ($sql->error() == "") {
@@ -776,13 +782,19 @@ switch ($Action) {
                     structure_id,
                     staff_id,
                     car_id,
-                    epikirofka_id
+                    epikirofka_id,
+                    patrul_type_id,
+                    horse_count,
+                    dog_id
                 ) VALUES (
                     '{$public_event1_id}',
                     '{$structure_id}',
                     '{$current_staff_id}', -- Siklning joriy IDsi ishlatiladi
                     '{$car_id}',
-                    '{$epikirofka_pg_array_string}' -- PostgreSQL array stringi ishlatiladi
+                    '{$epikirofka_pg_array_string}', -- PostgreSQL array stringi ishlatiladi
+                    '{$patrul_type}',
+                    '{$horse_count}',
+                    '{$dog_id}'
                 )";
 
                 $sql->query($insquery);
@@ -1880,16 +1892,7 @@ switch ($Action) {
         break;
     /// jts_objects_sos ============
 
-    case "get_dailiy_routine_date":
-        $RowId = MyPiDeCrypt($_GET['rowid']);
-
-        $query = "SELECT t.* from hr.dailiy_routine_date t where t.id = {$RowId}";
-        $sql->query($query);
-        $result = $sql->fetchAssoc();
-        $result['rowid'] = MyPiCrypt($result['id']);
-
-        $res = json_encode($result);
-        break;
+   
 
     case "update_dailiy_routine_bodycam":
         $RowId = $_POST['rowid'];
@@ -1907,7 +1910,19 @@ switch ($Action) {
             $success = false;
         }
         break;
+ ////  dailiy_routine_date
 
+
+    case "get_dailiy_routine_date":
+            $RowId = MyPiDeCrypt($_GET['rowid']);
+
+            $query = "SELECT t.* from hr.dailiy_routine_date t where t.id = {$RowId}";
+            $sql->query($query);
+            $result = $sql->fetchAssoc();
+            $result['rowid'] = MyPiCrypt($result['id']);
+
+            $res = json_encode($result);
+            break;
 
 
     case "act_dailiy_routine_date":
@@ -2039,7 +2054,7 @@ switch ($Action) {
             $res = 2;
         }
         break;
-    /// jts_objects_sos ============
+    /// dailiy_routine_date ============
 
     /// jts_objects_door ==============================================
     case "get_jts_objects_door":
@@ -2786,6 +2801,163 @@ switch ($Action) {
                         $res = $sql->error();
                     }
             break;
+
+
+
+ /// neighborhood crud ============        
+    case "get_neighborhood":
+            $RowId = MyPiDeCrypt($_GET['rowid']);
+
+            $query = "SELECT t.* from hr.neighborhoods t where t.id = {$RowId}";
+            $sql->query($query);
+            $result = $sql->fetchAssoc();
+            $result['rowid'] = MyPiCrypt($result['id']);
+
+            $res = json_encode($result);
+            break;
+
+
+    case "act_neighborhood":
+        $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
+        $structure_id= $_POST['structure_id'];
+        $district = $_POST['district'];
+        $name = $_POST['name'];
+        $head = $_POST['head'];
+        $head_phone = $_POST['head_phone'];
+        $assistant_governor = $_POST['assistant_governor'];
+        $assistant_governor_phone = $_POST['assistant_governor_phone'];
+        $youth_leader = $_POST['youth_leader'];
+        $youth_leader_phone = $_POST['youth_leader_phone'];
+        $womens_activist = $_POST['womens_activist'];
+        $womens_activist_phone = $_POST['womens_activist_phone'];
+        $tax_inspector = $_POST['tax_inspector'];
+        $tax_inspector_phone = $_POST['tax_inspector_phone'];
+        $social_employe = $_POST['social_employe'];
+        $social_employe_phone = $_POST['social_employe_phone'];
+        $head_iiv = $_POST['head_iiv'];
+        $head_iiv_phone = $_POST['head_iiv_phone'];
+        $head_fvv = $_POST['head_fvv'];
+        $head_fvv_phone = $_POST['head_fvv_phone'];
+
+
+        $LastId = null; // So'nggi qo'shilgan ID ni saqlash uchun
+        $success = true;
+
+        if ($RowId != "0") {
+            // Update existing record
+            $updquery = "UPDATE hr.neighborhoods SET
+                structure_id = '{$structure_id}',
+                district = '{$district}',
+                name = '{$name}',
+                head = '{$head}',
+                head_phone = '{$head_phone}',
+                assistant_governor = '{$assistant_governor}',
+                assistant_governor_phone = '{$assistant_governor_phone}',
+                youth_leader = '{$youth_leader}',
+                youth_leader_phone = '{$youth_leader_phone}',
+                womens_activist = '{$womens_activist}'
+                womens_activist_phone = '{$womens_activist_phone}'
+                tax_inspector = '{$tax_inspector}'
+                tax_inspector_phone = '{$tax_inspector_phone}'
+                social_employe = '{$social_employe}'
+                social_employe_phone = '{$social_employe_phone}'
+                head_iiv = '{$head_iiv}'
+                head_iiv_phone = '{$head_iiv_phone}'
+                head_fvv = '{$head_fvv}'
+                head_fvv_phone = '{$head_fvv_phone}'
+
+                WHERE id = {$RowId}";
+            $sql->query($updquery);
+            if ($sql->error() == "") {
+                $status = "ok";
+                $res = json_encode(['status' => $status, 'rowid' => MyPiCrypt($RowId)]);
+            } else {
+                $res = $sql->error();
+                $success = false;
+            }
+        } else {
+            foreach ($staff_id as $staff) {
+                // Har bir aylanmada alohida staff_id o'zgaradi
+                $current_staff_id = (int) $staff;
+
+                $insquery = "INSERT INTO hr.neighborhoods (
+                    structure_id,
+                    district,
+                    name,
+                    head,
+                    head_phone,
+                    assistant_governor,
+                    assistant_governor_phone,
+                    youth_leader,
+                    youth_leader_phone,
+                    womens_activist,
+                    womens_activist_phone,
+                    tax_inspector,
+                    tax_inspector_phone,
+                    social_employe,
+                    social_employe_phone,
+                    head_iiv,
+                    head_iiv_phone,
+                    head_fvv,
+                    head_fv_phone,
+                  
+                ) VALUES (
+                    '{$structure_id}',
+                    '{$district}',
+                    '{$name}',
+                    '{$head}',
+                     {$head_phone},
+                     {$assistant_governor},
+                    '{$assistant_governor_phone}', 
+                    '{$youth_leader}',
+                    '{$youth_leader_phone}'
+                    '{$womens_activist}',
+                    '{$womens_activist_phone}',
+                    '{$tax_inspector}',
+                    '{$tax_inspector_phone}',
+                    '{$social_employe}',
+                    '{$social_employe_phone}',
+                    '{$head_iiv}',
+                    '{$head_iiv_phone}',
+                    '{$head_fvv}',
+                    '{$head_fv_phone}',
+                )";
+
+                $sql->query($insquery);
+
+                // Har bir INSERT dan keyin xatoni tekshirish
+                if ($sql->error() != "") {
+                    $res = $sql->error();
+                    $success = false;
+                    // Xato yuz bersa siklni to'xtatish
+                    break;
+                }
+            }
+            if ($success) {
+                // Oxirgi qo'shilgan IDni olish. Agar bitta sikl bo'lsa to'g'ri ishlaydi,
+                // ko'p sikl bo'lsa, oxirgi kiritilgan IDni qaytaradi.
+                $sql->query("SELECT CURRVAL('hr.dailiy_routine_date_id_seq') AS last_id;");
+                $result = $sql->fetchAssoc();
+                $LastId = $result['last_id'];
+                $res = 0;
+            }
+        }
+        break;
+
+    case "del_neighborhood":
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "DELETE FROM hr.neighborhoods WHERE id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+
+        if ($sql->error() == "") {
+            $res = 0;
+        } else {
+            $res = 2;
+        }
+        break;
+    /// dneighborhood crud ============        
     }
 
 echo $res;
