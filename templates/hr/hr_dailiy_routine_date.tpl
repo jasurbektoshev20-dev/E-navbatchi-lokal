@@ -50,6 +50,8 @@
 								<th class="text-center">Эпикрофка</th>
 								<th class="text-center">Бодй камера</th>
 								<th class="text-center">Автомобил</th>
+								<th class="text-center">Otlar soni</th>
+								<th class="text-center">Itlar</th>
 
 								<th></th>
 							</tr>
@@ -73,6 +75,8 @@
 											</svg></a>
 									</td>
 									<td class="text-center">{$obekt.car}</td>
+									<td class="text-center">{$obekt.horse_count}</td>
+									<td class="text-center">{$obekt.dog_id}</td>
 									<td>
 										<div class="dropdown">
 											<button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -148,6 +152,21 @@
 						<div class="col-sm-4">
 							<label>Автомобилни танланг</label>
 							<select id="car_id" class="form-control">
+								<option value="">Танланг...</option>
+								{foreach from=$Cars item=obj}
+									<option value="{$obj.id}">{$obj.name}</option>
+								{/foreach}
+							</select>
+						</div>
+
+						<div class="col-sm-4">
+							<label>Otlar soni</label>
+							<input type="number" class="form-control" name="horse_count" id="horse_count">
+						</div>
+
+						<div class="col-sm-4">
+							<label>Itni танланг</label>
+							<select id="dog_id" class="form-control">
 								<option value="">Танланг...</option>
 								{foreach from=$Cars item=obj}
 									<option value="{$obj.id}">{$obj.name}</option>
@@ -286,8 +305,10 @@
 
 					$('#id').val(sInfo.id);
 					$('#patrul_type').val(sInfo.patrul_type).trigger('change');
+					$('#dog_id').val(sInfo.dog_id).trigger('change');
 					$('#direction').val(sInfo.direction);
 					$('#smena').val(sInfo.smena);
+					$('#horse_count').val(sInfo.horse_count);
 					$('#car_id').val(sInfo.car_id).trigger('change');
 
 
@@ -314,9 +335,10 @@
 
 				form_data.append('id', id);
 				form_data.append('routine_id', obyekt_id);
-				form_data.append('patrul_type', $('#patrul_type').val());
+				form_data.append('dog_id', $('#dog_id').val());
 				form_data.append('direction', $('#direction').val());
 				form_data.append('smena', $('#smena').val());
+				form_data.append('horse_count', $('#horse_count').val());
 				form_data.append('car_id', $('#car_id').val());
 				form_data.append('epikirofka_id', $('#epikirofka_id').val());
 				form_data.append('staff_id', $('#staff_id').val());
