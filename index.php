@@ -129,10 +129,11 @@ switch ($TheAct) {
 		break;
 
 	case "chat":
-		$query = "SELECT m.id, TO_CHAR(m.time, 'HH24:MI:SS DD.MM.YYYY') AS time, st.lastname as sender, 
+		$query = "SELECT m.id, TO_CHAR(m.time, 'HH24:MI:SS DD.MM.YYYY') AS time, st.lastname as sender,r.shortname1,
 		m.sender as sender_id, st.photo as sender_pic, m.text, LEFT(st.lastname, 1) AS shortname, m.status 
 		FROM tur.messages m
 		left join hr.staff st on st.id = m.staff_id 
+		left join ref.ranks r on r.id = st.rank_id
 		order by m.id asc";
 		$sql->query($query);
 		$Messages = $sql->fetchAll();

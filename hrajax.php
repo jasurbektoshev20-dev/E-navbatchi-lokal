@@ -2723,5 +2723,61 @@ switch ($Action) {
         break;
         /// impact_area ========
 
-}
+    case "act_chat":
+          
+            $json = json_decode(file_get_contents('php://input'), true);
+
+            $sender_id = $json['sender_id']?? null;
+            $staff_id  = $json['staff_id'] ?? null;
+            $time      = $json['time'] ?? null;
+            $text      = $json['text'] ?? null;
+            $status    = $json['status'] ?? null;
+
+            // if ($RowId != "0") {
+            //     $updquery = "UPDATE tur.messages set 
+            //         sender = '{$sender_id}'
+            //         ,time = '{$time}'
+            //         ,staff_id = '{$staff_id}'
+            //         ,text = '{$text}'
+            //         ,status = '{$status}'
+            //         WHERE id = {$RowId}";
+            //     $sql->query($updquery);
+            //     if ($sql->error() == "") {
+            //         $res = "0<&sep&>" . MyPiCrypt($RowId);
+            //     } else {
+            //         $res = $sql->error();
+            //     }
+            // } else {
+            //     $sql->query("SELECT count(*) ccount FROM tur.messages t 
+            //     WHERE sender = '{$structure_id}' AND car_id = '{$car_id}' and date = '{$date}' and smena = '{$smena}'");
+            //     $isNotNew = $sql->fetchAssoc();
+            //     if ($isNotNew['ccount'] == 0) {
+
+            $insquery = "INSERT into tur.messages (
+                        sender
+                        ,time
+                        ,staff_id
+                        ,text
+                        ,status
+                            ) values (
+                                '{$sender_id}'
+                                ,'{$time}'
+                                ,'{$staff_id}'
+                                ,'{$text}'
+                                ,'{$status}'
+                            )";
+
+                    $sql->query($insquery);
+                    if ($sql->error() == "") {
+                        $sql->query("SELECT CURRVAL('tur.messages_id_seq') AS last_id;");
+                        $result = $sql->fetchAssoc();
+                        $LastId = $result['last_id'];
+
+                        $res = "0<&sep&>" . MyPiCrypt($LastId);
+                    } else {
+                        $res = $sql->error();
+                    }
+            break;
+    }
+
 echo $res;

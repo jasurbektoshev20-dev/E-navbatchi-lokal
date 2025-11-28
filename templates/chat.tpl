@@ -117,6 +117,7 @@
                                             <div class="chat-message-wrapper flex-grow-1">
                                                 <div class="chat-message-text">
                                                     <p class="mb-0">{$message.text}</p>
+                                                    <p>{$message.shortname1}{$message.sender}</p>
                                                 </div>
                                                 <div class="text-end text-muted mt-1">
                                                     <i class="ti ti-checks ti-xs me-1 text-success"></i>
@@ -323,21 +324,7 @@ $(document).ready(function () {
     }
 
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        const socket = io('http://10.19.7.4:3000');
+        const socket = io('http://10.100.16.197:3000');
         socket.on('get_message', (data) => {
             const messageAlignmentClass = UserStructure == data[0].sender_id ? "chat-message-right" :
                 "chat-message-left";
@@ -406,7 +393,7 @@ $(document).ready(function () {
                 const currentTimestamp = new Date();
                 $.ajax({
                     type: "POST",
-                    url: `http://10.19.7.4:3000/send_message`,
+                    url: `hrajax.php?act=act_chat`,
                     dataType: "json",
                     encode: true,
                     contentType: "application/json",
