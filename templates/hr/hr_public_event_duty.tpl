@@ -115,13 +115,10 @@
                             </select>
 						</div>
 
-						   <div class="col-sm-6">
+						<div class="col-sm-6">
                             <label>{$Dict.territorial_short}</label>
                             <select id="structure_id" class="form-select" name="structure_id">
                                 <option value="">{$Dict.choose}</option>
-                                {foreach from=$StructureAll item=obj}
-                                    <option value="{$obj.id}">{$obj.name}</option>
-                                {/foreach}
                             </select>
                         </div>
 
@@ -223,6 +220,17 @@
 			}
 		});
 
+		$('#region_id').change(function(event) {
+			$.get("ajax.php?act=get_divisions&structure_id=" + this.value, function(html) {
+				var sInfo = jQuery.parseJSON(html);
+				$('#structure_id').empty();
+				$('#structure_id').append(`<option value="">Tanlang</option>`);
+				sInfo.forEach((item, index) => {
+					$('#structure_id').append(`<option value="${item.id}">${item.name}</option>`);
+				});
+			});
+		});
+
 		$(document).ready(function() {
 			$('#new').click(function() {
 				$('#localForm')[0].reset();
@@ -258,16 +266,7 @@
 			});
 
 			        // Filtering
-				$('#region_id').change(function(event) {
-					$.get("ajax.php?act=get_event_duty&structure_id=" + this.value, function(html) {
-						var sInfo = jQuery.parseJSON(html);
-						$('#structure_id').empty();
-						$('#structure_id').append(`<option value="">${dict_choose}</option>`);
-						sInfo.forEach((item, index) => {
-							$('#structure_id').append(`<option value="${item.id}">${item.name}</option>`);
-						});
-					});
-				});
+				
 
 			$('#localForm').on('submit', function(e) {
 				e.preventDefault();
@@ -284,8 +283,7 @@
 
 				form_data.append('id', id);
 				form_data.append('public_event1_id', obyekt_id);
-				form_data.append('structure_id', $('#structure_id').val());
-				form_data.append('structure_id', $('#region_id').val());
+				form_data.append('structure_id', $('#structure_id').val() || $('#region_id').val());
 				form_data.append('epikirofka_id', $('#epikirofka_id').val());
 				form_data.append('staff_id', $('#staff_id').val());
 				form_data.append('car_id', $('#car_id').val());
