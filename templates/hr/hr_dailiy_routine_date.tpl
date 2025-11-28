@@ -168,7 +168,7 @@
 							<label>Itni танланг</label>
 							<select id="dog_id" class="form-control">
 								<option value="">Танланг...</option>
-								{foreach from=$Cars item=obj}
+								{foreach from=$Dogtypes item=obj}
 									<option value="{$obj.id}">{$obj.name}</option>
 								{/foreach}
 							</select>

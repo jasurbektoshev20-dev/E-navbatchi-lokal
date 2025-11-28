@@ -1915,6 +1915,8 @@ switch ($Action) {
         $routine_id = $_POST['routine_id'];
         $patrul_type = $_POST['patrul_type'];
         $direction = $_POST['direction'];
+        $dog_id = $_POST['dog_id'];
+        $horse_count = $_POST['horse_count'];
         $smena = $_POST['smena'];
         $car_id = !empty($_POST['car_id']) ? $_POST['car_id'] : 0;
         $bodycam_id = isset($_POST['bodycam_id']) ? $_POST['bodycam_id'] : 0;
@@ -1960,6 +1962,8 @@ switch ($Action) {
                 routine_id = '{$routine_id}',
                 patrul_type = '{$patrul_type}',
                 direction = '{$direction}',
+                dog_id = '{$dog_id}',
+                horse_count = '{$horse_count}',
                 smena = '{$smena}',
                 staff_id = '{$staff_id[0]}',
                 car_id = '{$car_id}',
@@ -1984,6 +1988,8 @@ switch ($Action) {
                     patrul_type,
                     direction,
                     smena,
+                    dog_id,
+                    horse_count,
                     staff_id,
                     car_id,
                     epikirofka_id
@@ -1992,6 +1998,8 @@ switch ($Action) {
                     '{$patrul_type}',
                     '{$direction}',
                     '{$smena}',
+                     {$dog_id},
+                     {$horse_count},
                     '{$current_staff_id}', -- Siklning joriy IDsi ishlatiladi
                     '{$car_id}',
                     '{$epikirofka_pg_array_string}' -- PostgreSQL array stringi ishlatiladi

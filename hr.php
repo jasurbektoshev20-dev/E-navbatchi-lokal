@@ -810,6 +810,7 @@ switch ($Act) {
 		$query = "SELECT t.id, t.direction, t.smena, 
          p.name{$slang} AS patrul_type,
          CONCAT(s.lastname,' ',s.firstname,' ', s.surname) AS staff, 
+		 d.name{$slang} as dog_type,t.horse_count,
          c.plate_number AS car,
 		 st.name2 AS structure_name,
          (
@@ -826,6 +827,7 @@ switch ($Act) {
          LEFT JOIN hr.tech_guard_cars c ON c.id = t.car_id
 		 LEFT JOIN hr.daily_routine dr ON dr.id = t.routine_id
 		 LEFT JOIN hr.structure st ON st.id = dr.structure_id
+		 LEFT JOIN tur.dog_types d on d.id = t.dog_id
          
          WHERE t.routine_id = {$object_id}
          ORDER BY t.id DESC";
@@ -843,6 +845,13 @@ switch ($Act) {
 		ORDER BY t.id desc ";
 		$sql->query($query);
 		$PatrulTypes = $sql->fetchAll();
+
+
+		$query  = "SELECT t.id, t.name{$slang} as name
+		FROM tur.dog_types t 
+		ORDER BY t.id desc ";
+		$sql->query($query);
+		$Dogtypes = $sql->fetchAll();
 
 		$query  = "SELECT t.id, t.name{$slang} as name
 		FROM ref.epic t 
@@ -892,6 +901,7 @@ switch ($Act) {
 			'Staffs' => $Staffs,
 			'Cars' => $Cars,
 			'BodyCams' => $BodyCams,
+			'Dogtypes' => $Dogtypes
 		));
 		break;
 
