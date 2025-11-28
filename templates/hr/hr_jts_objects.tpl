@@ -176,15 +176,6 @@
               <input required type="text" class="form-control" id="long" placeholder="узунлигини киритинг..." />
             </div>
 
-             {* <div class="col-sm-4">
-              <label>Ҳамкорликдаги ташкилотлар</label>
-              <select required class="form-select" id="cooperate_id">
-                <option value="">Танланг...</option>
-                {foreach from=$CooperateTypes item=Item1 key=ikey1}
-                  <option value="{$Item1.id}">{$Item1.name}</option>
-                {/foreach}
-              </select>
-            </div> *}
 
              <div class="col-sm-4">
               <label>Mahalla</label>

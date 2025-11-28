@@ -159,51 +159,51 @@ var urlId = getUrlParameter('id');  // bu endi "1" bo'ladi
 
 
 
-    var dt_basic_table = $('.datatables-projects'),
-        dt_basic;
+        var dt_basic_table = $('.datatables-projects'),
+            dt_basic;
 
-    // DataTable with buttons
-    if (dt_basic_table.length) {
-        dt_basic = dt_basic_table.DataTable({
-            displayLength: 10,
-            lengthMenu: [5, 10, 25, 50, 75, 100, 1000]
+        // DataTable with buttons
+        if (dt_basic_table.length) {
+            dt_basic = dt_basic_table.DataTable({
+                displayLength: 10,
+                lengthMenu: [5, 10, 25, 50, 75, 100, 1000]
+            });
+        }
+
+        $('.datatables-projects tbody').on('click', '.editAction', function() {
+            $('#submitModal').modal('toggle');
+            var RowId = $(this).attr('rel');
+            $.get("hrajax.php?act=get_jts_objects_door&rowid=" + RowId, function(html) {
+                var sInfo = jQuery.parseJSON(html);
+                $('#address').val(sInfo.name);
+                $('#lat').val(sInfo.lat);
+                $('#long').val(sInfo.long);
+                $('#object_id').val(sInfo.object_id); // bu yerda object_id set qilinadi
+                $('#id').val(sInfo.rowid);    
+            });
         });
-    }
 
-    $('.datatables-projects tbody').on('click', '.editAction', function() {
-        $('#submitModal').modal('toggle');
-        var RowId = $(this).attr('rel');
-         $.get("hrajax.php?act=get_jts_objects_door&rowid=" + RowId, function(html) {
-            var sInfo = jQuery.parseJSON(html);
-            $('#address').val(sInfo.name);
-            $('#lat').val(sInfo.lat);
-            $('#long').val(sInfo.long);
-            $('#object_id').val(sInfo.object_id); // bu yerda object_id set qilinadi
-            $('#id').val(sInfo.rowid);    
+        $('#new').on('click', function (e) {
+            e.preventDefault();
+
+            // Bootstrap 5 modalni olish
+            const modalEl = document.getElementById('submitModal');
+            const modal = new bootstrap.Modal(modalEl);
+
+            // Formani tozalash
+            $('form.needs-validation')[0].reset();
+            $('form.needs-validation').removeClass('was-validated');
+
+            // Formadagi qiymatlarni tozalash
+            $('#address').val("").trigger('change');
+            $('#lat').val('');
+            $('#long').val('');
+            $('#object_id').val(urlId);  // URL dan kelgan id
+            $('#id').val('');
+
+            // Modalni ochish
+            modal.show();
         });
-    });
-
-$('#new').on('click', function (e) {
-    e.preventDefault();
-
-    // Bootstrap 5 modalni olish
-    const modalEl = document.getElementById('submitModal');
-    const modal = new bootstrap.Modal(modalEl);
-
-    // Formani tozalash
-    $('form.needs-validation')[0].reset();
-    $('form.needs-validation').removeClass('was-validated');
-
-    // Formadagi qiymatlarni tozalash
-    $('#address').val("").trigger('change');
-    $('#lat').val('');
-    $('#long').val('');
-    $('#object_id').val(urlId);  // URL dan kelgan id
-    $('#id').val('');
-
-    // Modalni ochish
-    modal.show();
-});
 
 
 
