@@ -76,7 +76,7 @@
 									</td>
 									<td class="text-center">{$obekt.car}</td>
 									<td class="text-center">{$obekt.horse_count}</td>
-									<td class="text-center">{$obekt.dog_id}</td>
+									<td class="text-center">{$obekt.dog_type}</td>
 									<td>
 										<div class="dropdown">
 											<button type="button" class="btn p-0 dropdown-toggle hide-arrow"
