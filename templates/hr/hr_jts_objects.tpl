@@ -148,16 +148,16 @@
             </div>
 
               <!-- Bozor uchaskavoy -->
-            <div class="col-sm-4">
+            {* <div class="col-sm-4">
               <label>Ҳудуд участкавойи ФИШ</label>
               <input required type="text" class="form-control" id="police_name" placeholder="ФИШни киритинг..." />
-            </div>
+            </div> *}
 
               <!-- Bozor uchaskavoy tel -->
-            <div class="col-sm-4">
+            {* <div class="col-sm-4">
               <label>Ҳудуд участкавойи телефон рақами</label>
               <input required type="text" class="form-control" id="police_phone" placeholder="Телефон рақам киритинг..." />
-            </div>
+            </div> *}
 
               <!-- Bozor rasmi -->
             <div class="col-sm-4">
@@ -176,7 +176,7 @@
               <input required type="text" class="form-control" id="long" placeholder="узунлигини киритинг..." />
             </div>
 
-             <div class="col-sm-4">
+             {* <div class="col-sm-4">
               <label>Ҳамкорликдаги ташкилотлар</label>
               <select required class="form-select" id="cooperate_id">
                 <option value="">Танланг...</option>
@@ -184,7 +184,19 @@
                   <option value="{$Item1.id}">{$Item1.name}</option>
                 {/foreach}
               </select>
+            </div> *}
+
+             <div class="col-sm-4">
+              <label>Mahalla</label>
+              <select required class="form-select" id="neighborhood_id">
+                <option value="">Танланг...</option>
+                {foreach from=$CooperateTypes item=Item1 key=ikey1}
+                  <option value="{$Item1.id}">{$Item1.name}</option>
+                {/foreach}
+              </select>
             </div>
+
+
             <div class="col-sm-12">
               <label>Объект ҳудудини чизиш</label>
                 <div id="uzbMap" style="height: 350px;"></div>

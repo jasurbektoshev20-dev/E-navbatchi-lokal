@@ -384,19 +384,19 @@
             text: total,
             left: 'center',
             top: '37%',
-            textStyle: { fontSize: 28, fontWeight: 'bold', color: '#b7b7b7' },
+            textStyle: { fontSize: 18, fontWeight: 'bold', color: '#b7b7b7' },
           },
           legend: {
           
            bottom: 0,
            left: 'center',
            padding: [20, 0, 0, 0],
-            textStyle: { color: '#b7b7b7', fontSize: '1.3rem' }
+            textStyle: { color: '#b7b7b7', fontSize: 18 }
           },
                 tooltip: {
               backgroundColor: 'white',
               textStyle: {
-                  fontSize: 20,     // 🔥 shu yerda o'zgartirasan
+                  fontSize: 18,     // 🔥 shu yerda o'zgartirasan
                   color: '#000'
               }
           },
@@ -408,7 +408,7 @@
               show: true,
               position: 'outside',
               formatter: '{c}',
-              textStyle: { fontSize: 22, fontWeight: 'bold', color: '#b7b7b7' }
+              textStyle: { fontSize: 18, fontWeight: 'bold', color: '#b7b7b7' }
             },
 
             itemStyle: {
@@ -488,7 +488,7 @@
             xAxis: {
               type: 'category',
               data: data?.stat_region?.map(item => item.name),
-              axisLabel: { interval: 0, fontSize: '1rem', rotate: 45, color: '#b7b7b7' },
+              axisLabel: { interval: 0, fontSize: 18, rotate: 45, color: '#b7b7b7' },
               axisLine: { show: false },
               splitLine: { show: false }
             },
@@ -497,7 +497,7 @@
                 type: 'value', 
                 axisLabel: { 
                     color: '#b7b7b7',
-                    fontSize: 20   // <-- shu yerda shrift kattaligi
+                    fontSize: 18   // <-- shu yerda shrift kattaligi
                 }, 
                 axisLine: { show: false },
                 splitLine: { show: false }
@@ -508,7 +508,7 @@
               type: 'bar',
               barMaxWidth: 60,
               itemStyle: { color: (p) => colors[p.dataIndex % colors.length], borderRadius: [8, 8, 0, 0] },
-              label: { fontSize: 22, show: true, position: 'top', color: '#b7b7b7' }
+              label: { fontSize: 18, show: true, position: 'top', color: '#b7b7b7' }
             }]
           };
   
@@ -572,7 +572,7 @@
           legend: {
             top: 'bottom',
             left: 'center',
-            textStyle: { color: '#b7b7b7', fontSize: '1.3rem' }
+            textStyle: { color: '#b7b7b7', fontSize: 18 }
           },
           tooltip: { backgroundColor: 'white' },
           series: [{
@@ -583,7 +583,7 @@
               show: true,
               position: 'outside',
               formatter: '{c}',
-              textStyle: { fontSize: 22, fontWeight: 'bold', color: '#b7b7b7' }
+              textStyle: { fontSize: 18, fontWeight: 'bold', color: '#b7b7b7' }
             },
 
             itemStyle: {
@@ -667,7 +667,7 @@
             xAxis: {
               type: 'category',
               data: data?.stat_region?.map(item => item.name),
-              axisLabel: { interval: 0, fontSize: '1.3rem', rotate: 45, color: '#b7b7b7' },
+              axisLabel: { interval: 0, fontSize: 18, rotate: 45, color: '#b7b7b7' },
               axisLine: { show: false },
               splitLine: { show: false }
             },
@@ -680,7 +680,7 @@
               type: 'bar',
               barMaxWidth: 60,
               itemStyle: { color: (p) => colors[p.dataIndex % colors.length], borderRadius: [8, 8, 0, 0] },
-              label: { fontSize: 22, show: true, position: 'top', color: '#b7b7b7' }
+              label: { fontSize: 18, show: true, position: 'top', color: '#b7b7b7' }
             }]
           };
   
@@ -688,7 +688,7 @@
           window.addEventListener('resize', myChart.resize);
         }
       }
-        $('#event_count').on('change', function() {
+        $('#public_events').on('change', function() {
           const id = parseInt($(this).val());
           structure_id = id
           getEvents()
@@ -788,13 +788,13 @@
           itemGap: 10,
           textStyle: {
             color: default_color,
-            fontSize: '1.3rem'
+            fontSize: 18
           }
         },
         tooltip: {
           backgroundColor: 'white',
            textStyle: {
-                fontSize: 20,     // 🔥 shu yerda o'zgartirasan
+                fontSize: 18,     // 🔥 shu yerda o'zgartirasan
                 color: '#000'
             }
         },
@@ -815,7 +815,7 @@
             position: 'outside', // Place labels outside the pie chart
             formatter: '{c}', // Format the labels
             textStyle: {
-              fontSize: 22, // Adjust the font size of the labels
+              fontSize: 18, // Adjust the font size of the labels
               fontWeight: 'bold',
               color: '#b7b7b7',
             },
@@ -1002,7 +1002,7 @@
 //           left: 'center',
 //           top: '32%',
 //           textStyle: {
-//             fontSize: 22,
+//             fontSize: 18,
 //             fontWeight: 'bold',
 //             color: '#b7b7b7'
 //           },
@@ -1553,16 +1553,16 @@
         text: total,
         left: "center",
         top: "32%",
-        textStyle: { fontSize: 20, fontWeight: "bold", color: "#b7b7b7" }
+        textStyle: { fontSize: 18, fontWeight: "bold", color: "#b7b7b7" }
       },
       legend: {
         top: "bottom",
         orient: "horizontal",
         left: "center",
-        textStyle: { color: "#b7b7b7", fontSize: "1.3rem" }
+        textStyle: { color: "#b7b7b7", fontSize: 18 }
       },
       tooltip: { backgroundColor: "white",  textStyle: {
-                fontSize: 20,    
+                fontSize: 18,    
                 color: '#000'
             } },
       series: [{
@@ -1580,7 +1580,7 @@
           show: true,
           position: "outside",
           formatter: "{c}",
-          textStyle: { fontSize: 20, fontWeight: "bold", color: "#b7b7b7" }
+          textStyle: { fontSize: 18, fontWeight: "bold", color: "#b7b7b7" }
         },
         labelLine: { show: true, length: 20 },
         data: sdata.map((item, index) => ({
@@ -1708,7 +1708,7 @@
   //         borderRadius: [8, 8, 0, 0] // Add border-radius only to the top of the bar line
   //       },
   //       label: {
-  //         fontSize: 22,
+  //         fontSize: 18,
   //         show: true, // Show the value on top of the bar
   //         position: 'top',
   //         color: default_color,
@@ -1771,7 +1771,7 @@
         data: data.map(item => item.name),
         axisLabel: {
           interval: 0,
-          fontSize: '1rem',
+          fontSize: 18,
           rotate: 50, // Show all labels
           color: default_color,
         },
@@ -1794,7 +1794,7 @@
         },
         axisLabel: {
           color: default_color,
-          fontSize:20
+          fontSize: 18
         },
         axisLine: {
           show: false // Remove the background Y line
@@ -1806,7 +1806,7 @@
       tooltip: {
         backgroundColor: default_color,
          textStyle: {
-                fontSize: 20,     // 🔥 shu yerda o'zgartirasan
+                fontSize: 18,     // 🔥 shu yerda o'zgartirasan
                 color: '#000'
             }
       },
@@ -1823,7 +1823,7 @@
         //     borderRadius: [8, 8, 0, 0] // Add border-radius only to the top of the bar line
         // },
         label: {
-          fontSize: 22,
+          fontSize: 18,
           show: true, // Show the value on top of the bar
           position: 'top',
           color: default_color,
