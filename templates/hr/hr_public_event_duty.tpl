@@ -47,6 +47,8 @@
 								<th class="text-center">Эпикрофка</th>
 								<th class="text-center">Бодй камера</th>
 								<th class="text-center">Автомобил</th>
+								<th class="text-center">Otlar soni</th>
+								<th class="text-center">Itlar</th>
 								<th></th>
 							</tr>
 						</thead>
@@ -65,6 +67,8 @@
 											</svg></a>
 									</td>
 									<td class="text-center">{$item.car_name}</td>
+									<td class="text-center">{$item.horse_count}</td>
+									<td class="text-center">{$item.dog_id}</td>
 									<td>
 										<div class="dropdown">
 											<button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -157,6 +161,21 @@
 							</select>
 						</div>
 
+						<div class="col-sm-6">
+							<label>Otlar soni</label>
+							<input type="number" class="form-control" name="horse_count" id="horse_count">
+						</div>
+
+						<div class="col-sm-6">
+							<label>Itni танланг</label>
+							<select id="dog_id" class="form-control">
+								<option value="">Танланг...</option>
+								{foreach from=$Cars item=obj}
+									<option value="{$obj.id}">{$obj.name}</option>
+								{/foreach}
+							</select>
+						</div>
+
 						<!-- Tugmalar -->
 						<div class="col-12 text-center mt-5">
 							<input type="hidden" id="id" value="">
@@ -227,6 +246,8 @@
 						$('#epikirofka_id').val(epik).trigger('change');
 					}
 					$('#car_id').val(sInfo.car_id).trigger('change');
+					$('#horse_count').val(sInfo.horse_count);
+					$('#dog_id').val(sInfo.dog_id).trigger('change');
 					$('#staff_id').val(sInfo.staff_id).trigger('change');
 					
 				});
@@ -264,6 +285,8 @@
 				form_data.append('epikirofka_id', $('#epikirofka_id').val());
 				form_data.append('staff_id', $('#staff_id').val());
 				form_data.append('car_id', $('#car_id').val());
+				form_data.append('horse_count', $('#horse_count').val());
+				form_data.append('dog_id', $('#dog_id').val());
 
 				const actUrl = id ? 'hrajax.php?act=act_event_duty' :
 					'hrajax.php?act=act_event_duty';
