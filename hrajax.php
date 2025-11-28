@@ -525,7 +525,7 @@ switch ($Action) {
 
         if ($RowId != "0") {
             $updquery = "UPDATE hr.public_event1 set
-            region_id = '{$region_id}',
+            structure_id = '{$region_id}',
             jts_object_id = '{$object_id}',
             public_event_type = '{$type_id}',
             name1 = '{$event_name}',
@@ -554,7 +554,7 @@ switch ($Action) {
             $isNotNew = $sql->fetchAssoc();
             if ($isNotNew['ccount'] == 0) {
                 $insquery = "INSERT into hr.public_event1 (
-                         region_id
+                         structure_id
                         ,jts_object_id
                         ,public_event_type
                         ,name1

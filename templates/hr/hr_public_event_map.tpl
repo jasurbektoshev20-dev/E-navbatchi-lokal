@@ -720,7 +720,7 @@
                         <!-- Схема -->
                         <div class="tab-pane fade" id="schemeTabPane" role="tabpanel">
                             <div id="dialogScheme">
-                                 <img src="/assets/images/Sxema.jpg">
+                                 <img src="/pictures/marker_icons/sxema.png">
                             </div>
                         </div>
 
@@ -1917,7 +1917,7 @@
                     <i class="duty-icon bi bi-shield-check"></i>
                 </div>
                 <span class="summary-span">
-                    <span style="color:#fff;">Xizmat turi:</span>
+                    <span style="color:#fff;">Хизмат тури:</span>
                     <span>
                         ${Number(params?.event.walker_patrul) 
                         + Number(params?.event.horse_patrul)
@@ -1934,7 +1934,7 @@
                           <i class="bi bi-person-walking"></i>
                       </div>
                       <div class="passport-li-about">
-                          <h6>Piyoda patrul:</h6>
+                          <h6>Пиёда патрул:</h6>
                           <span>${params?.event.walker_patrul} нафар</span>
                       </div>
                   </li>
@@ -1945,7 +1945,7 @@
                             <i class="bi bi-shield-fill-check"></i>
                         </div>
                         <div class="passport-li-about">
-                            <h6>Otliq patrul:</h6>
+                            <h6>Отлиқ патрул:</h6>
                             <span>${params?.event.horse_patrul} та</span>
                         </div>
                     </li>
@@ -1956,7 +1956,7 @@
                             <i class="bi bi-truck-front-fill"></i>
                         </div>
                         <div class="passport-li-about">
-                            <h6>Jangavor ekipaj:</h6>
+                            <h6>Жанговор экипаж:</h6>
                             <p>${params?.event.war_ekipaj} та</p>
                         </div>
                     </li>
@@ -1966,7 +1966,7 @@
                             <i class="bi bi-backpack-fill"></i>
                         </div>
                         <div class="passport-li-about">
-                            <h6>Zaxira:</h6>
+                            <h6>Захира:</h6>
                             <p>${params?.event.zaxira} та</p>
                         </div>
                     </li>
@@ -2006,7 +2006,7 @@
                           <i class="bi bi-shield-fill-check"></i>
                       </div>
                       <div class="passport-li-about">
-                          <h6>Itlar: ${params?.event.dogs} та</h6>
+                          <h6>Итлар: ${params?.event.dogs} та</h6>
                       </div>
                   </li>
 
@@ -2016,7 +2016,7 @@
                           <i class="bi bi-shield-fill-check"></i>
                       </div>
                       <div class="passport-li-about">
-                          <h6>Otlar: ${params?.event.horses} та</h6>
+                          <h6>Отлар: ${params?.event.horses} та</h6>
                       </div>
                   </li>
 
@@ -2044,7 +2044,7 @@
                             <i class="bi bi-shield-lock-fill"></i>
                         </div>
                         <div class="passport-li-about">
-                            <h6>Metallodetektor: ${params?.event.metalldetektor} та</h6>
+                            <h6>Металлодетектор: ${params?.event.metalldetektor} та</h6>
                         </div>
                     </li>
 
@@ -2053,7 +2053,7 @@
                             <i class="bi bi-broadcast-pin"></i>
                         </div>
                         <div class="passport-li-about">
-                            <h6>Aloqa vositalari: ${params?.event.signals} та</h6>
+                            <h6>Алоқа воситалари: ${params?.event.signals} та</h6>
                         </div>
                     </li>
                     </ul>
