@@ -183,23 +183,12 @@
         $('#region_id').change(function(event) {
             $.get("ajax.php?act=get_divisions&structure_id=" + this.value, function(html) {
                 var sInfo = jQuery.parseJSON(html);
-
                 $('#structure_id').empty();
                 $('#structure_id').append(`<option value="">${dict_choose}</option>`);
                 sInfo.forEach((item, index) => {
                     $('#structure_id').append(`<option value="${item.id}">${item.name}</option>`);
                 });
             });
-
-            // $.get("ajax.php?act=get_divisions&region_id=" + this.value, function(html) {
-            //     var sInfo = jQuery.parseJSON(html);
-
-            //     $('#structure_id').empty();
-            //     $('#structure_id').append(`<option value="">${dict_choose}</option>`);
-            //     sInfo.forEach((item, index) => {
-            //         $('#structure_id').append(`<option value="${item.id}">${item.name}</option>`);
-            //     });
-            // });
         });
 
         // Delete Record

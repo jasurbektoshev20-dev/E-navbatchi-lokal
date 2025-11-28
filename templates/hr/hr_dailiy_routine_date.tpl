@@ -310,8 +310,7 @@
 					$('#smena').val(sInfo.smena);
 					$('#horse_count').val(sInfo.horse_count);
 					$('#car_id').val(sInfo.car_id).trigger('change');
-
-
+					$('#staff_id').val(sInfo.staff_id).trigger('change');
 					if (sInfo.epikirofka_id) {
 						const epik = sInfo.epikirofka_id.replace(/[{}]/g, '').split(',').map(x => x
 							.trim());
