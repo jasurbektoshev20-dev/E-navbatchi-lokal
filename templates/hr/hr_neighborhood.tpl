@@ -61,14 +61,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {foreach from=$Rountines item=obekt key=tkey}
+                            {foreach from=$neighborhoods item=obekt key=tkey}
                                 <tr id="row_{$obekt.id|crypt}">
                                     <td>{$tkey+1}</td>
                                     <td>{$obekt.structure_id}</td>
                                     <td>{$obekt.district}</td>
-                                    <td>{$obekt.neighborhood_name}</td>
-                                    <td>{$obekt.neighborhood_head}</td>
-                                    <td>{$obekt.neighborhood_head_phone}</td>
+                                    <td>{$obekt.name}</td>
+                                    <td>{$obekt.head}</td>
+                                    <td>{$obekt.head_phone}</td>
                                     <td>{$obekt.assistant_governor}</td>
                                     <td>{$obekt.assistant_governor_phone}</td>
                                     <td>{$obekt.youth_leader}</td>
@@ -276,7 +276,7 @@
                 form_data.append('head_fvv_phone', $('#head_fvv_phone').val());
 
                 $.ajax({
-                    url: 'hrajax.php?act=update_dailiy_RWEQR',
+                    url: 'hrajax.php?act=act_neighborhood',
                     dataType: 'text',
                     cache: false,
                     contentType: false,
@@ -287,7 +287,7 @@
                         let obj = JSON.parse(resdata);
                     
                         if (obj.status == 'ok') {
-                            // location.reload();
+                            location.reload();
                         } else {
                             alert(resdata);
                         }
@@ -300,7 +300,7 @@
 				$('#submitModal').modal('toggle');
 				const RowId = $(this).attr('rel');
 
-				$.get('hrajax.php?act=get_dailiy_routine_date&rowid=' + RowId, function(html) {
+				$.get('hrajax.php?act=get_neighborhood&rowid=' + RowId, function(html) {
 					const sInfo = jQuery.parseJSON(html);
 					$('#id').val(sInfo.id);
                     $('structure_id').val(sInfo.structure_id).trigger('change');
@@ -337,7 +337,7 @@
 					cancelButtonText: "Бекор қилиш"
 				}).then((result) => {
 					if (result.isConfirmed) {
-						$.get('hrajax.php?act=del_dailiy_routine_date&rowid=' + RowId, function(res) {
+						$.get('hrajax.php?act=del_neighborhood&rowid=' + RowId, function(res) {
 							if (parseInt(res) === 0) {
 								Swal.fire({
 									icon: 'success',
