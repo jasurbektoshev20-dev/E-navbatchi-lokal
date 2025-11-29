@@ -344,6 +344,20 @@
         "#FF6666", // qizil
       ];
 
+       const colors1 = [
+        // "#6EB5FF", // ko‘k
+        "#5CC97B", // yashil
+        "#A472FF", // to‘q binafsha
+        "#FFB84D", // och sariq
+        "#99CCFF", // och ko‘k
+        "#FFD24C", // sariq (eng katta bo‘lak)
+        "#4BA3C7", // havorang
+        "#7AD67A", // och yashil
+        "#FF884C", // to‘q sariq
+        "#B266FF", // binafsha
+        "#FF6666", // qizil
+      ];
+
 
 
 
@@ -378,7 +392,7 @@
         const total = data.reduce((sum, item) => sum + Number(item.value), 0);
 
         const option = {
-          color: colors,
+          color: colors1,
           textStyle: { fontFamily: "Arial, sans-serif" },
           title: {
             text: total,
@@ -495,6 +509,7 @@
             grid: { bottom: 110, right: 30, left: 100 },
             yAxis: { 
                 type: 'value', 
+                minInterval: 1,
                 axisLabel: { 
                     color: '#b7b7b7',
                     fontSize: 18   // <-- shu yerda shrift kattaligi
@@ -529,9 +544,7 @@
 
         // ommaviy tadbirlar uchun kodlar
 
-
-        
-          function getEvents() {
+     function getEvents() {
         let url = `${AJAXPHP}?act=public_events`;
         let params = [];
         if (structure_id) params.push(`structure_id=${structure_id}`);
@@ -561,7 +574,7 @@
         const total = data.reduce((sum, item) => sum + Number(item.value), 0);
 
         const option = {
-          color: colors,
+          color: colors1,
           textStyle: { fontFamily: "Arial, sans-serif" },
           title: {
             text: total,
@@ -672,7 +685,7 @@
               splitLine: { show: false }
             },
             grid: { bottom: 110, right: 30, left: 100 },
-            yAxis: { type: 'value', axisLabel: { color: '#b7b7b7' }, axisLine: { show: false },
+            yAxis: { type: 'value', minInterval: 1, axisLabel: { color: '#b7b7b7', fontSize: 18 }, axisLine: { show: false },
             splitLine: { show: false } },
             tooltip: { backgroundColor: 'white' },
             series: [{
@@ -1788,6 +1801,7 @@
         left: 100,
       },
       yAxis: {
+        minInterval: 1,
         type: 'value',
         label: {
           show: true,
