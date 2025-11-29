@@ -953,7 +953,10 @@
         //   className: 'dark' == 'dark' ? 'map-tiles' : 'map-tiles-light',
         //   maxZoom: 20
         // }),
-        layers: L.tileLayer(`https://tile.openstreetmap.org/{z}/{x}/{y}.png`, { maxZoom: 19 }),
+          layers: L.tileLayer(`https://tile.openstreetmap.org/{z}/{x}/{y}.png`, {
+          className: 'dark' == 'dark' ? 'map-tiles' : 'map-tiles-light',
+          maxZoom: 20
+        }),
       });
       // Marker ikonkalari
       const markerIcons = {
