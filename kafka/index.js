@@ -2,10 +2,16 @@ const { Kafka } = require('kafkajs');
 const { Pool } = require('pg');
 
 const pool = new Pool({
-    host: '10.100.9.145',
+    // host: '10.100.9.145',
+    // user: 'postgres',
+    // password: 'fizmasoft7998872',
+    // database: 'e-gvardiya',
+    // port: 5432,
+
+    host: '127.0.0.1',
     user: 'postgres',
-    password: 'fizmasoft7998872',
-    database: 'e-gvardiya',
+    password: '1234',
+    database: 'base29',
     port: 5432,
 });
 
