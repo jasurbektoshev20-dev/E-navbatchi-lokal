@@ -329,7 +329,7 @@ $(document).ready(function () {
     }
 
 });
-        const socket = io('http://10.100.16.197:3000');
+        const socket = io('http://127.0.0.1:5000');
         socket.on('get_message', (data) => {
             const messageAlignmentClass = UserStructure == data[0].sender_id ? "chat-message-right" :
                 "chat-message-left";
