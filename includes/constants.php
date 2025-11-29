@@ -14,7 +14,7 @@ if (!defined('ARM_IN')) {
 }
 
 define("HOST", '127.0.0.1');
-define("SYSTEM_BASE", 'base29');
+define("SYSTEM_BASE", 'gvardiya');
 define("USERNAME", 'postgres');
 define("PASSWORD", '2002');
 define("PESIST", 0);
