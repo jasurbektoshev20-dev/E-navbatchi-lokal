@@ -1562,7 +1562,7 @@
       // Xaritani yaratish
       const map = L.map("uzbMap", {
         center: [41.6384, 64.0202],
-        zoom: 7,
+        zoom: 7,     
         // layers: L.tileLayer(`http://10.19.7.4:8080/tile/{z}/{x}/{y}.png`, { maxZoom: 19 }),
         // layers: L.tileLayer(`http://10.100.9.145:8080/tile/{z}/{x}/{y}.png`, { 
          layers: L.tileLayer(`https://tile.openstreetmap.org/{z}/{x}/{y}.png`, {
@@ -1571,6 +1571,7 @@
         }),
         // layers: L.tileLayer(`https://tile.openstreetmap.org/{z}/{x}/{y}.png`, { maxZoom: 19 }),
       });
+
       // Marker ikonkalari
       const markerIcons = {
         '1': L.icon({
@@ -1579,15 +1580,15 @@
         }),
         '3': L.icon({
           iconUrl: 'pictures/icons_marker/istirohat.png',
-          iconSize: [35, 35]
+          iconSize: [35, 50]
         }),
         '2': L.icon({
           iconUrl: 'pictures/icons_marker/xiyobon.png',
-          iconSize: [20, 35],
+          iconSize: [35, 50],
         }),
         '4': L.icon({
           iconUrl: 'pictures/icons_marker/boshqa.png',
-          iconSize: [30, 30],
+          iconSize: [35, 50],
         })
       };
 
