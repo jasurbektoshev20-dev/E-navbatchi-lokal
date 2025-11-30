@@ -54,6 +54,22 @@
             font-size: 1.25rem !important;
         }
 
+        .chat-box-span{
+            position: relative;
+        }
+
+        .chat-box-span span{
+            text-align: end;
+            position: absolute;
+            right: 5px;
+            bottom: 2px;
+            font-weight: bold;
+        }
+
+        .chat-box-span p{
+            padding-bottom: 10px;
+        }
+
     {/literal}
 </style>
 
@@ -120,9 +136,9 @@
                                     <li class="chat-message chat-message-right">
                                         <div class="d-flex overflow-hidden">
                                             <div class="chat-message-wrapper flex-grow-1">
-                                                <div class="chat-message-text">
+                                                <div class="chat-message-text chat-box-span">
                                                     <p class="mb-0">{$message.text}</p>
-                                                    <p>{$message.shortname1}{$message.sender}</p>
+                                                    <span>{$message.shortname1}{$message.sender}</span>
                                                 </div>
                                                 <div class="text-end text-muted mt-1">
                                                     <i class="ti ti-checks ti-xs me-1 text-success"></i>
