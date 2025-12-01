@@ -446,14 +446,14 @@
     }
 
     .map-icon-about .map-about-box img {
-      width: 40px;
-      height: 40px;
+     width: 35px;
+      height: 55px;
       object-fit: cover;
     }
 
     .map-icon-about .map-about-box-xiyobon img {
-      width: 25px;
-      height: 40px;
+      width: 35px;
+      height: 55px;
       object-fit: cover;
     }
 
@@ -1062,22 +1062,22 @@
           <div class="map-icon-about">
             <div class="map-icon-about-container">
               <div class="map-about-box map-about-box-bozor">
-                <img src="https://icons.iconarchive.com/icons/paomedia/small-n-flat/512/map-marker-icon.png"
+                <img src="pictures/icons_marker/bozor.png"
                   alt="Бозор учун маркер">
                 <p>Бозорлар-<span>0</span> та</p>
               </div>
               <div class="map-about-box map-about-box-xiyobon">
-                <img src="https://www.nicepng.com/png/full/15-159490_small-google-maps-marker-blue.png"
+                <img src="pictures/icons_marker/xiyobon.png"
                   alt="Xiyobon uchun marker">
                 <p>Хиёбонлар-<span>0</span> та</p>
               </div>
               <div class="map-about-box map-about-box-bog">
-                <img src="https://images.freeimages.com/fic/images/icons/2463/glossy/512/location.png"
+                <img src="pictures/icons_marker/istirohat.png"
                   alt="Isritohat bog'i uchun marker">
                 <p>Исритоҳат боғлари-<span>0</span> та</p>
               </div>
               <div class="map-about-box map-about-box-boshqa">
-                <img src="https://cdn-icons-png.flaticon.com/512/6284/6284577.png" alt="Boshqa joy uchun marker">
+                <img src="pictures/icons_marker/boshqa.png" alt="Boshqa joy uchun marker">
                 <p>Бошқа жойлар-<span>0</span> та</p>
               </div>
             </div>
@@ -1562,31 +1562,33 @@
       // Xaritani yaratish
       const map = L.map("uzbMap", {
         center: [41.6384, 64.0202],
-        zoom: 7,
+        zoom: 7,     
         // layers: L.tileLayer(`http://10.19.7.4:8080/tile/{z}/{x}/{y}.png`, { maxZoom: 19 }),
-        layers: L.tileLayer(`http://10.100.9.145:8080/tile/{z}/{x}/{y}.png`, { 
-          className: 'dark' == 'dark' ? 'map-tiles' : 'map-tiles-light',
-          maxZoom: 20
-        }),
+         layers: L.tileLayer(`http://10.100.9.145:8080/tile/{z}/{x}/{y}.png`, { 
+        //  layers: L.tileLayer(`https://tile.openstreetmap.org/{z}/{x}/{y}.png`, {
+           className: 'dark' == 'dark' ? 'map-tiles' : 'map-tiles-light',
+           maxZoom: 20
+         }),
         // layers: L.tileLayer(`https://tile.openstreetmap.org/{z}/{x}/{y}.png`, { maxZoom: 19 }),
       });
+
       // Marker ikonkalari
       const markerIcons = {
         '1': L.icon({
-          iconUrl: 'https://icons.iconarchive.com/icons/paomedia/small-n-flat/512/map-marker-icon.png',
-          iconSize: [30, 30]
+          iconUrl: 'pictures/icons_marker/bozor.png',
+          iconSize: [35, 50]
         }),
         '3': L.icon({
-          iconUrl: 'https://images.freeimages.com/fic/images/icons/2463/glossy/512/location.png',
-          iconSize: [35, 35]
+          iconUrl: 'pictures/icons_marker/istirohat.png',
+          iconSize: [35, 50]
         }),
         '2': L.icon({
-          iconUrl: 'https://www.nicepng.com/png/full/15-159490_small-google-maps-marker-blue.png',
-          iconSize: [20, 35],
+          iconUrl: 'pictures/icons_marker/xiyobon.png',
+          iconSize: [35, 50],
         }),
         '4': L.icon({
-          iconUrl: 'https://cdn-icons-png.flaticon.com/512/6284/6284577.png',
-          iconSize: [30, 30],
+          iconUrl: 'pictures/icons_marker/boshqa.png',
+          iconSize: [35, 50],
         })
       };
 
@@ -1853,9 +1855,9 @@
 
             const el = document.createElement('div');
             el.className = 'door-marker';
-            el.style.width = '100px';
-            el.style.height = '30px';
-            el.style.backgroundImage = `url('/pictures/marker_icons/door_icon.png')`;
+            el.style.width = '44px';
+            el.style.height = '55px';
+            el.style.backgroundImage = `url('/pictures/icons_marker/eshik.png')`;
             el.style.backgroundSize = 'cover';
             el.title = door.name;
 
@@ -1906,11 +1908,11 @@
             const el = document.createElement('div');
             el.className = 'camera-marker';
             // el.style.backgroundImage = `url('/assets/images/video-camera-recording-yellow.png')`;
-            el.style.backgroundImage = `url('/assets/images/image.png')`;
+            el.style.backgroundImage = `url('/pictures/icons_marker/camera.png')`;
             el.style.backgroundSize = 'cover';
             el.title = camera.comment;
-             el.style.width = '25px';
-            el.style.height = '25px';
+             el.style.width = '40px';
+            el.style.height = '40px';
             const popupHTML = `
               <div style="color: #38BDF8; text-align:center">
                 <b style="font-size: 18px">${camera.comment}</b><br>
@@ -2012,11 +2014,11 @@
 
             const el = document.createElement('div');
             el.className = 'sos-marker';
-            el.style.backgroundImage = `url('/assets/images/sos1.png')`;
+            el.style.backgroundImage = `url('/pictures/icons_marker/sos.png')`;
             el.style.backgroundSize = 'cover';
             el.title = sos.name;
-            el.style.width = '60px';
-            el.style.height = '40px';
+            el.style.width = '35px';
+            el.style.height = '50px';
 
             new mapboxgl.Marker(el)
               .setLngLat([lon, lat])
@@ -3340,7 +3342,8 @@
                 if (!historyMap) {
                     historyMap = L.map('historyMap').setView([41.31, 69.25], 13);
 
-                    L.tileLayer('http://10.100.9.145:8080/tile/{z}/{x}/{y}.png', {
+                    // L.tileLayer('http://10.100.9.145:8080/tile/{z}/{x}/{y}.png', {
+                     layers: L.tileLayer(`https://tile.openstreetmap.org/{z}/{x}/{y}.png`, {
                         className: 'dark' == 'dark' ? 'map-tiles' : 'map-tiles-light',
                         maxZoom: 19
                     }).addTo(historyMap);

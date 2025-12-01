@@ -42,13 +42,11 @@
                                 <th>No̱</th>
                                 <th class="text-center">{$Dict.structure}</th>
                                 <th class="text-center">{$Dict.photo}</th>
+                                <th class="text-center">{$Dict.rank}</th>
                                 <th class="text-center">{$Dict.lastname}</th>
                                 <th class="text-center">{$Dict.firstname}</th>
-                                <th class="text-center">{$Dict.username}</th>
                                 <th class="text-center">{$Dict.phone}</th>
-                                <th class="text-center">{$Dict.role}</th>
-                                <th class="text-center">{$Dict.position}</th> 
-                                <th class="text-center">{$Dict.rank}</th>
+                                
                                 <th></th>
                             </tr>
                         </thead>
@@ -64,13 +62,11 @@
                                             <img src="/assets/images/nophoto2.png" height="28" class="Thumb">
                                         {/if}
                                     </td>
+                                    <td>{$Table.rank}</td>
                                     <td>{$Table.lastname}</td>
                                     <td>{$Table.firstname}</td>
-                                    <td>{$Table.username}</td>
                                     <td>{$Table.phone}</td>
-                                     <td>{$Table.role_name}</td>
-                                    <td>{$Table.position}</td> 
-                                    <td>{$Table.rank}</td>
+    
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -125,24 +121,6 @@
                                 {/foreach}
                             </select>
                         </div>
-                         <div class="col-6">
-                            <label>{$Dict.role}</label>
-                            <select required class="select form-control" name="role" id="role">
-                                <option value="">{$Dict.choose}</option>
-                                {foreach from=$Roles item=Item6 key=ikey6}
-                                    <option value="{$Item6.id}">{$Item6.name}</option>
-                                {/foreach}
-                            </select>
-                        </div> 
-                        <div class="col-6">
-                            <label>{$Dict.position}</label>
-                            <select required class="select form-control" name="position_id" id="position_id">
-                                <option value="">{$Dict.choose}</option>
-                                {foreach from=$HrPositions item=Item6 key=ikey6}
-                                    <option value="{$Item6.id}">{$Item6.name}</option>
-                                {/foreach}
-                            </select>
-                        </div>
                         <div class="col-6">
                             <label>{$Dict.rank}</label>
                             <select required class="select form-control" name="rank_id" id="rank_id">
@@ -168,14 +146,6 @@
                             <label>{$Dict.phone}</label>
                             <input required type="text" class="form-control" name="phone" id="phone" value="">
                         </div>
-                         <div class="col-6">
-                            <label>{$Dict.username}</label>
-                            <input type="text" class="form-control" name="username" id="username" value="">
-                        </div>
-                        <div class="col-6">
-                            <label>{$Dict.password}</label>
-                            <input type="text" class="form-control" name="password" id="password" value="">
-                        </div> 
                         <div class="col-12">
                             <label class="form-label">{$Dict.choose_file}</label>
                             <div action="/upload" class="dropzone needsclick" id="staff-photo">
@@ -260,18 +230,12 @@
             $('#region_id').trigger("change");
             $('#structure_id').val(0);
             $('#structure_id').trigger("change");
-            $('#role').val(0);
-            $('#role').trigger("change");
-            $('#position_id').val(0);
-            $('#position_id').trigger("change");
             $('#rank_id').val(0);
             $('#rank_id').trigger("change");
             $('#lastname').val("");
             $('#firstname').val("");
             $('#surname').val("");
             $('#phone').val("");
-            $('#username').val("");
-            $('#password').val("");
         });
 
         $('.datatables-projects tbody').on('click', '.editAction', function() {
@@ -284,16 +248,12 @@
                 $('#id').val(sInfo.id);
                 $('#region_id').val(sInfo.structure_id);
                 $('#structure_id').val(sInfo.structure_id);
-                $('#role').val(sInfo.role_id);
-                $('#position_id').val(sInfo.position_id);
                 $('#rank_id').val(sInfo.rank_id);
                 $('#lastname').val(sInfo.lastname);
                 $('#firstname').val(sInfo.firstname);
                 $('#surname').val(sInfo.surname);
                 $('#phone').val(sInfo.phone);
-                $('#username').val(sInfo.username);
                 $('#photo').val(sInfo.photo);
-                $('#password').val(sInfo.password);
             });
         })
 
@@ -347,15 +307,11 @@
                         form_data.append('structure_id', $('#structure_id').val() || $('#region_id').val());
                     }
 
-                    form_data.append('role', $('#role').val());
-                    form_data.append('position_id', $('#position_id').val());
                     form_data.append('rank_id', $('#rank_id').val());
                     form_data.append('lastname', $('#lastname').val());
                     form_data.append('firstname', $('#firstname').val());
                     form_data.append('surname', $('#surname').val());
                     form_data.append('phone', $('#phone').val());
-                    form_data.append('username', $('#username').val());
-                    form_data.append('password', $('#password').val());
 
                     if (myDropzone.files.length > 0) {
                         myDropzone.files.forEach(function(file, index) {

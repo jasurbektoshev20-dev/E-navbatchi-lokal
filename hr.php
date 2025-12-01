@@ -484,7 +484,7 @@ switch ($Act) {
 
 		$smarty->assign(array(
 			'Regions'        =>    $Regions,
-			'Distcity'       =>    $Distcity,
+			// 'Distcity'       =>    $Distcity,
 			'Events'       =>    $Events,
 		));
 		break;

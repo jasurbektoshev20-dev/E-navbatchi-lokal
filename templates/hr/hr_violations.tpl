@@ -58,40 +58,7 @@
 </style>
 
 <div class="flex-grow-1 container-p-y container-fluid">
-    <!--/ Card Border Shadow -->
-    {* <div class="row">
-
-        <div class="col-12">
-            <div class="card">
-                <div class="mx-3 my-2 d-flex" style="justify-content: space-between; align-items: center">
-                    <ul class="nav nav-tabs nav-fill mx-3" role="tablist">
-                        <li class="nav-item">
-                            <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
-                                data-bs-target="#charts" id="chartButton"
-                                aria-controls="charts" aria-selected="false">
-                                <i class="tf-icons ti ti-chart-histogram ti-xs me-1"></i> {$Dict.diagram}
-                            </button>
-                        </li>
-                        <li class="nav-item">
-                            <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                                data-bs-target="#tables" aria-controls="tables"
-                                aria-selected="true">
-                                <i class="tf-icons ti ti-table ti-xs me-1"></i> {$Dict.table}
-                            </button>
-                        </li>
-                    </ul>
-                    <button id="new" type="button" class="btn btn-primary waves-effect waves-light"
-                        data-bs-toggle="submitModal" data-bs-target="#modal">
-                        <i class="menu-icon tf-icons ti ti-plus"></i>{$Dict.adding}
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div> *}
-
-
-
-
+  
             <div class="tab-content p-0">
 
                     <div class="tab-pane fade show active" id="charts" role="tabpanel">

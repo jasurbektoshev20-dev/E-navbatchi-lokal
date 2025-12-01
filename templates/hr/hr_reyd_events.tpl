@@ -41,25 +41,31 @@
                             <tr>
                                 <th>No̱</th>
                                 <th class="text-center">{$Dict.region}</th>
-                                <th class="text-center">{$Dict.distcity}</th>
-                                <th class="text-center">{$Dict.date}</th>
-                                <th class="text-center">{$Dict.contingent}</th>
-                                <th class="text-center">{$Dict.stand}</th>
-                                <th class="text-center">{$Dict.masul}</th>
-                                <th class="text-center">{$Dict.case_summary}</th>
+                                <th class="text-center">{$Dict.structure}</th>
+                                <th class="text-center">{$Dict.responsible}</th>
+                                <th class="text-center">{$Dict.staff}</th>
+                                <th class="text-center">Boshlanish vaqti</th>
+                                <th class="text-center">Tugash vaqti</th>
+                                <th class="text-center">Texnika soni</th>
+                                <th class="text-center">Asosiy</th>
+                                <th class="text-center">Turi</th>
+                                <th class="text-center">Xolat haqida qisqacha</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             {foreach from=$Events item=Table key=tkey}
-                            <tr class="lb" id="row_{$Table.id|crypt}">
+                                <tr class="lb" id="row_{$Table.id|crypt}">
                                 <td class="text-right">{$tkey+1}</td>
                                 <td class="text-center">{$Table.region_id}</td>
-                                <td class="text-center">{$Table.distcity_id}</td>
-                                <td class="text-center">{$Table.date}</td>
+                                <td class="text-center">{$Table.structure_id}</td>
+                                <td class="text-center">{$Table.responsible_id}</td>
                                 <td class="text-center">{$Table.staff_count}</td>
-                                <td class="text-center">{$Table.stand}</td>
-                                <td class="text-center">{$Table.responsible}</td>
+                                <td class="text-center">{$Table.start_date}</td>
+                                <td class="text-center">{$Table.end_date}</td>
+                                <td class="text-center">{$Table.technique_count}</td>
+                                <td class="text-center">{$Table.main_exercises}</td>
+                                <td class="text-center">{$Table.exercises_type}</td>
                                 <td class="text-center">{$Table.text}</td>
                                 <td>
                                     <div class="dropdown">
@@ -97,6 +103,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <form class="needs-validation" novalidate>
                     <div class="row g-3">
+
                         <div class="col-sm-6">
                             <label>{$Dict.region}</label>
                             <select required class="select form-control" name="region_id" id="region_id">
@@ -106,41 +113,71 @@
                                 {/foreach}
                             </select>
                         </div>
-                    
+
+                         <div class="col-sm-6">
+                            <label>{$Dict.region}</label>
+                            <select required class="select form-control" name="structure_id" id="structure_id">
+                                <option value="">{$Dict.choose}</option>
+                            </select>
+                        </div>
+
                         <div class="col-sm-6">
-                            <label for="date" class="form-label">{$Dict.date}</label>
-                            <input type="text" class="form-control" placeholder="DD-MM-YYYY" id="date" />
+                            <label>{$Dict.masul}</label>
+                            <select required class="select form-control" name="responsible_id" id="responsible_id">
+                                <option value="">{$Dict.choose}</option>
+                                {foreach from=$Stafs item=Item1 key=ikey1}
+                                    <option value="{$Item1.id}">{$Item1.name}</option>
+                                {/foreach}
+                            </select>
                         </div>
                         <div class="col-sm-6">
                             <label>{$Dict.contingent}</label>
                             <input required type="number" class="form-control" name="staff_count" id="staff_count" value="">
                         </div>
                         <div class="col-sm-6">
-                            <label>{$Dict.stand}</label>
-                            <input required type="text" class="form-control" name="stand" id="stand" value="">
+                            <label for="start_date" class="form-label">Boshlanish vaqti</label>
+                            <input type="text" class="form-control" placeholder="DD-MM-YYYY" id="start_date" />
+                        </div>
+                          <div class="col-sm-6">
+                            <label for="end_date" class="form-label">Tugash vaqti</label>
+                            <input type="text" class="form-control" placeholder="DD-MM-YYYY" id="end_date" />
+                        </div>
+
+                         <div class="col-sm-6">
+                            <label>Texnika soni</label>
+                            <input required type="number" class="form-control" name="technique_count" id="technique_count" value="">
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label>Asosiy</label>
+                            <select required class="select form-control" name="main_exercises" id="main_exercises">
+                                <option value="">{$Dict.choose}</option>
+                                <option value="">Poligon</option>
+                                <option value="">Maxsus vazifalar</option>
+                                <option value="">Maxsus taktik o'quvlar</option>
+                                <option value="">Amaliy mashg'ulotlar</option>
+                                <option value="">Texnika harakati</option>
+                                <option value="">Shaxsiy tarkib harakati</option>
+                            </select>
                         </div>
                         <div class="col-sm-6">
-                            <label>{$Dict.auto_number}</label>
-                            <input required type="number" class="form-control" name="auto_number" id="auto_number" value="">
+                            <label>Mashq turi</label>
+                            <select required class="select form-control" name="exercises_type" id="exercises_type">
+                                <option value="">{$Dict.choose}</option>
+                                <option value="">Quroldan otish</option>
+                                <option value="">Tankda otish</option>
+                            </select>
                         </div>
-                        <div class="col-sm-6">
-                            <label>{$Dict.masul}</label>
-                            <input required type="text" class="form-control" name="responsible" id="responsible" value="">
-                        </div>
-                        <div class="col-sm-6">
-                            <label>{$Dict.guard_staffs}</label>
-                            <input required type="number" class="form-control" name="guard_staffs" id="guard_staffs" value="">
-                        </div>
-                        <div class="col-sm-12">
+                          <div class="col-sm-12">
                             <label>{$Dict.case_summary}</label>
                             <textarea required class="form-control" rows=4 name="text" id="text"></textarea>
-                        </div>
+                        </div>   
                         <div class="col-12 text-center">
                             <input type="hidden" name="id" id="id" value="">
                             <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">
                                 {$Dict.cancel}
                             </button>
-                            <button id="SubButtonHrSetMarker" class="btn btn-primary me-sm-3 me-1">{$Dict.save}</button>
+                            <button id="SubButtonHrSetMarker" type="button" class="btn btn-primary me-sm-3 me-1">{$Dict.save}</button>
                         </div>
                     </div>
                 </form>
@@ -174,33 +211,47 @@
     var Var_main_photo	= "{$Dict.main_photo}";
     var Var_ObjectId	= "{$Organization.id}";
     {literal}
-    const flatpickrDate = document.querySelector('#date');
+
+    const flatpickrDate = document.querySelector('#start_date');
     if (flatpickrDate) {
         flatpickrDate.flatpickr({
             monthSelectorType: 'static'
         });
     }
 
-    let date;
-    $('#date').on('change', function() {
+    let start_date;
+    $('#start_date').on('change', function() {
         var dateComponents = this.value.split('-');
-        date = dateComponents[2] + '-' + dateComponents[1] + '-' + dateComponents[0];
+        start_date = dateComponents[2] + '-' + dateComponents[1] + '-' + dateComponents[0];
     })
 
-    $('#region_id').change(function(event) {
-        $.ajax({
-            type: "GET",
-            url: `ajax.php?act=get_distcity_by_id&id=${this.value}`,
-            dataType: "json",
-            encode: true,
-            success: function(data) {
-                $("#distcity_id").empty();
-                data.forEach(item => { 
-                    $("#distcity_id").append(`<option value="${item.id}">${item.name}</option>`);
-                });
-            }
-        })
+     const flatpickrEndDate = document.querySelector('#end_date');
+    if (flatpickrEndDate) {
+        flatpickrEndDate.flatpickr({
+            monthSelectorType: 'static'
+        });
+    }
+
+    let end_date;
+    $('#end_date').on('change', function() {
+        var dateComponents = this.value.split('-');
+        end_date = dateComponents[2] + '-' + dateComponents[1] + '-' + dateComponents[0];
     })
+
+
+    
+    $('#region_id').change(function(event) {
+    $.get("ajax.php?act=get_divisions&structure_id=" + this.value, function(html) {
+        var sInfo = jQuery.parseJSON(html);
+        $('#structure_id').empty();
+        $('#structure_id').append(`<option value="">Tanlang</option>`);
+        sInfo.forEach((item, index) => {
+            $('#structure_id').append(`<option value="${item.id}">${item.name}</option>`);
+        });
+    });
+    });
+
+
 
     var dt_basic_table = $('.datatables-projects'),
         dt_basic;
@@ -222,17 +273,21 @@
             
             $('#region_id').val(sInfo.region_id);
             $('#region_id').trigger("change");
-            $('#type').val(sInfo.type);
-            $('#type').trigger("change");
-            $('#date').val(sInfo.date);
+            ('#structure_id').val(sInfo.structure_id);
+            $('#structure_id').trigger("change");
+              ('#responsible_id').val(sInfo.responsible_id);
+            $('#responsible_id').trigger("change");
+             ('#main_exercises').val(sInfo.main_exercises);
+            $('#main_exercises').trigger("change");
+            ('#exercises_type').val(sInfo.exercises_type);
+            $('#exercises_type').trigger("change");
+            $('#start_date').val(sInfo.start_date);
+            $('#end_date').val(sInfo.end_date);
             $('#staff_count').val(sInfo.staff_count);
-            $('#stand').val(sInfo.stand);
-            $('#transport').val(sInfo.transport);
+            $('#technique_count').val(sInfo.technique_count);
             $('#responsible').val(sInfo.responsible);
             $('#text').val(sInfo.text);
-            $('#event_participants').val(sInfo.event_participants);
-            $('#auto_number').val(sInfo.auto_number);
-            $('#guard_staffs').val(sInfo.guard_staffs);
+    
             $('#id').val(sInfo.id);
         });
     })
@@ -242,43 +297,36 @@
 
         $('#region_id').val(0);
         $('#region_id').trigger("change");
-        $('#type').val(0);
-        $('#type').trigger("change");
-        $('#date').val("");
+        $('#structure_id').val(0);
+        $('#structure_id').trigger("change");
+         $('#responsible_id').val(0);
+        $('#responsible_id').trigger("change");
+         $('#main_exercises').val(0);
+        $('#main_exercises').trigger("change");
+         $('#exercises_type').val(0);
+        $('#exercises_type').trigger("change");
+        $('#start_date').val("");
+        $('#end_date').val("");
         $('#staff_count').val("");
-        $('#stand').val("");
-        $('#transport').val("");
-        $('#responsible').val("");
+        $('#technique_count').val("");
         $('#text').val("");
-        $('#event_participants').val("");
-        $('#auto_number').val("");
-        $('#guard_staffs').val("");
         $('#id').val(0)
     });
 
     // Form validation and submit
-    const bsValidationForms = $('.needs-validation');
-    Array.prototype.slice.call(bsValidationForms).forEach(function (form) {
-        form.addEventListener('submit', function (event) {
-            if (!form.checkValidity()) {
-                event.preventDefault();
-                event.stopPropagation();
-            } else {
+        $('#SubButtonHrSetMarker').on('click', function(event) {
                 event.preventDefault();
                 event.stopPropagation();
                 var form_data = new FormData();
-
-                form_data.append('region_id', $('#region_id').val());
-                form_data.append('type', $('#type').val());
-                form_data.append('date', $('#date').val());
+                form_data.append('structure_id', $('#structure_id').val() || $('#region_id').val());
+                form_data.append('responsible_id', $('#responsible_id').val());
+                form_data.append('main_exercises', $('#main_exercises').val());
+                form_data.append('exercises_type', $('#exercises_type').val());
+                form_data.append('start_date', $('#start_date').val());
+                form_data.append('end_date', $('#end_date').val());
                 form_data.append('staff_count', $('#staff_count').val());
-                form_data.append('stand', $('#stand').val());
-                form_data.append('transport', $('#transport').val());
-                form_data.append('responsible', $('#responsible').val());
+                form_data.append('technique_count', $('#technique_count').val());
                 form_data.append('text', $('#text').val());
-                form_data.append('event_participants', $('#event_participants').val());
-                form_data.append('auto_number', $('#auto_number').val());
-                form_data.append('guard_staffs', $('#guard_staffs').val());
                 form_data.append('id', $('#id').val());
 
                 $.ajax({
@@ -292,16 +340,14 @@
                     success: function(resdata) {
                         var NewArray = resdata.split("<&sep&>");
                         if (NewArray[0] == 0) {
-                            location.reload();
+                            // location.reload();
                         } else {
                             alert(resdata);
                         }
                     }
                 });
-            }
-            form.classList.add('was-validated');
         });
-    });
+
         
     // Delete Record
     $('.datatables-projects tbody').on('click', '.delete', function() {

@@ -50,11 +50,19 @@
                                 <th class="text-center">Бошланиш вақти</th>
                                 <th class="text-center">Тугаш вақти</th>
                                 <th class="text-center">Фуқаролар сони</th>
+                                <th class="text-center">Tadbirga masul tashkilot</th>
+                                <th class="text-center">Masul FISH</th>
+                                <th class="text-center">Telefon</th>
+                                <th class="text-center">IIV masul FISH</th>
                                 <th class="text-center">ИИВ ҲХ сони</th>
+                                <th class="text-center">FVV masul FISH</th>
                                 <th class="text-center">ФВВ ҲХ сони</th>
+                                <th class="text-center">МГ МСГр masul FISH</th>
                                 <th class="text-center">МГ МСГр сони</th>
+                                <th class="text-center">ИИВ Спринг masul FISH</th>
                                 <th class="text-center">ИИВ Спринг сони</th>
-                                <th class="text-center">Тадбирга масъул</th>
+                                <th class="text-center">Zaxiraga masul</th>
+                                <th class="text-center">Zaxira сони</th>
                                 <th class="text-center">Тадбирни ўтказувчи ташаббускор</th>
                                 <th></th>
                             </tr>
@@ -69,18 +77,26 @@
                                         </a>
                                     </td>
                                     <td class="text-center">{$item.obj_name}</td>
-                                    <td class="text-center">{$item.event_type}</td>
+                                    <td class="text-center">{$item.event_type}</td>     
                                     <td class="text-center">{$item.event_name}</td>
                                     <td class="text-center">{$item.direction_event}</td>
                                     <td class="text-center">{$item.command}</td>
                                     <td class="text-center">{$item.start_time}</td>
                                     <td class="text-center">{$item.end_time}</td>
                                     <td class="text-center">{$item.citizens_count}</td>
+                                    <td class="text-center">{$item.event_responsible_organization}</td>
+                                    <td class="text-center">{$item.responsible_name}</td>
+                                    <td class="text-center">{$item.responsible_phone}</td>
+                                    <td class="text-center">{$item.responsible_iiv_name}</td>
                                     <td class="text-center">{$item.iiv_count}</td>
+                                    <td class="text-center">{$item.responsible_fvv_name}</td>
                                     <td class="text-center">{$item.fvv_count}</td>
+                                    <td class="text-center">{$item.responsible_msgr_name}</td>
                                     <td class="text-center">{$item.mg_count}</td>
+                                    <td class="text-center">{$item.responsible_spring_name}</td>
                                     <td class="text-center">{$item.iiv_spring_count}</td>
-                                    <td class="text-center">{$item.lastname} {$item.firstname}</td>
+                                    <td class="text-center">{$item.reserve_name} {$item.reserve_name}</td>
+                                    <td class="text-center">{$item.reserve_count} {$item.reserve_count}</td>
                                     <td class="text-center">{$item.organizer}</td>
                                     <td>
                                         <div class="dropdown">
@@ -193,9 +209,39 @@
                         </div>
 
                         <div class="col-sm-4">
+                            <label>Tadbirga mas'ul tashkilot</label>
+                            <select required class="select form-control" name="event_responsible_organization" id="event_responsible_organization">
+                                <option value="">{$Dict.choose}</option>
+                                <option value="IIB">IIB</option>
+                                <option value="FVV">FVV</option>
+                                <option value="MG">MG</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-sm-4">
+                            <label>Mas'ul nomi</label>
+                            <input required type="text" class="form-control" name="responsible_name" id="responsible_name"  value="">
+                        </div>
+
+                         <div class="col-sm-4">
+                            <label>Mas'ul telefon raqami</label>
+                            <input required type="text" class="form-control" name="responsible_phone" id="responsible_phone"  value="">
+                        </div>
+
+                        <div class="col-sm-4">
+                            <label>IIV masul</label>
+                            <input required type="text" class="form-control" name="responsible_iiv_name" id="responsible_iiv_name"  value="">
+                        </div>
+
+                        <div class="col-sm-4">
                             <label>ИИВ ҲХ сони</label>
                             <input required type="number" class="form-control" name="iiv_count" id="event_number_iiv"
                                 value="">
+                        </div>
+
+                         <div class="col-sm-4">
+                            <label>FVV masul</label>
+                            <input required type="text" class="form-control" name="responsible_fvv_name" id="responsible_fvv_name"  value="">
                         </div>
 
                         <div class="col-sm-4">
@@ -204,32 +250,42 @@
                                 value="">
                         </div>
 
+                       <div class="col-sm-4">
+                            <label>МГ МСГр masul</label>
+                            <input required type="text" class="form-control" name="responsible_msgr_name" id="responsible_msgr_name"  value="">
+                        </div>
+
                         <div class="col-sm-4">
                             <label>МГ МСГр сони</label>
-                            <input required type="number" class="form-control" name="mg_count" id="event_number_msgr"
-                                value="">
+                            <input required type="number" class="form-control" name="mg_count" id="mg_count" value="">
+                        </div>
+
+                        <div class="col-sm-4">
+                            <label>ИИВ Спринг masul</label>
+                            <input required type="text" class="form-control" name="responsible_spring_name" id="responsible_spring_name"  value="">
                         </div>
 
                         <div class="col-sm-4">
                             <label>ИИВ Спринг сони</label>
-                            <input required type="number" class="form-control" name="spring_count"
-                                id="event_number_spring" value="">
+                            <input required type="number" class="form-control" name="spring_count" id="event_number_spring" value="">
                         </div>
+
+                        <div class="col-sm-4">
+                            <label>Zaxiraga masul</label>
+                            <input required type="text" class="form-control" name="reserve_name" id="reserve_name"  value="">
+                        </div>
+
+                        <div class="col-sm-4">
+                            <label>Zaxira сони</label>
+                            <input required type="number" class="form-control" name="reserve_count" id="reserve_count" value="">
+                        </div>
+
                         <div class="col-sm-8">
                             <label>Тадбирни ўтказувчи ташаббускор</label>
-                            <input required type="text" class="form-control" name="organizer" id="event_initiator"
+                            <input required type="text" class="form-control" name="organizer" id="organizer"
                                 value="">
                         </div>
 
-                        <div class="col-sm-6">
-                            <label>{$Dict.masul}</label>
-                            <select id="responsible" class="form-select" name="responsible">
-                                <option value="">{$Dict.choose}</option>
-                                {foreach from=$responsible item=obj}
-                                    <option value="{$obj.id}">{$obj.name}</option>
-                                {/foreach}
-                            </select>
-                        </div>
                         <div class="col-12 text-center">
                             <input type="hidden" name="id" id="id" value="">
                             <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal"
@@ -303,20 +359,20 @@
 
 
 
-        $('#region_id').change(function(event) {
-            $.ajax({
-                type: "GET",
-                url: `ajax.php?act=get_distcity_by_id&id=${this.value}`,
-                dataType: "json",
-                encode: true,
-                success: function(data) {
-                    $("#distcity_id").empty();
-                    data.forEach(item => {
-                        $("#distcity_id").append(`<option value="${item.id}">${item.name}</option>`);
-                    });
-                }
-            })
-        })
+        // $('#region_id').change(function(event) {
+        //     $.ajax({
+        //         type: "GET",
+        //         url: `ajax.php?act=get_distcity_by_id&id=${this.value}`,
+        //         dataType: "json",
+        //         encode: true,
+        //         success: function(data) {
+        //             $("#distcity_id").empty();
+        //             data.forEach(item => {
+        //                 $("#distcity_id").append(`<option value="${item.id}">${item.name}</option>`);
+        //             });
+        //         }
+        //     })
+        // })
 
         var dt_basic_table = $('.datatables-projects'),
             dt_basic;
@@ -341,26 +397,31 @@
                 $('#event_type').val(sInfo.public_event_type);
                 $('#event_direction').val(sInfo.direction_event);
                 $('#event_view').val(sInfo.command);
+                $('#event_responsible_organization').val(sInfo.event_responsible_organization);
                 $('#region_id').trigger("change");
                 $('#object_id').trigger("change");
                 $('#event_type').trigger("change");
                 $('#event_direction').trigger("change");
                 $('#event_view').trigger("change");
-
-
+                $('#event_responsible_organization').trigger("change");
                 $('#start_event_date').val(sInfo.start_time);
                 $('#finish_event_date').val(sInfo.end_time);
                 $('#staff_count').val(sInfo.people_count);
-                $('#transport').val(sInfo.transport);
-                $('#responsible').val(sInfo.respons_person_id);
                 $('#event_name').val(sInfo.event_name);
-                $('#event_initiator').val(sInfo.organizer);
+                $('#responsible_name').val(sInfo.responsible_name);
+                $('#responsible_phone').val(sInfo.responsible_phone);
+                $('#responsible_iiv_name').val(sInfo.responsible_iiv_name);
+                $('#responsible_msgr_name').val(sInfo.responsible_msgr_name);
+                $('#reserve_count').val(sInfo.reserve_count);
+                $('#reserve_name').val(sInfo.reserve_name);
+                $('#responsible_spring_name').val(sInfo.responsible_spring_name);
+                $('#responsible_fvv_name').val(sInfo.responsible_fvv_name);
+                $('#organizer').val(sInfo.organizer);
                 $('#event_participants').val(sInfo.citizens_count);
                 $('#event_number_iiv').val(sInfo.fvv_count);
                 $('#event_number_fvv').val(sInfo.fvv_count);
-                $('#event_number_msgr').val(sInfo.mg_count);
+                $('#mg_count').val(sInfo.mg_count);
                 $('#event_number_spring').val(sInfo.iiv_spring_count);
-                $('#guard_staffs').val(sInfo.respons_person_id);
                 $('#id').val(sInfo.id);
             });
         })
@@ -377,13 +438,22 @@
             $('#event_direction').trigger("change");
             $('#event_view').val(0);
             $('#event_view').trigger("change");
-            $('#responsible').val("");
-            $('#event_initiator').val("");
+             $('#event_responsible_organization').val(0);
+            $('#event_responsible_organization').trigger("change");
+            $('#organizer').val("");
             $('#event_name').val("");
+            $('#responsible_name').val("");
+            $('#responsible_phone').val("");
+            $('#responsible_iiv_name').val("");
+            $('#responsible_msgr_name').val("");
+            $('#reserve_count').val("");
+            $('#reserve_name').val("");
+            $('#responsible_spring_name').val("");
+            $('#responsible_fvv_name').val("");
             $('#start_event_date').val("");
             $('#finish_event_date').val("");
             $('#event_participants').val("");
-            $('#event_number_msgr').val("");
+            $('#mg_count').val("");
             $('#event_number_spring').val("");
             $('#event_number_fvv').val("");
             $('#event_number_iiv').val("");
@@ -406,13 +476,21 @@
                     form_data.append('event_type', $('#event_type').val());
                     form_data.append('event_direction', $('#event_direction').val());
                     form_data.append('event_view', $('#event_view').val());
+                    form_data.append('event_responsible_organization', $('#event_responsible_organization').val());
                     form_data.append('start_event', $('#start_event_date').val());
                     form_data.append('finish_event', $('#finish_event_date').val());
-                    form_data.append('responsible', $('#responsible').val());
-                    form_data.append('organizer', $('#event_initiator').val());
+                    form_data.append('organizer', $('#organizer').val());
                     form_data.append('event_name', $('#event_name').val());
+                    form_data.append('responsible_name', $('#responsible_name').val());
+                    form_data.append('responsible_phone', $('#responsible_phone').val());
+                    form_data.append('responsible_iiv_name', $('#responsible_iiv_name').val());
+                    form_data.append('responsible_msgr_name', $('#responsible_msgr_name').val());
+                    form_data.append('reserve_count', $('#reserve_count').val());
+                    form_data.append('reserve_name', $('#reserve_name').val());
+                    form_data.append('responsible_spring_name', $('#responsible_spring_name').val());
+                    form_data.append('responsible_fvv_name', $('#responsible_fvv_name').val());
                     form_data.append('people_count', $('#event_participants').val());
-                    form_data.append('mg_count', $('#event_number_msgr').val());
+                    form_data.append('mg_count', $('#mg_count').val());
                     form_data.append('spring_count', $('#event_number_spring').val());
                     form_data.append('fvv_count', $('#event_number_fvv').val());
                     form_data.append('iiv_count', $('#event_number_iiv').val());

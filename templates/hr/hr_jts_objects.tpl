@@ -122,19 +122,47 @@
               <input required type="text" class="form-control" id="area" placeholder="Майдонини киритинг гектарда..." />
             </div>
 
+            <!-- Chiroq -->
+            <div class="col-sm-4">
+              <label>Chiroqlar soni</label>
+              <input type="number" class="form-control" id="lamps_count" placeholder="Soni..." />
+            </div>
+
+                 <!-- Sektor -->
+            <div class="col-sm-4">
+              <label>Sektorlar soni</label>
+              <input type="number" class="form-control" id="sektors_count" placeholder="Soni..." />
+            </div>
+
+              <!-- Sig'imi -->
+            <div class="col-sm-4">
+              <label>Sig'imi</label>
+              <input type="number" class="form-control" id="capacity" placeholder="Soni..." />
+            </div>
+
+             <!-- Sig'imi -->
+            <div class="col-sm-4">
+              <label>Ishga tushgan vaqti</label>
+              <input type="date" class="form-control" id="start_work" placeholder="yili..." />
+            </div>
+
+             <!-- Ovqat -->
+            <div class="col-sm-4">
+              <label>Ovqatlanish joylari soni</label>
+              <input type="number" class="form-control" id="eating_place_count" placeholder="soni..." />
+            </div>
+
+             <!-- Ovqat -->
+            <div class="col-sm-4">
+              <label>Savdo do'konlari soni</label>
+              <input type="number" class="form-control" id="markets_count" placeholder="soni..." />
+            </div>
+
                <!-- Admin tel -->
             <div class="col-sm-4">
               <label>Администратор телефон рақамлари</label>
               <input required type="text" class="form-control" id="admin_phone" placeholder="Телефон рақам киритинг..." />
             </div>
-
-                 <!-- Admin tel -->
-
-
-            {* <div class="col-sm-4">
-              <label>Kameralar sonini kiriting</label>
-              <input required type="text" class="form-control" id="name" placeholder="Kameralar sonini kiriting..." />
-            </div> *}
 
                <!-- Bozor raxbari -->
             <div class="col-sm-4">
@@ -147,33 +175,32 @@
               <input required type="text" class="form-control" id="head_phone" placeholder="Телефон рақамини киритинг..." />
             </div>
 
-              <!-- Bozor uchaskavoy -->
-            {* <div class="col-sm-4">
-              <label>Ҳудуд участкавойи ФИШ</label>
-              <input required type="text" class="form-control" id="police_name" placeholder="ФИШни киритинг..." />
-            </div> *}
-
-              <!-- Bozor uchaskavoy tel -->
-            {* <div class="col-sm-4">
-              <label>Ҳудуд участкавойи телефон рақами</label>
-              <input required type="text" class="form-control" id="police_phone" placeholder="Телефон рақам киритинг..." />
-            </div> *}
-
               <!-- Bozor rasmi -->
             <div class="col-sm-4">
                <label for="photo" class="form-label">Ҳудуд расми</label>
                <input class="form-control" type="file" id="photo">
             </div>
 
-              <div class="col-sm-4">
-              <label>Назорат кузатув маскани кенглиги(lat)</label>
+            <div class="col-sm-4">
+              <label>Объект жойлашган жой кенглиги(lat)</label>
               <input required type="text" class="form-control" id="lat" placeholder="кенглигини киритинг..." />
             </div>
 
-             <!-- Bozor uchaskavoy tel -->
+         
             <div class="col-sm-4">
-              <label>Назорат кузатув маскани узунлиги(lot)</label>
+              <label>Объект жойлашган жой узунлиги(lot)</label>
               <input required type="text" class="form-control" id="long" placeholder="узунлигини киритинг..." />
+            </div>
+
+             <div class="col-sm-4">
+              <label>Объект kuzatuv maskani кенглиги(lat)</label>
+              <input required type="text" class="form-control" id="observation_lat" placeholder="кенглигини киритинг..." />
+            </div>
+
+        
+            <div class="col-sm-4">
+              <label>Объект kuzatuv maskani узунлиги(lot)</label>
+              <input required type="text" class="form-control" id="observation_long" placeholder="узунлигини киритинг..." />
             </div>
 
 
@@ -236,11 +263,6 @@
     var HRAJAXPHP = "hrajax{$AddURL}.php";
 
     {literal}
-
-    let localData = JSON.parse(localStorage.getItem("jts_objects")) || [
-        { structure: "Toshkent", type: "Bozor", name1: "Chorsu bozori", name2: "12", name3: "" },
-        { structure: "Samarqand", type: "Park", name1: "Registon maydoni", name2: "20", name3: "" }
-    ];
 
     let drawCoords
 
@@ -350,17 +372,23 @@
         e.preventDefault();
         const structure_id = document.getElementById("structure_id").value.trim();
         const object_type = document.getElementById("object_type").value.trim();
+        const neighborhood_id = document.getElementById("neighborhood_id").value.trim();
         const object_name = document.getElementById("object_name").value.trim();
         const address = document.getElementById("address").value.trim();
+        const lamps_count = document.getElementById("lamps_count").value.trim();
+        const markets_count = document.getElementById("markets_count").value.trim();
+        const eating_place_count = document.getElementById("eating_place_count").value.trim();
+        const start_work = document.getElementById("start_work").value.trim();
+        const sektors_count = document.getElementById("sektors_count").value.trim();
+        const capacity = document.getElementById("capacity").value.trim();
         const area = document.getElementById("area").value.trim();
         const admin_phone = document.getElementById("admin_phone").value.trim();
         const object_head = document.getElementById("object_head").value.trim();
         const head_phone = document.getElementById("head_phone").value.trim();
-        const police_name = document.getElementById("police_name").value.trim();
-        const police_phone = document.getElementById("police_phone").value.trim();
         const lat = document.getElementById("lat").value.trim();
+        const observation_lat = document.getElementById("observation_lat").value.trim();
         const long = document.getElementById("long").value.trim();
-        const cooperate_id = document.getElementById("cooperate_id").value.trim();
+        const observation_long = document.getElementById("observation_long").value.trim();
 
         const editId = document.getElementById("editId").value;
 
@@ -373,12 +401,9 @@
           !admin_phone || 
           !object_head || 
           !head_phone || 
-          !police_name || 
-          !police_phone || 
           !lat || 
           !long || 
-          !drawCoords || 
-          !cooperate_id
+          !drawCoords
         ) return alert("Барча мажбурий майдонларни тўлдиринг!");
 
 
@@ -386,17 +411,23 @@
 
         formData.append('structure_id', structure_id)
         formData.append('object_type', object_type)
+        formData.append('neighborhood_id', neighborhood_id)
         formData.append('object_name', object_name)
         formData.append('address', address)
+        formData.append('lamps_count', lamps_count)
+        formData.append('markets_count', markets_count)
+        formData.append('eating_place_count', eating_place_count)
+        formData.append('start_work', start_work)
+        formData.append('capacity', capacity)
+        formData.append('sektors_count', sektors_count)
         formData.append('area', area)
         formData.append('admin_phone', admin_phone)
         formData.append('object_head', object_head)
         formData.append('head_phone', head_phone)
-        formData.append('police_name', police_name)
-        formData.append('police_phone', police_phone)
-        formData.append('cooperate_id', cooperate_id)
         formData.append('lat', lat)
+        formData.append('observation_lat', observation_lat)
         formData.append('long', long)
+        formData.append('observation_long', observation_long)
         formData.append('geom', JSON.stringify(drawCoords));
 
         if(editId){
@@ -467,18 +498,23 @@
                 const data = response;
                 document.getElementById("structure_id").value = data.structure_id;
                 document.getElementById("object_type").value = data.object_type;
+                document.getElementById("neighborhood_id").value = data.neighborhood_id;
                 document.getElementById("object_name").value = data.object_name;
                 document.getElementById("address").value = data.address;
+                document.getElementById("lamps_count").value = data.lamps_count;
+                document.getElementById("markets_count").value = data.markets_count;
+                document.getElementById("eating_place_count").value = data.eating_place_count;
+                document.getElementById("start_work").value = data.start_work;
+                document.getElementById("capacity").value = data.capacity;
+                document.getElementById("sektors_count").value = data.sektors_count;
                 document.getElementById("area").value = data.area;
                 document.getElementById("admin_phone").value = data.admin_phone;
                 document.getElementById("object_head").value = data.object_head;
                 document.getElementById("head_phone").value = data.head_phone;
-                document.getElementById("police_name").value = data.police_name;
-                document.getElementById("police_phone").value = data.police_phone;
-                document.getElementById("cooperate_id").value = data.cooperate_id;
                 document.getElementById("lat").value = data.lat;
+                document.getElementById("observation_lat").value = data.observation_lat;
                 document.getElementById("long").value = data.long;
-                
+                document.getElementById("observation_long").value = data.observation_long;
                 document.getElementById("editId").value = id;
                 new bootstrap.Modal(document.getElementById("submitModal")).show();
                 if(data.geom){
@@ -510,8 +546,8 @@
         center: [41.6384, 64.0202],
         zoom: 7,
         // layers: L.tileLayer(`http://10.19.7.4:8080/tile/{z}/{x}/{y}.png`, { maxZoom: 19 }),
-        layers: L.tileLayer(`http://10.100.9.145:8080/tile/{z}/{x}/{y}.png`, { maxZoom: 19 }),
-        // layers: L.tileLayer(`https://tile.openstreetmap.org/{z}/{x}/{y}.png`, { maxZoom: 19 }),
+        // layers: L.tileLayer(`http://10.100.9.145:8080/tile/{z}/{x}/{y}.png`, { maxZoom: 19 }),
+        layers: L.tileLayer(`https://tile.openstreetmap.org/{z}/{x}/{y}.png`, { maxZoom: 19 }),
       });
       setTimeout(() => {
         map.invalidateSize();

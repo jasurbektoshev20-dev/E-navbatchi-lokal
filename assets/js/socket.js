@@ -1,4 +1,5 @@
-const socket = io('http://10.100.9.145:3000');
+// const socket = io('http://10.100.9.145:3000');
+const socket = io('http://127.0.0.1:3000');
 
 // Event handler for incoming messages from the server
 socket.on('message', (message) => {
