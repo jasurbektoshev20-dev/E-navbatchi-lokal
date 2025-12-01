@@ -1050,6 +1050,31 @@
     padding: 0% 15px;
   }
 
+  .my-cluster {
+  background: transparent !important;
+}
+
+.cluster-icon {
+  width: 40px;
+  height: 40px;
+  color: #fff;
+  font-weight: 700;
+  border-radius: 50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+/* car cluster: qizil rang */
+.cluster-cars { background: #ff5a5f; }
+
+/* object cluster: ko'k rang */
+.cluster-objects { background: #1e90ff; }
+
+
+
   {/literal}
 </style>
 
@@ -1560,6 +1585,28 @@
       const uzbekistanCenter = [41.2995, 69.2401]; // Toshkent markazi
 
       // Xaritani yaratish
+      const carsCluster = L.markerClusterGroup({
+      spiderfyOnMaxZoom: true,
+      disableClusteringAtZoom: 16,
+      iconCreateFunction: function(cluster){
+        return L.divIcon({
+          html: `<div class="cluster-icon cluster-cars">${cluster.getChildCount()}</div>`,
+          className: 'my-cluster',
+          iconSize: L.point(40,40)
+        });
+      }
+    });
+    const objectsCluster = L.markerClusterGroup({
+      spiderfyOnMaxZoom: true,
+      disableClusteringAtZoom: 16,
+      iconCreateFunction: function(cluster){
+        return L.divIcon({
+          html: `<div class="cluster-icon cluster-objects">${cluster.getChildCount()}</div>`,
+          className: 'my-cluster',
+          iconSize: L.point(40,40)
+        });
+      }
+    });
       const map = L.map("uzbMap", {
         center: [41.6384, 64.0202],
         zoom: 7,     
@@ -1571,6 +1618,8 @@
          }),
         // layers: L.tileLayer(`https://tile.openstreetmap.org/{z}/{x}/{y}.png`, { maxZoom: 19 }),
       });
+      map.addLayer(carsCluster);
+      map.addLayer(objectsCluster);
 
       // Marker ikonkalari
       const markerIcons = {
@@ -1659,6 +1708,9 @@
         getObjects()
       }
 
+      carsCluster.clearLayers();
+      objectsCluster.clearLayers();
+
 
 
 
@@ -1701,10 +1753,9 @@
             response.forEach(m => {
               const marker = L.marker([m.lat, m.long], { icon: markerIcons[m.object_type] })
                 .bindTooltip(m.object_name, { direction: 'top', offset: [0, -10],  className: 'my-tooltip' });
-
               marker.id = m.id;
               marker.type = m.object_type;
-              allMarkers.addLayer(marker);
+              objectsCluster.addLayer(marker);
 
               marker.on('click', function() {
                 document.getElementById('markerModalTitle').innerText = m.object_name;
@@ -2975,7 +3026,15 @@
           let status = $(this).attr("status");
           let this_cam_item = $(this);
           let classValue = this_cam_item.attr('class');
-          let remove_class = classValue.split(' ')[2];
+          // Agar classValue DOM elementdan olinayotgan bo'lsa:
+          // const classValue = element.className || '';
+          let safeClassValue = String(classValue || '');
+          let parts = safeClassValue.split(/\s+/); // bir yoki bir nechta bo'shliqqa mos
+          let remove_class = parts[2] || null; // agar yo'q bo'lsa null olamiz
+
+          // debug:
+          if (!parts[2]) console.warn('remove_class topilmadi, classValue=', classValue);
+
           // $(".camera_active").html(el_count + 1);
 
           // const current_status = await get_camera_status(cam_index);
@@ -3047,7 +3106,13 @@
           let status = $(this).attr("status");
           let this_cam_item = $(this);
           let classValue = this_cam_item.attr('class');
-          let remove_class = classValue.split(' ')[2];
+            let safeClassValue = String(classValue || '');
+          let parts = safeClassValue.split(/\s+/); // bir yoki bir nechta bo'shliqqa mos
+          let remove_class = parts[2] || null; // agar yo'q bo'lsa null olamiz
+
+          // debug:
+          if (!parts[2]) console.warn('remove_class topilmadi, classValue=', classValue);
+
           // $(".camera_active").html(el_count + 1);
 
           // const current_status = await get_camera_status(cam_index);
@@ -3402,11 +3467,19 @@
                 return;
             }
 
-            // Filtrlash
-            const filtered = carHistory[selectedCarId].filter(item => {
-                const itemDate = item.time.split(" ")[0]; // "2025-11-01"
-                return itemDate >= fromDate && itemDate <= toDate;
+            // // Filtrlash
+            // const filtered = carHistory[selectedCarId].filter(item => {
+            //     const itemDate = item.time.split(" ")[0]; // "2025-11-01"
+            //     return itemDate >= fromDate && itemDate <= toDate;
+            // });
+            const filtered = (carHistory[selectedCarId] || []).filter(item => {
+              const timeStr = item?.time || ''; // undefined safe
+              // agar timeStr string bo'lsa bo'ling
+              const datePart = String(timeStr).split(' ')[0] || '';
+              // endi taqqoslash: fromDate/toDate formatiga mosligini tekshirish foydali
+              return datePart >= fromDate && datePart <= toDate;
             });
+
 
             if (filtered.length === 0) {
                 alert("Bu davrda mashina ma'lumotlari topilmadi");
@@ -3768,7 +3841,8 @@
                             type: 'car'
                         });
                         LamMarker.setRotationAngle(marker.angle).bindPopup(carPopUp(marker));
-                        map.addLayer(LamMarker);
+                        // map.addLayer(LamMarker);
+                        carsCluster.addLayer(LamMarker);
                         allCars.push(LamMarker);
                     });
 
@@ -3803,18 +3877,71 @@
         //         return `${days} kun`;
         //     }
         // }
+        // function getInterTime(timeStr) {
+        //     // Agar format "DD.MM.YYYY HH:mm" bo‘lsa, uni ISO formatga o‘zgartiramiz
+        //     const [datePart, timePart] = timeStr.split(' ');
+        //     const [day, month, year] = datePart.split('.');
+        //     const isoString = `${year}-${month}-${day}T${timePart}:00`;
+
+        //     const timestamp = new Date(isoString).getTime();
+        //     const currentTime = new Date().getTime();
+
+        //     const diff = currentTime - timestamp;
+
+        //     if (isNaN(timestamp)) return "Noto‘g‘ri sana formati";
+
+        //     const seconds = Math.floor(diff / 1000);
+        //     const minutes = Math.floor(seconds / 60);
+        //     const hours = Math.floor(minutes / 60);
+        //     const days = Math.floor(hours / 24);
+
+        //     if (seconds < 60) return `${seconds} sek`;
+        //     else if (minutes < 60) return `${minutes} min`;
+        //     else if (hours < 24) return `${hours} soat`;
+        //     else return `${days} kun`;
+        // }
         function getInterTime(timeStr) {
-            // Agar format "DD.MM.YYYY HH:mm" bo‘lsa, uni ISO formatga o‘zgartiramiz
-            const [datePart, timePart] = timeStr.split(' ');
-            const [day, month, year] = datePart.split('.');
-            const isoString = `${year}-${month}-${day}T${timePart}:00`;
+            // 1) guard: null/undefined
+            if (!timeStr) return "Noto‘g‘ri sana: bo'sh qiymat";
 
-            const timestamp = new Date(isoString).getTime();
-            const currentTime = new Date().getTime();
+            // ensure string
+            const s = String(timeStr).trim();
+            if (!s) return "Noto‘g‘ri sana: bo'sh string";
 
+            // Try ISO parse first (loyihalarda bu xatoliklarni kamaytiradi)
+            const parsedISO = Date.parse(s);
+            let timestamp = !isNaN(parsedISO) ? parsedISO : null;
+
+            if (timestamp === null) {
+              // agar "DD.MM.YYYY HH:mm" yoki "DD.MM.YYYY" bo'lsa:
+              // ajratamiz: separator bo'shliq
+              const [datePart, timePart] = s.split(' ');
+              if (!datePart) return "Noto‘g‘ri sana formati";
+
+              // datePart "DD.MM.YYYY" kabiligini tekshiramiz
+              if (datePart.includes('.')) {
+                const dp = datePart.split('.');
+                if (dp.length === 3) {
+                  const [day, month, year] = dp.map(x => x.padStart(2,'0'));
+                  const tp = timePart ? timePart : '00:00';
+                  // ensure tp like HH:mm yoki HH:mm:ss
+                  const tpParts = tp.split(':');
+                  const hh = (tpParts[0] || '00').padStart(2,'0');
+                  const mm = (tpParts[1] || '00').padStart(2,'0');
+                  const ss = (tpParts[2] || '00').padStart(2,'0');
+                  const isoString = `${year}-${month}-${day}T${hh}:${mm}:${ss}`;
+                  const p = Date.parse(isoString);
+                  if (!isNaN(p)) timestamp = p;
+                }
+              }
+
+              // boshqa formatlar bo'lsa qo'shish mumkin
+            }
+
+            if (timestamp === null || isNaN(timestamp)) return "Noto‘g‘ri sana formati";
+
+            const currentTime = Date.now();
             const diff = currentTime - timestamp;
-
-            if (isNaN(timestamp)) return "Noto‘g‘ri sana formati";
 
             const seconds = Math.floor(diff / 1000);
             const minutes = Math.floor(seconds / 60);
@@ -3825,7 +3952,8 @@
             else if (minutes < 60) return `${minutes} min`;
             else if (hours < 24) return `${hours} soat`;
             else return `${days} kun`;
-        }
+          }
+
 
 
 
