@@ -23,6 +23,8 @@ const kafka = new Kafka({
     mechanism: 'plain',
     username: 'user11',
     password: 'PaoPn00PdZWEd1vb',
+    // username: 'mg_api@uzgps.uz',
+    // password: 'hc_b1c5v%W',
   },
 });
 
