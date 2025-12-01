@@ -40,11 +40,13 @@
                         <thead>
                             <tr>
                                 <th>No̱</th>
+                                <th class="text-center">{$Dict.structure}</th>
+                                <th class="text-center">{$Dict.photo}</th>
                                 <th class="text-center">{$Dict.rank}</th>
                                 <th class="text-center">{$Dict.lastname}</th>
                                 <th class="text-center">{$Dict.firstname}</th>
-                                <th class="text-center">{$Dict.username}</th>
-                                <th class="text-center">{$Dict.role}</th>
+                                <th class="text-center">{$Dict.phone}</th>
+                                
                                 <th></th>
                             </tr>
                         </thead>
@@ -52,11 +54,19 @@
                             {foreach from=$Staffs item=Table key=tkey}
                                 <tr class="lb" id="row_{$Table.id|crypt}">
                                     <td class="text-right">{$tkey+1}</td>
-                                    <th class="text-center">{$Table.rank}</th>
-                                    <th class="text-center">{$Table.lastname}</th>
-                                    <th class="text-center">{$Table.firstname}</th>
-                                    <th class="text-center">{$Table.username}</th>
-                                    <th class="text-center">{$Table.role}</th>
+                                    <td>{$Table.structure}</td>
+                                    <td class="text-center">
+                                        {if $Table.photo neq ""}
+                                            <img src="/pictures/staffs/{$Table.photo}" height="50" class="Thumb">
+                                        {else}
+                                            <img src="/assets/images/nophoto2.png" height="28" class="Thumb">
+                                        {/if}
+                                    </td>
+                                    <td>{$Table.rank}</td>
+                                    <td>{$Table.lastname}</td>
+                                    <td>{$Table.firstname}</td>
+                                    <td>{$Table.phone}</td>
+                                    
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -93,39 +103,60 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <form class="needs-validation" novalidate>
                     <div class="row g-3">
-                          
                         <div class="col-6">
-                            <label>Harbiy xizmatchini</label>
-                            <select required class="select form-control" name="staff_id" id="staff_id">
+                            <label>{$Dict.region}</label>
+                            <select required class="select form-control" name="region_id" id="region_id">
                                 <option value="">{$Dict.choose}</option>
-                                {foreach from=$HrPositions item=Item6 key=ikey6}
+                                {foreach from=$Regions item=Item6 key=ikey6}
                                     <option value="{$Item6.id}">{$Item6.name}</option>
                                 {/foreach}
                             </select>
-                        </div>  
-                         <div class="col-6">
-                            <label>{$Dict.role}</label>
-                            <select required class="select form-control" name="role" id="role">
+                        </div>
+                        <div class="col-sm-6">
+                            <label>{$Dict.territorial_short}</label>
+                            <select id="structure_id" class="form-select">
                                 <option value="">{$Dict.choose}</option>
-                                {foreach from=$Roles item=Item6 key=ikey6}
-                                    <option value="{$Item6.id}">{$Item6.name}</option>
+                                {foreach from=$Structures item=obj}
+                                    <option value="{$obj.id}">{$obj.name}</option>
                                 {/foreach}
                             </select>
-                        </div> 
-                        
-                        {* <div class="col-6">
-                            <label>{$Dict.phone}</label>
-                            <input required type="text" class="form-control" name="phone" id="phone" value="">
-                        </div> *}
-                         <div class="col-6">
-                            <label>{$Dict.username}</label>
-                            <input type="text" class="form-control" name="username" id="username" value="">
                         </div>
                         <div class="col-6">
-                            <label>{$Dict.password}</label>
-                            <input type="text" class="form-control" name="password" id="password" value="">
-                        </div> 
-                  
+                            <label>{$Dict.rank}</label>
+                            <select required class="select form-control" name="rank_id" id="rank_id">
+                                <option value="">{$Dict.choose}</option>
+                                {foreach from=$RefRanks item=Item6 key=ikey6}
+                                    <option value="{$Item6.id}">{$Item6.name}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <label>{$Dict.lastname}</label>
+                            <input required type="text" class="form-control" name="lastname" id="lastname" value="">
+                        </div>
+                        <div class="col-6">
+                            <label>{$Dict.firstname}</label>
+                            <input required type="text" class="form-control" name="firstname" id="firstname" value="">
+                        </div>
+                        <div class="col-6">
+                            <label>{$Dict.surname}</label>
+                            <input type="text" class="form-control" name="surname" id="surname" value="">
+                        </div>
+                        <div class="col-6">
+                            <label>{$Dict.phone}</label>
+                            <input required type="text" class="form-control" name="phone" id="phone" value="">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">{$Dict.choose_file}</label>
+                            <div action="/upload" class="dropzone needsclick" id="staff-photo">
+                                <div class="dz-message needsclick">
+                                    {$Dict.drop_file}
+                                </div>
+                                <div class="fallback">
+                                    <input name="file" type="file" />
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-12 text-center">
                             <input type="hidden" name="id" id="id" value="">
                             <input type="hidden" name="photo" id="photo" value="">
@@ -133,7 +164,7 @@
                                 aria-label="Close">
                                 {$Dict.cancel}
                             </button>
-                            <button type="button" id="submit" class="btn btn-primary me-sm-3 me-1">{$Dict.save}</button>
+                            <button type="submit" id="submit" class="btn btn-primary me-sm-3 me-1">{$Dict.save}</button>
                         </div>
                     </div>
                 </form>
@@ -180,14 +211,31 @@
             });
         }
 
+        // Filtering
+        $('#region_id').change(function(event) {
+            $.get("ajax.php?act=get_divisions&structure_id=" + this.value, function(html) {
+                var sInfo = jQuery.parseJSON(html);
+
+                $('#structure_id').empty();
+                $('#structure_id').append(`<option value="">${dict_choose}</option>`);
+                sInfo.forEach((item, index) => {
+                    $('#structure_id').append(`<option value="${item.id}">${item.name}</option>`);
+                });
+            });
+        });
+
         $('#new').click(function() {
             $('#submitModal').modal('toggle');
-            $('#role').val(0);
-            $('#role').trigger("change");
-            $('#staff_id').val(0);
-            $('#staff_id').trigger("change");    
-            $('#username').val("");
-            $('#password').val("");
+            $('#region_id').val(0);
+            $('#region_id').trigger("change");
+            $('#structure_id').val(0);
+            $('#structure_id').trigger("change");
+            $('#rank_id').val(0);
+            $('#rank_id').trigger("change");
+            $('#lastname').val("");
+            $('#firstname').val("");
+            $('#surname').val("");
+            $('#phone').val("");
         });
 
         $('.datatables-projects tbody').on('click', '.editAction', function() {
@@ -198,11 +246,14 @@
                 var sInfo = jQuery.parseJSON(html);
 
                 $('#id').val(sInfo.id);
-                $('#role').val(sInfo.role_id);
-                $('#staff_id').val(sInfo.staff_id);
+                $('#region_id').val(sInfo.structure_id);
+                $('#structure_id').val(sInfo.structure_id);
+                $('#rank_id').val(sInfo.rank_id);
+                $('#lastname').val(sInfo.lastname);
+                $('#firstname').val(sInfo.firstname);
                 $('#surname').val(sInfo.surname);
-                $('#username').val(sInfo.username);
-              //  $('#password').val(sInfo.password);
+                $('#phone').val(sInfo.phone);
+                $('#photo').val(sInfo.photo);
             });
         })
 
@@ -226,20 +277,50 @@
             </div>
         `;
 
+        const dropzoneBasic = document.querySelector('#staff-photo');
+        var myDropzone = new Dropzone(dropzoneBasic, {
+            previewTemplate: previewTemplate,
+            parallelUploads: 1,
+            maxFilesize: 5000,
+            addRemoveLinks: true,
+            maxFiles: 1,
+            acceptedFiles: 'image/*',
+        });
+
         // Form validation and submit
         const bsValidationForms = $('.needs-validation');
         Array.prototype.slice.call(bsValidationForms).forEach(function(form) {
-             $('#submit').click(function(event) {
-                    console.log('clicked')   
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                } else {
                     event.preventDefault();
                     event.stopPropagation();
 
                     var form_data = new FormData();
                     form_data.append('id', $('#id').val());
-                    form_data.append('role', $('#role').val());
-                    form_data.append('staff_id', $('#staff_id').val());
-                    form_data.append('username', $('#username').val());
-                    form_data.append('password', $('#password').val());
+                    
+                    if ($('#structure_id').val() == 0) {
+                        form_data.append('structure_id', $('#region_id').val());
+                    } else {
+                        form_data.append('structure_id', $('#structure_id').val() || $('#region_id').val());
+                    }
+
+                    form_data.append('rank_id', $('#rank_id').val());
+                    form_data.append('lastname', $('#lastname').val());
+                    form_data.append('firstname', $('#firstname').val());
+                    form_data.append('surname', $('#surname').val());
+                    form_data.append('phone', $('#phone').val());
+
+                    if (myDropzone.files.length > 0) {
+                        myDropzone.files.forEach(function(file, index) {
+                            form_data.append('photo', file);
+                        });
+                    } else {
+                        form_data.append('photo', $('#photo').val());
+                    }
+
                     $.ajax({
                         url: 'hrajax.php?act=act_staffs',
                         dataType: 'text',
@@ -252,13 +333,13 @@
                             //console.log(resdata);
                             var NewArray = resdata.split("<&sep&>");
                             if (NewArray[0] == 0) {
-                                // location.reload();
+                                location.reload();
                             } else {
                                 alert(resdata);
                             }
                         }
                     });
-                
+                }
 
                 form.classList.add('was-validated');
             });

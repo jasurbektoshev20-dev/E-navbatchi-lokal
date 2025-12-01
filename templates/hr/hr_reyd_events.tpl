@@ -41,9 +41,12 @@
                             <tr>
                                 <th>No̱</th>
                                 <th class="text-center">{$Dict.region}</th>
-                                <th class="text-center">{$Dict.distcity}</th>
-                                <th class="text-center">{$Dict.date}</th>
-                                <th class="text-center">{$Dict.contingent}</th>
+                                <th class="text-center">{$Dict.structure_id}</th>
+                                <th class="text-center">{$Dict.responsible_id}</th>
+                                <th class="text-center">{$Dict.staff_count}</th>
+                                <th class="text-center">{$Dict.start_date}</th>
+                                <th class="text-center">{$Dict.end_date}</th>
+                                <th class="text-center">{$Dict.technique_count}</th>
                                 <th class="text-center">{$Dict.stand}</th>
                                 <th class="text-center">{$Dict.masul}</th>
                                 <th class="text-center">{$Dict.case_summary}</th>
