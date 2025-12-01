@@ -16,21 +16,19 @@ const pool = new Pool({
 });
 
 const kafka = new Kafka({
-  clientId: 'smpo-client',
-  brokers: ['smpo.uzgps.uz:9092'],
-  ssl: false,
-  sasl: {
-    mechanism: 'plain',
-    username: 'user11',
-    password: 'PaoPn00PdZWEd1vb',
-    // username: 'mg_api@uzgps.uz',
-    // password: 'hc_b1c5v%W',
-  },
+    clientId: 'smpo-client',
+    brokers: ['smpo.uzgps.uz:9092'],
+    ssl: false,
+    sasl: {
+        mechanism: 'plain',
+        username: 'user3',
+        password: 'pass#3213',
+    },
 });
 
 const topics = [
-  { topic: 'ohrana_topic', groupId: 'ohrana' },
-  // { topic: "system_events_topic", groupId: "system_events" },
+    { topic: 'mgkt_topic', groupId: 'mgkt' },
+    // { topic: "system_events_topic", groupId: "system_events" },
 ];
 
 async function saveToDb(dataArray) {
