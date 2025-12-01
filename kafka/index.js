@@ -15,13 +15,13 @@ const kafka = new Kafka({
     ssl: false,
     sasl: {
         mechanism: 'plain',
-        username: 'user11',
-        password: 'PaoPn00PdZWEd1vb',
+        username: 'user3',
+        password: 'pass#3213',
     },
 });
 
 const topics = [
-    { topic: 'ohrana_topic', groupId: 'ohrana' },
+    { topic: 'mgkt_topic', groupId: 'mgkt' },
     // { topic: "system_events_topic", groupId: "system_events" },
 ];
 
