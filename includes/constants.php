@@ -13,10 +13,15 @@ if (!defined('ARM_IN')) {
 	die("Hacking attempt");
 }
 
-define("HOST", '127.0.0.1');
-define("SYSTEM_BASE", 'egvardiya');
+// define("HOST", '127.0.0.1');
+// define("SYSTEM_BASE", 'egvardiya');
+// define("USERNAME", 'postgres');
+// define("PASSWORD", '1234');
+
+define("HOST", '10.100.9.145');
+define("SYSTEM_BASE", 'e-gvardiya');
 define("USERNAME", 'postgres');
-define("PASSWORD", '1234');
+define("PASSWORD", 'fizmasoft7998872');
 define("PESIST", 0);
 define("PGPORT", 5432);
 
