@@ -66,7 +66,7 @@
                                     <td>{$Table.lastname}</td>
                                     <td>{$Table.firstname}</td>
                                     <td>{$Table.phone}</td>
-                                    
+    
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
