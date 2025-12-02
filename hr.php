@@ -222,7 +222,7 @@ switch ($Act) {
 		left join hr.structure s on s.id  = t.structure_id
 		left join bcms.roles r on r.id  = t.role_id
 		left join hr.positions p on p.id  = t.position_id
-		left join ref.ranks ra on ra.id  = t.rank_id
+		left join ref.ranks ra on ra.id  = t.rank_id where t.username IS NOT NULL and t.username <> ''
 		ORDER BY t.id ASC";
 		$sql->query($query);
 		$Staffs = $sql->fetchAll();
