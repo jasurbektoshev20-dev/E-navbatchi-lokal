@@ -215,28 +215,40 @@
     const flatpickrDate = document.querySelector('#start_date');
     if (flatpickrDate) {
         flatpickrDate.flatpickr({
+           enableTime: true,
+            dateFormat: "d-m-Y H:i",
+            time_24hr: true,
             monthSelectorType: 'static'
         });
     }
 
     let start_date;
     $('#start_date').on('change', function() {
-        var dateComponents = this.value.split('-');
-        start_date = dateComponents[2] + '-' + dateComponents[1] + '-' + dateComponents[0];
-    })
+        let [datePart, timePart] = this.value.split(' ');
+        let [day, month, year] = datePart.split('-');
+
+        start_date = `${year}-${month}-${day} ${timePart}`;
+    });
+
 
      const flatpickrEndDate = document.querySelector('#end_date');
     if (flatpickrEndDate) {
         flatpickrEndDate.flatpickr({
+            enableTime: true,
+            dateFormat: "d-m-Y H:i",
+            time_24hr: true,
             monthSelectorType: 'static'
         });
     }
 
     let end_date;
     $('#end_date').on('change', function() {
-        var dateComponents = this.value.split('-');
-        end_date = dateComponents[2] + '-' + dateComponents[1] + '-' + dateComponents[0];
-    })
+        let [datePart, timePart] = this.value.split(' ');
+        let [day, month, year] = datePart.split('-');
+
+        end_date = `${year}-${month}-${day} ${timePart}`;
+    });
+
 
 
     
@@ -287,7 +299,6 @@
             $('#technique_count').val(sInfo.technique_count);
             $('#responsible').val(sInfo.responsible);
             $('#text').val(sInfo.text);
-    
             $('#id').val(sInfo.id);
         });
     })

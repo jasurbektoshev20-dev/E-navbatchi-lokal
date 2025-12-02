@@ -332,14 +332,19 @@
         const flatpickrDate = document.querySelector('#start_event_date');
         if (flatpickrDate) {
             flatpickrDate.flatpickr({
-                monthSelectorType: 'static'
+                enableTime: true,
+            dateFormat: "d-m-Y H:i",
+            time_24hr: true,
+            monthSelectorType: 'static'
             });
         }
 
         let start_event_date;
         $('#start_event_date').on('change', function() {
-            var dateComponents = this.value.split('-');
-            start_event_date = dateComponents[2] + '-' + dateComponents[1] + '-' + dateComponents[0];
+           let [datePart, timePart] = this.value.split(' ');
+            let [day, month, year] = datePart.split('-');
+
+            start_event_date = `${year}-${month}-${day} ${timePart}`;
         })
 
 
@@ -347,14 +352,19 @@
         const flatpickrDate2 = document.querySelector('#finish_event_date');
         if (flatpickrDate2) {
             flatpickrDate2.flatpickr({
-                monthSelectorType: 'static'
+                enableTime: true,
+            dateFormat: "d-m-Y H:i",
+            time_24hr: true,
+            monthSelectorType: 'static'
             });
         }
 
         let finish_event_date;
         $('#finish_event_date').on('change', function() {
-            var dateComponents = this.value.split('-');
-            finish_event_date = dateComponents[2] + '-' + dateComponents[1] + '-' + dateComponents[0];
+             let [datePart, timePart] = this.value.split(' ');
+        let [day, month, year] = datePart.split('-');
+
+        finish_event_date = `${year}-${month}-${day} ${timePart}`;
         })
 
 

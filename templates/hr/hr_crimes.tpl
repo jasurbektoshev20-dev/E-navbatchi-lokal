@@ -138,7 +138,7 @@
                             </select>
                          </div>
                          <div class="col-sm-4">
-                            <label for="event_date" class="form-label">Бошланиш вақти</label>
+                            <label for="event_date" class="form-label">Jinoyat bo'lgan vaqt</label>
                             <input type="datetime" class="form-control" placeholder="DD-MM-YYYY" id="event_date"
                                 name="event_date" />
                          </div>
@@ -240,14 +240,19 @@
          const flatpickrDate = document.querySelector('#event_date');
         if (flatpickrDate) {
             flatpickrDate.flatpickr({
-                monthSelectorType: 'static'
+            enableTime: true,
+            dateFormat: "d-m-Y H:i",
+            time_24hr: true,
+            monthSelectorType: 'static'
             });
         }
 
         let event_date;
         $('#event_date').on('change', function() {
-            var dateComponents = this.value.split('-');
-            event_date = dateComponents[2] + '-' + dateComponents[1] + '-' + dateComponents[0];
+            let [datePart, timePart] = this.value.split(' ');
+            let [day, month, year] = datePart.split('-');
+
+            event_date = `${year}-${month}-${day} ${timePart}`;
         })
 
         $('#region_id').change(function(event) {
