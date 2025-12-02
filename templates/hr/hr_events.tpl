@@ -225,7 +225,7 @@
 
                          <div class="col-sm-4">
                             <label>Mas'ul telefon raqami</label>
-                            <input required type="text" class="form-control" name="responsible_phone" id="responsible_phone"  value="">
+                            <input required type="text" class="form-control" name="responsible_phone" id="responsible_phone" placeholder="90 345 76 87"  value="">
                         </div>
 
                         <div class="col-sm-4">
@@ -312,6 +312,7 @@
 <script src="/assets/assets/vendor/libs/@form-validation/umd/bundle/popular.min.js"></script>
 <script src="/assets/assets/vendor/libs/@form-validation/umd/plugin-bootstrap5/index.min.js"></script>
 <script src="/assets/assets/vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js"></script>
+<script src="https://unpkg.com/imask"></script>
 
 <script>
     var dict_infraction = "{$Dict.infraction}"
@@ -332,14 +333,19 @@
         const flatpickrDate = document.querySelector('#start_event_date');
         if (flatpickrDate) {
             flatpickrDate.flatpickr({
-                monthSelectorType: 'static'
+                enableTime: true,
+            dateFormat: "d-m-Y H:i",
+            time_24hr: true,
+            monthSelectorType: 'static'
             });
         }
 
         let start_event_date;
         $('#start_event_date').on('change', function() {
-            var dateComponents = this.value.split('-');
-            start_event_date = dateComponents[2] + '-' + dateComponents[1] + '-' + dateComponents[0];
+           let [datePart, timePart] = this.value.split(' ');
+            let [day, month, year] = datePart.split('-');
+
+            start_event_date = `${year}-${month}-${day} ${timePart}`;
         })
 
 
@@ -347,14 +353,25 @@
         const flatpickrDate2 = document.querySelector('#finish_event_date');
         if (flatpickrDate2) {
             flatpickrDate2.flatpickr({
-                monthSelectorType: 'static'
+                enableTime: true,
+            dateFormat: "d-m-Y H:i",
+            time_24hr: true,
+            monthSelectorType: 'static'
             });
         }
 
+        var phoneMask = IMask(
+            document.getElementById('responsible_phone'), {
+                mask: '+998 00 000-00-00'
+         });
+
+
         let finish_event_date;
         $('#finish_event_date').on('change', function() {
-            var dateComponents = this.value.split('-');
-            finish_event_date = dateComponents[2] + '-' + dateComponents[1] + '-' + dateComponents[0];
+             let [datePart, timePart] = this.value.split(' ');
+        let [day, month, year] = datePart.split('-');
+
+        finish_event_date = `${year}-${month}-${day} ${timePart}`;
         })
 
 

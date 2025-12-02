@@ -1050,6 +1050,31 @@
     padding: 0% 15px;
   }
 
+  .my-cluster {
+  background: transparent !important;
+}
+
+.cluster-icon {
+  width: 40px;
+  height: 40px;
+  color: #fff;
+  font-weight: 700;
+  border-radius: 50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+/* car cluster: qizil rang */
+.cluster-cars { background: #ff5a5f; }
+
+/* object cluster: ko'k rang */
+.cluster-objects { background: #1e90ff; }
+
+
+
   {/literal}
 </style>
 
@@ -1560,6 +1585,28 @@
       const uzbekistanCenter = [41.2995, 69.2401]; // Toshkent markazi
 
       // Xaritani yaratish
+      const carsCluster = L.markerClusterGroup({
+      spiderfyOnMaxZoom: true,
+      disableClusteringAtZoom: 16,
+      iconCreateFunction: function(cluster){
+        return L.divIcon({
+          html: `<div class="cluster-icon cluster-cars">${cluster.getChildCount()}</div>`,
+          className: 'my-cluster',
+          iconSize: L.point(40,40)
+        });
+      }
+    });
+    const objectsCluster = L.markerClusterGroup({
+      spiderfyOnMaxZoom: true,
+      disableClusteringAtZoom: 16,
+      iconCreateFunction: function(cluster){
+        return L.divIcon({
+          html: `<div class="cluster-icon cluster-objects">${cluster.getChildCount()}</div>`,
+          className: 'my-cluster',
+          iconSize: L.point(40,40)
+        });
+      }
+    });
       const map = L.map("uzbMap", {
         center: [41.6384, 64.0202],
         zoom: 7,     
@@ -1571,6 +1618,8 @@
          }),
         // layers: L.tileLayer(`https://tile.openstreetmap.org/{z}/{x}/{y}.png`, { maxZoom: 19 }),
       });
+      map.addLayer(carsCluster);
+      map.addLayer(objectsCluster);
 
       // Marker ikonkalari
       const markerIcons = {
@@ -1659,6 +1708,9 @@
         getObjects()
       }
 
+      carsCluster.clearLayers();
+      objectsCluster.clearLayers();
+
 
 
 
@@ -1701,10 +1753,9 @@
             response.forEach(m => {
               const marker = L.marker([m.lat, m.long], { icon: markerIcons[m.object_type] })
                 .bindTooltip(m.object_name, { direction: 'top', offset: [0, -10],  className: 'my-tooltip' });
-
               marker.id = m.id;
               marker.type = m.object_type;
-              allMarkers.addLayer(marker);
+              objectsCluster.addLayer(marker);
 
               marker.on('click', function() {
                 document.getElementById('markerModalTitle').innerText = m.object_name;
@@ -1826,209 +1877,415 @@
         parseFloat(params.lat) || 41.312123,
       ];
 
+
+
+
       // Xarita yaratish
-      const map = new mapboxgl.Map({
-        container: 'dialogMap',
-        style: `mapbox://styles/mapbox/standard`,
-        // style: `mapbox://styles/mapbox/dark-v11`,
-        center: map_center,
-        zoom: 6,
-        pitch: 0,
-        antialias: true,
-      });
+// ===== GLOBAL O'ZGARUVCHILAR =====
+const CLUSTER_ZOOM = 16; // 13 dan pastda faqat cluster, 13 va undan yuqori — DOM markerlar
 
-      mapContainer._mapbox_instance = map;
-      map.addControl(new mapboxgl.NavigationControl());
+let doorMarkers = [];
+let trackMarkers = [];
+let cameraMarkers = [];
+let sosMarkers = [];
 
-      setTimeout(() => map.resize(), 300);
+// Agar oldin e'lon qilinmagan bo'lsa, bodyCameraMarkers ni yaratib qo'yamiz
+if (typeof bodyCameraMarkers === 'undefined') {
+  window.bodyCameraMarkers = {};
+}
 
-      // --- Dastlab yuklanganda chizish ---
-      map.on('load', ()=>{
-        drawPolygon()
+// ===== XARITA YARATISH =====
+const map = new mapboxgl.Map({
+  container: 'dialogMap',
+  style: `mapbox://styles/mapbox/standard`,
+  // style: `mapbox://styles/mapbox/dark-v11`,
+  center: map_center,
+  zoom: 6,
+  pitch: 0,
+  antialias: true,
+});
 
-        // ✅ 2. DOOR markerlar (eshiklar)
-        if (Array.isArray(params.door)) {
-          params.door.forEach(door => {
-            const lat = parseFloat(door.lat);
-            const lon = parseFloat(door.long);
-            if (isNaN(lat) || isNaN(lon)) return;
+mapContainer._mapbox_instance = map;
+map.addControl(new mapboxgl.NavigationControl());
+setTimeout(() => map.resize(), 300);
 
-            const el = document.createElement('div');
-            el.className = 'door-marker';
-            el.style.width = '44px';
-            el.style.height = '55px';
-            el.style.backgroundImage = `url('/pictures/icons_marker/eshik.png')`;
-            el.style.backgroundSize = 'cover';
-            el.title = door.name;
+// ===== DOM MARKERLARNI KO'RINISHINI YANGILASH FUNKSIYASI =====
+function updateDomAndClusterVisibility() {
+  const z = map.getZoom();
+  const showDom = z >= CLUSTER_ZOOM;
 
-            new mapboxgl.Marker(el)
-              .setLngLat([lon, lat])
-              .setPopup(new mapboxgl.Popup()
-                .setHTML(
-                  `<div style="color: #38BDF8; font-size:18px;">${door.name}</div>`
-                ))
-              .addTo(map);
-          });
-        }
+  // DOM markerlarni boshqarish
+  const allDomMarkers = [
+    ...doorMarkers,
+    ...trackMarkers,
+    ...cameraMarkers,
+    ...sosMarkers,
+    // xohlasang bodyCameraMarkers ham qo'shishing mumkin
+  ];
 
-        // ✅ 3. TRACK marker (mashina)
-        if (Array.isArray(params.tracks)) {
-          params.tracks.forEach(track => {
-            const lat = parseFloat(track.lat);
-            const lon = parseFloat(track.lon);
-            if (isNaN(lat) || isNaN(lon)) return;
-            const el = document.createElement('div');
-            el.className = 'car-marker';
-            el.style.width = track.car_width + 'px';
-            el.style.height = track.car_height + 'px';
-            // el.style.backgroundImage = `url('/pictures/cars/${track.car_photo || 'car.png'}')`;
-            el.style.backgroundImage = `url('/pictures/cars/${track.car_photo || 'car.png'}')`;
-            el.style.backgroundSize = 'cover';
-            el.style.transform = `rotate(${track.angle || 0}deg)`;
-            el.title = track.car_name;
+  allDomMarkers.forEach(m => {
+    if (!m) return;
+    const el = m.getElement && m.getElement();
+    if (!el) return;
+    el.style.display = showDom ? '' : 'none';
+  });
 
-            new mapboxgl.Marker(el)
-              .setLngLat([lon, lat])
-              .setPopup(
-                new mapboxgl.Popup().setHTML(
-                  `<div style="color: #38BDF8; font-size:20px;"> <b>${track.car_name}</b><br>Tezlik: ${track.speed} km/h<br>${track.date} </div>`
-                )
-              )
-              .addTo(map);
-          });
-        }
+  // Cluster layerlarini boshqarish
+  const visibility = showDom ? 'none' : 'visible';
+  ['all_clusters', 'all_cluster_count'].forEach(layerId => {
+    if (map.getLayer(layerId)) {
+      map.setLayoutProperty(layerId, 'visibility', visibility);
+    }
+  });
+}
 
-        // ✅ 4. Camera marker
-        if (Array.isArray(cameras)) {
-          cameras.forEach(camera => {
-            const lat = parseFloat(camera.lat);
-            const lon = parseFloat(camera.long);
-            if (isNaN(lat) || isNaN(lon)) return;
+// ===== DASTLAB YUKLANGANDA =====
+map.on('load', () => {
+  // Polygoning
+  if (typeof drawPolygon === 'function') {
+    drawPolygon();
+  }
 
-            const el = document.createElement('div');
-            el.className = 'camera-marker';
-            // el.style.backgroundImage = `url('/assets/images/video-camera-recording-yellow.png')`;
-            el.style.backgroundImage = `url('/pictures/icons_marker/camera.png')`;
-            el.style.backgroundSize = 'cover';
-            el.title = camera.comment;
-             el.style.width = '40px';
-            el.style.height = '40px';
-            const popupHTML = `
-              <div style="color: #38BDF8; text-align:center">
-                <b style="font-size: 18px">${camera.comment}</b><br>
-                <button 
-                  class="btn btn-primary popup-camera-btn" 
-                  style="padding: 6px 12px; margin-top:6px;"
-                  data-id="${camera.id}">
-                  <span class="btn-text">Tanlash</span>
-                </button>
-              </div>
-            `;
+  // ---------- 1. DOOR markerlar (eshiklar) ----------
+  if (Array.isArray(params.door)) {
+    params.door.forEach(door => {
+      const lat = parseFloat(door.lat);
+      const lon = parseFloat(door.long);
+      if (isNaN(lat) || isNaN(lon)) return;
 
-            const popup = new mapboxgl.Popup().setHTML(popupHTML);
+      const el = document.createElement('div');
+      el.className = 'door-marker';
+      el.style.width = '44px';
+      el.style.height = '55px';
+      el.style.backgroundImage = `url('/pictures/icons_marker/eshik.png')`;
+      el.style.backgroundSize = 'cover';
+      el.title = door.name;
 
-            new mapboxgl.Marker(el)
-              .setLngLat([lon, lat])
-              .setPopup(popup)
-              .addTo(map);
-          });
-        }
-        if (Array.isArray(params.body_cameras)) {
-          params.body_cameras.forEach(camera => {
-            const lat = parseFloat(camera.lat);
-            const lon = parseFloat(camera.long);
-            if (isNaN(lat) || isNaN(lon)) return;
+      const marker = new mapboxgl.Marker(el)
+        .setLngLat([lon, lat])
+        .setPopup(
+          new mapboxgl.Popup().setHTML(
+            `<div style="color: #38BDF8; font-size:18px;">${door.name}</div>`
+          )
+        )
+        .addTo(map);
 
-            const el = document.createElement('div');
-            el.className = 'body-marker';
-            el.style.backgroundImage = `url('/assets/images/policeman.png')`;
-            el.style.backgroundSize = 'cover';
-            el.title = camera.comment;
-                 el.style.width = '25px';
-            el.style.height = '25px';
-            // Xodim rasmi
-            const photoUrl = camera.staff_photo
-              ? `/pictures/staffs/${camera.staff_photo}`
-              : '/assets/images/nophoto2.png';
+      doorMarkers.push(marker);
+    });
+  }
 
-            // Popup HTML
-            const popupHTML = `
-                <div class="user-card-about p-3 stylish-card">
-      <div class="user-about-card-img text-center mb-3">
-        <img src="${photoUrl}" alt="расм юкланмаган" class="staff-photo" />
-      </div>
+  // ---------- 2. TRACK markerlar (mashinalar) ----------
+  if (Array.isArray(params.tracks)) {
+    params.tracks.forEach(track => {
+      const lat = parseFloat(track.lat);
+      const lon = parseFloat(track.lon);
+      if (isNaN(lat) || isNaN(lon)) return;
 
-      <div class="user-card-about-text text-center">
-        <div class="staff-name mb-3">${camera.staff_name || 'Xodim nomi yo‘q'}</div>
+      const el = document.createElement('div');
+      el.className = 'car-marker';
+      el.style.width = (track.car_width || 40) + 'px';
+      el.style.height = (track.car_height || 40) + 'px';
+      el.style.backgroundImage = `url('/pictures/cars/${track.car_photo || 'car.png'}')`;
+      el.style.backgroundSize = 'cover';
+      el.style.transform = `rotate(${track.angle || 0}deg)`;
+      el.title = track.car_name;
 
-        <div class="mt-2 staff-phone">
-          <i class="bi bi-telephone-fill text-success me-1"></i>
-          <a href="tel:${camera.staff_phone || ''}" class="staff-phone-link">
-            ${camera.staff_phone || ''}
-          </a>
-        </div> <br>
+      const marker = new mapboxgl.Marker(el)
+        .setLngLat([lon, lat])
+        .setPopup(
+          new mapboxgl.Popup().setHTML(
+            `<div style="color: #38BDF8; font-size:20px;">
+              <b>${track.car_name}</b><br>
+              Tezlik: ${track.speed || 0} km/h<br>
+              ${track.date || ''}
+            </div>`
+          )
+        )
+        .addTo(map);
 
-         <div class="mt-2 staff-cal-word">
-         <i class="bi bi-shield-lock-fill text-warning me-1 cursor-pointer" id="cal-word-id"></i>
-         <span class="cal-word hidden">${camera.staff_sname}</span>
-        </div>
+      trackMarkers.push(marker);
+    });
+  }
 
-        <div class="d-flex align-items-center justify-content-center">
-          <button
-            class="btn mt-2 px-4 py-2 popup-body-camera-btn view-camera-btn"
-            data-id="${camera.id}"
-          >
-            <i class="bi bi-camera-video-fill me-2 camera-icon-style"></i>
+  // ---------- 3. CAMERA markerlar ----------
+  if (Array.isArray(cameras)) {
+    cameras.forEach(camera => {
+      const lat = parseFloat(camera.lat);
+      const lon = parseFloat(camera.long);
+      if (isNaN(lat) || isNaN(lon)) return;
+
+      const el = document.createElement('div');
+      el.className = 'camera-marker';
+      el.style.backgroundImage = `url('/pictures/icons_marker/camera.png')`;
+      el.style.backgroundSize = 'cover';
+      el.title = camera.comment;
+      el.style.width = '40px';
+      el.style.height = '40px';
+
+      const popupHTML = `
+        <div style="color: #38BDF8; text-align:center">
+          <b style="font-size: 18px">${camera.comment}</b><br>
+          <button 
+            class="btn btn-primary popup-camera-btn" 
+            style="padding: 6px 12px; margin-top:6px;"
+            data-id="${camera.id}">
+            <span class="btn-text">Tanlash</span>
           </button>
         </div>
-      </div>
-    </div>
+      `;
+      const popup = new mapboxgl.Popup().setHTML(popupHTML);
 
-            `;
+      const marker = new mapboxgl.Marker(el)
+        .setLngLat([lon, lat])
+        .setPopup(popup)
+        .addTo(map);
 
-            const popup = new mapboxgl.Popup({ offset: 15 }).setHTML(popupHTML);
+      cameraMarkers.push(marker);
+    });
+  }
 
-            const marker = new mapboxgl.Marker(el)
-              .setLngLat([lon, lat])
-              .setPopup(popup)
-              .addTo(map);
-              
-              
-              
-              // Marker va pozitsiyani saqlaymiz
-              bodyCameraMarkers[camera.id] = {
-                marker,
-                current: { lat, lon },
-                target: { lat, lon }
-              };
-          });
+  // ---------- 4. BODY CAMERAS (xodimlar) – DOM marker + popup ----------
+  if (Array.isArray(params.body_cameras)) {
+    params.body_cameras.forEach(camera => {
+      const lat = parseFloat(camera.lat);
+      const lon = parseFloat(camera.long);
+      if (isNaN(lat) || isNaN(lon)) return;
 
-        }
+      const el = document.createElement('div');
+      el.className = 'body-marker';
+      el.style.backgroundImage = `url('/assets/images/policeman.png')`;
+      el.style.backgroundSize = 'cover';
+      el.title = camera.comment;
+      el.style.width = '25px';
+      el.style.height = '25px';
 
-        // ✅ 5. SOS markerlar
-        if (Array.isArray(params.sos)) {
-          params.sos.forEach(sos => {
-            const lat = parseFloat(sos.lat);
-            const lon = parseFloat(sos.long);
-            if (isNaN(lat) || isNaN(lon)) return;
+      const photoUrl = camera.staff_photo
+        ? `/pictures/staffs/${camera.staff_photo}`
+        : '/assets/images/nophoto2.png';
 
-            const el = document.createElement('div');
-            el.className = 'sos-marker';
-            el.style.backgroundImage = `url('/pictures/icons_marker/sos.png')`;
-            el.style.backgroundSize = 'cover';
-            el.title = sos.name;
-            el.style.width = '35px';
-            el.style.height = '50px';
+      const popupHTML = `
+        <div class="user-card-about p-3 stylish-card">
+          <div class="user-about-card-img text-center mb-3">
+            <img src="${photoUrl}" alt="расм юкланмаган" class="staff-photo" />
+          </div>
+          <div class="user-card-about-text text-center">
+            <div class="staff-name mb-3">${camera.staff_name || 'Xodim nomi yo‘q'}</div>
+            <div class="mt-2 staff-phone">
+              <i class="bi bi-telephone-fill text-success me-1"></i>
+              <a href="tel:${camera.staff_phone || ''}" class="staff-phone-link">
+                ${camera.staff_phone || ''}
+              </a>
+            </div><br>
+            <div class="mt-2 staff-cal-word">
+              <i class="bi bi-shield-lock-fill text-warning me-1 cursor-pointer" id="cal-word-id"></i>
+              <span class="cal-word hidden">${camera.staff_sname}</span>
+            </div>
+            <div class="d-flex align-items-center justify-content-center">
+              <button
+                class="btn mt-2 px-4 py-2 popup-body-camera-btn view-camera-btn"
+                data-id="${camera.id}"
+              >
+                <i class="bi bi-camera-video-fill me-2 camera-icon-style"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
 
-            new mapboxgl.Marker(el)
-              .setLngLat([lon, lat])
-              .setPopup(new mapboxgl.Popup().setHTML(
-                `<div style="color: #38BDF8; font-size:18px;">${sos.name}</div>`
-              ))
-              .addTo(map);
-          });
+      const popup = new mapboxgl.Popup({ offset: 15 }).setHTML(popupHTML);
+
+      const marker = new mapboxgl.Marker(el)
+        .setLngLat([lon, lat])
+        .setPopup(popup)
+        .addTo(map);
+
+      bodyCameraMarkers[camera.id] = {
+        marker,
+        current: { lat, lon },
+        target: { lat, lon }
+      };
+    });
+  }
+
+  // ---------- 5. SOS markerlar ----------
+  if (Array.isArray(params.sos)) {
+    params.sos.forEach(sos => {
+      const lat = parseFloat(sos.lat);
+      const lon = parseFloat(sos.long);
+      if (isNaN(lat) || isNaN(lon)) return;
+
+      const el = document.createElement('div');
+      el.className = 'sos-marker';
+      el.style.backgroundImage = `url('/pictures/icons_marker/sos.png')`;
+      el.style.backgroundSize = 'cover';
+      el.title = sos.name;
+      el.style.width = '35px';
+      el.style.height = '50px';
+
+      const marker = new mapboxgl.Marker(el)
+        .setLngLat([lon, lat])
+        .setPopup(
+          new mapboxgl.Popup().setHTML(
+            `<div style="color: #38BDF8; font-size:18px;">${sos.name}</div>`
+          )
+        )
+        .addTo(map);
+
+      sosMarkers.push(marker);
+    });
+  }
+
+  // ---------- 6. Bitta CLUSTER SOURCE + LAYER (door+track+camera+sos) ----------
+  try {
+    const clusterFeatures = [];
+
+    // Door
+    (params.door || []).forEach(door => {
+      const lat = parseFloat(door.lat);
+      const lon = parseFloat(door.long);
+      if (isNaN(lat) || isNaN(lon)) return;
+
+      clusterFeatures.push({
+        type: 'Feature',
+        geometry: { type: 'Point', coordinates: [lon, lat] },
+        properties: {
+          category: 'door',
+          name: door.name || 'Eshik'
         }
       });
+    });
+
+    // Track
+    (params.tracks || []).forEach(track => {
+      const lat = parseFloat(track.lat);
+      const lon = parseFloat(track.lon);
+      if (isNaN(lat) || isNaN(lon)) return;
+
+      clusterFeatures.push({
+        type: 'Feature',
+        geometry: { type: 'Point', coordinates: [lon, lat] },
+        properties: {
+          category: 'track',
+          name: track.car_name || 'Mashina',
+          speed: track.speed || 0,
+          date: track.date || ''
+        }
+      });
+    });
+
+    // Camera
+    (cameras || []).forEach(camera => {
+      const lat = parseFloat(camera.lat);
+      const lon = parseFloat(camera.long);
+      if (isNaN(lat) || isNaN(lon)) return;
+
+      clusterFeatures.push({
+        type: 'Feature',
+        geometry: { type: 'Point', coordinates: [lon, lat] },
+        properties: {
+          category: 'camera',
+          name: camera.comment || 'Kamera',
+          camera_id: camera.id
+        }
+      });
+    });
+
+    // SOS
+    (params.sos || []).forEach(sos => {
+      const lat = parseFloat(sos.lat);
+      const lon = parseFloat(sos.long);
+      if (isNaN(lat) || isNaN(lon)) return;
+
+      clusterFeatures.push({
+        type: 'Feature',
+        geometry: { type: 'Point', coordinates: [lon, lat] },
+        properties: {
+          category: 'sos',
+          name: sos.name || 'SOS'
+        }
+      });
+    });
+
+    map.addSource('all_points_cluster', {
+      type: 'geojson',
+      data: {
+        type: 'FeatureCollection',
+        features: clusterFeatures
+      },
+      cluster: true,
+      clusterMaxZoom: 16,
+      clusterRadius: 60
+    });
+
+    // Cluster doira
+    map.addLayer({
+      id: 'all_clusters',
+      type: 'circle',
+      source: 'all_points_cluster',
+      filter: ['has', 'point_count'],
+      paint: {
+        'circle-color': [
+          'step',
+          ['get', 'point_count'],
+          '#1e90ff', 10,
+          '#ff9800', 30,
+          '#f44336'
+        ],
+        'circle-radius': [
+          'step',
+          ['get', 'point_count'],
+          18, 20,
+          26, 50,
+          34
+        ]
+      }
+    });
+
+    // Cluster ichidagi son
+    map.addLayer({
+      id: 'all_cluster_count',
+      type: 'symbol',
+      source: 'all_points_cluster',
+      filter: ['has', 'point_count'],
+      layout: {
+        'text-field': '{point_count}',
+        'text-size': 18
+      },
+      paint: {
+        'text-color': '#ffffff'
+      }
+    });
+
+    // Cluster click → zoom into
+    map.on('click', 'all_clusters', (e) => {
+      const f = map.queryRenderedFeatures(e.point, { layers: ['all_clusters'] })[0];
+      const clusterId = f.properties.cluster_id;
+      map.getSource('all_points_cluster').getClusterExpansionZoom(clusterId, (err, zoom) => {
+        if (err) return;
+        map.easeTo({ center: f.geometry.coordinates, zoom });
+      });
+    });
+
+    map.on('mouseenter', 'all_clusters', () => {
+      map.getCanvas().style.cursor = 'pointer';
+    });
+    map.on('mouseleave', 'all_clusters', () => {
+      map.getCanvas().style.cursor = '';
+    });
+
+  } catch (e) {
+    console.error('Cluster init error:', e);
+  }
+
+  // ---------- 7. ZOOMGA QARAB DOM vs CLUSTER KO'RINISHI ----------
+  // Dastlabki holat
+  updateDomAndClusterVisibility();
+
+  // Har zoom o'zgarganda
+  map.on('zoomend', updateDomAndClusterVisibility);
+});
+
+
 
       map.on('style.load', () => {
         drawPolygon(); // markerlar va polygonlarni qayta chizish
@@ -2139,7 +2396,7 @@
             }
           })
         }
-      }, 2000);
+      }, 10000);
     }
 
 
@@ -2975,7 +3232,15 @@
           let status = $(this).attr("status");
           let this_cam_item = $(this);
           let classValue = this_cam_item.attr('class');
-          let remove_class = classValue.split(' ')[2];
+          // Agar classValue DOM elementdan olinayotgan bo'lsa:
+          // const classValue = element.className || '';
+          let safeClassValue = String(classValue || '');
+          let parts = safeClassValue.split(/\s+/); // bir yoki bir nechta bo'shliqqa mos
+          let remove_class = parts[2] || null; // agar yo'q bo'lsa null olamiz
+
+          // debug:
+          if (!parts[2]) console.warn('remove_class topilmadi, classValue=', classValue);
+
           // $(".camera_active").html(el_count + 1);
 
           // const current_status = await get_camera_status(cam_index);
@@ -3047,7 +3312,13 @@
           let status = $(this).attr("status");
           let this_cam_item = $(this);
           let classValue = this_cam_item.attr('class');
-          let remove_class = classValue.split(' ')[2];
+            let safeClassValue = String(classValue || '');
+          let parts = safeClassValue.split(/\s+/); // bir yoki bir nechta bo'shliqqa mos
+          let remove_class = parts[2] || null; // agar yo'q bo'lsa null olamiz
+
+          // debug:
+          if (!parts[2]) console.warn('remove_class topilmadi, classValue=', classValue);
+
           // $(".camera_active").html(el_count + 1);
 
           // const current_status = await get_camera_status(cam_index);
@@ -3402,11 +3673,19 @@
                 return;
             }
 
-            // Filtrlash
-            const filtered = carHistory[selectedCarId].filter(item => {
-                const itemDate = item.time.split(" ")[0]; // "2025-11-01"
-                return itemDate >= fromDate && itemDate <= toDate;
+            // // Filtrlash
+            // const filtered = carHistory[selectedCarId].filter(item => {
+            //     const itemDate = item.time.split(" ")[0]; // "2025-11-01"
+            //     return itemDate >= fromDate && itemDate <= toDate;
+            // });
+            const filtered = (carHistory[selectedCarId] || []).filter(item => {
+              const timeStr = item?.time || ''; // undefined safe
+              // agar timeStr string bo'lsa bo'ling
+              const datePart = String(timeStr).split(' ')[0] || '';
+              // endi taqqoslash: fromDate/toDate formatiga mosligini tekshirish foydali
+              return datePart >= fromDate && datePart <= toDate;
             });
+
 
             if (filtered.length === 0) {
                 alert("Bu davrda mashina ma'lumotlari topilmadi");
@@ -3659,26 +3938,42 @@
 
         // Finding cars
         $(document).ready(function() {
-            $('#searchCars').wrap('<div class="position-relative my-2"></div>').select2({
+          
+
+                // Find functions
+        
+            // --- Find functions
+
+         
+        });
+
+          $('#searchCars').wrap('<div class="position-relative my-2"></div>').select2({
                 placeholder: dict_select,
                 dropdownParent: $('#searchCars').parent()
             });
 
-                // Find functions
-            function findCarOnMap(id) {
-                let marker = allCars.find(item => item.options.id == id);
-                map.flyTo(marker.getLatLng(), 18, { duration: 3 })
-                setTimeout(() => { map.panTo(marker.getLatLng(), { animate: true, duration: 3000 }); marker.openPopup(); }, 3100)
+
+       window.findCarOnMap = function(id) {
+            const marker = allCars.find(item => item.options.id == id);
+            if (!marker) {
+              console.warn('Mashina marker topilmadi, id=', id);
+              return;
             }
-            // --- Find functions
+
+            map.flyTo(marker.getLatLng(), 18, { duration: 3 });
+
+            setTimeout(() => {
+              map.panTo(marker.getLatLng(), { animate: true, duration: 3_000 });
+              marker.openPopup();
+            }, 3100);
+          };
 
             $('#searchCars').on('select2:select', function (e) {
                 findCarOnMap(e.params.data.id)
             });
-        });
 
-        // Function to fly to the bounds of all markers
-        function flyToMarkers(data) {
+         // Function to fly to the bounds of all markers
+         function flyToMarkers(data) {
             let bounds = new L.LatLngBounds();
             data.forEach(function (marker) {
                 bounds.extend([marker.lat, marker.lon]);
@@ -3768,7 +4063,8 @@
                             type: 'car'
                         });
                         LamMarker.setRotationAngle(marker.angle).bindPopup(carPopUp(marker));
-                        map.addLayer(LamMarker);
+                        // map.addLayer(LamMarker);
+                        carsCluster.addLayer(LamMarker);
                         allCars.push(LamMarker);
                     });
 
@@ -3803,18 +4099,71 @@
         //         return `${days} kun`;
         //     }
         // }
+        // function getInterTime(timeStr) {
+        //     // Agar format "DD.MM.YYYY HH:mm" bo‘lsa, uni ISO formatga o‘zgartiramiz
+        //     const [datePart, timePart] = timeStr.split(' ');
+        //     const [day, month, year] = datePart.split('.');
+        //     const isoString = `${year}-${month}-${day}T${timePart}:00`;
+
+        //     const timestamp = new Date(isoString).getTime();
+        //     const currentTime = new Date().getTime();
+
+        //     const diff = currentTime - timestamp;
+
+        //     if (isNaN(timestamp)) return "Noto‘g‘ri sana formati";
+
+        //     const seconds = Math.floor(diff / 1000);
+        //     const minutes = Math.floor(seconds / 60);
+        //     const hours = Math.floor(minutes / 60);
+        //     const days = Math.floor(hours / 24);
+
+        //     if (seconds < 60) return `${seconds} sek`;
+        //     else if (minutes < 60) return `${minutes} min`;
+        //     else if (hours < 24) return `${hours} soat`;
+        //     else return `${days} kun`;
+        // }
         function getInterTime(timeStr) {
-            // Agar format "DD.MM.YYYY HH:mm" bo‘lsa, uni ISO formatga o‘zgartiramiz
-            const [datePart, timePart] = timeStr.split(' ');
-            const [day, month, year] = datePart.split('.');
-            const isoString = `${year}-${month}-${day}T${timePart}:00`;
+            // 1) guard: null/undefined
+            if (!timeStr) return "Noto‘g‘ri sana: bo'sh qiymat";
 
-            const timestamp = new Date(isoString).getTime();
-            const currentTime = new Date().getTime();
+            // ensure string
+            const s = String(timeStr).trim();
+            if (!s) return "Noto‘g‘ri sana: bo'sh string";
 
+            // Try ISO parse first (loyihalarda bu xatoliklarni kamaytiradi)
+            const parsedISO = Date.parse(s);
+            let timestamp = !isNaN(parsedISO) ? parsedISO : null;
+
+            if (timestamp === null) {
+              // agar "DD.MM.YYYY HH:mm" yoki "DD.MM.YYYY" bo'lsa:
+              // ajratamiz: separator bo'shliq
+              const [datePart, timePart] = s.split(' ');
+              if (!datePart) return "Noto‘g‘ri sana formati";
+
+              // datePart "DD.MM.YYYY" kabiligini tekshiramiz
+              if (datePart.includes('.')) {
+                const dp = datePart.split('.');
+                if (dp.length === 3) {
+                  const [day, month, year] = dp.map(x => x.padStart(2,'0'));
+                  const tp = timePart ? timePart : '00:00';
+                  // ensure tp like HH:mm yoki HH:mm:ss
+                  const tpParts = tp.split(':');
+                  const hh = (tpParts[0] || '00').padStart(2,'0');
+                  const mm = (tpParts[1] || '00').padStart(2,'0');
+                  const ss = (tpParts[2] || '00').padStart(2,'0');
+                  const isoString = `${year}-${month}-${day}T${hh}:${mm}:${ss}`;
+                  const p = Date.parse(isoString);
+                  if (!isNaN(p)) timestamp = p;
+                }
+              }
+
+              // boshqa formatlar bo'lsa qo'shish mumkin
+            }
+
+            if (timestamp === null || isNaN(timestamp)) return "Noto‘g‘ri sana formati";
+
+            const currentTime = Date.now();
             const diff = currentTime - timestamp;
-
-            if (isNaN(timestamp)) return "Noto‘g‘ri sana formati";
 
             const seconds = Math.floor(diff / 1000);
             const minutes = Math.floor(seconds / 60);
@@ -3825,7 +4174,8 @@
             else if (minutes < 60) return `${minutes} min`;
             else if (hours < 24) return `${hours} soat`;
             else return `${days} kun`;
-        }
+          }
+
 
 
 

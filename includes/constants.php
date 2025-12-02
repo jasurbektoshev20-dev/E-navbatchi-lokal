@@ -18,10 +18,10 @@ if (!defined('ARM_IN')) {
 // define("USERNAME", 'postgres');
 // define("PASSWORD", '2002');
 
-define("HOST", '10.100.9.145');
+define("HOST", '10.10.80.20');
 define("SYSTEM_BASE", 'e-gvardiya');
 define("USERNAME", 'postgres');
-define("PASSWORD", 'fizmasoft7998872');
+define("PASSWORD", 'Qwerty123');
 define("PESIST", 0);
 define("PGPORT", 5432);
 

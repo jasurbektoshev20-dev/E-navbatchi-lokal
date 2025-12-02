@@ -40,15 +40,18 @@
                         <thead>
                             <tr>
                                 <th>No̱</th>
-                                <th class="text-center">{$Dict.structure}</th>
+                                <th class="text-center">Hudud</th>
+                                <th class="text-center">Bo'linma</th>
+                                <th class="text-center">{$Dict.masul}</th>
+                                <th class="text-center">{$Dict.date}</th>
+                                <th class="text-center">Protokol raqami</th>
+                                <th class="text-center">Jinoyat turi</th>
+                                <th class="text-center">Modda</th>
                                 <th class="text-center">{$Dict.photo}</th>
-                                <th class="text-center">{$Dict.lastname}</th>
-                                <th class="text-center">{$Dict.firstname}</th>
-                                <th class="text-center">{$Dict.username}</th>
-                                <th class="text-center">{$Dict.phone}</th>
-                                <th class="text-center">{$Dict.role}</th>
-                                <th class="text-center">{$Dict.position}</th> 
-                                <th class="text-center">{$Dict.rank}</th>
+                                <th class="text-center">Jinoyatchi JSHSHIR</th>
+                                <th class="text-center">Jinoyatchi FISH</th>
+                                <th class="text-center">Telefon raqami</th>
+                                <th class="text-center">Xolat haqida qisqacha</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -56,21 +59,24 @@
                             {foreach from=$Staffs item=Table key=tkey}
                                 <tr class="lb" id="row_{$Table.id|crypt}">
                                     <td class="text-right">{$tkey+1}</td>
-                                    <td>{$Table.structure}</td>
-                                    <td class="text-center">
+                                    <td>{$Table.region_id}</td>
+                                    <td>{$Table.structure_id}</td>
+                                     <td>{$Table.responsible_id}</td> 
+                                     <td>{$Table.date}</td> 
+                                     <td>{$Table.protocol_number}</td> 
+                                     <td>{$Table.crime_type}</td> 
+                                     <td>{$Table.substance}</td> 
+                                     <td class="text-center">
                                         {if $Table.photo neq ""}
                                             <img src="/pictures/staffs/{$Table.photo}" height="50" class="Thumb">
                                         {else}
                                             <img src="/assets/images/nophoto2.png" height="28" class="Thumb">
                                         {/if}
-                                    </td>
-                                    <td>{$Table.lastname}</td>
-                                    <td>{$Table.firstname}</td>
-                                    <td>{$Table.username}</td>
+                                     </td>
+                                     <td>{$Table.personal_identification_num}</td>
+                                    <td>{$Table.criminal_username}</td>
                                     <td>{$Table.phone}</td>
-                                     <td>{$Table.role_name}</td>
-                                    <td>{$Table.position}</td> 
-                                    <td>{$Table.rank}</td>
+                                    <td>{$Table.situation_text}</td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -101,13 +107,13 @@
 
 <!-- Edit Modal -->
 <div class="modal fade" id="submitModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-simple modal-edit-user">
+    <div class="modal-dialog modal-xl modal-simple modal-edit-user">
         <div class="modal-content p-3 p-md-5">
             <div class="modal-body">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <form class="needs-validation" novalidate>
                     <div class="row g-3">
-                        <div class="col-6">
+                        <div class="col-sm-4">
                             <label>{$Dict.region}</label>
                             <select required class="select form-control" name="region_id" id="region_id">
                                 <option value="">{$Dict.choose}</option>
@@ -116,67 +122,63 @@
                                 {/foreach}
                             </select>
                         </div>
-                        <div class="col-sm-6">
-                            <label>{$Dict.territorial_short}</label>
-                            <select id="structure_id" class="form-select">
+                      <div class="col-sm-4">
+                            <label>Hududiy bo'linmalar</label>
+                            <select required class="select form-control" name="structure_id" id="structure_id">
                                 <option value="">{$Dict.choose}</option>
-                                {foreach from=$Structures item=obj}
-                                    <option value="{$obj.id}">{$obj.name}</option>
-                                {/foreach}
                             </select>
                         </div>
-                         <div class="col-6">
-                            <label>{$Dict.role}</label>
-                            <select required class="select form-control" name="role" id="role">
+                        <div class="col-sm-4">
+                            <label>{$Dict.masul}</label>
+                            <select required class="select form-control" name="responsible_id" id="responsible_id">
                                 <option value="">{$Dict.choose}</option>
                                 {foreach from=$Roles item=Item6 key=ikey6}
                                     <option value="{$Item6.id}">{$Item6.name}</option>
                                 {/foreach}
                             </select>
+                         </div>
+                         <div class="col-sm-4">
+                            <label for="event_date" class="form-label">Бошланиш вақти</label>
+                            <input type="datetime" class="form-control" placeholder="DD-MM-YYYY" id="event_date"
+                                name="event_date" />
+                         </div>
+                        <div class="col-sm-4">
+                            <label>Protokol raqami</label>
+                            <input required type="number" class="form-control" name="protocol_number" id="protocol_number" value="">
+                        </div>
+                        <div class="col-sm-4">
+                            <label>Jinoyat turi</label>
+                            <select required class="select form-control" name="crime_type" id="crime_type">
+                                <option value="">{$Dict.choose}</option>
+                                    <option value="o'g'rilik">O'g'rilik</option>
+                                    <option value="janjal">janjal</option>
+                            </select>
                         </div> 
-                        <div class="col-6">
-                            <label>{$Dict.position}</label>
-                            <select required class="select form-control" name="position_id" id="position_id">
+                         <div class="col-sm-4">
+                            <label>Moddasi</label>
+                            <select required class="select form-control" name="substance" id="substance">
                                 <option value="">{$Dict.choose}</option>
-                                {foreach from=$HrPositions item=Item6 key=ikey6}
-                                    <option value="{$Item6.id}">{$Item6.name}</option>
-                                {/foreach}
+                                    <option value="144-modda">144-modda</option>
+                                    <option value="256-modda">256-modda</option>
                             </select>
+                        </div> 
+                        <div class="col-sm-4">
+                            <label>Jinoyatchi JSHSHIR</label>
+                            <input required type="number" class="form-control" name="personal_identification_num" id="personal_identification_num" value="">
                         </div>
-                        <div class="col-6">
-                            <label>{$Dict.rank}</label>
-                            <select required class="select form-control" name="rank_id" id="rank_id">
-                                <option value="">{$Dict.choose}</option>
-                                {foreach from=$RefRanks item=Item6 key=ikey6}
-                                    <option value="{$Item6.id}">{$Item6.name}</option>
-                                {/foreach}
-                            </select>
+                         <div class="col-sm-4">
+                            <label>Jinoyatchi FISH</label>
+                            <input required type="text" class="form-control" name="criminal_username" id="criminal_username" value="">
                         </div>
-                        <div class="col-6">
-                            <label>{$Dict.lastname}</label>
-                            <input required type="text" class="form-control" name="lastname" id="lastname" value="">
-                        </div>
-                        <div class="col-6">
-                            <label>{$Dict.firstname}</label>
-                            <input required type="text" class="form-control" name="firstname" id="firstname" value="">
-                        </div>
-                        <div class="col-6">
-                            <label>{$Dict.surname}</label>
-                            <input type="text" class="form-control" name="surname" id="surname" value="">
-                        </div>
-                        <div class="col-6">
-                            <label>{$Dict.phone}</label>
+                          <div class="col-sm-6">
+                            <label>Telefon raqami</label>
                             <input required type="text" class="form-control" name="phone" id="phone" value="">
                         </div>
-                         <div class="col-6">
-                            <label>{$Dict.username}</label>
-                            <input type="text" class="form-control" name="username" id="username" value="">
+                         <div class="col-sm-6">
+                            <label>{$Dict.case_summary}</label>
+                            <textarea required class="form-control" rows=3 name="situation_text" id="situation_text"></textarea>
                         </div>
-                        <div class="col-6">
-                            <label>{$Dict.password}</label>
-                            <input type="text" class="form-control" name="password" id="password" value="">
-                        </div> 
-                        <div class="col-12">
+                        <div class="col-sm-12">
                             <label class="form-label">{$Dict.choose_file}</label>
                             <div action="/upload" class="dropzone needsclick" id="staff-photo">
                                 <div class="dz-message needsclick">
@@ -187,6 +189,8 @@
                                 </div>
                             </div>
                         </div>
+                       
+                      
                         <div class="col-12 text-center">
                             <input type="hidden" name="id" id="id" value="">
                             <input type="hidden" name="photo" id="photo" value="">
@@ -194,8 +198,9 @@
                                 aria-label="Close">
                                 {$Dict.cancel}
                             </button>
-                            <button type="submit" id="submit" class="btn btn-primary me-sm-3 me-1">{$Dict.save}</button>
+                            <button type="button" id="submit" class="btn btn-primary me-sm-3 me-1">{$Dict.save}</button>
                         </div>
+
                     </div>
                 </form>
             </div>
@@ -212,6 +217,8 @@
 <script src="/assets/assets/vendor/libs/@form-validation/umd/bundle/popular.min.js"></script>
 <script src="/assets/assets/vendor/libs/@form-validation/umd/plugin-bootstrap5/index.min.js"></script>
 <script src="/assets/assets/vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js"></script>
+<script src="/assets/assets/vendor/libs/flatpickr/flatpickr.js"></script>
+
 
 <script>
     var dict_infraction = "{$Dict.infraction}"
@@ -230,6 +237,35 @@
     var dict_choose = "{$Dict.choose}";
     {literal}
 
+     const flatpickrDate = document.querySelector('#event_date');
+        if (flatpickrDate) {
+            flatpickrDate.flatpickr({
+            enableTime: true,
+            dateFormat: "d-m-Y H:i",
+            time_24hr: true,
+            monthSelectorType: 'static'
+            });
+        }
+
+        let event_date;
+        $('#event_date').on('change', function() {
+            let [datePart, timePart] = this.value.split(' ');
+            let [day, month, year] = datePart.split('-');
+
+            event_date = `${year}-${month}-${day} ${timePart}`;
+        })
+
+        $('#region_id').change(function(event) {
+            $.get("ajax.php?act=get_divisions&structure_id=" + this.value, function(html) {
+                var sInfo = jQuery.parseJSON(html);
+                $('#structure_id').empty();
+                $('#structure_id').append(`<option value="">Tanlang</option>`);
+                sInfo.forEach((item, index) => {
+                    $('#structure_id').append(`<option value="${item.id}">${item.name}</option>`);
+                });
+            });
+        });
+
         var dt_basic_table = $('.datatables-projects'),
             dt_basic;
 
@@ -241,18 +277,6 @@
             });
         }
 
-        // Filtering
-        $('#region_id').change(function(event) {
-            $.get("ajax.php?act=get_divisions&structure_id=" + this.value, function(html) {
-                var sInfo = jQuery.parseJSON(html);
-
-                $('#structure_id').empty();
-                $('#structure_id').append(`<option value="">${dict_choose}</option>`);
-                sInfo.forEach((item, index) => {
-                    $('#structure_id').append(`<option value="${item.id}">${item.name}</option>`);
-                });
-            });
-        });
 
         $('#new').click(function() {
             $('#submitModal').modal('toggle');
@@ -260,18 +284,18 @@
             $('#region_id').trigger("change");
             $('#structure_id').val(0);
             $('#structure_id').trigger("change");
-            $('#role').val(0);
-            $('#role').trigger("change");
-            $('#position_id').val(0);
-            $('#position_id').trigger("change");
-            $('#rank_id').val(0);
-            $('#rank_id').trigger("change");
-            $('#lastname').val("");
-            $('#firstname').val("");
-            $('#surname').val("");
+             $('#responsible_id').val(0);
+            $('#responsible_id').trigger("change");
+              $('#substance').val(0);
+            $('#substance').trigger("change");
+              $('#crime_type').val(0);
+            $('#crime_type').trigger("change");
+            $('#event_date').val("");
+            $('#personal_identification_num').val("");
+            $('#situation_text').val("");
+            $('#criminal_username').val("");
+            $('#protocol_number').val("");
             $('#phone').val("");
-            $('#username').val("");
-            $('#password').val("");
         });
 
         $('.datatables-projects tbody').on('click', '.editAction', function() {
@@ -284,16 +308,16 @@
                 $('#id').val(sInfo.id);
                 $('#region_id').val(sInfo.structure_id);
                 $('#structure_id').val(sInfo.structure_id);
-                $('#role').val(sInfo.role_id);
-                $('#position_id').val(sInfo.position_id);
-                $('#rank_id').val(sInfo.rank_id);
-                $('#lastname').val(sInfo.lastname);
-                $('#firstname').val(sInfo.firstname);
-                $('#surname').val(sInfo.surname);
+                $('#responsible_id').val(sInfo.responsible_id);
+                $('#substance').val(sInfo.substance);
+                $('#crime_type').val(sInfo.crime_type);
+                $('#event_date').val(sInfo.event_date);
+                $('#personal_identification_num').val(sInfo.personal_identification_num);
+                $('#situation_text').val(sInfo.situation_text);
+                $('#criminal_username').val(sInfo.criminal_username);
+                $('#protocol_number').val(sInfo.protocol_number);
                 $('#phone').val(sInfo.phone);
-                $('#username').val(sInfo.username);
                 $('#photo').val(sInfo.photo);
-                $('#password').val(sInfo.password);
             });
         })
 
@@ -330,11 +354,8 @@
         // Form validation and submit
         const bsValidationForms = $('.needs-validation');
         Array.prototype.slice.call(bsValidationForms).forEach(function(form) {
-            form.addEventListener('submit', function(event) {
-                if (!form.checkValidity()) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                } else {
+            $('#submit').click(function(event) {
+                 console.log('clicked')
                     event.preventDefault();
                     event.stopPropagation();
 
@@ -346,16 +367,15 @@
                     } else {
                         form_data.append('structure_id', $('#structure_id').val() || $('#region_id').val());
                     }
-
-                    form_data.append('role', $('#role').val());
-                    form_data.append('position_id', $('#position_id').val());
-                    form_data.append('rank_id', $('#rank_id').val());
-                    form_data.append('lastname', $('#lastname').val());
-                    form_data.append('firstname', $('#firstname').val());
-                    form_data.append('surname', $('#surname').val());
+                    form_data.append('responsible_id', $('#responsible_id').val());
+                    form_data.append('substance', $('#substance').val());
+                    form_data.append('crime_type', $('#crime_type').val());
+                    form_data.append('event_date', $('#event_date').val());
+                    form_data.append('personal_identification_num', $('#personal_identification_num').val());
+                    form_data.append('situation_text', $('#situation_text').val());
+                    form_data.append('criminal_username', $('#criminal_username').val());
+                    form_data.append('protocol_number', $('#protocol_number').val());
                     form_data.append('phone', $('#phone').val());
-                    form_data.append('username', $('#username').val());
-                    form_data.append('password', $('#password').val());
 
                     if (myDropzone.files.length > 0) {
                         myDropzone.files.forEach(function(file, index) {
@@ -383,7 +403,7 @@
                             }
                         }
                     });
-                }
+          
 
                 form.classList.add('was-validated');
             });
