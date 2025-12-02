@@ -237,7 +237,7 @@
     var dict_choose = "{$Dict.choose}";
     {literal}
 
-         const flatpickrDate = document.querySelector('#event_date');
+     const flatpickrDate = document.querySelector('#event_date');
         if (flatpickrDate) {
             flatpickrDate.flatpickr({
             enableTime: true,

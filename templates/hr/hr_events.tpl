@@ -225,7 +225,7 @@
 
                          <div class="col-sm-4">
                             <label>Mas'ul telefon raqami</label>
-                            <input required type="text" class="form-control" name="responsible_phone" id="responsible_phone"  value="">
+                            <input required type="text" class="form-control" name="responsible_phone" id="responsible_phone" placeholder="90 345 76 87"  value="">
                         </div>
 
                         <div class="col-sm-4">
@@ -312,6 +312,7 @@
 <script src="/assets/assets/vendor/libs/@form-validation/umd/bundle/popular.min.js"></script>
 <script src="/assets/assets/vendor/libs/@form-validation/umd/plugin-bootstrap5/index.min.js"></script>
 <script src="/assets/assets/vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js"></script>
+<script src="https://unpkg.com/imask"></script>
 
 <script>
     var dict_infraction = "{$Dict.infraction}"
@@ -358,6 +359,12 @@
             monthSelectorType: 'static'
             });
         }
+
+        var phoneMask = IMask(
+            document.getElementById('responsible_phone'), {
+                mask: '+998 00 000-00-00'
+         });
+
 
         let finish_event_date;
         $('#finish_event_date').on('change', function() {
