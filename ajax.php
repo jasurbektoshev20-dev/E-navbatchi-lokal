@@ -893,18 +893,18 @@ switch ($Action) {
 		$object_type = isset($_GET['object_type']) ? $_GET['object_type'] : 0;
 		$object_id = isset($_GET['object_id']) ? $_GET['object_id'] : 0;
 
-		$query  = "SELECT t.id, t.name{$slang}, o.object_type,o.object_name, o.lat, o.long
+		$query  = "SELECT t.id, t.event_name as name, o.object_type,o.object_name, o.lat, o.long
 		FROM hr.public_event1 t 
-		LEFT JOIN hr.jts_objects o on o.id = t.jts_object_id
+		LEFT JOIN hr.jts_objects o on o.id = t.object_id
 		WHERE 1=1 ";
 		if ($structure_id > 0) {
-			$query .= " AND t.structure_id = {$structure_id} ";
+			$query .= " AND t.region_id = {$structure_id} ";
 		}
 		if ($object_type > 0) {
-			$query .= " AND t.object_type = {$object_type} ";
+			$query .= " AND o.object_type = {$object_type} ";
 		}
 		if ($object_id > 0) {
-			$query .= " AND t.id = {$object_id} ";
+			$query .= " AND o.id = {$object_id} ";
 		}
 		$sql->query($query);
 		$JtsObjects = $sql->fetchAll();
@@ -916,20 +916,40 @@ switch ($Action) {
 		$id = isset($_GET['id']) ? $_GET['id'] : 0;
 		$car_ids = [];
 
-		$query  = "SELECT t.id, p.id as event_id, s.name{$slang} as structure, t.object_name, o.name{$slang} as object_type, CONCAT(c.name{$slang}, ' ',c.phone) as cooperate,
-		t.address, t.area, t.admin_phone, t.object_head, t.head_phone, t.police_name, t.police_phone,t.markets_count,t.eating_place_count,t.neighborhood_head,t.assistant_governor,t.youth_leader,t.womens_activist
-		,tax_inspector,t.social_employe,t.sales_places_count,t.neighborhood_head_phone,t.assistant_governor_phone,t.youth_leader_phone,t.womens_activist_phone,tax_inspector_phone,t.social_employe_phone,
+		// $query  = "SELECT t.id, p.id as event_id, s.name{$slang} as structure, t.object_name, o.name{$slang} as object_type, CONCAT(c.name{$slang}, ' ',c.phone) as cooperate,
+		// t.address, t.area, t.admin_phone, t.object_head, t.head_phone, t.police_name, t.police_phone,t.markets_count,t.eating_place_count,t.neighborhood_head,t.assistant_governor,t.youth_leader,t.womens_activist
+		// ,tax_inspector,t.social_employe,t.sales_places_count,t.neighborhood_head_phone,t.assistant_governor_phone,t.youth_leader_phone,t.womens_activist_phone,tax_inspector_phone,t.social_employe_phone,
+		// COALESCE(COUNT(jd.id), 0) AS count_doors,
+		// t.start_work,t.sigimi,t.bloks_count,t.sektors_count,t.lamps_count,
+		// t.photo, t.lat, t.long, ST_AsGeoJSON(geom) AS geom_geojson
+		// FROM hr.public_event1 p
+		// left join hr.jts_objects t on t.id  = p.jts_object_id
+		// left join hr.structure s on s.id  = t.structure_id
+		// left join hr.jts_objects_door jd on jd.object_id = t.id
+		// left join hr.involved_objects o on o.id = t.object_type
+		// left join hr.cooperate c on c.id = t.cooperate_id
+		// WHERE p.id = {$id}
+		// GROUP BY t.id, p.id, s.name{$slang}, o.name{$slang}, c.name{$slang}, c.phone ";
+		// $sql->query($query);
+		// $JtsObject = $sql->fetchAssoc();
+
+		$query  = "SELECT t.id, s.name{$slang} as structure, t.object_name, o.name{$slang} as object_type,
+		t.address, t.area, t.admin_phone, t.object_head, t.head_phone, n.head_iiv, n.head_iiv_phone,t.markets_count,t.eating_place_count,n.head,n.assistant_governor,n.youth_leader,n.womens_activist
+		,n.tax_inspector,n.social_employe,t.sales_places_count,n.head_phone,n.assistant_governor_phone,n.youth_leader_phone,n.womens_activist_phone,n.tax_inspector_phone,n.social_employe_phone,
 		COALESCE(COUNT(jd.id), 0) AS count_doors,
-		t.start_work,t.sigimi,t.bloks_count,t.sektors_count,t.lamps_count,
 		t.photo, t.lat, t.long, ST_AsGeoJSON(geom) AS geom_geojson
-		FROM hr.public_event1 p
-		left join hr.jts_objects t on t.id  = p.jts_object_id
+		FROM hr.public_event1 t 
 		left join hr.structure s on s.id  = t.structure_id
 		left join hr.jts_objects_door jd on jd.object_id = t.id
 		left join hr.involved_objects o on o.id = t.object_type
-		left join hr.cooperate c on c.id = t.cooperate_id
-		WHERE p.id = {$id}
-		GROUP BY t.id, p.id, s.name{$slang}, o.name{$slang}, c.name{$slang}, c.phone ";
+		left join hr.neighborhoods n on n.id = t.neighborhood_id
+		WHERE t.id = {$id}
+		GROUP BY 
+		t.id, s.name{$slang}, t.object_name, o.name{$slang},
+		t.address, t.area, t.admin_phone, t.object_head, t.head_phone, n.head_iiv, n.head_iiv_phone,t.markets_count,t.eating_place_count,n.head,n.assistant_governor,n.youth_leader,n.womens_activist
+		,n.tax_inspector,n.social_employe,t.sales_places_count,n.head_phone,n.assistant_governor_phone,n.youth_leader_phone,n.womens_activist_phone,n.tax_inspector_phone,n.social_employe_phone,
+		t.photo, t.lat, t.long, ST_AsGeoJSON(geom)
+		";
 		$sql->query($query);
 		$JtsObject = $sql->fetchAssoc();
 

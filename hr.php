@@ -1010,7 +1010,7 @@ switch ($Act) {
 
 		/// event_map
 	case "hr_public_event_map":
-		$query  = "SELECT t.id, t.name{$slang} as name
+		$query  = "SELECT t.id, t.event_name as name
 		FROM hr.public_event1 t 
 		ORDER BY t.id desc";
 		$sql->query($query);
