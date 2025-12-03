@@ -1334,7 +1334,7 @@
                               <select id="searchCars" class="select2 form-select">
                                   <option value="0">{$Dict.search}</option>
                               </select>
-                            <div style="max-height:60vh; overflow-y:auto;">
+                            <div style="max-height:35vh; overflow-y:auto;">
                               <table class="table border-top mb-0" style="color: #dddddd;">
                                   <tbody id="carList"></tbody>
                               </table>
@@ -4123,6 +4123,7 @@ map.on('load', () => {
         //     else return `${days} kun`;
         // }
         function getInterTime(timeStr) {
+             console.log('times', timeStr)
             // 1) guard: null/undefined
             if (!timeStr) return "Noto‘g‘ri sana: bo'sh qiymat";
 

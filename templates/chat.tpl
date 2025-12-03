@@ -345,97 +345,142 @@ $(document).ready(function () {
     }
 
 });
-        const socket = io('http://127.0.0.1:5000');
-        socket.on('get_message', (data) => {
-            const messageAlignmentClass = UserStructure == data[0].sender_id ? "chat-message-right" :
-                "chat-message-left";
-            const alignmentClassForPic = UserStructure == data[0].sender_id ? "" : "flex-row-reverse";
-            const ms = UserStructure == data[0].sender_id ? "" : "ms-3";
-            const userName = UserStructure == data[0].sender_id ? "" : data[0].sender;
-            const displayNone = UserStructure == data[0].sender_id ? "" : "d-none";
-            const getPicSrc = data[0].sender_pic ? `/pictures/staffs/${data[0].sender_pic}` : "/assets/images/nophoto2.png";
-
-            let chatHistoryBox = $(".chat-history");
-            chatHistoryBox.append(`
-                            <li class="chat-message ${messageAlignmentClass}">
-                                <div class="d-flex overflow-hidden ${alignmentClassForPic}">
-                                    <div class="chat-message-wrapper flex-grow-1 ${ms}">
-                                    <div class="chat-message-text">
-                                    <h6 class="mb-0 text-info">${userName}</h6>
-                                    <p class="mb-0">${data[0].text}</p>
-                                </div>
-                                <div class="text-end text-muted mt-1">
-                                    <i class="ti ti-checks ti-xs me-1 text-success ${displayNone}"></i>
-                                    <small>${data[0].time}</small>
-                                </div>
-                            </div>
-                            <div class="user-avatar flex-shrink-0 ${ms}">
-                                                        <div class="avatar avatar-sm">
-                            ${data[0].sender_pic ?
-                            `<img src="/pictures/staffs/${data[0].sender_pic}" alt="Avatar" class="rounded-circle" />`: 
-                            `<div class="bg-primary text-white rounded-circle text-center py-1">${data[0].shortname}</div>`}
-                            </div>
-                        </div>
-                    </div>
-                </li>`);
-            scrollToBottom();
-            toastr.options = {
-                maxOpened: 1,
-                autoDismiss: true,
-                closeButton: true,
-                newestOnTop: true,
-                progressBar: true,
-                timeOut: 1000 * 10,
-                extendedTimeOut: 1000 * 60,
-                positionClass: 'toast-top-right',
-                // preventDuplicates: true,
-                onclick: null,
-            };
-            if (UserStructure != data[0].sender_id) {
-                var audio = new Audio('assets/assets/audio/Discovery.mp3');
-                audio.play();
-                toastr['warning']('', `<div class="d-flex gap-2">
-                        <div class="mt-3"> 
-                            ${data[0].sender_pic ? `<img src="/pictures/staffs/${data[0].sender_pic}" alt="Avatar" class="rounded-circle avatar avatar-sm" />`: 
-                            `<div class="bg-primary text-white rounded-circle avatar-sm text-center pt-1 avatar">${data[0].shortname}</div>`}
-                        </div>
-                        <div class="mt-3">
-                            <h6 class="mb-0 text-info">${userName}</h6>
-                            <p style="padding-right: 30px;" class="mb-0 text-muted font-weight-light">${data[0].text}</p>
-                        </div>
-                    </div`);
-            }
-        });
 
         // Send Message
-        function sendMsg(e) {
-            let msg = messageInput.val();
-            if (msg) {
-                const currentTimestamp = new Date();
-                $.ajax({
-                    type: "POST",
-                    url: `hrajax.php?act=act_chat`,
-                    dataType: "json",
-                    encode: true,
-                    contentType: "application/json",
-                    data: JSON.stringify({
-                        sender_id: UserStructure,
-                        staff_id: StaffID,
-                        time: currentTimestamp.toISOString(),
-                        text: msg,
-                        status: 1
-                    }),
-                    success: function(data) {
-                        console.log('data', data);
-                    }
-                })
+        // function sendMsg(e) {
+        //     let msg = messageInput.val();
+        //     if (msg) {
+        //         const currentTimestamp = new Date();
+        //         $.ajax({
+        //             type: "POST",
+        //             url: `hrajax.php?act=act_chat`,
+        //             dataType: "json",
+        //             encode: true,
+        //             contentType: "application/json",
+        //             data: JSON.stringify({
+        //                 sender_id: UserStructure,
+        //                 staff_id: StaffID,
+        //                 time: currentTimestamp.toISOString(),
+        //                 text: msg,
+        //                 status: 1
+        //             }),
+        //             success: function(data) {
+        //                 console.log('data', data);
+        //             }
+        //         })
 
-                let chatHistoryBox = $(".chat-history");
-                messageInput.val('');
-                scrollToBottom();
-                $(this).trigger('click');
-            }
-        }
+        //         let chatHistoryBox = $(".chat-history");
+        //         messageInput.val('');
+        //         scrollToBottom();
+        //         $(this).trigger('click');
+        //     }
+        // }
+
+        // yordamchi: HTML escaping va vaqt formatlash
+function escapeHtml(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function formatLocalTime(iso) {
+  const d = new Date(iso);
+  if (isNaN(d)) return '';
+  const pad = n => String(n).padStart(2,'0');
+  return `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())} ${pad(d.getDate())}.${pad(d.getMonth()+1)}.${d.getFullYear()}`;
+}
+
+// temp xabar render (ozgina styling screenshotga mos)
+function renderTempOutgoing(tempId, text, isoTime, status = 'sending') {
+  const time = formatLocalTime(isoTime);
+  const statusHtml = status === 'sending' ? '<span class="msg-status sending">…</span>'
+                   : status === 'sent' ? '<span class="msg-status sent">✓✓</span>'
+                   : '<span class="msg-status failed">✖</span>';
+
+  return `
+    <div class="chat-row chat-row-outgoing" data-temp-id="${tempId}">
+      <div class="chat-bubble chat-bubble-outgoing">
+        ${escapeHtml(text)}
+        <div class="chat-meta">
+          <small class="chat-time">${time}</small>
+          ${statusHtml}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// yangilash: temp xabar statusini yangilaydi (tempId orqali)
+function setTempStatus(tempId, newStatus, realId = '') {
+  const container = document.querySelector('.chat-history-body');
+  if (!container) return;
+  const el = container.querySelector(`[data-temp-id="${tempId}"]`);
+  if (!el) return;
+  // status elementni yangilash
+  const statusEl = el.querySelector('.msg-status');
+  if (statusEl) {
+    if (newStatus === 'sent') statusEl.innerHTML = '✓✓';
+    else if (newStatus === 'failed') statusEl.innerHTML = '✖';
+    else if (newStatus === 'sending') statusEl.innerHTML = '…';
+  }
+  if (newStatus === 'sent') {
+    el.removeAttribute('data-temp-id');
+    if (realId) el.setAttribute('data-msg-id', realId);
+  } else if (newStatus === 'failed') {
+    el.classList.add('msg-failed');
+  }
+}
+
+// ASOSIY: sendMsg funksiyasi — o'rnini almashtiring
+function sendMsg(e) {
+  const msg = messageInput.val().trim();
+  if (!msg) return;
+
+  const now = new Date();
+  const tempId = 'tmp-' + Date.now();
+
+  // 1) UI ga darhol qo'shish
+  const chatBody = document.querySelector('.chat-history-body');
+  if (chatBody) {
+    chatBody.insertAdjacentHTML('beforeend', renderTempOutgoing(tempId, msg, now.toISOString(), 'sending'));
+
+    // agar PerfectScrollbar ishlatilgan bo'lsa, update qilish sinov uchun:
+    try {
+      if (chatBody._ps && typeof chatBody._ps.update === 'function') chatBody._ps.update();
+    } catch (err) { /* ignore */ }
+
+    // pastga surish
+    scrollToBottom();
+  }
+
+  // 2) inputni tozalash
+  messageInput.val('');
+
+  // 3) AJAX yuborish
+  $.ajax({
+    type: "POST",
+    url: `hrajax.php?act=act_chat`,
+    dataType: "json",
+    contentType: "application/json",
+    data: JSON.stringify({
+      sender_id: UserStructure,
+      staff_id: StaffID,
+      time: now.toISOString(),
+      text: msg,
+      status: 1
+    }),
+    success: function(response) {
+      // server muvaffaqiyatli qaytsa statusni yangilaymiz
+      // faraz: response.ok === true va response.id mavjud bo'ladi
+      if (response && (response.ok || response.success)) {
+        setTempStatus(tempId, 'sent', response.id || '');
+      } else {
+        setTempStatus(tempId, 'failed');
+      }
+    },
+    error: function() {
+      setTempStatus(tempId, 'failed');
+    }
+  });
+}
+
 
         $(document).on("keypress", '.message-input', async function(event) {
             if (event.key === "Enter") {
