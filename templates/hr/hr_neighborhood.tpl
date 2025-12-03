@@ -143,7 +143,7 @@
 
                         <div class="col-sm-4">
                             <label>Telefoni</label>
-                            <input required type="text" class="form-control" name="neighborhood_head_phone" id="neighborhood_head_phone" value="">
+                            <input required type="text" class="form-control phone-mask" name="neighborhood_head_phone" id="neighborhood_head_phone" value="">
                         </div>
 
                          <div class="col-sm-4">
@@ -153,7 +153,7 @@
 
                         <div class="col-sm-4">
                             <label>Telefoni</label>
-                            <input required type="text" class="form-control" name="assistant_governor_phone" id="assistant_governor_phone" value="">
+                            <input required type="text" class="form-control phone-mask" name="assistant_governor_phone" id="assistant_governor_phone" value="">
                         </div>
 
                          <div class="col-sm-4">
@@ -163,7 +163,7 @@
 
                         <div class="col-sm-4">
                             <label>Telefoni</label>
-                            <input required type="text" class="form-control" name="youth_leader_phone" id="youth_leader_phone" value="">
+                            <input required type="text" class="form-control phone-mask" name="youth_leader_phone" id="youth_leader_phone" value="">
                         </div>
 
                          <div class="col-sm-4">
@@ -173,7 +173,7 @@
 
                         <div class="col-sm-4">
                             <label>Telefoni</label>
-                            <input required type="text" class="form-control" name="womens_activist_phone" id="womens_activist_phone" value="">
+                            <input required type="text" class="form-control phone-mask" name="womens_activist_phone" id="womens_activist_phone" value="">
                         </div>
 
                          <div class="col-sm-4">
@@ -183,7 +183,7 @@
 
                         <div class="col-sm-4">
                             <label>Telefoni</label>
-                            <input required type="text" class="form-control" name="tax_inspector_phone" id="tax_inspector_phone" value="">
+                            <input required type="text" class="form-control phone-mask" name="tax_inspector_phone" id="tax_inspector_phone" value="">
                         </div>
 
                         <div class="col-sm-4">
@@ -193,7 +193,7 @@
 
                         <div class="col-sm-4">
                             <label>Telefoni</label>
-                            <input required type="text" class="form-control" name="social_employe_phone" id="social_employe_phone" value="">
+                            <input required type="text" class="form-control phone-mask" name="social_employe_phone" id="social_employe_phone" value="">
                         </div>
 
                         <div class="col-sm-4">
@@ -203,7 +203,7 @@
 
                         <div class="col-sm-4">
                             <label>Telefoni</label>
-                            <input type="text" class="form-control" name="head_iiv_phone" id="head_iiv_phone" value="">
+                            <input type="text" class="form-control phone-mask" name="head_iiv_phone" id="head_iiv_phone" value="">
                         </div>
 
                           <div class="col-sm-4">
@@ -213,7 +213,7 @@
 
                         <div class="col-sm-4">
                             <label>Telefoni</label>
-                            <input type="text" class="form-control" name="head_fvv_phone" id="head_fvv_phone" value="">
+                            <input type="text" class="form-control phone-mask" name="head_fvv_phone" id="head_fvv_phone" value="">
                         </div>
 
                         <div class="col-12 text-center mt-3">
@@ -240,12 +240,23 @@
 <script src="/assets/assets/vendor/libs/@form-validation/umd/bundle/popular.min.js"></script>
 <script src="/assets/assets/vendor/libs/@form-validation/umd/plugin-bootstrap5/index.min.js"></script>
 <script src="/assets/assets/vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js"></script>
+<script src="https://unpkg.com/imask"></script>
 
 <script>
    	{literal}
 
 	
             $(document).ready(function() {
+
+            document.querySelectorAll('.phone-mask').forEach(input => {
+                const mask = IMask(input, {
+                    mask: '+998 00 000-00-00'
+                });
+
+                // default holatda +998 turishi uchun
+                mask.value = '+998 ';
+            });
+
 
             $('#new').click(function() {
                 $('#id').val('');
@@ -303,25 +314,25 @@
 				$.get('hrajax.php?act=get_neighborhood&rowid=' + RowId, function(html) {
 					const sInfo = jQuery.parseJSON(html);
 					$('#id').val(sInfo.id);
-                    $('structure_id').val(sInfo.structure_id).trigger('change');
-                    $('district').val(sInfo.district);
-                    $('neighborhood_name').val(sInfo).neighborhood_name;
-                    $('neighborhood_head').val(sInfo.neighborhood_head);
-                    $('neighborhood_head_phone').val(sInfo.neighborhood_head_phone);
-                    $('assistant_governor').val(sInfo.assistant_governor);
-                    $('assistant_governor_phone').val(sInfo.assistant_governor_phone);
-                    $('youth_leader').val(sInfo.youth_leader);
-                    $('youth_leader_phone').val(sInfo.youth_leader_phone);
-                    $('womens_activist').val(sInfo.womens_activist);
-                    $('womens_activist_phone').val(sInfo.womens_activist_phone);
-                    $('tax_inspector').val(sInfo.tax_inspector);
-                    $('tax_inspector_phone').val(sInfo.tax_inspector_phone);
-                    $('social_employe').val(sInfo.social_employe);
-                    $('social_employe_phone').val(sInfo.social_employe_phone);
-                    $('head_iiv').val(sInfo.head_iiv);
-                    $('head_iiv_phone').val(sInfo.head_iiv_phone);
-                    $('head_fvv').val(sInfo.head_fvv);
-                    $('head_fvv_phone').val(sInfo.head_fvv_phone);
+                    $('#structure_id').val(sInfo.structure_id).trigger('change');
+                    $('#district').val(sInfo.district);
+                    $('#neighborhood_name').val(sInfo.name);
+                    $('#neighborhood_head').val(sInfo.head);
+                    $('#neighborhood_head_phone').val(sInfo.head_phone);
+                    $('#assistant_governor').val(sInfo.assistant_governor);
+                    $('#assistant_governor_phone').val(sInfo.assistant_governor_phone);
+                    $('#youth_leader').val(sInfo.youth_leader);
+                    $('#youth_leader_phone').val(sInfo.youth_leader_phone);
+                    $('#womens_activist').val(sInfo.womens_activist);
+                    $('#womens_activist_phone').val(sInfo.womens_activist_phone);
+                    $('#tax_inspector').val(sInfo.tax_inspector);
+                    $('#tax_inspector_phone').val(sInfo.tax_inspector_phone);
+                    $('#social_employe').val(sInfo.social_employe);
+                    $('#social_employe_phone').val(sInfo.social_employe_phone);
+                    $('#head_iiv').val(sInfo.head_iiv);
+                    $('#head_iiv_phone').val(sInfo.head_iiv_phone);
+                    $('#head_fvv').val(sInfo.head_fvv);
+                    $('#head_fvv_phone').val(sInfo.head_fvv_phone);
 				});
 			});
 

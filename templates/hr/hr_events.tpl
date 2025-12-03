@@ -353,7 +353,7 @@
         const flatpickrDate2 = document.querySelector('#finish_event_date');
         if (flatpickrDate2) {
             flatpickrDate2.flatpickr({
-                enableTime: true,
+            enableTime: true,
             dateFormat: "d-m-Y H:i",
             time_24hr: true,
             monthSelectorType: 'static'
