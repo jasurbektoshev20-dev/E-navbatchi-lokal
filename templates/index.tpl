@@ -841,7 +841,7 @@
 
   // --- AJAX / fetch ---
   function getDepartmentalEvents() {
-    let url = `${AJAXPHP}?act=public_events`;
+    let url = `${AJAXPHP}?act=reyd_events`;
     const params = [];
     if (structure_id !== null && !Number.isNaN(structure_id)) params.push(`structure_id=${encodeURIComponent(structure_id)}`);
     if (params.length) url += '&' + params.join('&');
@@ -922,11 +922,11 @@
     myChart.setOption(option);
 
     // safe click handlers
-    try { myChart.off && myChart.off('click'); } catch(e){}
-    myChart.on('click', function(params) {
-      // original code redirected to public_event_map
-      window.location.href = `hr.php?act=public_event_map`;
-    });
+    // try { myChart.off && myChart.off('click'); } catch(e){}
+    // myChart.on('click', function(params) {
+    //   // original code redirected to public_event_map
+    //   window.location.href = `hr.php?act=public_event_map`;
+    // });
 
     // add resize handler and track it
     const resizeFn = () => { try { myChart.resize(); } catch(e){} };

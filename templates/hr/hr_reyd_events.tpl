@@ -152,12 +152,9 @@
                             <label>Асосий</label>
                             <select required class="select form-control" name="type" id="type">
                                 <option value="">{$Dict.choose}</option>
-                                <option value="Poligon">Poligon</option>
-                                <option value="Maxsus vazifalar">Maxsus vazifalar</option>
-                                <option value="Maxsus taktik o'quvlar">Maxsus taktik o'quvlar</option>
-                                <option value="Amaliy mashg'ulotlar">Amaliy mashg'ulotlar</option>
-                                <option value="Texnika harakati">Texnika harakati</option>
-                                <option value="Shaxsiy tarkib harakati">Shaxsiy tarkib harakati</option>
+                                {foreach from=$types item=Item1 key=ikey1}
+                                    <option value="{$Item1.id}">{$Item1.name1}</option>
+                                {/foreach}
                             </select>
                         </div>
                         <div class="col-sm-6">

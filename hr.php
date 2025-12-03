@@ -467,6 +467,10 @@ switch ($Act) {
 		$staffs = $sql->fetchAll();
 
 
+		$query = "SELECT id, name{$slang} FROM ref.reyd_event_types";
+		$sql->query($query);
+		$types = $sql->fetchAll();
+
 
 		$query = "SELECT id, name{$slang} as name FROM hr.structure";
 		if ($UserStructure > 1) {
@@ -491,7 +495,7 @@ switch ($Act) {
 		$Events = $sql->fetchAll();
 
 		// echo '<pre>';
-		// print_r($Events);
+		// print_r($types);
 		// echo '</pre>';
 		// die();
 
@@ -499,7 +503,8 @@ switch ($Act) {
 			'Regions'        =>    $Regions,
 			// 'Distcity'       =>    $Distcity,
 			'Events'       =>    $Events,
-			'staffs' => $staffs
+			'staffs' => $staffs,
+			'types' => $types
 		));
 		break;
 
