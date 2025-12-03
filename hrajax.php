@@ -1565,7 +1565,7 @@ case "get_event_duty":
                 object_head = '{$object_head}',
                 head_phone = '{$head_phone}',
                 lat = '{$lat}',
-                long = '{$lon}',
+                long = '{$long}',
                 markets_count = '{$markets_count}',
                 eating_place_count = '{$eating_place_count}',
                 sales_places_count = '{$sales_places_count}',
