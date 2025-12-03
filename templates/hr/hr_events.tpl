@@ -42,7 +42,7 @@
                             <tr>
                                 <th>t/r</th>
                                 <th class="text-center">Ҳудуд</th>
-                                <th class="text-center">Манзил</th>
+                                <th class="text-center">Joyi</th>
                                 <th class="text-center">Тури</th>
                                 <th class="text-center">Номи</th>
                                 <th class="text-center">Йўналиши</th>
@@ -334,7 +334,7 @@
         if (flatpickrDate) {
             flatpickrDate.flatpickr({
                 enableTime: true,
-            dateFormat: "d-m-Y H:i",
+            dateFormat: "Y-m-d H:i",
             time_24hr: true,
             monthSelectorType: 'static'
             });
@@ -354,7 +354,7 @@
         if (flatpickrDate2) {
             flatpickrDate2.flatpickr({
             enableTime: true,
-            dateFormat: "d-m-Y H:i",
+            dateFormat: "Y-m-d H:i",
             time_24hr: true,
             monthSelectorType: 'static'
             });
