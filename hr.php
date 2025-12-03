@@ -314,14 +314,14 @@ switch ($Act) {
 
 
 
-		$query = "SELECT m.id, t.name{$slang} as event_type , m.name{$slang} as event_name, m.citizens_count,m.direction_event, m.iiv_count, 
-		m.fvv_count, p.lastname,p.firstname,mg_count,m.command,m.start_time,m.end_time,m.iiv_spring_count,
+		$query = "SELECT m.id, t.name{$slang} as event_type ,m.event_direction, m.iiv_count, 
+		m.fvv_count,mg_count,m.event_view,m.start_event,m.finish_event,m.reserve_count,m.event_name,m.responsible_spring_name,m.event_responsible_organization,
+		m.organizer,m.responsible_name,m.responsible_phone,m.responsible_iiv_name,m.reserve_name,m.responsible_msgr_name,responsible_fvv_name,m.people_count,m.mg_count,m.iiv_count,m.spring_count,
 		j.object_name as obj_name,m.organizer,s.name{$slang} as region_name 
 		FROM hr.public_event1 m
-		left join tur.public_event_types t on t.id = m.public_event_type
-		left join hr.structure s on s.id = m.structure_id
-		left join hr.staff p on p.id = m.respons_person_id
-		left join hr.jts_objects j on j.id = m.jts_object_id
+		left join tur.public_event_types t on t.id = m.event_type
+		left join hr.structure s on s.id = m.region_id
+		left join hr.jts_objects j on j.id = m.object_id
 		";
 
 

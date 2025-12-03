@@ -518,9 +518,9 @@ switch ($Action) {
             event_name = '{$event_name}',
             event_direction = '{$event_direction}',
             event_view = '{$event_view}',
-            event_responsible_organization = '{$direction}',
+            event_responsible_organization = '{$event_respnsible_organization}',
             start_event           = '{$start_event}',
-            finish_event          =lllll '{$finish_event}',
+            finish_event          ='{$finish_event}',
             organizer             = '{$organizer}',
             responsible_name      = '{$responsible_name}',
             responsible_phone     = '{$responsible_phone}',
@@ -528,11 +528,11 @@ switch ($Action) {
             responsible_msgr_name = '{$responsible_msgr_name}',
             reserve_count = '{$reserve_count}',
             responsible_spring_name = '{$responsible_spring_name}',
-            responsible_fvv_name = '{$responsible_fvv_name}'
-            people_count = '{$people_count}'
-            mg_count = '{$mg_count}'
-            spring_count = '{$spring_count}'
-            reserve_name = '{$reserve_name}'
+            responsible_fvv_name = '{$responsible_fvv_name}',
+            people_count = '{$people_count}',
+            mg_count = '{$mg_count}',
+            spring_count = '{$spring_count}',
+            reserve_name = '{$reserve_name}',
             iiv_count = '{$iiv_count}'
             WHERE id = {$RowId}";
             $sql->query($updquery);

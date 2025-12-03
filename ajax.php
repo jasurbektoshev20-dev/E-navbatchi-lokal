@@ -601,18 +601,23 @@ switch ($Action) {
 		$id = isset($_GET['id']) ? $_GET['id'] : 0;
 		$car_ids = [];
 
-		$query  = "SELECT t.id, s.name{$slang} as structure, t.object_name, o.name{$slang} as object_type, CONCAT(c.name{$slang}, ' ',c.phone) as cooperate,
-		t.address, t.area, t.admin_phone, t.object_head, t.head_phone, t.police_name, t.police_phone,t.markets_count,t.eating_place_count,t.neighborhood_head,t.assistant_governor,t.youth_leader,t.womens_activist
-		,tax_inspector,t.social_employe,t.sales_places_count,t.neighborhood_head_phone,t.assistant_governor_phone,t.youth_leader_phone,t.womens_activist_phone,tax_inspector_phone,t.social_employe_phone,
+		$query  = "SELECT t.id, s.name{$slang} as structure, t.object_name, o.name{$slang} as object_type,
+		t.address, t.area, t.admin_phone, t.object_head, t.head_phone, n.head_iiv, n.head_iiv_phone,t.markets_count,t.eating_place_count,n.head,n.assistant_governor,n.youth_leader,n.womens_activist
+		,n.tax_inspector,n.social_employe,t.sales_places_count,n.head_phone,n.assistant_governor_phone,n.youth_leader_phone,n.womens_activist_phone,n.tax_inspector_phone,n.social_employe_phone,
 		COALESCE(COUNT(jd.id), 0) AS count_doors,
 		t.photo, t.lat, t.long, ST_AsGeoJSON(geom) AS geom_geojson
 		FROM hr.jts_objects t 
 		left join hr.structure s on s.id  = t.structure_id
 		left join hr.jts_objects_door jd on jd.object_id = t.id
 		left join hr.involved_objects o on o.id = t.object_type
-		left join hr.cooperate c on c.id = t.cooperate_id
+		left join hr.neighborhoods n on n.id = t.neighborhood_id
 		WHERE t.id = {$id}
-		GROUP BY t.id, s.name{$slang}, o.name{$slang}, c.name{$slang}, c.phone ";
+		GROUP BY 
+		t.id, s.name{$slang}, t.object_name, o.name{$slang},
+		t.address, t.area, t.admin_phone, t.object_head, t.head_phone, n.head_iiv, n.head_iiv_phone,t.markets_count,t.eating_place_count,n.head,n.assistant_governor,n.youth_leader,n.womens_activist
+		,n.tax_inspector,n.social_employe,t.sales_places_count,n.head_phone,n.assistant_governor_phone,n.youth_leader_phone,n.womens_activist_phone,n.tax_inspector_phone,n.social_employe_phone,
+		t.photo, t.lat, t.long, ST_AsGeoJSON(geom)
+		";
 		$sql->query($query);
 		$JtsObject = $sql->fetchAssoc();
 
@@ -623,7 +628,7 @@ switch ($Action) {
 		$query  = "SELECT t.id, t.name, t.lat, t.long
 		FROM hr.jts_objects_sos t 
 		WHERE t.object_id = {$JtsObject['id']}
-		ORDER BY t.id desc ";
+		ORDER BY t.id desc";
 		$sql->query($query);
 		$Sos = $sql->fetchAll();
 
@@ -631,7 +636,7 @@ switch ($Action) {
 		$query  = "SELECT t.id, t.name, t.lat, t.long
 		FROM hr.jts_objects_door t 
 		WHERE t.object_id = {$JtsObject['id']}
-		ORDER BY t.id desc ";
+		ORDER BY t.id desc";
 		$sql->query($query);
 		$Door = $sql->fetchAll();
 
