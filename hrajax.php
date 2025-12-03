@@ -1445,17 +1445,26 @@ case "get_event_duty":
         $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
         $structure_id = $_POST['structure_id'];
         $object_type = $_POST['object_type'];
+        $neighborhood_id = $_POST['neighborhood_id'];
         $object_name = $_POST['object_name'];
         $address = $_POST['address'];
+        $lamps_count = $_POST['lamps_count'];
+        $markets_count = $_POST['markets_count'];
+        $eating_place_count = $_POST['eating_place_count'];
+        $sales_places_count = $_POST['sales_places_count'];
+        $start_work = $_POST['start_work'];
+        $capacity = $_POST['capacity'];
+        $sektors_count = $_POST['sektors_count'];
         $area = $_POST['area'];
         $admin_phone = $_POST['admin_phone'];
         $object_head = $_POST['object_head'];
         $head_phone = $_POST['head_phone'];
-        $police_name = $_POST['police_name'];
-        $police_phone = $_POST['police_phone'];
         $lat = $_POST['lat'];
-        $lon = $_POST['long'];
-        $cooperate_id = $_POST['cooperate_id'];
+        $long = $_POST['long'];
+        $observation_lat = $_POST['observation_lat'];
+        $observation_long = $_POST['observation_long'];
+        $geom = $_POST['geom'];
+
 
 
         $upload_dir = __DIR__ . "/../pictures/jts_objects/";
@@ -1544,18 +1553,24 @@ case "get_event_duty":
                 structure_id = '{$structure_id}',
                 object_type = '{$object_type}',
                 object_name = '{$object_name}',
+                neighborhood_id = '{$neighborhood_id}',
                 address = '{$address}',
                 area = '{$area}',
                 admin_phone = '{$admin_phone}',
                 object_head = '{$object_head}',
                 head_phone = '{$head_phone}',
-                police_name = '{$police_name}',
-                police_phone = '{$police_phone}',
                 lat = '{$lat}',
                 long = '{$lon}',
-                cooperate_id = '{$cooperate_id}',
+                markets_count = '{$markets_count}',
+                eating_place_count = '{$eating_place_count}',
+                sales_places_count = '{$sales_places_count}',
+                start_work = '{$start_work}',
+                capacity = '{$capacity}',
+                sektors_count = '{$sektors_count}',
+                lamps_count = '{$lamps_count}',
+                observation_lat = '{$observation_lat}',
+                observation_long = '{$observation_long}',
                 geom = ST_GeomFromText('{$wkt}', 4326)
-                {$photo_sql}
                 WHERE id = {$RowId}";
             $sql->query($updquery);
             if ($sql->error() == "") {
@@ -1569,33 +1584,46 @@ case "get_event_duty":
                     structure_id,
                     object_type,
                     object_name,
+                    neighborhood_id,
                     address,
                     area,
                     admin_phone,
                     object_head,
                     head_phone,
-                    police_name,
-                    police_phone,
-                    photo,
                     lat,
                     long,
-                    cooperate_id,
+                    markets_count,
+                    eating_place_count,
+                    sales_places_count,
+                    start_work,
+                    capacity,
+                    sektors_count,
+                    lamps_count,
+                    observation_lat,
+                    observation_long,
                     geom
+                
                 ) VALUES (
                     '{$structure_id}',
                     '{$object_type}',
                     '{$object_name}',
+                    '{$neighborhood_id}',
                     '{$address}',
                     '{$area}',
                     '{$admin_phone}',
                     '{$object_head}',
                     '{$head_phone}',
-                    '{$police_name}',
-                    '{$police_phone}',
-                    '{$photo_name}',
                     '{$lat}',
-                    '{$lon}',
-                    '{$cooperate_id}',
+                    '{$long}',
+                    '{$markets_count}',
+                    '{$eating_place_count}',
+                    '{$sales_places_count}',
+                    '{$start_work}',
+                    '{$capacity}',
+                    '{$sektors_count}',
+                    '{$lamps_count}',
+                    '{$observation_lat}',
+                    '{$observation_long}',
                     ST_GeomFromText('{$wkt}', 4326)
                 )";
             $sql->query($insquery);

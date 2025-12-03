@@ -748,9 +748,9 @@ switch ($Act) {
 		$sql->query($query);
 		$ObjectTypes = $sql->fetchAll();
 
-		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.cooperate t ORDER BY t.id ASC";
+		$query  = "SELECT t.id, t.name FROM hr.neighborhoods t ORDER BY t.id ASC";
 		$sql->query($query);
-		$CooperateTypes = $sql->fetchAll();
+		$neighborhoods = $sql->fetchAll();
 
 		// echo '<pre>';
 		// print_r($JtsObjects);
@@ -761,7 +761,7 @@ switch ($Act) {
 			'JtsObjects' => $JtsObjects,
 			'Regions' => $Regions,
 			'ObjectTypes' => $ObjectTypes,
-			'CooperateTypes' => $CooperateTypes,
+			'neighborhoods' => $neighborhoods,
 		));
 		break;
 
