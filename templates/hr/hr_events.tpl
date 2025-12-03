@@ -42,7 +42,7 @@
                             <tr>
                                 <th>t/r</th>
                                 <th class="text-center">Ҳудуд</th>
-                                <th class="text-center">Манзил</th>
+                                <th class="text-center">Joyi</th>
                                 <th class="text-center">Тури</th>
                                 <th class="text-center">Номи</th>
                                 <th class="text-center">Йўналиши</th>
