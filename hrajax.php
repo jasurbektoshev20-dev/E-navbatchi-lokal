@@ -2899,6 +2899,7 @@ case "get_event_duty":
 
     case "act_neighborhood":
     $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
+  
     $structure_id = $_POST['structure_id'];
     $district = $_POST['district'];
     $name = $_POST['neighborhood_name'];

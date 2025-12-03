@@ -265,7 +265,7 @@
 
             $('#saveBtn').on('click', function() {
                 var form_data = new FormData();
-
+                form_data.append('id', $('#id').val());
                 form_data.append('structure_id', $('#structure_id').val());
                 form_data.append('district', $('#district').val());
                 form_data.append('neighborhood_name', $('#neighborhood_name').val());
