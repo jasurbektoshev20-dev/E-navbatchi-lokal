@@ -573,7 +573,7 @@ switch ($Action) {
 		GROUP BY t.id, s.name{$slang}, o.name{$slang}
 		ORDER BY t.id desc LIMIT {$limit} OFFSET {$start}";
 		$sql->query($query);
-		while ($row = $sql->fetchAssoc()) {
+		while ($row = $sql->fetchAssoc()) {                                                        
 			$row['id'] = (int)$row['id'];
 			$JtsObjects[] = $row;
 		}

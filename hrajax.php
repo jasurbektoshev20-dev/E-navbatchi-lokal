@@ -473,22 +473,7 @@ switch ($Action) {
         $RowId = MyPiDeCrypt($_GET['rowid']);
 
         $query = "SELECT 
-            id,
-            region_id,
-            public_event_type,
-            name{$slang} as event_name,
-            direction_event,
-            command,
-            start_time,
-            end_time,
-            citizens_count,
-            iiv_count,
-            fvv_count,
-            mg_count,
-            iiv_spring_count,
-            jts_object_id,
-            respons_person_id,
-            organizer
+            t.*
          from hr.public_event1 t where t.id = {$RowId}";
         $sql->query($query);
         $result = $sql->fetchAssoc();
@@ -503,45 +488,52 @@ switch ($Action) {
         $RowId    = (!empty($_POST['id'])) ? $_POST['id'] : 0;
         $region_id = $_POST['region_id'];
         $object_id =  $_POST['object_id'];
-        $type_id = $_POST['event_type'];
+        $event_type = $_POST['event_type'];
         $event_name = $_POST['event_name'];
-        $direction = $_POST['event_direction'];
-        $view = $_POST['event_view'];
+        $event_direction = $_POST['event_direction'];
+        $event_view = $_POST['event_view'];
+        $event_respnsible_organization = $_POST['event_responsible_organization'];
         $start_event = $_POST['start_event'];
         $finish_event = $_POST['finish_event'];
-        $people_count = $_POST['people_count'];
-        $iiv_count = $_POST['iiv_count'];
-        $fvv_count = $_POST['fvv_count'];
-        $mg_count = $_POST['mg_count'];
         $organizer = $_POST['organizer'];
-        $responsible_id = $_POST['responsible'];
+        $responsible_name = $_POST['responsible_name'];
+        $responsible_phone = $_POST['responsible_phone'];
+        $responsible_iiv_name = $_POST['responsible_iiv_name'];
+        $responsible_msgr_name = $_POST['responsible_msgr_name'];
+        $reserve_count = $_POST['reserve_count'];
+        $reserve_name = $_POST['reserve_name'];
+        $responsible_spring_name = $_POST['responsible_spring_name'];
+        $responsible_fvv_name = $_POST['responsible_fvv_name'];
+        $people_count = $_POST['people_count'];
+        $mg_count = $_POST['mg_count'];
         $spring_count = $_POST['spring_count'];
-
-
-        // echo '<pre>';
-        // print_r($type_id);
-        // echo '</pre>';
-        // die();
+        $fvv_count = $_POST['fvv_count'];
+        $iiv_count = $_POST['iiv_count'];
 
         if ($RowId != "0") {
             $updquery = "UPDATE hr.public_event1 set
-            structure_id = '{$region_id}',
-            jts_object_id = '{$object_id}',
-            public_event_type = '{$type_id}',
-            name1 = '{$event_name}',
-            name2 = '{$event_name}',
-            name3 = '{$event_name}',
-            direction_event = '{$direction}',
-            command = '{$view}',
-            start_time = '{$start_event}',
-            end_time = '{$finish_event}',
-            citizens_count = '{$people_count}',
-            iiv_count = '{$iiv_count}',
-            fvv_count = '{$fvv_count}',
-            mg_count = '{$mg_count}',
-            organizer = '{$organizer}',
-            respons_person_id = '{$responsible_id}',
-            iiv_spring_count = '{$spring_count}'
+            region_id = '{$region_id}',
+            object_id = '{$object_id}',
+            event_type = '{$event_type}',
+            event_name = '{$event_name}',
+            event_direction = '{$event_direction}',
+            event_view = '{$event_view}',
+            event_responsible_organization = '{$direction}',
+            start_event           = '{$start_event}',
+            finish_event          =lllll '{$finish_event}',
+            organizer             = '{$organizer}',
+            responsible_name      = '{$responsible_name}',
+            responsible_phone     = '{$responsible_phone}',
+            responsible_iiv_name  = '{$responsible_iiv_name}',
+            responsible_msgr_name = '{$responsible_msgr_name}',
+            reserve_count = '{$reserve_count}',
+            responsible_spring_name = '{$responsible_spring_name}',
+            responsible_fvv_name = '{$responsible_fvv_name}'
+            people_count = '{$people_count}'
+            mg_count = '{$mg_count}'
+            spring_count = '{$spring_count}'
+            reserve_name = '{$reserve_name}'
+            iiv_count = '{$iiv_count}'
             WHERE id = {$RowId}";
             $sql->query($updquery);
             if ($sql->error() == "") {
@@ -554,41 +546,52 @@ switch ($Action) {
             $isNotNew = $sql->fetchAssoc();
             if ($isNotNew['ccount'] == 0) {
                 $insquery = "INSERT into hr.public_event1 (
-                         structure_id
-                        ,jts_object_id
-                        ,public_event_type
-                        ,name1
-                        ,name2
-                        ,name3
-                        ,direction_event
-                        ,command
-                        ,start_time
-                        ,end_time
-                        ,citizens_count
-                        ,iiv_count
-                        ,fvv_count
-                        ,mg_count
+                         region_id
+                        ,object_id
+                        ,event_type
+                        ,event_name
+                        ,event_direction
+                        ,event_view
+                        ,event_responsible_organization
+                        ,start_event
+                        ,finish_event
                         ,organizer
-                        ,respons_person_id
-                        ,iiv_spring_count
+                        ,responsible_name
+                        ,responsible_phone
+                        ,responsible_iiv_name
+                        ,responsible_msgr_name
+                        ,reserve_count
+                        ,responsible_spring_name
+                        ,responsible_fvv_name
+                        ,people_count
+                        ,mg_count
+                        ,spring_count
+                        ,reserve_name
+                        ,iiv_count
+
                     ) values (
                          '{$region_id}'
                         ,'{$object_id}'
-                        ,'{$type_id}'
+                        ,'{$event_type}'
                         ,'{$event_name}'
-                        ,'{$event_name}'
-                        ,'{$event_name}'
-                        ,'{$direction}'
-                        ,'{$view}'
+                        ,'{$event_direction}'
+                        ,'{$event_view}'
+                        ,'{$event_respnsible_organization}'
                         ,'{$start_event}'
                         ,'{$finish_event}'
-                        ,'{$people_count}'
-                        ,'{$iiv_count}'
-                        ,'{$fvv_count}'
-                        ,'{$mg_count}'
                         ,'{$organizer}'
-                        ,'{$responsible_id}'
+                        ,'{$responsible_name}'
+                        ,'{$responsible_phone}'
+                        ,'{$responsible_iiv_name}'
+                        ,'{$responsible_msgr_name}'
+                        ,'{$reserve_count}'
+                        ,'{$responsible_spring_name}'
+                        ,'{$responsible_fvv_name}'
+                        ,'{$people_count}'
+                        ,'{$mg_count}'
                         ,'{$spring_count}'
+                        ,'{$reserve_name}'
+                        ,'{$iiv_count}'
 
                     )";
                 $sql->query($insquery);

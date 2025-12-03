@@ -334,7 +334,7 @@
         if (flatpickrDate) {
             flatpickrDate.flatpickr({
                 enableTime: true,
-            dateFormat: "d-m-Y H:i",
+            dateFormat: "Y-m-d H:i",
             time_24hr: true,
             monthSelectorType: 'static'
             });
@@ -354,7 +354,7 @@
         if (flatpickrDate2) {
             flatpickrDate2.flatpickr({
             enableTime: true,
-            dateFormat: "d-m-Y H:i",
+            dateFormat: "Y-m-d H:i",
             time_24hr: true,
             monthSelectorType: 'static'
             });
