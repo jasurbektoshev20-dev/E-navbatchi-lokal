@@ -144,7 +144,7 @@
                         </div>
                         <div class="col-6">
                             <label>{$Dict.phone}</label>
-                            <input required type="text" class="form-control" name="phone" id="phone" value="">
+                            <input required type="text" class="form-control phone-mask" name="phone" id="phone" value="">
                         </div>
                         <div class="col-12">
                             <label class="form-label">{$Dict.choose_file}</label>
@@ -182,6 +182,7 @@
 <script src="/assets/assets/vendor/libs/@form-validation/umd/bundle/popular.min.js"></script>
 <script src="/assets/assets/vendor/libs/@form-validation/umd/plugin-bootstrap5/index.min.js"></script>
 <script src="/assets/assets/vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js"></script>
+<script src="https://unpkg.com/imask"></script>
 
 <script>
     var dict_infraction = "{$Dict.infraction}"
@@ -199,6 +200,17 @@
     var Var_ObjectId	= "{$Organization.id}";
     var dict_choose = "{$Dict.choose}";
     {literal}
+
+      const phoneInput = document.getElementById('phone');
+
+        const phoneMask = IMask(phoneInput, {
+            mask: '+998 00 000-00-00'
+        });
+
+        // 🔥 Default holatda +998 turadi
+        phoneMask.value = '+998 ';
+
+
 
         var dt_basic_table = $('.datatables-projects'),
             dt_basic;
