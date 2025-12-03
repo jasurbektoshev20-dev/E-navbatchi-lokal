@@ -805,7 +805,7 @@
   });
 
   // Expose for debug
-  // window.__pubEventsDebug = { getEvents, get_events_by_type, get_events_by_region1, safeDisposeChartByDom };
+   window.__pubEventsDebug = { getEvents, get_events_by_type, get_events_by_region1, safeDisposeChartByDom };
 
 
     // idoraviy tadbirlar

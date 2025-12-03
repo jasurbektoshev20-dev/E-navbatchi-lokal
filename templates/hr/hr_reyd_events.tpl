@@ -164,8 +164,8 @@
                             <label>Машқ тури</label>
                             <select required class="select form-control" name="exercises_type" id="exercises_type">
                                 <option value="">{$Dict.choose}</option>
-                                <option value="Quroldan otish">Quroldan otish</option>
-                                <option value="Tankda otish">Tankda otish</option>
+                                <option value="Қуролдан отиш">Қуролдан отиш</option>
+                                <option value="Танкда отиш">Танкда отиш</option>
                             </select>
                         </div>
                           <div class="col-sm-12">
