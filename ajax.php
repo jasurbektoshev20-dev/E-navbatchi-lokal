@@ -553,8 +553,8 @@ switch ($Action) {
 		$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
 
 		$JtsObjects = [];
-		$query  = "SELECT t.id::int, s.name{$slang} as structure, t.object_name, o.name{$slang} as object_type, c.name{$slang} as cooperate,
-		t.address, t.area, t.admin_phone, t.object_head, t.head_phone, t.police_name, t.police_phone,
+		$query  = "SELECT t.id::int, s.name{$slang} as structure, t.object_name, o.name{$slang} as object_type,
+		t.address, t.area, t.admin_phone, t.object_head, t.head_phone, 
 		COALESCE(COUNT(jc.id), 0) AS count_cameras,
 		COALESCE(COUNT(js.id), 0) AS count_sos,
 		COALESCE(COUNT(jd.id), 0) AS count_doors,
@@ -562,7 +562,6 @@ switch ($Action) {
 		FROM hr.jts_objects t 
 		left join hr.structure s on s.id  = t.structure_id
 		left join hr.involved_objects o on o.id = t.object_type
-		LEFT JOIN hr.cooperate c on c.id = t.cooperate_id
 		LEFT JOIN hr.jts_objects_camera jc on jc.object_id = t.id
 		LEFT JOIN hr.jts_objects_sos js on js.object_id = t.id
 		LEFT JOIN hr.jts_objects_door jd on jd.object_id = t.id
@@ -571,7 +570,7 @@ switch ($Action) {
 			$query .= " AND t.structure_id = {$structure_id} ";
 		}
 		$query .= " 
-		GROUP BY t.id, s.name{$slang}, o.name{$slang}, c.name{$slang}
+		GROUP BY t.id, s.name{$slang}, o.name{$slang}
 		ORDER BY t.id desc LIMIT {$limit} OFFSET {$start}";
 		$sql->query($query);
 		while ($row = $sql->fetchAssoc()) {
