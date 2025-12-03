@@ -910,26 +910,27 @@ case "get_event_duty":
 
     case "act_reyd_events":
         $RowId    = (!empty($_POST['id'])) ? $_POST['id'] : 0;
-        $region_id     = $_POST['region_id'];
-        $distcity_id     = $_POST['distcity_id'];
-        $date     = $_POST['date'];
+        $structure_id     = $_POST['structure_id'];
+        $responsible_id     = $_POST['responsible_id'];
+        $type     = $_POST['type'];
+        $exercises_type     = $_POST['exercises_type'];
+        $start_date     = $_POST['start_date'];
+        $end_date     = $_POST['end_date'];
         $staff_count     = $_POST['staff_count'];
-        $stand     = $_POST['stand'];
-        $responsible     = $_POST['responsible'];
-        $text     = $_POST['text'];
-        $auto_number     = $_POST['auto_number'];
-        $guard_staffs     = $_POST['guard_staffs'];
+        $vehicles_count     = $_POST['vehicles_count'];
+        $description     = $_POST['description'];
 
         if ($RowId != "0") {
             $updquery = "UPDATE tur.reyd_events set
-            region_id = '{$region_id}',
-            date = '{$date}',
+            structure_id = '{$structure_id}',
+            responsible_id = '{$responsible_id}',
+            type = '{$type}',
+            exercises_type = '{$exercises_type}',
+            start_date = '{$start_date}',
+            end_date = '{$end_date}',
             staff_count = '{$staff_count}',
-            stand = '{$stand}',
-            responsible = '{$responsible}',
-            auto_number = '{$auto_number}',
-            guard_staffs = '{$guard_staffs}',
-            text = '{$text}'
+            vehicles_count = '{$vehicles_count}',
+            description = '{$description}'
             WHERE id = {$RowId}";
             $sql->query($updquery);
             if ($sql->error() == "") {
@@ -942,24 +943,25 @@ case "get_event_duty":
             $isNotNew = $sql->fetchAssoc();
             if ($isNotNew['ccount'] == 0) {
                 $insquery = "INSERT into tur.reyd_events (
-                         region_id
-                        ,date
+                         structure_id
+                        ,responsible_id
+                        ,type
+                        ,exercises_type
+                        ,start_date
+                        ,end_date
                         ,staff_count
-                        ,stand
-                        ,responsible
-                        ,auto_number
-                        ,guard_staffs
-                        ,text
+                        ,vehicles_count
+                        ,description
                     ) values (
-                         '{$region_id}'
-                        ,'{$distcity_id}'
-                        ,'{$date}'
+                         '{$structure_id}'
+                        ,'{$responsible_id}'
+                        ,'{$type}'
+                        ,'{$exercises_type}'
+                        ,'{$start_date}'
+                        ,'{$end_date}'
                         ,'{$staff_count}'
-                        ,'{$stand}'
-                        ,'{$responsible}'
-                        ,'{$auto_number}'
-                        ,'{$guard_staffs}'
-                        ,'{$text}'
+                        ,'{$vehicles_count}'
+                        ,'{$description}'
                     )";
                 $sql->query($insquery);
                 if ($sql->error() == "") {

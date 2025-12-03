@@ -40,7 +40,7 @@
                         <thead>
                             <tr>
                                 <th>No̱</th>
-                                <th class="text-center">{$Dict.region}</th>
+                                {* <th class="text-center">{$Dict.region}</th> *}
                                 <th class="text-center">{$Dict.structure}</th>
                                 <th class="text-center">{$Dict.responsible}</th>
                                 <th class="text-center">{$Dict.staff}</th>
@@ -57,16 +57,16 @@
                             {foreach from=$Events item=Table key=tkey}
                                 <tr class="lb" id="row_{$Table.id|crypt}">
                                 <td class="text-right">{$tkey+1}</td>
-                                <td class="text-center">{$Table.region_id}</td>
-                                <td class="text-center">{$Table.structure_id}</td>
-                                <td class="text-center">{$Table.responsible_id}</td>
+                                {* <td class="text-center">{$Table.region_id}</td> *}
+                                <td class="text-center">{$Table.structure_name}</td>
+                                <td class="text-center">{$Table.responsible_name}</td>
                                 <td class="text-center">{$Table.staff_count}</td>
                                 <td class="text-center">{$Table.start_date}</td>
                                 <td class="text-center">{$Table.end_date}</td>
-                                <td class="text-center">{$Table.technique_count}</td>
-                                <td class="text-center">{$Table.main_exercises}</td>
+                                <td class="text-center">{$Table.vehicles_count}</td>
+                                <td class="text-center">{$Table.type}</td>
                                 <td class="text-center">{$Table.exercises_type}</td>
-                                <td class="text-center">{$Table.text}</td>
+                                <td class="text-center">{$Table.description}</td>
                                 <td>
                                     <div class="dropdown">
                                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -125,8 +125,8 @@
                             <label>{$Dict.masul}</label>
                             <select required class="select form-control" name="responsible_id" id="responsible_id">
                                 <option value="">{$Dict.choose}</option>
-                                {foreach from=$Stafs item=Item1 key=ikey1}
-                                    <option value="{$Item1.id}">{$Item1.name}</option>
+                                {foreach from=$staffs item=Item1 key=ikey1}
+                                    <option value="{$Item1.id}">{$Item1.name}{$Item1.lastname}{$Item1.firstname}</option>
                                 {/foreach}
                             </select>
                         </div>
@@ -145,32 +145,32 @@
 
                          <div class="col-sm-6">
                             <label>Техника сони</label>
-                            <input required type="number" class="form-control" name="technique_count" id="technique_count" value="">
+                            <input required type="number" class="form-control" name="vehicles_count" id="vehicles_count" value="">
                         </div>
 
                         <div class="col-sm-6">
                             <label>Асосий</label>
-                            <select required class="select form-control" name="main_exercises" id="main_exercises">
+                            <select required class="select form-control" name="type" id="type">
                                 <option value="">{$Dict.choose}</option>
-                                <option value="">Poligon</option>
-                                <option value="">Maxsus vazifalar</option>
-                                <option value="">Maxsus taktik o'quvlar</option>
-                                <option value="">Amaliy mashg'ulotlar</option>
-                                <option value="">Texnika harakati</option>
-                                <option value="">Shaxsiy tarkib harakati</option>
+                                <option value="Poligon">Poligon</option>
+                                <option value="Maxsus vazifalar">Maxsus vazifalar</option>
+                                <option value="Maxsus taktik o'quvlar">Maxsus taktik o'quvlar</option>
+                                <option value="Amaliy mashg'ulotlar">Amaliy mashg'ulotlar</option>
+                                <option value="Texnika harakati">Texnika harakati</option>
+                                <option value="Shaxsiy tarkib harakati">Shaxsiy tarkib harakati</option>
                             </select>
                         </div>
                         <div class="col-sm-6">
                             <label>Машқ тури</label>
                             <select required class="select form-control" name="exercises_type" id="exercises_type">
                                 <option value="">{$Dict.choose}</option>
-                                <option value="">Quroldan otish</option>
-                                <option value="">Tankda otish</option>
+                                <option value="Quroldan otish">Quroldan otish</option>
+                                <option value="Tankda otish">Tankda otish</option>
                             </select>
                         </div>
                           <div class="col-sm-12">
                             <label>{$Dict.case_summary}</label>
-                            <textarea required class="form-control" rows=4 name="text" id="text"></textarea>
+                            <textarea required class="form-control" rows=4 name="description" id="description"></textarea>
                         </div>   
                         <div class="col-12 text-center">
                             <input type="hidden" name="id" id="id" value="">
@@ -216,7 +216,7 @@
     if (flatpickrDate) {
         flatpickrDate.flatpickr({
            enableTime: true,
-            dateFormat: "d-m-Y H:i",
+            dateFormat: "Y-m-d H:i",
             time_24hr: true,
             monthSelectorType: 'static'
         });
@@ -235,7 +235,7 @@
     if (flatpickrEndDate) {
         flatpickrEndDate.flatpickr({
             enableTime: true,
-            dateFormat: "d-m-Y H:i",
+            dateFormat: "Y-m-d H:i",
             time_24hr: true,
             monthSelectorType: 'static'
         });
@@ -289,16 +289,16 @@
             $('#structure_id').trigger("change");
               ('#responsible_id').val(sInfo.responsible_id);
             $('#responsible_id').trigger("change");
-             ('#main_exercises').val(sInfo.main_exercises);
-            $('#main_exercises').trigger("change");
+             ('#type').val(sInfo.type);
+            $('#type').trigger("change");
             ('#exercises_type').val(sInfo.exercises_type);
             $('#exercises_type').trigger("change");
             $('#start_date').val(sInfo.start_date);
             $('#end_date').val(sInfo.end_date);
             $('#staff_count').val(sInfo.staff_count);
-            $('#technique_count').val(sInfo.technique_count);
+            $('#vehicles_count').val(sInfo.vehicles_count);
             $('#responsible').val(sInfo.responsible);
-            $('#text').val(sInfo.text);
+            $('#description').val(sInfo.description);
             $('#id').val(sInfo.id);
         });
     })
@@ -311,15 +311,15 @@
         $('#structure_id').trigger("change");
          $('#responsible_id').val(0);
         $('#responsible_id').trigger("change");
-         $('#main_exercises').val(0);
-        $('#main_exercises').trigger("change");
+         $('#type').val(0);
+        $('#type').trigger("change");
          $('#exercises_type').val(0);
         $('#exercises_type').trigger("change");
         $('#start_date').val("");
         $('#end_date').val("");
         $('#staff_count').val("");
-        $('#technique_count').val("");
-        $('#text').val("");
+        $('#vehicles_count').val("");
+        $('#description').val("");
         $('#id').val(0)
     });
 
@@ -330,13 +330,13 @@
                 var form_data = new FormData();
                 form_data.append('structure_id', $('#structure_id').val() || $('#region_id').val());
                 form_data.append('responsible_id', $('#responsible_id').val());
-                form_data.append('main_exercises', $('#main_exercises').val());
+                form_data.append('type', $('#type').val());
                 form_data.append('exercises_type', $('#exercises_type').val());
                 form_data.append('start_date', $('#start_date').val());
                 form_data.append('end_date', $('#end_date').val());
                 form_data.append('staff_count', $('#staff_count').val());
-                form_data.append('technique_count', $('#technique_count').val());
-                form_data.append('text', $('#text').val());
+                form_data.append('vehicles_count', $('#vehicles_count').val());
+                form_data.append('description', $('#description').val());
                 form_data.append('id', $('#id').val());
 
                 $.ajax({
@@ -350,7 +350,7 @@
                     success: function(resdata) {
                         var NewArray = resdata.split("<&sep&>");
                         if (NewArray[0] == 0) {
-                            // location.reload();
+                            location.reload();
                         } else {
                             alert(resdata);
                         }
