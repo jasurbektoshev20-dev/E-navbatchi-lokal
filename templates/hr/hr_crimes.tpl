@@ -5,6 +5,7 @@
         .table thead th,
         .table tbody td {
             text-transform: none !important;
+            font-size: 16px;
         }
 
         .dt-buttons {
@@ -40,18 +41,18 @@
                         <thead>
                             <tr>
                                 <th>No̱</th>
-                                <th class="text-center">Hudud</th>
-                                <th class="text-center">Bo'linma</th>
+                                <th class="text-center">Ҳудуд</th>
+                                <th class="text-center">Бўлинма</th>
                                 <th class="text-center">{$Dict.masul}</th>
                                 <th class="text-center">{$Dict.date}</th>
-                                <th class="text-center">Protokol raqami</th>
-                                <th class="text-center">Jinoyat turi</th>
-                                <th class="text-center">Modda</th>
+                                <th class="text-center">Протокол рақами</th>
+                                <th class="text-center">Жиноят тури</th>
+                                <th class="text-center">Модда</th>
                                 <th class="text-center">{$Dict.photo}</th>
-                                <th class="text-center">Jinoyatchi JSHSHIR</th>
-                                <th class="text-center">Jinoyatchi FISH</th>
-                                <th class="text-center">Telefon raqami</th>
-                                <th class="text-center">Xolat haqida qisqacha</th>
+                                <th class="text-center">Жиноятчи ЖШШИР</th>
+                                <th class="text-center">Жиноятчи ФИШ</th>
+                                <th class="text-center">Телефон рақами</th>
+                                <th class="text-center">Холат ҳақида қисқача</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -123,7 +124,7 @@
                             </select>
                         </div>
                       <div class="col-sm-4">
-                            <label>Hududiy bo'linmalar</label>
+                            <label>Ҳудудий бўлинмалар</label>
                             <select required class="select form-control" name="structure_id" id="structure_id">
                                 <option value="">{$Dict.choose}</option>
                             </select>
@@ -138,16 +139,16 @@
                             </select>
                          </div>
                          <div class="col-sm-4">
-                            <label for="event_date" class="form-label">Jinoyat bo'lgan vaqt</label>
+                            <label for="event_date" class="form-label">Жиноят бўлган вақт</label>
                             <input type="datetime" class="form-control" placeholder="DD-MM-YYYY" id="event_date"
                                 name="event_date" />
                          </div>
                         <div class="col-sm-4">
-                            <label>Protokol raqami</label>
+                            <label>Протокол рақами</label>
                             <input required type="number" class="form-control" name="protocol_number" id="protocol_number" value="">
                         </div>
                         <div class="col-sm-4">
-                            <label>Jinoyat turi</label>
+                            <label>Жиноят тури</label>
                             <select required class="select form-control" name="crime_type" id="crime_type">
                                 <option value="">{$Dict.choose}</option>
                                     <option value="o'g'rilik">O'g'rilik</option>
@@ -155,7 +156,7 @@
                             </select>
                         </div> 
                          <div class="col-sm-4">
-                            <label>Moddasi</label>
+                            <label>Моддаси</label>
                             <select required class="select form-control" name="substance" id="substance">
                                 <option value="">{$Dict.choose}</option>
                                     <option value="144-modda">144-modda</option>
@@ -163,15 +164,15 @@
                             </select>
                         </div> 
                         <div class="col-sm-4">
-                            <label>Jinoyatchi JSHSHIR</label>
+                            <label>Жиноятчи ЖШШИР</label>
                             <input required type="number" class="form-control" maxlength="14" name="personal_identification_num" id="personal_identification_num" value="">
                         </div>
                          <div class="col-sm-4">
-                            <label>Jinoyatchi FISH</label>
+                            <label>Жиноятчи ФИШ</label>
                             <input required type="text" class="form-control" name="criminal_username" id="criminal_username" value="">
                         </div>
                           <div class="col-sm-6">
-                            <label>Telefon raqami</label>
+                            <label>Телефон рақами</label>
                             <input required type="text" class="form-control" name="phone" id="phone" value="">
                         </div>
                          <div class="col-sm-6">

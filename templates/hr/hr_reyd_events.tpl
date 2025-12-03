@@ -44,12 +44,12 @@
                                 <th class="text-center">{$Dict.structure}</th>
                                 <th class="text-center">{$Dict.responsible}</th>
                                 <th class="text-center">{$Dict.staff}</th>
-                                <th class="text-center">Boshlanish vaqti</th>
-                                <th class="text-center">Tugash vaqti</th>
-                                <th class="text-center">Texnika soni</th>
-                                <th class="text-center">Asosiy</th>
-                                <th class="text-center">Turi</th>
-                                <th class="text-center">Xolat haqida qisqacha</th>
+                                <th class="text-center">Бошланиш вақти</th>
+                                <th class="text-center">Тугаш вақти</th>
+                                <th class="text-center">Техника сони</th>
+                                <th class="text-center">Асосий</th>
+                                <th class="text-center">Тури</th>
+                                <th class="text-center">Холат ҳақида қисқача</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -135,21 +135,21 @@
                             <input required type="number" class="form-control" name="staff_count" id="staff_count" value="">
                         </div>
                         <div class="col-sm-6">
-                            <label for="start_date" class="form-label">Boshlanish vaqti</label>
+                            <label for="start_date" class="form-label">Бошланиш вақти</label>
                             <input type="text" class="form-control" placeholder="DD-MM-YYYY" id="start_date" />
                         </div>
                           <div class="col-sm-6">
-                            <label for="end_date" class="form-label">Tugash vaqti</label>
+                            <label for="end_date" class="form-label">Тугаш вақти</label>
                             <input type="text" class="form-control" placeholder="DD-MM-YYYY" id="end_date" />
                         </div>
 
                          <div class="col-sm-6">
-                            <label>Texnika soni</label>
+                            <label>Техника сони</label>
                             <input required type="number" class="form-control" name="technique_count" id="technique_count" value="">
                         </div>
 
                         <div class="col-sm-6">
-                            <label>Asosiy</label>
+                            <label>Асосий</label>
                             <select required class="select form-control" name="main_exercises" id="main_exercises">
                                 <option value="">{$Dict.choose}</option>
                                 <option value="">Poligon</option>
@@ -161,7 +161,7 @@
                             </select>
                         </div>
                         <div class="col-sm-6">
-                            <label>Mashq turi</label>
+                            <label>Машқ тури</label>
                             <select required class="select form-control" name="exercises_type" id="exercises_type">
                                 <option value="">{$Dict.choose}</option>
                                 <option value="">Quroldan otish</option>
@@ -305,7 +305,6 @@
 
     $('#new').click(function() {
         $('#submitModal').modal('toggle');
-
         $('#region_id').val(0);
         $('#region_id').trigger("change");
         $('#structure_id').val(0);

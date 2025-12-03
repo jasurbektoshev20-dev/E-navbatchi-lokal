@@ -39,24 +39,24 @@
                             <tr>
                                 <th style="white-space: nowrap">Т/р</th>
                                 <th>Ҳудуд</th>
-                                <th>Tuman</th>
-                                <th style="white-space: nowrap">Mahalla nomi</th>
-                                <th style="white-space: nowrap">MFY raisi</th>
-                                <th>Telefon</th>
-                                <th style="white-space: nowrap">Hokim yordamchisi</th>
-                                <th>Telefon</th>
-                                <th style="white-space: nowrap">Yoshlar yetakchisi</th>
-                                <th>Telefon</th>
-                                <th style="white-space: nowrap">Xotin qizlar faoli</th>
-                                <th>Telefon</th>
-                                <th style="white-space: nowrap">Soliq inspektori</th>
-                                <th>Telefon</th>
-                                <th style="white-space: nowrap">Ijtimoiy xodim</th>
-                                <th>Telefon</th>
-                                <th style="white-space: nowrap">IIV nozili</th>
-                                <th style="white-space: nowrap">Telefon</th>
-                                <th style="white-space: nowrap">FVV nozili</th>
-                                <th style="white-space: nowrap">Telefon</th>
+                                <th>Туман</th>
+                                <th style="white-space: nowrap">Маҳалла номи</th>
+                                <th style="white-space: nowrap">МФЙ раиси</th>
+                                <th>Телефон</th>
+                                <th style="white-space: nowrap">Ҳоким ёрдамчиси</th>
+                                <th>Телефон</th>
+                                <th style="white-space: nowrap">Ёшлар етакчиси</th>
+                                <th>Телефон</th>
+                                <th style="white-space: nowrap">Хотин қизлар фаоли</th>
+                                <th>Телефон</th>
+                                <th style="white-space: nowrap">Солиқ инспектори</th>
+                                <th>Телефон</th>
+                                <th style="white-space: nowrap">Ижтимоий ходим</th>
+                                <th>Телефон</th>
+                                <th style="white-space: nowrap">ИИВ раҳбари</th>
+                                <th style="white-space: nowrap">Телефон</th>
+                                <th style="white-space: nowrap">ФВВ раҳбари</th>
+                                <th style="white-space: nowrap">Телефон</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -127,92 +127,92 @@
                         </div>
 
                         <div class="col-sm-4">
-                            <label>Tumanni yozing</label>
+                            <label>Туманни ёзинг</label>
                             <input required type="text" class="form-control" name="district" id="district" value="">
                         </div>
 
                         <div class="col-sm-4">
-                            <label>Mahalla nomi</label>
+                            <label>Маҳалла номи</label>
                             <input required type="text" class="form-control" name="neighborhood_name" id="neighborhood_name" value="">
                         </div>
 
                         <div class="col-sm-4">
-                            <label>MFY raisi FISH</label>
+                            <label>МФЙ раиси FISH</label>
                             <input required type="text" class="form-control" name="neighborhood_head" id="neighborhood_head" value="">
                         </div>
 
                         <div class="col-sm-4">
-                            <label>Telefoni</label>
+                            <label>Телефонi</label>
                             <input required type="text" class="form-control phone-mask" name="neighborhood_head_phone" id="neighborhood_head_phone" value="">
                         </div>
 
                          <div class="col-sm-4">
-                            <label>Hokim yordamchisi</label>
+                            <label>Ҳоким ёрдамчиси</label>
                             <input required type="text" class="form-control" name="assistant_governor" id="assistant_governor" value="">
                         </div>
 
                         <div class="col-sm-4">
-                            <label>Telefoni</label>
+                            <label>Телефонi</label>
                             <input required type="text" class="form-control phone-mask" name="assistant_governor_phone" id="assistant_governor_phone" value="">
                         </div>
 
                          <div class="col-sm-4">
-                            <label>Yoshlar yetakchisi</label>
+                            <label>Ёшлар етакчиси</label>
                             <input required type="text" class="form-control" name="youth_leader" id="youth_leader" value="">
                         </div>
 
                         <div class="col-sm-4">
-                            <label>Telefoni</label>
+                            <label>Телефонi</label>
                             <input required type="text" class="form-control phone-mask" name="youth_leader_phone" id="youth_leader_phone" value="">
                         </div>
 
                          <div class="col-sm-4">
-                            <label>Xotin qizlar faoli</label>
+                            <label>Хотин қизлар фаоли</label>
                             <input required type="text" class="form-control" name="womens_activist" id="womens_activist" value="">
                         </div>
 
                         <div class="col-sm-4">
-                            <label>Telefoni</label>
+                            <label>Телефонi</label>
                             <input required type="text" class="form-control phone-mask" name="womens_activist_phone" id="womens_activist_phone" value="">
                         </div>
 
                          <div class="col-sm-4">
-                            <label>Soliq inspektori</label>
+                            <label>Солиқ инспектори</label>
                             <input required type="text" class="form-control" name="tax_inspector" id="tax_inspector" value="">
                         </div>
 
                         <div class="col-sm-4">
-                            <label>Telefoni</label>
+                            <label>Телефонi</label>
                             <input required type="text" class="form-control phone-mask" name="tax_inspector_phone" id="tax_inspector_phone" value="">
                         </div>
 
                         <div class="col-sm-4">
-                            <label>Ijtimoiy xodim</label>
+                            <label>Ижтимоий ходим</label>
                             <input required type="text" class="form-control" name="social_employe" id="social_employe" value="">
                         </div>
 
                         <div class="col-sm-4">
-                            <label>Telefoni</label>
+                            <label>Телефонi</label>
                             <input required type="text" class="form-control phone-mask" name="social_employe_phone" id="social_employe_phone" value="">
                         </div>
 
                         <div class="col-sm-4">
-                            <label>IIV nozili</label>
+                            <label>ИИВ раҳбари</label>
                             <input type="text" class="form-control" name="head_iiv" id="head_iiv" value="">
                         </div>
 
                         <div class="col-sm-4">
-                            <label>Telefoni</label>
+                            <label>Телефонi</label>
                             <input type="text" class="form-control phone-mask" name="head_iiv_phone" id="head_iiv_phone" value="">
                         </div>
 
                           <div class="col-sm-4">
-                            <label>FVV nozili</label>
+                            <label>ФВВ раҳбари</label>
                             <input type="text" class="form-control" name="head_fvv" id="head_fvv" value="">
                         </div>
 
                         <div class="col-sm-4">
-                            <label>Telefoni</label>
+                            <label>Телефонi</label>
                             <input type="text" class="form-control phone-mask" name="head_fvv_phone" id="head_fvv_phone" value="">
                         </div>
 
