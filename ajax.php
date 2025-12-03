@@ -1529,14 +1529,14 @@ switch ($Action) {
 		// 1) Statistika (COUNT)
 		$query = "SELECT COUNT(t.id) as value, b.id, b.name{$slang} as name
 				FROM hr.public_event1 t
-				LEFT JOIN tur.public_event_types b ON b.id = t.public_event_type
+				LEFT JOIN tur.public_event_types b ON b.id = t.event_type
 				WHERE 1=1 ";
 
 		if ($UserStructure > 1) {
-			$query .= " AND t.structure_id = {$UserStructure} ";
+			$query .= " AND t.region_id = {$UserStructure} ";
 		}
 		if ($structure_id > 0) {
-			$query .= " AND t.structure_id = {$structure_id} ";
+			$query .= " AND t.region_id = {$structure_id} ";
 		}
 		$query .= " GROUP BY b.id ORDER BY b.id ASC";
 
@@ -1549,15 +1549,15 @@ switch ($Action) {
 						s.name{$slang} as name,
 						COUNT(t.id) as value
 					FROM hr.public_event1 t
-					LEFT JOIN hr.structure s ON s.id = t.structure_id
+					LEFT JOIN hr.structure s ON s.id = t.region_id
 					WHERE 1=1
 				";
 
 		if ($UserStructure > 1) {
-			$regionQuery .= " AND t.structure_id = {$UserStructure} ";
+			$regionQuery .= " AND t.region_id = {$UserStructure} ";
 		}
 		if ($structure_id > 0) {
-			$regionQuery .= " AND t.structure_id = {$structure_id} ";
+			$regionQuery .= " AND t.region_id = {$structure_id} ";
 		}
 
 		$regionQuery .= " GROUP BY s.id ORDER BY s.id ASC";
@@ -1573,16 +1573,16 @@ switch ($Action) {
 						b.id as type_id,
 						b.name{$slang} AS type_name
 					FROM hr.public_event1 t
-					LEFT JOIN tur.public_event_types b ON b.id = t.public_event_type
-					LEFT JOIN hr.jts_objects j ON j.id = t.jts_object_id
+					LEFT JOIN tur.public_event_types b ON b.id = t.event_type
+					LEFT JOIN hr.jts_objects j ON j.id = t.object_id
 					WHERE 1=1
 				";
 
 		if ($UserStructure > 1) {
-			$listQuery .= " AND t.structure_id = {$UserStructure} ";
+			$listQuery .= " AND t.region_id = {$UserStructure} ";
 		}
 		if ($structure_id > 0) {
-			$listQuery .= " AND t.structure_id = {$structure_id} ";
+			$listQuery .= " AND t.region_id = {$structure_id} ";
 		}
 
 		$listQuery .= " ORDER BY b.name{$slang} ASC, j.object_name ASC";
