@@ -2480,7 +2480,7 @@ map.on('load', () => {
   </div>
   <div class="passport-li-about">
     <h6>Савдо дўконлари:</h6>
-    <p>${params?.markets_count ?? '12'} ta</p>
+    <p>${params?.markets_count ?? '12'} та</p>
   </div>
 </li>
 
@@ -2490,7 +2490,7 @@ map.on('load', () => {
   </div>
   <div class="passport-li-about">
     <h6>Овқатланиш шаҳобчалари:</h6>
-    <p>${params?.eating_place_count ?? '6'} ta</p>
+    <p>${params?.eating_place_count ?? '6'} та</p>
   </div>
 </li>
 
@@ -2574,7 +2574,7 @@ map.on('load', () => {
             </div>
             <div class="passport-li-about">
               <h6>Номи:</h6>
-              <p>${params?.neighborhood_name ?? 'Бинокор маҳалласи'}</p>
+              <p>${params?.neighborhood_name ?? 'Гулбозор МФЙ'}</p>
             </div>
           </li>
           
