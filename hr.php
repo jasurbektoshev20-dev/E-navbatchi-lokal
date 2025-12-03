@@ -457,6 +457,17 @@ switch ($Act) {
 		$sql->query($query);
 		$Regions = $sql->fetchAll();
 
+
+
+		$query = "SELECT s.id, s.firstname,s.lastname,r.name{$slang} FROM hr.staff s
+		left join ref.ranks r on r.id = s.rank_id  
+		-- where structure_id = {$UserStructure}
+		";
+		$sql->query($query);
+		$staffs = $sql->fetchAll();
+
+
+
 		$query = "SELECT id, name{$slang} as name FROM hr.structure";
 		if ($UserStructure > 1) {
 			$query .= " where parent = {$UserStructure}";
@@ -466,12 +477,14 @@ switch ($Act) {
 		$sql->query($query);
 		// $Distcity = $sql->fetchAll();
 
-		$query = "SELECT m.id, r.shortname{$slang} as region_id, d.name{$slang} as distcity_id, m.date, m.staff_count, 
-		m.stand, m.responsible, m.text FROM tur.reyd_events m
-		left join hr.v_head_structure r on r.id = m.region_id
-		left join hr.v_structure d on d.id = m.distcity_id where 1=1";
+		$query = "SELECT m.id, s.name{$slang} as structure_name, m.start_date, m.end_date,m.staff_count,CONCAT(r.name{$slang},' ',d.lastname,' ',d.firstname) AS responsible_name, 
+		m.type, m.responsible_id, m.exercises_type,m.vehicles_count,m.description FROM tur.reyd_events m
+		left join hr.structure s on s.id = m.structure_id
+		left join hr.staff d on d.id = m.responsible_id 
+		LEFT JOIN ref.ranks r on r.id = d.rank_id
+		where 1=1";
 		if ($UserStructure > 1) {
-			$query .= " and m.region_id = {$UserStructure}";
+			$query .= " and m.structure_id = {$UserStructure}";
 		}
 		$query .= " order by m.id";
 		$sql->query($query);
@@ -486,8 +499,13 @@ switch ($Act) {
 			'Regions'        =>    $Regions,
 			// 'Distcity'       =>    $Distcity,
 			'Events'       =>    $Events,
+			'staffs' => $staffs
 		));
 		break;
+
+
+
+
 	case "hr_violations":
 		$query = "SELECT id, name{$slang} as name FROM hr.structure where id != 1 and id < 16 order by turn";
 		$sql->query($query);
