@@ -17,7 +17,7 @@
           display: flex;
           justify-content: space-between;
         }
-    {/literal}
+    {/literal}          
 </style>
 
 <div class="flex-grow-1 container-p-y container-fluid">
@@ -154,6 +154,13 @@
 
              <!-- Ovqat -->
             <div class="col-sm-4">
+              <label>Savdo rastalari soni</label>
+              <input type="number" class="form-control" id="sales_places_count" placeholder="soni..." />
+            </div>
+
+
+             <!-- Ovqat -->
+            <div class="col-sm-4">
               <label>Savdo do'konlari soni</label>
               <input type="number" class="form-control" id="markets_count" placeholder="soni..." />
             </div>
@@ -208,7 +215,7 @@
               <label>Mahalla</label>
               <select required class="form-select" id="neighborhood_id">
                 <option value="">Танланг...</option>
-                {foreach from=$CooperateTypes item=Item1 key=ikey1}
+                {foreach from=$neighborhoods item=Item1 key=ikey1}
                   <option value="{$Item1.id}">{$Item1.name}</option>
                 {/foreach}
               </select>
@@ -378,6 +385,7 @@
         const lamps_count = document.getElementById("lamps_count").value.trim();
         const markets_count = document.getElementById("markets_count").value.trim();
         const eating_place_count = document.getElementById("eating_place_count").value.trim();
+        const sales_places_count = document.getElementById("sales_places_count").value.trim();
         const start_work = document.getElementById("start_work").value.trim();
         const sektors_count = document.getElementById("sektors_count").value.trim();
         const capacity = document.getElementById("capacity").value.trim();
@@ -417,6 +425,7 @@
         formData.append('lamps_count', lamps_count)
         formData.append('markets_count', markets_count)
         formData.append('eating_place_count', eating_place_count)
+        formData.append('sales_places_count', sales_places_count)
         formData.append('start_work', start_work)
         formData.append('capacity', capacity)
         formData.append('sektors_count', sektors_count)
@@ -504,6 +513,7 @@
                 document.getElementById("lamps_count").value = data.lamps_count;
                 document.getElementById("markets_count").value = data.markets_count;
                 document.getElementById("eating_place_count").value = data.eating_place_count;
+                document.getElementById("sales_places_count").value = data.sales_places_count;
                 document.getElementById("start_work").value = data.start_work;
                 document.getElementById("capacity").value = data.capacity;
                 document.getElementById("sektors_count").value = data.sektors_count;

@@ -222,7 +222,7 @@ switch ($Act) {
 		left join hr.structure s on s.id  = t.structure_id
 		left join bcms.roles r on r.id  = t.role_id
 		left join hr.positions p on p.id  = t.position_id
-		left join ref.ranks ra on ra.id  = t.rank_id
+		left join ref.ranks ra on ra.id  = t.rank_id where t.username IS NOT NULL and t.username <> ''
 		ORDER BY t.id ASC";
 		$sql->query($query);
 		$Staffs = $sql->fetchAll();
@@ -748,9 +748,9 @@ switch ($Act) {
 		$sql->query($query);
 		$ObjectTypes = $sql->fetchAll();
 
-		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.cooperate t ORDER BY t.id ASC";
+		$query  = "SELECT t.id, t.name FROM hr.neighborhoods t ORDER BY t.id ASC";
 		$sql->query($query);
-		$CooperateTypes = $sql->fetchAll();
+		$neighborhoods = $sql->fetchAll();
 
 		// echo '<pre>';
 		// print_r($JtsObjects);
@@ -761,7 +761,7 @@ switch ($Act) {
 			'JtsObjects' => $JtsObjects,
 			'Regions' => $Regions,
 			'ObjectTypes' => $ObjectTypes,
-			'CooperateTypes' => $CooperateTypes,
+			'neighborhoods' => $neighborhoods,
 		));
 		break;
 
