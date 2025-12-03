@@ -222,7 +222,15 @@
             <h4 class="card-title">Идоравий тадбирлар</h4> <br>
           </div>
           <div class="col-4">
-            <select class="form-select" id="departmental_events"> </select>
+            <select class="form-select" id="departmental_events"> 
+                  <option value="">Ҳудудлар</option>
+
+              {foreach from=$Regions item=Item1 key=ikey1 name=regionLoop}
+                  {if $smarty.foreach.regionLoop.iteration <= 14}
+                      <option value="{$Item1.id}">{$Item1.name}</option>
+                  {/if}
+              {/foreach}
+            </select>
           </div>
           <div class="chart-container" id="get_departmental_events"></div>
         </div>
@@ -576,7 +584,7 @@
 
         // ommaviy tadbirlar uchun kodlar
 
-        const resizeHandlers = new Map();
+   const resizeHandlers = new Map();
 
     // Add a resize listener for a chart dom, tracked so we can remove later
   function addResizeHandler(dom, handler) {
@@ -797,7 +805,247 @@
   });
 
   // Expose for debug
-  window.__pubEventsDebug = { getEvents, get_events_by_type, get_events_by_region1, safeDisposeChartByDom };
+  // window.__pubEventsDebug = { getEvents, get_events_by_type, get_events_by_region1, safeDisposeChartByDom };
+
+
+    // idoraviy tadbirlar
+
+
+
+
+
+   const resizeHandlers2 = new Map();
+
+    // Add a resize listener for a chart dom, tracked so we can remove later
+  function addResizeHandler2(dom, handler) {
+    if (!dom) return;
+    const id = dom.id || dom;
+    // remove existing if any
+    if (resizeHandlers2.has(id)) {
+      try { window.removeEventListener('resize', resizeHandlers2.get(id)); } catch(e){}
+    }
+    resizeHandlers2.set(id, handler);
+    window.addEventListener('resize', handler);
+  }
+
+  // Remove resize handler for dom
+  function removeResizeHandler2(dom) {
+    if (!dom) return;
+    const id = dom.id || dom;
+    const h = resizeHandlers2.get(id);
+    if (h) {
+      try { window.removeEventListener('resize', h); } catch(e){}
+      resizeHandlers2.delete(id);
+    }
+  }
+
+  // --- AJAX / fetch ---
+  function getDepartmentalEvents() {
+    let url = `${AJAXPHP}?act=public_events`;
+    const params = [];
+    if (structure_id !== null && !Number.isNaN(structure_id)) params.push(`structure_id=${encodeURIComponent(structure_id)}`);
+    if (params.length) url += '&' + params.join('&');
+
+    $.ajax({
+      url: url,
+      type: 'GET',
+      dataType: 'json',
+      success: function(response) {
+        // safety defaults
+        get_departmental_events(response?.stats || []);
+        get_events_by_region2(response || {});
+      },
+      error: function(xhr, status, error) {
+        console.error('AJAX error:', error);
+      }
+    });
+  }
+
+  // --- CHART: events by type (pie) ---
+  function get_departmental_events(data = []) {
+    const dom = document.getElementById('get_departmental_events');
+    if (!dom) return console.error('Container #get_departmental_events topilmadi');
+
+    // safe dispose previous chart and remove resize handler
+    removeResizeHandler2(dom);
+    safeDisposeChartByDom(dom);
+    dom.innerHTML = ''; // clear any leftover
+
+    const myChart = echarts.init(dom);
+
+    const total = Array.isArray(data) ? data.reduce((sum, item) => sum + Number(item.value || 0), 0) : 0;
+
+    const option = {
+      color: colors1,
+      textStyle: { fontFamily: "Arial, sans-serif", fontSize: 18 },
+      title: {
+        text: String(total),
+        left: 'center',
+        top: '32%',
+        textStyle: { fontSize: 18, fontWeight: 'bold', color: '#b7b7b7' },
+      },
+      legend: {
+        top: 'bottom',
+        left: 'center',
+        textStyle: { color: '#b7b7b7', fontSize: 18 }
+      },
+       tooltip: {
+          backgroundColor: 'white',
+           textStyle: {
+                fontSize: 18,     // 🔥 shu yerda o'zgartirasan
+                color: '#000'
+            }
+        },
+      series: [{
+        type: 'pie',
+        radius: ['20%', '60%'],
+        center: ['50%', '35%'],
+        label: {
+          show: true,
+          position: 'outside',
+          formatter: '{c}',
+          textStyle: { fontSize: 18, fontWeight: 'bold', color: '#b7b7b7' }
+        },
+        itemStyle: {
+          borderRadius: 10,
+          shadowColor: 'rgba(0,0,0,0.5)',
+          shadowBlur: 20
+        },
+        data: (Array.isArray(data) ? data : []).map(item => ({
+          name: item.name || '',
+          value: Number(item.value || 0),
+          id: item.id
+        }))
+      }]
+    };
+
+    myChart.setOption(option);
+
+    // safe click handlers
+    try { myChart.off && myChart.off('click'); } catch(e){}
+    myChart.on('click', function(params) {
+      // original code redirected to public_event_map
+      window.location.href = `hr.php?act=public_event_map`;
+    });
+
+    // add resize handler and track it
+    const resizeFn = () => { try { myChart.resize(); } catch(e){} };
+    addResizeHandler2(dom, resizeFn);
+  }
+
+  // --- CHART or LIST: events by region or object list ---
+  function get_events_by_region2(data = {}) {
+    const dom = document.getElementById('get_events_by_region2');
+    if (!dom) return console.error('Container #get_events_by_region2 topilmadi');
+
+    // remove previous resize handler and dispose any chart
+    removeResizeHandler2(dom);
+    safeDisposeChartByDom(dom);
+
+    // Clear DOM to remove old HTML/chart
+    dom.innerHTML = '';
+
+    if (structure_id !== null) {
+      // region selected -> show grouped lists
+      let allHtml = `<div class="col-12"><div class="region-box">`;
+      (data.list || []).forEach(cat => {
+        const places = cat.objects || [];
+        let listHtml = '<ul class="place-list scrollable">';
+        places.forEach(p => {
+          const safeName = String(p.object_name || '').replace(/</g, "&lt;").replace(/>/g, "&gt;");
+          listHtml += `<li class="alert alert-dark" role="alert" data-cat="${cat.name}" data-place="${safeName}">${safeName}</li>`;
+        });
+        listHtml += '</ul>';
+
+        allHtml += `
+          <div class="category-block mb-2">
+            <h5 class="mb-2 text-primary">${cat.name}</h5>
+            ${listHtml}
+          </div>
+        `;
+      });
+      allHtml += `</div></div>`;
+      dom.innerHTML = allHtml;
+      return;
+    }
+
+    // Default state: draw bar chart by regions
+    const myChart = echarts.init(dom);
+
+    const statRegion = Array.isArray(data.stat_region) ? data.stat_region : [];
+    const option = {
+      textStyle: { fontFamily: "Arial, sans-serif" },
+      xAxis: {
+        type: 'category',
+        data: statRegion.map(item => item.name),
+        axisLabel: { interval: 0, fontSize: 18, rotate: 45, color: '#b7b7b7' },
+        axisLine: { show: false },
+        splitLine: { show: false }
+      },
+      grid: { bottom: 110, right: 30, left: 80 },
+      yAxis: {
+        type: 'value',
+        minInterval: 1,
+        axisLabel: { color: '#b7b7b7', fontSize: 18 },
+        axisLine: { show: false },
+        splitLine: { show: false }
+      },
+       tooltip: {
+          backgroundColor: 'white',
+           textStyle: {
+                fontSize: 18,     // 🔥 shu yerda o'zgartirasan
+                color: '#000'
+            }
+        },
+      series: [{
+        data: statRegion.map(item => parseInt(item.value) || 0),
+        type: 'bar',
+        barMaxWidth: 60,
+        itemStyle: { color: (p) => colors[p.dataIndex % colors.length], borderRadius: [8, 8, 0, 0] },
+        label: { fontSize: 18, show: true, position: 'top', color: '#b7b7b7' }
+      }]
+    };
+
+    myChart.setOption(option);
+
+    // resize handler tracked
+    const resizeFn = () => { try { myChart.resize(); } catch(e){} };
+    addResizeHandler2(dom, resizeFn);
+  }
+
+  // --- SELECT handler binding ---
+  function initSelectHandler2() {
+    // initial read
+    const raw = $('#public_events').val();
+    structure_id = raw ? (isNaN(parseInt(raw,10)) ? null : parseInt(raw,10)) : null;
+
+    // bind change
+    // $('#public_events').off('change.public_events_ns').on('change.public_events_ns', function() {
+    //   const v = $(this).val();
+    //   structure_id = v ? (isNaN(parseInt(v,10)) ? null : parseInt(v,10)) : null;
+    //   console.log('public_events changed -> structure_id =', structure_id);
+    //   getDepartmentalEvents();
+    // });
+  }
+
+  // init on DOM ready
+  $(document).ready(function(){
+    initSelectHandler2();
+    getDepartmentalEvents();
+  });
+
+  // Expose for debug
+  window.__pubDepartmentalEventsDebug = { getDepartmentalEvents, get_departmental_events, get_events_by_region2, safeDisposeChartByDom };
+
+
+
+
+
+
+
+
+
+
 
         
     });
@@ -824,149 +1072,149 @@
 
 
 
-    let default_color = localStorage.getItem('templateCustomizer-vertical-menu-template-no-customizer--Style') ==
-      'light' ? '#000' : '#b7b7b7';
+    // let default_color = localStorage.getItem('templateCustomizer-vertical-menu-template-no-customizer--Style') ==
+    //   'light' ? '#000' : '#b7b7b7';
 
-    let filters = [{
-        id: 0,
-        name: dict_all
-      },
-      {
-        id: 1,
-        name: dict_by_day
-      },
-      {
-        id: 2,
-        name: dict_by_month
-      },
-      {
-        id: 3,
-        name: dict_by_year
-      },
-    ]
-
-
+    // let filters = [{
+    //     id: 0,
+    //     name: dict_all
+    //   },
+    //   {
+    //     id: 1,
+    //     name: dict_by_day
+    //   },
+    //   {
+    //     id: 2,
+    //     name: dict_by_month
+    //   },
+    //   {
+    //     id: 3,
+    //     name: dict_by_year
+    //   },
+    // ]
 
 
-    function get_power_by_vehicle(data, total) {
-      let sdata = data.map(i => ({ value: i.value, name: i.name }));
-      var dom = document.getElementById('get_power_by_vehicle');
-      var myChart = echarts.init(dom, null, {
-        renderer: 'canvas',
-        useDirtyRect: false
-      });
-      var option;
-      let color = [
-        "#FFD24C", // sariq (eng katta bo‘lak)
-        "#4BA3C7", // havorang
-        "#7AD67A", // och yashil
-        "#FF884C", // to‘q sariq
-        "#B266FF", // binafsha
-        "#FF6666", // qizil
-        "#6EB5FF", // ko‘k
-        "#5CC97B", // yashil
-        "#A472FF", // to‘q binafsha
-        "#FFB84D", // och sariq
-        "#99CCFF" // och ko‘k
-      ];
 
-      option = {
-        textStyle: {
-          fontFamily: "Arial, sans-serif"
-        },
-        color,
-        title: {
-          text: total,
-          left: 'center',
-          top: '38%',
-          textStyle: {
-            fontSize: 18,
-            fontWeight: 'bold',
-            color: default_color
-          },
-        },
-        legend: {
-          top: 'bottom',
-          orient: 'horizontal',
-          left: 'center',
-          itemGap: 10,
-          textStyle: {
-            color: default_color,
-            fontSize: 18
-          }
-        },
-        tooltip: {
-          backgroundColor: 'white',
-           textStyle: {
-                fontSize: 18,     // 🔥 shu yerda o'zgartirasan
-                color: '#000'
-            }
-        },
-        series: [{
-          type: 'pie',
-          radius: ['20%', '60%'],
-          center: ['50%', '42%'],
-          avoidLabelOverlap: false,
-          itemStyle: {
-            borderRadius: 10,
-            borderWidth: 2,
-            borderColor: 'none',
-            shadowColor: 'rgba(0, 0, 0, 0.5)',
-            shadowBlur: 20
-          },
-          label: {
-            show: true, // Show labels
-            position: 'outside', // Place labels outside the pie chart
-            formatter: '{c}', // Format the labels
-            textStyle: {
-              fontSize: 18, // Adjust the font size of the labels
-              fontWeight: 'bold',
-              color: '#b7b7b7',
-            },
-            backgroundColor: 'none',
-          },
-          minAngle: 20,
-          emphasis: {
-            label: {
-              show: true,
-              backgroundColor: 'none',
-            }
-          },
-          labelLine: {
-            show: true,
-            length: 20,
-            backgroundColor: 'none',
-          },
-          data: sdata.map((item, index) => {
-            return {
-              color: '#fff',
-              value: item.value,
-              name: item.name,
-              itemStyle: {
-                shadowColor: color[index],
-                shadowBlur: 10,
-                borderRadius: 10,
-                borderColor: color[index],
-              },
-            };
-          })
-        }]
-      };
-      if (option && typeof option === 'object') {
-        myChart.setOption(option);
-      }
-      window.addEventListener('resize', myChart.resize);
-    }
-    $.ajax({
-      type: "GET",
-      url: `${AJAXPHP}?act=power_by_vehicle`,
-      dataType: "json",
-      encode: true,
-      success: function(data) {
-        const totalValue = data.reduce((sum, item) => sum + parseInt(item.value), 0);
-        get_power_by_vehicle(data, totalValue);
-      }
-    })
+
+    // function get_power_by_vehicle(data, total) {
+    //   let sdata = data.map(i => ({ value: i.value, name: i.name }));
+    //   var dom = document.getElementById('get_power_by_vehicle');
+    //   var myChart = echarts.init(dom, null, {
+    //     renderer: 'canvas',
+    //     useDirtyRect: false
+    //   });
+    //   var option;
+    //   let color = [
+    //     "#FFD24C", // sariq (eng katta bo‘lak)
+    //     "#4BA3C7", // havorang
+    //     "#7AD67A", // och yashil
+    //     "#FF884C", // to‘q sariq
+    //     "#B266FF", // binafsha
+    //     "#FF6666", // qizil
+    //     "#6EB5FF", // ko‘k
+    //     "#5CC97B", // yashil
+    //     "#A472FF", // to‘q binafsha
+    //     "#FFB84D", // och sariq
+    //     "#99CCFF" // och ko‘k
+    //   ];
+
+    //   option = {
+    //     textStyle: {
+    //       fontFamily: "Arial, sans-serif"
+    //     },
+    //     color,
+    //     title: {
+    //       text: total,
+    //       left: 'center',
+    //       top: '38%',
+    //       textStyle: {
+    //         fontSize: 18,
+    //         fontWeight: 'bold',
+    //         color: default_color
+    //       },
+    //     },
+    //     legend: {
+    //       top: 'bottom',
+    //       orient: 'horizontal',
+    //       left: 'center',
+    //       itemGap: 10,
+    //       textStyle: {
+    //         color: default_color,
+    //         fontSize: 18
+    //       }
+    //     },
+    //     tooltip: {
+    //       backgroundColor: 'white',
+    //        textStyle: {
+    //             fontSize: 18,     // 🔥 shu yerda o'zgartirasan
+    //             color: '#000'
+    //         }
+    //     },
+    //     series: [{
+    //       type: 'pie',
+    //       radius: ['20%', '60%'],
+    //       center: ['50%', '42%'],
+    //       avoidLabelOverlap: false,
+    //       itemStyle: {
+    //         borderRadius: 10,
+    //         borderWidth: 2,
+    //         borderColor: 'none',
+    //         shadowColor: 'rgba(0, 0, 0, 0.5)',
+    //         shadowBlur: 20
+    //       },
+    //       label: {
+    //         show: true, // Show labels
+    //         position: 'outside', // Place labels outside the pie chart
+    //         formatter: '{c}', // Format the labels
+    //         textStyle: {
+    //           fontSize: 18, // Adjust the font size of the labels
+    //           fontWeight: 'bold',
+    //           color: '#b7b7b7',
+    //         },
+    //         backgroundColor: 'none',
+    //       },
+    //       minAngle: 20,
+    //       emphasis: {
+    //         label: {
+    //           show: true,
+    //           backgroundColor: 'none',
+    //         }
+    //       },
+    //       labelLine: {
+    //         show: true,
+    //         length: 20,
+    //         backgroundColor: 'none',
+    //       },
+    //       data: sdata.map((item, index) => {
+    //         return {
+    //           color: '#fff',
+    //           value: item.value,
+    //           name: item.name,
+    //           itemStyle: {
+    //             shadowColor: color[index],
+    //             shadowBlur: 10,
+    //             borderRadius: 10,
+    //             borderColor: color[index],
+    //           },
+    //         };
+    //       })
+    //     }]
+    //   };
+    //   if (option && typeof option === 'object') {
+    //     myChart.setOption(option);
+    //   }
+    //   window.addEventListener('resize', myChart.resize);
+    // }
+    // $.ajax({
+    //   type: "GET",
+    //   url: `${AJAXPHP}?act=power_by_vehicle`,
+    //   dataType: "json",
+    //   encode: true,
+    //   success: function(data) {
+    //     const totalValue = data.reduce((sum, item) => sum + parseInt(item.value), 0);
+    //     get_power_by_vehicle(data, totalValue);
+    //   }
+    // })
 
 
 
@@ -1539,194 +1787,194 @@
 
   /* qo'shimcha kiritgan joyim */
   // 🎯 Ma’lumotlar
-  const chartDataByFilter2 = {
-    0: {
-      legend: [
-      "Ўқув",
-        "Тарбиявий",
-        "Назорат",
-        "Техник",
-        "Таълим ва касбий тайёргарлик",
-        "Спорт ва жисмоний тайёргарлик"
-      ],
-      data: [108, 92, 69, 89, 46, 27]
-    },
-    2: {
-      legend: [
-       "Ўқув",
-        "Тарбиявий",
-        "Назорат",
-        "Техник",
-        "Таълим ва касбий тайёргарлик",
-        "Спорт ва жисмоний тайёргарлик"
-      ],
-      data: [40, 30, 22, 25, 18, 10]
-    },
-    3: {
-      legend: [
-       "Ўқув",
-        "Тарбиявий",
-        "Назорат",
-        "Техник",
-        "Таълим ва касбий тайёргарлик",
-        "Спорт ва жисмоний тайёргарлик"
-      ],
-      data: [200, 160, 120, 150, 90, 60]
-    }
-  };
+  // const chartDataByFilter2 = {
+  //   0: {
+  //     legend: [
+  //     "Ўқув",
+  //       "Тарбиявий",
+  //       "Назорат",
+  //       "Техник",
+  //       "Таълим ва касбий тайёргарлик",
+  //       "Спорт ва жисмоний тайёргарлик"
+  //     ],
+  //     data: [108, 92, 69, 89, 46, 27]
+  //   },
+  //   2: {
+  //     legend: [
+  //      "Ўқув",
+  //       "Тарбиявий",
+  //       "Назорат",
+  //       "Техник",
+  //       "Таълим ва касбий тайёргарлик",
+  //       "Спорт ва жисмоний тайёргарлик"
+  //     ],
+  //     data: [40, 30, 22, 25, 18, 10]
+  //   },
+  //   3: {
+  //     legend: [
+  //      "Ўқув",
+  //       "Тарбиявий",
+  //       "Назорат",
+  //       "Техник",
+  //       "Таълим ва касбий тайёргарлик",
+  //       "Спорт ва жисмоний тайёргарлик"
+  //     ],
+  //     data: [200, 160, 120, 150, 90, 60]
+  //   }
+  // };
 
-  // 🧾 Tafsilotlar (modal uchun)
-  const eventDetails3 = {
-   "Ўқув": [
-      "Отиш машғулотлари - 12",
-      "Тактик машғулотлар - 34",
-      "Техник машқлар - 14",
-      "Муҳандислик ва сапёр тайёргарлиги - 9",
-      "Тиббий машғулотлар - 6",
-      "Жисмоний ва психологик тайёргарлик - 4",
-      "Алоқа ва радиотехник тайёргарлик машғулотлари - 13",
-      "Жанговар тайёргарлик бўйича йиғилишлар ва назорат машғулотлари - 20"
-    ],
-   "Тарбиявий": [
-      "Ватанпарварлик ва маънавий машғулотлар - 12",
-      "Тантанали саф тортиш маросимлари - 15",
-      "Очиқ эшиклар куни - 20",
-      "Маданий-оммавий тадбирлар - 21",
-      "Маънавий-психологик тайёргарлик машғулотлари - 24"
-    ],
-   "Назорат": [
-      "Жанговар ва хизматга тайёргарлик текширувлари - 14",
-      "Қўмондонлик ёки бошқарув томонидан инспекторлик текшируви - 17",
-      "Энг яхши бўлинма (ҳарбий қисм) танлови - 19",
-      "Қурол, техника ва ўқ-дорилар ҳисобини текшириш - 19"
-    ],
-    "Техник": [
-      "Техника ва қуролларга техник хизмат кўрсатиш ва таъмирлаш - 21",
-      "Парклар, казармалар ва омборларда тартиб ўрнатиш - 24",
-      "Мулкни инвентаризация қилиш - 25",
-      "Ҳудудни ободонлаштириш, хўжалик ишлари - 19"
-    ],
-    "Таълим": [
-      "Офицер ва прапоршчиклар учун малака ошириш курслари - 24",
-      "Янги қурол ва техникани ўрганиш бўйича машғулотлар - 10",
-      "Қўмондонлик таркиби учун семинар ва услубий йиғилишлар - 9",
-      "Ҳудудлар ўртасида тажриба алмашиш - 3"
-    ],
-    "Спорт ва жисмоний тайёргарлик": [
-      "Жисмоний тайёргарлик нормативларини топшириш - 1",
-      "Бўлинмалар ўртасида мусобақалар - 10",
-      "Ҳарбий-спорт байрамлари - 8",
-      "ГТО стандартларига тайёргарлик - 8"
-    ]
-  };
+  // // 🧾 Tafsilotlar (modal uchun)
+  // const eventDetails3 = {
+  //  "Ўқув": [
+  //     "Отиш машғулотлари - 12",
+  //     "Тактик машғулотлар - 34",
+  //     "Техник машқлар - 14",
+  //     "Муҳандислик ва сапёр тайёргарлиги - 9",
+  //     "Тиббий машғулотлар - 6",
+  //     "Жисмоний ва психологик тайёргарлик - 4",
+  //     "Алоқа ва радиотехник тайёргарлик машғулотлари - 13",
+  //     "Жанговар тайёргарлик бўйича йиғилишлар ва назорат машғулотлари - 20"
+  //   ],
+  //  "Тарбиявий": [
+  //     "Ватанпарварлик ва маънавий машғулотлар - 12",
+  //     "Тантанали саф тортиш маросимлари - 15",
+  //     "Очиқ эшиклар куни - 20",
+  //     "Маданий-оммавий тадбирлар - 21",
+  //     "Маънавий-психологик тайёргарлик машғулотлари - 24"
+  //   ],
+  //  "Назорат": [
+  //     "Жанговар ва хизматга тайёргарлик текширувлари - 14",
+  //     "Қўмондонлик ёки бошқарув томонидан инспекторлик текшируви - 17",
+  //     "Энг яхши бўлинма (ҳарбий қисм) танлови - 19",
+  //     "Қурол, техника ва ўқ-дорилар ҳисобини текшириш - 19"
+  //   ],
+  //   "Техник": [
+  //     "Техника ва қуролларга техник хизмат кўрсатиш ва таъмирлаш - 21",
+  //     "Парклар, казармалар ва омборларда тартиб ўрнатиш - 24",
+  //     "Мулкни инвентаризация қилиш - 25",
+  //     "Ҳудудни ободонлаштириш, хўжалик ишлари - 19"
+  //   ],
+  //   "Таълим": [
+  //     "Офицер ва прапоршчиклар учун малака ошириш курслари - 24",
+  //     "Янги қурол ва техникани ўрганиш бўйича машғулотлар - 10",
+  //     "Қўмондонлик таркиби учун семинар ва услубий йиғилишлар - 9",
+  //     "Ҳудудлар ўртасида тажриба алмашиш - 3"
+  //   ],
+  //   "Спорт ва жисмоний тайёргарлик": [
+  //     "Жисмоний тайёргарлик нормативларини топшириш - 1",
+  //     "Бўлинмалар ўртасида мусобақалар - 10",
+  //     "Ҳарбий-спорт байрамлари - 8",
+  //     "ГТО стандартларига тайёргарлик - 8"
+  //   ]
+  // };
 
-  // 🔽 Filter ro‘yxat
-  const filters2 = [
-    { id: 0, name: "Ҳаммаси" },
-    { id: 2, name: "Ой" },
-    { id: 3, name: "Йил" }
-  ];
+  // // 🔽 Filter ro‘yxat
+  // const filters2 = [
+  //   { id: 0, name: "Ҳаммаси" },
+  //   { id: 2, name: "Ой" },
+  //   { id: 3, name: "Йил" }
+  // ];
 
-  // 🎨 Ranglar
-  const colorSet2 = [
-    "#FFD24C", // sariq (eng katta bo‘lak)
-    "#4BA3C7", // havorang
-    "#7AD67A", // och yashil
-    "#FF884C", // to‘q sariq
-    "#B266FF", // binafsha
-    "#FF6666", // qizil
-    "#6EB5FF", // ko‘k
-    "#5CC97B", // yashil
-    "#A472FF", // to‘q binafsha
-    "#FFB84D", // och sariq
-    "#99CCFF" // och ko‘k
-  ];
+  // // 🎨 Ranglar
+  // const colorSet2 = [
+  //   "#FFD24C", // sariq (eng katta bo‘lak)
+  //   "#4BA3C7", // havorang
+  //   "#7AD67A", // och yashil
+  //   "#FF884C", // to‘q sariq
+  //   "#B266FF", // binafsha
+  //   "#FF6666", // qizil
+  //   "#6EB5FF", // ko‘k
+  //   "#5CC97B", // yashil
+  //   "#A472FF", // to‘q binafsha
+  //   "#FFB84D", // och sariq
+  //   "#99CCFF" // och ko‘k
+  // ];
 
 
-  // 📊 Chart funksiyasi
-  function renderIdoraviyChart(data, total) {
-    const sdata = data.legend.map((name, i) => ({ value: data.data[i], name }));
+  // // 📊 Chart funksiyasi
+  // function renderIdoraviyChart(data, total) {
+  //   const sdata = data.legend.map((name, i) => ({ value: data.data[i], name }));
 
-    const dom = document.getElementById("get_departmental_events");
-    const chart = echarts.init(dom);
+  //   const dom = document.getElementById("get_departmental_events");
+  //   const chart = echarts.init(dom);
 
-    const option = {
-      textStyle: { fontFamily: "Arial, sans-serif" },
-      color: colorSet2,
-      title: {
-        text: total,
-        left: "center",
-        top: "32%",
-        textStyle: { fontSize: 18, fontWeight: "bold", color: "#b7b7b7" }
-      },
-      legend: {
-        top: "bottom",
-        orient: "horizontal",
-        left: "center",
-        textStyle: { color: "#b7b7b7", fontSize: 18 }
-      },
-      tooltip: { backgroundColor: "white",  textStyle: {
-                fontSize: 18,    
-                color: '#000'
-            } },
-      series: [{
-        type: "pie",
-        radius: ['20%', '60%'],
-        center: ['50%', '35%'],
-        itemStyle: {
-          borderRadius: 10,
-          borderWidth: 2,
-          shadowColor: 'rgba(0,0,0,0.5)',
-          shadowBlur: 20
-        },
+  //   const option = {
+  //     textStyle: { fontFamily: "Arial, sans-serif" },
+  //     color: colorSet2,
+  //     title: {
+  //       text: total,
+  //       left: "center",
+  //       top: "32%",
+  //       textStyle: { fontSize: 18, fontWeight: "bold", color: "#b7b7b7" }
+  //     },
+  //     legend: {
+  //       top: "bottom",
+  //       orient: "horizontal",
+  //       left: "center",
+  //       textStyle: { color: "#b7b7b7", fontSize: 18 }
+  //     },
+  //     tooltip: { backgroundColor: "white",  textStyle: {
+  //               fontSize: 18,    
+  //               color: '#000'
+  //           } },
+  //     series: [{
+  //       type: "pie",
+  //       radius: ['20%', '60%'],
+  //       center: ['50%', '35%'],
+  //       itemStyle: {
+  //         borderRadius: 10,
+  //         borderWidth: 2,
+  //         shadowColor: 'rgba(0,0,0,0.5)',
+  //         shadowBlur: 20
+  //       },
 
-        label: {
-          show: true,
-          position: "outside",
-          formatter: "{c}",
-          textStyle: { fontSize: 18, fontWeight: "bold", color: "#b7b7b7" }
-        },
-        labelLine: { show: true, length: 20 },
-        data: sdata.map((item, index) => ({
-          value: item.value,
-          name: item.name,
-        }))
-      }]
-    };
+  //       label: {
+  //         show: true,
+  //         position: "outside",
+  //         formatter: "{c}",
+  //         textStyle: { fontSize: 18, fontWeight: "bold", color: "#b7b7b7" }
+  //       },
+  //       labelLine: { show: true, length: 20 },
+  //       data: sdata.map((item, index) => ({
+  //         value: item.value,
+  //         name: item.name,
+  //       }))
+  //     }]
+  //   };
 
-    chart.setOption(option);
-    window.addEventListener("resize", chart.resize);
+  //   chart.setOption(option);
+  //   window.addEventListener("resize", chart.resize);
 
-    // Modalni ochish
-    chart.off("click");
-    chart.on("click", function(params) {
-      const category = params.name;
-      const details = eventDetails3[category] || ["Ma’lumot topilmadi"];
-      $("#eventTypeModalLabel1").text(category);
-      $("#eventTypeModalBody1").html(
-        `<ul class="list-group">${details.map(d => `<li class="list-group-item">${d}</li>`).join("")}</ul>`
-      );
-      $("#eventTypeModal1").modal("show");
-    });
-  }
+  //   // Modalni ochish
+  //   chart.off("click");
+  //   chart.on("click", function(params) {
+  //     const category = params.name;
+  //     const details = eventDetails3[category] || ["Ma’lumot topilmadi"];
+  //     $("#eventTypeModalLabel1").text(category);
+  //     $("#eventTypeModalBody1").html(
+  //       `<ul class="list-group">${details.map(d => `<li class="list-group-item">${d}</li>`).join("")}</ul>`
+  //     );
+  //     $("#eventTypeModal1").modal("show");
+  //   });
+  // }
 
   // SELECTni to‘ldirish
-  filters2.forEach(item => {
-    $("#departmental_events").append(`<option value="${item.id}">${item.name}</option>`);
-  });
+  // filters2.forEach(item => {
+  //   $("#departmental_events").append(`<option value="${item.id}">${item.name}</option>`);
+  // });
 
   //  SELECT o‘zgarsa chartni yangilash
-  $("#departmental_events").change(function() {
-    const id = $(this).val();
-    const selected = chartDataByFilter2[id] || chartDataByFilter2[0];
-    const total = selected.data.reduce((a, b) => a + b, 0);
-    renderIdoraviyChart(selected, total);
-  });
+  // $("#departmental_events").change(function() {
+  //   const id = $(this).val();
+  //   const selected = chartDataByFilter2[id] || chartDataByFilter2[0];
+  //   const total = selected.data.reduce((a, b) => a + b, 0);
+  //   renderIdoraviyChart(selected, total);
+  // });
 
-  // Dastlab yuklash
-  const initialData2 = chartDataByFilter2[0];
-  const totalInitial2 = initialData2.data.reduce((a, b) => a + b, 0);
-  renderIdoraviyChart(initialData2, totalInitial2);
+  // // Dastlab yuklash
+  // const initialData2 = chartDataByFilter2[0];
+  // const totalInitial2 = initialData2.data.reduce((a, b) => a + b, 0);
+  // renderIdoraviyChart(initialData2, totalInitial2);
 
 
 
@@ -1855,121 +2103,121 @@
   //   })
   // })
 
-  function get_events_by_region2(data) {
-    var dom = document.getElementById('get_events_by_region2');
-    var myChart = echarts.init(dom, null, {
-      renderer: 'canvas',
-      useDirtyRect: false
-    });
-    var option;
-    var colors = ['#28C76F', '#00CFE8', '#7367F0', '#45FFCA', '#A149FA', '#E3FCBF', '#00FFAB',
-      '#B983FF', '#94B3FD', '#998CEB', '#00AF91', '#6499E9', '#F3CCFF',
-    ];
+  // function get_events_by_region2(data) {
+  //   var dom = document.getElementById('get_events_by_region2');
+  //   var myChart = echarts.init(dom, null, {
+  //     renderer: 'canvas',
+  //     useDirtyRect: false
+  //   });
+  //   var option;
+  //   var colors = ['#28C76F', '#00CFE8', '#7367F0', '#45FFCA', '#A149FA', '#E3FCBF', '#00FFAB',
+  //     '#B983FF', '#94B3FD', '#998CEB', '#00AF91', '#6499E9', '#F3CCFF',
+  //   ];
     
-    option = {
-      textStyle: {
-        fontFamily: "Arial, sans-serif"
-      },
-      xAxis: {
-        type: 'category',
-        data: data.map(item => item.name),
-        axisLabel: {
-          interval: 0,
-          fontSize: 18,
-          rotate: 50, // Show all labels
-          color: default_color,
-        },
-        axisLine: {
-          show: false // Remove the background X line
-        },
-        splitLine: {
-          show: false // Remove the background X line
-        }
-      },
-      grid: {
-        bottom: 110,
-        right: 30,
-        left: 100,
-      },
-      yAxis: {
-        minInterval: 1,
-        type: 'value',
-        label: {
-          show: true,
-        },
-        axisLabel: {
-          color: default_color,
-          fontSize: 18
-        },
-        axisLine: {
-          show: false // Remove the background Y line
-        },
-        splitLine: {
-          show: false // Remove the background X line
-        }
-      },
-      tooltip: {
-        backgroundColor: default_color,
-         textStyle: {
-                fontSize: 18,     // 🔥 shu yerda o'zgartirasan
-                color: '#000'
-            }
-      },
-      series: [{
-        data: data.map(item => parseInt(item.gcount)),
-        type: 'bar',
-        barMaxWidth: 60,
-        barMaxHeight: 60,
-        // itemStyle: {
-        //     color: function(params) {
-        //         return colors[params.dataIndex % colors
-        //             .length]; // Use different colors for each bar
-        //     },
-        //     borderRadius: [8, 8, 0, 0] // Add border-radius only to the top of the bar line
-        // },
-        label: {
-          fontSize: 18,
-          show: true, // Show the value on top of the bar
-          position: 'top',
-          color: default_color,
-        }
-      }]
-    };
-    if (option && typeof option === 'object') {
-      myChart.setOption(option);
-    }
-    window.addEventListener('resize', myChart.resize);
-  }
-  $.ajax({
-    type: "GET",
-    url: `${AJAXPHP}?act=get_events_by_region2`,
-    dataType: "json",
-    encode: true,
-    success: function(data) {
-      get_events_by_region2(data);
-      const totalValue = data.reduce((sum, item) => parseInt(sum) + parseInt(item.gcount), 0);
-      $("#get_events_by_region_total1").html(`(${totalValue})`)
-    }
-  })
+  //   option = {
+  //     textStyle: {
+  //       fontFamily: "Arial, sans-serif"
+  //     },
+  //     xAxis: {
+  //       type: 'category',
+  //       data: data.map(item => item.name),
+  //       axisLabel: {
+  //         interval: 0,
+  //         fontSize: 18,
+  //         rotate: 50, // Show all labels
+  //         color: default_color,
+  //       },
+  //       axisLine: {
+  //         show: false // Remove the background X line
+  //       },
+  //       splitLine: {
+  //         show: false // Remove the background X line
+  //       }
+  //     },
+  //     grid: {
+  //       bottom: 110,
+  //       right: 30,
+  //       left: 100,
+  //     },
+  //     yAxis: {
+  //       minInterval: 1,
+  //       type: 'value',
+  //       label: {
+  //         show: true,
+  //       },
+  //       axisLabel: {
+  //         color: default_color,
+  //         fontSize: 18
+  //       },
+  //       axisLine: {
+  //         show: false // Remove the background Y line
+  //       },
+  //       splitLine: {
+  //         show: false // Remove the background X line
+  //       }
+  //     },
+  //     tooltip: {
+  //       backgroundColor: default_color,
+  //        textStyle: {
+  //               fontSize: 18,     // 🔥 shu yerda o'zgartirasan
+  //               color: '#000'
+  //           }
+  //     },
+  //     series: [{
+  //       data: data.map(item => parseInt(item.gcount)),
+  //       type: 'bar',
+  //       barMaxWidth: 60,
+  //       barMaxHeight: 60,
+  //       // itemStyle: {
+  //       //     color: function(params) {
+  //       //         return colors[params.dataIndex % colors
+  //       //             .length]; // Use different colors for each bar
+  //       //     },
+  //       //     borderRadius: [8, 8, 0, 0] // Add border-radius only to the top of the bar line
+  //       // },
+  //       label: {
+  //         fontSize: 18,
+  //         show: true, // Show the value on top of the bar
+  //         position: 'top',
+  //         color: default_color,
+  //       }
+  //     }]
+  //   };
+  //   if (option && typeof option === 'object') {
+  //     myChart.setOption(option);
+  //   }
+  //   window.addEventListener('resize', myChart.resize);
+  // }
+  // $.ajax({
+  //   type: "GET",
+  //   url: `${AJAXPHP}?act=get_events_by_region2`,
+  //   dataType: "json",
+  //   encode: true,
+  //   success: function(data) {
+  //     get_events_by_region2(data);
+  //     const totalValue = data.reduce((sum, item) => parseInt(sum) + parseInt(item.gcount), 0);
+  //     $("#get_events_by_region_total1").html(`(${totalValue})`)
+  //   }
+  // })
 
-  filters.forEach((item) => {
-    $('#get_events_by_region_filter2').append(`<option value="${item.id}">${item.name}</option>`)
-  })
-  $('#get_events_by_region_filter2').change(function(data) {
-    let id = $(this).val();
-    $.ajax({
-      type: "GET",
-      url: `${AJAXPHP}?act=get_events_by_region2&date=${id}`,
-      dataType: "json",
-      encode: true,
-      success: function(data) {
-        get_events_by_region2(data);
-        const totalValue = data.reduce((sum, item) => parseInt(sum) + parseInt(item.gcount),
-          0);
-        $("#get_events_by_region_total1").html(`(${totalValue})`)
-        }
-      })
-    })
+  // filters.forEach((item) => {
+  //   $('#get_events_by_region_filter2').append(`<option value="${item.id}">${item.name}</option>`)
+  // })
+  // $('#get_events_by_region_filter2').change(function(data) {
+  //   let id = $(this).val();
+  //   $.ajax({
+  //     type: "GET",
+  //     url: `${AJAXPHP}?act=get_events_by_region2&date=${id}`,
+  //     dataType: "json",
+  //     encode: true,
+  //     success: function(data) {
+  //       get_events_by_region2(data);
+  //       const totalValue = data.reduce((sum, item) => parseInt(sum) + parseInt(item.gcount),
+  //         0);
+  //       $("#get_events_by_region_total1").html(`(${totalValue})`)
+  //       }
+  //     })
+  //   })
 
   {/literal}
 </script>
