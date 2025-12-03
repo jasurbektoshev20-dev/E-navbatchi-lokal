@@ -253,7 +253,67 @@
         }
         scrollToBottom();
 
+        // Send Message
+        function sendMsg(e) {
+            let msg = messageInput.val();
+            if (msg) {
+                const currentTimestamp = new Date();
+                $.ajax({
+                    type: "POST",
+                    url: `hrajax.php?act=act_chat`,
+                    dataType: "json",
+                    encode: true,
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        sender_id: UserStructure,
+                        staff_id: StaffID,
+                        time: currentTimestamp.toISOString(),
+                        text: msg,
+                        status: 1
+                    }),
+                    success: function(data) {
+                        console.log('data', data);
+                    }
+                })
 
+                let chatHistoryBox = $(".chat-history");
+                messageInput.val('');
+                scrollToBottom();
+                $(this).trigger('click');
+            }
+        }
+
+        $(document).on("keypress", '.message-input', async function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                sendMsg()
+            }
+        });
+        $('#sendMsg').on('click', sendMsg);
+
+        // Chat refresh (every 1 second)
+    //    function refreshChat(newHtml) {
+    //         let chatList = $(".chat-history");
+    //         let oldHtml = chatList.html();
+    //          chatList.html(newHtml);
+    //         // Faqat o'zgarish bo'lsa yangilaymiz
+    //         if (oldHtml.trim() !== newHtml.trim()) {
+                
+
+    //             // Silliq scroll pastga
+    //             chatHistoryBody.scrollTo({
+    //                 top: chatHistoryBody.scrollHeight,
+    //                 behavior: "smooth"
+    //             });
+    //         }
+    //     }
+
+
+    //     // Har 1 sekundda chaqirish
+    //     setInterval(refreshChat, 1000);
+
+
+        
 $(document).ready(function () {
 
     function loadDutyByRegion(region) {
@@ -345,150 +405,6 @@ $(document).ready(function () {
     }
 
 });
-
-        // Send Message
-        // function sendMsg(e) {
-        //     let msg = messageInput.val();
-        //     if (msg) {
-        //         const currentTimestamp = new Date();
-        //         $.ajax({
-        //             type: "POST",
-        //             url: `hrajax.php?act=act_chat`,
-        //             dataType: "json",
-        //             encode: true,
-        //             contentType: "application/json",
-        //             data: JSON.stringify({
-        //                 sender_id: UserStructure,
-        //                 staff_id: StaffID,
-        //                 time: currentTimestamp.toISOString(),
-        //                 text: msg,
-        //                 status: 1
-        //             }),
-        //             success: function(data) {
-        //                 console.log('data', data);
-        //             }
-        //         })
-
-        //         let chatHistoryBox = $(".chat-history");
-        //         messageInput.val('');
-        //         scrollToBottom();
-        //         $(this).trigger('click');
-        //     }
-        // }
-
-        // yordamchi: HTML escaping va vaqt formatlash
-function escapeHtml(s) {
-  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-function formatLocalTime(iso) {
-  const d = new Date(iso);
-  if (isNaN(d)) return '';
-  const pad = n => String(n).padStart(2,'0');
-  return `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())} ${pad(d.getDate())}.${pad(d.getMonth()+1)}.${d.getFullYear()}`;
-}
-
-// temp xabar render (ozgina styling screenshotga mos)
-function renderTempOutgoing(tempId, text, isoTime, status = 'sending') {
-  const time = formatLocalTime(isoTime);
-  const statusHtml = status === 'sending' ? '<span class="msg-status sending">…</span>'
-                   : status === 'sent' ? '<span class="msg-status sent">✓✓</span>'
-                   : '<span class="msg-status failed">✖</span>';
-
-  return `
-    <div class="chat-row chat-row-outgoing" data-temp-id="${tempId}">
-      <div class="chat-bubble chat-bubble-outgoing">
-        ${escapeHtml(text)}
-        <div class="chat-meta">
-          <small class="chat-time">${time}</small>
-          ${statusHtml}
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-// yangilash: temp xabar statusini yangilaydi (tempId orqali)
-function setTempStatus(tempId, newStatus, realId = '') {
-  const container = document.querySelector('.chat-history-body');
-  if (!container) return;
-  const el = container.querySelector(`[data-temp-id="${tempId}"]`);
-  if (!el) return;
-  // status elementni yangilash
-  const statusEl = el.querySelector('.msg-status');
-  if (statusEl) {
-    if (newStatus === 'sent') statusEl.innerHTML = '✓✓';
-    else if (newStatus === 'failed') statusEl.innerHTML = '✖';
-    else if (newStatus === 'sending') statusEl.innerHTML = '…';
-  }
-  if (newStatus === 'sent') {
-    el.removeAttribute('data-temp-id');
-    if (realId) el.setAttribute('data-msg-id', realId);
-  } else if (newStatus === 'failed') {
-    el.classList.add('msg-failed');
-  }
-}
-
-// ASOSIY: sendMsg funksiyasi — o'rnini almashtiring
-function sendMsg(e) {
-  const msg = messageInput.val().trim();
-  if (!msg) return;
-
-  const now = new Date();
-  const tempId = 'tmp-' + Date.now();
-
-  // 1) UI ga darhol qo'shish
-  const chatBody = document.querySelector('.chat-history-body');
-  if (chatBody) {
-    chatBody.insertAdjacentHTML('beforeend', renderTempOutgoing(tempId, msg, now.toISOString(), 'sending'));
-
-    // agar PerfectScrollbar ishlatilgan bo'lsa, update qilish sinov uchun:
-    try {
-      if (chatBody._ps && typeof chatBody._ps.update === 'function') chatBody._ps.update();
-    } catch (err) { /* ignore */ }
-
-    // pastga surish
-    scrollToBottom();
-  }
-
-  // 2) inputni tozalash
-  messageInput.val('');
-
-  // 3) AJAX yuborish
-  $.ajax({
-    type: "POST",
-    url: `hrajax.php?act=act_chat`,
-    dataType: "json",
-    contentType: "application/json",
-    data: JSON.stringify({
-      sender_id: UserStructure,
-      staff_id: StaffID,
-      time: now.toISOString(),
-      text: msg,
-      status: 1
-    }),
-    success: function(response) {
-      // server muvaffaqiyatli qaytsa statusni yangilaymiz
-      // faraz: response.ok === true va response.id mavjud bo'ladi
-      if (response && (response.ok || response.success)) {
-        setTempStatus(tempId, 'sent', response.id || '');
-      } else {
-        setTempStatus(tempId, 'failed');
-      }
-    },
-    error: function() {
-      setTempStatus(tempId, 'failed');
-    }
-  });
-}
-
-
-        $(document).on("keypress", '.message-input', async function(event) {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                sendMsg()
-            }
-        });
-        $('#sendMsg').on('click', sendMsg);
 
     {/literal}
 </script>
