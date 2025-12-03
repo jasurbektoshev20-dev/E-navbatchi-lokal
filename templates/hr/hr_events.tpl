@@ -42,7 +42,7 @@
                             <tr>
                                 <th>t/r</th>
                                 <th class="text-center">Ҳудуд</th>
-                                <th class="text-center">Joyi</th>
+                                <th class="text-center">Жойи</th>
                                 <th class="text-center">Тури</th>
                                 <th class="text-center">Номи</th>
                                 <th class="text-center">Йўналиши</th>
@@ -50,19 +50,19 @@
                                 <th class="text-center">Бошланиш вақти</th>
                                 <th class="text-center">Тугаш вақти</th>
                                 <th class="text-center">Фуқаролар сони</th>
-                                <th class="text-center">Tadbirga masul tashkilot</th>
-                                <th class="text-center">Masul FISH</th>
-                                <th class="text-center">Telefon</th>
-                                <th class="text-center">IIV masul FISH</th>
+                                <th class="text-center">Тадбирга масул ташкилот</th>
+                                <th class="text-center">Масул ФИШ</th>
+                                <th class="text-center">Телефон</th>
+                                <th class="text-center">ИИВ масул ФИШ</th>
                                 <th class="text-center">ИИВ ҲХ сони</th>
-                                <th class="text-center">FVV masul FISH</th>
+                                <th class="text-center">ФВВ масул ФИШ</th>
                                 <th class="text-center">ФВВ ҲХ сони</th>
-                                <th class="text-center">МГ МСГр masul FISH</th>
+                                <th class="text-center">МГ МСГр масул ФИШ</th>
                                 <th class="text-center">МГ МСГр сони</th>
-                                <th class="text-center">ИИВ Спринг masul FISH</th>
+                                <th class="text-center">ИИВ Спринг масул ФИШ</th>
                                 <th class="text-center">ИИВ Спринг сони</th>
-                                <th class="text-center">Zaxiraga masul</th>
-                                <th class="text-center">Zaxira сони</th>
+                                <th class="text-center">Захирага масул</th>
+                                <th class="text-center">Захира сони</th>
                                 <th class="text-center">Тадбирни ўтказувчи ташаббускор</th>
                                 <th></th>
                             </tr>
@@ -79,11 +79,11 @@
                                     <td class="text-center">{$item.obj_name}</td>
                                     <td class="text-center">{$item.event_type}</td>     
                                     <td class="text-center">{$item.event_name}</td>
-                                    <td class="text-center">{$item.direction_event}</td>
-                                    <td class="text-center">{$item.command}</td>
-                                    <td class="text-center">{$item.start_time}</td>
-                                    <td class="text-center">{$item.end_time}</td>
-                                    <td class="text-center">{$item.citizens_count}</td>
+                                    <td class="text-center">{$item.event_direction}</td>
+                                    <td class="text-center">{$item.event_view}</td>
+                                    <td class="text-center">{$item.start_event}</td>
+                                    <td class="text-center">{$item.finish_event}</td>
+                                    <td class="text-center">{$item.people_count}</td>
                                     <td class="text-center">{$item.event_responsible_organization}</td>
                                     <td class="text-center">{$item.responsible_name}</td>
                                     <td class="text-center">{$item.responsible_phone}</td>
@@ -94,7 +94,7 @@
                                     <td class="text-center">{$item.responsible_msgr_name}</td>
                                     <td class="text-center">{$item.mg_count}</td>
                                     <td class="text-center">{$item.responsible_spring_name}</td>
-                                    <td class="text-center">{$item.iiv_spring_count}</td>
+                                    <td class="text-center">{$item.spring_count}</td>
                                     <td class="text-center">{$item.reserve_name} {$item.reserve_name}</td>
                                     <td class="text-center">{$item.reserve_count} {$item.reserve_count}</td>
                                     <td class="text-center">{$item.organizer}</td>
@@ -209,27 +209,27 @@
                         </div>
 
                         <div class="col-sm-4">
-                            <label>Tadbirga mas'ul tashkilot</label>
+                            <label>Тадбирга масъул ташкилот</label>
                             <select required class="select form-control" name="event_responsible_organization" id="event_responsible_organization">
                                 <option value="">{$Dict.choose}</option>
-                                <option value="IIB">IIB</option>
-                                <option value="FVV">FVV</option>
-                                <option value="MG">MG</option>
+                                <option value="ИИБ">ИИБ</option>
+                                <option value="ФВВ">ФВВ</option>
+                                <option value="МГ">МГ</option>
                             </select>
                         </div>
                         
                         <div class="col-sm-4">
-                            <label>Mas'ul nomi</label>
+                            <label>Масъул номи</label>
                             <input required type="text" class="form-control" name="responsible_name" id="responsible_name"  value="">
                         </div>
 
                          <div class="col-sm-4">
-                            <label>Mas'ul telefon raqami</label>
+                            <label>Масъул телефон рақами</label>
                             <input required type="text" class="form-control" name="responsible_phone" id="responsible_phone" placeholder="90 345 76 87"  value="">
                         </div>
 
                         <div class="col-sm-4">
-                            <label>IIV masul</label>
+                            <label>ИИВ масул</label>
                             <input required type="text" class="form-control" name="responsible_iiv_name" id="responsible_iiv_name"  value="">
                         </div>
 
@@ -240,7 +240,7 @@
                         </div>
 
                          <div class="col-sm-4">
-                            <label>FVV masul</label>
+                            <label>ФВВ масул</label>
                             <input required type="text" class="form-control" name="responsible_fvv_name" id="responsible_fvv_name"  value="">
                         </div>
 
@@ -271,12 +271,12 @@
                         </div>
 
                         <div class="col-sm-4">
-                            <label>Zaxiraga masul</label>
+                            <label>Захирага масул</label>
                             <input required type="text" class="form-control" name="reserve_name" id="reserve_name"  value="">
                         </div>
 
                         <div class="col-sm-4">
-                            <label>Zaxira сони</label>
+                            <label>Захира сони</label>
                             <input required type="number" class="form-control" name="reserve_count" id="reserve_count" value="">
                         </div>
 
@@ -412,8 +412,8 @@
                 $('#region_id').val(sInfo.region_id);
                 $('#object_id').val(sInfo.jts_object_id);
                 $('#event_type').val(sInfo.public_event_type);
-                $('#event_direction').val(sInfo.direction_event);
-                $('#event_view').val(sInfo.command);
+                $('#event_direction').val(sInfo.event_direction);
+                $('#event_view').val(sInfo.event_view);
                 $('#event_responsible_organization').val(sInfo.event_responsible_organization);
                 $('#region_id').trigger("change");
                 $('#object_id').trigger("change");
@@ -421,8 +421,8 @@
                 $('#event_direction').trigger("change");
                 $('#event_view').trigger("change");
                 $('#event_responsible_organization').trigger("change");
-                $('#start_event_date').val(sInfo.start_time);
-                $('#finish_event_date').val(sInfo.end_time);
+                $('#start_event_date').val(sInfo.start_event);
+                $('#finish_event_date').val(sInfo.finish_event);
                 $('#staff_count').val(sInfo.people_count);
                 $('#event_name').val(sInfo.event_name);
                 $('#responsible_name').val(sInfo.responsible_name);
