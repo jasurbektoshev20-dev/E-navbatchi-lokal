@@ -933,40 +933,56 @@ switch ($Action) {
 		// $sql->query($query);
 		// $JtsObject = $sql->fetchAssoc();
 
-		$query  = "SELECT t.id, s.name{$slang} as structure, t.object_name, o.name{$slang} as object_type,
-		t.address, t.area, t.admin_phone, t.object_head, t.head_phone, n.head_iiv, n.head_iiv_phone,t.markets_count,t.eating_place_count,n.head,n.assistant_governor,n.youth_leader,n.womens_activist
-		,n.tax_inspector,n.social_employe,t.sales_places_count,n.head_phone,n.assistant_governor_phone,n.youth_leader_phone,n.womens_activist_phone,n.tax_inspector_phone,n.social_employe_phone,
-		COALESCE(COUNT(jd.id), 0) AS count_doors,
-		t.photo, t.lat, t.long, ST_AsGeoJSON(geom) AS geom_geojson
+		$query  = "SELECT t.id, s.name{$slang} as structure, j.object_name, o.name{$slang} as object_type,
+		j.address, j.area, j.admin_phone, j.object_head, j.head_phone, n.head_iiv, n.head_iiv_phone,j.markets_count,j.eating_place_count,n.head,n.assistant_governor,n.youth_leader,n.womens_activist
+		,n.tax_inspector,n.social_employe,j.sales_places_count,n.head_phone,n.assistant_governor_phone,n.youth_leader_phone,n.womens_activist_phone,n.tax_inspector_phone,n.social_employe_phone,
+		j.lat, j.long, ST_AsGeoJSON(geom) AS geom_geojson
 		FROM hr.public_event1 t 
-		left join hr.structure s on s.id  = t.structure_id
+		left join hr.structure s on s.id  = t.region_id
 		left join hr.jts_objects_door jd on jd.object_id = t.id
-		left join hr.involved_objects o on o.id = t.object_type
-		left join hr.neighborhoods n on n.id = t.neighborhood_id
+		left join hr.jts_objects j on j.id = t.object_id
+		left join hr.involved_objects o on o.id = j.object_type
+		left join hr.neighborhoods n on n.id = j.neighborhood_id
 		WHERE t.id = {$id}
 		GROUP BY 
-		t.id, s.name{$slang}, t.object_name, o.name{$slang},
-		t.address, t.area, t.admin_phone, t.object_head, t.head_phone, n.head_iiv, n.head_iiv_phone,t.markets_count,t.eating_place_count,n.head,n.assistant_governor,n.youth_leader,n.womens_activist
-		,n.tax_inspector,n.social_employe,t.sales_places_count,n.head_phone,n.assistant_governor_phone,n.youth_leader_phone,n.womens_activist_phone,n.tax_inspector_phone,n.social_employe_phone,
-		t.photo, t.lat, t.long, ST_AsGeoJSON(geom)
+		t.id, s.name{$slang}, j.object_name, o.name{$slang},
+		j.address, j.area, j.admin_phone, j.object_head, j.head_phone, n.head_iiv, n.head_iiv_phone,j.markets_count,j.eating_place_count,n.head,n.assistant_governor,n.youth_leader,n.womens_activist
+		,n.tax_inspector,n.social_employe,j.sales_places_count,n.head_phone,n.assistant_governor_phone,n.youth_leader_phone,n.womens_activist_phone,n.tax_inspector_phone,n.social_employe_phone,
+		j.lat, j.long, ST_AsGeoJSON(geom)
 		";
 		$sql->query($query);
 		$JtsObject = $sql->fetchAssoc();
 
-		$query  = "SELECT t.id, s.name{$slang} as structure, 
-		t.name{$slang} as name, t.name{$slang} as event_type,p.name{$slang} as event_name,
-		p.direction_event, p.command, p.citizens_count, p.iiv_count, 
-		p.fvv_count, p.mg_count, p.iiv_spring_count,p.start_time,p.end_time,
-		CONCAT(st.lastname, ' ', st.firstname, ' ', st.surname) as respons_person,
-		p.organizer,fvv_phone,
+		// $query  = "SELECT t.id, s.name{$slang} as structure, 
+		// t.name{$slang} as name, t.name{$slang} as event_type,p.name{$slang} as event_name,
+		// p.direction_event, p.command, p.citizens_count, p.iiv_count, 
+		// p.fvv_count, p.mg_count, p.iiv_spring_count,p.start_time,p.end_time,
+		// CONCAT(st.lastname, ' ', st.firstname, ' ', st.surname) as respons_person,
+		// p.organizer,fvv_phone,
 
-		p.horse_patrul,p.walker_patrul,p.avto_patrul,p.war_ekipaj,p.sapyors,p.zaxira,p.horses,p.dogs,p.metalldetektor,p.signals,p.car_count
-		FROM hr.public_event1 p
-		left join hr.jts_objects j on j.id  = p.jts_object_id
-		left join hr.structure s on s.id  = j.structure_id
-		left join hr.staff st on st.id  = p.respons_person_id
-		left join tur.public_event_types t on t.id  = p.public_event_type
-		WHERE p.id = {$id}";
+		// p.horse_patrul,p.walker_patrul,p.avto_patrul,p.war_ekipaj,p.sapyors,p.zaxira,p.horses,p.dogs,p.metalldetektor,p.signals,p.car_count
+		// FROM hr.public_event1 p
+		// left join hr.jts_objects j on j.id  = p.object_id
+		// left join hr.structure s on s.id  = j.structure_id
+		// left join hr.staff st on st.id  = p.respons_person_id
+		// left join tur.public_event_types t on t.id  = p.event_type
+		$query  = "SELECT t.id, s.name{$slang} as structure, j.object_name, o.name{$slang} as object_type,
+		j.address, j.area, j.admin_phone, j.object_head, j.head_phone, n.head_iiv, n.head_iiv_phone,j.markets_count,j.eating_place_count,n.head,n.assistant_governor,n.youth_leader,n.womens_activist
+		,n.tax_inspector,n.social_employe,j.sales_places_count,n.head_phone,n.assistant_governor_phone,n.youth_leader_phone,n.womens_activist_phone,n.tax_inspector_phone,n.social_employe_phone,
+		j.lat, j.long, ST_AsGeoJSON(geom) AS geom_geojson
+		FROM hr.public_event1 t 
+		left join hr.structure s on s.id  = t.region_id
+		left join hr.jts_objects_door jd on jd.object_id = t.id
+		left join hr.jts_objects j on j.id = t.object_id
+		left join hr.involved_objects o on o.id = j.object_type
+		left join hr.neighborhoods n on n.id = j.neighborhood_id
+		WHERE t.id = {$id}
+		GROUP BY 
+		t.id, s.name{$slang}, j.object_name, o.name{$slang},
+		j.address, j.area, j.admin_phone, j.object_head, j.head_phone, n.head_iiv, n.head_iiv_phone,j.markets_count,j.eating_place_count,n.head,n.assistant_governor,n.youth_leader,n.womens_activist
+		,n.tax_inspector,n.social_employe,j.sales_places_count,n.head_phone,n.assistant_governor_phone,n.youth_leader_phone,n.womens_activist_phone,n.tax_inspector_phone,n.social_employe_phone,
+		j.lat, j.long, ST_AsGeoJSON(geom)
+		WHERE t.id = {$id}";
 		$sql->query($query);
 		$Event = $sql->fetchAssoc();
 		$JtsObject['event'] = $Event;
@@ -1024,19 +1040,19 @@ switch ($Action) {
 		  FROM 
 		  ( SELECT DISTINCT unnest(t.epikirofka_id) AS epic_id 
 		  FROM hr.public_event_duty t 
-		  WHERE t.public_event1_id = pe.id ) x JOIN ref.epic e ON e.id = x.epic_id ) AS epic,
+		  WHERE pe.responsible_name) x JOIN ref.epic e ON e.id = x.epic_id ) AS epic,
 		   -- Camera va SOS lar 
 		   (SELECT COUNT(*) FROM hr.jts_objects_camera WHERE object_id = pe.jts_object_id) AS count_cameras,
 		   (SELECT COUNT(*) FROM hr.jts_objects_sos WHERE object_id = pe.jts_object_id) AS count_sos
 		    FROM hr.public_event1 pe 
 			LEFT JOIN hr.public_event_duty t ON t.public_event1_id = pe.id 
-			LEFT JOIN hr.staff sf ON sf.id = pe.respons_person_id 
-			LEFT JOIN ref.ranks r ON r.id = sf.rank_id 
+			-- LEFT JOIN hr.staff sf ON sf.id = pe.respons_person_id 
+			-- LEFT JOIN ref.ranks r ON r.id = sf.rank_id 
 			GROUP BY pe.id, r.name{$slang},
-			sf.lastname,
-			sf.firstname,
-			sf.surname,
-			pe.jts_object_id
+			-- sf.lastname,
+			-- sf.firstname,
+			-- sf.surname,
+			pe.object_id
 			ORDER BY pe.id DESC LIMIT 1; ";
 		$sql->query($query);
 		$Routine = $sql->fetchAll();
@@ -1649,7 +1665,7 @@ switch ($Action) {
 		$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
 
 		// 1) Statistika (COUNT)
-		$query = "SELECT COUNT(t.id) as value, b.id, b.name{$slang} as name
+		$query = "SELECT SUM(t.staff_count) as value, b.id, b.name{$slang} as name
 				FROM tur.reyd_events t
 				LEFT JOIN ref.reyd_event_types b ON b.id = t.type
 				WHERE 1=1 ";
@@ -1669,7 +1685,7 @@ switch ($Action) {
 		$regionQuery = "SELECT 
 						s.id,
 						s.name{$slang} as name,
-						COUNT(t.id) as value
+						SUM(t.staff_count) as value
 					FROM tur.reyd_events t
 					LEFT JOIN hr.structure s ON s.id = t.structure_id
 					WHERE 1=1
