@@ -1223,9 +1223,9 @@
 
             const el = document.createElement('div');
             el.className = 'door-marker';
-            el.style.width = '100px';
-            el.style.height = '30px';
-            el.style.backgroundImage = `url('/pictures/marker_icons/door_icon.png')`;
+             el.style.width = '44px';
+             el.style.height = '55px';
+            el.style.backgroundImage = `url('/pictures/icons_marker/eshik.png')`;
             el.style.backgroundSize = 'cover';
             el.title = door.name;
 
@@ -1276,7 +1276,7 @@
             const el = document.createElement('div');
             el.className = 'camera-marker';
             // el.style.backgroundImage = `url('/assets/images/video-camera-recording-yellow.png')`;
-            el.style.backgroundImage = `url('/assets/images/image.png')`;
+            el.style.backgroundImage = `url('/pictures/icons_marker/camera.png')`;
             el.style.backgroundSize = 'cover';
             el.title = camera.comment;
              el.style.width = '25px';
@@ -1312,8 +1312,8 @@
             el.style.backgroundImage = `url('/assets/images/policeman.png')`;
             el.style.backgroundSize = 'cover';
             el.title = camera.comment;
-                 el.style.width = '25px';
-            el.style.height = '25px';
+                 el.style.width = '40px';
+      el.style.height = '40px';
             // Xodim rasmi
             const photoUrl = camera.staff_photo
               ? `/pictures/staffs/${camera.staff_photo}`
@@ -1381,11 +1381,11 @@
 
                 const el = document.createElement('div');
                 el.className = 'sos-marker';
-                el.style.backgroundImage = `url('/assets/images/sos1.png')`;
+                el.style.backgroundImage = `url('/pictures/icons_marker/sos.png')`;
                 el.style.backgroundSize = 'cover';
                 el.title = sos.name;
-                el.style.width = '60px';
-                el.style.height = '40px';
+                  el.style.width = '35px';
+                el.style.height = '50px';
 
                 new mapboxgl.Marker(el)
                   .setLngLat([lon, lat])
@@ -1609,7 +1609,7 @@
                 <div class="passport-li-about">
                   <h6>Телефон рақами:</h6>
                   <p>
-                    <a href="tel:${params.police_phone}">${params.event.police_phone}</a>
+                    <a href="tel:${params?.police_phone}">${params?.event?.police_phone}</a>
                   </p>
                 </div>
               </li>
@@ -1623,7 +1623,7 @@
         </div>
         <div class="passport-li-about">
           <h6>Майдони:</h6>
-          <p>${params.area} га</p>
+          <p>${params?.area} га</p>
         </div>
       </li>
 
@@ -1633,7 +1633,7 @@
         </div>
         <div class="passport-li-about">
           <h6>Сиғими:</h6>
-          <p>${params.sigimi} та</p>
+          <p>${params?.sigimi} та</p>
         </div>
       </li>
 
@@ -1643,7 +1643,7 @@
         </div>
         <div class="passport-li-about">
           <h6>Блоклар сони:</h6>
-          <p>${params.bloks_count} та</p>
+          <p>${params?.bloks_count} та</p>
         </div>
       </li>
 
@@ -1653,7 +1653,7 @@
         </div>
         <div class="passport-li-about">
           <h6>Секторлар сони:</h6>
-          <p>${params.sektors_count} та</p>
+          <p>${params?.sektors_count} та</p>
         </div>
       </li>
 
@@ -1663,7 +1663,7 @@
             </div>
             <div class="passport-li-about">
               <h6>Кириш чиқиш эшиклар сони:</h6>
-              <p>${params.count_doors} та</p>
+              <p>${params?.count_doors} та</p>
             </div>
           </li>
 
@@ -1673,7 +1673,7 @@
         </div>
         <div class="passport-li-about">
           <h6>Ёритиш чироқлари сони:</h6>
-          <p>${params.lamps_count} та</p>
+          <p>${params?.lamps_count} та</p>
         </div>
       </li>
       <li class="is-accordion">
@@ -1689,7 +1689,7 @@
                 </div>
                 <div class="passport-li-about">
                   <h6>ИИВ</h6>
-                  <p><a href="tel:${params.police_phone}">${params.police_phone}</a></p>
+                  <p><a href="tel:${params?.police_phone}">${params?.police_phone}</a></p>
                 </div>
               </li>
 
@@ -1699,7 +1699,7 @@
                 </div>
                 <div class="passport-li-about">
                   <h6>ФВВ</h6>
-                  <p><a href="tel:${params.event.fvv_phone}">${params.event.fvv_phone}</a></p>
+                  <p><a href="tel:${params?.event?.fvv_phone}">${params?.event?.fvv_phone}</a></p>
                 </div>
               </li>
           </ul>
@@ -1883,7 +1883,7 @@
               <details>
                 <summary>
                   <div class="passport-icon">  <i class="duty-icon bi bi-person-badge"></i></div>
-                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">МГ жавобгар:</span>${params.event.respons_person}<span> </span>
+                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">МГ жавобгар:</span>${params?.event?.respons_person}<span> </span>
                 </summary>
                 <ul class="inner-list">
                     <li>
@@ -1893,7 +1893,7 @@
                       <div class="passport-li-about">
                         <h6>Телефон рақами:</h6>
                         <span>
-                          <a href="tel:${params.event.responsible_phone}">${params.event.responsible_phone}</a>
+                          <a href="tel:${params?.event?.responsible_phone}">${params?.event?.responsible_phone}</a>
                         </span>
                       </div>
                     </li>
@@ -1903,7 +1903,7 @@
                       </div>
                       <div class="passport-li-about">
                         <span class="responsible-key-text hidden">
-                          ${params?.event.pazivnoy}
+                          ${params?.event?.pazivnoy}
                         </span>
                       </div>
                     </li>
@@ -1922,10 +1922,10 @@
                 <span class="summary-span">
                     <span style="color:#fff;">Хизмат тури:</span>
                     <span>
-                        ${Number(params?.event.walker_patrul) 
-                        + Number(params?.event.horse_patrul)
-                        + Number(params?.event.zaxira)
-                        + Number(params?.event.war_ekipaj)}
+                        ${Number(params?.event?.walker_patrul) 
+                        + Number(params?.event?.horse_patrul)
+                        + Number(params?.event?.zaxira)
+                        + Number(params?.event?.war_ekipaj)}
                     </span> та
                 </span>
             </summary>
@@ -1938,7 +1938,7 @@
                       </div>
                       <div class="passport-li-about">
                           <h6>Пиёда патрул:</h6>
-                          <span>${params?.event.walker_patrul} нафар</span>
+                          <span>${params?.event?.walker_patrul} нафар</span>
                       </div>
                   </li>
 
@@ -1949,7 +1949,7 @@
                         </div>
                         <div class="passport-li-about">
                             <h6>Отлиқ патрул:</h6>
-                            <span>${params?.event.horse_patrul} та</span>
+                            <span>${params?.event?.horse_patrul} та</span>
                         </div>
                     </li>
 
@@ -1960,7 +1960,7 @@
                         </div>
                         <div class="passport-li-about">
                             <h6>Жанговор экипаж:</h6>
-                            <p>${params?.event.war_ekipaj} та</p>
+                            <p>${params?.event?.war_ekipaj} та</p>
                         </div>
                     </li>
 
@@ -1970,7 +1970,7 @@
                         </div>
                         <div class="passport-li-about">
                             <h6>Захира:</h6>
-                            <p>${params?.event.zaxira} та</p>
+                            <p>${params?.event?.zaxira} та</p>
                         </div>
                     </li>
 
@@ -1981,12 +1981,12 @@
       
          <li class="alert alert-dark m-0" role="alert">
           <i class="duty-icon bi bi-bell-fill"></i>
-          Камералар: <span>${params.routine[0].count_cameras ?? '0'} та</span>
+          Камералар: <span>${params.routine[0]?.count_cameras ?? '0'} та</span>
          </li>
 
         <li class="alert alert-dark m-0" role="alert">
           <i class="duty-icon bi bi-bell-fill"></i>
-          Ташвиш тугмалар: <span>${params.routine[0].count_sos} та</span>
+          Ташвиш тугмалар: <span>${params.routine[0]?.count_sos} та</span>
         </li>
 
   
@@ -1999,7 +1999,7 @@
                     </div>
                     <span class="summary-span">
                         <span style="color:#fff; font-weight:bold;">Хизмат ҳайвонлари:</span>
-                        <span>${Number(params?.event.horses) + Number(params?.event.dogs)} та</span>
+                        <span>${Number(params?.event?.horses) + Number(params?.event?.dogs)} та</span>
                     </span>
                     </summary>
 
@@ -2009,7 +2009,7 @@
                           <i class="bi bi-shield-fill-check"></i>
                       </div>
                       <div class="passport-li-about">
-                          <h6>Итлар: ${params?.event.dogs} та</h6>
+                          <h6>Итлар: ${params?.event?.dogs} та</h6>
                       </div>
                   </li>
 
@@ -2019,7 +2019,7 @@
                           <i class="bi bi-shield-fill-check"></i>
                       </div>
                       <div class="passport-li-about">
-                          <h6>Отлар: ${params?.event.horses} та</h6>
+                          <h6>Отлар: ${params?.event?.horses} та</h6>
                       </div>
                   </li>
 
@@ -2036,7 +2036,7 @@
                     </div>
                     <span class="summary-span">
                         <span style="color:#fff; font-weight:bold;">Махсус воситалар:</span>
-                      <span>${Number(params?.event.metalldetektor) + Number(params?.event.signals)} та</span>
+                      <span>${Number(params?.event?.metalldetektor) + Number(params?.event?.signals)} та</span>
 
                     </span>
                     </summary>
@@ -2047,7 +2047,7 @@
                             <i class="bi bi-shield-lock-fill"></i>
                         </div>
                         <div class="passport-li-about">
-                            <h6>Металлодетектор: ${params?.event.metalldetektor} та</h6>
+                            <h6>Металлодетектор: ${params?.event?.metalldetektor} та</h6>
                         </div>
                     </li>
 
@@ -2056,7 +2056,7 @@
                             <i class="bi bi-broadcast-pin"></i>
                         </div>
                         <div class="passport-li-about">
-                            <h6>Алоқа воситалари: ${params?.event.signals} та</h6>
+                            <h6>Алоқа воситалари: ${params?.event?.signals} та</h6>
                         </div>
                     </li>
                     </ul>
@@ -2076,37 +2076,37 @@
          <ul class="">
               <li class="alert alert-dark m-0" role="alert">
                   <i class="duty-icon bi bi-flag"></i>
-                  Номи:  <span>${params.event_name}</span>
+                  Номи:  <span>${params?.event_name}</span>
               </li>
 
               <li class="alert alert-dark m-0" role="alert">
                   <i class="duty-icon bi bi-diagram-3-fill"></i>
-                  Тадбир тури: <span>${params.event_type}</span>
+                  Тадбир тури: <span>${params?.event_type}</span>
               </li>
 
               <li class="alert alert-dark m-0" role="alert">
                   <i class="duty-icon bi bi-journal-text"></i>
-                  Асос: <span>${params.command}</span>
+                  Асос: <span>${params?.command}</span>
               </li>
 
               <li class="alert alert-dark m-0" role="alert">
                   <i class="duty-icon bi bi-compass"></i>
-                  Йўналиши: <span>${params.direction_event}</span>
+                  Йўналиши: <span>${params?.direction_event}</span>
               </li>
 
               <li class="alert alert-dark m-0" role="alert">
                   <i class="duty-icon bi bi-people-fill"></i>
-                  Фуқаролар сони: <span>${params.citizens_count} нафар</span>
+                  Фуқаролар сони: <span>${params?.citizens_count} нафар</span>
               </li>
 
               <li class="alert alert-dark m-0" role="alert">
                   <i class="duty-icon bi bi-clock-history"></i>
-                  Бошланиш вақти: <span>${params.start_time}</span>
+                  Бошланиш вақти: <span>${params?.start_time}</span>
               </li>
 
               <li class="alert alert-dark m-0" role="alert">
                   <i class="duty-icon bi bi-clock"></i>
-                  Тугаш вақти: <span>${params.end_time}</span>
+                  Тугаш вақти: <span>${params?.end_time}</span>
               </li>
           </ul>
 
