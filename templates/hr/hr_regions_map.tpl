@@ -2427,7 +2427,7 @@ map.on('load', () => {
             <details>
               <summary>
                 <div class="passport-icon">  <i class="duty-icon bi bi-person-fill"></i></div>
-                <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Объект раҳбари:</span> <span> ${params.object_head}</span>
+                <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Объект раҳбари:</span> <span> ${params.object_head  ?? 'киритилмаган'}</span>
               </summary>
               <ul class="inner-list">
                   <li>
@@ -2437,7 +2437,7 @@ map.on('load', () => {
                     <div class="passport-li-about">
                       <h6>Раҳбар телефони:</h6>
                       <p>
-                        <a href="tel:${params.head_phone}">${params.head_phone}</a>
+                        <a href="tel:${params.head_phone}">${params.head_phone  ?? 'киритилмаган'}</a>
                       </p>
                     </div>
                   </li>
@@ -2450,7 +2450,7 @@ map.on('load', () => {
       </div>
       <div class="passport-li-about">
         <h6>Манзили:</h6>
-        <p>${params.address}</p>
+        <p>${params.address  ?? 'киритилмаган'}</p>
       </div>
     </li>
 
@@ -2460,7 +2460,7 @@ map.on('load', () => {
       </div>
       <div class="passport-li-about">
         <h6>Администратор телефон рақами:</h6>
-        <p><a href="tel:${params.admin_phone}">${params.admin_phone}</a></p>
+        <p><a href="tel:${params.admin_phone}">${params.admin_phone  ?? 'киритилмаган'}</a></p>
       </div>
     </li>
 
@@ -2480,7 +2480,7 @@ map.on('load', () => {
   </div>
   <div class="passport-li-about">
     <h6>Савдо дўконлари:</h6>
-    <p>${params?.markets_count ?? '12'} та</p>
+    <p>${params?.markets_count ?? 'киритилмаган'} та</p>
   </div>
 </li>
 
@@ -2490,7 +2490,7 @@ map.on('load', () => {
   </div>
   <div class="passport-li-about">
     <h6>Овқатланиш шаҳобчалари:</h6>
-    <p>${params?.eating_place_count ?? '6'} та</p>
+    <p>${params?.eating_place_count ?? 'киритилмаган'} та</p>
   </div>
 </li>
 
@@ -2500,7 +2500,7 @@ map.on('load', () => {
       </div>
       <div class="passport-li-about">
         <h6>Кириш чиқиш эшиклар сони:</h6>
-        <p>${params.count_doors} та</p>
+        <p>${params.count_doors ?? '0'} та</p>
       </div>
     </li>
 
@@ -2508,7 +2508,7 @@ map.on('load', () => {
         <details>
           <summary>
             <div class="passport-icon">  <i class="duty-icon bi bi-person-fill"></i></div>
-            <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Объект профилактика инспектори:</span> <span> ${params.police_name}</span>
+            <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Объект профилактика инспектори:</span> <span> ${params.head_iiv  ?? 'киритилмаган'}</span>
           </summary>
           <ul class="inner-list">
               <li>
@@ -2518,15 +2518,13 @@ map.on('load', () => {
                 <div class="passport-li-about">
                   <h6>Телефон рақами:</h6>
                   <p>
-                    <a href="tel:${params.police_phone}">${params.police_phone}</a>
+                    <a href="tel:${params.head_iiv_phone}">${params.head_iiv_phone  ?? 'киритилмаган'}</a>
                   </p>
                 </div>
               </li>
           </ul>
         </details>
       </li>
-
-
       <li class="is-accordion">
         <details>
           <summary>
@@ -2541,7 +2539,7 @@ map.on('load', () => {
                 <div class="passport-li-about">
                   <h6>ИИВ</h6>
                   <p>
-                    <a href="tel:71-252-70-01">71-252-70-01</a>
+                    <a href="tel:${params.head_iiv_phone}">${params.head_iiv_phone  ?? 'киритилмаган'}</a>
                   </p>
                 </div>
               </li>
@@ -2552,7 +2550,7 @@ map.on('load', () => {
                 <div class="passport-li-about">
                   <h6>ФВВ</h6>
                   <p>
-                    <a href="tel:71-234-87-20">71-234-87-20</a>
+                    <a href="tel:${params?.head_fvv_phone}">${params?.head_fvv_phone  ?? 'киритилмаган'}</a>
                   </p>
                 </div>
               </li>
@@ -2574,7 +2572,7 @@ map.on('load', () => {
             </div>
             <div class="passport-li-about">
               <h6>Номи:</h6>
-              <p>${params?.neighborhood_name ?? 'Гулбозор МФЙ'}</p>
+              <p>${params?.neighborhood_name  ?? 'киритилмаган'}</p>
             </div>
           </li>
           
@@ -2582,7 +2580,7 @@ map.on('load', () => {
         <details>
           <summary>
             <div class="passport-icon">  <i class="duty-icon bi bi-person-badge"></i></div>
-            <span class="summary-span"> <span style="color:#fff; font-weight:bold;">МФЙ раиси:</span> <span> ${params?.neighborhood_head ?? 'Исмоилов И.Н'}</span>
+            <span class="summary-span"> <span style="color:#fff; font-weight:bold;">МФЙ раиси:</span> <span> ${params?.head ?? 'киритилмаган'}</span>
           </summary>
           <ul class="inner-list">
               <li>
@@ -2592,7 +2590,7 @@ map.on('load', () => {
                 <div class="passport-li-about">
                   <h6>Телефон рақами:</h6>
                   <p>
-                    <a href="tel:${params?.neighborhood_head_phone}">${params?.neighborhood_head_phone}</a>
+                    <a href="tel:${params?.neighborhood_head_phone}">${params?.neighborhood_head_phone  ?? 'киритилмаган'}</a>
                   </p>
                 </div>
               </li>
@@ -2605,7 +2603,7 @@ map.on('load', () => {
         <details>
           <summary>
             <div class="passport-icon">  <i class="duty-icon bi bi-building"></i></div>
-            <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Хоким ёрдамчиси:</span> <span> ${params?.assistant_governor ?? 'Аҳмадов А.Й'}</span>
+            <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Хоким ёрдамчиси:</span> <span> ${params?.assistant_governor ?? 'киритилмаган'}</span>
           </summary>
           <ul class="inner-list">
               <li>
@@ -2615,7 +2613,7 @@ map.on('load', () => {
                 <div class="passport-li-about">
                   <h6>Телефон рақами:</h6>
                   <p>
-                    <a href="tel:${params?.assistant_governor_phone}">${params?.assistant_governor_phone}</a>
+                    <a href="tel:${params?.assistant_governor_phone}">${params?.assistant_governor_phone  ?? 'киритилмаган'}</a>
                   </p>
                 </div>
               </li>
@@ -2627,7 +2625,7 @@ map.on('load', () => {
               <details>
                 <summary>
                   <div class="passport-icon">  <i class="duty-icon bi bi-people"></i></div>
-                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Ёшлар етакчиси:</span> <span> ${params?.youth_leader ?? 'Жумаев А.Д'}</span>
+                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Ёшлар етакчиси:</span> <span> ${params?.youth_leader ?? 'киритилмаган'}</span>
                 </summary>
                 <ul class="inner-list">
                     <li>
@@ -2637,7 +2635,7 @@ map.on('load', () => {
                       <div class="passport-li-about">
                         <h6>Телефон рақами:</h6>
                         <p>
-                          <a href="tel:${params?.youth_leader_phone}">${params?.youth_leader_phone}</a>
+                          <a href="tel:${params?.youth_leader_phone}">${params?.youth_leader_phone  ?? 'киритилмаган'}</a>
                         </p>
                       </div>
                     </li>
@@ -2649,7 +2647,7 @@ map.on('load', () => {
               <details>
                 <summary>
                   <div class="passport-icon">  <i class="duty-icon bi bi-gender-female"></i></div>
-                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Хотин-қизлар фаоли:</span> <span> ${params?.womens_activist ?? 'Икромова Ш.Н'}</span>
+                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Хотин-қизлар фаоли:</span> <span> ${params?.womens_activist ?? 'киритилмаган'}</span>
                 </summary>
                 <ul class="inner-list">
                     <li>
@@ -2659,7 +2657,7 @@ map.on('load', () => {
                       <div class="passport-li-about">
                         <h6>Телефон рақами:</h6>
                         <p>
-                          <a href="tel:${params?.womens_activist_phone}">${params?.womens_activist_phone}</a>
+                          <a href="tel:${params?.womens_activist_phone}">${params?.womens_activist_phone  ?? 'киритилмаган'}</a>
                         </p>
                       </div>
                     </li>
@@ -2671,7 +2669,7 @@ map.on('load', () => {
               <details>
                 <summary>
                   <div class="passport-icon">  <i class="duty-icon bi bi-receipt"></i></div>
-                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">МФЙ солиқ инспектори:</span> <span> ${params?.tax_inspector ?? 'Холлиев О.Р'}</span>
+                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">МФЙ солиқ инспектори:</span> <span> ${params?.tax_inspector ?? 'киритилмаган'}</span>
                 </summary>
                 <ul class="inner-list">
                     <li>
@@ -2681,7 +2679,7 @@ map.on('load', () => {
                       <div class="passport-li-about">
                         <h6>Телефон рақами:</h6>
                         <p>
-                          <a href="tel:${params?.tax_inspector_phone}">${params?.tax_inspector_phone}</a>
+                          <a href="tel:${params?.tax_inspector_phone}">${params?.tax_inspector_phone  ?? 'киритилмаган'}</a>
                         </p>
                       </div>
                     </li>
@@ -2692,7 +2690,7 @@ map.on('load', () => {
               <details>
                 <summary>
                   <div class="passport-icon">  <i class="duty-icon bi bi-person-heart"></i></div>
-                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Ижтмоий ходими:</span> <span> ${params?.social_employe ?? 'Сулаймонова И.М'}</span>
+                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Ижтмоий ходими:</span> <span> ${params?.social_employe ?? 'киритилмаган'}</span>
                 </summary>
                 <ul class="inner-list">
                     <li>
@@ -2702,27 +2700,17 @@ map.on('load', () => {
                       <div class="passport-li-about">
                         <h6>Телефон рақами:</h6>
                         <p>
-                          <a href="tel:${params?.social_employe_phone}">${params?.social_employe_phone}</a>
+                          <a href="tel:${params?.social_employe_phone}">${params?.social_employe_phone ?? 'киритилмаган'}</a>
                         </p>
                       </div>
-                    </li>
+                          </li>
+                      </ul>
+                    </details>
+                  </li>
                 </ul>
               </details>
             </li>
-
-
-    </ul>
-  </details>
-</li>
-
-
-
-
-  </ul>
- 
-       
-       `
-
+              </ul> `
     }
 
     function renderDutyDetails(params) {
@@ -2736,7 +2724,7 @@ map.on('load', () => {
               <details>
                 <summary>
                   <div class="passport-icon">  <i class="duty-icon bi bi-person-badge"></i></div>
-                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">МГ жавобгар:</span> <span> ${params?.responsible_name ?? 'Холлиев О.Р'}</span>
+                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Нарядлар каттаси:</span> <span> ${params?.responsible_name ?? 'киритилмаган'}</span>
                 </summary>
                 <ul class="inner-list">
                     <li>
@@ -2776,12 +2764,12 @@ map.on('load', () => {
               <ul class="inner-list">
                         <li class="alert alert-dark m-0" role="alert">
                       <i class="duty-icon bi bi bi-person-fill"></i>
-                      Пиёда патруллар: <span>${params.walker_patrul} нафар</span>
+                      Пиёда патруллар: <span>${params.walker_patrul ?? '0'} нафар</span>
                     </li>
 
                     <li class="alert alert-dark m-0" role="alert">
                       <i class="duty-icon bi bi-car-front-fill"></i>
-                      Авто патруллар: <span>${params.avto_patrul} нафар</span>
+                      Авто патруллар: <span>${params.avto_patrul ?? '0'} нафар</span>
                     </li>
               </ul>
             </details>
@@ -2791,7 +2779,7 @@ map.on('load', () => {
 
         <li class="alert alert-dark m-0" role="alert">
           <i class="duty-icon bi bi-signpost-split"></i>
-          Йўналишлар: <span>${params.patrul_types_count} та</span>
+          Йўналишлар: <span>${params.patrul_types_count ?? '0'} та</span>
         </li>
 
           <li class="is-accordion">
@@ -2802,7 +2790,7 @@ map.on('load', () => {
       </div>
       <span class="summary-span">
         <span style="color:#fff; font-weight:bold;">Камералар:</span>
-        <span>${params?.count_cameras}</span>
+        <span>${params?.count_cameras ?? '0'} та</span>
       </span>
     </summary>
 
@@ -2812,46 +2800,42 @@ map.on('load', () => {
           <i class="bi bi-camera-reels"></i>
         </div>
         <div class="passport-li-about">
-          <h6>PTZ kameralar: ${params?.count_cameras}</h6>
+          <h6>PTZ бўлмаган камералар: ${params?.count_cameras ?? '0'}</h6>
         </div>
       </li>
-
-      <li>
+     <li>
         <div class="passport-icon">
           <i class="bi bi-camera-video"></i>
         </div>
         <div class="passport-li-about">
-          <h6>Panoramik kameralar (360°): 0</h6>
+            <h6>PTZ камералар: 0</h6>
         </div>
       </li>
-
     </ul>
-  </details>
-</li>
+      </details>
+    </li>
 
         <li class="alert alert-dark m-0" role="alert">
           <i class="duty-icon bi bi-bell-fill"></i>
-          Ташвиш тугмалар: <span>${params.count_sos} та</span>
+          Ташвиш тугмалар: <span>${params.count_sos ?? '0'} та</span>
         </li>
 
         <li class="alert alert-dark m-0" role="alert">
           <i class="duty-icon bi bi-shield-fill-check"></i>
-          Хизмат ҳайвонлари: <span>${params.horse_patrul} та</span>
+          Хизмат ҳайвонлари: <span>${params.horse_patrul ?? '0'} та</span>
         </li>
 
         <li class="alert alert-dark m-0" role="alert">
           <i class="duty-icon bi bi-lightning-charge-fill"></i>
-          Махсус воситалар: <span>${params.epikirofka_count} та</span>
+          Махсус воситалар: <span>${params.epikirofka_count ?? '0'} та</span>
         </li>
 
         <li class="alert alert-dark m-0" role="alert">
           <i class="duty-icon bi bi-truck-front-fill"></i>
-          Техникалар: <span>${params.car_count} та</span>
+          Техникалар: <span>${params.car_count ?? '0'} та</span>
         </li>
       </ul>
         `
-
-
     }
 
 
@@ -3463,7 +3447,6 @@ map.on('load', () => {
           console.log(xml);
           iWind = xml;
       }
-
 
 
       function initCamera() {
