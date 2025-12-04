@@ -808,9 +808,8 @@
    window.__pubEventsDebug = { getEvents, get_events_by_type, get_events_by_region1, safeDisposeChartByDom };
 
 
+   
     // idoraviy tadbirlar
-
-
 
 
 
@@ -1016,16 +1015,15 @@
   // --- SELECT handler binding ---
   function initSelectHandler2() {
     // initial read
-    const raw = $('#public_events').val();
+    const raw = $('#departmental_events').val();
     structure_id = raw ? (isNaN(parseInt(raw,10)) ? null : parseInt(raw,10)) : null;
 
-    // bind change
-    // $('#public_events').off('change.public_events_ns').on('change.public_events_ns', function() {
-    //   const v = $(this).val();
-    //   structure_id = v ? (isNaN(parseInt(v,10)) ? null : parseInt(v,10)) : null;
-    //   console.log('public_events changed -> structure_id =', structure_id);
-    //   getDepartmentalEvents();
-    // });
+    $('#departmental_events').off('change.departmental_events_ns').on('change.departmental_events_ns', function() {
+      const v = $(this).val();
+      structure_id = v ? (isNaN(parseInt(v,10)) ? null : parseInt(v,10)) : null;
+      console.log('departmental_events changed -> structure_id =', structure_id);
+      getDepartmentalEvents();
+    });
   }
 
   // init on DOM ready

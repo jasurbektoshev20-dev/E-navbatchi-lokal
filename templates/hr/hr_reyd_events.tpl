@@ -126,7 +126,7 @@
                             <select required class="select form-control" name="responsible_id" id="responsible_id">
                                 <option value="">{$Dict.choose}</option>
                                 {foreach from=$staffs item=Item1 key=ikey1}
-                                    <option value="{$Item1.id}">{$Item1.name}{$Item1.lastname}{$Item1.firstname}</option>
+                                    <option value="{$Item1.id}">{$Item1.name} {$Item1.lastname} {$Item1.firstname}</option>
                                 {/foreach}
                             </select>
                         </div>
