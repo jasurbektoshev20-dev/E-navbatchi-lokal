@@ -690,8 +690,8 @@
                       setTimeout(() => {
                 if (!historyMap) {
                     historyMap = L.map('historyMap').setView([41.31, 69.25], 13);
-
-                    L.tileLayer('http://10.100.9.145:8080/tile/{z}/{x}/{y}.png', {
+                    // L.tileLayer('http://10.100.9.145:8080/tile/{z}/{x}/{y}.png', {
+                     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         className: 'dark' == 'dark' ? 'map-tiles' : 'map-tiles-light',
                         maxZoom: 19
                     }).addTo(historyMap);
@@ -989,7 +989,7 @@
             center: [41.6384327, 64.0202744],
             zoom: 6,
             // layers: L.tileLayer(`http://10.19.7.4:8080/tile/{z}/{x}/{y}.png`, {
-            layers: L.tileLayer(`http://10.100.9.145:8080/tile/{z}/{x}/{y}.png`, {
+            layers: L.tileLayer(`https://tile.openstreetmap.org/{z}/{x}/{y}.png`, {
                 className: 'dark' == 'dark' ? 'map-tiles' : 'map-tiles-light',
                 maxZoom: 20
             }),

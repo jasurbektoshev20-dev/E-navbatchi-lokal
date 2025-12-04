@@ -300,7 +300,8 @@
             const map = L.map("uzbMap", {
                 center: [41.6384, 64.0202],
                 zoom: 7,
-                layers: L.tileLayer(`http://10.100.9.145:8080/tile/{z}/{x}/{y}.png`, { maxZoom: 19 }),
+                // layers: L.tileLayer(`http://10.100.9.145:8080/tile/{z}/{x}/{y}.png`, { maxZoom: 19 }),
+                layers: L.tileLayer(`https://tile.openstreetmap.org/{z}/{x}/{y}.png`, { maxZoom: 19 }),
             });
             setTimeout(() => {
                 map.invalidateSize();

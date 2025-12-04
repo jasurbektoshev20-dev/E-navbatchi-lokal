@@ -2,9 +2,9 @@ const { Kafka } = require('kafkajs');
 const { Pool } = require('pg');
 
 const pool = new Pool({
-  host: '10.100.9.145',
+  host: '10.10.80.20',
   user: 'postgres',
-  password: 'fizmasoft7998872',
+  password: 'Qwerty123',
   database: 'e-gvardiya',
   port: 5432,
 
@@ -16,19 +16,19 @@ const pool = new Pool({
 });
 
 const kafka = new Kafka({
-    clientId: 'smpo-client',
-    brokers: ['smpo.uzgps.uz:9092'],
-    ssl: false,
-    sasl: {
-        mechanism: 'plain',
-        username: 'user3',
-        password: 'pass#3213',
-    },
+  clientId: 'smpo-client',
+  brokers: ['smpo.uzgps.uz:9092'],
+  ssl: false,
+  sasl: {
+    mechanism: 'plain',
+    username: 'user3',
+    password: 'pass#3213',
+  },
 });
 
 const topics = [
-    { topic: 'mgkt_topic', groupId: 'mgkt' },
-    // { topic: "system_events_topic", groupId: "system_events" },
+  { topic: 'mgkt_topic', groupId: 'mgkt' },
+  // { topic: "system_events_topic", groupId: "system_events" },
 ];
 
 async function saveToDb(dataArray) {

@@ -1103,7 +1103,7 @@
                     renderDialogMap(response?.data, response?.cameras)
                     renderPassportDetails(response?.data,)
                     renderDutyDetails(response?.data)
-                    renderEventDetails(response?.data?.event,response?.data,)
+                    renderEventDetails(response?.data)
 
 
                     $('#change_camera').empty();
@@ -1542,7 +1542,6 @@
       if (!container || !params) return
 
       container.innerHTML = `
-    
             <ul>
   
         <li class="is-accordion">
@@ -1850,23 +1849,17 @@
                         <h6>Телефон рақами:</h6>
                         <p>
                           <a href="tel:${params?.social_employe_phone}">${params?.social_employe_phone}</a>
-                        </p>
-                      </div>
-                    </li>
-                </ul>
-              </details>
-            </li>
-
-
-    </ul>
-  </details>
-</li>
-
-
-
-
-  </ul>
- 
+                              </p>
+                            </div>
+                          </li>
+                      </ul>
+                    </details>
+                  </li>
+              </ul>
+            </details>
+          </li>
+        </ul>
+    
        
        `
 
