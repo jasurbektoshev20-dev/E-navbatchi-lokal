@@ -571,7 +571,6 @@
   box-shadow: 0 14px 35px rgba(0, 0, 0, 0.6); */
 }
 
-
 /* Rasm */
 .staff-photo {
   width: 110px;
@@ -723,10 +722,7 @@
                                  <img src="/pictures/marker_icons/sxema.png">
                             </div>
                         </div>
-
                     </div>
-
-
               </div>
 
       <!-- RIGHT SIDE -->
