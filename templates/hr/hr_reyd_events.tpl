@@ -115,7 +115,7 @@
                         </div>
 
                          <div class="col-sm-6">
-                            <label>{$Dict.region}</label>
+                            <label>Hududiy bo'linmalar</label>
                             <select required class="select form-control" name="structure_id" id="structure_id">
                                 <option value="">{$Dict.choose}</option>
                             </select>
@@ -276,9 +276,10 @@
     $('.datatables-projects tbody').on('click', '.editAction', function() {
         $('#submitModal').modal('toggle');
         var RowId = $(this).attr('rel');
-
+       
         $.get("hrajax.php?act=get_reyd_events&rowid=" + RowId, function(html) {
             var sInfo = jQuery.parseJSON(html);
+             console.log('sinfo: ', sInfo)
             // $('#region_id').val(sInfo.region_id);
             // $('#region_id').trigger("change");
             $('#structure_id').val(sInfo.structure_id).trigger("change");

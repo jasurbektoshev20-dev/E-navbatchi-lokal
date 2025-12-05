@@ -1097,7 +1097,7 @@
                     $("#markerModal").modal("show");
 
                     renderDialogMap(response?.data, response?.cameras)
-                    renderPassportDetails(response?.data,)
+                    renderPassportDetails(response?.data)
                     renderDutyDetails(response?.data)
                     renderEventDetails(response?.data)
 
@@ -1514,7 +1514,7 @@
             }
           })
         }
-      }, 1000);
+      }, 10000);
     }
 
 
@@ -1554,7 +1554,7 @@
                     <div class="passport-li-about">
                       <h6>Раҳбар телефони:</h6>
                       <p>
-                        <a href="tel:${params.head_phone}">${params.head_phone}</a>
+                        <a href="tel:${params.object_head_phone}">${params.object_head_phone}</a>
                       </p>
                     </div>
                   </li>
@@ -1594,7 +1594,7 @@
         <details>
           <summary>
             <div class="passport-icon">  <i class="duty-icon bi bi-person-fill"></i></div>
-            <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Объект профилактика инспектори:</span> <span> ${params.police_name}</span>
+            <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Объект профилактика инспектори:</span> <span> ${params.head_ivv}</span>
           </summary>
           <ul class="inner-list">
               <li>
@@ -1604,7 +1604,7 @@
                 <div class="passport-li-about">
                   <h6>Телефон рақами:</h6>
                   <p>
-                    <a href="tel:${params?.police_phone}">${params?.event?.police_phone}</a>
+                    <a href="tel:${params?.head_ivv_phone}">${params?.head_ivv_phone ?? 'киритилмаган'}</a>
                   </p>
                 </div>
               </li>
@@ -1628,17 +1628,7 @@
         </div>
         <div class="passport-li-about">
           <h6>Сиғими:</h6>
-          <p>${params?.sigimi} та</p>
-        </div>
-      </li>
-
-      <li>
-        <div class="passport-icon">
-          <i class="bi bi-grid-fill"></i>
-        </div>
-        <div class="passport-li-about">
-          <h6>Блоклар сони:</h6>
-          <p>${params?.bloks_count} та</p>
+          <p>${params?.sigimi ?? '0'} та</p>
         </div>
       </li>
 
@@ -1734,7 +1724,7 @@
                 <div class="passport-li-about">
                   <h6>Телефон рақами:</h6>
                   <p>
-                    <a href="tel:${params?.neighborhood_head_phone}">${params?.neighborhood_head_phone}</a>
+                    <a href="tel:${params?.head_phone}">${params?.head_phone}</a>
                   </p>
                 </div>
               </li>

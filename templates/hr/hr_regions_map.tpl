@@ -2437,7 +2437,7 @@ map.on('load', () => {
                     <div class="passport-li-about">
                       <h6>Раҳбар телефони:</h6>
                       <p>
-                        <a href="tel:${params.head_phone}">${params.head_phone  ?? 'киритилмаган'}</a>
+                        <a href="tel:${params.object_head_phone}">${params.object_head_phone  ?? 'киритилмаган'}</a>
                       </p>
                     </div>
                   </li>
@@ -2590,7 +2590,7 @@ map.on('load', () => {
                 <div class="passport-li-about">
                   <h6>Телефон рақами:</h6>
                   <p>
-                    <a href="tel:${params?.neighborhood_head_phone}">${params?.neighborhood_head_phone  ?? 'киритилмаган'}</a>
+                    <a href="tel:${params.head_phone}">${params.head_phone  ?? 'киритилмаган'}</a>
                   </p>
                 </div>
               </li>

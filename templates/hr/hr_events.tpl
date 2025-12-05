@@ -410,8 +410,8 @@
                 var sInfo = jQuery.parseJSON(html);
 
                 $('#region_id').val(sInfo.region_id);
-                $('#object_id').val(sInfo.jts_object_id);
-                $('#event_type').val(sInfo.public_event_type);
+                $('#object_id').val(sInfo.object_id);
+                $('#event_type').val(sInfo.event_type);
                 $('#event_direction').val(sInfo.event_direction);
                 $('#event_view').val(sInfo.event_view);
                 $('#event_responsible_organization').val(sInfo.event_responsible_organization);
@@ -423,7 +423,6 @@
                 $('#event_responsible_organization').trigger("change");
                 $('#start_event_date').val(sInfo.start_event);
                 $('#finish_event_date').val(sInfo.finish_event);
-                $('#staff_count').val(sInfo.people_count);
                 $('#event_name').val(sInfo.event_name);
                 $('#responsible_name').val(sInfo.responsible_name);
                 $('#responsible_phone').val(sInfo.responsible_phone);
@@ -434,11 +433,11 @@
                 $('#responsible_spring_name').val(sInfo.responsible_spring_name);
                 $('#responsible_fvv_name').val(sInfo.responsible_fvv_name);
                 $('#organizer').val(sInfo.organizer);
-                $('#event_participants').val(sInfo.citizens_count);
-                $('#event_number_iiv').val(sInfo.fvv_count);
+                $('#event_participants').val(sInfo.people_count);
+                $('#event_number_iiv').val(sInfo.iiv_count);
                 $('#event_number_fvv').val(sInfo.fvv_count);
                 $('#mg_count').val(sInfo.mg_count);
-                $('#event_number_spring').val(sInfo.iiv_spring_count);
+                $('#event_number_spring').val(sInfo.spring_count);
                 $('#id').val(sInfo.id);
             });
         })

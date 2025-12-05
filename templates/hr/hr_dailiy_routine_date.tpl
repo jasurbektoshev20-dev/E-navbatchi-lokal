@@ -5,6 +5,7 @@
 		.table thead th,
 		.table tbody td {
 			text-transform: none !important;
+			font-size: 16px;
 		}
 
 		.dt-buttons {
@@ -41,18 +42,17 @@
 					<table class="datatables-projects table border-top">
 						<thead>
 							<tr>
-								<th class="text-center">Т/р</th>
-								<th class="text-center">Патрул Тури</th>
+								<th style="white-space: nowrap" class="text-center">т/р</th>
+								<th style="white-space: nowrap" class="text-center">Патрул Тури</th>
 								<th class="text-center">Йўналиши</th>
 								<th class="text-center">Сменаси</th>
 								<th class="text-center">ФИШ</th>
 								<th class="text-center">Бўлинма</th>
 								<th class="text-center">Эпикрофка</th>
-								<th class="text-center">Бодй камера</th>
+								<th class="text-center">Бодикамера</th>
 								<th class="text-center">Автомобил</th>
-								<th class="text-center">Otlar soni</th>
-								<th class="text-center">Itlar</th>
-
+								<th style="white-space: nowrap" class="text-center">Отлар сони</th>
+								<th class="text-center">Итлар</th>
 								<th></th>
 							</tr>
 						</thead>
@@ -101,6 +101,14 @@
 			</div>
 		</div>
 	</div>
+	 <div class="row">
+        <div class="col-12 mt-3">
+            <button type="button" class="btn btn-primary waves-effect waves-light" onclick="window.history.back()"
+            >
+                Ортга
+            </button>
+        </div>
+    </div>
 </div>
 
 <div class="modal fade" id="submitModal" tabindex="-1" aria-hidden="true">
@@ -160,7 +168,7 @@
 						</div>
 
 						<div class="col-sm-4">
-							<label>Otlar soni</label>
+							<label>Отлар сони</label>
 							<input type="number" class="form-control" name="horse_count" id="horse_count">
 						</div>
 
@@ -233,6 +241,17 @@
 
 <script>
 	{literal}
+
+	    var dt_basic_table = $('.datatables-projects'),
+            dt_basic;
+
+        // DataTable with buttons
+        if (dt_basic_table.length) {
+            dt_basic = dt_basic_table.DataTable({
+                displayLength: 10,
+                lengthMenu: [5, 10, 25, 50, 75, 100, 1000]
+            });
+        }
 
 
 		$(function() {
