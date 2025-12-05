@@ -989,12 +989,12 @@
             }),
             onEachFeature: (feature, layer) => {
               const name = feature.properties.shapeName;
-              layer.bindPopup(`<b>${name}</b>`);
+           //   layer.bindPopup(`<b>${name}</b>`);
 
               // Faqat bosilganda ishlaydi
               layer.on("click", (e) => {
-                const selected = feature.properties.shapeName;
-                map.fitBounds(e.target.getBounds());
+              //  const selected = feature.properties.shapeName;
+             //   map.fitBounds(e.target.getBounds());
               //  console.log(`Tanlangan viloyat: ${selected}`);
                 // showMarkersByRegion(selected);
               });
