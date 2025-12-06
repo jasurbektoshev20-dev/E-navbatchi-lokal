@@ -1654,12 +1654,12 @@
             }),
             onEachFeature: (feature, layer) => {
               const name = feature.properties.shapeName;
-              layer.bindPopup(`<b>${name}</b>`);
+            //  layer.bindPopup(`<b>${name}</b>`);
 
               // Faqat bosilganda ishlaydi
               layer.on("click", (e) => {
-                const selected = feature.properties.shapeName;
-                map.fitBounds(e.target.getBounds());
+          //      const selected = feature.properties.shapeName;
+           //     map.fitBounds(e.target.getBounds());
               //  console.log(`Tanlangan viloyat: ${selected}`);
                 // showMarkersByRegion(selected);
               });
@@ -2437,7 +2437,7 @@ map.on('load', () => {
                     <div class="passport-li-about">
                       <h6>Раҳбар телефони:</h6>
                       <p>
-                        <a href="tel:${params.head_phone}">${params.head_phone  ?? 'киритилмаган'}</a>
+                        <a href="tel:${params.object_head_phone}">${params.object_head_phone  ?? 'киритилмаган'}</a>
                       </p>
                     </div>
                   </li>
@@ -2590,7 +2590,7 @@ map.on('load', () => {
                 <div class="passport-li-about">
                   <h6>Телефон рақами:</h6>
                   <p>
-                    <a href="tel:${params?.neighborhood_head_phone}">${params?.neighborhood_head_phone  ?? 'киритилмаган'}</a>
+                    <a href="tel:${params.head_phone}">${params.head_phone  ?? 'киритилмаган'}</a>
                   </p>
                 </div>
               </li>
@@ -3869,7 +3869,7 @@ map.on('load', () => {
                     })
                 }
             })
-        }, 5000);
+        }, 10000);
 
   
 

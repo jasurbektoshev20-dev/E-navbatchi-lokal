@@ -115,7 +115,7 @@
                         </div>
 
                          <div class="col-sm-6">
-                            <label>{$Dict.region}</label>
+                            <label>Hududiy bo'linmalar</label>
                             <select required class="select form-control" name="structure_id" id="structure_id">
                                 <option value="">{$Dict.choose}</option>
                             </select>
@@ -250,14 +250,14 @@
 
     
     $('#region_id').change(function(event) {
-    $.get("ajax.php?act=get_divisions&structure_id=" + this.value, function(html) {
-        var sInfo = jQuery.parseJSON(html);
-        $('#structure_id').empty();
-        $('#structure_id').append(`<option value="">Tanlang</option>`);
-        sInfo.forEach((item, index) => {
-            $('#structure_id').append(`<option value="${item.id}">${item.name}</option>`);
+        $.get("ajax.php?act=get_divisions&structure_id=" + this.value, function(html) {
+            var sInfo = jQuery.parseJSON(html);
+            $('#structure_id').empty();
+            $('#structure_id').append(`<option value="">Танланг</option>`);
+            sInfo.forEach((item, index) => {
+                $('#structure_id').append(`<option value="${item.id}">${item.name}</option>`);
+            });
         });
-    });
     });
 
 
@@ -276,19 +276,18 @@
     $('.datatables-projects tbody').on('click', '.editAction', function() {
         $('#submitModal').modal('toggle');
         var RowId = $(this).attr('rel');
-
+       
         $.get("hrajax.php?act=get_reyd_events&rowid=" + RowId, function(html) {
             var sInfo = jQuery.parseJSON(html);
-            
-            $('#region_id').val(sInfo.region_id);
-            $('#region_id').trigger("change");
-            ('#structure_id').val(sInfo.structure_id);
-            $('#structure_id').trigger("change");
-              ('#responsible_id').val(sInfo.responsible_id);
+             console.log('sinfo: ', sInfo)
+            // $('#region_id').val(sInfo.region_id);
+            // $('#region_id').trigger("change");
+            $('#structure_id').val(sInfo.structure_id).trigger("change");
+            $('#responsible_id').val(sInfo.responsible_id);
             $('#responsible_id').trigger("change");
-             ('#type').val(sInfo.type);
+            $('#type').val(sInfo.type);
             $('#type').trigger("change");
-            ('#exercises_type').val(sInfo.exercises_type);
+            $('#exercises_type').val(sInfo.exercises_type);
             $('#exercises_type').trigger("change");
             $('#start_date').val(sInfo.start_date);
             $('#end_date').val(sInfo.end_date);

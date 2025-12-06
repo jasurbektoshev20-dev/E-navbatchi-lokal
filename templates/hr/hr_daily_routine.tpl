@@ -93,7 +93,7 @@
 
                         <div class="col-sm-6">
                             <label>Ҳудудни танланг</label>
-                            <select id="region_id" class="form-select" required>
+                            <select id="region_id" class="form-select">
                                 <option value="">{$Dict.choose}</option>
                                 {foreach from=$Regions item=str}
                                     <option value="{$str.id}">{$str.name}</option>
@@ -204,7 +204,6 @@
 
         $('#new').click(function() {
             $('#submitModal').modal('toggle');
-
             $('#structure_id').val(0);
             $('#structure_id').trigger("change");
             $('#responsible_id').val(0);
@@ -228,7 +227,7 @@
                 $('#region_id').val(sInfo.structure_id);
                 $('#responsible_id').val(sInfo.responsible_id);
                 $('#object_id').val(sInfo.object_id);
-                $('#day').val(sInfo.day);
+                $('#day').val(sInfo.date);
                 $('#id').val(sInfo.id);
 
             });
