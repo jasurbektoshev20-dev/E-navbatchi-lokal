@@ -54,7 +54,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                         <tr class="lb" id="row">
+                         {* <tr class="lb" id="row">
                                     <td class="text-right">1</td>
                                     <td class="text-center">Toshkent</td>
                                     <td class="text-center">Chilonzor</td>     
@@ -96,8 +96,8 @@
                                             </div>
                                         </div>
                                     </td>
-                                </tr>
-                            {* {foreach from=$Events item=item key=tkey name=name}
+                                </tr> *}
+                             {foreach from=$Events item=item key=tkey name=name}
                                 <tr class="lb" id="row_{$item.id|crypt}">
                                     <td class="text-right">{$tkey+1}</td>
                                     <td class="text-center">{$item.region_id}</td>
@@ -138,7 +138,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                            {/foreach} *}
+                            {/foreach} 
 
 
                         </tbody>
