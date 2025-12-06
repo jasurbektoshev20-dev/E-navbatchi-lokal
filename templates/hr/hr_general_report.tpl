@@ -33,8 +33,6 @@
         </div>
     </div>
 
-
-
     <div class="row mt-3">
         <!-- Projects table -->
         <div class="col-12">
@@ -45,134 +43,45 @@
                         <tr class="text-center">
                             <th style="white-space: nowrap;">т/р</th>
                             <th>Объект турлари</th>
-                            <th>Қорақалпоғистон Республикаси</th>
-                            <th>Тошкент шаҳри</th>
-                            <th>Андижон вилояти</th>
-                            <th>Бухоро вилояти</th>
-                            <th>Фарғона вилояти</th>
-                            <th>Жиззах вилояти</th>
-                            <th>Қашқадарё вилояти</th>
-                            <th>Хоразм вилояти</th>
-                            <th>Наманган вилояти</th>
-                            <th>Навоий вилояти</th>
-                            <th>Самарқанд вилояти</th>                           
-                            <th>Сирдарё вилояти</th>
-                            <th>Сурхандарё вилояти</th>
-                            <th>Тошкент вилояти</th>   
+
+                            {foreach from=$Regions item=R}
+                                <th>{$R.name}</th>
+                            {/foreach}
+
                             <th>Жами</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr class="lb text-center" id="row_{$Table.id|crypt}">
-                            <td class="text-right">1</td>
-                            <td>
-                                <a
-                                        href="hr.php?act=about_markets&mid={$smarty.get.mid}&date=">Бозорлар</a>
-                            </td>
-                            <td>1</td>
-                            <td>19</td>
-                            <td>4</td>
-                            <td>3</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td>2</td>
-                            <td>5</td>
-                            <td>1</td>
-                            <td>5</td>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>0</td>
-                            <td>52</td>
+                        {assign var=idx value=1}
+                        {foreach from=$tableData item=row}
+                            <tr class="lb text-center" id="row_{$idx}">
+                                <td class="text-right">{$idx}</td>
+                                <td>
+                                    <a href="hr.php?act=about_markets&mid={$smarty.get.mid}&date=">{$row.object_type_name}</a>
+                                </td>
+
+                                {foreach from=$Regions item=R}
+                                    {assign var=val value=$row.regions[$R.id]}
+                                    <td>{$val}</td>
+                                {/foreach}
+
+                                <td><b>{$row.total}</b></td>
+                            </tr>
+                            {assign var=idx value=$idx+1}
+                        {/foreach}
+
+                        <!-- JAMI qatori -->
+                        <tr class="lb text-center" id="row_total">
+                            <td class="text-right"></td>
+                            <td><b>Жами</b></td>
+
+                            {foreach from=$Regions item=R}
+                                <td><b>{$footer_sum[$R.id]|default:0}</b></td>
+                            {/foreach}
+
+                            <td><b>{$footer_total|default:0}</b></td>
                         </tr>
-                        <tr class="lb text-center" id="row_{$Table.id|crypt}">
-                            <td class="text-right">2</td>
-                            <td>
-                                <a
-                                        href="hr.php?act=''&mid={$smarty.get.mid}&date=Toshkent shahar">Истироҳат боғлари</a>
-                            </td>
-                            <td>2</td>
-                            <td>15</td>
-                            <td>4</td>
-                            <td>3</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>3</td>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>0</td>
-                            <td>41</td>
-                        </tr>
-                        <tr class="lb text-center" id="row_{$Table.id|crypt}">
-                            <td class="text-right">3</td>
-                            <td>
-                                <a
-                                        href="hr.php?act=''&mid={$smarty.get.mid}&date=Toshkent shahar">Хиёбонлар</a>
-                            </td>
-                            <td>3</td>
-                            <td>7</td>
-                            <td>3</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>4</td>
-                            <td>6</td>
-                            <td>1</td>
-                            <td>0</td>
-                            <td>3</td>
-                            <td>2</td>
-                            <td>1</td>
-                            <td>0</td>
-                            <td>34</td>
-                        </tr>
-                        <tr class="lb text-center" id="row_{$Table.id|crypt}">
-                            <td class="text-right">4</td>
-                            <td>
-                                <a
-                                        href="hr.php?act=''&mid={$smarty.get.mid}&date=Toshkent shahar">Бошқа жойлар</a>
-                            </td>
-                            <td>3</td>
-                            <td>9</td>
-                            <td>6</td>
-                            <td>5</td>
-                            <td>2</td>
-                            <td>7</td>
-                            <td>2</td>
-                            <td>2</td>
-                            <td>6</td>
-                            <td>2</td>
-                            <td>5</td>
-                            <td>2</td>
-                            <td>1</td>
-                            <td>0</td>
-                            <td>22</td>
-                        </tr>
-                        </tr>
-                        <tr class="lb text-center" id="row_{$Table.id|crypt}">
-                            <td class="text-right">5</td>
-                            <td>
-                               Жами
-                            </td>
-                            <td>9</td>
-                            <td>50</td>
-                            <td>17</td>
-                            <td>12</td>
-                            <td>7</td>
-                            <td>15</td>
-                            <td>13</td>
-                            <td>11</td>
-                            <td>14</td>
-                            <td>11</td>
-                            <td>15</td>
-                            <td>6</td>
-                            <td>6</td>
-                            <td>0</td>
-                            <td>127</td>
-                        </tr>
+
                         </tbody>
                     </table>
                 </div>
@@ -182,7 +91,8 @@
     </div>
 </div>
 
- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{literal}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
 
 <script src="/assets/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
@@ -191,6 +101,8 @@
 <script src="/assets/assets/vendor/libs/@form-validation/umd/bundle/popular.min.js"></script>
 <script src="/assets/assets/vendor/libs/@form-validation/umd/plugin-bootstrap5/index.min.js"></script>
 <script src="/assets/assets/vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js"></script>
+{/literal}
+
 {literal}
 <script>
 window.addEventListener('load', function() {
@@ -206,9 +118,7 @@ window.addEventListener('load', function() {
     showCancelButton: false,
     showCloseButton: false,
     didOpen: function(popup) {
-      // ✅ loading spinnerni faqat o‘zi chiqsin
       Swal.showLoading();
-      // default button joyini yo‘qotamiz
       const actions = popup.querySelector('.swal2-actions');
       if (actions) actions.style.display = 'none';
     },
@@ -221,6 +131,7 @@ window.addEventListener('load', function() {
 });
 </script>
 {/literal}
+
 <script>
     var dict_infraction = "{$Dict.infraction}"
     var dict_action_taken = "{$Dict.action_taken}"
@@ -229,20 +140,6 @@ window.addEventListener('load', function() {
     var dict_new_photo = "{$Dict.new_photo}"
     var dict_download_pdf = "{$Dict.download_pdf}"
     var dict_docx_download = "{$Dict.docx_download}"
-    /*
-{literal}
-
-    var dt_basic_table = $('.datatables-projects'),
-        dt_basic;
-
-    // DataTable with buttons
-    if (dt_basic_table.length) {
-        dt_basic = dt_basic_table.DataTable({
-            displayLength: 15,
-            lengthMenu: [5, 10, 25, 50, 75, 100, 1000]
-        });
-    }
-    {/literal}*/
 </script>
 
 {include file="footer.tpl"}

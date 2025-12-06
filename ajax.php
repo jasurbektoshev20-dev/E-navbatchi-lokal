@@ -602,9 +602,9 @@ switch ($Action) {
 		$car_ids = [];
 
 		$query  = "SELECT t.id, s.name{$slang} as structure, t.object_name, o.name{$slang} as object_type,
-		t.address, t.area, t.admin_phone, t.object_head, t.head_phone, n.head_iiv, n.head_iiv_phone,t.markets_count,t.eating_place_count,n.head,n.assistant_governor,n.youth_leader,n.womens_activist
+		t.address, t.area, t.admin_phone, t.object_head, t.head_phone as object_head_phone, n.head_iiv, n.head_iiv_phone,t.markets_count,t.eating_place_count,n.head,n.assistant_governor,n.youth_leader,n.womens_activist
 		,n.tax_inspector,n.social_employe,t.sales_places_count,n.head_phone,n.assistant_governor_phone,n.youth_leader_phone,n.womens_activist_phone,n.tax_inspector_phone,n.social_employe_phone,
-		COALESCE(COUNT(jd.id), 0) AS count_doors,
+		COALESCE(COUNT(jd.id), 0) AS count_doors,n.name as neighborhood_name,
 		t.photo, t.lat, t.long, ST_AsGeoJSON(geom) AS geom_geojson
 		FROM hr.jts_objects t 
 		left join hr.structure s on s.id  = t.structure_id
@@ -613,7 +613,7 @@ switch ($Action) {
 		left join hr.neighborhoods n on n.id = t.neighborhood_id
 		WHERE t.id = {$id}
 		GROUP BY 
-		t.id, s.name{$slang}, t.object_name, o.name{$slang},
+		t.id, s.name{$slang}, t.object_name, o.name{$slang},n.name,
 		t.address, t.area, t.admin_phone, t.object_head, t.head_phone, n.head_iiv, n.head_iiv_phone,t.markets_count,t.eating_place_count,n.head,n.assistant_governor,n.youth_leader,n.womens_activist
 		,n.tax_inspector,n.social_employe,t.sales_places_count,n.head_phone,n.assistant_governor_phone,n.youth_leader_phone,n.womens_activist_phone,n.tax_inspector_phone,n.social_employe_phone,
 		t.photo, t.lat, t.long, ST_AsGeoJSON(geom)
@@ -706,10 +706,10 @@ switch ($Action) {
 		$sql->query($query);
 		$Routine = $sql->fetchAssoc();
 
-		// echo '<pre>';
-		// print_r($Routine);
-		// echo '</pre>';
-		// die();
+		echo '<pre>';
+		print_r($Routine);
+		echo '</pre>';
+		die();
 
 		$JtsObject['routine'] = $Routine;
 		$BodyCamUrl = [];

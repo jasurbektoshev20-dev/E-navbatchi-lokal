@@ -533,7 +533,8 @@ switch ($Action) {
             mg_count = '{$mg_count}',
             spring_count = '{$spring_count}',
             reserve_name = '{$reserve_name}',
-            iiv_count = '{$iiv_count}'
+            iiv_count = '{$iiv_count}',
+            fvv_count = '{$fvv_count}'
             WHERE id = {$RowId}";
             $sql->query($updquery);
             if ($sql->error() == "") {
@@ -568,7 +569,7 @@ switch ($Action) {
                         ,spring_count
                         ,reserve_name
                         ,iiv_count
-
+                        ,fvv_count
                     ) values (
                          '{$region_id}'
                         ,'{$object_id}'
@@ -592,6 +593,7 @@ switch ($Action) {
                         ,'{$spring_count}'
                         ,'{$reserve_name}'
                         ,'{$iiv_count}'
+                        ,{$fvv_count}'
 
                     )";
                 $sql->query($insquery);
@@ -1913,7 +1915,7 @@ case "get_event_duty":
         $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
         $object_id = $_POST['object_id'];
         $structure_id = isset($_POST['structure_id']) ? $_POST['structure_id'] : $UserStructure;
-        $date = isset($_POST['day']) ? strtotime($_POST['day']) : null;
+        $date = isset($_POST['day']) ? $_POST['day'] : null;
         $responsible_id = $_POST['responsible_id'];
 
         // echo '<pre>';
@@ -1926,7 +1928,7 @@ case "get_event_duty":
             $updquery = "UPDATE hr.daily_routine SET
                 object_id = '{$object_id}',
                 structure_id = '{$structure_id}',
-                date = to_timestamp('{$date}'),
+                date = '{$date}',
                 responsible_id = '{$responsible_id}'
                 WHERE id = {$RowId}";
             $sql->query($updquery);
@@ -1945,7 +1947,7 @@ case "get_event_duty":
                 ) VALUES (
                     '{$object_id}',
                     '{$structure_id}',
-                    to_timestamp('{$date}'),
+                    '{$date}',
                     '{$responsible_id}'
                 )";
             $sql->query($insquery);
