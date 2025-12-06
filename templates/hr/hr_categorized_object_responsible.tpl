@@ -50,7 +50,6 @@
                             {foreach from=$Staffs item=Table key=tkey}
                                 <tr class="lb" id="row_{$Table.id|crypt}">
                                     <td class="text-right">{$tkey+1}</td>
-                                    
                                     <td>{$Table.date}</td> 
                                     <td>{$Table.structure_id}</td>
                                     <td>
@@ -89,86 +88,36 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <form class="needs-validation" novalidate>
                     <div class="row g-3">
+
                         <div class="col-6">
-                            <label>{$Dict.region}</label>
-                            <select required class="select form-control" name="region_id" id="region_id">
+                            <label>Sana</label>
+                            <input required type="datetime" class="form-control" placeholder="DD-MM-YYYY" name="date" id="date" value="">
+                        </div>
+
+                        <div class="col-6">
+                            <label>{$Dict.territorial_short}</label>
+                            <select  class="select form-control" name="structure_id" id="structure_id">
                                 <option value="">{$Dict.choose}</option>
                                 {foreach from=$Regions item=Item6 key=ikey6}
                                     <option value="{$Item6.id}">{$Item6.name}</option>
                                 {/foreach}
                             </select>
                         </div>
+
                         <div class="col-sm-6">
-                            <label>{$Dict.territorial_short}</label>
-                            <select id="structure_id" class="form-select">
+                            <label>Navbatchi</label>
+                            <select id="staff_id" class="form-select">
                                 <option value="">{$Dict.choose}</option>
                                 {foreach from=$Structures item=obj}
                                     <option value="{$obj.id}">{$obj.name}</option>
                                 {/foreach}
                             </select>
                         </div>
-                         <div class="col-6">
-                            <label>{$Dict.role}</label>
-                            <select required class="select form-control" name="role" id="role">
-                                <option value="">{$Dict.choose}</option>
-                                {foreach from=$Roles item=Item6 key=ikey6}
-                                    <option value="{$Item6.id}">{$Item6.name}</option>
-                                {/foreach}
-                            </select>
-                        </div> 
-                        <div class="col-6">
-                            <label>{$Dict.position}</label>
-                            <select required class="select form-control" name="position_id" id="position_id">
-                                <option value="">{$Dict.choose}</option>
-                                {foreach from=$HrPositions item=Item6 key=ikey6}
-                                    <option value="{$Item6.id}">{$Item6.name}</option>
-                                {/foreach}
-                            </select>
-                        </div>
-                        <div class="col-6">
-                            <label>{$Dict.rank}</label>
-                            <select required class="select form-control" name="rank_id" id="rank_id">
-                                <option value="">{$Dict.choose}</option>
-                                {foreach from=$RefRanks item=Item6 key=ikey6}
-                                    <option value="{$Item6.id}">{$Item6.name}</option>
-                                {/foreach}
-                            </select>
-                        </div>
-                        <div class="col-6">
-                            <label>{$Dict.lastname}</label>
-                            <input required type="text" class="form-control" name="lastname" id="lastname" value="">
-                        </div>
-                        <div class="col-6">
-                            <label>{$Dict.firstname}</label>
-                            <input required type="text" class="form-control" name="firstname" id="firstname" value="">
-                        </div>
-                        <div class="col-6">
-                            <label>{$Dict.surname}</label>
-                            <input type="text" class="form-control" name="surname" id="surname" value="">
-                        </div>
-                        <div class="col-6">
-                            <label>{$Dict.phone}</label>
-                            <input required type="text" class="form-control" name="phone" id="phone" value="">
-                        </div>
-                         <div class="col-6">
-                            <label>{$Dict.username}</label>
-                            <input type="text" class="form-control" name="username" id="username" value="">
-                        </div>
-                        <div class="col-6">
-                            <label>{$Dict.password}</label>
-                            <input type="text" class="form-control" name="password" id="password" value="">
-                        </div> 
-                        <div class="col-12">
-                            <label class="form-label">{$Dict.choose_file}</label>
-                            <div action="/upload" class="dropzone needsclick" id="staff-photo">
-                                <div class="dz-message needsclick">
-                                    {$Dict.drop_file}
-                                </div>
-                                <div class="fallback">
-                                    <input name="file" type="file" />
-                                </div>
-                            </div>
-                        </div>
+
+                     
+                        
+                     
+                       
                         <div class="col-12 text-center">
                             <input type="hidden" name="id" id="id" value="">
                             <input type="hidden" name="photo" id="photo" value="">
@@ -189,6 +138,7 @@
 <script src="/assets/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
 <script src="/assets/assets/vendor/libs/sweetalert2/sweetalert2.js"></script>
 <script src="/assets/assets/vendor/libs/dropzone/dropzone.js"></script>
+<script src="/assets/assets/vendor/libs/flatpickr/flatpickr.js"></script>
 
 <!-- Vendors JS -->
 <script src="/assets/assets/vendor/libs/@form-validation/umd/bundle/popular.min.js"></script>
@@ -213,14 +163,23 @@
     var dict_choose = "{$Dict.choose}";
     {literal}
 
-        const phoneInput = document.getElementById('phone');
+           const flatpickrDate = document.querySelector('#date');
+        if (flatpickrDate) {
+            flatpickrDate.flatpickr({
+                enableTime: true,
+            dateFormat: "Y-m-d H:i",
+            time_24hr: true,
+            monthSelectorType: 'static'
+            });
+        }
 
-        const phoneMask = IMask(phoneInput, {
-            mask: '+998 00 000-00-00'
-        });
+        let start_event_date;
+        $('#date').on('change', function() {
+           let [datePart, timePart] = this.value.split(' ');
+            let [day, month, year] = datePart.split('-');
 
-        // 🔥 Default holatda +998 turadi
-        phoneMask.value = '+998 ';
+            start_event_date = `${year}-${month}-${day} ${timePart}`;
+        })
 
         var dt_basic_table = $('.datatables-projects'),
             dt_basic;
@@ -233,37 +192,14 @@
             });
         }
 
-        // Filtering
-        $('#region_id').change(function(event) {
-            $.get("ajax.php?act=get_divisions&structure_id=" + this.value, function(html) {
-                var sInfo = jQuery.parseJSON(html);
-
-                $('#structure_id').empty();
-                $('#structure_id').append(`<option value="">${dict_choose}</option>`);
-                sInfo.forEach((item, index) => {
-                    $('#structure_id').append(`<option value="${item.id}">${item.name}</option>`);
-                });
-            });
-        });
 
         $('#new').click(function() {
             $('#submitModal').modal('toggle');
-            $('#region_id').val(0);
-            $('#region_id').trigger("change");
             $('#structure_id').val(0);
             $('#structure_id').trigger("change");
-            $('#role').val(0);
-            $('#role').trigger("change");
-            $('#position_id').val(0);
-            $('#position_id').trigger("change");
-            $('#rank_id').val(0);
-            $('#rank_id').trigger("change");
-            $('#lastname').val("");
-            $('#firstname').val("");
-            $('#surname').val("");
-            $('#phone').val("");
-            $('#username').val("");
-            $('#password').val("");
+            $('#staff_id').val(0);
+            $('#staff_id').trigger("change");
+            $('#date').val('');
         });
 
         $('.datatables-projects tbody').on('click', '.editAction', function() {
@@ -274,50 +210,14 @@
                 var sInfo = jQuery.parseJSON(html);
 
                 $('#id').val(sInfo.id);
-                $('#region_id').val(sInfo.structure_id);
                 $('#structure_id').val(sInfo.structure_id);
-                $('#role').val(sInfo.role_id);
-                $('#position_id').val(sInfo.position_id);
-                $('#rank_id').val(sInfo.rank_id);
-                $('#lastname').val(sInfo.lastname);
-                $('#firstname').val(sInfo.firstname);
-                $('#surname').val(sInfo.surname);
-                $('#phone').val(sInfo.phone);
-                $('#username').val(sInfo.username);
-                $('#photo').val(sInfo.photo);
-                $('#password').val(sInfo.password);
+                $('#staff_id').val(sInfo.staff_id);
+                $('#date').val(sInfo.date);
+               
             });
         })
 
 
-        const previewTemplate = `
-            <div class="dz-preview dz-file-preview">
-                <div class="dz-details">
-                    <div class="dz-thumbnail">
-                        <img data-dz-thumbnail>
-                        <span class="dz-nopreview">No preview</span>
-                        <div class="dz-success-mark"></div>
-                        <div class="dz-error-mark"></div>
-                        <div class="dz-error-message"><span data-dz-errormessage></span></div>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuemin="0" aria-valuemax="100" data-dz-uploadprogress></div>
-                        </div>
-                    </div>
-                    <div class="dz-filename" data-dz-name></div>
-                    <div class="dz-size" data-dz-size></div>
-                </div>
-            </div>
-        `;
-
-        const dropzoneBasic = document.querySelector('#staff-photo');
-        var myDropzone = new Dropzone(dropzoneBasic, {
-            previewTemplate: previewTemplate,
-            parallelUploads: 1,
-            maxFilesize: 5000,
-            addRemoveLinks: true,
-            maxFiles: 1,
-            acceptedFiles: 'image/*',
-        });
 
         // Form validation and submit
         const bsValidationForms = $('.needs-validation');
@@ -329,34 +229,11 @@
                 } else {
                     event.preventDefault();
                     event.stopPropagation();
-
                     var form_data = new FormData();
                     form_data.append('id', $('#id').val());
-                    
-                    if ($('#structure_id').val() == 0) {
-                        form_data.append('structure_id', $('#region_id').val());
-                    } else {
-                        form_data.append('structure_id', $('#structure_id').val() || $('#region_id').val());
-                    }
-
-                    form_data.append('role', $('#role').val());
-                    form_data.append('position_id', $('#position_id').val());
-                    form_data.append('rank_id', $('#rank_id').val());
-                    form_data.append('lastname', $('#lastname').val());
-                    form_data.append('firstname', $('#firstname').val());
-                    form_data.append('surname', $('#surname').val());
-                    form_data.append('phone', $('#phone').val());
-                    form_data.append('username', $('#username').val());
-                    form_data.append('password', $('#password').val());
-
-                    if (myDropzone.files.length > 0) {
-                        myDropzone.files.forEach(function(file, index) {
-                            form_data.append('photo', file);
-                        });
-                    } else {
-                        form_data.append('photo', $('#photo').val());
-                    }
-
+                    form_data.append('structure_id', $('#structure_id').val());
+                    form_data.append('staff_id', $('#staff_id').val());
+                    form_data.append('date', $('#date').val());
                     $.ajax({
                         url: 'hrajax.php?act=act_staffs',
                         dataType: 'text',
