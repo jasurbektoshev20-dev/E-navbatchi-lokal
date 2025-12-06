@@ -1074,7 +1074,6 @@
 .cluster-objects { background: #1e90ff; }
 
 
-
   {/literal}
 </style>
 
@@ -1144,7 +1143,10 @@
                   </div>
 
                   <div class="camera-box position-relative" style="background: rgba(0,0,0,0.25); border-radius: 12px;">
-                    <div id="playWind" style="width: 100%; height: 280px; border-radius: 12px;"></div>
+                
+                    <div id="playWind" style="width: 100%; height: 280px; border-radius: 12px;">
+                     
+                    </div>
 
                     <!-- BUTTONS (fixed) -->
                     <div class="button_box w-100 mt-2" style="position: static !important;">
@@ -2865,8 +2867,6 @@ map.on('load', () => {
 
 
 
-
-
     function getMarkerImage(type) {
       switch (type) {
         case 'bozor':
@@ -3436,8 +3436,80 @@ map.on('load', () => {
       }
 
       function fullSreen() {
+          const el = document.getElementById('playWind');
+
+          if (el.requestFullscreen) el.requestFullscreen();
+          else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+          else if (el.msRequestFullscreen) el.msRequestFullscreen();
+
           jsDecoder.JS_FullScreenDisplay(true);
       }
+
+      function openFullscreen() {
+          setTimeout(() => {
+              jsDecoder.JS_Resize(window.innerWidth, window.innerHeight);
+              console.log("kattalashdi");
+          }, 100);
+      }
+
+      document.addEventListener("fullscreenchange", function () {
+          const el = document.getElementById('playWind');
+
+          if (!document.fullscreenElement) {
+              jsDecoder.JS_Resize(615, 300);
+              console.log("kichiklashdi");
+          }
+      });
+
+      function bindDblClick() {
+          const el = document.getElementById('playWind');
+          if (!el) return console.warn('#playWind topilmadi');
+
+          el.addEventListener('dblclick', function (e) {
+              e.preventDefault();
+              fullSreen();
+              openFullscreen();
+          }, { capture: true });
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       function fullScreenSingle(id) {
           jsDecoder.JS_FullScreenSingle(id);
@@ -3467,6 +3539,7 @@ map.on('load', () => {
         jsDecoder.JS_Resize(615, 300);
 
         get_camera()
+        bindDblClick()
       }
 
 
@@ -4313,14 +4386,45 @@ map.on('load', () => {
         function StopRealPlayAll () {
             jsDecoder.JS_StopRealPlayAll()
         }
-
-        function fullSreen() {
-            jsDecoder.JS_FullScreenDisplay(true);
-        }
         
         function fullScreenSingle () {
             jsDecoder.JS_FullScreenSingle(iWind);
         }
+
+          function fullSreen() {
+          const el = document.getElementById('playWind2');
+
+          if (el.requestFullscreen) el.requestFullscreen();
+          else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+          else if (el.msRequestFullscreen) el.msRequestFullscreen();
+
+          jsDecoder.JS_FullScreenDisplay(true);
+      }
+
+      function openFullscreen() {
+          setTimeout(() => {
+              jsDecoder.JS_Resize(window.innerWidth, window.innerHeight);
+          }, 100);
+      }
+
+      document.addEventListener("fullscreenchange", function () {
+          const el = document.getElementById('playWind2');
+
+          if (!document.fullscreenElement) {
+              jsDecoder.JS_Resize(640, 400);
+          }
+      });
+
+      function bindDblClick2() {
+          const el = document.getElementById('playWind2');
+          if (!el) return console.warn('#playWind topilmadi');
+
+          el.addEventListener('dblclick', function (e) {
+              e.preventDefault();
+              fullSreen();
+              openFullscreen();
+          }, { capture: true });
+      }
  
 
         function initCamera() {
@@ -4339,6 +4443,7 @@ map.on('load', () => {
             }
           });
           jsDecoder.JS_Resize(640, 400);
+           bindDblClick2();
         }
     {/literal}
 </script>
