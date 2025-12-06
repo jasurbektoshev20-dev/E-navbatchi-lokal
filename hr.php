@@ -316,7 +316,7 @@ switch ($Act) {
 
 		$query = "SELECT m.id, t.name{$slang} as event_type ,m.event_direction, m.iiv_count, 
 		m.fvv_count,mg_count,m.event_view,m.start_event,m.finish_event,m.reserve_count,m.event_name,m.responsible_spring_name,m.event_responsible_organization,
-		m.organizer,m.responsible_name,m.responsible_phone,m.responsible_iiv_name,m.reserve_name,m.responsible_msgr_name,responsible_fvv_name,m.people_count,m.mg_count,m.iiv_count,m.spring_count,
+		m.organizer,m.responsible_name,m.responsible_phone,m.responsible_iiv_name,m.reserve_name,m.responsible_msgr_name,responsible_fvv_name,m.people_count,m.mg_count,m.iiv_count,m.spring_count,m.fvv_count,
 		j.object_name as obj_name,m.organizer,s.name{$slang} as region_name 
 		FROM hr.public_event1 m
 		left join tur.public_event_types t on t.id = m.event_type
@@ -1201,6 +1201,195 @@ switch ($Act) {
 			'Regions' => $Regions,
 		));
 		break;
+
+
+		case "hr_general_report":
+
+			// 1) Regions (siz ilgari olgandek)
+			$query  = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t 
+					where t.id > 1 and t.id < 16
+					ORDER BY t.turn ASC";
+			$sql->query($query);
+			$Regions = $sql->fetchAll(); // each: ['id'=>..., 'name'=>...]
+
+			// 2) Object types (hr.involved_objects) — bizga 4 ta type kerak
+			$qt = "SELECT id, name1 as name FROM hr.involved_objects ORDER BY id";
+			$sql->query($qt);
+			$objectTypesFromDB = $sql->fetchAll(); // [ ['id'=>1,'name'=>'Bozorlar'], ... ]
+
+			// Build objectTypes map: id => name
+			$objectTypes = [];
+			foreach ($objectTypesFromDB as $t) {
+				$objectTypes[$t['id']] = $t['name'];
+			}
+			
+			// 3) Your main query that returns structure + json array of object_types
+			$query  = "SELECT
+							s.id AS structure_id,
+							s.name1 AS structure_name,
+							json_agg(
+								json_build_object(
+									'object_type', io.id,
+									'object_type_name', io.name1,
+									'total_objects', COALESCE(cnt.total_objects, 0)
+								) ORDER BY io.id
+							) AS object_types
+						FROM hr.structure s
+						CROSS JOIN hr.involved_objects io
+						LEFT JOIN (
+							SELECT 
+								o.structure_id,
+								o.object_type,
+								COUNT(*) AS total_objects
+							FROM hr.jts_objects o
+							GROUP BY o.structure_id, o.object_type
+						) cnt
+							ON cnt.structure_id = s.id AND cnt.object_type = io.id
+						WHERE s.parent = 1
+						GROUP BY s.id, s.name1
+						ORDER BY s.id;
+			";
+			$sql->query($query);
+			$objects = $sql->fetchAll(); // each: ['structure_id'=>..., 'structure_name'=>..., 'object_types'=>json]
+
+			// 4) Build regions array in the SAME order as $Regions (so headers match)
+			// Map $objects by structure_id for faster lookup
+			$objectsByStructure = [];
+			foreach ($objects as $o) {
+				$objectsByStructure[$o['structure_id']] = $o;
+			}
+
+			$regions = [];
+			foreach ($Regions as $r) {
+				$sid = $r['id'];
+				if (isset($objectsByStructure[$sid])) {
+					$obj = $objectsByStructure[$sid];
+					$objTypes = $obj['object_types'];
+
+					// if DB driver returned JSON string -> decode
+					if (is_string($objTypes)) {
+						$objTypesArr = json_decode($objTypes, true);
+						if (!is_array($objTypesArr)) $objTypesArr = [];
+					} elseif (is_array($objTypes)) {
+						$objTypesArr = $objTypes;
+					} else {
+						$objTypesArr = [];
+					}
+				} else {
+					$objTypesArr = []; // no data for this region
+				}
+
+				$regions[] = [
+					'id' => $r['id'],
+					'structure_name' => $r['name'],
+					'object_types' => $objTypesArr
+				];
+			}
+
+			// 5) Build tableData: one row per object_type (ensures all 4 types appear), and footer sums
+			$tableData = [];    // rows: each row => ['object_type'=>id, 'object_type_name'=>name, 'regions'=>[region_id=>val,...], 'total'=>N]
+			$footer_sum = [];   // region_id => sum
+			$footer_total = 0;
+
+			foreach ($objectTypes as $type_id => $type_name) {
+				$row = [
+					'object_type' => $type_id,
+					'object_type_name' => $type_name,
+					'regions' => [],
+					'total' => 0
+				];
+
+				$row_total = 0;
+
+				foreach ($regions as $r) {
+					$val = 0;
+					if (!empty($r['object_types'])) {
+						foreach ($r['object_types'] as $ot) {
+							// ot may be associative array with keys 'object_type' and 'total_objects'
+							if (isset($ot['object_type']) && (int)$ot['object_type'] === (int)$type_id) {
+								$val = (int)($ot['total_objects'] ?? 0);
+								break;
+							}
+						}
+					}
+
+					$row['regions'][$r['id']] = $val;
+					$row_total += $val;
+
+					if (!isset($footer_sum[$r['id']])) $footer_sum[$r['id']] = 0;
+					$footer_sum[$r['id']] += $val;
+				}
+
+				$row['total'] = $row_total;
+				$footer_total += $row_total;
+
+				$tableData[] = $row;
+			}
+
+			// 6) Assign to Smarty
+			$smarty->assign(array(
+				'Regions' => $Regions,           // for header order & names
+				'regions' => $regions,           // regions with object_types arrays
+				'tableData' => $tableData,       // rows to render
+				'footer_sum' => $footer_sum,
+				'footer_total' => $footer_total,
+				'objectTypesList' => $objectTypes // optional
+			));
+			break;
+
+
+	case "hr_users":
+		$query = "SELECT t.id, t.lastname, t.firstname, t.surname, t.username, t.phone, t.photo, 
+		s.name{$slang} as structure, r.role_name, p.name{$slang} as position, ra.name{$slang} as rank
+		FROM hr.staff t 
+		left join hr.structure s on s.id  = t.structure_id
+		left join bcms.roles r on r.id  = t.role_id
+		left join hr.positions p on p.id  = t.position_id
+		left join ref.ranks ra on ra.id  = t.rank_id
+		 where t.username = ''
+		ORDER BY t.id ASC";
+		$sql->query($query);
+		$Staffs = $sql->fetchAll();
+
+		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t 
+		where t.id > 0 and t.id < 16
+		ORDER BY t.turn ASC";
+		$sql->query($query);
+		$Regions = $sql->fetchAll();
+
+		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.structure t 
+		ORDER BY t.turn ASC";
+		$sql->query($query);
+		$Structures = $sql->fetchAll();
+
+		$query  = "SELECT t.id, t.role_name as name FROM bcms.roles t
+		ORDER BY t.id ASC";
+		$sql->query($query);
+		$Roles = $sql->fetchAll();
+
+		$query = "SELECT id,name{$slang} as name from hr.positions";
+		$sql->query($query);
+		$HrPositions = $sql->fetchAll();
+
+		$query = "SELECT id,name{$slang} as name from ref.ranks order by turn desc";
+		$sql->query($query);
+		$RefRanks = $sql->fetchAll();
+		// echo '<pre>';
+		// print_r($Staffs);
+		// echo '</pre>';
+		// die();
+		$smarty->assign(array(
+			'Staffs' => $Staffs,
+			'Regions' => $Regions,
+			'Structures' => $Structures,
+			'Roles' => $Roles,
+			'HrPositions' => $HrPositions,
+			'RefRanks' => $RefRanks,
+		));
+  
+    break;
+
+
 }
 
 $smarty->display("hr/{$Act}.tpl");
