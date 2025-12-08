@@ -45,72 +45,16 @@
                                 <th class="text-center">Tuman</th>
                                 <th class="text-center">Номи</th>
                                 <th class="text-center">Тури</th>
-                             
-                               
-                                <th class="text-center">Post telefon raqami</th>
-                                <th class="text-center">Rasm</th>
-                                <th class="text-center">Manzil</th>
-                      
-                                <th class="text-center">Mas'ul rahbar</th>
-                                <th class="text-center">Bo'linma telefon raqami</th>
-                                <th class="text-center">Profilaktika inspektori</th>
-                                <th class="text-center">Telefon</th>
-                                <th class="text-center">Xududiy IIB</th>
-                                <th class="text-center">IIB telefon raqami</th>
-
-
-
                                 <th class="text-center">Uzunlik</th>
                                 <th class="text-center">Kenglik</th>
+                                <th class="text-center">Obyekt haqida malumot</th>
                                 <th class="text-center">Kamera</th>
                                 <th class="text-center">Javobgar shaxs</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                         {* <tr class="lb" id="row">
-                                    <td class="text-right">1</td>
-                                    <td class="text-center">Toshkent</td>
-                                    <td class="text-center">Chilonzor</td>     
-                                    <td class="text-center">Indoneziya elchixonasi</td>
-                                    <td class="text-center">elchixona</td>
-                                    <td class="text-center">41234333</td>
-                                    <td class="text-center">63452222</td>
-                                  <td class="text-center">
-                                        <a href="hr.php?act=categorized_object_detail&mid=">
-                                            <i class="ti ti-file-description me-1" style="font-size: 30px;"></i>
-                                        </a>
-                                    </td>
-
-                                    <td class="text-center">
-                                        <a href="hr.php?act=categorized_object_camera&mid=">
-                                            <i class="ti ti-camera me-1" style="font-size: 30px;"></i>
-                                        </a>
-                                    </td>
-
-                                    <td class="text-center">
-                                        <a href="hr.php?act=categorized_object_responsible&mid=">
-                                            <i class="ti ti-user-check me-1" style="font-size: 30px;"></i>
-                                        </a>
-                                    </td>
-
-                                    <td>
-                                        <div class="dropdown">
-                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                data-bs-toggle="dropdown">
-                                                <i class="ti ti-dots-vertical"></i>
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                <a rel="" class="dropdown-item editAction"
-                                                    href="javascript:void(0);"><i
-                                                        class="ti ti-pencil me-1"></i>{$Dict.edit}</a>
-                                                <a rel="" class="dropdown-item delete"
-                                                    href="javascript:void(0);"><i
-                                                        class="ti ti-trash me-1"></i>{$Dict.delete}</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr> *}
+                        
                              {foreach from=$Events item=item key=tkey name=name}
                                 <tr class="lb" id="row_{$item.id|crypt}">
                                     <td class="text-right">{$tkey+1}</td>
@@ -118,26 +62,6 @@
                                     <td class="text-center">{$item.obj_district}</td>     
                                     <td class="text-center">{$item.obj_name}</td>
                                     <td class="text-center">{$item.obj_type}</td>
-                                      
-
-                                    <td class="text-center">{$Table.post_phone}</td>
-                                    <td class="text-center">
-                                        {if $Table.photo neq ""}
-                                            <img src="/pictures/staffs/{$Table.photo}" style="width: 50px; height:50px; object-fit:cover;">
-                                        {else}
-                                            <img src="/assets/images/german_flag.png" style="width: 50px; height:50px; object-fit:cover;">
-                                        {/if}
-                                    </td>
-                                    <td class="text-center">{$Table.obj_address}</td>
-                                
-                                    <td class="text-center">{$Table.obj_responsible}</td>
-                                    <td class="text-center">{$Table.structure_phone}</td>
-                                    <td class="text-center">{$Table.prevention_inspector}</td>
-                                    <td class="text-center">{$Table.inspector_phone}</td>
-                                    <td class="text-center">{$Table.territorial_iib}</td>
-                                    <td class="text-center">{$Table.iib_phone}</td> 
-
-
                                     <td class="text-center">{$item.obj_lat}</td>
                                     <td class="text-center">{$item.obj_long}</td>
                                     <td class="text-center">
