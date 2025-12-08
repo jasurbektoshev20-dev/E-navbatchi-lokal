@@ -5,6 +5,7 @@
         .table thead th,
         .table tbody td {
             text-transform: none !important;
+            font-size: 16px;
         }
 
         .dt-buttons {

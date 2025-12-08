@@ -42,17 +42,17 @@
                             <tr>
                                 <th>No̱</th>
                                 {* <th class="text-center">{$Dict.region}</th> *}
-                                <th class="text-center">Nomi</th>
-                                <th class="text-center">Post telefon raqami</th>
-                                <th class="text-center">Rasm</th>
-                                <th class="text-center">Manzil</th>
-                                <th class="text-center">Xududiy bo'linma</th>
-                                <th class="text-center">Mas'ul rahbar</th>
-                                <th class="text-center">Bo'linma telefon raqami</th>
-                                <th class="text-center">Profilaktika inspektori</th>
-                                <th class="text-center">Telefon</th>
-                                <th class="text-center">Xududiy IIB</th>
-                                <th class="text-center">IIB telefon raqami</th>
+                                <th class="text-center">Номи</th>
+                                <th class="text-center">Пост телефон рақами</th>
+                                <th class="text-center">Расм</th>
+                                <th class="text-center">Манзили</th>
+                                <th class="text-center">Худудий бўлинма</th>
+                                <th class="text-center">Масъул раҳбар</th>
+                                <th class="text-center">Бўлинма телефон рақами</th>
+                                <th class="text-center">Профилактика инспектори</th>
+                                <th class="text-center">Телефон</th>
+                                <th class="text-center">Худудий ИИБ</th>
+                                <th class="text-center">ИИБ телефон рақами</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -123,17 +123,17 @@
                     <div class="row g-3">
                          
                         <div class="col-sm-6">
-                            <label>Post telefon raqami</label>
+                            <label>Пост телефон рақами</label>
                             <input required type="text" class="form-control" name="post_phone" id="post_phone" value="">
                         </div>
 
                         <div class="col-sm-6">
-                            <label>Manzili</label>
+                            <label>Манзили</label>
                             <input required type="text" class="form-control" name="obj_address" id="obj_address" value="">
                         </div>
                       
                          <div class="col-sm-6">
-                            <label>Hududiy bo'linmalar</label>
+                            <label>Худудий бўлинмалар</label>
                             <select required class="select form-control" name="structure_id" id="structure_id">
                                 <option value="">{$Dict.choose}</option>
                                  {foreach from=$staffs item=Item1 key=ikey1}
@@ -153,27 +153,27 @@
                         </div>
 
                          <div class="col-sm-6">
-                            <label>Bo'linma telefon raqami</label>
+                            <label>Бўлинма телефон рақами</label>
                             <input required type="number" class="form-control" name="structure_phone" id="structure_phone" value="">
                         </div>
 
                           <div class="col-sm-6">
-                            <label>Profilaktika inspektori</label>
+                            <label>Профилактика инспектори</label>
                             <input required type="text" class="form-control" name="prevention_inspector" id="prevention_inspector" value="">
                         </div>
 
                         <div class="col-sm-6">
-                            <label>Telefon raqami</label>
+                            <label>Телефон рақами</label>
                             <input required type="number" class="form-control" name="inspector_phone" id="inspector_phone" value="">
                         </div>
                     
                         <div class="col-sm-6">
-                            <label>Xududiy IIB</label>
+                            <label>Худудий ИИБ</label>
                             <input required type="text" class="form-control" name="territorial_iib" id="territorial_iib" value="">
                         </div>
 
                         <div class="col-sm-6">
-                            <label>Telefon raqami</label>
+                            <label>Телефон рақами</label>
                             <input required type="number" class="form-control" name="iib_phone" id="iib_phone" value="">
                         </div>
                         <div class="col-12">

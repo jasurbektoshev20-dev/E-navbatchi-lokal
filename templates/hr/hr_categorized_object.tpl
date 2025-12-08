@@ -42,14 +42,14 @@
                             <tr>
                                 <th>t/r</th>
                                 <th class="text-center">Ҳудуд</th>
-                                <th class="text-center">Tuman</th>
+                                <th class="text-center">Туман</th>
                                 <th class="text-center">Номи</th>
                                 <th class="text-center">Тури</th>
-                                <th class="text-center">Uzunlik</th>
-                                <th class="text-center">Kenglik</th>
-                                <th class="text-center">Obyekt haqida malumot</th>
-                                <th class="text-center">Kamera</th>
-                                <th class="text-center">Javobgar shaxs</th>
+                                {* <th class="text-center">Uzunlik</th>
+                                <th class="text-center">Kenglik</th> *}
+                                <th class="text-center">Объект ҳақида малумот</th>
+                                <th class="text-center">Камера</th>
+                                <th class="text-center">Жавобгар шахс</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -62,8 +62,8 @@
                                     <td class="text-center">{$item.district}</td>     
                                     <td class="text-center">{$item.name}</td>
                                     <td class="text-center">{$item.type_name}</td>
-                                    <td class="text-center">{$item.lat}</td>
-                                    <td class="text-center">{$item.long}</td>
+                                    {* <td class="text-center">{$item.lat}</td>
+                                    <td class="text-center">{$item.long}</td> *}
                                     <td class="text-center">
                                          <a href="hr.php?act=categorized_object_detail&mid={$item.id}">
                                              <i class="ti ti-camera me-1"></i> 
@@ -119,7 +119,7 @@
 
                    
                         <div class="col-sm-4">
-                            <label>Hududiy bo'linma</label>
+                            <label>Худудий бўлинма</label>
                             <select class="select form-control" name="structure_id" id="structure_id">
                                 <option value="">{$Dict.choose}</option>
                                  {foreach from=$units item=Item1 key=ikey1}
@@ -129,13 +129,13 @@
                         </div>
 
                         <div class="col-sm-4">
-                            <label>Tuman</label>
+                            <label>Туман</label>
                             <input required type="text" class="form-control" name="district"
                                 id="district" value="">
                         </div>
 
                           <div class="col-sm-4">
-                            <label>Obyekt тури</label>
+                            <label>Объект тури</label>
                             <select required class="select form-control" name="obj_type" id="obj_type">
                                 <option value="1">{$Dict.choose}</option>
                                 {foreach from=$types item=Item1 key=ikey1}
@@ -145,29 +145,29 @@
                         </div>
 
                         <div class="col-sm-4">
-                            <label>номи</label>
+                            <label>Номи</label>
                             <input required type="text" class="form-control" name="obj_name" id="obj_name" value="">
                         </div>
 
                         <div class="col-sm-4">
-                            <label>Uzunlik (lat)</label>
+                            <label>Узунлик (lat)</label>
                             <input required type="text" class="form-control" name="obj_lat" id="obj_lat"  value="">
                         </div>
 
                          <div class="col-sm-4">
-                            <label>Kenglik (long)</label>
+                            <label>Кенглик (long)</label>
                             <input required type="text" class="form-control" name="obj_long" id="obj_long"  value="">
                         </div>
 
 
 
                           <div class="col-sm-4">
-                            <label>Post telefon raqami</label>
+                            <label>Пост телефон рақами</label>
                             <input required type="text" class="form-control" name="post_phone" id="post_phone" value="">
                         </div>
 
                         <div class="col-sm-4">
-                            <label>Manzili</label>
+                            <label>Манзили</label>
                             <input required type="text" class="form-control" name="obj_address" id="obj_address" value="">
                         </div>
                       
@@ -184,27 +184,27 @@
                         </div>
 
                          <div class="col-sm-4">
-                            <label>Bo'linma telefon raqami</label>
+                            <label>Бўлинма телефон рақами</label>
                             <input required type="number" class="form-control" name="structure_phone" id="structure_phone" value="">
                         </div>
 
                           <div class="col-sm-4">
-                            <label>Profilaktika inspektori</label>
+                            <label>Профилактика инспектори</label>
                             <input required type="text" class="form-control" name="prevention_inspector" id="prevention_inspector" value="">
                         </div>
 
                         <div class="col-sm-4">
-                            <label>Telefon raqami</label>
+                            <label>Телефон рақами</label>
                             <input required type="number" class="form-control" name="inspector_phone" id="inspector_phone" value="">
                         </div>
                     
                         <div class="col-sm-4">
-                            <label>Xududiy IIB</label>
+                            <label>Худудий ИИБ</label>
                             <input required type="text" class="form-control" name="territorial_iib" id="territorial_iib" value="">
                         </div>
 
                         <div class="col-sm-4">
-                            <label>Telefon raqami</label>
+                            <label>Телефон рақами</label>
                             <input required type="number" class="form-control" name="iib_phone" id="iib_phone" value="">
                         </div>
                         <div class="col-12">

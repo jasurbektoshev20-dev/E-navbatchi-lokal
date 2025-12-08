@@ -450,7 +450,7 @@
                               </div>
 
                               <div class="mb-1 col-12">
-                                <label for="objectTypeSelect" class="form-label text-warning fs-5">Turi</label>
+                                <label for="objectTypeSelect" class="form-label text-warning fs-5">Тури</label>
                                 <select id="objectTypeSelect" class="form-select">
                                   <option value="">Танланг</option>
                                   <option value="">Elchixonalar</option>

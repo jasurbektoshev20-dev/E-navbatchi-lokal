@@ -39,9 +39,9 @@
                         <thead>
                             <tr>
                                 <th>No̱</th>
-                                <th class="text-center">Sana</th>
-                                <th class="text-center">Bo'linma</th>
-                                <th class="text-center">FISH</th>
+                                <th class="text-center">Сана</th>
+                                <th class="text-center">Бўлинма</th>
+                                <th class="text-center">Навбатчи</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -92,7 +92,7 @@
 
 
                         <div class="col-6">
-                            <label>Sana</label>
+                            <label>Сана</label>
                             <input required type="datetime" class="form-control" placeholder="DD-MM-YYYY" name="date" id="date" value="">
                         </div>
 
@@ -107,7 +107,7 @@
                         </div>
 
                         <div class="col-sm-6">
-                            <label>Navbatchi</label>
+                            <label>Навбатчи</label>
                             <select id="staff_id" class="form-select">
                                 <option value="">{$Dict.choose}</option>
                                 {foreach from=$troops item=obj}
