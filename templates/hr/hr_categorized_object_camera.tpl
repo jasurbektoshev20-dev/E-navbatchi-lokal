@@ -49,7 +49,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {foreach from=$Camera item=obekt key=tkey}
+                            {foreach from=$embassy_cameras item=obekt key=tkey}
                                 <tr class="lb" id="row_{$obekt.id|crypt}">
                                     <td class="text-right">{$tkey+1}</td>
                                     <td class="text-center">{$obekt.name}</td>
@@ -157,6 +157,8 @@
     var Var_ObjectId	= "{$Organization.id}";
     {literal}
 
+
+
         function getUrlParameter(name) {
             name = name.replace(/[\[\]]/g, '\\$&');
             var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
@@ -166,7 +168,7 @@
             return decodeURIComponent(results[2].replace(/\+/g, ' '));
         }
 
-        var urlId = getUrlParameter('id');
+        var object_id = getUrlParameter('mid');
 
 
 
@@ -184,7 +186,7 @@
         $('.datatables-projects tbody').on('click', '.editAction', function() {
             $('#submitModal').modal('toggle');
             var RowId = $(this).attr('rel');
-            $.get("hrajax.php?act=get_jts_objects_camera&rowid=" + RowId, function(html) {
+            $.get("hrajax.php?act=get_embassy_objects_camera&rowid=" + RowId, function(html) {
                 var sInfo = jQuery.parseJSON(html);
                 $('#camName').val(sInfo.name);
                 $('#cam_code').val(sInfo.cam_code);
@@ -210,7 +212,7 @@
             $('#camName').val("").trigger('change');
             $('#cam_code').val('');
             $('#is_ptz').val('');
-            $('#object_id').val(urlId); // URL dan kelgan id
+            $('#object_id').val(object_id); // URL dan kelgan id
             $('#id').val('');
 
             // Modalni ochish
@@ -242,7 +244,7 @@
 
                 // 🔥 AJAX orqali backendga yuborish
                 $.ajax({
-                    url: 'hrajax.php?act=act_jts_objects_camera',
+                    url: 'hrajax.php?act=act_embassy_objects_camera',
                     type: 'POST',
                     data: form_data,
                     contentType: false,
@@ -272,7 +274,7 @@
         // Delete Record 
         $('.datatables-projects tbody').on('click', '.delete', function() {
             var RowId = $(this).attr('rel');
-            $.get("hrajax.php?act=del_jts_objects_camera&rowid=" + RowId,
+            $.get("hrajax.php?act=del_embassy_objects_camera&rowid=" + RowId,
                 function(html) {
                     if (html == 0) {
                         $("#row_" + RowId).remove();

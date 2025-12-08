@@ -64,7 +64,7 @@
                                 <td class="text-center">{$Table.post_phone}</td>
                                 <td class="text-center">
                                     {if $Table.photo neq ""}
-                                        <img src="/pictures/staffs/{$Table.photo}" style="width: 50px; height:50px; object-fit:cover;">
+                                        <img src="/pictures/embassy/{$Table.photo}" style="width: 50px; height:50px; object-fit:cover;">
                                     {else}
                                         <img src="/assets/images/german_flag.png" style="width: 50px; height:50px; object-fit:cover;">
                                     {/if}

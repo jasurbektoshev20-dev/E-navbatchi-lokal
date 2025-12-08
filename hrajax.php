@@ -3098,7 +3098,6 @@ case "get_event_duty":
         $success = true;
 
         if ($RowId != "0") {
-            // UPDATE (kept as before but consider prepared statements)
             $updquery = "UPDATE hr.embassy_objects SET
                 structure_id = '{$structure_id}',
                 district = '{$district}',
@@ -3189,6 +3188,167 @@ case "get_event_duty":
             }
             break;
     /// embassy_objects crud ============        
+
+
+
+    /// embassy_objects_camera crud ============        
+        case "get_embassy_objects_camera":
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "SELECT t.* from hr.embassy_objects_camera t where t.id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+        $result['rowid'] = MyPiCrypt($result['id']);
+        $res = json_encode($result);
+        break;
+
+    case "act_embassy_objects_camera":
+        $RowId = (!empty($_POST['id'])) ? MyPiDeCrypt($_POST['id']) : 0;
+        $object_id = $_POST['object_id'];
+        $name = $_POST['name'];
+        $cam_code = $_POST['cam_code'];
+        $is_ptz = $_POST['is_ptz'];
+        $lat = isset($_POST['lat']) ? $_POST['lat'] : null;
+        $long = isset($_POST['long']) ? $_POST['long'] : null;
+
+        if ($RowId != "0") {
+            // Update existing record
+            $updquery = "UPDATE hr.embassy_objects_camera SET
+                object_id = '{$object_id}',
+                name = '{$name}',
+                cam_code = '{$cam_code}',
+                is_ptz = '{$is_ptz}',
+                lat = '{$lat}',
+                long = '{$long}'
+                WHERE id = {$RowId}";
+            $sql->query($updquery);
+            if ($sql->error() == "") {
+                $res = "0<&sep&>" . MyPiCrypt($RowId);
+            } else {
+                $res = $sql->error();
+            }
+        } else {
+            // Insert new record
+            $insquery = "INSERT INTO hr.embassy_objects_camera (
+                    object_id,
+                    name,
+                    cam_code,
+                    is_ptz,
+                    lat,
+                    long
+                ) VALUES (
+                    '{$object_id}',
+                    '{$name}',
+                    '{$cam_code}',
+                    '{$is_ptz}',
+                    '{$lat}',
+                    '{$long}'
+                )";
+            $sql->query($insquery);
+            if ($sql->error() == "") {
+                $sql->query("SELECT CURRVAL('hr.embassy_objects_camera_id_seq') AS last_id;");
+                $result = $sql->fetchAssoc();
+                $LastId = $result['last_id'];
+                $res = "0<&sep&>" . MyPiCrypt($LastId);
+            } else {
+                $res = $sql->error();
+            }
+        }
+        break;
+
+    case "del_embassy_objects_camera":
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "DELETE FROM hr.embassy_objects_camera WHERE id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+
+        if ($sql->error() == "") {
+            $res = 0;
+        } else {
+            $res = 2;
+        }
+        break;
+    /// embassy_objects_camera crud ============        
+
+
+
+
+    
+    /// embassy_objects_responsible crud ============        
+        case "get_embassy_objects_responsible":
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "SELECT t.* from hr.duty_embassy t where t.id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+        $result['rowid'] = MyPiCrypt($result['id']);
+        $res = json_encode($result);
+        break;
+
+    case "act_embassy_objects_responsible":
+        $RowId = (!empty($_POST['id'])) ? MyPiDeCrypt($_POST['id']) : 0;
+        $object_id = $_POST['object_id'];
+        $structure_id = $_POST['structure_id'];
+        $staff_id = $_POST['staff_id'];
+        $date = $_POST['date'];
+
+        if ($RowId != "0") {
+            // Update existing record
+            $updquery = "UPDATE hr.duty_embassy SET
+                structure_id = '{$structure_id}',
+                date = '{$date}',
+                staff_id = '{$staff_id}',
+                object_id = '{$object_id}'
+              
+                WHERE id = {$RowId}";
+            $sql->query($updquery);
+            if ($sql->error() == "") {
+                $res = "0<&sep&>" . MyPiCrypt($RowId);
+            } else {
+                $res = $sql->error();
+            }
+        } else {
+            // Insert new record
+            $insquery = "INSERT INTO hr.duty_embassy (
+                    structure_id,
+                    date,
+                    staff_id,
+                    object_id
+                  
+                ) VALUES (
+                    '{$structure_id}',
+                    '{$date}',
+                    '{$staff_id}',
+                    '{$object_id}'
+                    
+                )";
+            $sql->query($insquery);
+            if ($sql->error() == "") {
+                $sql->query("SELECT CURRVAL('hr.duty_embassy_id_seq') AS last_id;");
+                $result = $sql->fetchAssoc();
+                $LastId = $result['last_id'];
+                $res = "0<&sep&>" . MyPiCrypt($LastId);
+            } else {
+                $res = $sql->error();
+            }
+        }
+        break;
+
+    case "del_embassy_objects_responsible":
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "DELETE FROM hr.duty_embassy WHERE id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+
+        if ($sql->error() == "") {
+            $res = 0;
+        } else {
+            $res = 2;
+        }
+        break;
+    /// embassy_objects_responsible crud ============      
 
 
     }

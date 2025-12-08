@@ -1438,10 +1438,12 @@ switch ($Act) {
 	case "hr_categorized_object_detail":
 		$object_id = ($_GET['mid']);
 		$query  = "SELECT t.id,t.district,t.name,t.lat,t.long,t.post_phone,t.address,ot.name{$slang} as type_name,s.name{$slang} as structure_name,t.photo,t.address,
-		t.military_unit,t.responsible,t.military_unit_phone,t.iiv_inspector,t.iiv_inspector_phone,t.iiv_unit,t.iiv_unit_phone
+		t.military_unit,CONCAT(r.name{$slang},' ',st.lastname,' ',st.firstname,' ',st.surname) as responsible,t.military_unit_phone,t.iiv_inspector,t.iiv_inspector_phone,t.iiv_unit,t.iiv_unit_phone
 		FROM hr.embassy_objects t
 		left join ref.embassy_object_types ot on ot.id  = t.type_id
 		left join hr.structure s on s.id  = t.structure_id 
+		left join hr.staff st on st.id  = t.responsible_id 
+		LEFT JOIN ref.ranks r ON r.id = st.rank_id
 		WHERE t.id = {$object_id}";
 		$sql->query($query);
 		$embassy_object = $sql->fetchAll();
@@ -1455,6 +1457,70 @@ switch ($Act) {
 			'embassy_object' => $embassy_object,
 		));
 		break;	
+
+
+
+	case "hr_categorized_object_camera":
+		$object_id = ($_GET['mid']);
+		$query  = "SELECT c.id,c.name,c.is_ptz,c.cam_code, e.name as embassy_object_name
+		FROM hr.embassy_objects_camera c
+		left join hr.embassy_objects e on e.id  = c.object_id 
+		WHERE c.object_id = {$object_id}";
+		$sql->query($query);
+		$embassy_cameras = $sql->fetchAll();
+
+		// echo '<pre>';
+		// print_r($embassy_cameras);
+		// echo '</pre>'; 
+		// die();
+
+		$smarty->assign(array(
+			'embassy_object' => $embassy_object,
+			'embassy_cameras' => $embassy_cameras,
+		));
+		break;		
+
+
+	
+	case "hr_categorized_object_responsible":
+		$object_id = ($_GET['mid']);
+		$query  = "SELECT d.id,d.date, CONCAT(r.name{$slang},' ',e.lastname,' ',e.firstname,' ', e.surname) as staff_name, s.name{$slang} as structure_name
+		FROM hr.duty_embassy d
+		left join hr.staff e on e.id  = d.staff_id 
+		LEFT JOIN ref.ranks r ON r.id = e.rank_id
+		left  join hr.structure s on s.id  = d.structure_id
+		WHERE d.object_id = {$object_id}";
+		$sql->query($query);
+		$duty_embassy = $sql->fetchAll();
+
+
+
+		$query = "SELECT s.id ,CONCAT(r.name{$slang},' ',s.lastname,' ',s.firstname,' ',s.surname) as troop_name
+		FROM hr.staff s
+		LEFT JOIN ref.ranks r ON r.id = s.rank_id
+		WHERE structure_id = 32";
+		$sql->query($query);
+		$troops = $sql->fetchAll();
+
+		$query = "SELECT id ,name{$slang} as structure_name
+		FROM hr.structure
+		WHERE id = 32";
+		$sql->query($query);
+		$units = $sql->fetchAll();
+
+		// echo '<pre>';
+		// print_r($duty_embassy);
+		// echo '</pre>'; 
+		// die();
+
+		$smarty->assign(array(
+			'duty_embassy' => $duty_embassy,
+			'troops' => $troops,
+			'units' => $units,
+		));
+		break;		
+
+	
 
 
 }
