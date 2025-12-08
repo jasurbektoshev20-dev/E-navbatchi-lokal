@@ -1099,6 +1099,10 @@ switch ($Act) {
 			'Rountines' => $Rountines,
 		));
 		break;
+
+
+
+
 	/// Structures
 	case "hr_structure":
 		$query  = "SELECT t.id, s.name{$slang} as parent, t.name{$slang} as name, t.shortname{$slang} as shortname FROM hr.structure t 
@@ -1388,6 +1392,69 @@ switch ($Act) {
 		));
   
     break;
+	 
+	case "hr_categorized_object":
+		$query = "SELECT t.id,district,name,type_id,lat,long,post_phone,address,ot.name{$slang} as type_name,s.name{$slang} as structure_name
+		FROM hr.embassy_objects t
+		left join ref.embassy_object_types ot on ot.id  = t.type_id
+		left join hr.structure s on s.id  = t.structure_id";
+		
+		$query .= " ORDER BY t.id ASC";
+		$sql->query($query);
+		$embassy_objects = $sql->fetchAll();
+
+		$query = "SELECT id ,name{$slang} as structure_name
+		FROM hr.structure
+		WHERE id = 32";
+		$sql->query($query);
+		$units = $sql->fetchAll();
+
+		$query = "SELECT id ,name{$slang} as type_name
+		FROM ref.embassy_object_types";
+		$sql->query($query);
+		$types = $sql->fetchAll();
+
+
+		$query = "SELECT s.id ,CONCAT(r.name{$slang},' ',s.lastname,' ',s.firstname,' ',s.surname) as troop_name
+		FROM hr.staff s
+		LEFT JOIN ref.ranks r ON r.id = s.rank_id
+		WHERE structure_id = 32";
+		$sql->query($query);
+		$troops = $sql->fetchAll();
+
+		// echo '<pre>';
+		// print_r($troops);
+		// echo '</pre>'; 
+		// die();
+
+		$smarty->assign(array(
+			'embassy_objects' => $embassy_objects,
+			'units' => $units,
+			'types' => $types,
+			'troops' => $troops,
+		));
+		break;
+
+	case "hr_categorized_object_detail":
+		$object_id = ($_GET['mid']);
+		$query  = "SELECT t.id,t.district,t.name,t.lat,t.long,t.post_phone,t.address,ot.name{$slang} as type_name,s.name{$slang} as structure_name,t.photo,t.address,
+		t.military_unit,t.responsible,t.military_unit_phone,t.iiv_inspector,t.iiv_inspector_phone,t.iiv_unit,t.iiv_unit_phone
+		FROM hr.embassy_objects t
+		left join ref.embassy_object_types ot on ot.id  = t.type_id
+		left join hr.structure s on s.id  = t.structure_id 
+		WHERE t.id = {$object_id}";
+		$sql->query($query);
+		$embassy_object = $sql->fetchAll();
+
+		// echo '<pre>';
+		// print_r($embassy_object);
+		// echo '</pre>'; 
+		// die();
+
+		$smarty->assign(array(
+			'embassy_object' => $embassy_object,
+		));
+		break;	
 
 
 }

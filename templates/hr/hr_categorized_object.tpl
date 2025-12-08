@@ -55,27 +55,27 @@
                         </thead>
                         <tbody>
                         
-                             {foreach from=$Events item=item key=tkey name=name}
+                             {foreach from=$embassy_objects item=item key=tkey name=name}
                                 <tr class="lb" id="row_{$item.id|crypt}">
                                     <td class="text-right">{$tkey+1}</td>
-                                    <td class="text-center">{$item.region_id}</td>
-                                    <td class="text-center">{$item.obj_district}</td>     
-                                    <td class="text-center">{$item.obj_name}</td>
-                                    <td class="text-center">{$item.obj_type}</td>
-                                    <td class="text-center">{$item.obj_lat}</td>
-                                    <td class="text-center">{$item.obj_long}</td>
+                                    <td class="text-center">{$item.structure_name}</td>
+                                    <td class="text-center">{$item.district}</td>     
+                                    <td class="text-center">{$item.name}</td>
+                                    <td class="text-center">{$item.type_name}</td>
+                                    <td class="text-center">{$item.lat}</td>
+                                    <td class="text-center">{$item.long}</td>
                                     <td class="text-center">
-                                         <a href="hr.php?act=categorized_object_detail&mid={$item.id|crypt}">
+                                         <a href="hr.php?act=categorized_object_detail&mid={$item.id}">
                                              <i class="ti ti-camera me-1"></i> 
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                      <a href="hr.php?act=categorized_object_camera&mid={$item.id|crypt}">
+                                      <a href="hr.php?act=categorized_object_camera&mid={$item.id}">
                                            <i class="ti ti-camera me-1"></i> 
                                         </a>
                                    </td>
                                     <td class="text-center">
-                                       <a href="hr.php?act=categorized_object_responsible&mid={$item.id|crypt}">
+                                       <a href="hr.php?act=categorized_object_responsible&mid={$item.id}">
                                           <i class="ti ti-camera me-1"></i> 
                                         </a>
                                     </td>
@@ -117,21 +117,13 @@
                 <form class="needs-validation" novalidate>
                     <div class="row g-3">
 
+                   
                         <div class="col-sm-4">
-                            <label>{$Dict.region}</label>
-                            <select required class="select form-control" name="region_id" id="region_id">
-                                <option value="1">{$Dict.choose}</option>
-                                {foreach from=$Regions item=Item1 key=ikey1}
-                                    <option value="{$Item1.id}">{$Item1.name}</option>
-                                {/foreach}
-                            </select>
-                        </div>
-                        <div class="col-sm-4">
-                            <label>Hududiy bo'linmalar</label>
+                            <label>Hududiy bo'linma</label>
                             <select class="select form-control" name="structure_id" id="structure_id">
                                 <option value="">{$Dict.choose}</option>
-                                 {foreach from=$staffs item=Item1 key=ikey1}
-                                    <option value="{$Item1.id}">{$Item1.name}</option>
+                                 {foreach from=$units item=Item1 key=ikey1}
+                                    <option value="{$Item1.id}">{$Item1.structure_name}</option>
                                 {/foreach}
                             </select>
                         </div>
@@ -146,8 +138,8 @@
                             <label>Obyekt тури</label>
                             <select required class="select form-control" name="obj_type" id="obj_type">
                                 <option value="1">{$Dict.choose}</option>
-                                {foreach from=$EventTypes item=Item1 key=ikey1}
-                                    <option value="{$Item1.id}">{$Item1.obj_type}</option>
+                                {foreach from=$types item=Item1 key=ikey1}
+                                    <option value="{$Item1.id}">{$Item1.type_name}</option>
                                 {/foreach}
                             </select>
                         </div>
@@ -185,8 +177,8 @@
                             <label>{$Dict.masul}</label>
                             <select class="select form-control" name="responsible_id" id="responsible_id">
                                 <option value="">{$Dict.choose}</option>
-                                {foreach from=$staffs item=Item1 key=ikey1}
-                                    <option value="{$Item1.id}">{$Item1.name} {$Item1.lastname} {$Item1.firstname}</option>
+                                {foreach from=$troops item=Item1 key=ikey1}
+                                    <option value="{$Item1.id}">{$Item1.troop_name}</option>
                                 {/foreach}
                             </select>
                         </div>
@@ -287,11 +279,9 @@
             $('#submitModal').modal('toggle');
             var RowId = $(this).attr('rel');
 
-            $.get("hrajax.php?act=get_events&rowid=" + RowId, function(html) {
+            $.get("hrajax.php?act=get_embassy_objects&rowid=" + RowId, function(html) {
                 var sInfo = jQuery.parseJSON(html);
 
-                $('#region_id').val(sInfo.region_id);
-                $('#region_id').trigger("change");
                 $('#district').val(sInfo.district);
                 $('#obj_lat').val(sInfo.obj_lat);
                 $('#obj_long').val(sInfo.obj_long);
@@ -309,8 +299,6 @@
                 $('#territorial_iib').val(sInfo.territorial_iib);
                 $('#iib_phone').val(sInfo.iib_phone);
                 $('#photo').val(sInfo.photo);
-
-    
                 $('#id').val(sInfo.id);
             });
         });
@@ -347,16 +335,12 @@
 
         $('#new').click(function() {
             $('#submitModal').modal('toggle');
-            $('#region_id').val(0);
-            $('#region_id').trigger("change");
             $('#district').val('');
             $('#obj_long').val('');
             $('#obj_lat').val('');
             $('#obj_name').val('');
             $('#obj_type').val(0);
             $('#obj_type').trigger("change");
-            $('#region_id').val(0);
-            $('#region_id').trigger("change");
             $('#structure_id').val(0);
             $('#structure_id').trigger("change");
             $('#responsible_id').val(0);
@@ -383,7 +367,7 @@
                     event.preventDefault();
                     event.stopPropagation();
                     var form_data = new FormData();
-                   form_data.append('structure_id', $('#structure_id').val() || $('#region_id').val());
+                   form_data.append('structure_id', $('#structure_id').val());
                     form_data.append('obj_type', $('#obj_type').val());
                     form_data.append('district', $('#district').val());
                     form_data.append('obj_lat', $('#obj_lat').val());
@@ -409,19 +393,25 @@
                    
                     form_data.append('id', $('#id').val());
                     $.ajax({
-                        url: 'hrajax.php?act=act_events',
-                        dataType: 'text',
+                        url: 'hrajax.php?act=act_embassy_objects',
+                        dataType: 'json',
                         cache: false,
                         contentType: false,
                         processData: false,
                         data: form_data,
                         type: 'post',
-                        success: function(resdata) {
-                            var NewArray = resdata.split("<&sep&>");
-                            if (NewArray[0] == 0) {
+                       success: function(res) {
+                            console.log("rs", res.status);
+                           
+                            if (res.status == 0) {
+                               
                                 location.reload();
                             } else {
-                                alert(resdata);
+                                // Xatolik (status 0 emas) bo'lsa
+                                // Agar javobda xatolik xabari bo'lsa (masalan, res.message) uni ko'rsatish
+                                var errorMessage = res.message || "Amalni bajarishda xatolik yuz berdi.";
+                                alert(errorMessage);
+                                // console.error(res); // Xatolikni konsolga chiqarish
                             }
                         }
                     });
@@ -433,7 +423,7 @@
         // Delete Record
         $('.datatables-projects tbody').on('click', '.delete', function() {
             var RowId = $(this).attr('rel');
-            $.get("hrajax.php?act=del_events&rowid=" + RowId, function(html) {
+            $.get("hrajax.php?act=del_embassy_objects&rowid=" + RowId, function(html) {
                 if (html == 0) {
                     $("#row_" + RowId).remove();
                 }

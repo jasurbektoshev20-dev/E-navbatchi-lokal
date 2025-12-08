@@ -3031,6 +3031,166 @@ case "get_event_duty":
         }
         break;
     /// dneighborhood crud ============        
+
+
+
+
+
+
+
+
+
+
+    
+ /// embassy_objects crud ============        
+    case "get_embassy_objects":
+            $RowId = MyPiDeCrypt($_GET['rowid']);
+
+            $query = "SELECT t.* from hr.embassy_objects t where t.id = {$RowId}";
+            $sql->query($query);
+            $result = $sql->fetchAssoc();
+            $result['rowid'] = MyPiCrypt($result['id']);
+
+            $res = json_encode($result);
+            break;
+
+
+    case "act_embassy_objects":
+        $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
+
+            // ─────────────────────────────
+            // 📌 Rasm yuklash
+            // ─────────────────────────────
+            if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+                $file = $_FILES['photo'];
+                $uploadDir = 'pictures/embassy/';
+
+                $newFileName = uniqid('embassy_', true) . '.' . pathinfo($file['name'], PATHINFO_EXTENSION);
+                $uploadFile = $uploadDir . $newFileName;
+
+                if (move_uploaded_file($file['tmp_name'], $uploadFile)) {
+                    $photo = $newFileName;
+                }
+            }
+
+            // Agar yangi rasm yuklanmagan bo'lsa — eski rasmni olamiz
+            $photo = isset($photo) ? $photo : $_POST['photo'];
+
+
+
+
+        $structure_id = $_POST['structure_id'];
+        $district = $_POST['district'];
+        $type_id = $_POST['obj_type'];
+        $lat = $_POST['obj_lat'];
+        $long = $_POST['obj_long'];
+        $name = $_POST['obj_name'];
+        $responsible_id = $_POST['responsible_id'];
+        $post_phone = $_POST['post_phone'];
+        $structure_phone = $_POST['structure_phone'];
+        $prevention_inspector = $_POST['prevention_inspector'];
+        $inspector_phone = $_POST['inspector_phone'];
+        $territorial_iib = $_POST['territorial_iib'];
+        $iib_phone = $_POST['iib_phone'];
+        $address = $_POST['obj_address'];
+     
+        $LastId = null;
+        $success = true;
+
+        if ($RowId != "0") {
+            // UPDATE (kept as before but consider prepared statements)
+            $updquery = "UPDATE hr.embassy_objects SET
+                structure_id = '{$structure_id}',
+                district = '{$district}',
+                name = '{$name}',
+                type_id = '{$type_id}',
+                lat = '{$lat}',
+                long = '{$long}',
+                post_phone = '{$post_phone}',
+                photo = '{$photo}',
+                address = '{$address}',
+                responsible_id = '{$responsible_id}',
+                military_unit_phone = '{$structure_phone}',
+                iiv_inspector = '{$prevention_inspector}',
+                iiv_inspector_phone = '{$inspector_phone}',
+                iiv_unit = '{$territorial_iib}',
+                iiv_unit_phone = '{$iib_phone}'
+              
+                WHERE id = {$RowId}";
+            $sql->query($updquery);
+            if ($sql->error() == "") {
+                $status = 0;
+                $res = json_encode(['status' => $status, 'rowid' => MyPiCrypt($RowId)]);
+            } else {
+                $res = $sql->error();
+                $success = false;
+            }
+        } else {
+            // FIXED INSERT: removed trailing comma after column list and added missing commas/quotes in VALUES
+            $insquery = "INSERT INTO hr.embassy_objects (
+                    structure_id,
+                    district,
+                    name,
+                    type_id,
+                    lat,
+                    long,
+                    post_phone,
+                    photo,
+                    address,
+                    responsible_id,
+                    military_unit_phone,
+                    iiv_inspector,
+                    iiv_inspector_phone,
+                    iiv_unit,
+                    iiv_unit_phone
+                  
+                ) VALUES (
+                    '{$structure_id}',
+                    '{$district}',
+                    '{$name}',
+                    '{$type_id}',
+                    '{$lat}',
+                    '{$long}',
+                    '{$post_phone}',
+                    '{$photo}',
+                    '{$address}',
+                    '{$responsible_id}',
+                    '{$structure_phone}',
+                    '{$prevention_inspector}',
+                    '{$inspector_phone}',
+                    '{$territorial_iib}',
+                    '{$iib_phone}'
+                    
+                )";
+            $sql->query($insquery);
+
+            if ($sql->error() == "") {
+                $status = 0;
+                $res = json_encode(['status' => $status]);
+            } else {
+                $res = $sql->error();
+                $success = false;
+            }
+        }
+        break;
+
+
+        case "del_embassy_objects":
+            $RowId = MyPiDeCrypt($_GET['rowid']);
+
+            $query = "DELETE FROM hr.embassy_objects WHERE id = {$RowId}";
+            $sql->query($query);
+            $result = $sql->fetchAssoc();
+
+            if ($sql->error() == "") {
+                $res = 0;
+            } else {
+                $res = 2;
+            }
+            break;
+    /// embassy_objects crud ============        
+
+
     }
 
 echo $res;

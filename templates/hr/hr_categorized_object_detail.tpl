@@ -57,10 +57,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {foreach from=$Events item=Table key=tkey}
+                            {foreach from=$embassy_object item=Table key=tkey}
                                 <tr class="lb" id="row_{$Table.id|crypt}">
                                  <td class="text-right">{$tkey+1}</td>
-                                 <td class="text-center">{$Table.object_name}</td>
+                                 <td class="text-center">{$Table.name}</td>
                                 <td class="text-center">{$Table.post_phone}</td>
                                 <td class="text-center">
                                     {if $Table.photo neq ""}
@@ -69,14 +69,14 @@
                                         <img src="/assets/images/german_flag.png" style="width: 50px; height:50px; object-fit:cover;">
                                     {/if}
                                 </td>
-                                <td class="text-center">{$Table.obj_address}</td>
-                                <td class="text-center">{$Table.structure_id}</td>
-                                <td class="text-center">{$Table.obj_responsible}</td>
-                                <td class="text-center">{$Table.structure_phone}</td>
-                                <td class="text-center">{$Table.prevention_inspector}</td>
-                                <td class="text-center">{$Table.inspector_phone}</td>
-                                <td class="text-center">{$Table.territorial_iib}</td>
-                                <td class="text-center">{$Table.iib_phone}</td>
+                                <td class="text-center">{$Table.address}</td>
+                                <td class="text-center">{$Table.structure_name}</td>
+                                <td class="text-center">{$Table.responsible}</td>
+                                <td class="text-center">{$Table.military_unit_phone}</td>
+                                <td class="text-center">{$Table.iiv_inspector}</td>
+                                <td class="text-center">{$Table.iiv_inspector_phone}</td>
+                                <td class="text-center">{$Table.iiv_unit}</td>
+                                <td class="text-center">{$Table.iiv_unit_phone}</td>
                                 <td>
                                     <div class="dropdown">
                                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow"

@@ -706,10 +706,10 @@ switch ($Action) {
 		$sql->query($query);
 		$Routine = $sql->fetchAssoc();
 
-		echo '<pre>';
-		print_r($Routine);
-		echo '</pre>';
-		die();
+		// echo '<pre>';
+		// print_r($Routine);
+		// echo '</pre>';
+		// die();
 
 		$JtsObject['routine'] = $Routine;
 		$BodyCamUrl = [];
