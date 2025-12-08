@@ -950,18 +950,28 @@
 
 /* Card styling — qoraga mos premium ko‘rinish */
 .filter-mpg .card {
-  background: rgba(0,0,0,0.45);
-  border-radius: 18px;
-  border: 1px solid rgba(56,189,248,0.3);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 0 20px rgba(0,0,0,0.7);
+  background: linear-gradient(
+    135deg,
+    rgba(12,17,43,0.85),
+    rgba(5,8,20,0.9)
+  );
+  border-radius: 20px;
+  /* border: 1px solid rgba(0,240,255,0.25); */
+
+  /* Glass effect */
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+
+  /* Premium shadow */
+  box-shadow:
+    0 0 20px rgba(0,0,0,0.7),
+    inset 0 0 12px rgba(0,240,255,0.08);
+
+  transition: all 0.35s ease-in-out;
 }
 
 .stylish-card {
   width: 450px;
-  /* background: #1e293b; /* dark slate */
-  /* border-radius: 14px; */
-  /* box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45); */
   transition: 0.3s ease;
 }
 

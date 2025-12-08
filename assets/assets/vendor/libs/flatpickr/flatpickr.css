@@ -724,7 +724,7 @@ html:not([dir=rtl]) .flatpickr-weekwrapper .flatpickr-weeks .flatpickr-weeks {
 .dark-style .flatpickr-input:not(.is-invalid):not(.is-valid) ~ .form-control:disabled,
 .dark-style .flatpickr-input:not(.is-invalid):not(.is-valid)[readonly],
 .dark-style .flatpickr-input:not(.is-invalid):not(.is-valid) ~ .form-control[readonly] {
-  background-color: #2f3349;
+  /* background-color: #2f3349; */
 }
 .dark-style .flatpickr-days {
   border: 0px solid #434968;

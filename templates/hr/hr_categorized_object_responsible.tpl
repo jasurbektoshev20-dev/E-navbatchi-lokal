@@ -11,7 +11,6 @@
             gap: 10px;
             margin-left: 20px;
         }
-
     {/literal}
 </style>
 
