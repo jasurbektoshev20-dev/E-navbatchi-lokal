@@ -714,7 +714,13 @@
                             id: marker.id,
                             type: 'car'
                         });
-                        LamMarker.setRotationAngle(marker.angle).bindPopup(carPopUp(marker));
+                        // LamMarker.setRotationAngle(marker.angle).bindPopup(carPopUp(marker));
+                        LamMarker
+                            .setRotationAngle(marker.angle)
+                            .bindPopup(carPopUp(marker))
+                            .on("click", function () {
+                                console.log("Marker bosildi:", marker);
+                            });
                         map.addLayer(LamMarker);
                         allCars.push(LamMarker);
                     });
