@@ -50,18 +50,18 @@
                                 <th class="text-center">Бошланиш вақти</th>
                                 <th class="text-center">Тугаш вақти</th>
                                 <th class="text-center">Фуқаролар сони</th>
-                                <th class="text-center">Тадбирга масул ташкилот</th>
-                                <th class="text-center">Масул ФИШ</th>
+                                <th class="text-center">Тадбирга масъул ташкилот</th>
+                                <th class="text-center">Масъул ФИШ</th>
                                 <th class="text-center">Телефон</th>
-                                <th class="text-center">ИИВ масул ФИШ</th>
+                                <th class="text-center">ИИВ масъул ФИШ</th>
                                 <th class="text-center">ИИВ ҲХ сони</th>
-                                <th class="text-center">ФВВ масул ФИШ</th>
+                                <th class="text-center">ФВВ масъул ФИШ</th>
                                 <th class="text-center">ФВВ ҲХ сони</th>
-                                <th class="text-center">МГ МСГр масул ФИШ</th>
+                                <th class="text-center">МГ МСГр масъул ФИШ</th>
                                 <th class="text-center">МГ МСГр сони</th>
-                                <th class="text-center">ИИВ Спринг масул ФИШ</th>
+                                <th class="text-center">ИИВ Спринг масъул ФИШ</th>
                                 <th class="text-center">ИИВ Спринг сони</th>
-                                <th class="text-center">Захирага масул</th>
+                                <th class="text-center">Захирага масъул</th>
                                 <th class="text-center">Захира сони</th>
                                 <th class="text-center">Тадбирни ўтказувчи ташаббускор</th>
                                 <th></th>
@@ -176,8 +176,8 @@
                             <label>Тадбир йўналиши</label>
                             <select required class="select form-control" name="event_direction" id="event_direction">
                                 <option value="">{$Dict.choose}</option>
-                                <option value="Xalqaro">Халқаро</option>
-                                <option value="Respublika">Республика</option>
+                                <option value="Халқаро">Халқаро</option>
+                                <option value="Республика">Республика</option>
                             </select>
                         </div>
 
@@ -191,13 +191,13 @@
                         </div>
 
                         <div class="col-sm-4">
-                            <label for="start_event" class="form-label">Бошланиш вақти</label>
+                            <label >Бошланиш вақти</label>
                             <input type="datetime" class="form-control" placeholder="DD-MM-YYYY" id="start_event_date"
                                 name="start_event" />
                         </div>
 
                         <div class="col-sm-4">
-                            <label for="finish_event" class="form-label">Тугаш вақти</label>
+                            <label>Тугаш вақти</label>
                             <input type="datetime" class="form-control" placeholder="DD-MM-YYYY" id="finish_event_date"
                                 name="finish_event" />
                         </div>
@@ -229,7 +229,7 @@
                         </div>
 
                         <div class="col-sm-4">
-                            <label>ИИВ масул</label>
+                            <label>ИИВ масъул</label>
                             <input required type="text" class="form-control" name="responsible_iiv_name" id="responsible_iiv_name"  value="">
                         </div>
 
@@ -240,7 +240,7 @@
                         </div>
 
                          <div class="col-sm-4">
-                            <label>ФВВ масул</label>
+                            <label>ФВВ масъул</label>
                             <input required type="text" class="form-control" name="responsible_fvv_name" id="responsible_fvv_name"  value="">
                         </div>
 
@@ -251,7 +251,7 @@
                         </div>
 
                        <div class="col-sm-4">
-                            <label>МГ МСГр masul</label>
+                            <label>МГ МСГр масъул</label>
                             <input required type="text" class="form-control" name="responsible_msgr_name" id="responsible_msgr_name"  value="">
                         </div>
 
@@ -261,7 +261,7 @@
                         </div>
 
                         <div class="col-sm-4">
-                            <label>ИИВ Спринг masul</label>
+                            <label>ИИВ Спринг масъул</label>
                             <input required type="text" class="form-control" name="responsible_spring_name" id="responsible_spring_name"  value="">
                         </div>
 
@@ -271,7 +271,7 @@
                         </div>
 
                         <div class="col-sm-4">
-                            <label>Захирага масул</label>
+                            <label>Захирага масъул</label>
                             <input required type="text" class="form-control" name="reserve_name" id="reserve_name"  value="">
                         </div>
 
