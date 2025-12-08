@@ -715,12 +715,36 @@
                             type: 'car'
                         });
                         // LamMarker.setRotationAngle(marker.angle).bindPopup(carPopUp(marker));
-                        LamMarker
+                      LamMarker
                             .setRotationAngle(marker.angle)
                             .bindPopup(carPopUp(marker))
                             .on("click", function () {
-                                console.log("Marker bosildi:", marker);
+
+                                console.log("Marker bosildi. ID:", marker.id);
+
+                                // Faqat marker id yuboramiz
+                                let form_data = new FormData();
+                                form_data.append('id', marker.id);
+
+                                $.ajax({
+                                    url: 'hrajax.php?act=act_coop_staff',
+                                    dataType: 'text',
+                                    cache: false,
+                                    contentType: false,
+                                    processData: false,
+                                    data: form_data,
+                                    type: 'post',
+                                    success: function(resdata) {
+                                        var NewArray = resdata.split("<&sep&>");
+                                        if (NewArray[0] == 0) {
+                                            location.reload();
+                                        } else {
+                                            alert(resdata);
+                                        }
+                                    }
+                                });
                             });
+
                         map.addLayer(LamMarker);
                         allEmbassy.push(LamMarker);
                     });
