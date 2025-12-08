@@ -22,11 +22,11 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body d-flex" style="justify-content: space-between;">
-                    <h4>{$ThisMenu.name}</h4>
-                    <button id="new" type="button" class="btn btn-primary waves-effect waves-light"
+                    <h4>Obyekt haqida ma'lumot</h4>
+                    {* <button id="new" type="button" class="btn btn-primary waves-effect waves-light"
                         data-bs-toggle="submitModal" data-bs-target="#modal">
                         <i class="menu-icon tf-icons ti ti-plus"></i>{$Dict.adding}
-                    </button>
+                    </button> *}
                 </div>
             </div>
         </div>
