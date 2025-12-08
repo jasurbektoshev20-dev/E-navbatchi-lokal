@@ -355,7 +355,6 @@
                   tbody.appendChild(tr);
               });
             }
-
             totalPages = Math.ceil(response.total / itemsPerPage);
             renderPagination()
 
@@ -364,7 +363,6 @@
             console.error('AJAX error:', error);
           }
         })
-
     }
 
     document.getElementById("new").addEventListener("click", () => {

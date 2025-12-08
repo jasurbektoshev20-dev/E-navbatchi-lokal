@@ -46,11 +46,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {foreach from=$Staffs item=Table key=tkey}
+                            {foreach from=$duty_embassy item=Table key=tkey}
                                 <tr class="lb" id="row_{$Table.id|crypt}">
                                     <td class="text-right">{$tkey+1}</td>
                                     <td>{$Table.date}</td> 
-                                    <td>{$Table.structure_id}</td>
+                                    <td>{$Table.structure_name}</td>
+                                     <td>{$Table.staff_name}</td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -87,6 +88,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <form class="needs-validation" novalidate>
                     <div class="row g-3">
+                    <input type="hidden" name="object_id" id="object_id">
+
 
                         <div class="col-6">
                             <label>Sana</label>
@@ -97,8 +100,8 @@
                             <label>{$Dict.territorial_short}</label>
                             <select  class="select form-control" name="structure_id" id="structure_id">
                                 <option value="">{$Dict.choose}</option>
-                                {foreach from=$Regions item=Item6 key=ikey6}
-                                    <option value="{$Item6.id}">{$Item6.name}</option>
+                                {foreach from=$units item=Item6 key=ikey6}
+                                    <option value="{$Item6.id}">{$Item6.structure_name}</option>
                                 {/foreach}
                             </select>
                         </div>
@@ -107,8 +110,8 @@
                             <label>Navbatchi</label>
                             <select id="staff_id" class="form-select">
                                 <option value="">{$Dict.choose}</option>
-                                {foreach from=$Structures item=obj}
-                                    <option value="{$obj.id}">{$obj.name}</option>
+                                {foreach from=$troops item=obj}
+                                    <option value="{$obj.id}">{$obj.troop_name}</option>
                                 {/foreach}
                             </select>
                         </div>
@@ -162,6 +165,18 @@
     var dict_choose = "{$Dict.choose}";
     {literal}
 
+          function getUrlParameter(name) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+            var results = regex.exec(window.location.href);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        var object_id = getUrlParameter('mid');
+
+
            const flatpickrDate = document.querySelector('#date');
         if (flatpickrDate) {
             flatpickrDate.flatpickr({
@@ -199,19 +214,21 @@
             $('#staff_id').val(0);
             $('#staff_id').trigger("change");
             $('#date').val('');
+           $('#object_id').val(object_id);
         });
 
         $('.datatables-projects tbody').on('click', '.editAction', function() {
             $('#submitModal').modal('toggle');
 
             var RowId = $(this).attr('rel');
-            $.get("hrajax.php?act=get_staffs&rowid=" + RowId, function(html) {
+            $.get("hrajax.php?act=get_embassy_objects_responsible&rowid=" + RowId, function(html) {
                 var sInfo = jQuery.parseJSON(html);
 
-                $('#id').val(sInfo.id);
+                $('#id').val(sInfo.rowid);
                 $('#structure_id').val(sInfo.structure_id);
                 $('#staff_id').val(sInfo.staff_id);
                 $('#date').val(sInfo.date);
+                $('#object_id').val(sInfo.object_id); // bu yerda object_id set qilinadi
                
             });
         })
@@ -233,8 +250,10 @@
                     form_data.append('structure_id', $('#structure_id').val());
                     form_data.append('staff_id', $('#staff_id').val());
                     form_data.append('date', $('#date').val());
+                form_data.append('object_id', $('#object_id').val());
+
                     $.ajax({
-                        url: 'hrajax.php?act=act_staffs',
+                        url: 'hrajax.php?act=act_embassy_objects_responsible',
                         dataType: 'text',
                         cache: false,
                         contentType: false,
@@ -260,7 +279,7 @@
         // Delete Record
         $('.datatables-projects tbody').on('click', '.delete', function() {
             var RowId = $(this).attr('rel');
-            $.get("hrajax.php?act=del_staffs&rowid=" + RowId, function(html) {
+            $.get("hrajax.php?act=del_embassy_objects_responsible&rowid=" + RowId, function(html) {
                 if (html == 0) {
                     $("#row_" + RowId).remove();
                 }
