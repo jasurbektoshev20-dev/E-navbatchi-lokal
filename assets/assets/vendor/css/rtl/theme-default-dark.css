@@ -1245,7 +1245,7 @@ li.ui-timepicker-selected,
   background: linear-gradient(72.47deg, rgba(115, 103, 240, 0.7) 22.16%, #7367f0 76.47%) !important;
 }
 .app-chat .app-chat-history .chat-history .chat-message.chat-message-right .chat-message-text {
-  background-color: #7367f0 !important;
+  background: linear-gradient(135deg, #5860ff, #7a82ff) !important;
 }
 
 .navbar.landing-navbar .navbar-nav .show > .nav-link,
