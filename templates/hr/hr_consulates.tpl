@@ -579,7 +579,7 @@
         let region_id = 0;
         let in_service = 0;
         let lastCarsPositions;
-        let allCars = [];
+        let allEmbassy = [];
 
         //Initialize map 
         map = L.map("map", {
@@ -607,7 +607,7 @@
         }
 
         $(document).ready(function() {
-            callCars(UserStructure, in_service);
+            callEmbassy(UserStructure, in_service);
         });
 
         // Create interval for repositioning a car in map
@@ -620,7 +620,7 @@
                 success: async function(data) {
                     lastCarsPositions = data;
                     data.forEach((marker, index) => {
-                        const car = allCars.find(car => car.options.id == marker.id);
+                        const car = allEmbassy.find(car => car.options.id == marker.id);
                         if (car) {
                             car.setIcon(myIcon(marker));
                             car.setLatLng([marker.lat ? marker.lat : 0 , marker.lon ? marker.lon : 0]).setRotationAngle(marker.angle);
@@ -682,9 +682,9 @@
 
         // --- Find functions
 
-        function callCars(region, in_service) {
-            allCars.forEach(item => { item.remove(); });
-            allCars = [];
+        function callEmbassy(region, in_service) {
+            allEmbassy.forEach(item => { item.remove(); });
+            allEmbassy = [];
             $.ajax({
                 type: "POST",
                 url: `${gps_url}?region=${region}&isAll=${in_service}`,
@@ -722,7 +722,7 @@
                                 console.log("Marker bosildi:", marker);
                             });
                         map.addLayer(LamMarker);
-                        allCars.push(LamMarker);
+                        allEmbassy.push(LamMarker);
                     });
 
                     flyToMarkers(data);
