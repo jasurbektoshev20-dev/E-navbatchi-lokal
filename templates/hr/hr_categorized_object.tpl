@@ -45,9 +45,23 @@
                                 <th class="text-center">Tuman</th>
                                 <th class="text-center">Номи</th>
                                 <th class="text-center">Тури</th>
+                             
+                               
+                                <th class="text-center">Post telefon raqami</th>
+                                <th class="text-center">Rasm</th>
+                                <th class="text-center">Manzil</th>
+                      
+                                <th class="text-center">Mas'ul rahbar</th>
+                                <th class="text-center">Bo'linma telefon raqami</th>
+                                <th class="text-center">Profilaktika inspektori</th>
+                                <th class="text-center">Telefon</th>
+                                <th class="text-center">Xududiy IIB</th>
+                                <th class="text-center">IIB telefon raqami</th>
+
+
+
                                 <th class="text-center">Uzunlik</th>
                                 <th class="text-center">Kenglik</th>
-                                <th class="text-center">Obyekt haqida ma'lumot</th>
                                 <th class="text-center">Kamera</th>
                                 <th class="text-center">Javobgar shaxs</th>
                                 <th></th>
@@ -104,6 +118,26 @@
                                     <td class="text-center">{$item.obj_district}</td>     
                                     <td class="text-center">{$item.obj_name}</td>
                                     <td class="text-center">{$item.obj_type}</td>
+                                      
+
+                                    <td class="text-center">{$Table.post_phone}</td>
+                                    <td class="text-center">
+                                        {if $Table.photo neq ""}
+                                            <img src="/pictures/staffs/{$Table.photo}" style="width: 50px; height:50px; object-fit:cover;">
+                                        {else}
+                                            <img src="/assets/images/german_flag.png" style="width: 50px; height:50px; object-fit:cover;">
+                                        {/if}
+                                    </td>
+                                    <td class="text-center">{$Table.obj_address}</td>
+                                
+                                    <td class="text-center">{$Table.obj_responsible}</td>
+                                    <td class="text-center">{$Table.structure_phone}</td>
+                                    <td class="text-center">{$Table.prevention_inspector}</td>
+                                    <td class="text-center">{$Table.inspector_phone}</td>
+                                    <td class="text-center">{$Table.territorial_iib}</td>
+                                    <td class="text-center">{$Table.iib_phone}</td> 
+
+
                                     <td class="text-center">{$item.obj_lat}</td>
                                     <td class="text-center">{$item.obj_long}</td>
                                     <td class="text-center">
@@ -168,6 +202,15 @@
                                 {/foreach}
                             </select>
                         </div>
+                        <div class="col-sm-4">
+                            <label>Hududiy bo'linmalar</label>
+                            <select class="select form-control" name="structure_id" id="structure_id">
+                                <option value="">{$Dict.choose}</option>
+                                 {foreach from=$staffs item=Item1 key=ikey1}
+                                    <option value="{$Item1.id}">{$Item1.name}</option>
+                                {/foreach}
+                            </select>
+                        </div>
 
                         <div class="col-sm-4">
                             <label>Tuman</label>
@@ -198,6 +241,66 @@
                          <div class="col-sm-4">
                             <label>Kenglik (long)</label>
                             <input required type="text" class="form-control" name="obj_long" id="obj_long"  value="">
+                        </div>
+
+
+
+                          <div class="col-sm-4">
+                            <label>Post telefon raqami</label>
+                            <input required type="text" class="form-control" name="post_phone" id="post_phone" value="">
+                        </div>
+
+                        <div class="col-sm-4">
+                            <label>Manzili</label>
+                            <input required type="text" class="form-control" name="obj_address" id="obj_address" value="">
+                        </div>
+                      
+                     
+
+                        <div class="col-sm-4">
+                            <label>{$Dict.masul}</label>
+                            <select class="select form-control" name="responsible_id" id="responsible_id">
+                                <option value="">{$Dict.choose}</option>
+                                {foreach from=$staffs item=Item1 key=ikey1}
+                                    <option value="{$Item1.id}">{$Item1.name} {$Item1.lastname} {$Item1.firstname}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+
+                         <div class="col-sm-4">
+                            <label>Bo'linma telefon raqami</label>
+                            <input required type="number" class="form-control" name="structure_phone" id="structure_phone" value="">
+                        </div>
+
+                          <div class="col-sm-4">
+                            <label>Profilaktika inspektori</label>
+                            <input required type="text" class="form-control" name="prevention_inspector" id="prevention_inspector" value="">
+                        </div>
+
+                        <div class="col-sm-4">
+                            <label>Telefon raqami</label>
+                            <input required type="number" class="form-control" name="inspector_phone" id="inspector_phone" value="">
+                        </div>
+                    
+                        <div class="col-sm-4">
+                            <label>Xududiy IIB</label>
+                            <input required type="text" class="form-control" name="territorial_iib" id="territorial_iib" value="">
+                        </div>
+
+                        <div class="col-sm-4">
+                            <label>Telefon raqami</label>
+                            <input required type="number" class="form-control" name="iib_phone" id="iib_phone" value="">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">{$Dict.choose_file}</label>
+                            <div action="/upload" class="dropzone needsclick" id="obj-foto">
+                                <div class="dz-message needsclick">
+                                    {$Dict.drop_file}
+                                </div>
+                                <div class="fallback">
+                                    <input name="file" type="file" />
+                                </div>
+                            </div>
                         </div>
 
                         <div class="col-12 text-center">
@@ -271,11 +374,52 @@
                 $('#obj_name').val(sInfo.obj_name);
                 $('#obj_type').val(sInfo.obj_type);
                 $('#obj_type').trigger("change");
+                $('#structure_id').val(sInfo.structure_id).trigger("change");
+                $('#responsible_id').val(sInfo.responsible_id);
+                $('#responsible_id').trigger("change");
+                $('#post_phone').val(sInfo.post_phone);
+                $('#obj_address').val(sInfo.obj_address);
+                $('#structure_phone').val(sInfo.structure_phone);
+                $('#prevention_inspector').val(sInfo.prevention_inspector);
+                $('#inspector_phone').val(sInfo.inspector_phone);
+                $('#territorial_iib').val(sInfo.territorial_iib);
+                $('#iib_phone').val(sInfo.iib_phone);
+                $('#photo').val(sInfo.photo);
 
     
                 $('#id').val(sInfo.id);
             });
-        })
+        });
+
+          const previewTemplate = `
+            <div class="dz-preview dz-file-preview">
+                <div class="dz-details">
+                    <div class="dz-thumbnail">
+                        <img data-dz-thumbnail>
+                        <span class="dz-nopreview">No preview</span>
+                        <div class="dz-success-mark"></div>
+                        <div class="dz-error-mark"></div>
+                        <div class="dz-error-message"><span data-dz-errormessage></span></div>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuemin="0" aria-valuemax="100" data-dz-uploadprogress></div>
+                        </div>
+                    </div>
+                    <div class="dz-filename" data-dz-name></div>
+                    <div class="dz-size" data-dz-size></div>
+                </div>
+            </div>
+        `;
+
+        const dropzoneBasic = document.querySelector('#obj-foto');
+        var myDropzone = new Dropzone(dropzoneBasic, {
+            previewTemplate: previewTemplate,
+            parallelUploads: 1,
+            maxFilesize: 5000,
+            addRemoveLinks: true,
+            maxFiles: 1,
+            acceptedFiles: 'image/*',
+        });
+
 
         $('#new').click(function() {
             $('#submitModal').modal('toggle');
@@ -287,6 +431,19 @@
             $('#obj_name').val('');
             $('#obj_type').val(0);
             $('#obj_type').trigger("change");
+            $('#region_id').val(0);
+            $('#region_id').trigger("change");
+            $('#structure_id').val(0);
+            $('#structure_id').trigger("change");
+            $('#responsible_id').val(0);
+            $('#post_phone').val('');
+            $('#structure_phone').val('');
+            $('#prevention_inspector').val('');
+            $('#inspector_phone').val('');
+            $('#territorial_iib').val('');
+            $('#iib_phone').val('');
+            $('#obj_address').val('');
+            $('#responsible_id').trigger("change");
 
             $('#id').val(0)
         });
@@ -302,12 +459,29 @@
                     event.preventDefault();
                     event.stopPropagation();
                     var form_data = new FormData();
-                    form_data.append('region_id', $('#region_id').val()); 
+                   form_data.append('structure_id', $('#structure_id').val() || $('#region_id').val());
                     form_data.append('obj_type', $('#obj_type').val());
                     form_data.append('district', $('#district').val());
                     form_data.append('obj_lat', $('#obj_lat').val());
                     form_data.append('obj_long', $('#obj_long').val());
                     form_data.append('obj_name', $('#obj_name').val());
+        
+                    form_data.append('responsible_id', $('#responsible_id').val());
+                    form_data.append('post_phone', $('#post_phone').val());
+                    form_data.append('structure_phone', $('#structure_phone').val());
+                    form_data.append('prevention_inspector', $('#prevention_inspector').val());
+                    form_data.append('inspector_phone', $('#inspector_phone').val());
+                    form_data.append('territorial_iib', $('#territorial_iib').val());
+                    form_data.append('iib_phone', $('#iib_phone').val());
+                    form_data.append('obj_address', $('#obj_address').val());
+                    form_data.append('id', $('#id').val());
+                    if (myDropzone.files.length > 0) {
+                        myDropzone.files.forEach(function(file, index) {
+                            form_data.append('photo', file);
+                        });
+                    } else {
+                        form_data.append('photo', $('#photo').val());
+                    }
                    
                     form_data.append('id', $('#id').val());
                     $.ajax({
