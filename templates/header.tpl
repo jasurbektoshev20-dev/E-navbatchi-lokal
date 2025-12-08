@@ -113,7 +113,7 @@
             <!-- Menu -->
 
             <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme"
-                style="background: #2f3349 !important; backdrop-filter: blur(0px); ">
+               >
                 <div class="app-brand demo">
                     <a href="/index.php?act=index&mid=DQtttt" class="app-brand-link">
                         <span class="app-brand-logo demo">
