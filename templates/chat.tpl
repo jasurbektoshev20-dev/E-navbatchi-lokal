@@ -70,6 +70,10 @@
             padding-bottom: 10px;
         }
 
+        .chat-message-text p{
+            text-align: end;
+        }
+
     {/literal}
 </style>
 
@@ -131,62 +135,6 @@
                     </div>
                     <div style="background-color: transparent;" class="chat-history-body">
                         <ul class="list-unstyled chat-history">
-                            {* {foreach from=$Messages item=message key=mkey}
-                                {if $UserStructure == $message.sender_id}
-                                    <li class="chat-message chat-message-right">
-                                        <div class="d-flex overflow-hidden">
-                                            <div class="chat-message-wrapper flex-grow-1">
-                                                <div class="chat-message-text chat-box-span">
-                                                    <p class="mb-0">{$message.text}</p>
-                                                    <span>{$message.shortname1}{$message.sender}</span>
-                                                </div>
-                                                <div class="text-end text-muted mt-1">
-                                                    <i class="ti ti-checks ti-xs me-1 text-success"></i>
-                                                    <small>{$message.time}</small>
-                                                </div>
-                                            </div>
-                                            <div class="user-avatar flex-shrink-0 ms-3">
-                                                <div class="avatar avatar-sm">
-                                                    {if $message.sender_pic}
-                                                        <img src="/pictures/staffs/{$message.sender_pic}" alt="Avatar"
-                                                            class="rounded-circle" />
-                                                    {else}
-                                                        <div class="bg-primary text-white rounded-circle text-center py-1">
-                                                            {$message.shortname}
-                                                        </div>
-                                                    {/if}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                {else}
-                                    <li class="chat-message chat-message-left">
-                                        <div class="d-flex overflow-hidden">
-                                            <div class="user-avatar flex-shrink-0 ">
-                                                <div class="avatar avatar-sm">
-                                                    {if $message.sender_pic}
-                                                        <img src="/pictures/staffs/{$message.sender_pic}" alt="Avatar"
-                                                            class="rounded-circle" />
-                                                    {else}
-                                                        <div class="bg-primary text-white rounded-circle text-center py-1">
-                                                            {$message.shortname}
-                                                        </div>
-                                                    {/if}
-                                                </div>
-                                            </div>
-                                            <div class="chat-message-wrapper flex-grow-1 ms-3">
-                                                <div class="chat-message-text">
-                                                    <h6 class="mb-0 text-info">{$message.sender}</h6>
-                                                    <p class="mb-0">{$message.text}</p>
-                                                </div>
-                                                <div class="text-end text-muted mt-1 d-flex ">
-                                                    <small>{$message.time}</small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                {/if}
-                            {/foreach} *}
                         </ul>
                     </div>
                     <!-- Chat message form -->
@@ -240,7 +188,7 @@
 
                     messages.forEach(function (m) {
                         const isMe = (UserStructure === parseInt(m.sender_id));
-
+                        console.log('chat m : ', m)
                         if (isMe) {
                         // O'ng tomondagi (o'zing) xabar
                         const html = `
@@ -249,7 +197,7 @@
                                 <div class="chat-message-wrapper flex-grow-1">
                                 <div class="chat-message-text chat-box-span">
                                     <p class="mb-0">${m.text ?? ''}</p>
-                                    <span>${m.shortname1 ?? ''}${m.sender ?? ''}</span>
+                                    <span>${m.shortname1 ?? ''}${m.sender_name ?? ''}</span>
                                 </div>
                                 <div class="text-end text-muted mt-1">
                                     <i class="ti ti-checks ti-xs me-1 text-success"></i>
@@ -288,8 +236,8 @@
                                 </div>
                                 <div class="chat-message-wrapper flex-grow-1 ms-3">
                                 <div class="chat-message-text">
-                                    <h6 class="mb-0 text-info">${m.sender ?? ''}</h6>
-                                    <p class="mb-0">${m.text ?? ''}</p>
+                                    <h6 class="mb-0">${m.text ?? ''}</h6>
+                                    <p class="mb-0 text-info">${m.sender_name ?? ''}</p>
                                 </div>
                                 <div class="text-end text-muted mt-1 d-flex">
                                     <small>${m.time}</small>
@@ -329,7 +277,38 @@
         loadChats();
 
         // Har 5 sekundda yangilab turish
-        setInterval(loadChats, 5000);
+        setInterval(loadChats, 4000);
+
+        function addPendingMessage(text) {
+            const tempId = 'tmp-' + Date.now();
+
+            const html = `
+                <li class="chat-message chat-message-right" data-id="${tempId}">
+                <div class="chat-message-wrapper">
+                    <div class="chat-message-text">
+                    <p class="mb-0">${text}</p>
+                    </div>
+                    <div class="text-end text-muted mt-1 status-line">
+                    <i class="ti ti-clock ti-xs me-1 text-warning"></i>
+                    <small>Yuborilmoqda...</small>
+                    </div>
+                </div>
+                </li>
+            `;
+            $('.chat-history').append(html);
+            scrollToBottom();
+            return tempId;
+     }
+
+     function markMessageSent(tempId, time) {
+            const $msg = $(`[data-id="${tempId}"]`);
+            $msg.find('.status-line').html(`
+                <i class="ti ti-checks ti-xs me-1 text-success"></i>
+                <small>${time}</small>
+            `);
+            }
+
+
 
 
 
@@ -359,7 +338,9 @@
        // Send Message
         function sendMsg(e) {
             let msg = messageInput.val();
+             const tempId = addPendingMessage(msg);
             if (msg) {
+                
                 const currentTimestamp = new Date();
                 $.ajax({
                     type: "POST",
@@ -376,6 +357,9 @@
                     }),
                     success: function(data) {
                         console.log('data', data);
+                          if (data && data.time) {
+                               markMessageSent(tempId, data.time);
+                          }
                     }
                 })
 
