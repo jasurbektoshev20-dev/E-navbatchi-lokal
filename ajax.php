@@ -1962,40 +1962,81 @@ switch ($Action) {
 		$res = json_encode($JtsObjects);
 		break;
 
+	// case "get_chats":
+	// 	$sid     = (int)$_SESSION['staff_id'];          // yoki POST dan
+	// 	$last_id = isset($_POST['last_id']) ? (int)$_POST['last_id'] : 0;
+
+	// 	$query = "SELECT
+	// 			m.id,
+	// 			m.time,
+	// 			m.sender,
+	// 			m.receiver,
+	// 			m.text,
+	// 			m.pic AS sender_pic,
+	// 			m.video,
+	// 			m.file,
+	// 			m.status,
+	// 			m.staff_id,
+	// 			(s.firstname || ' ' || s.lastname) AS sender,
+	// 			SUBSTRING(s.firstname,1,1) || SUBSTRING(s.lastname,1,1) AS shortname
+	// 		FROM tur.messages m
+	// 		LEFT JOIN hr.staff s ON s.id = m.sender
+	// 		WHERE m.sender != $sid
+	// 		ORDER BY m.time ASC
+	// 		LIMIT 50
+	// 	";
+
+	// 	$sql->query($query);
+	// 	$Messages = $sql->fetchAll();
+
+	// 	$res = json_encode($Messages);
+	// 	break;
+
 	case "get_chats":
-		$sid     = (int)$_SESSION['staff_id'];          // yoki POST dan
-		$last_id = isset($_POST['last_id']) ? (int)$_POST['last_id'] : 0;
 
-		// echo '<pre>';
-		// print_r($last_id);
-		// echo '</pre>';
-		// die();
+    // Hozirgi user (staff) ID
+    $sid = (int)($_SESSION['staff_id'] ?? $_GET['staff_id'] ?? 0);
 
-		$query = "SELECT
-				m.id,
-				m.time,
-				m.sender,
-				m.receiver,
-				m.text,
-				m.pic AS sender_pic,
-				m.video,
-				m.file,
-				m.status,
-				m.staff_id,
-				(s.firstname || ' ' || s.lastname) AS sender,
-				SUBSTRING(s.firstname,1,1) || SUBSTRING(s.lastname,1,1) AS shortname
-			FROM tur.messages m
-			LEFT JOIN hr.staff s ON s.id = m.sender
-			WHERE m.sender != $sid
-			ORDER BY m.time ASC
-			LIMIT 50
-		";
+    // Oxirgi ko‘rilgan xabar ID (real-time uchun)
+    $last_id = isset($_GET['last_id']) ? (int)$_GET['last_id'] : 0;
 
-		$sql->query($query);
-		$Messages = $sql->fetchAll();
+    $where_last = $last_id > 0 ? "AND m.id > {$last_id}" : "";
 
-		$res = json_encode($Messages);
-		break;
+    $query = "SELECT
+            m.id,
+            TO_CHAR(m.time AT TIME ZONE 'UTC' AT TIME ZONE 'Asia/Tashkent', 'DD-MM-YYYY HH24:MI:SS') AS time,
+            m.sender,
+            m.receiver,
+            m.text,
+            m.pic,
+            m.video,
+            m.file,
+            m.status,
+            m.staff_id,
+            -- staff ma'lumotlari
+            (s.firstname || ' ' || s.lastname) AS sender_name,
+            SUBSTRING(s.firstname,1,1) || SUBSTRING(s.lastname,1,1) AS shortname,
+            s.photo AS sender_pic   -- agar hr.staffs jadvalida 'photo' bo'lsa
+
+        FROM tur.messages m
+        LEFT JOIN hr.staff s ON s.id = m.staff_id   -- MUHIM O‘ZGARISH
+
+        -- WHERE (m.sender = {$sid} OR m.receiver = {$sid})
+		WHERE m.sender != $sid
+        {$where_last}
+
+        ORDER BY m.time ASC
+        LIMIT 50
+    ";
+
+    $sql->query($query);
+    $Messages = $sql->fetchAll();
+
+    header("Content-Type: application/json; charset=utf-8");
+    $res = json_encode($Messages);
+
+break;
+
 }
 
 // echo iconv("cp1251", "UTF-8", $res);
