@@ -573,7 +573,7 @@
         });
 
         let cluster = L.markerClusterGroup({ chunkedLoading: true });
-        let gps_url = 'uzgps.php';
+        let gps_url = 'ajax.php?act=get_embassy_object_by_id&id=6';
         let isOnOffTime = 60;
         let isOnOffSpeed = 5;
         let region_id = 0;
@@ -614,7 +614,7 @@
         let moveCarMarkerInterval = setInterval(() => {
             $.ajax({
                 type: "POST",
-                url: `ajax.php?act=get_cars&region=${region_id}`,
+                url: `ajax.php?act=get_embassy_map&region=${region_id}`,
                 dataType: "json",
                 encode: true,
                 success: async function(data) {
@@ -687,7 +687,7 @@
             allEmbassy = [];
             $.ajax({
                 type: "POST",
-                url: `${gps_url}?region=${region}&isAll=${in_service}`,
+                url: `${gps_url}`,
                 dataType: "json",
                 encode: true,
                 success: function(data) {                    
@@ -814,7 +814,7 @@
 
             $.ajax({
                 type: "POST",
-                url: `ajax.php?act=get_mpg_by_id&car_id=${car_id}&og_id=${og_id}`,
+                url: `ajax.php?act=get_embassy_objects_id&id=6`,
                 dataType: "json",
                 encode: true,
                 success: function(data) {
