@@ -1647,7 +1647,7 @@
           <i class="bi bi-diagram-3-fill"></i>
         </div>
         <div class="passport-li-about">
-          <h6>Ovqatlanish joylari soni:</h6>
+          <h6>Овқатланиш жойлари сони:</h6>
           <p>${params?.eating_place_count} та</p>
         </div>
       </li>
@@ -1875,55 +1875,55 @@
             </li>
             <li class="alert alert-dark m-0" role="alert">
                   <i class="duty-icon bi bi-person-walking"></i>
-                  МГ soni: <span>${params?.mg_count} та</span>
+                  МГ сони: <span>${params?.mg_count} та</span>
             </li>
             <li class="alert alert-dark m-0" role="alert">
                   <i class="duty-icon bi bi-bell-fill"></i>
-                  IIV жавобгар: <span>${params?.responsible_iiv_name}</span>
+                  ИИВ жавобгар: <span>${params?.responsible_iiv_name}</span>
             </li>
               <li class="alert alert-dark m-0" role="alert">
                   <i class="duty-icon bi bi-person-walking"></i>
-                  IIV soni: <span>${params?.iiv_count} та</span>
+                  ИИВ сони: <span>${params?.iiv_count} та</span>
             </li>
 
               <li class="alert alert-dark m-0" role="alert">
                   <i class="duty-icon bi bi-bell-fill"></i>
-                  IIV spring жавобгар: <span>${params?.responsible_spring_name}</span>
+                  ИИВ спринг жавобгар: <span>${params?.responsible_spring_name}</span>
             </li>
               <li class="alert alert-dark m-0" role="alert">
                   <i class="duty-icon bi bi-person-walking"></i>
-                  IIV spring soni: <span>${params?.spring_count} та</span>
+                  ИИВ спринг сони: <span>${params?.spring_count} та</span>
             </li>
 
             <li class="alert alert-dark m-0" role="alert">
                   <i class="duty-icon bi bi-bell-fill"></i>
-                  FVV жавобгар: <span>${params?.responsible_fvv_name}</span>
+                  ФВВ жавобгар: <span>${params?.responsible_fvv_name}</span>
             </li>
               <li class="alert alert-dark m-0" role="alert">
                   <i class="duty-icon bi bi-person-walking"></i>
-                  FVV soni: <span>${params?.fvv_count} та</span>
+                  ФВВ сони: <span>${params?.fvv_count} та</span>
             </li>
           
             <li class="alert alert-dark m-0" role="alert">
                   <i class="duty-icon bi bi-bell-fill"></i>
-                  MG MSGR javobgar: <span>${params?.responsible_msgr_name}</span>
+                  МГ МСГР жавобгар: <span>${params?.responsible_msgr_name}</span>
             </li>
             <li class="alert alert-dark m-0" role="alert">
                   <i class="duty-icon bi bi-person-walking"></i>
-                  MG MSGR soni: <span>${params?.msgr_count} та</span>
+                  МГ МСГР сони: <span>${params?.msgr_count} та</span>
             </li>
 
               <li class="alert alert-dark m-0" role="alert">
                   <i class="duty-icon bi bi-bell-fill"></i>
-                  Zaxira жавобгар: <span>${params?.reserve_name}</span>
+                  Захира жавобгар: <span>${params?.reserve_name}</span>
             </li>
               <li class="alert alert-dark m-0" role="alert">
                   <i class="duty-icon bi bi-person-walking"></i>
-                  Zaxira soni: <span>${params?.reserve_count} та</span>
+                  Захира сони: <span>${params?.reserve_count} та</span>
             </li>
             <li class="alert alert-dark m-0" role="alert">
-                  <i class="duty-icon bi bi-person-walking"></i>
-                  Jangovar ekipaj soni: <span>${params?.vehicle_count} та</span>
+                   <i class="duty-icon bi bi-person-walking"></i>
+                   Жанговар экипаж сони: <span>${params?.vehicle_count} та</span>
              </li>
          </ul>
         `
@@ -1939,13 +1939,13 @@
          <ul class="">
              <li class="alert alert-dark m-0" role="alert">
                   <i class="duty-icon bi bi-flag"></i>
-                  Tadbirga mas'ul tashkilot:  <span>${params?.event_responsible_organization}</span>
+                  Тадбирга масъул ташкилот:  <span>${params?.event_responsible_organization}</span>
               </li>
                 <li class="is-accordion">
               <details>
                 <summary>
                   <div class="passport-icon">  <i class="duty-icon bi bi-gender-female"></i></div>
-                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Mas'ul FISH:</span> <span> ${params?.responsible_name ?? 'киритилмаган'}</span>
+                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Масъул ФИШ:</span> <span> ${params?.responsible_name ?? 'киритилмаган'}</span>
                 </summary>
                 <ul class="inner-list">
                     <li>
