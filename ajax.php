@@ -1672,12 +1672,59 @@ switch ($Action) {
 
 	case "get_embassy_object_by_id":
 		$id = isset($_GET['id']) ? $_GET['id'] : 0;
-
+		$JtsObject = [];
 		$query  = "SELECT *
 		FROM hr.embassy_objects
 		WHERE id = {$id}";
 		$sql->query($query);
-		$JtsObject = $sql->fetchAssoc();
+
+		$embassy_object = $sql->fetchAssoc();
+		$JtsObject['objects'] = $embassy_object;
+
+		$CamUrl = [];
+		if ($id > 0) {
+			$sql->query("SELECT t.id, t.cam_code, t.name, t.lat, t.long, CASE WHEN t.is_ptz THEN 1 ELSE 0 END AS is_ptz FROM hr.embassy_objects_camera t WHERE t.object_id = {$id}");
+			$Cams = $sql->fetchAll();
+
+			if ($Cams) {
+				foreach ($Cams as $cam_c) {
+					$camindex = $cam_c['cam_code'];
+					$camId = $cam_c['id'];
+					$IsPtz = $cam_c['is_ptz'];
+					$comment = $cam_c['name'];
+					$lat = $cam_c['lat'];
+					$long = $cam_c['long'];
+
+					$dataCam = GetCamUrl($camindex);
+					if (isset($dataCam['data']['url'])) {
+						$CamUrl[] = [
+							'id' => $camId,
+							'url' => $dataCam['data']['url'],
+							'isptz' => $IsPtz,
+							'status' => 1,
+							'cam_index' => $camindex,
+							'comment' => $comment,
+							'lat' => $lat,
+							'long' => $long
+						];
+					} else {
+						$CamUrl[] = [
+							'id' => $camId,
+							'url' => '',
+							'status' => 0,
+							'isptz' => $IsPtz,
+							'cam_index' => $camindex,
+							'comment' => $comment,
+							'lat' => $lat,
+							'long' => $long
+						];
+					}
+				}
+			}
+		}
+
+
+		$JtsObject['cameras'] = $CamUrl; 
 		$result['data'] = $JtsObject;
 		$res = json_encode($result);
 		break;
