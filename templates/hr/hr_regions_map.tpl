@@ -1720,116 +1720,104 @@
         getObjects()
       }
 
-      carsCluster.clearLayers();
+      // carsCluster.clearLayers();
+      // objectsCluster.clearLayers();
+
+    function getObjects() {
+  let url = `${AJAXPHP}?act=get_jts_map`;
+  let params = [];
+
+  if (region_id)  params.push(`region_id=${region_id}`);
+  if (object_id)  params.push(`object_id=${object_id}`);
+  if (object_type) params.push(`object_type=${object_type}`);
+
+  if (params.length > 0) url += '&' + params.join('&');
+
+  $.ajax({
+    url: url,
+    type: 'GET',
+    dataType: 'json',
+    success: function (response) {
+      console.log(response);
+
+      // noto‘g‘ri yozilgan joy: !response && !response.length
+      if (!response || !response.length) {
+        objectsCluster.clearLayers();   // eski markerlarni tozalaymiz
+        return;
+      }
+
+      // HAR SAFAR SELECT O‘ZGARGANDA eski cluster markerlarni tozalaymiz
       objectsCluster.clearLayers();
 
+      const bozor   = response.filter(item => item.object_type == 1);
+      const bog     = response.filter(item => item.object_type == 3);
+      const xiyobon = response.filter(item => item.object_type == 2);
+      const boshqa  = response.filter(item => item.object_type == 4);
 
+      $('.map-about-box-bozor span').html(bozor.length);
+      $('.map-about-box-bog span').html(bog.length);
+      $('.map-about-box-xiyobon span').html(xiyobon.length);
+      $('.map-about-box-boshqa span').html(boshqa.length);
 
+      // markerlarni clusterga qo‘shamiz
+      response.forEach(m => {
+        const marker = L.marker([m.lat, m.long], { icon: markerIcons[m.object_type] })
+          .bindTooltip(m.object_name, {
+            direction: 'top',
+            offset: [0, -10],
+            className: 'my-tooltip',
+          });
 
-      const allMarkers = L.layerGroup()
+        marker.id = m.id;
+        marker.type = m.object_type;
 
-      function getObjects() {
+        objectsCluster.addLayer(marker);   // Faqat shu!
 
-        let url = `${AJAXPHP}?act=get_jts_map`;
-        let params = [];
-        if (region_id) params.push(`region_id=${region_id}`);
-        if (object_id) params.push(`object_id=${object_id}`);
-        if (object_type) params.push(`object_type=${object_type}`);
+        marker.on('click', function () {
+          document.getElementById('markerModalTitle').innerText = m.object_name;
 
+          $.ajax({
+            url: `${AJAXPHP}?act=get_jts_object_by_id&id=${m.id}`,
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+              if (!response) return;
 
-        if (params.length > 0) url += '&' + params.join('&');
+              $("#markerModal").modal("show");
 
-        $.ajax({
-          url: url,
-          type: 'GET',
-          dataType: 'json',
-          success: function(response) {
-            console.log(response);
-            allMarkers.clearLayers();
-            if (!response && !response.length) return
+              renderDialogMap(response?.data, response?.cameras);
+              renderPassportDetails(response?.data);
+              renderDutyDetails(response?.data?.routine);
 
-            const bozor = response.filter(item => item.object_type == 1)
-            const bog = response.filter(item => item.object_type == 3)
-            const xiyobon = response.filter(item => item.object_type == 2)
-            const boshqa = response.filter(item => item.object_type == 4)
-
-            $('.map-about-box-bozor span').html(bozor.length)
-            $('.map-about-box-bog span').html(bog.length)
-            $('.map-about-box-xiyobon span').html(xiyobon.length)
-            $('.map-about-box-boshqa span').html(boshqa.length)
-
-
-            // LayerGroup
-
-            // Markerlarni LayerGroup ga qo'shamiz
-            response.forEach(m => {
-              const marker = L.marker([m.lat, m.long], { icon: markerIcons[m.object_type] })
-                .bindTooltip(m.object_name, { direction: 'top', offset: [0, -10],  className: 'my-tooltip' });
-              marker.id = m.id;
-              marker.type = m.object_type;
-              objectsCluster.addLayer(marker);
-
-              marker.on('click', function() {
-                document.getElementById('markerModalTitle').innerText = m.object_name;
-
-                $.ajax({
-                  url: `${AJAXPHP}?act=get_jts_object_by_id&id=${m.id}`,
-                  type: 'GET',
-                  dataType: 'json',
-                  success: function(response) {
-                    console.log(response);
-                    if (!response) return
-
-                    $("#markerModal").modal("show");
-
-                    renderDialogMap(response?.data, response?.cameras)
-                    renderPassportDetails(response?.data)
-                    renderDutyDetails(response?.data?.routine)
-
-
-                    $('#change_camera').empty();
-                    if (response?.cameras && response?.cameras?.length) {
-                      fetched_camera = response.cameras;
-                      initCamera()
-                      
-                    }
-                    if (response?.data?.body_cameras && response?.data?.body_cameras.length) {
-                      fetched_body = response.data.body_cameras;
-                      initCamera()
-
-                    }
-
-                  },
-                  error: function(xhr, status, error) {
-                    console.error('AJAX error:', error);
-                  }
-                })
-              });
-            });
-
-            // Markerlarni xaritaga qo‘shamiz
-            allMarkers.addTo(map);
-
-            // Hamma marker koordinatalarini olish
-            const markerCoords = response.map(m => [m.lat, m.long]);
-
-            if (markerCoords.length > 0) {
-              // Hamma markerlarni qamrab oladigan bounds
-              const bounds = L.latLngBounds(markerCoords);
-
-              // Xarita markazlash + zoomni avtomatik o‘rnatish
-              map.flyToBounds(bounds, { padding: [50, 50], duration: 1 }); // padding – biroz chet bo‘shliq
+              $('#change_camera').empty();
+              if (response?.cameras && response?.cameras?.length) {
+                fetched_camera = response.cameras;
+                initCamera();
+              }
+              if (response?.data?.body_cameras && response?.data?.body_cameras.length) {
+                fetched_body = response.data.body_cameras;
+                initCamera();
+              }
+            },
+            error: function (xhr, status, error) {
+              console.error('AJAX error:', error);
             }
+          });
+        });
+      });
 
-        },
-        error: function(xhr, status, error) {
-          console.error('AJAX error:', error);
-        }
-      })
-
-
-
+      // boundsni clusterdan olamiz
+      const bounds = objectsCluster.getBounds();
+      if (bounds.isValid()) {
+        map.flyToBounds(bounds, { padding: [50, 50], duration: 1 });
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error('AJAX error:', error);
     }
+  });
+}
+
 
 
 
@@ -1858,9 +1846,10 @@
     $('#objectTypeSelect').on('change', function() {
       let id = this.value;
       object_type = id
-
       getObjects()
     })
+
+
     $('#objectSelect').on('change', function() {
       let id = this.value;
       object_id = id
