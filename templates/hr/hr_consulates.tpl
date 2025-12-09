@@ -603,20 +603,21 @@
             callEmbassy(UserStructure, in_service);
         });
 
-        // Create interval for repositioning a car in map
-        let moveCarMarkerInterval = setInterval(() => {
-            $.ajax({
-                type: "POST",
+
+        function getElchixonalar(){
+          $.ajax({
+                type: "GET",
                 url: `ajax.php?act=get_embassy_map&region=${region_id}`,
                 dataType: "json",
                 encode: true,
                 success: async function(data) {
+                    console.log("data elchi :" , data)
                     lastCarsPositions = data;
                     data.forEach((marker, index) => {
                         const car = allEmbassy.find(car => car.options.id == marker.id);
                         if (car) {
                             car.setIcon(myIcon(marker));
-                            car.setLatLng([marker.lat ? marker.lat : 0 , marker.lon ? marker.lon : 0]).setRotationAngle(marker.angle);
+                            car.setLatLng([marker.lat ? marker.lat : 0 , marker.long ? marker.long : 0]).setRotationAngle(marker.angle);
                         }
 
                         $(`#speed_${marker.id}`).html(marker.speed);
@@ -625,14 +626,43 @@
                     })
                 }
             })
-        }, 5000);
+        }
+
+        //  function getElchixonalar() {
+              
+        //         $.ajax({
+        //             url: `ajax.php?act=get_embassy_map`,
+        //             type: 'GET',
+        //             dataType: 'json',
+        //             success: function (response) {
+        //             console.log(response);
+
+        //             response.forEach(m => {
+        //                 const marker = L.marker([m.lat, m.long], { icon: markerIcons[m.object_type] })
+        //                 .bindTooltip(m.object_name, {
+        //                     direction: 'top',
+        //                     offset: [0, -10],
+        //                     className: 'my-tooltip',
+        //                 });
+
+        //             },
+        //             error: function (xhr, status, error) {
+        //             console.error('AJAX error:', error);
+        //             }
+        //         });
+
+                
+        //         }
+
+
+        getElchixonalar()
 
 
         // Function to fly to the bounds of all markers
         function flyToMarkers(data) {
             var bounds = new L.LatLngBounds();
             data.forEach(function (marker) {
-                bounds.extend([marker.lat, marker.lon]);
+                bounds.extend([marker.lat, marker.long]);
             });
             map.flyToBounds(bounds, { duration: 2, maxZoom: 14 });
         }
@@ -680,7 +710,7 @@
             allEmbassy = [];
             $.ajax({
                 type: "POST",
-                url: `${gps_url}`,
+                url: `ajax.php?act=get_embassy_map`,
                 dataType: "json",
                 encode: true,
                 success: function(data) {                    
@@ -702,14 +732,14 @@
                                 </td>
                             </tr>`
                         );
-                        const LamMarker = new L.marker([marker.lat ? marker.lat : 0 , marker.lon ? marker.lon : 0], {
+                        const LamMarker = new L.marker([marker.lat ? marker.lat : 0 , marker.long ? marker.long : 0], {
                             icon: myIcon(marker),
                             id: marker.id,
                             type: 'car'
                         });
                         // LamMarker.setRotationAngle(marker.angle).bindPopup(carPopUp(marker));
-                      LamMarker
-                            .setRotationAngle(marker.angle)
+                      
+                            LamMarker.setRotationAngle(marker.angle)
                             .bindPopup(carPopUp(marker))
                             .on("click", function () {
 
@@ -720,7 +750,7 @@
                                 form_data.append('id', marker.id);
 
                                 $.ajax({
-                                    url: 'hrajax.php?act=act_coop_staff',
+                                    url: 'hrajax.php?act=get_embassy_object_by_id',
                                     dataType: 'text',
                                     cache: false,
                                     contentType: false,
@@ -728,12 +758,7 @@
                                     data: form_data,
                                     type: 'post',
                                     success: function(resdata) {
-                                        var NewArray = resdata.split("<&sep&>");
-                                        if (NewArray[0] == 0) {
-                                            location.reload();
-                                        } else {
-                                            alert(resdata);
-                                        }
+                                       console.log("id bo'yicha: ", resdata)
                                     }
                                 });
                             });
