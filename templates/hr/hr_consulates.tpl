@@ -746,17 +746,13 @@
                                 console.log("Marker bosildi. ID:", marker.id);
 
                                 // Faqat marker id yuboramiz
-                                let form_data = new FormData();
-                                form_data.append('id', marker.id);
+                                // let form_data = new FormData();
+                                // form_data.append('id', marker.id);
 
                                 $.ajax({
-                                    url: 'hrajax.php?act=get_embassy_object_by_id',
-                                    dataType: 'text',
-                                    cache: false,
-                                    contentType: false,
-                                    processData: false,
-                                    data: form_data,
-                                    type: 'post',
+                                    url: `${AJAXPHP}?act=get_embassy_object_by_id&id=${ marker.id}`,
+                                    type: 'GET',
+                                    dataType: 'json',
                                     success: function(resdata) {
                                        console.log("id bo'yicha: ", resdata)
                                     }
