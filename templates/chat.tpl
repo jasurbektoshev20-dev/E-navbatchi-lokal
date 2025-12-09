@@ -131,7 +131,7 @@
                     </div>
                     <div style="background-color: transparent;" class="chat-history-body">
                         <ul class="list-unstyled chat-history">
-                            {foreach from=$Messages item=message key=mkey}
+                            {* {foreach from=$Messages item=message key=mkey}
                                 {if $UserStructure == $message.sender_id}
                                     <li class="chat-message chat-message-right">
                                         <div class="d-flex overflow-hidden">
@@ -186,7 +186,7 @@
                                         </div>
                                     </li>
                                 {/if}
-                            {/foreach}
+                            {/foreach} *}
                         </ul>
                     </div>
                     <!-- Chat message form -->
@@ -231,6 +231,108 @@
     {literal}
 
 
+        // Hozirgi user ID (Smarty’dan data-attr orqali olishing mumkin)
+        // const UserStructure = parseInt($('#UserStructure').val() || 0); 
+
+        function renderChats(messages) {
+                    const $list = $('.chat-history'); // <ul class="list-unstyled chat-history">
+                    $list.empty();
+
+                    messages.forEach(function (m) {
+                        const isMe = (UserStructure === parseInt(m.sender_id));
+
+                        if (isMe) {
+                        // O'ng tomondagi (o'zing) xabar
+                        const html = `
+                            <li class="chat-message chat-message-right">
+                            <div class="d-flex overflow-hidden">
+                                <div class="chat-message-wrapper flex-grow-1">
+                                <div class="chat-message-text chat-box-span">
+                                    <p class="mb-0">${m.text ?? ''}</p>
+                                    <span>${m.shortname1 ?? ''}${m.sender ?? ''}</span>
+                                </div>
+                                <div class="text-end text-muted mt-1">
+                                    <i class="ti ti-checks ti-xs me-1 text-success"></i>
+                                    <small>${m.time}</small>
+                                </div>
+                                </div>
+                                <div class="user-avatar flex-shrink-0 ms-3">
+                                <div class="avatar avatar-sm">
+                                    ${
+                                    m.sender_pic
+                                        ? `<img src="/pictures/staffs/${m.sender_pic}" class="rounded-circle" />`
+                                        : `<div class="bg-primary text-white rounded-circle text-center py-1">
+                                            ${m.shortname ?? ''}
+                                        </div>`
+                                    }
+                                </div>
+                                </div>
+                            </div>
+                            </li>`;
+                        $list.append(html);
+                        } else {
+                        // Chap tomondagi xabar
+                        const html = `
+                            <li class="chat-message chat-message-left">
+                            <div class="d-flex overflow-hidden">
+                                <div class="user-avatar flex-shrink-0">
+                                <div class="avatar avatar-sm">
+                                    ${
+                                    m.sender_pic
+                                        ? `<img src="/pictures/staffs/${m.sender_pic}" class="rounded-circle" />`
+                                        : `<div class="bg-primary text-white rounded-circle text-center py-1">
+                                            ${m.shortname ?? ''}
+                                        </div>`
+                                    }
+                                </div>
+                                </div>
+                                <div class="chat-message-wrapper flex-grow-1 ms-3">
+                                <div class="chat-message-text">
+                                    <h6 class="mb-0 text-info">${m.sender ?? ''}</h6>
+                                    <p class="mb-0">${m.text ?? ''}</p>
+                                </div>
+                                <div class="text-end text-muted mt-1 d-flex">
+                                    <small>${m.time}</small>
+                                </div>
+                                </div>
+                            </div>
+                            </li>`;
+                        $list.append(html);
+                        }
+                    });
+
+                    // Pastga skroll
+                    const $body = $('.chat-history-body');
+                    $body.scrollTop($body[0].scrollHeight);
+          }
+
+        function loadChats() {
+        $.ajax({
+            url: `${AJAXPHP}?act=get_chats`,
+            type: 'GET',
+            dataType: 'json',
+            data: {
+            staff_id: UserStructure, // agar PHPda shundan olayotgan bo'lsang
+            limit: 50                // kerak bo'lsa o'zgartirasan
+            },
+            success: function (res) {
+            if (!res) return;
+            renderChats(res);
+            },
+            error: function (xhr, status, error) {
+            console.error('get_chats AJAX error:', error);
+            }
+        });
+        }
+
+        // Sahifa yuklanganda bir marta
+        loadChats();
+
+        // Har 5 sekundda yangilab turish
+        setInterval(loadChats, 5000);
+
+
+
         let color = localStorage.getItem('templateCustomizer-vertical-menu-template-no-customizer--Style') == 'light' ?
             '#000' : '#fff';
 
@@ -253,77 +355,15 @@
         }
         scrollToBottom();
 
-        
-        const socket = io('http://10.10.80.20:3000');
-        socket.on('get_message', (data) => {
-            const messageAlignmentClass = UserStructure == data[0].sender_id ? "chat-message-right" :
-                "chat-message-left";
-            const alignmentClassForPic = UserStructure == data[0].sender_id ? "" : "flex-row-reverse";
-            const ms = UserStructure == data[0].sender_id ? "" : "ms-3";
-            const userName = UserStructure == data[0].sender_id ? "" : data[0].sender;
-            const displayNone = UserStructure == data[0].sender_id ? "" : "d-none";
-            const getPicSrc = data[0].sender_pic ? `/pictures/staffs/${data[0].sender_pic}` : "/assets/images/nophoto2.png";
-
-            let chatHistoryBox = $(".chat-history");
-            chatHistoryBox.append(`
-                            <li class="chat-message ${messageAlignmentClass}">
-                                <div class="d-flex overflow-hidden ${alignmentClassForPic}">
-                                    <div class="chat-message-wrapper flex-grow-1 ${ms}">
-                                    <div class="chat-message-text">
-                                    <h6 class="mb-0 text-info">${userName}</h6>
-                                    <p class="mb-0">${data[0].text}</p>
-                                </div>
-                                <div class="text-end text-muted mt-1">
-                                    <i class="ti ti-checks ti-xs me-1 text-success ${displayNone}"></i>
-                                    <small>${data[0].time}</small>
-                                </div>
-                            </div>
-                            <div class="user-avatar flex-shrink-0 ${ms}">
-                                                        <div class="avatar avatar-sm">
-                            ${data[0].sender_pic ?
-                            `<img src="/pictures/staffs/${data[0].sender_pic}" alt="Avatar" class="rounded-circle" />`: 
-                            `<div class="bg-primary text-white rounded-circle text-center py-1">${data[0].shortname}</div>`}
-                            </div>
-                        </div>
-                    </div>
-                </li>`);
-            scrollToBottom();
-            toastr.options = {
-                maxOpened: 1,
-                autoDismiss: true,
-                closeButton: true,
-                newestOnTop: true,
-                progressBar: true,
-                timeOut: 1000 * 10,
-                extendedTimeOut: 1000 * 60,
-                positionClass: 'toast-top-right',
-                // preventDuplicates: true,
-                onclick: null,
-            };
-            if (UserStructure != data[0].sender_id) {
-                var audio = new Audio('assets/assets/audio/Discovery.mp3');
-                audio.play();
-                toastr['warning']('', `<div class="d-flex gap-2">
-                        <div class="mt-3"> 
-                            ${data[0].sender_pic ? `<img src="/pictures/staffs/${data[0].sender_pic}" alt="Avatar" class="rounded-circle avatar avatar-sm" />`: 
-                            `<div class="bg-primary text-white rounded-circle avatar-sm text-center pt-1 avatar">${data[0].shortname}</div>`}
-                        </div>
-                        <div class="mt-3">
-                            <h6 class="mb-0 text-info">${userName}</h6>
-                            <p style="padding-right: 30px;" class="mb-0 text-muted font-weight-light">${data[0].text}</p>
-                        </div>
-                    </div`);
-            }
-        });
-
-        // Send Message
+    
+       // Send Message
         function sendMsg(e) {
             let msg = messageInput.val();
             if (msg) {
                 const currentTimestamp = new Date();
                 $.ajax({
                     type: "POST",
-                    url: `http://10.10.80.20/send_message`,
+                    url: `hrajax.php?act=act_chat`,
                     dataType: "json",
                     encode: true,
                     contentType: "application/json",
@@ -345,36 +385,6 @@
                 $(this).trigger('click');
             }
         }
-
-        // Send Message
-        // function sendMsg(e) {
-        //     let msg = messageInput.val();
-        //     if (msg) {
-        //         const currentTimestamp = new Date();
-        //         $.ajax({
-        //             type: "POST",
-        //             url: `hrajax.php?act=act_chat`,
-        //             dataType: "json",
-        //             encode: true,
-        //             contentType: "application/json",
-        //             data: JSON.stringify({
-        //                 sender_id: UserStructure,
-        //                 staff_id: StaffID,
-        //                 time: currentTimestamp.toISOString(),
-        //                 text: msg,
-        //                 status: 1
-        //             }),
-        //             success: function(data) {
-        //                 console.log('data', data);
-        //             }
-        //         })
-
-        //         let chatHistoryBox = $(".chat-history");
-        //         messageInput.val('');
-        //         scrollToBottom();
-        //         $(this).trigger('click');
-        //     }
-        // }
 
         $(document).on("keypress", '.message-input', async function(event) {
             if (event.key === "Enter") {

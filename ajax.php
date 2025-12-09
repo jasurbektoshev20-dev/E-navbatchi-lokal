@@ -1958,6 +1958,39 @@ case "get_public_events_by_id":
 		$res = json_encode($JtsObjects);
 		break;
 			
+  case "get_chats":
+
+    $sid     = (int)$_SESSION['staff_id'];          // yoki POST dan
+    $last_id = isset($_POST['last_id']) ? (int)$_POST['last_id'] : 0;
+
+   $query = "
+    SELECT
+        m.id,
+        m.time,
+        m.sender,
+        m.receiver,
+        m.text,
+        m.pic AS sender_pic,
+        m.video,
+        m.file,
+        m.status,
+        m.staff_id,
+        (s.firstname || ' ' || s.lastname) AS sender,
+        SUBSTRING(s.firstname,1,1) || SUBSTRING(s.lastname,1,1) AS shortname
+    FROM tur.messages m
+    LEFT JOIN hr.staff s ON s.id = m.sender
+    WHERE (m.sender = $sid OR m.receiver = $sid)
+    ORDER BY m.time ASC
+    LIMIT 50
+";
+
+    $sql->query($query);
+    $Messages = $sql->fetchAll();
+
+    $res = json_encode($Messages);
+    break;
+
+
 
 
 
