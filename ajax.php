@@ -1673,9 +1673,14 @@ switch ($Action) {
 	case "get_embassy_object_by_id":
 		$id = isset($_GET['id']) ? $_GET['id'] : 0;
 		$JtsObject = [];
-		$query  = "SELECT *
-		FROM hr.embassy_objects
-		WHERE id = {$id}";
+		$query  = "SELECT e.id,s.name{$slang} as structure,ot.name{$slang} as type_name,e.district,e.name,e.address,e.lat,e.long,e.photo,e.post_phone,
+		e.military_unit,e.military_unit_phone,e.iiv_inspector,e.iiv_inspector_phone,e.iiv_unit,iiv_unit_phone,CONCAT(r.name{$slang},st.lastname,' ',st.firstname,' ',st.surname) as responsible_name
+		FROM hr.embassy_objects e
+		left join ref.embassy_object_types ot on ot.id = e.type_id
+		left join hr.structure s on s.id = e.structure_id
+		left join hr.staff st on st.id = e.responsible_id
+		left join ref.ranks r on r.id = st.rank_id
+		WHERE e.id = {$id}";
 		$sql->query($query);
 
 		$embassy_object = $sql->fetchAssoc();
