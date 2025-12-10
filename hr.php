@@ -1575,7 +1575,7 @@ switch ($Act) {
 		// die();
 
 		$smarty->assign(array(
-			'embassy_objects' => $embassy_objects,
+			'Objects' => $embassy_objects,
 			'Regions' => $Regions,
 			'ObjectTypes' => $ObjectTypes,
 		));
