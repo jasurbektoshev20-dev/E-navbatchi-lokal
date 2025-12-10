@@ -895,15 +895,15 @@
                 $("#staffInfoModal .card-body").append(`
                 <div class="col-3 text-center">
                     <div class="staff-photo-box">
-                        <img class="staff-photo2" src="/pictures/staffs/${data.data.objects?.structure_photo}" alt="">
+                        <img class="staff-photo2" src="/pictures/staffs/${data.data.objects?.responsible_photo}" alt="">
                     </div>
 
                     <div class="staff-name2 mt-3">
-                        ${data.data.objects?.structure_id}
+                        ${data.data.objects?.responsible_name}
                     </div>
 
-                    <a href="tel:${data.data.objects?.structure_phone}" class="staff-phone2 mt-2">
-                        📞 ${data.data.objects?.structure_phone}
+                    <a href="tel:${data.data.objects?.responsible_phone}" class="staff-phone2 mt-2">
+                        📞 ${data.data.objects?.responsible_phone}
                     </a>
                     </div>
                 `); 
