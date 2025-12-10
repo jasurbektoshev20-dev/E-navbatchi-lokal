@@ -28,7 +28,7 @@
         }
 
         .leaflet-popup, .leaflet-popup-content-wrapper {
-            background-color: #2F3349 !important;
+            background: rgba(20, 28, 52, 0.85) !important;
             border-radius: 10px !important;
         }
 
@@ -377,6 +377,120 @@
   transition: all 0.35s ease-in-out;
 }
 
+.img-popup{
+    width: 300px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+}
+
+.img-popup img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.popup-container-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.popup-text h3{
+    /* font-size: 20px; */
+    margin: 0;
+    color: #38BDF8;
+    padding-top: 10px;
+    /* font-weight: 600; */
+}
+
+#staffInfoModal {
+    position: absolute;
+    width: 420px;
+    height:450px;
+    right: 1.2vw;
+    top: 0.7vh;
+    z-index: 55555 !important;
+}
+
+.card-body .staff-photo-box {
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid rgba(0, 255, 136, 0.3);
+}
+
+.card-body .staff-photo2 {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 14px;
+}
+
+/* Name */
+.card-body .staff-name2 {
+  font-size: 1.35rem;
+  color: #eaffea;
+  font-weight: 600;
+}
+
+/* Phone — clickable */
+.card-body .staff-phone2 {
+  font-size: 1.2rem;
+  color: #00ff88;
+  text-decoration: none;
+  display: inline-block;
+  padding: 6px 14px;
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.35);
+  transition: 0.25s ease;
+}
+
+.card-body .staff-phone2:hover {
+  border-color: #00ff88;
+  background: rgba(0, 255, 136, 0.1);
+  transform: translateY(-2px);
+}
+ 
+/* .embassy-card {
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: 18px;
+  box-shadow: 0 0 25px rgba(0,0,0,0.7);
+} */
+
+.embassy-title {
+  color: #38BDF8;
+  font-weight: 600;
+}
+
+.embassy-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(56, 189, 248, 0.18);
+  border-radius: 14px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+}
+
+.embassy-label {
+  font-size: 16px;
+  color: #7dd3fc;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.embassy-value {
+  font-size: 18px;
+  color: #e5e7eb;
+  font-weight: 500;
+  word-break: break-word;
+}
+
+
 
 
     {/literal}
@@ -476,13 +590,17 @@
       </div>
              
         </div>
-        <div class="col-3">
-            <div class="card">
-                <div class="card-body px-3 py-1" style="height: 88vh;">
-                     <h3 style="color: #38BDF8;" class="pt-2 text-center">Elchixona Malumotlari</h3>
+       <div class="col-3">
+            <div class="card embassy-card">
+                <div class="card-body px-3 py-2" style="height: 88vh; overflow-y:auto;" id="about_embassy">
+                    <h3 class="pt-2 text-center embassy-title">🏛 Obyekt ma'lumotlari</h3>
+
+                    <!-- JS shu yerga to‘ldiradi -->
+                    <div id="embassy_content" class="mt-3"></div>
                 </div>
             </div>
         </div>
+
     </div>
 
     <div class="card" style="background-color: #26293D !important;" id="carCameraModal">
@@ -531,6 +649,16 @@
             </div>
         </div>
     </div>
+
+     <div class="card" style="background-color: #26293D !important;" id="staffInfoModal">
+       
+      <button type="button" class="btn close-staff-info" data-bs-dismiss="modal" aria-label="Close">×</button>
+
+        <div class="card-body text-center row justify-content-center">
+            
+        </div>
+    </div>
+
 
 </div>
 
@@ -628,33 +756,6 @@
             })
         }
 
-        //  function getElchixonalar() {
-              
-        //         $.ajax({
-        //             url: `ajax.php?act=get_embassy_map`,
-        //             type: 'GET',
-        //             dataType: 'json',
-        //             success: function (response) {
-        //             console.log(response);
-
-        //             response.forEach(m => {
-        //                 const marker = L.marker([m.lat, m.long], { icon: markerIcons[m.object_type] })
-        //                 .bindTooltip(m.object_name, {
-        //                     direction: 'top',
-        //                     offset: [0, -10],
-        //                     className: 'my-tooltip',
-        //                 });
-
-        //             },
-        //             error: function (xhr, status, error) {
-        //             console.error('AJAX error:', error);
-        //             }
-        //         });
-
-                
-        //         }
-
-
         getElchixonalar()
 
 
@@ -669,34 +770,22 @@
         
         // Pop up element maker
         function carPopUp(marker) {
-            console.log(marker);
+            console.log("carpopup", marker);
             let markerString = JSON.stringify(marker)
-            return ` <div class="row text-center">
-                        <div class="col-12">
-                        <h6 class="car-title">${marker.car_name}</h6>
+            return ` <div class="row text-center popup-container-box">
+                        <div class="col-12 img-popup">
+                           <img src='/pictures/embassy/${marker.photo}'>
                         </div>
-                        <div class="col-6">
-                        <h6 class="car-region">${marker.region}</h6>
+                         <div class="col-12 popup-text">
+                            <h3>${marker.object_name}</h3>
                         </div>
-                        <div class="col-6">
-                        <h6 class="car-plate">${marker.plate_number}</h6>
-                        </div>
-                        <div class="col-6">
-                        <h6 class="car-speed" id="popSpeed_${marker.id}">
-                            ${marker.speed} km/s
-                        </h6>
-                        </div>
-                        <div class="col-6">
-                        <h6 class="car-time" id="time_${marker.id}">
-                            ${marker.time}
-                        </h6>
-                        </div>
-
                         <hr class="my-0 hr-line" />
-
-                        <div class="col-4 mt-3">
-                        <h6 class="icon-btn" onclick="openBodyCam(${marker.car_id}, ${marker?.og_id})">
-                            <i class="ti ti-camera-selfie"></i>
+                        <div class="col-4 mt-3 popup-btn d-flex gap-2">
+                        <h6 class="icon-btn" onclick="openBodyCam(${marker.id})">
+                            <i class="ti ti-camera"></i>
+                        </h6>
+                        <h6 class="icon-btn" onclick='openStaffInfo(${marker.id})'>
+                            <i class="ti ti-users"></i>
                         </h6>
                         </div>
                     </div>`;
@@ -716,46 +805,70 @@
                 success: function(data) {                    
                     $("#total_thg").html(`(${data.length})`);
                     lastCarsPositions = data;
-                    $('#carList').empty();
-                    $('#searchCars').empty();
-                    $('#searchCars').append(`<option value="0">${dict_search}</option>`);
                     data.forEach((marker, index) => {
-                        $('#searchCars').append(`<option value="${marker.id}">${marker.plate_number}</option>`);
-                        $('#carList').append(`
-                            <tr class="cursor-pointer">
-                                <td style="width: 33%;" class="text-left" onclick="findCarOnMap(${marker.id})">${marker.plate_number}</td>
-                                <td style="width: 33%;">
-                                    <span class="badge rounded-pill bg-label-info text-warning" id="speed_${marker.id}">${marker.speed?marker.speed:0}</span> km/s
-                                </td>
-                                <td style="width: 33%;" id="status_${marker.car_id}">
-                                    <i class="text-${marker.speed > isOnOffSpeed ? 'success' : 'danger'} ti ti-video-plus"></i>
-                                </td>
-                            </tr>`
-                        );
                         const LamMarker = new L.marker([marker.lat ? marker.lat : 0 , marker.long ? marker.long : 0], {
                             icon: myIcon(marker),
                             id: marker.id,
                             type: 'car'
-                        });
-                        // LamMarker.setRotationAngle(marker.angle).bindPopup(carPopUp(marker));
-                      
+                        });              
                             LamMarker.setRotationAngle(marker.angle)
                             .bindPopup(carPopUp(marker))
                             .on("click", function () {
-
-                                console.log("Marker bosildi. ID:", marker.id);
-
-                                // Faqat marker id yuboramiz
-                                // let form_data = new FormData();
-                                // form_data.append('id', marker.id);
 
                                 $.ajax({
                                     url: `${AJAXPHP}?act=get_embassy_object_by_id&id=${ marker.id}`,
                                     type: 'GET',
                                     dataType: 'json',
                                     success: function(resdata) {
-                                       console.log("id bo'yicha: ", resdata)
+                                        console.log("id bo'yicha: ", resdata);
+
+                                        const obj = resdata.data.objects;
+                                        if (!obj) return;
+
+                                        let html = `
+                                            <div class="embassy-item">
+                                                <div class="embassy-label">Nomi</div>
+                                                <div class="embassy-value">${obj.name ?? '-'}</div>
+                                            </div>
+
+                                            <div class="embassy-item">
+                                                <div class="embassy-label">Manzil</div>
+                                                <div class="embassy-value">${obj.address ?? '-'}</div>
+                                            </div>
+
+                                            <div class="embassy-item">
+                                                <div class="embassy-label">Tuman</div>
+                                                <div class="embassy-value">${obj.district ?? '-'}</div>
+                                            </div>
+
+                                             <div class="embassy-item">
+                                                 <div class="embassy-label">Xududiy IIB</div>
+                                                 <div class="embassy-value">${obj.iiv_unit ?? '-'}</div>
+                                                 <div class="embassy-value">${obj.iiv_unit_phone ?? '-'}</div>
+                                            </div>
+
+                                            <div class="embassy-item">
+                                                <div class="embassy-label">Post telefon raqami</div>
+                                                <div class="embassy-value">${obj.post_phone ?? '-'}</div>
+                                            </div>
+
+                                            <div class="embassy-item">
+                                                <div class="embassy-label">Profilaktika inspektori</div>
+                                                <div class="embassy-value">${obj.iiv_inspector ?? '-'}</div>
+                                                 <div class="embassy-value">${obj.iiv_inspector_phone ?? '-'}</div>
+                                            </div>
+
+                                            <div class="embassy-item">
+                                                <div class="embassy-label">Koordinatalar</div>
+                                                <div class="embassy-value">
+                                                    📍 ${obj.lat}, ${obj.long}
+                                                </div>
+                                            </div>
+                                        `;
+
+                                        $('#embassy_content').html(html);
                                     }
+
                                 });
                             });
 
@@ -767,6 +880,39 @@
                 }
             })
         }
+
+          function openStaffInfo(car_id) {
+            $("#staffInfoModal").show();
+            arrangeWindow(1);
+            $.ajax({
+                type: "GET",
+                url: `ajax.php?act=get_embassy_object_by_id&id=${car_id}`,
+                dataType: "json",
+                encode: true,
+                success: function(data) {
+                $("#staffInfoModal .card-body").append(`
+                <div class="col-3 text-center">
+                    <div class="staff-photo-box">
+                        <img class="staff-photo2" src="/pictures/staffs/${data.data.objects?.structure_photo}" alt="">
+                    </div>
+
+                    <div class="staff-name2 mt-3">
+                        ${data.data.objects?.structure_id}
+                    </div>
+
+                    <a href="tel:${data.data.objects?.structure_phone}" class="staff-phone2 mt-2">
+                        📞 ${data.data.objects?.structure_phone}
+                    </a>
+                    </div>
+                `); 
+              }
+            })
+        }
+
+         $('.close-staff-info').click(function(e) {
+            $("#staffInfoModal").hide();
+   
+        })
         
 
     {/literal}
@@ -794,6 +940,8 @@
         $("#offline_bg").hide();
         $("#carCameraModal").hide();
         $jq2('#carCameraModal').draggable();
+        $("#staffInfoModal").hide();
+        $jq2('#staffInfoModal').draggable();
         $("#fixedModal").hide();
         // $jq2('#fixedModal').draggable();
         
@@ -822,25 +970,22 @@
         })
 
 
-        function openBodyCam(car_id, og_id) {
+        function openBodyCam(car_id) {
             $("#carCameraModal").show();
             arrangeWindow(1);
 
             $.ajax({
-                type: "POST",
-                url: `ajax.php?act=get_embassy_objects_id&id=6`,
+                type: "GET",
+                url: `ajax.php?act=get_embassy_object_by_id&id=${car_id}`,
                 dataType: "json",
                 encode: true,
                 success: function(data) {
-                    const isOnCam = data.cams.find(cam => cam.status == 1);
-                    $("#carCameraModal .card-header").empty();
-                    $("#carCameraModal .card-header").html(data.car.plate_number);
-                    $("#carCameraModal .radio_call").empty();
-                    $("#carCameraModal .radio_call").html(data.cams[0]?.comment);
+                    const isOnCam = data.data.cameras.find(cam => cam.status == 1);
                     if (isOnCam) {
                         $("#offline_bg").hide();
                         $("#playWind").show();
-                        play_camera(data.cams[0].url, 0);
+                        play_camera(data.data.cameras[0].url, 0);
+
                     } else {
                         $("#offline_bg").show();
                         $("#playWind").hide();
