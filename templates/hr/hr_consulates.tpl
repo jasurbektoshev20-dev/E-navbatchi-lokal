@@ -567,10 +567,9 @@
                                 <label for="objectTypeSelect" class="form-label text-warning fs-5">Тури</label>
                                 <select id="objectTypeSelect" class="form-select">
                                   <option value="">Танланг</option>
-                                  <option value="">Elchixonalar</option>
-                                  <option value="">Banklar</option>
-                                  <option value="">Vazirlik</option>
-                                  <option value="">Toifalangan obyektlar</option>
+                                  {foreach from=$ObjectTypes item=Item1 key=ikey1}
+                                  <option value="{$Item1.id}">{$Item1.name}</option>
+                                  {/foreach}
                                 </select>
                               </div>
 
