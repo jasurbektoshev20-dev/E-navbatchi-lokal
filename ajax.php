@@ -1674,7 +1674,8 @@ switch ($Action) {
 		$id = isset($_GET['id']) ? $_GET['id'] : 0;
 		$JtsObject = [];
 		$query  = "SELECT e.id,s.name{$slang} as structure,ot.name{$slang} as type_name,e.district,e.name,e.address,e.lat,e.long,e.photo,e.post_phone,
-		e.military_unit,e.military_unit_phone,e.iiv_inspector,e.iiv_inspector_phone,e.iiv_unit,iiv_unit_phone,CONCAT(r.name{$slang},st.lastname,' ',st.firstname,' ',st.surname) as responsible_name
+		e.military_unit,e.military_unit_phone,e.iiv_inspector,e.iiv_inspector_phone,e.iiv_unit,iiv_unit_phone,CONCAT(r.name{$slang},st.lastname,' ',st.firstname,' ',st.surname) as responsible_name,
+		st.phone as responsible_phone, st.photo as responsible_photo
 		FROM hr.embassy_objects e
 		left join ref.embassy_object_types ot on ot.id = e.type_id
 		left join hr.structure s on s.id = e.structure_id
