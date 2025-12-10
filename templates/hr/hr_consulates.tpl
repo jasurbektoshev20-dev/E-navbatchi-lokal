@@ -685,6 +685,9 @@
 
     {literal}
 
+      let urlParams = new URLSearchParams(window.location.search);
+
+
 
         document.getElementById("filterToggleBtn").addEventListener("click", function () {
             const panel = document.querySelector(".filter-mpg");
