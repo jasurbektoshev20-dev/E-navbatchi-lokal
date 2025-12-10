@@ -406,11 +406,15 @@
 
 #staffInfoModal {
     position: absolute;
-    width: 420px;
+    width: 320px;
     height:450px;
     right: 1.2vw;
     top: 0.7vh;
     z-index: 55555 !important;
+}
+
+#staffInfoModal .card-body{
+
 }
 
 .card-body .staff-photo-box {
@@ -704,6 +708,10 @@
         let lastCarsPositions;
         let allEmbassy = [];
 
+      let object_id = '' ;
+      let object_type = '';
+
+
         //Initialize map 
         map = L.map("map", {
             center: [41.6384327, 64.0202744],
@@ -721,9 +729,10 @@
 
         // Create custom icons for markers
         function myIcon(marker) {
+            console.log('fleg icon : ', marker)
             const unixtime = marker.unixtime;
              let myIcon = L.icon({
-            iconUrl: `/assets/images/german_flag.png`,
+            iconUrl: `/pictures/embassy/${marker.photo}`,
             iconSize:  [50, 50]
             });
            return myIcon;
@@ -734,29 +743,48 @@
         });
 
 
-        function getElchixonalar(){
-          $.ajax({
-                type: "GET",
-                url: `ajax.php?act=get_embassy_map&region=${region_id}`,
-                dataType: "json",
-                encode: true,
-                success: async function(data) {
-                    console.log("data elchi :" , data)
-                    lastCarsPositions = data;
-                    data.forEach((marker, index) => {
-                        const car = allEmbassy.find(car => car.options.id == marker.id);
-                        if (car) {
-                            car.setIcon(myIcon(marker));
-                            car.setLatLng([marker.lat ? marker.lat : 0 , marker.long ? marker.long : 0]).setRotationAngle(marker.angle);
-                        }
+       function getElchixonalar() {
+    $.ajax({
+        type: "GET",
+        url: "ajax.php",
+        data: {
+            act: 'get_embassy_map',
+            region: region_id || '',
+            object_type: object_type || '',
+            object_id: object_id || ''
+        },
+        dataType: "json",
+        success: function (data) {
+            console.log("data elchi :", data);
+            lastCarsPositions = data;
 
-                        $(`#speed_${marker.id}`).html(marker.speed);
-                        
-                        $(`#popSpeed_${marker.id}`).html(marker.speed + " km/s");
-                    })
-                }
-            })
+            // AVVAL eski markerlarni olib tashlaymiz
+            allEmbassy.forEach(m => m.remove());
+            allEmbassy = [];
+
+            // Keyin yangilarini qo‘shamiz
+            data.forEach((marker) => {
+                const LamMarker = new L.marker([
+                    marker.lat ? marker.lat : 0,
+                    marker.long ? marker.long : 0
+                ], {
+                    icon: myIcon(marker),
+                    id: marker.id,
+                    type: 'car'
+                });
+
+                LamMarker
+                    .setRotationAngle(marker.angle)
+                    .bindPopup(carPopUp(marker));
+
+                map.addLayer(LamMarker);
+                allEmbassy.push(LamMarker);
+            });
         }
+    });
+}
+
+
 
         getElchixonalar()
 
@@ -883,39 +911,92 @@
             })
         }
 
-          function openStaffInfo(car_id) {
-            $("#staffInfoModal").show();
-            arrangeWindow(1);
-            $.ajax({
-                type: "GET",
-                url: `ajax.php?act=get_embassy_object_by_id&id=${car_id}`,
-                dataType: "json",
-                encode: true,
-                success: function(data) {
-                $("#staffInfoModal .card-body").append(`
-                <div class="col-3 text-center">
-                    <div class="staff-photo-box">
-                        <img class="staff-photo2" src="/pictures/staffs/${data.data.objects?.responsible_photo}" alt="">
-                    </div>
+         function openStaffInfo(car_id) {
+                $("#staffInfoModal").show();
+                arrangeWindow(1);
 
-                    <div class="staff-name2 mt-3">
-                        ${data.data.objects?.responsible_name}
-                    </div>
+                const $body = $("#staffInfoModal .card-body");
 
-                    <a href="tel:${data.data.objects?.responsible_phone}" class="staff-phone2 mt-2">
-                        📞 ${data.data.objects?.responsible_phone}
-                    </a>
-                    </div>
-                `); 
-              }
-            })
-        }
+                // OLDINGI MA'LUMOTNI TOZALASH
+                $body.html('');
+
+                $.ajax({
+                    type: "GET",
+                    url: `ajax.php?act=get_embassy_object_by_id&id=${car_id}`,
+                    dataType: "json",
+                    success: function(data) {
+
+                        $body.append(`
+                            <div class="col-12 text-center">
+                                <div class="staff-photo-box">
+                                    <img class="staff-photo2" src="/pictures/staffs/${data.data.objects?.responsible_photo}" alt="">
+                                </div>
+
+                                <div class="staff-name2 mt-3">
+                                    ${data.data.objects?.responsible_name}
+                                </div>
+
+                                <a href="tel:${data.data.objects?.responsible_phone}" class="staff-phone2 mt-2">
+                                    📞 ${data.data.objects?.responsible_phone}
+                                </a>
+                            </div>
+                        `); 
+                    }
+                });
+            }
+
 
          $('.close-staff-info').click(function(e) {
             $("#staffInfoModal").hide();
    
         })
-        
+
+         if (urlParams.get('object_type')) {
+        if (urlParams.get('region_id')) {
+          $('#viloyatSelect')
+            .val(urlParams.get('region_id'))
+
+            $('#objectTypeSelect')
+            .val(urlParams.get('object_type'))
+
+          region_id = urlParams.get('region_id')
+          object_type = urlParams.get('object_type')
+          
+        }else{
+          $('#objectTypeSelect')
+          .val(urlParams.get('object_type'))
+
+          object_type = urlParams.get('object_type')
+        }
+
+        setTimeout(() => {
+          urlParams.set('region_id', '');
+          urlParams.set('object_type', '');
+          let newUrl = window.location.pathname + '?' + urlParams.toString();
+          window.history.replaceState({}, '', newUrl);
+        }, 2000);
+        getElchixonalar()
+      }else{
+        getElchixonalar()
+      }
+
+        $('#viloyatSelect').on('change', function() {
+            region_id = this.value;
+            getElchixonalar();
+            callEmbassy(region_id, in_service); // kerak bo‘lsa
+        });
+
+        $('#objectTypeSelect').on('change', function() {
+            object_type = this.value;
+            getElchixonalar();
+        });
+
+        $('#objectSelect').on('change', function() {
+            object_id = this.value;
+            getElchixonalar();
+        });
+
+                
 
     {/literal}
 </script>
