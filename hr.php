@@ -1549,7 +1549,37 @@ switch ($Act) {
 			'ObjectTypes' => $ObjectTypes,
 		));
 		break;	
+	
+	case hr_consulates:
+		$query  = "SELECT t.id, s.name{$slang} as structure, t.name, t.lat, t.long, t.post_phone, t.address, ot.name{$slang} as type_name
+		FROM hr.embassy_objects t
+		left join ref.embassy_object_types ot on ot.id  = t.type_id
+		left join hr.structure s on s.id  = t.structure_id
+		ORDER BY t.id ASC";
+		$sql->query($query);
+		$embassy_objects = $sql->fetchAll();
 
+		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t 
+		where t.id > 1 and t.id < 16
+		ORDER BY t.turn ASC";
+		$sql->query($query);
+		$Regions = $sql->fetchAll();
+
+		$query  = "SELECT t.id, t.name{$slang} as name FROM ref.embassy_object_types t ORDER BY t.id ASC";
+		$sql->query($query);
+		$ObjectTypes = $sql->fetchAll();
+
+		// echo '<pre>';
+		// print_r($embassy_objects);
+		// echo '</pre>';
+		// die();
+
+		$smarty->assign(array(
+			'embassy_objects' => $embassy_objects,
+			'Regions' => $Regions,
+			'ObjectTypes' => $ObjectTypes,
+		));
+		break;	
 	
 
 
