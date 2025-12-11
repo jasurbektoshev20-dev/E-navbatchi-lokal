@@ -64,19 +64,21 @@
                                     <td class="text-center">{$item.type_name}</td>
                                     {* <td class="text-center">{$item.lat}</td>
                                     <td class="text-center">{$item.long}</td> *}
-                                    <td class="text-center">
-                                         <a href="hr.php?act=categorized_object_detail&mid={$item.id}">
-                                             <i class="ti ti-camera me-1"></i> 
+                                  <td class="text-center">
+                                        <a href="hr.php?act=categorized_object_detail&mid={$item.id}">
+                                            <i class="ti ti-file-description me-1" style="font-size: 28px;"></i>
                                         </a>
                                     </td>
+
                                     <td class="text-center">
-                                      <a href="hr.php?act=categorized_object_camera&mid={$item.id}">
-                                           <i class="ti ti-camera me-1"></i> 
+                                        <a href="hr.php?act=categorized_object_camera&mid={$item.id}">
+                                            <i class="ti ti-camera me-1" style="font-size: 28px;"></i>
                                         </a>
-                                   </td>
+                                    </td>
+
                                     <td class="text-center">
-                                       <a href="hr.php?act=categorized_object_responsible&mid={$item.id}">
-                                          <i class="ti ti-camera me-1"></i> 
+                                        <a href="hr.php?act=categorized_object_responsible&mid={$item.id}">
+                                            <i class="ti ti-user-shield me-1" style="font-size: 28px;"></i>
                                         </a>
                                     </td>
                                     <td>
@@ -163,7 +165,7 @@
 
                           <div class="col-sm-4">
                             <label>Пост телефон рақами</label>
-                            <input required type="text" class="form-control" name="post_phone" id="post_phone" value="">
+                            <input required type="text" class="form-control phone-mask" name="post_phone" id="post_phone" value="">
                         </div>
 
                         <div class="col-sm-4">
@@ -185,7 +187,7 @@
 
                          <div class="col-sm-4">
                             <label>Бўлинма телефон рақами</label>
-                            <input required type="number" class="form-control" name="structure_phone" id="structure_phone" value="">
+                            <input required type="text" class="form-control phone-mask" name="structure_phone" id="structure_phone" value="">
                         </div>
 
                           <div class="col-sm-4">
@@ -195,7 +197,7 @@
 
                         <div class="col-sm-4">
                             <label>Телефон рақами</label>
-                            <input required type="number" class="form-control" name="inspector_phone" id="inspector_phone" value="">
+                            <input required type="text" class="form-control phone-mask" name="inspector_phone" id="inspector_phone" value="">
                         </div>
                     
                         <div class="col-sm-4">
@@ -205,7 +207,7 @@
 
                         <div class="col-sm-4">
                             <label>Телефон рақами</label>
-                            <input required type="number" class="form-control" name="iib_phone" id="iib_phone" value="">
+                            <input required type="text" class="form-control phone-mask" name="iib_phone" id="iib_phone" value="">
                         </div>
                         <div class="col-12">
                             <label class="form-label">{$Dict.choose_file}</label>
@@ -275,6 +277,16 @@
             });
         }
 
+        document.querySelectorAll('.phone-mask').forEach(input => {
+            const mask = IMask(input, {
+                mask: '+998 00 000-00-00'
+            });
+
+            // default holatda +998 turishi uchun
+            mask.value = '+998 ';
+        });
+
+
         $('.datatables-projects tbody').on('click', '.editAction', function() {
             $('#submitModal').modal('toggle');
             var RowId = $(this).attr('rel');
@@ -283,21 +295,21 @@
                 var sInfo = jQuery.parseJSON(html);
 
                 $('#district').val(sInfo.district);
-                $('#obj_lat').val(sInfo.obj_lat);
-                $('#obj_long').val(sInfo.obj_long);
-                $('#obj_name').val(sInfo.obj_name);
-                $('#obj_type').val(sInfo.obj_type);
+                $('#obj_lat').val(sInfo.lat);
+                $('#obj_long').val(sInfo.long);
+                $('#obj_name').val(sInfo.name);
+                $('#obj_type').val(sInfo.type_id);
                 $('#obj_type').trigger("change");
                 $('#structure_id').val(sInfo.structure_id).trigger("change");
                 $('#responsible_id').val(sInfo.responsible_id);
                 $('#responsible_id').trigger("change");
                 $('#post_phone').val(sInfo.post_phone);
-                $('#obj_address').val(sInfo.obj_address);
-                $('#structure_phone').val(sInfo.structure_phone);
-                $('#prevention_inspector').val(sInfo.prevention_inspector);
-                $('#inspector_phone').val(sInfo.inspector_phone);
-                $('#territorial_iib').val(sInfo.territorial_iib);
-                $('#iib_phone').val(sInfo.iib_phone);
+                $('#obj_address').val(sInfo.address);
+                $('#structure_phone').val(sInfo.military_unit_phone);
+                $('#prevention_inspector').val(sInfo.iiv_inspector);
+                $('#inspector_phone').val(sInfo.iiv_inspector_phone);
+                $('#territorial_iib').val(sInfo.iiv_unit);
+                $('#iib_phone').val(sInfo.iiv_unit_phone);
                 $('#photo').val(sInfo.photo);
                 $('#id').val(sInfo.id);
             });
