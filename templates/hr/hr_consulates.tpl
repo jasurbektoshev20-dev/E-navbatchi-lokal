@@ -596,7 +596,7 @@
        <div class="col-3">
             <div class="card embassy-card">
                 <div class="card-body px-3 py-2" style="height: 88vh; overflow-y:auto;" id="about_embassy">
-                    <h3 class="pt-2 text-center embassy-title">🏛 Obyekt ma'lumotlari</h3>
+                    <h3 class="pt-2 text-center embassy-title">🏛 Объект малумотлари</h3>
 
                     <!-- JS shu yerga to‘ldiradi -->
                     <div id="embassy_content" class="mt-3"></div>
@@ -857,39 +857,39 @@
 
                                         let html = `
                                             <div class="embassy-item">
-                                                <div class="embassy-label">Nomi</div>
+                                                <div class="embassy-label">Номи</div>
                                                 <div class="embassy-value">${obj.name ?? '-'}</div>
                                             </div>
 
                                             <div class="embassy-item">
-                                                <div class="embassy-label">Manzil</div>
+                                                <div class="embassy-label">Манзил</div>
                                                 <div class="embassy-value">${obj.address ?? '-'}</div>
                                             </div>
 
                                             <div class="embassy-item">
-                                                <div class="embassy-label">Tuman</div>
+                                                <div class="embassy-label">Туман</div>
                                                 <div class="embassy-value">${obj.district ?? '-'}</div>
                                             </div>
 
                                              <div class="embassy-item">
-                                                 <div class="embassy-label">Xududiy IIB</div>
+                                                 <div class="embassy-label">Худудий ИИБ</div>
                                                  <div class="embassy-value">${obj.iiv_unit ?? '-'}</div>
                                                  <div class="embassy-value">${obj.iiv_unit_phone ?? '-'}</div>
                                             </div>
 
                                             <div class="embassy-item">
-                                                <div class="embassy-label">Post telefon raqami</div>
+                                                <div class="embassy-label">Пост телефон рақами</div>
                                                 <div class="embassy-value">${obj.post_phone ?? '-'}</div>
                                             </div>
 
                                             <div class="embassy-item">
-                                                <div class="embassy-label">Profilaktika inspektori</div>
+                                                <div class="embassy-label">Профилактика инспектори</div>
                                                 <div class="embassy-value">${obj.iiv_inspector ?? '-'}</div>
                                                  <div class="embassy-value">${obj.iiv_inspector_phone ?? '-'}</div>
                                             </div>
 
                                             <div class="embassy-item">
-                                                <div class="embassy-label">Koordinatalar</div>
+                                                <div class="embassy-label">Координаталар</div>
                                                 <div class="embassy-value">
                                                     📍 ${obj.lat}, ${obj.long}
                                                 </div>

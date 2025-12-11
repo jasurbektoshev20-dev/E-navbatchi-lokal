@@ -5,8 +5,8 @@
         .table thead th,
         .table tbody td {
             text-transform: none !important;
+            font-size: 16px;
         }
-
         .dt-buttons {
             gap: 10px;
             margin-left: 20px;
@@ -20,7 +20,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body d-flex" style="justify-content: space-between;">
-                    <h4>{$ThisMenu.name}</h4>
+                    <h4>Жавобгар шахс</h4>
                     <button id="new" type="button" class="btn btn-primary waves-effect waves-light"
                         data-bs-toggle="submitModal" data-bs-target="#modal">
                         <i class="menu-icon tf-icons ti ti-plus"></i>{$Dict.adding}
@@ -49,9 +49,9 @@
                             {foreach from=$duty_embassy item=Table key=tkey}
                                 <tr class="lb" id="row_{$Table.id|crypt}">
                                     <td class="text-right">{$tkey+1}</td>
-                                    <td>{$Table.date}</td> 
-                                    <td>{$Table.structure_name}</td>
-                                     <td>{$Table.staff_name}</td>
+                                    <td class="text-center">{$Table.date}</td> 
+                                    <td class="text-center">{$Table.structure_name}</td>
+                                    <td class="text-center">{$Table.staff_name}</td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -76,6 +76,14 @@
             </div>
         </div>
         <!--/ Projects table -->
+    </div>
+        <div class="row">
+        <div class="col-12 mt-3">
+            <button type="button" class="btn btn-primary waves-effect waves-light" onclick="window.history.back()"
+            >
+                Ортга
+            </button>
+        </div>
     </div>
 </div>
 
