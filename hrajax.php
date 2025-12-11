@@ -3367,7 +3367,7 @@ case "get_event_duty":
         break;
 
     case "act_criminals":
-        $RowId = (!empty($_POST['id'])) ? MyPiDeCrypt($_POST['id']) : 0;
+        $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
         $region_id = $_POST['region_id'];
         $violation_id = $_POST['violation_id'];
         $count = $_POST['count'];
@@ -3454,7 +3454,7 @@ case "get_event_duty":
         $count = $_POST['count'];
         $date = $_POST['date'];
 
-        
+
         if ($RowId != "0") {
             // Update existing record
             $updquery = "UPDATE tur.administrativ SET
