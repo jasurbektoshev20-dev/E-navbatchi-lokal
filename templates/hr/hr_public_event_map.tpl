@@ -1628,7 +1628,7 @@
         </div>
         <div class="passport-li-about">
           <h6>Сиғими:</h6>
-          <p>${params?.sigimi ?? '0'} та</p>
+          <p>${params?.capacity ?? '0'} та</p>
         </div>
       </li>
 
@@ -1694,7 +1694,7 @@
                 </div>
                 <div class="passport-li-about">
                   <h6>ФВВ</h6>
-                  <p><a href="tel:${params?.event?.fvv_phone}">${params?.event?.fvv_phone ?? 'киритилмаган'}</a></p>
+                  <p><a href="tel:${params?.event?.head_fvv_phone}">${params?.event?.head_fvv_phone ?? 'киритилмаган'}</a></p>
                 </div>
               </li>
           </ul>
@@ -1875,7 +1875,7 @@
             </li>
             <li class="alert alert-dark m-0" role="alert">
                   <i class="duty-icon bi bi-person-walking"></i>
-                  МГ сони: <span>${params?.mg_count} та</span>
+                  МГ сони: <span>${params?.mg_counts} та</span>
             </li>
             <li class="alert alert-dark m-0" role="alert">
                   <i class="duty-icon bi bi-bell-fill"></i>
@@ -1910,7 +1910,7 @@
             </li>
             <li class="alert alert-dark m-0" role="alert">
                   <i class="duty-icon bi bi-person-walking"></i>
-                  МГ МСГР сони: <span>${params?.mg_count  ?? '0'} та</span>
+                  МГ МСГР сони: <span>${params?.sapyor_count  ?? '0'} та</span>
             </li>
 
               <li class="alert alert-dark m-0" role="alert">
@@ -1923,7 +1923,7 @@
             </li>
             <li class="alert alert-dark m-0" role="alert">
                    <i class="duty-icon bi bi-person-walking"></i>
-                   Жанговар экипаж сони: <span>${params?.vehicle_count ?? '0'} та</span>
+                   Жанговар экипаж сони: <span>${params?.tracks?.length ?? '0'} та</span>
              </li>
          </ul>
         `

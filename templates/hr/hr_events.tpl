@@ -44,7 +44,7 @@
                                 <th class="text-center">Ҳудуд</th>
                                 <th class="text-center">Жойи</th>
                                 <th class="text-center">Тури</th>
-                                <th class="text-center">Toifasi</th>
+                                <th class="text-center">Тоифаси</th>
                                 <th class="text-center">Номи</th>
                                 <th class="text-center">Йўналиши</th>
                                 <th class="text-center">Кўриниши</th>
@@ -54,8 +54,8 @@
                                 <th class="text-center">Тадбирга масъул ташкилот</th>
                                 <th class="text-center">Масъул ФИШ</th>
                                 <th class="text-center">Телефон</th>
-                                <th class="text-center">MG javobgar</th>
-                                <th class="text-center">MG soni</th>
+                                <th class="text-center">МГ жавобгар</th>
+                                <th class="text-center">МГ сони</th>
                                 <th class="text-center">ИИВ масъул ФИШ</th>
                                 <th class="text-center">ИИВ ҲХ сони</th>
                                 <th class="text-center">ФВВ масъул ФИШ</th>
@@ -174,7 +174,7 @@
                         </div>
 
                         <div class="col-sm-4">
-                            <label>Тадбир toifasi</label>
+                            <label>Тадбир Тоифаси</label>
                             <select required class="select form-control" name="event_category" id="event_category">
                                 <option value="">{$Dict.choose}</option>
                                 {foreach from=$EventCategory item=Item1 key=ikey1}
