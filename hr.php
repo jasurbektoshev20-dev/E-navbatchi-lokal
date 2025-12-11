@@ -1580,6 +1580,71 @@ switch ($Act) {
 			'ObjectTypes' => $ObjectTypes,
 		));
 		break;	
+
+
+	case "hr_administrative_offenses":
+		$query  = "SELECT t.id, s.name{$slang} as structure_name,ot.name{$slang} as type_name,
+		t.date,t.count FROM tur.administrativ t
+		left join tur.administrativ_types ot on ot.id  = t.violation_id
+		left join hr.structure s on s.id  = t.region_id
+		ORDER BY t.id ASC";
+		$sql->query($query);
+		$violations = $sql->fetchAll();
+
+		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t 
+		where t.id > 1 and t.id < 16
+		ORDER BY t.turn ASC";
+		$sql->query($query);
+		$Regions = $sql->fetchAll();
+
+		$query  = "SELECT t.id, t.name{$slang} as name FROM tur.administrativ_types t ORDER BY t.id ASC";
+		$sql->query($query);
+		$Types = $sql->fetchAll();
+
+		// echo '<pre>';
+		// print_r($violations);
+		// echo '</pre>';
+		// die();
+
+		$smarty->assign(array(
+			'violations' => $violations,
+			'Regions' => $Regions,
+			'Types' => $Types,
+		));
+		break;	
+		
+		
+
+	case "hr_crimes":
+		$query  = "SELECT t.id, s.name{$slang} as structure_name,ot.name{$slang} as type_name,
+		t.date,t.count FROM tur.criminals t
+		left join tur.criminals_types ot on ot.id  = t.violation_id
+		left join hr.structure s on s.id  = t.region_id
+		ORDER BY t.id ASC";
+		$sql->query($query);
+		$violations = $sql->fetchAll();
+
+		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t 
+		where t.id > 1 and t.id < 16
+		ORDER BY t.turn ASC";
+		$sql->query($query);
+		$Regions = $sql->fetchAll();
+
+		$query  = "SELECT t.id, t.name{$slang} as name FROM tur.criminals_types t ORDER BY t.id ASC";
+		$sql->query($query);
+		$Types = $sql->fetchAll();
+
+		// echo '<pre>';
+		// print_r($violations);
+		// echo '</pre>';
+		// die();
+
+		$smarty->assign(array(
+			'violations' => $violations,
+			'Regions' => $Regions,
+			'Types' => $Types,
+		));
+		break;	
 	
 
 
