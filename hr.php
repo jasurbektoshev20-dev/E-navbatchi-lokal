@@ -1550,7 +1550,7 @@ switch ($Act) {
 		));
 		break;	
 	
-	case hr_consulates:
+	case "hr_consulates":
 		$query  = "SELECT t.id, s.name{$slang} as structure, t.name, t.lat, t.long, t.post_phone, t.address, ot.name{$slang} as type_name
 		FROM hr.embassy_objects t
 		left join ref.embassy_object_types ot on ot.id  = t.type_id

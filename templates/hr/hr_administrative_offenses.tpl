@@ -41,18 +41,10 @@
                         <thead>
                             <tr>
                                 <th>No̱</th>
-                                <th class="text-center">Ҳудуд</th>
-                                <th class="text-center">Бўлинма</th>
-                                <th class="text-center">{$Dict.masul}</th>
+                                <th class="text-center">Ҳудуд</th>  
                                 <th class="text-center">{$Dict.date}</th>
-                                <th class="text-center">Протокол рақами</th>
-                                <th class="text-center">Жиноят тури</th>
                                 <th class="text-center">Модда</th>
-                                <th class="text-center">{$Dict.photo}</th>
-                                <th class="text-center">Жиноятчи ЖШШИР</th>
-                                <th class="text-center">Жиноятчи ФИШ</th>
-                                <th class="text-center">Телефон рақами</th>
-                                <th class="text-center">Холат ҳақида қисқача</th>
+                                <th class="text-center">Soni</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -61,23 +53,9 @@
                                 <tr class="lb" id="row_{$Table.id|crypt}">
                                     <td class="text-right">{$tkey+1}</td>
                                     <td>{$Table.region_id}</td>
-                                    <td>{$Table.structure_id}</td>
-                                     <td>{$Table.responsible_id}</td> 
                                      <td>{$Table.date}</td> 
-                                     <td>{$Table.protocol_number}</td> 
-                                     <td>{$Table.crime_type}</td> 
-                                     <td>{$Table.substance}</td> 
-                                     <td class="text-center">
-                                        {if $Table.photo neq ""}
-                                            <img src="/pictures/staffs/{$Table.photo}" height="50" class="Thumb">
-                                        {else}
-                                            <img src="/assets/images/nophoto2.png" height="28" class="Thumb">
-                                        {/if}
-                                     </td>
-                                     <td>{$Table.personal_identification_num}</td>
-                                    <td>{$Table.criminal_username}</td>
-                                    <td>{$Table.phone}</td>
-                                    <td>{$Table.situation_text}</td>
+                                    <td>{$Table.substance}</td> 
+                                    <td>{$Table.crime_count}</td>                       
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -114,7 +92,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <form class="needs-validation" novalidate>
                     <div class="row g-3">
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <label>{$Dict.region}</label>
                             <select required class="select form-control" name="region_id" id="region_id">
                                 <option value="">{$Dict.choose}</option>
@@ -123,39 +101,7 @@
                                 {/foreach}
                             </select>
                         </div>
-                      <div class="col-sm-4">
-                            <label>Ҳудудий бўлинмалар</label>
-                            <select required class="select form-control" name="structure_id" id="structure_id">
-                                <option value="">{$Dict.choose}</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-4">
-                            <label>{$Dict.masul}</label>
-                            <select required class="select form-control" name="responsible_id" id="responsible_id">
-                                <option value="">{$Dict.choose}</option>
-                                {foreach from=$Roles item=Item6 key=ikey6}
-                                    <option value="{$Item6.id}">{$Item6.name}</option>
-                                {/foreach}
-                            </select>
-                         </div>
-                         <div class="col-sm-4">
-                            <label for="event_date" class="form-label">Бошланиш вақти</label>
-                            <input type="datetime" class="form-control" placeholder="DD-MM-YYYY" id="event_date"
-                                name="event_date" />
-                         </div>
-                      <div class="col-sm-4">
-                            <label>Протокол рақами</label>
-                            <input required type="number" class="form-control" name="protocol_number" id="protocol_number" value="">
-                        </div>
-                        <div class="col-sm-4">
-                            <label>Жиноят тури</label>
-                            <select required class="select form-control" name="crime_type" id="crime_type">
-                                <option value="">{$Dict.choose}</option>
-                                    <option value="o'g'rilik">O'g'rilik</option>
-                                    <option value="janjal">janjal</option>
-                            </select>
-                        </div> 
-                          <div class="col-sm-4">
+                          <div class="col-sm-6">
                             <label>Моддаси</label>
                             <select required class="select form-control" name="substance" id="substance">
                                 <option value="">{$Dict.choose}</option>
@@ -163,35 +109,17 @@
                                     <option value="256-modda">256-modda</option>
                             </select>
                         </div> 
-                         <div class="col-sm-4">
-                            <label>Жиноятчи ЖШШИР</label>
-                            <input required type="number" class="form-control" maxlength="14" name="personal_identification_num" id="personal_identification_num" value="">
-                        </div>
-                         <div class="col-sm-4">
-                            <label>Жиноятчи ФИШ</label>
-                            <input required type="text" class="form-control" name="criminal_username" id="criminal_username" value="">
-                        </div>
-                          <div class="col-sm-6">
-                            <label>Телефон рақами</label>
-                            <input required type="text" class="form-control" name="phone" id="phone" value="">
-                        </div>
                          <div class="col-sm-6">
-                            <label>{$Dict.case_summary}</label>
-                            <textarea required class="form-control" rows=3 name="situation_text" id="situation_text"></textarea>
+                            <label>Soni</label>
+                            <input required type="number" class="form-control" name="crime_count" id="crime_count" value="">
                         </div>
-                        <div class="col-sm-12">
-                            <label class="form-label">{$Dict.choose_file}</label>
-                            <div action="/upload" class="dropzone needsclick" id="staff-photo">
-                                <div class="dz-message needsclick">
-                                    {$Dict.drop_file}
-                                </div>
-                                <div class="fallback">
-                                    <input name="file" type="file" />
-                                </div>
-                            </div>
-                        </div>
-                       
-                      
+
+                        <div class="col-sm-6">
+                            <label for="event_date" class="form-label">Бошланиш вақти</label>
+                            <input type="datetime" class="form-control" placeholder="DD-MM-YYYY" id="event_date"
+                                name="event_date" />
+                         </div>
+                     
                         <div class="col-12 text-center">
                             <input type="hidden" name="id" id="id" value="">
                             <input type="hidden" name="photo" id="photo" value="">
@@ -238,74 +166,31 @@
     var dict_choose = "{$Dict.choose}";
     {literal}
 
-        const phoneInput = document.getElementById('phone');
-
-        const phoneMask = IMask(phoneInput, {
-            mask: '+998 00 000-00-00'
-        });
-
-        // 🔥 Default holatda +998 turadi
-        phoneMask.value = '+998 ';
-
-     const flatpickrDate = document.querySelector('#event_date');
+           const flatpickrDate = document.querySelector('#event_date');
         if (flatpickrDate) {
             flatpickrDate.flatpickr({
             enableTime: true,
-            dateFormat: "d-m-Y H:i",
-            time_24hr: true,
+            dateFormat: "d-m-Y",
+            // time_24hr: true,
             monthSelectorType: 'static'
             });
         }
 
         let event_date;
         $('#event_date').on('change', function() {
-            let [datePart, timePart] = this.value.split(' ');
             let [day, month, year] = datePart.split('-');
-
-            event_date = `${year}-${month}-${day} ${timePart}`;
+            event_date = `${year}-${month}-${day}`;
         })
-
-        $('#region_id').change(function(event) {
-            $.get("ajax.php?act=get_divisions&structure_id=" + this.value, function(html) {
-                var sInfo = jQuery.parseJSON(html);
-                $('#structure_id').empty();
-                $('#structure_id').append(`<option value="">Tanlang</option>`);
-                sInfo.forEach((item, index) => {
-                    $('#structure_id').append(`<option value="${item.id}">${item.name}</option>`);
-                });
-            });
-        });
-
-        var dt_basic_table = $('.datatables-projects'),
-            dt_basic;
-
-        // DataTable with buttons
-        if (dt_basic_table.length) {
-            dt_basic = dt_basic_table.DataTable({
-                displayLength: 10,
-                lengthMenu: [5, 10, 25, 50, 75, 100, 1000]
-            });
-        }
 
 
         $('#new').click(function() {
             $('#submitModal').modal('toggle');
             $('#region_id').val(0);
             $('#region_id').trigger("change");
-            $('#structure_id').val(0);
-            $('#structure_id').trigger("change");
-             $('#responsible_id').val(0);
-            $('#responsible_id').trigger("change");
-              $('#substance').val(0);
+            $('#substance').val(0);
             $('#substance').trigger("change");
-              $('#crime_type').val(0);
-            $('#crime_type').trigger("change");
+            $('#crime_count').val("");
             $('#event_date').val("");
-            $('#personal_identification_num').val("");
-            $('#situation_text').val("");
-            $('#criminal_username').val("");
-            $('#protocol_number').val("");
-            $('#phone').val("");
         });
 
         $('.datatables-projects tbody').on('click', '.editAction', function() {
@@ -314,52 +199,14 @@
             var RowId = $(this).attr('rel');
             $.get("hrajax.php?act=get_staffs&rowid=" + RowId, function(html) {
                 var sInfo = jQuery.parseJSON(html);
-
                 $('#id').val(sInfo.id);
                 $('#region_id').val(sInfo.structure_id);
-                $('#structure_id').val(sInfo.structure_id);
-                $('#responsible_id').val(sInfo.responsible_id);
                 $('#substance').val(sInfo.substance);
-                $('#crime_type').val(sInfo.crime_type);
+                $('#crime_count').val(sInfo.crime_count);
                 $('#event_date').val(sInfo.event_date);
-                $('#personal_identification_num').val(sInfo.personal_identification_num);
-                $('#situation_text').val(sInfo.situation_text);
-                $('#criminal_username').val(sInfo.criminal_username);
-                $('#protocol_number').val(sInfo.protocol_number);
-                $('#phone').val(sInfo.phone);
-                $('#photo').val(sInfo.photo);
             });
         })
 
-
-        const previewTemplate = `
-            <div class="dz-preview dz-file-preview">
-                <div class="dz-details">
-                    <div class="dz-thumbnail">
-                        <img data-dz-thumbnail>
-                        <span class="dz-nopreview">No preview</span>
-                        <div class="dz-success-mark"></div>
-                        <div class="dz-error-mark"></div>
-                        <div class="dz-error-message"><span data-dz-errormessage></span></div>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuemin="0" aria-valuemax="100" data-dz-uploadprogress></div>
-                        </div>
-                    </div>
-                    <div class="dz-filename" data-dz-name></div>
-                    <div class="dz-size" data-dz-size></div>
-                </div>
-            </div>
-        `;
-
-        const dropzoneBasic = document.querySelector('#staff-photo');
-        var myDropzone = new Dropzone(dropzoneBasic, {
-            previewTemplate: previewTemplate,
-            parallelUploads: 1,
-            maxFilesize: 5000,
-            addRemoveLinks: true,
-            maxFiles: 1,
-            acceptedFiles: 'image/*',
-        });
 
         // Form validation and submit
         const bsValidationForms = $('.needs-validation');
@@ -371,30 +218,10 @@
 
                     var form_data = new FormData();
                     form_data.append('id', $('#id').val());
-                    
-                    if ($('#structure_id').val() == 0) {
-                        form_data.append('structure_id', $('#region_id').val());
-                    } else {
-                        form_data.append('structure_id', $('#structure_id').val() || $('#region_id').val());
-                    }
-                    form_data.append('responsible_id', $('#responsible_id').val());
+                    form_data.append('region_id', $('#region_id').val());
                     form_data.append('substance', $('#substance').val());
-                    form_data.append('crime_type', $('#crime_type').val());
+                    form_data.append('crime_count', $('#crime_count').val());
                     form_data.append('event_date', $('#event_date').val());
-                    form_data.append('personal_identification_num', $('#personal_identification_num').val());
-                    form_data.append('situation_text', $('#situation_text').val());
-                    form_data.append('criminal_username', $('#criminal_username').val());
-                    form_data.append('protocol_number', $('#protocol_number').val());
-                    form_data.append('phone', $('#phone').val());
-
-                    if (myDropzone.files.length > 0) {
-                        myDropzone.files.forEach(function(file, index) {
-                            form_data.append('photo', file);
-                        });
-                    } else {
-                        form_data.append('photo', $('#photo').val());
-                    }
-
                     $.ajax({
                         url: 'hrajax.php?act=act_staffs',
                         dataType: 'text',
@@ -404,7 +231,6 @@
                         data: form_data,
                         type: 'post',
                         success: function(resdata) {
-                            //console.log(resdata);
                             var NewArray = resdata.split("<&sep&>");
                             if (NewArray[0] == 0) {
                                 location.reload();
