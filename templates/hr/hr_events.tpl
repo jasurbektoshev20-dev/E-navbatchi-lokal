@@ -122,8 +122,6 @@
                                     </td>
                                 </tr>
                             {/foreach}
-
-
                         </tbody>
                     </table>
                 </div>
@@ -439,7 +437,7 @@
                 $('#region_id').val(sInfo.region_id);
                 $('#object_id').val(sInfo.object_id);
                 $('#event_type').val(sInfo.event_type);
-                $('#event_category').val(sInfo.event_category);
+                $('#event_category').val(sInfo.event_category_id);
                 $('#event_direction').val(sInfo.event_direction);
                 $('#event_view').val(sInfo.event_view);
                 $('#event_responsible_organization').val(sInfo.event_responsible_organization);
@@ -457,7 +455,7 @@
                 $('#responsible_phone').val(sInfo.responsible_phone);
                 $('#responsible_iiv_name').val(sInfo.responsible_iiv_name);
                 $('#responsible_mg_name').val(sInfo.responsible_mg_name);
-                $('#event_number_mg').val(sInfo.event_number_mg);
+                $('#event_number_mg').val(sInfo.mg_counts);
                 $('#responsible_msgr_name').val(sInfo.responsible_msgr_name);
                 $('#reserve_count').val(sInfo.reserve_count);
                 $('#reserve_name').val(sInfo.reserve_name);
@@ -467,7 +465,7 @@
                 $('#event_participants').val(sInfo.people_count);
                 $('#event_number_iiv').val(sInfo.iiv_count);
                 $('#event_number_fvv').val(sInfo.fvv_count);
-                $('#mg_count').val(sInfo.mg_count);
+                $('#mg_count').val(sInfo.sapyor_count);
                 $('#event_number_spring').val(sInfo.spring_count);
                 $('#id').val(sInfo.id);
             });
