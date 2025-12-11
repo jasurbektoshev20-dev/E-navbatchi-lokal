@@ -1084,7 +1084,8 @@
              
               marker.on('click', function() {
                 document.getElementById('markerModalTitle').innerText = m.object_name;
-                
+                $("#markerModal").modal("show");
+              
 
                 $.ajax({
                   url: `${AJAXPHP}?act=get_public_events_by_id&id=${m.id}`,
@@ -1094,7 +1095,7 @@
                     console.log(response);
                     if (!response) return
 
-                    $("#markerModal").modal("show");
+                    // $("#markerModal").modal("show");
 
                     renderDialogMap(response?.data, response?.cameras)
                     renderPassportDetails(response?.data)

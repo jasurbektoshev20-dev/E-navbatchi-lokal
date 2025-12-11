@@ -1775,7 +1775,7 @@
 
         marker.on('click', function () {
           document.getElementById('markerModalTitle').innerText = m.object_name;
-
+          $("#markerModal").modal("show");
           $.ajax({
             url: `${AJAXPHP}?act=get_jts_object_by_id&id=${m.id}`,
             type: 'GET',
@@ -1783,7 +1783,7 @@
             success: function (response) {
               if (!response) return;
 
-              $("#markerModal").modal("show");
+              // $("#markerModal").modal("show");
 
               renderDialogMap(response?.data, response?.cameras);
               renderPassportDetails(response?.data);
@@ -3649,7 +3649,7 @@ map.on('load', () => {
 
 
 
-        // tugma bosilganda modal oyna ochilishi
+        // // tugma bosilganda modal oyna ochilishi
         $(document).on('click', '#show_car_history', function () {
 
             selectedCarId = "01-226-PSF";
@@ -3978,7 +3978,6 @@ map.on('load', () => {
         
         // Pop up element maker
         function carPopUp(marker) {
-            console.log(marker);
             let markerString = JSON.stringify(marker)
             return ` <div class="row text-center">
                         <div class="col-12">
@@ -4014,7 +4013,7 @@ map.on('load', () => {
                         </h6>
                         </div>
                         <div class="col-4 mt-3">
-                        <h6 class="icon-btn" id="show_car_history">
+                        <h6 class="icon-btn" onclick='showCarHistory(${markerString})'>
                             <i class="ti ti-map"></i>
                         </h6>
                         </div>
@@ -4300,6 +4299,12 @@ map.on('load', () => {
                 }
             })
         }
+
+        function showCarHistory(id) {
+            console.log("History bosildi! Car ID:", id);
+            $('#historyModal').modal('show');
+        }
+
 
 
 
