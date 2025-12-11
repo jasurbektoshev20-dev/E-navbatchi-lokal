@@ -2077,11 +2077,7 @@ map.on('load', () => {
                 ${camera.staff_phone || ''}
               </a>
             </div><br>
-            <div class="mt-2 staff-cal-word">
-              <i class="bi bi-shield-lock-fill text-warning me-1 cursor-pointer" id="cal-word-id"></i>
-              <span class="cal-word hidden">${camera.staff_sname}</span>
-            </div>
-            <div class="d-flex align-items-center justify-content-center">
+            <div class="d-flex align-items-center justify-content-center mt-2">
               <button
                 class="btn mt-2 px-4 py-2 popup-body-camera-btn view-camera-btn"
                 data-id="${camera.id}"
@@ -2736,16 +2732,6 @@ map.on('load', () => {
                         <h6>Телефон рақами:</h6>
                         <p>
                           <a href="tel:${params?.responsible_phone}">${params?.responsible_phone}</a>
-                        </p>
-                      </div>
-                    </li>
-                       <li>
-                      <div class="passport-icon">
-                        <i class="bi bi-shield-lock-fill" id="responsible-key-icon"></i>
-                      </div>
-                      <div class="passport-li-about">
-                        <p class="responsible-key-text hidden">
-                          ${params?.responsible_sname}
                         </p>
                       </div>
                     </li>
