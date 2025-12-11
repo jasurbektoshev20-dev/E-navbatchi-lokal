@@ -292,6 +292,10 @@ switch ($Act) {
 		$sql->query($query);
 		$EventTypes = $sql->fetchAll();
 
+		$query = "SELECT id, name{$slang} as event_category FROM tur.event_category";
+		$sql->query($query);
+		$EventCategory = $sql->fetchAll();
+
 
 		$query = "SELECT id, object_name as name FROM hr.jts_objects";
 		$sql->query($query);
@@ -314,15 +318,16 @@ switch ($Act) {
 
 
 
-		$query = "SELECT m.id, t.name{$slang} as event_type ,m.event_direction, m.iiv_count, 
-		m.fvv_count,mg_count,m.event_view,m.start_event,m.finish_event,m.reserve_count,m.event_name,m.responsible_spring_name,m.event_responsible_organization,
-		m.organizer,m.responsible_name,m.responsible_phone,m.responsible_iiv_name,m.reserve_name,m.responsible_msgr_name,responsible_fvv_name,m.people_count,m.mg_count,m.iiv_count,m.spring_count,m.fvv_count,
-		j.object_name as obj_name,m.organizer,s.name{$slang} as region_name 
-		FROM hr.public_event1 m
-		left join tur.public_event_types t on t.id = m.event_type
-		left join hr.structure s on s.id = m.region_id
-		left join hr.jts_objects j on j.id = m.object_id
-		";
+		$query = "SELECT m.id, t.name{$slang} as event_type ,m.event_direction, m.iiv_count,m.responsible_mg_name, m.sapyor_count as sapyor, 
+        m.fvv_count, m.mg_counts, m.event_view, m.start_event, m.finish_event, m.reserve_count, m.event_name, m.responsible_spring_name, m.event_responsible_organization,ec.name{$slang} as event_category,
+        m.organizer, m.responsible_name, m.responsible_phone, m.responsible_iiv_name, m.reserve_name, m.responsible_msgr_name, m.responsible_fvv_name, m.people_count, m.mg_counts, m.iiv_count, m.spring_count, m.fvv_count,
+        j.object_name as obj_name, m.organizer, s.name{$slang} as region_name 
+        FROM hr.public_event1 m
+        left join tur.public_event_types t on t.id = m.event_type
+        left join hr.structure s on s.id = m.region_id
+        left join hr.jts_objects j on j.id = m.object_id
+		left join tur.event_category ec on ec.id = m.event_category_id
+        ";
 
 
 		$query .= " order by m.id";
@@ -342,6 +347,7 @@ switch ($Act) {
 			'jts_objects' => $jts_objects,
 			'structures' => $Structures,
 			'responsible' => $Responsible,
+			'EventCategory' => $EventCategory
 		));
 		break;
 

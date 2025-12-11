@@ -939,7 +939,7 @@ switch ($Action) {
         s.name{$slang} AS structure,
         j.object_name,
         o.name{$slang} AS object_type,
-        j.address, j.area, j.admin_phone, j.object_head, j.head_phone,j.lamps_count,j.capacity,
+        j.address, j.area, j.admin_phone, j.object_head, j.head_phone,j.lamps_count,j.capacity,t.responsible_mg_name,t.mg_counts,t.sapyor_count,
         n.head_iiv, n.head_iiv_phone, j.markets_count, j.eating_place_count,j.sektors_count,
         n.head, n.assistant_governor, n.youth_leader, n.womens_activist,n.name as neighborhood_name,
         n.tax_inspector, n.social_employe, j.sales_places_count,n.head_iiv,n.head_iiv_phone,n.head_fvv,n.head_fvv_phone,
@@ -956,9 +956,9 @@ switch ($Action) {
         t.id, t.object_id, j.id, s.name{$slang}, j.object_name, o.name{$slang},
         j.address, j.area, j.admin_phone, j.object_head, j.head_phone,
         n.head_iiv, n.head_iiv_phone, j.markets_count, j.eating_place_count,
-        n.head, n.assistant_governor, n.youth_leader, n.womens_activist,
+        n.head, n.assistant_governor, n.youth_leader, n.womens_activist,n.head_fvv,n.head_fvv_phone,
         n.tax_inspector, n.social_employe, j.sales_places_count,
-        n.head_phone, n.assistant_governor_phone, n.youth_leader_phone,
+        n.head_phone, n.assistant_governor_phone, n.youth_leader_phone,n.name,
         n.womens_activist_phone, n.tax_inspector_phone, n.social_employe_phone,
         j.lat, j.long, ST_AsGeoJSON(j.geom)";
 

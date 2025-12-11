@@ -92,13 +92,13 @@
                                     <td class="text-center">{$item.responsible_name}</td>
                                     <td class="text-center">{$item.responsible_phone}</td>
                                     <td class="text-center">{$item.responsible_mg_name}</td>
-                                    <td class="text-center">{$item.mgg_count}</td>
+                                    <td class="text-center">{$item.mg_counts}</td>
                                     <td class="text-center">{$item.responsible_iiv_name}</td>
                                     <td class="text-center">{$item.iiv_count}</td>
                                     <td class="text-center">{$item.responsible_fvv_name}</td>
                                     <td class="text-center">{$item.fvv_count}</td>
                                     <td class="text-center">{$item.responsible_msgr_name}</td>
-                                    <td class="text-center">{$item.mg_count}</td>
+                                    <td class="text-center">{$item.sapyor}</td>
                                     <td class="text-center">{$item.responsible_spring_name}</td>
                                     <td class="text-center">{$item.spring_count}</td>
                                     <td class="text-center">{$item.reserve_name} {$item.reserve_name}</td>
@@ -537,14 +537,14 @@
                     form_data.append('responsible_phone', $('#responsible_phone').val());
                     form_data.append('responsible_iiv_name', $('#responsible_iiv_name').val());
                     form_data.append('responsible_mg_name', $('#responsible_mg_name').val());
-                    form_data.append('event_number_mg', $('#event_number_mg').val());
+                    form_data.append('mg_count', $('#event_number_mg').val());
                     form_data.append('responsible_msgr_name', $('#responsible_msgr_name').val());
                     form_data.append('reserve_count', $('#reserve_count').val());
                     form_data.append('reserve_name', $('#reserve_name').val());
                     form_data.append('responsible_spring_name', $('#responsible_spring_name').val());
                     form_data.append('responsible_fvv_name', $('#responsible_fvv_name').val());
                     form_data.append('people_count', $('#event_participants').val());
-                    form_data.append('mg_count', $('#mg_count').val());
+                    form_data.append('sapyor', $('#mg_count').val());
                     form_data.append('spring_count', $('#event_number_spring').val());
                     form_data.append('fvv_count', $('#event_number_fvv').val());
                     form_data.append('iiv_count', $('#event_number_iiv').val());

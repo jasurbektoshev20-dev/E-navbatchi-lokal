@@ -489,23 +489,26 @@ switch ($Action) {
         $region_id = $_POST['region_id'];
         $object_id =  $_POST['object_id'];
         $event_type = $_POST['event_type'];
-        $event_name = $_POST['event_name'];
+        $event_category = $_POST['event_category'];
         $event_direction = $_POST['event_direction'];
         $event_view = $_POST['event_view'];
         $event_respnsible_organization = $_POST['event_responsible_organization'];
         $start_event = $_POST['start_event'];
         $finish_event = $_POST['finish_event'];
         $organizer = $_POST['organizer'];
+        $event_name = $_POST['event_name'];
         $responsible_name = $_POST['responsible_name'];
         $responsible_phone = $_POST['responsible_phone'];
         $responsible_iiv_name = $_POST['responsible_iiv_name'];
+        $responsible_mg_name = $_POST['responsible_mg_name'];
+        $mg_count = $_POST['mg_count'];
         $responsible_msgr_name = $_POST['responsible_msgr_name'];
         $reserve_count = $_POST['reserve_count'];
         $reserve_name = $_POST['reserve_name'];
         $responsible_spring_name = $_POST['responsible_spring_name'];
         $responsible_fvv_name = $_POST['responsible_fvv_name'];
         $people_count = $_POST['people_count'];
-        $mg_count = $_POST['mg_count'];
+        $sapyor = $_POST['sapyor'];
         $spring_count = $_POST['spring_count'];
         $fvv_count = $_POST['fvv_count'];
         $iiv_count = $_POST['iiv_count'];
@@ -526,15 +529,21 @@ switch ($Action) {
             responsible_phone     = '{$responsible_phone}',
             responsible_iiv_name  = '{$responsible_iiv_name}',
             responsible_msgr_name = '{$responsible_msgr_name}',
+            responsible_mg_name = '{$responsible_mg_name}',
             reserve_count = '{$reserve_count}',
             responsible_spring_name = '{$responsible_spring_name}',
             responsible_fvv_name = '{$responsible_fvv_name}',
             people_count = '{$people_count}',
-            mg_count = '{$mg_count}',
+            mg_counts = '{$mg_count}',
             spring_count = '{$spring_count}',
             reserve_name = '{$reserve_name}',
             iiv_count = '{$iiv_count}',
-            fvv_count = '{$fvv_count}'
+            fvv_count = '{$fvv_count}',
+            sapyor_count =  '{$sapyor}',
+            event_category_id = '{$event_category}'
+
+
+
             WHERE id = {$RowId}";
             $sql->query($updquery);
             if ($sql->error() == "") {
@@ -565,11 +574,15 @@ switch ($Action) {
                         ,responsible_spring_name
                         ,responsible_fvv_name
                         ,people_count
-                        ,mg_count
+                        ,mg_counts
                         ,spring_count
                         ,reserve_name
                         ,iiv_count
                         ,fvv_count
+                        ,responsible_mg_name
+                        ,sapyor_count
+                        ,event_category_id
+                
                     ) values (
                          '{$region_id}'
                         ,'{$object_id}'
@@ -593,7 +606,10 @@ switch ($Action) {
                         ,'{$spring_count}'
                         ,'{$reserve_name}'
                         ,'{$iiv_count}'
-                        ,{$fvv_count}'
+                        ,'{$fvv_count}'
+                        ,'{$responsible_mg_name}'
+                        ,'{$sapyor}'
+                        ,'{$event_category}'
 
                     )";
                 $sql->query($insquery);
@@ -3450,7 +3466,7 @@ case "get_event_duty":
     case "act_administrative_offenses":
         $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
         $region_id = $_POST['region_id'];
-        $violation_id = $_POST['violation_id']; 'w\sdh;,'
+        $violation_id = $_POST['violation_id'];
         $count = $_POST['count'];
         $date = $_POST['date'];
 
