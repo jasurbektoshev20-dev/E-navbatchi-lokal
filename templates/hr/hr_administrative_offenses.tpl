@@ -115,7 +115,7 @@
                         </div>
 
                         <div class="col-sm-6">
-                            <label for="event_date" class="form-label">Бошланиш вақти</label>
+                            <label for="event_date" class="form-label">Sana</label>
                             <input type="datetime" class="form-control" placeholder="DD-MM-YYYY" id="event_date"
                                 name="event_date" />
                          </div>
@@ -165,6 +165,17 @@
     var Var_ObjectId	= "{$Organization.id}";
     var dict_choose = "{$Dict.choose}";
     {literal}
+
+          var dt_basic_table = $('.datatables-projects'),
+            dt_basic;
+
+        // DataTable with buttons
+        if (dt_basic_table.length) {
+            dt_basic = dt_basic_table.DataTable({
+                displayLength: 10,
+                lengthMenu: [5, 10, 25, 50, 75, 100, 1000]
+            });
+        }
 
            const flatpickrDate = document.querySelector('#event_date');
         if (flatpickrDate) {

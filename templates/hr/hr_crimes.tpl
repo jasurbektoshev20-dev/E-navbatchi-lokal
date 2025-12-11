@@ -115,7 +115,7 @@
                         </div>
 
                         <div class="col-sm-6">
-                            <label for="event_date" class="form-label">Бошланиш вақти</label>
+                            <label for="event_date" class="form-label">Sana</label>
                             <input type="datetime" class="form-control" placeholder="DD-MM-YYYY" id="event_date"
                                 name="event_date" />
                          </div>
