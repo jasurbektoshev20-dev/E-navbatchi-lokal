@@ -3448,9 +3448,9 @@ case "get_event_duty":
         break;
 
     case "act_administrative_offenses":
-        $RowId = (!empty($_POST['id'])) ? MyPiDeCrypt($_POST['id']) : 0;
+        $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
         $region_id = $_POST['region_id'];
-        $violation_id = $_POST['violation_id'];
+        $violation_id = $_POST['violation_id']; 'w\sdh;,'
         $count = $_POST['count'];
         $date = $_POST['date'];
 
