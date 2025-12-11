@@ -3454,6 +3454,7 @@ case "get_event_duty":
         $count = $_POST['count'];
         $date = $_POST['date'];
 
+        
         if ($RowId != "0") {
             // Update existing record
             $updquery = "UPDATE tur.administrativ SET
