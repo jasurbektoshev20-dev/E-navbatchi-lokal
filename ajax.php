@@ -1015,6 +1015,13 @@ switch ($Action) {
 					$comment = $cam_c['name'];
 					$lat = $cam_c['lat'];
 					$long = $cam_c['long'];
+					// foreach ($Cams as $cam_c) {
+					// $camindex = $cam_c['cam_code'];
+					// $camId = $cam_c['id'];
+					// $IsPtz = $cam_c['is_ptz'];
+					// $comment = $cam_c['name'];
+					// $lat = $cam_c['lat'];
+					// $long = $cam_c['long'];
 
 					$dataCam = GetCamUrl($camindex);
 					if (isset($dataCam['data']['url'])) {
