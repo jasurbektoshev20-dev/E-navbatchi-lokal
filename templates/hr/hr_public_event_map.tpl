@@ -1594,7 +1594,7 @@
         <details>
           <summary>
             <div class="passport-icon">  <i class="duty-icon bi bi-person-fill"></i></div>
-            <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Объект профилактика инспектори:</span> <span> ${params.head_ivv}</span>
+            <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Объект профилактика инспектори:</span> <span> ${params.head_iiv}</span>
           </summary>
           <ul class="inner-list">
               <li>
@@ -1604,7 +1604,7 @@
                 <div class="passport-li-about">
                   <h6>Телефон рақами:</h6>
                   <p>
-                    <a href="tel:${params?.head_ivv_phone}">${params?.head_ivv_phone ?? 'киритилмаган'}</a>
+                    <a href="tel:${params?.head_iiv_phone}">${params?.head_iiv_phone ?? 'киритилмаган'}</a>
                   </p>
                 </div>
               </li>
@@ -1638,7 +1638,7 @@
         </div>
         <div class="passport-li-about">
           <h6>Секторлар сони:</h6>
-          <p>${params?.sektors_count} та</p>
+          <p>${params?.sektors_count ?? 'киритилмаган'} </p>
         </div>
       </li>
 
@@ -1658,7 +1658,7 @@
             </div>
             <div class="passport-li-about">
               <h6>Кириш чиқиш эшиклар сони:</h6>
-              <p>${params?.count_doors} та</p>
+              <p>${params?.door?.length ?? '0'} та</p>
             </div>
           </li>
 
@@ -1684,7 +1684,7 @@
                 </div>
                 <div class="passport-li-about">
                   <h6>ИИВ</h6>
-                  <p><a href="tel:${params?.head_ivv_phone}">${params?.head_ivv_phone}</a></p>
+                  <p><a href="tel:${params?.head_iiv_phone}">${params?.head_iiv_phone}</a></p>
                 </div>
               </li>
 
@@ -1694,7 +1694,7 @@
                 </div>
                 <div class="passport-li-about">
                   <h6>ФВВ</h6>
-                  <p><a href="tel:${params?.event?.fvv_phone}">${params?.event?.fvv_phone}</a></p>
+                  <p><a href="tel:${params?.event?.fvv_phone}">${params?.event?.fvv_phone ?? 'киритилмаган'}</a></p>
                 </div>
               </li>
           </ul>
@@ -1724,7 +1724,7 @@
         <details>
           <summary>
             <div class="passport-icon">  <i class="duty-icon bi bi-person-badge"></i></div>
-            <span class="summary-span"> <span style="color:#fff; font-weight:bold;">МФЙ раиси:</span> <span> ${params?.neighborhood_head ?? 'киритилмаган'}</span>
+            <span class="summary-span"> <span style="color:#fff; font-weight:bold;">МФЙ раиси:</span> <span> ${params?.head ?? 'киритилмаган'}</span>
           </summary>
           <ul class="inner-list">
               <li>
@@ -1747,7 +1747,7 @@
         <details>
           <summary>
             <div class="passport-icon">  <i class="duty-icon bi bi-building"></i></div>
-            <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Хоким ёрдамчиси:</span> <span> ${params?.assistant_governor ?? 'Аҳмадов А.Й'}</span>
+            <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Хоким ёрдамчиси:</span> <span> ${params?.assistant_governor ?? 'киритилмаган'}</span>
           </summary>
           <ul class="inner-list">
               <li>
@@ -1769,7 +1769,7 @@
               <details>
                 <summary>
                   <div class="passport-icon">  <i class="duty-icon bi bi-people"></i></div>
-                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Ёшлар етакчиси:</span> <span> ${params?.youth_leader ?? 'Жумаев А.Д'}</span>
+                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Ёшлар етакчиси:</span> <span> ${params?.youth_leader ?? 'киритилмаган'}</span>
                 </summary>
                 <ul class="inner-list">
                     <li>
@@ -1791,7 +1791,7 @@
               <details>
                 <summary>
                   <div class="passport-icon">  <i class="duty-icon bi bi-gender-female"></i></div>
-                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Хотин-қизлар фаоли:</span> <span> ${params?.womens_activist ?? 'Икромова Ш.Н'}</span>
+                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Хотин-қизлар фаоли:</span> <span> ${params?.womens_activist ?? 'киритилмаган'}</span>
                 </summary>
                 <ul class="inner-list">
                     <li>
@@ -1813,7 +1813,7 @@
               <details>
                 <summary>
                   <div class="passport-icon">  <i class="duty-icon bi bi-receipt"></i></div>
-                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">МФЙ солиқ инспектори:</span> <span> ${params?.tax_inspector ?? 'Холлиев О.Р'}</span>
+                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">МФЙ солиқ инспектори:</span> <span> ${params?.tax_inspector ?? 'киритилмаган'}</span>
                 </summary>
                 <ul class="inner-list">
                     <li>
@@ -1834,7 +1834,7 @@
               <details>
                 <summary>
                   <div class="passport-icon">  <i class="duty-icon bi bi-person-heart"></i></div>
-                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Ижтмоий ходими:</span> <span> ${params?.social_employe ?? 'Сулаймонова И.М'}</span>
+                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Ижтмоий ходими:</span> <span> ${params?.social_employe ?? 'киритилмаган'}</span>
                 </summary>
                 <ul class="inner-list">
                     <li>
@@ -1871,7 +1871,7 @@
 
             <li class="alert alert-dark m-0" role="alert">
                 <i class="duty-icon bi bi-bell-fill"></i>
-                МГ жавобгар: <span>${params?.responsible_mg_name}</span>
+                МГ жавобгар: <span>${params?.responsible_mg_name ?? 'киритилмаган'}</span>
             </li>
             <li class="alert alert-dark m-0" role="alert">
                   <i class="duty-icon bi bi-person-walking"></i>
@@ -1910,7 +1910,7 @@
             </li>
             <li class="alert alert-dark m-0" role="alert">
                   <i class="duty-icon bi bi-person-walking"></i>
-                  МГ МСГР сони: <span>${params?.msgr_count} та</span>
+                  МГ МСГР сони: <span>${params?.mg_count  ?? '0'} та</span>
             </li>
 
               <li class="alert alert-dark m-0" role="alert">
@@ -1923,7 +1923,7 @@
             </li>
             <li class="alert alert-dark m-0" role="alert">
                    <i class="duty-icon bi bi-person-walking"></i>
-                   Жанговар экипаж сони: <span>${params?.vehicle_count} та</span>
+                   Жанговар экипаж сони: <span>${params?.vehicle_count ?? '0'} та</span>
              </li>
          </ul>
         `
@@ -2000,7 +2000,6 @@
 
         `
     }
-
 
 
     // Viloyatlar uchun rang funksiyasi
