@@ -52,10 +52,10 @@
                             {foreach from=$violations item=Table key=tkey}
                                 <tr class="lb" id="row_{$Table.id|crypt}">
                                     <td class="text-right">{$tkey+1}</td>
-                                    <td>{$Table.structure_name}</td>
-                                     <td>{$Table.date}</td> 
-                                    <td>{$Table.type_name}</td> 
-                                    <td>{$Table.count}</td>                       
+                                    <td class="text-center">{$Table.structure_name}</td>
+                                    <td class="text-center">{$Table.date}</td> 
+                                    <td class="text-center">{$Table.type_name}</td> 
+                                    <td class="text-center">{$Table.count}</td>                       
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -105,7 +105,7 @@
                             <label>Моддаси</label>
                             <select required class="select form-control" name="substance" id="substance">
                                 <option value="">{$Dict.choose}</option>
-                                    {foreach from=$Regions item=Item6 key=ikey6}
+                                    {foreach from=$Types item=Item6 key=ikey6}
                                     <option value="{$Item6.id}">{$Item6.name}</option>
                                 {/foreach}
                             </select>
