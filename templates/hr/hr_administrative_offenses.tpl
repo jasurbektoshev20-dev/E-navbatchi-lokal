@@ -49,13 +49,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {foreach from=$Staffs item=Table key=tkey}
+                            {foreach from=$violations item=Table key=tkey}
                                 <tr class="lb" id="row_{$Table.id|crypt}">
                                     <td class="text-right">{$tkey+1}</td>
-                                    <td>{$Table.region_id}</td>
+                                    <td>{$Table.structure_name}</td>
                                      <td>{$Table.date}</td> 
-                                    <td>{$Table.substance}</td> 
-                                    <td>{$Table.crime_count}</td>                       
+                                    <td>{$Table.type_name}</td> 
+                                    <td>{$Table.count}</td>                       
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -105,8 +105,9 @@
                             <label>Моддаси</label>
                             <select required class="select form-control" name="substance" id="substance">
                                 <option value="">{$Dict.choose}</option>
-                                    <option value="144-modda">144-modda</option>
-                                    <option value="256-modda">256-modda</option>
+                                    {foreach from=$Regions item=Item6 key=ikey6}
+                                    <option value="{$Item6.id}">{$Item6.name}</option>
+                                {/foreach}
                             </select>
                         </div> 
                          <div class="col-sm-6">
@@ -208,13 +209,13 @@
             $('#submitModal').modal('toggle');
 
             var RowId = $(this).attr('rel');
-            $.get("hrajax.php?act=get_staffs&rowid=" + RowId, function(html) {
+            $.get("hrajax.php?act=get_administrative_offenses&rowid=" + RowId, function(html) {
                 var sInfo = jQuery.parseJSON(html);
-                $('#id').val(sInfo.id);
-                $('#region_id').val(sInfo.structure_id);
-                $('#substance').val(sInfo.substance);
-                $('#crime_count').val(sInfo.crime_count);
-                $('#event_date').val(sInfo.event_date);
+               $('#id').val(sInfo.id);
+                $('#region_id').val(sInfo.region_id);
+                $('#substance').val(sInfo.violation_id);
+                $('#crime_count').val(sInfo.count);
+                $('#event_date').val(sInfo.date);
             });
         })
 
@@ -228,13 +229,13 @@
                     event.stopPropagation();
 
                     var form_data = new FormData();
-                    form_data.append('id', $('#id').val());
+                   form_data.append('id', $('#id').val());
                     form_data.append('region_id', $('#region_id').val());
-                    form_data.append('substance', $('#substance').val());
-                    form_data.append('crime_count', $('#crime_count').val());
-                    form_data.append('event_date', $('#event_date').val());
+                    form_data.append('violation_id', $('#substance').val());
+                    form_data.append('count', $('#crime_count').val());
+                    form_data.append('date', $('#event_date').val());
                     $.ajax({
-                        url: 'hrajax.php?act=act_staffs',
+                        url: 'hrajax.php?act=act_administrative_offenses',
                         dataType: 'text',
                         cache: false,
                         contentType: false,
