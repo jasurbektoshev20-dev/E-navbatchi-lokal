@@ -44,6 +44,7 @@
                                 <th class="text-center">Ҳудуд</th>
                                 <th class="text-center">Жойи</th>
                                 <th class="text-center">Тури</th>
+                                <th class="text-center">Toifasi</th>
                                 <th class="text-center">Номи</th>
                                 <th class="text-center">Йўналиши</th>
                                 <th class="text-center">Кўриниши</th>
@@ -53,6 +54,8 @@
                                 <th class="text-center">Тадбирга масъул ташкилот</th>
                                 <th class="text-center">Масъул ФИШ</th>
                                 <th class="text-center">Телефон</th>
+                                <th class="text-center">MG javobgar</th>
+                                <th class="text-center">MG soni</th>
                                 <th class="text-center">ИИВ масъул ФИШ</th>
                                 <th class="text-center">ИИВ ҲХ сони</th>
                                 <th class="text-center">ФВВ масъул ФИШ</th>
@@ -78,6 +81,7 @@
                                     </td>
                                     <td class="text-center">{$item.obj_name}</td>
                                     <td class="text-center">{$item.event_type}</td>     
+                                    <td class="text-center">{$item.event_category}</td>     
                                     <td class="text-center">{$item.event_name}</td>
                                     <td class="text-center">{$item.event_direction}</td>
                                     <td class="text-center">{$item.event_view}</td>
@@ -87,6 +91,8 @@
                                     <td class="text-center">{$item.event_responsible_organization}</td>
                                     <td class="text-center">{$item.responsible_name}</td>
                                     <td class="text-center">{$item.responsible_phone}</td>
+                                    <td class="text-center">{$item.responsible_mg_name}</td>
+                                    <td class="text-center">{$item.mgg_count}</td>
                                     <td class="text-center">{$item.responsible_iiv_name}</td>
                                     <td class="text-center">{$item.iiv_count}</td>
                                     <td class="text-center">{$item.responsible_fvv_name}</td>
@@ -168,6 +174,16 @@
                         </div>
 
                         <div class="col-sm-4">
+                            <label>Тадбир toifasi</label>
+                            <select required class="select form-control" name="event_category" id="event_category">
+                                <option value="">{$Dict.choose}</option>
+                                {foreach from=$EventCategory item=Item1 key=ikey1}
+                                    <option value="{$Item1.id}">{$Item1.event_category}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+
+                        <div class="col-sm-4">
                             <label>Тадбир номи</label>
                             <input required type="text" class="form-control" name="event_name" id="event_name" value="">
                         </div>
@@ -226,6 +242,17 @@
                          <div class="col-sm-4">
                             <label>Масъул телефон рақами</label>
                             <input required type="text" class="form-control" name="responsible_phone" id="responsible_phone" placeholder="90 345 76 87"  value="">
+                        </div>
+
+                         <div class="col-sm-4">
+                            <label>MG масъул</label>
+                            <input required type="text" class="form-control" name="responsible_mg_name" id="responsible_mg_name"  value="">
+                        </div>
+
+                        <div class="col-sm-4">
+                            <label>MG сони</label>
+                            <input required type="number" class="form-control" name="event_number_mg" id="event_number_mg"
+                                value="">
                         </div>
 
                         <div class="col-sm-4">
@@ -412,12 +439,14 @@
                 $('#region_id').val(sInfo.region_id);
                 $('#object_id').val(sInfo.object_id);
                 $('#event_type').val(sInfo.event_type);
+                $('#event_category').val(sInfo.event_category);
                 $('#event_direction').val(sInfo.event_direction);
                 $('#event_view').val(sInfo.event_view);
                 $('#event_responsible_organization').val(sInfo.event_responsible_organization);
                 $('#region_id').trigger("change");
                 $('#object_id').trigger("change");
                 $('#event_type').trigger("change");
+                $('#event_category').trigger("change");
                 $('#event_direction').trigger("change");
                 $('#event_view').trigger("change");
                 $('#event_responsible_organization').trigger("change");
@@ -427,6 +456,8 @@
                 $('#responsible_name').val(sInfo.responsible_name);
                 $('#responsible_phone').val(sInfo.responsible_phone);
                 $('#responsible_iiv_name').val(sInfo.responsible_iiv_name);
+                $('#responsible_mg_name').val(sInfo.responsible_mg_name);
+                $('#event_number_mg').val(sInfo.event_number_mg);
                 $('#responsible_msgr_name').val(sInfo.responsible_msgr_name);
                 $('#reserve_count').val(sInfo.reserve_count);
                 $('#reserve_name').val(sInfo.reserve_name);
@@ -450,6 +481,8 @@
             $('#object_id').trigger("change");
             $('#event_type').val(0);
             $('#event_type').trigger("change");
+             $('#event_category').val(0);
+            $('#event_category').trigger("change");
             $('#event_direction').val(0);
             $('#event_direction').trigger("change");
             $('#event_view').val(0);
@@ -461,6 +494,8 @@
             $('#responsible_name').val("");
             $('#responsible_phone').val("");
             $('#responsible_iiv_name').val("");
+            $('#responsible_mg_name').val("");
+            $('#event_number_mg').val("");
             $('#responsible_msgr_name').val("");
             $('#reserve_count').val("");
             $('#reserve_name').val("");
@@ -490,6 +525,7 @@
                     form_data.append('region_id', $('#region_id').val());
                     form_data.append('object_id', $('#object_id').val());
                     form_data.append('event_type', $('#event_type').val());
+                    form_data.append('event_category', $('#event_category').val());
                     form_data.append('event_direction', $('#event_direction').val());
                     form_data.append('event_view', $('#event_view').val());
                     form_data.append('event_responsible_organization', $('#event_responsible_organization').val());
@@ -500,6 +536,8 @@
                     form_data.append('responsible_name', $('#responsible_name').val());
                     form_data.append('responsible_phone', $('#responsible_phone').val());
                     form_data.append('responsible_iiv_name', $('#responsible_iiv_name').val());
+                    form_data.append('responsible_mg_name', $('#responsible_mg_name').val());
+                    form_data.append('event_number_mg', $('#event_number_mg').val());
                     form_data.append('responsible_msgr_name', $('#responsible_msgr_name').val());
                     form_data.append('reserve_count', $('#reserve_count').val());
                     form_data.append('reserve_name', $('#reserve_name').val());
