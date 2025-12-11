@@ -1775,7 +1775,6 @@
 
         marker.on('click', function () {
           document.getElementById('markerModalTitle').innerText = m.object_name;
-          $("#markerModal").modal("show");
           $.ajax({
             url: `${AJAXPHP}?act=get_jts_object_by_id&id=${m.id}`,
             type: 'GET',
@@ -1783,7 +1782,7 @@
             success: function (response) {
               if (!response) return;
 
-              // $("#markerModal").modal("show");
+              $("#markerModal").modal("show");
 
               renderDialogMap(response?.data, response?.cameras);
               renderPassportDetails(response?.data);
