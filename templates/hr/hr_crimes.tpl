@@ -93,6 +93,15 @@
                 <form class="needs-validation" novalidate>
                     <div class="row g-3">
                         <div class="col-sm-6">
+                            <label>{$Dict.region}</label>
+                            <select required class="select form-control" name="region_id" id="region_id">
+                                <option value="">{$Dict.choose}</option>
+                                {foreach from=$Regions item=Item6 key=ikey6}
+                                    <option value="{$Item6.id}">{$Item6.name}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                          <div class="col-sm-6">
                             <label>Моддаси</label>
                             <select required class="select form-control" name="substance" id="substance">
                                 <option value="">{$Dict.choose}</option>
@@ -176,6 +185,8 @@
 
         $('#new').click(function() {
             $('#submitModal').modal('toggle');
+            $('#region_id').val(0);
+            $('#region_id').trigger("change");
             $('#substance').val(0);
             $('#substance').trigger("change");
             $('#crime_count').val("");
@@ -189,6 +200,7 @@
             $.get("hrajax.php?act=get_staffs&rowid=" + RowId, function(html) {
                 var sInfo = jQuery.parseJSON(html);
                 $('#id').val(sInfo.id);
+                $('#region_id').val(sInfo.structure_id);
                 $('#substance').val(sInfo.substance);
                 $('#crime_count').val(sInfo.crime_count);
                 $('#event_date').val(sInfo.event_date);
@@ -206,6 +218,7 @@
 
                     var form_data = new FormData();
                     form_data.append('id', $('#id').val());
+                    form_data.append('region_id', $('#region_id').val());
                     form_data.append('substance', $('#substance').val());
                     form_data.append('crime_count', $('#crime_count').val());
                     form_data.append('event_date', $('#event_date').val());
