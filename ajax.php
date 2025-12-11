@@ -939,7 +939,7 @@ switch ($Action) {
         s.name{$slang} AS structure,
         j.object_name,
         o.name{$slang} AS object_type,
-        j.address, j.area, j.admin_phone, j.object_head, j.head_phone,
+        j.address, j.area, j.admin_phone, j.object_head, j.head_phone,j.lamps_count,
         n.head_iiv, n.head_iiv_phone, j.markets_count, j.eating_place_count,
         n.head, n.assistant_governor, n.youth_leader, n.womens_activist,
         n.tax_inspector, n.social_employe, j.sales_places_count,
@@ -1692,7 +1692,7 @@ switch ($Action) {
 			$sql->query("SELECT t.id, t.cam_code, t.name, t.lat, t.long, CASE WHEN t.is_ptz THEN 1 ELSE 0 END AS is_ptz FROM hr.embassy_objects_camera t WHERE t.object_id = {$id}");
 			$Cams = $sql->fetchAll();
 
-			if ($Cams) {
+			if ($Cams) {	
 				foreach ($Cams as $cam_c) {
 					$camindex = $cam_c['cam_code'];
 					$camId = $cam_c['id'];
