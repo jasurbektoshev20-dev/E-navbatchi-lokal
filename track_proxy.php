@@ -1,32 +1,59 @@
 <?php
-// track_proxy.php
+define('ARM_IN', true);
+require_once("includes/functions.php");
+
 header('Content-Type: application/json; charset=utf-8');
 
-// optional: only allow your origin or check session
-// header('Access-Control-Allow-Origin: https://e-gvardiya.uz');
+// only allow POST from your frontend origin (optionally check session/user)
+$input = json_decode(file_get_contents('php://input'), true);
 
-$qs = $_SERVER['QUERY_STRING']; // saqlangan query stringni tashqi APIga o'tkazamiz
-$target = 'https://smpo.uzgps.uz/sdx/mobject/track-by-day?' . $qs;
+// --- Get and Sanitize Input Parameters ---
+$objectId = isset($_GET['object-id']) ? intval($_GET['object-id']) : 0;
+$startDate = isset($_GET['start-date']) ? $_GET['start-date'] : date('Y-m-d', strtotime('-7 days'));
+$endDate = isset($_GET['end-date']) ? $_GET['end-date'] : date('Y-m-d');
 
-// tokenni olish: agar sessionda token bo'lsa oling, yoki serverdan token olish logikasini chaqiring
-$token = 'YOUR_JWT_HERE'; // ideal: session yoki token_proxy bilan avval olgan tokenni saqlang
+// --- API Token Retrieval ---
+$token = getToken(2672); // Get your token (ensure the function works)
 
-$ch = curl_init($target);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, [
-  'Authorization: Bearer ' . $token,
-  'Accept: application/json'
-]);
-curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // follow redirects server-side
-$res = curl_exec($ch);
-$http = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-if ($res === false) {
-  $err = curl_error($ch);
-  curl_close($ch);
-  http_response_code(502);
-  echo json_encode(['success'=>false,'error'=>$err]);
-  exit;
-}
-curl_close($ch);
+// --- Build the URL Safely using http_build_query() ---
+$baseURL = 'https://smpo.uzgps.uz/api/sdx/mobject/track-by-day';
+
+// Create an associative array of all query parameters
+$queryParams = array(
+    'object-id'        => $objectId,
+    'start-date'       => $startDate,
+    'end-date'         => $endDate,
+);
+
+// http_build_query() automatically handles all necessary URL encoding
+$fullURL = $baseURL . '?' . http_build_query($queryParams);
+
+// --- cURL Request ---
+$curl = curl_init();
+
+curl_setopt_array($curl, array(
+    CURLOPT_URL => $fullURL,
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 30, // Increased timeout to 30 seconds (0 means indefinite, which is risky)
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'GET',
+    CURLOPT_HTTPHEADER => array(
+        'Accept: application/json',
+        'Authorization: Bearer ' . $token['result']['map']['jwtToken'],
+    ),
+));
+
+$response = curl_exec($curl);
+$http = curl_getinfo($curl, CURLINFO_HTTP_CODE); // Capture the HTTP status code
+
+// echo '<pre>';
+// print_r($response);
+// echo '</pre>';
+// die();
+
+// Production-ready output (if you remove the debugging block above)
 http_response_code($http);
-echo $res;
+echo $response;
