@@ -346,17 +346,15 @@
                     form_data.append('surname', $('#surname').val());
                     form_data.append('phone', $('#phone').val());
 
-                    // Gender
-                    let gender = $('#gender_m').is(':checked') ? "man" : "woman";
-                    form_data.append('gender', gender);
+               // Gender
+                    form_data.append('man', $('#gender_m').is(':checked') ? "true" : "");
+                    form_data.append('woman', $('#gender_f').is(':checked') ? "true" : "");
 
                     // Rank
-                    let rank = "";
-                    if ($('#rank_ofitser').is(':checked')) rank = "officer";
-                    else if ($('#rank_serjant').is(':checked')) rank = "sergeant";
-                    else if ($('#rank_askar').is(':checked')) rank = "soldier";
+                    form_data.append('soldier', $('#rank_askar').is(':checked') ? "true" : "");
+                    form_data.append('sergeant', $('#rank_serjant').is(':checked') ? "true" : "");
+                    form_data.append('officer', $('#rank_ofitser').is(':checked') ? "true" : "");
 
-                    form_data.append('rank', rank);
 
                     if (myDropzone.files.length > 0) {
                         myDropzone.files.forEach(function(file, index) {
