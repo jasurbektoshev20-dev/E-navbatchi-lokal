@@ -1651,7 +1651,105 @@ switch ($Act) {
 			'Types' => $Types,
 		));
 		break;	
+
+
+
+
+
+
+	case "hr_market_by_region":
+    // SELECT: obyeklar bo'yicha kunlik aggregated ma'lumotlar
+    // $query = "// --- daily_routinelarni BUGUNGI KUN bo'yicha chiqarish (Tashkent timezone) ---
+$query = "SELECT
+  dr.id AS routine_id,
+  dr.structure_id,
+  s.name{$slang} AS structure_name,
+  o.id AS object_id,
+  o.object_name AS market_name,
+  o.area,
+  o.sektors_count::int AS sektors_count,
+  o.markets_count::int AS markets_count,
+  dr.date::text AS date,
+  CONCAT(r.name{$slang},' ',st.lastname,' ',st.firstname,' ', st.surname) AS responsible_name,
+  dr.date,
+  dr.responsible_sname,
+  dr.responsible_phone,
+  COUNT(DISTINCT od.id) AS doors_count,
+  COUNT(DISTINCT drd.smena) AS total_smena_count,
+  COUNT(DISTINCT drd.direction) AS total_directions_count,
+  COUNT(DISTINCT oc.id) AS camera_count,
+  COUNT(DISTINCT pt.id) AS total_patrul_type_count,
+
+  -- STATIK patrul_type ustunlari (o'zingizga kerakli IDlarni qo'shing/ochiring)
+  COUNT(DISTINCT CASE WHEN drd.patrul_type = 1 THEN 1 ELSE 0 END ) AS patrul_type_1_count,
+  COUNT(DISTINCT CASE WHEN drd.patrul_type = 2 THEN 1 ELSE 0 END ) AS patrul_type_2_count,
+  COUNT(DISTINCT CASE WHEN drd.patrul_type = 3 THEN 1 ELSE 0 END ) AS patrul_type_3_count,
+  COUNT(DISTINCT CASE WHEN drd.patrul_type = 4 THEN 1 ELSE 0 END ) AS patrul_type_4_count,
+
+  array_agg(distinct drd.smena) FILTER (WHERE drd.smena IS NOT NULL) AS smena_list,
+  COUNT(DISTINCT drd.staff_id) AS staff_count,
+  string_agg(distinct coalesce(drd.staff_sname, dr.responsible_sname), ', ' ORDER BY coalesce(drd.staff_sname, dr.responsible_sname)) AS staff_names,
+  string_agg(distinct coalesce(drd.staff_phone, dr.responsible_phone), ', ' ORDER BY coalesce(drd.staff_phone, dr.responsible_phone)) AS phones,
+
+  SUM( CASE WHEN drd.bodycam_id IS NOT NULL THEN 1 ELSE 0 END ) AS bodycam_count,
+  SUM( COALESCE(array_length(drd.epikirofka_id,1),0) ) AS epikirofka_total,
+  COUNT(*) FILTER (WHERE drd.patrul_type IS NOT NULL) AS patrul_rows,
+  SUM( COALESCE(drd.horse_count,0) ) AS horse_total,
+  SUM( CASE WHEN drd.dog_id IS NOT NULL THEN 1 ELSE 0 END ) AS dog_count,
+
+  COUNT(DISTINCT drd.car_id) AS cars_count,
+  SUM( CASE WHEN drd.staff_phone IS NOT NULL THEN 1 ELSE 0 END ) AS phones_reported
+
+FROM hr.daily_routine dr
+JOIN hr.jts_objects o ON dr.object_id = o.id
+LEFT JOIN hr.dailiy_routine_date drd ON drd.routine_id = dr.id
+LEFT JOIN hr.staff st ON st.id = dr.responsible_id
+LEFT JOIN ref.ranks r ON r.id = st.rank_id
+LEFT JOIN hr.structure s ON s.id = dr.structure_id
+LEFT JOIN hr.jts_objects_door od ON od.object_id = dr.object_id
+LEFT JOIN hr.jts_objects_camera oc ON oc.object_id = dr.object_id
+LEFT JOIN ref.patrul_types pt ON pt.id = drd.patrul_type
+
+WHERE dr.date = (now() AT TIME ZONE 'Asia/Tashkent')::date
+
+GROUP BY
+  o.id, o.object_name, o.area, o.sektors_count, o.markets_count,
+  dr.structure_id, s.name{$slang}, r.name{$slang}, dr.id,
+  dr.date, dr.responsible_id, dr.responsible_sname, dr.responsible_phone,
+  st.lastname, st.firstname, st.surname
+
+ORDER BY o.object_name;
+
+
+  ";
+
+    $sql->query($query);
+    $markets = $sql->fetchAll();
 	
+	
+		echo '<pre>';
+		print_r($markets);
+		echo '</pre>';
+		die();
+
+
+    // Agar hududlar ro'yxati kerak bo'lsa (misol tariqasida)
+    $query = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t WHERE t.id > 1 AND t.id < 16 ORDER BY t.turn ASC";
+    $sql->query($query);
+    $Regions = $sql->fetchAll();
+
+    // Agar tur/kanal ro'yxati kerak bo'lsa (misol tariqasida)
+    $query = "SELECT t.id, t.name{$slang} as name FROM tur.criminals_types t ORDER BY t.id ASC";
+    $sql->query($query);
+    $Types = $sql->fetchAll();
+
+    $smarty->assign(array(
+        'markets' => $markets,
+        'Regions' => $Regions,
+        'Types' => $Types,
+    ));
+    break;
+
 
 
 }
