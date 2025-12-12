@@ -140,7 +140,7 @@
 <script src="/assets/assets/vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js"></script>
 
 <script>
-{literal}
+{* {literal}
 window.addEventListener('load', function() {
   Swal.fire({
     title: 'Sahifa yuklanmoqda...',
@@ -155,7 +155,7 @@ window.addEventListener('load', function() {
     showCloseButton: false,
     didOpen: function(popup) {
       // ✅ loading spinnerni faqat o‘zi chiqsin
-      Swal.showLoading();
+     // Swal.showLoading();
       // default button joyini yo‘qotamiz
       const actions = popup.querySelector('.swal2-actions');
       if (actions) actions.style.display = 'none';
@@ -181,7 +181,7 @@ window.addEventListener('load', function() {
 
 
 
-});
+}); *}
 {/literal}
 </script>
 
