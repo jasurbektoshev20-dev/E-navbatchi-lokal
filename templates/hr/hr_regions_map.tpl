@@ -1131,6 +1131,14 @@
                 </div>
 
         <div class="modal-body">
+            <div id="markerLoader" class="text-center py-4" style="display:none;">
+              <div class="spinner-border text-info" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <div class="mt-2 text-white">Юкланмоқда...</div>
+            </div>
+
+
           <div class="space-main-modal-box">
             <div class="row">
 
@@ -1724,98 +1732,108 @@
       // objectsCluster.clearLayers();
 
     function getObjects() {
-  let url = `${AJAXPHP}?act=get_jts_map`;
-  let params = [];
+        let url = `${AJAXPHP}?act=get_jts_map`;
+        let params = [];
 
-  if (region_id)  params.push(`region_id=${region_id}`);
-  if (object_id)  params.push(`object_id=${object_id}`);
-  if (object_type) params.push(`object_type=${object_type}`);
+        if (region_id)  params.push(`region_id=${region_id}`);
+        if (object_id)  params.push(`object_id=${object_id}`);
+        if (object_type) params.push(`object_type=${object_type}`);
 
-  if (params.length > 0) url += '&' + params.join('&');
+        if (params.length > 0) url += '&' + params.join('&');
 
-  $.ajax({
-    url: url,
-    type: 'GET',
-    dataType: 'json',
-    success: function (response) {
-      console.log(response);
+        $.ajax({
+          url: url,
+          type: 'GET',
+          dataType: 'json',
+          success: function (response) {
+            console.log(response);
 
-      // noto‘g‘ri yozilgan joy: !response && !response.length
-      if (!response || !response.length) {
-        objectsCluster.clearLayers();   // eski markerlarni tozalaymiz
-        return;
-      }
-
-      // HAR SAFAR SELECT O‘ZGARGANDA eski cluster markerlarni tozalaymiz
-      objectsCluster.clearLayers();
-
-      const bozor   = response.filter(item => item.object_type == 1);
-      const bog     = response.filter(item => item.object_type == 3);
-      const xiyobon = response.filter(item => item.object_type == 2);
-      const boshqa  = response.filter(item => item.object_type == 4);
-
-      $('.map-about-box-bozor span').html(bozor.length);
-      $('.map-about-box-bog span').html(bog.length);
-      $('.map-about-box-xiyobon span').html(xiyobon.length);
-      $('.map-about-box-boshqa span').html(boshqa.length);
-
-      // markerlarni clusterga qo‘shamiz
-      response.forEach(m => {
-        const marker = L.marker([m.lat, m.long], { icon: markerIcons[m.object_type] })
-          .bindTooltip(m.object_name, {
-            direction: 'top',
-            offset: [0, -10],
-            className: 'my-tooltip',
-          });
-
-        marker.id = m.id;
-        marker.type = m.object_type;
-
-        objectsCluster.addLayer(marker);   // Faqat shu!
-
-        marker.on('click', function () {
-          document.getElementById('markerModalTitle').innerText = m.object_name;
-
-          $.ajax({
-            url: `${AJAXPHP}?act=get_jts_object_by_id&id=${m.id}`,
-            type: 'GET',
-            dataType: 'json',
-            success: function (response) {
-              if (!response) return;
-
-              $("#markerModal").modal("show");
-
-              renderDialogMap(response?.data, response?.cameras);
-              renderPassportDetails(response?.data);
-              renderDutyDetails(response?.data?.routine);
-
-              $('#change_camera').empty();
-              if (response?.cameras && response?.cameras?.length) {
-                fetched_camera = response.cameras;
-                initCamera();
-              }
-              if (response?.data?.body_cameras && response?.data?.body_cameras.length) {
-                fetched_body = response.data.body_cameras;
-                initCamera();
-              }
-            },
-            error: function (xhr, status, error) {
-              console.error('AJAX error:', error);
+            // noto‘g‘ri yozilgan joy: !response && !response.length
+            if (!response || !response.length) {
+              objectsCluster.clearLayers();   // eski markerlarni tozalaymiz
+              return;
             }
-          });
-        });
-      });
 
-      // boundsni clusterdan olamiz
-      const bounds = objectsCluster.getBounds();
-      if (bounds.isValid()) {
-        map.flyToBounds(bounds, { padding: [50, 50], duration: 1 });
-      }
-    },
-    error: function (xhr, status, error) {
-      console.error('AJAX error:', error);
-    }
-  });
+            // HAR SAFAR SELECT O‘ZGARGANDA eski cluster markerlarni tozalaymiz
+            objectsCluster.clearLayers();
+
+            const bozor   = response.filter(item => item.object_type == 1);
+            const bog     = response.filter(item => item.object_type == 3);
+            const xiyobon = response.filter(item => item.object_type == 2);
+            const boshqa  = response.filter(item => item.object_type == 4);
+
+            $('.map-about-box-bozor span').html(bozor.length);
+            $('.map-about-box-bog span').html(bog.length);
+            $('.map-about-box-xiyobon span').html(xiyobon.length);
+            $('.map-about-box-boshqa span').html(boshqa.length);
+
+            // markerlarni clusterga qo‘shamiz
+            response.forEach(m => {
+              const marker = L.marker([m.lat, m.long], { icon: markerIcons[m.object_type] })
+                .bindTooltip(m.object_name, {
+                  direction: 'top',
+                  offset: [0, -10],
+                  className: 'my-tooltip',
+                });
+
+              marker.id = m.id;
+              marker.type = m.object_type;
+
+              objectsCluster.addLayer(marker);   // Faqat shu!
+
+              marker.on('click', function () {
+                document.getElementById('markerModalTitle').innerText = m.object_name;
+                
+                // 🔥 Modal ochiladi
+                $("#markerModal").modal("show");
+
+                // 🔥 Avval kontentni yashiramiz
+                $(".modal-body .space-main-modal-box").hide();
+
+                // 🔥 Loaderni yoqamiz
+                $("#markerLoader").show();
+                $.ajax({
+                  url: `${AJAXPHP}?act=get_jts_object_by_id&id=${m.id}`,
+                  type: 'GET',
+                  dataType: 'json',
+                  success: function (response) {
+                    if (!response) return;
+
+                     // LOADER → OFF
+                    $("#markerLoader").hide();
+
+                    // CONTENТ → SHOW
+                    $(".modal-body .space-main-modal-box").show();
+                    renderPassportDetails(response?.data);
+                    renderDutyDetails(response?.data?.routine);
+                    renderDialogMap(response?.data, response?.cameras);
+                    $('#change_camera').empty();
+                    if (response?.cameras && response?.cameras?.length) {
+                      fetched_camera = response.cameras;
+                      initCamera();
+                    }
+                    if (response?.data?.body_cameras && response?.data?.body_cameras.length) {
+                      fetched_body = response.data.body_cameras;
+                      initCamera();
+                    }
+                  },
+                  error: function (xhr, status, error) {
+                    console.error('AJAX error:', error);
+                  }
+                });
+              });
+            });
+
+            // boundsni clusterdan olamiz
+            const bounds = objectsCluster.getBounds();
+            if (bounds.isValid()) {
+              map.flyToBounds(bounds, { padding: [50, 50], duration: 1 });
+            }
+          },
+          error: function (xhr, status, error) {
+            console.error('AJAX error:', error);
+          }
+        });
 }
 
 
@@ -3549,6 +3567,8 @@ map.on('load', () => {
         document.getElementById('telement_date_now').innerText = getFormattedNow();
 
 
+
+
       // mashinani vaqtlar bo'yicha filter qilishimiz uchun statik baza 
         const carHistory = {
             "01-226-PSF": [
@@ -3585,302 +3605,305 @@ map.on('load', () => {
 
 
      // modal ochilgandagi xarita chiqish joyi
-        let historyMap;
-        let historyPolyline;
-        let selectedCarId = null;
-        let currentMarker;
-        let replayMarker; // replay animatsiya uchun
+//         let historyMap;
+//         let historyPolyline;
+//         let selectedCarId = null;
+//         let currentMarker;
+//         let replayMarker; // replay animatsiya uchun
 
-        let isPaused = false;
-        let replayIndex = 0;
+//         let isPaused = false;
+//         let replayIndex = 0;
 
-        let replayLatLngs = [];
-        let replayTimeArray = [];
-        let replaySpeedArray = [];
-        let replayDuration = 1000;
-        let currentTimer = null;
+//         let replayLatLngs = [];
+//         let replayTimeArray = [];
+//         let replaySpeedArray = [];
+//         let replayDuration = 1000;
+//         let currentTimer = null;
 
 
 
-        $(document).ready(function() {
-            $('#historyModal').on('shown.bs.modal', function () {
-                      setTimeout(() => {
-                if (!historyMap) {
-                    historyMap = L.map('historyMap').setView([41.31, 69.25], 13);
+//         $(document).ready(function() {
+//             $('#historyModal').on('shown.bs.modal', function () {
+//                       setTimeout(() => {
+//                 if (!historyMap) {
+//                     historyMap = L.map('historyMap').setView([41.31, 69.25], 13);
 
-                    // L.tileLayer('http://10.100.9.145:8080/tile/{z}/{x}/{y}.png', {
-                     layers: L.tileLayer(`https://tile.openstreetmap.org/{z}/{x}/{y}.png`, {
-                        className: 'dark' == 'dark' ? 'map-tiles' : 'map-tiles-light',
-                        maxZoom: 19
-                    }).addTo(historyMap);
-                }
+//                     // L.tileLayer('http://10.100.9.145:8080/tile/{z}/{x}/{y}.png', {
+//                      layers: L.tileLayer(`https://tile.openstreetmap.org/{z}/{x}/{y}.png`, {
+//                         className: 'dark' == 'dark' ? 'map-tiles' : 'map-tiles-light',
+//                         maxZoom: 19
+//                     }).addTo(historyMap);
+//                 }
 
-                historyMap.invalidateSize();
+//                 historyMap.invalidateSize();
 
-                  // Hozirgi mashina pozitsiyasi (statik misol)
-            const currentCarPos = carHistory[selectedCarId][carHistory[selectedCarId].length - 1];
+//                   // Hozirgi mashina pozitsiyasi (statik misol)
+//             const currentCarPos = carHistory[selectedCarId][carHistory[selectedCarId]?.length - 1];
          
-            if(currentMarker) historyMap.removeLayer(currentMarker);
-             currentMarker = L.marker([currentCarPos.lat, currentCarPos.lng]).addTo(historyMap)
-                .bindPopup('<span style="color: white;">Ҳозирги машина позицияси</span>')
-            .openPopup();
+//             if(currentMarker) historyMap.removeLayer(currentMarker);
+//              currentMarker = L.marker([currentCarPos.lat, currentCarPos.lng]).addTo(historyMap)
+//                 .bindPopup('<span style="color: white;">Ҳозирги машина позицияси</span>')
+//             .openPopup();
 
-               historyMap.setView([currentCarPos.lat, currentCarPos.lng], 15);
+//                historyMap.setView([currentCarPos.lat, currentCarPos.lng], 15);
 
 
-                  // Faqat HUDUDNI chizish
-                 const geofenceCoords = [
-                    [41.323238002671104, 69.23698976904528],  // yaqin nuqta
-                    [41.28888775241128, 69.23362138773061],
-                    [41.28596223874519, 69.30989438509913],
-                    [41.33838705993267, 69.30770949258125],
-                    ];
+//                   // Faqat HUDUDNI chizish
+//                  const geofenceCoords = [
+//                     [41.323238002671104, 69.23698976904528],  // yaqin nuqta
+//                     [41.28888775241128, 69.23362138773061],
+//                     [41.28596223874519, 69.30989438509913],
+//                     [41.33838705993267, 69.30770949258125],
+//                     ];
 
 
-                    L.polygon(geofenceCoords, {
-                        color: 'blue',
-                        fillColor: 'blue',
-                        fillOpacity: 0.2
-                    }).addTo(historyMap);
+//                     L.polygon(geofenceCoords, {
+//                         color: 'blue',
+//                         fillColor: 'blue',
+//                         fillOpacity: 0.2
+//                     }).addTo(historyMap);
 
-            }, 200);
-            });
-        });
+//             }, 200);
+//             });
+//         });
 
 
 
-        // tugma bosilganda modal oyna ochilishi
-        $(document).on('click', '#show_car_history', function () {
+//         // // tugma bosilganda modal oyna ochilishi
+//         $(document).on('click', '#show_car_history', function () {
 
-            selectedCarId = "01-226-PSF";
-            $('#historyModal').modal('show');
-        });
+//             selectedCarId = "01-226-PSF";
+//             $('#historyModal').modal('show');
+//         });
 
-                // Qidirish tugmasi bosilganda
-        $(document).on('click','#searchHistory', function () {
-            if (!selectedCarId || !carHistory[selectedCarId]) return;
+//                 // Qidirish tugmasi bosilganda
+//         $(document).on('click','#searchHistory', function () {
+//             if (!selectedCarId || !carHistory[selectedCarId]) return;
 
-            // Sanalarni olish
-            const fromDate = $('#fromDate').val();
-            const toDate = $('#toDate').val();
-            if (!fromDate || !toDate) {
-                alert("Iltimos, ikkala sanani ham kiriting");
-                return;
-            }
+//             // Sanalarni olish
+//             const fromDate = $('#fromDate').val();
+//             const toDate = $('#toDate').val();
+//             if (!fromDate || !toDate) {
+//                 alert("Iltimos, ikkala sanani ham kiriting");
+//                 return;
+//             }
 
-            // // Filtrlash
-            // const filtered = carHistory[selectedCarId].filter(item => {
-            //     const itemDate = item.time.split(" ")[0]; // "2025-11-01"
-            //     return itemDate >= fromDate && itemDate <= toDate;
-            // });
-            const filtered = (carHistory[selectedCarId] || []).filter(item => {
-              const timeStr = item?.time || ''; // undefined safe
-              // agar timeStr string bo'lsa bo'ling
-              const datePart = String(timeStr).split(' ')[0] || '';
-              // endi taqqoslash: fromDate/toDate formatiga mosligini tekshirish foydali
-              return datePart >= fromDate && datePart <= toDate;
-            });
+//             // // Filtrlash
+//             // const filtered = carHistory[selectedCarId].filter(item => {
+//             //     const itemDate = item.time.split(" ")[0]; // "2025-11-01"
+//             //     return itemDate >= fromDate && itemDate <= toDate;
+//             // });
+//             const filtered = (carHistory[selectedCarId] || []).filter(item => {
+//               const timeStr = item?.time || ''; // undefined safe
+//               // agar timeStr string bo'lsa bo'ling
+//               const datePart = String(timeStr).split(' ')[0] || '';
+//               // endi taqqoslash: fromDate/toDate formatiga mosligini tekshirish foydali
+//               return datePart >= fromDate && datePart <= toDate;
+//             });
 
 
-            if (filtered.length === 0) {
-                alert("Bu davrda mashina ma'lumotlari topilmadi");
-                return;
-            }
+//             if (filtered.length === 0) {
+//                 alert("Bu davrda mashina ma'lumotlari topilmadi");
+//                 return;
+//             }
 
-            // Agar oldingi polyline bo'lsa, o'chirish
-            if (historyPolyline) {
-                historyMap.removeLayer(historyPolyline);
-            }
+//             // Agar oldingi polyline bo'lsa, o'chirish
+//             if (historyPolyline) {
+//                 historyMap.removeLayer(historyPolyline);
+//             }
 
-             if(historyPolyline) historyMap.removeLayer(historyPolyline);
-            const latlngs = filtered.map(item => [item.lat, item.lng]);
-            historyPolyline = L.polyline(latlngs, {color: 'red', weight: 5, smoothFactor: 1}).addTo(historyMap);
+//              if(historyPolyline) historyMap.removeLayer(historyPolyline);
+//             const latlngs = filtered.map(item => [item.lat, item.lng]);
+//             historyPolyline = L.polyline(latlngs, {color: 'red', weight: 5, smoothFactor: 1}).addTo(historyMap);
 
 
-            // Xarita markazini polyline markaziga qo'yish
-            const bounds = historyPolyline.getBounds();
-            historyMap.fitBounds(bounds);
+//             // Xarita markazini polyline markaziga qo'yish
+//             const bounds = historyPolyline.getBounds();
+//             historyMap.fitBounds(bounds);
 
 
-                    // Replay marker yaratish (birinchi nuqtada)
+//                     // Replay marker yaratish (birinchi nuqtada)
 
-            //  latlngs = filtered.map(item => [item.lat, item.lng]);
-                 const timeArray = filtered.map(item => item.time);
-                 const speedArray = filtered.map(item => item.speed);
+//             //  latlngs = filtered.map(item => [item.lat, item.lng]);
+//                  const timeArray = filtered.map(item => item.time);
+//                  const speedArray = filtered.map(item => item.speed);
 
 
-            if(replayMarker) historyMap.removeLayer(replayMarker);
-            const startPos = filtered[0];
-            replayMarker = L.marker([startPos.lat, startPos.lng], {icon: L.icon({iconUrl: '/pictures/cars/matiz.png', iconSize: [25,50]}),
-             rotationAngle: 0, 
-             rotationOrigin: 'center center'
-            }).addTo(historyMap);
+//             if(replayMarker) historyMap.removeLayer(replayMarker);
+//             const startPos = filtered[0];
+//             replayMarker = L.marker([startPos.lat, startPos.lng], {icon: L.icon({iconUrl: '/pictures/cars/matiz.png', iconSize: [25,50]}),
+//              rotationAngle: 0, 
+//              rotationOrigin: 'center center'
+//             }).addTo(historyMap);
 
-            // Replay animatsiyasi smooth harakat bilan
-            smoothReplay(latlngs, replayMarker, 1000, timeArray, speedArray); // 1000ms = 1 soniya har nuqta
+//             // Replay animatsiyasi smooth harakat bilan
+//             smoothReplay(latlngs, replayMarker, 1000, timeArray, speedArray); // 1000ms = 1 soniya har nuqta
 
-        });
+//         });
 
-      function getAngle(start, end) {
-        const dy = end[0] - start[0];
-        const dx = end[1] - start[1];
-        return Math.atan2(dy, dx) * 180 / Math.PI;
-      }
+//       function getAngle(start, end) {
+//         const dy = end[0] - start[0];
+//         const dx = end[1] - start[1];
+//         return Math.atan2(dy, dx) * 180 / Math.PI;
+//       }
 
 
-          function smoothReplay(latlngs, marker, durationPerSegment, timeArray, speedArray) {
-                replayLatLngs = latlngs;
-                replayTimeArray = timeArray;
-                replaySpeedArray = speedArray;
-                replayDuration = durationPerSegment;
+//           function smoothReplay(latlngs, marker, durationPerSegment, timeArray, speedArray) {
+//                 replayLatLngs = latlngs;
+//                 replayTimeArray = timeArray;
+//                 replaySpeedArray = speedArray;
+//                 replayDuration = durationPerSegment;
 
-                replayIndex = 0;
-                isPaused = false;
-                prevPoint = null;
+//                 replayIndex = 0;
+//                 isPaused = false;
+//                 prevPoint = null;
 
-                function move(i) {
-                    if (i >= latlngs.length - 1) return;
+//                 function move(i) {
+//                     if (i >= latlngs.length - 1) return;
 
-                    replayIndex = i;
+//                     replayIndex = i;
 
-                    const start = latlngs[i];
-                    const end = latlngs[i + 1];
-                    const steps = 20;
-                    let step = 0;
+//                     const start = latlngs[i];
+//                     const end = latlngs[i + 1];
+//                     const steps = 20;
+//                     let step = 0;
 
-                    const angle = getAngle(start, end);
-                    marker.setRotationAngle(angle);
+//                     const angle = getAngle(start, end);
+//                     marker.setRotationAngle(angle);
 
-                    function animate() {
+//                     function animate() {
 
-                        // PAUSE holati
-                        if (isPaused) {
-                            setTimeout(animate, 100);
-                            return;
-                        }
+//                         // PAUSE holati
+//                         if (isPaused) {
+//                             setTimeout(animate, 100);
+//                             return;
+//                         }
 
-                        if (step > steps) {
-                            prevPoint = {
-                                lat: end[0],
-                                lng: end[1],
-                                time: timeArray[i],
-                                speed: speedArray[i]
-                            };
+//                         if (step > steps) {
+//                             prevPoint = {
+//                                 lat: end[0],
+//                                 lng: end[1],
+//                                 time: timeArray[i],
+//                                 speed: speedArray[i]
+//                             };
 
-                            move(i + 1);
-                            return;
-                        }
+//                             move(i + 1);
+//                             return;
+//                         }
 
-                        const lat = start[0] + (end[0] - start[0]) * (step / steps);
-                        const lng = start[1] + (end[1] - start[1]) * (step / steps);
+//                         const lat = start[0] + (end[0] - start[0]) * (step / steps);
+//                         const lng = start[1] + (end[1] - start[1]) * (step / steps);
 
-                        marker.setLatLng([lat, lng]);
-                        historyMap.panTo([lat, lng], { animate: false });
+//                         marker.setLatLng([lat, lng]);
+//                         historyMap.panTo([lat, lng], { animate: false });
 
-                        // index
-                        const tIndex = i + (step / steps);
-                        const t = timeArray[Math.min(Math.floor(tIndex), timeArray.length - 1)];
-                        const s = speedArray[Math.min(Math.floor(tIndex), speedArray.length - 1)];
+//                         // index
+//                         const tIndex = i + (step / steps);
+//                         const t = timeArray[Math.min(Math.floor(tIndex), timeArray.length - 1)];
+//                         const s = speedArray[Math.min(Math.floor(tIndex), speedArray.length - 1)];
 
-                        updateTelemetry({
-                            lat,
-                            lng,
-                            time: t,
-                            speed: s
-                        });
+//                         updateTelemetry({
+//                             lat,
+//                             lng,
+//                             time: t,
+//                             speed: s
+//                         });
 
-                        step++;
-                        // setTimeout(animate, durationPerSegment / steps);
-                        currentTimer = setTimeout(animate, durationPerSegment/steps);
+//                         step++;
+//                         // setTimeout(animate, durationPerSegment / steps);
+//                         currentTimer = setTimeout(animate, durationPerSegment/steps);
 
-                    }
+//                     }
 
-                    animate();
-                }
+//                     animate();
+//                 }
 
-                move(0);
-            }
+//                 move(0);
+//             }
 
 
-        function updateTelemetry(currPoint) {
-            // Masofa
-            if(prevPoint) {
-                const prevLatLng = L.latLng(prevPoint.lat, prevPoint.lng);
-                const currLatLng = L.latLng(currPoint.lat, currPoint.lng);
+//         function updateTelemetry(currPoint) {
+//             // Masofa
+//             if(prevPoint) {
+//                 const prevLatLng = L.latLng(prevPoint.lat, prevPoint.lng);
+//                 const currLatLng = L.latLng(currPoint.lat, currPoint.lng);
 
-                const dist = prevLatLng.distanceTo(currLatLng)/1000; // km
-                totalDistance += dist;
+//                 const dist = prevLatLng.distanceTo(currLatLng)/1000; // km
+//                 totalDistance += dist;
 
-                $('#telemetryDistance').text(totalDistance.toFixed(2) + " km");            
-            }
+//                 $('#telemetryDistance').text(totalDistance.toFixed(2) + " km");            
+//             }
 
-            // Vaqt va sana
-            $('#telemetryTime').text(currPoint.time);
+//             // Vaqt va sana
+//             $('#telemetryTime').text(currPoint.time);
 
-            $('#telemetrySpeed').text(currPoint.speed + " km/h");
+//             $('#telemetrySpeed').text(currPoint.speed + " km/h");
 
-            prevPoint = currPoint;
-        }
+//             prevPoint = currPoint;
+//         }
 
 
 
-      // PAUSE
-      $("#btnPause").on("click", function () {
-    isPaused = true;
+//       // PAUSE
+//       $("#btnPause").on("click", function () {
+//     isPaused = true;
 
-    if (currentTimer) clearTimeout(currentTimer);
-});
+//     if (currentTimer) clearTimeout(currentTimer);
+// });
 
-        // PLAY
-        $("#btnPlay").on("click", function () {
-            if (isPaused) {
-                resumeReplay();
-            }
-        });
+//         // PLAY
+//         $("#btnPlay").on("click", function () {
+//             if (isPaused) {
+//                 resumeReplay();
+//             }
+//         });
 
-        $("#btnRestart").on("click", function () {
-    isPaused = false;
+//         $("#btnRestart").on("click", function () {
+//     isPaused = false;
 
-    // Replay indeksini boshidan boshlash
-    replayIndex = 0;
-    prevPoint = null;
-    totalDistance = 0;
+//     // Replay indeksini boshidan boshlash
+//     replayIndex = 0;
+//     prevPoint = null;
+//     totalDistance = 0;
 
-    // eski animatsiyani o‘chirib tashlash
-    if (currentTimer) clearTimeout(currentTimer);
+//     // eski animatsiyani o‘chirib tashlash
+//     if (currentTimer) clearTimeout(currentTimer);
 
-    // Replay markerini boshidagi nuqtaga qo‘yish
-    const start = replayLatLngs[0];
-    replayMarker.setLatLng([start[0], start[1]]);
-    historyMap.panTo([start[0], start[1]], {animate: false});
+//     // Replay markerini boshidagi nuqtaga qo‘yish
+//     const start = replayLatLngs[0];
+//     replayMarker.setLatLng([start[0], start[1]]);
+//     historyMap.panTo([start[0], start[1]], {animate: false});
 
-    // Smooth replay boshidan boshlash
-    smoothReplay(
-        replayLatLngs,
-        replayMarker,
-        replayDuration,
-        replayTimeArray,
-        replaySpeedArray
-          );
-      });
+//     // Smooth replay boshidan boshlash
+//     smoothReplay(
+//         replayLatLngs,
+//         replayMarker,
+//         replayDuration,
+//         replayTimeArray,
+//         replaySpeedArray
+//           );
+//       });
 
 
 
 
-      function resumeReplay() {
-                isPaused = false;
+//       function resumeReplay() {
+//                 isPaused = false;
 
-                // eski animatsiyani o‘chirib yuboramiz
-                if (currentTimer) clearTimeout(currentTimer);
+//                 // eski animatsiyani o‘chirib yuboramiz
+//                 if (currentTimer) clearTimeout(currentTimer);
 
-                smoothReplay(
-                    replayLatLngs.slice(replayIndex),
-                    replayMarker,
-                    replayDuration,
-                    replayTimeArray.slice(replayIndex),
-                    replaySpeedArray.slice(replayIndex)
-                );
-            }
+//                 smoothReplay(
+//                     replayLatLngs.slice(replayIndex),
+//                     replayMarker,
+//                     replayDuration,
+//                     replayTimeArray.slice(replayIndex),
+//                     replaySpeedArray.slice(replayIndex)
+//                 );
+//             }
+
+
+
 
        function myIcon(marker) {
             console.log("marker", marker.car_width)
@@ -3978,7 +4001,6 @@ map.on('load', () => {
         
         // Pop up element maker
         function carPopUp(marker) {
-            console.log(marker);
             let markerString = JSON.stringify(marker)
             return ` <div class="row text-center">
                         <div class="col-12">
@@ -4014,7 +4036,7 @@ map.on('load', () => {
                         </h6>
                         </div>
                         <div class="col-4 mt-3">
-                        <h6 class="icon-btn" id="show_car_history">
+                        <h6 class="icon-btn" onclick='showCarHistory(${markerString})'>
                             <i class="ti ti-map"></i>
                         </h6>
                         </div>
@@ -4300,6 +4322,88 @@ map.on('load', () => {
                 }
             })
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+             // Proxy orqali token olish
+        function getTokenViaProxy(contractId) {
+          return $.ajax({
+            url: './../../token_proxy.php',    // o'zingning server yo'li
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ contractId: Number(contractId) })
+          });
+        }
+
+        function showCarHistory(id) {
+            console.log("History bosildi! Car ID:", id);
+            $('#historyModal').modal('show');
+
+           getTokenViaProxy(id.mobject_id)
+          .done(function(res){
+            console.log('Proxy orqali res:', res);
+          })
+          .fail(function(err){
+            console.error('Proxy error', err);
+          });
+
+        }
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

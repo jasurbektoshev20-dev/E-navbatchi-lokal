@@ -684,6 +684,12 @@
         </div>
 
 <div class="modal-body">
+   <div id="markerLoader" class="text-center py-4" style="display:none;">
+              <div class="spinner-border text-info" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <div class="mt-2 text-white">Юкланмоқда...</div>
+            </div>
   <div class="space-main-modal-box">
     <div class="row">
 
@@ -1084,6 +1090,15 @@
              
               marker.on('click', function() {
                 document.getElementById('markerModalTitle').innerText = m.object_name;
+
+                   // 🔥 Modal ochiladi
+                $("#markerModal").modal("show");
+
+                // 🔥 Avval kontentni yashiramiz
+                $(".modal-body .space-main-modal-box").hide();
+
+                // 🔥 Loaderni yoqamiz
+                $("#markerLoader").show();
                 
 
                 $.ajax({
@@ -1094,7 +1109,11 @@
                     console.log(response);
                     if (!response) return
 
-                    $("#markerModal").modal("show");
+                    // LOADER → OFF
+                    $("#markerLoader").hide();
+
+                    // CONTENТ → SHOW
+                    $(".modal-body .space-main-modal-box").show();
 
                     renderDialogMap(response?.data, response?.cameras)
                     renderPassportDetails(response?.data)
