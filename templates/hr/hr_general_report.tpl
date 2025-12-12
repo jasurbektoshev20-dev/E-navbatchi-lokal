@@ -105,30 +105,30 @@
 
 {literal}
 <script>
-window.addEventListener('load', function() {
-  Swal.fire({
-    title: 'Саҳифа юкланмоқда...',
-    text: 'Илтимос, кутинг',
-    timer: 1000,
-    timerProgressBar: true,
-    allowOutsideClick: false,
-    background: '#f7f9fc',
-    color: '#333',
-    showConfirmButton: false,
-    showCancelButton: false,
-    showCloseButton: false,
-    didOpen: function(popup) {
-      Swal.showLoading();
-      const actions = popup.querySelector('.swal2-actions');
-      if (actions) actions.style.display = 'none';
-    },
-    willClose: function() {
-      document.body.style.opacity = '1';
-    }
-  });
+// window.addEventListener('load', function() {
+//   Swal.fire({
+//     title: 'Саҳифа юкланмоқда...',
+//     text: 'Илтимос, кутинг',
+//     timer: 1000,
+//     timerProgressBar: true,
+//     allowOutsideClick: false,
+//     background: '#f7f9fc',
+//     color: '#333',
+//     showConfirmButton: false,
+//     showCancelButton: false,
+//     showCloseButton: false,
+//     didOpen: function(popup) {
+//       Swal.showLoading();
+//       const actions = popup.querySelector('.swal2-actions');
+//       if (actions) actions.style.display = 'none';
+//     },
+//     willClose: function() {
+//       document.body.style.opacity = '1';
+//     }
+//   });
 
-  document.body.style.opacity = '0.5';
-});
+//   document.body.style.opacity = '0.5';
+//});
 </script>
 {/literal}
 

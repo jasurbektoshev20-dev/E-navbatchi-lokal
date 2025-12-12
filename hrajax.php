@@ -2034,10 +2034,10 @@ case "get_event_duty":
         $patrul_type = $_POST['patrul_type'];
         $direction = $_POST['direction'];
         $dog_id = $_POST['dog_id'];
-        $horse_count = $_POST['horse_count'];
+        $horse_count = !empty($_POST['horse_count']) ? $_POST['horse_count'] : null;
         $smena = $_POST['smena'];
-        $car_id = !empty($_POST['car_id']) ? $_POST['car_id'] : 0;
-        $bodycam_id = isset($_POST['bodycam_id']) ? $_POST['bodycam_id'] : 0;
+        $car_id = !empty($_POST['car_id']) ? $_POST['car_id'] : null;
+        $bodycam_id = isset($_POST['bodycam_id']) ? $_POST['bodycam_id'] : null;
 
         // echo '<pre>';
         // print_r($car_id);

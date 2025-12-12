@@ -416,48 +416,48 @@
 <script src="/assets/assets/vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js"></script>
 {literal}
 <script>
-window.addEventListener('load', function() {
-  Swal.fire({
-    title: 'Саҳифа юкланмоқда...',
-    text: 'Илтимос, кутинг',
-    timer: 1000,
-    timerProgressBar: true,
-    allowOutsideClick: false,
-    background: '#f7f9fc',
-    color: '#333',
-    showConfirmButton: false,
-    showCancelButton: false,
-    showCloseButton: false,
-    didOpen: function(popup) {
-      // ✅ loading spinnerni faqat o‘zi chiqsin
-      Swal.showLoading();
-      // default button joyini yo‘qotamiz
-      const actions = popup.querySelector('.swal2-actions');
-      if (actions) actions.style.display = 'none';
-    },
-    willClose: function() {
-      document.body.style.opacity = '1';
-    }
-  });
+// window.addEventListener('load', function() {
+//   Swal.fire({
+//     title: 'Саҳифа юкланмоқда...',
+//     text: 'Илтимос, кутинг',
+//     timer: 1000,
+//     timerProgressBar: true,
+//     allowOutsideClick: false,
+//     background: '#f7f9fc',
+//     color: '#333',
+//     showConfirmButton: false,
+//     showCancelButton: false,
+//     showCloseButton: false,
+//     didOpen: function(popup) {
+//       // ✅ loading spinnerni faqat o‘zi chiqsin
+//       Swal.showLoading();
+//       // default button joyini yo‘qotamiz
+//       const actions = popup.querySelector('.swal2-actions');
+//       if (actions) actions.style.display = 'none';
+//     },
+//     willClose: function() {
+//       document.body.style.opacity = '1';
+//     }
+//   });
 
-  document.body.style.opacity = '0.5';
-
-
-
-  const today = new Date();
-
-  // kun, oy, yilni olish
-  const day = String(today.getDate()).padStart(2, '0');      // 01–31
-  const month = String(today.getMonth() + 1).padStart(2, '0'); // 0 dan boshlanadi, shuning uchun +1
-  const year = today.getFullYear();
-
-  // format: 11.11.2025
-  const formattedDate = `${day}.${month}.${year}`;
-
-  document.getElementById('date_h5').textContent =`Сана: ${formattedDate}-йил`;
+//   document.body.style.opacity = '0.5';
 
 
-});
+
+//   const today = new Date();
+
+//   // kun, oy, yilni olish
+//   const day = String(today.getDate()).padStart(2, '0');      // 01–31
+//   const month = String(today.getMonth() + 1).padStart(2, '0'); // 0 dan boshlanadi, shuning uchun +1
+//   const year = today.getFullYear();
+
+//   // format: 11.11.2025
+//   const formattedDate = `${day}.${month}.${year}`;
+
+//   document.getElementById('date_h5').textContent =`Сана: ${formattedDate}-йил`;
+
+
+// });
 
 
 </script>
