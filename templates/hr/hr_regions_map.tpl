@@ -4336,9 +4336,21 @@ map.on('load', () => {
 
 
 
+        let historyMap;
+        let historyPolyline;
+        let selectedCarId = null;
+        let currentMarker;
+        let replayMarker; // replay animatsiya uchun
 
+        let isPaused = false;
+        let replayIndex = 0;
 
-
+        let replayLatLngs = [];
+        let replayTimeArray = [];
+        let replaySpeedArray = [];
+        let replayDuration = 1000;
+        let currentTimer = null;
+        const BASE_API_URL = 'https://smpo.uzgps.uz/sdx/mobject/track-by-day'; 
              // Proxy orqali token olish
         function getTokenViaProxy(contractId) {
           return $.ajax({
@@ -4349,22 +4361,209 @@ map.on('load', () => {
           });
         }
 
-        function showCarHistory(id) {
-            console.log("History bosildi! Car ID:", id);
-            $('#historyModal').modal('show');
+        // 1) Init funksiyasini qo'shing (bir martalik)
+function initHistoryMapIfNeeded() {
+  if (historyMap) return; // allaqachon mavjud
 
-           getTokenViaProxy(id.mobject_id)
-          .done(function(res){
-            console.log('Proxy orqali res:', res);
-          })
-          .fail(function(err){
-            console.error('Proxy error', err);
-          });
+  historyMap = L.map('historyMap').setView([41.31, 69.25], 13);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    className: 'map-tiles',
+    maxZoom: 19
+  }).addTo(historyMap);
 
-        }
+  // modal ochilganda o'lchamni yangilash (agar u allaqachon ochilgan bo'lsa ham)
+  $('#historyModal').on('shown.bs.modal.initmap', function () {
+    setTimeout(() => historyMap.invalidateSize(), 200);
+  });
+}
+
+// 2) showCarHistory ichida mapni init qiling AVVAL
+function showCarHistory(id) {
+  console.log("History bosildi! Car ID:", id);
+  $('#historyModal').modal('show');
+
+  // 2a) mapni ishlatishdan oldin yaratib qo'ymiz
+  initHistoryMapIfNeeded();
+
+  // 2b) token olish va keyin marker qo'yish
+  getTokenViaProxy(id.contract_id)
+    .done(function(res){
+      const token = res.result?.map?.jwtToken;
+      console.log('Proxy orqali token:', token);
+      sessionStorage.setItem("smpo_token", token);
+      // turli variantlardan lat/lng olish
+      const lat = Number(id.lat ?? id.latitude ?? id.y ?? id[0] ?? id.lat_dd ?? id.latitude_dd);
+      const lng = Number(id.lon ?? id.lng ?? id.longitude ?? id.x ?? id[1] ?? id.longitude_dd);
+
+      if (isNaN(lat) || isNaN(lng)) {
+        console.warn('Lat/Lng topilmadi in id object:', id);
+        return;
+      }
+
+      // eski markerni olib tashlash (agar mavjud bo'lsa)
+      if (replayMarker) {
+        try { historyMap.removeLayer(replayMarker); } catch(e){/*ignore*/ }
+        replayMarker = null;
+      }
+
+      // replayMarker = L.marker([lat, lng], { icon: blueIcon }).addTo(historyMap);
+      const carImageUrl = '/pictures/cars/matiz.gif'; // yoki '/images/car.png', yoki to'liq URL
+
+      const carIcon = L.icon({
+        iconUrl: carImageUrl,
+        iconSize: [25, 50],    // rasm o'lchami (width, height) — kerak bo'lsa sozla
+        iconAnchor: [24, 14],  // markerning "tikan" nuqtasi (icon markazining pastki qismi)
+        popupAnchor: [0, -16], // popup iconga nisbatan joylashuvi
+        className: 'car-marker-icon' // ixtiyoriy CSS klass
+      });
+
+      // replayMarker = L.marker([lat, lng], { icon: blueIcon }).addTo(historyMap);
+      // -> quyidagicha almashtiring:
+      replayMarker = L.marker([lat, lng], { icon: carIcon }).addTo(historyMap);
+      const carTitle = id.car_name ?? id.name ?? ('Car ' + (id.id ?? id.contract_id ?? ''));
+      // replayMarker.bindPopup(`<b>${carTitle}</b><br/>${lat.toFixed(6)}, ${lng.toFixed(6)}`).openPopup();
+
+      // xaritani markazga olamiz va zoom o'rnatamiz
+      historyMap.setView([lat, lng], Math.max(historyMap.getZoom() || 13, 14));
+      // agar modal allaqachon ko'rsatilgan bo'lsa invalidate qo'ying
+      setTimeout(()=> historyMap.invalidateSize(), 250);
+    })
+    .fail(function(err){
+      console.error('Proxy error', err);
+    });
+}
+
+function getSavedToken() {
+  return sessionStorage.getItem('smpo_token') || null;
+}
 
    
+// dd.MM.yyyy formatga aylantirish (input[type=date] dan value "yyyy-mm-dd" keladi)
+function formatDateForApi(dateValue, isEnd=false) {
+  if (!dateValue) return null;
+  // dateValue: "2025-12-11"
+  const parts = dateValue.split('-');
+  if (parts.length !== 3) return null;
+  const yyyy = parts[0], mm = parts[1], dd = parts[2];
+  // agar isEnd bo'lsa oxirgi daqiqani qo'yamiz
+  const time = isEnd ? '23:59' : '00:00';
+  return `${dd}.${mm}.${yyyy} ${time}`;
+}
 
+// chizish uchun yordamchi (olddan berilgan funksiyaga mos)
+function drawKmlTrackOnMap(response) {
+  if (!window.historyMap) return console.warn('historyMap yo\'q');
+  const placemarks = response?.kmlFolder?.kmlPlacemarkList || [];
+  if (!placemarks.length) {
+    console.warn('KML placemark topilmadi');
+    return;
+  }
+  const track = placemarks[0]?.kmlTrack;
+  if (!track) {
+    console.warn('kmlTrack mavjud emas');
+    return;
+  }
+  const coordList = track.kmlCoordList || [];
+  if (!coordList.length) {
+    console.warn('kmlCoordList bo\'sh');
+    return;
+  }
+  const latlngs = coordList.map(s => {
+    const parts = (s + '').trim().split(/\s+/);
+    const lon = parseFloat(parts[0]);
+    const lat = parseFloat(parts[1]);
+    return [lat, lon];
+  }).filter(p => !isNaN(p[0]) && !isNaN(p[1]));
+  if (!latlngs.length) return console.warn('Hech qanday to\'g\'ri coord topilmadi');
+
+  // clear old
+  try { if (window.historyPolyline) historyMap.removeLayer(window.historyPolyline); } catch(e){}
+  try { if (window.replayMarker) historyMap.removeLayer(window.replayMarker); } catch(e){}
+
+  // color from style if exists
+  let colorHex = '#ff0000';
+  const style = (response.kmlStyleList && response.kmlStyleList[0]) || null;
+  if (style && style.kmlLineStyle && style.kmlLineStyle.color) {
+    const k = style.kmlLineStyle.color; // aabbggrr
+    if (/^[0-9a-fA-F]{8}$/.test(k)) {
+      const rr = k.slice(6,8), gg = k.slice(4,6), bb = k.slice(2,4);
+      colorHex = `#${rr}${gg}${bb}`;
+    }
+  }
+
+  window.historyPolyline = L.polyline(latlngs, { color: colorHex, weight: 4, opacity: 0.95 }).addTo(historyMap);
+
+  // start & end markers
+  L.marker(latlngs[0]).addTo(historyMap).bindPopup('Start').openPopup();
+  L.marker(latlngs[latlngs.length-1]).addTo(historyMap).bindPopup('End');
+
+  historyMap.fitBounds(historyPolyline.getBounds(), { padding: [40,40] });
+
+  // store for future replay
+  window.replayLatLngs = latlngs.slice();
+  window.replayIndex = 0;
+  console.log('Polyline chizildi, nuqtalar:', latlngs.length);
+}
+
+// --- MAIN: search button click handler ---
+$('#searchHistory').on('click', function () {
+  // const objectId = $('#historyModal').data('objectId'); // showCarHistory da set qilgansan degan faraz
+  const objectId = 18409;
+  if (!objectId) { alert('ObjectId topilmadi'); return; }
+
+  const token = getSavedToken();
+  if (!token) { alert('Token topilmadi. Iltimos avval token oling.'); return; }
+
+  // read dates
+  const fromDateRaw = $('#fromDate').val(); // "yyyy-mm-dd"
+  const toDateRaw   = $('#toDate').val();
+
+  if (!fromDateRaw || !toDateRaw) {
+    alert('Iltimos boshlanish va tugash sanalarini tanlang');
+    return;
+  }
+
+  const startDate = formatDateForApi(fromDateRaw, false); // dd.MM.yyyy 00:00
+  const endDate   = formatDateForApi(toDateRaw, true);    // dd.MM.yyyy 23:59
+
+  // build URL with query params exactly like screenshot expects
+  const params = new URLSearchParams({
+    'object-id': String(objectId),
+    'start-date': startDate,
+    'end-date': endDate,
+    'point-count': '0',
+    'track-type-color': 'solid',
+    'color': '%23ff0000', // percent-encoded #ff0000
+    'line-width': '1'
+  });
+
+  const url = BASE_API_URL + '?' + params.toString();
+
+  // UI: disable button while loading
+  const $btn = $(this);
+  $btn.prop('disabled', true).text('Loading...');
+
+  $.ajax({
+    url: './../../track_proxy.php?' + params.toString(),
+    method: 'GET',
+    dataType: 'json',
+    // headers: {
+    //   'Authorization': 'Bearer ' + token,
+    //   'Accept': 'application/json'
+    // }
+  })
+  .done(function (resp) {
+    // resp kutilgan struktura bo'lishi kerak
+    drawKmlTrackOnMap(resp);
+  })
+  .fail(function (jqXHR, textStatus, errorThrown) {
+    console.error('History API xato', textStatus, errorThrown, jqXHR.responseText);
+    alert('Tarixni olishda xato: ' + (jqXHR.status ? jqXHR.status + ' ' : '') + textStatus);
+  })
+  .always(function () {
+    $btn.prop('disabled', false).text('{$Dict.search}' || 'Излаш');
+  });
+});
 
 
 

@@ -157,6 +157,19 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-6">
+                            <label>Jinsi</label><br>
+                            <label><input type="checkbox" name="gender" value="man" id="gender_m"> Erkak</label>
+                            <label><input type="checkbox" name="gender" value="woman" id="gender_f"> Ayol</label>
+                        </div>
+
+                        <div class="col-6">
+                            <label>Daraja</label><br>
+                            <label><input type="checkbox" name="rank" value="soldier" id="rank_askar"> Askar</label>
+                            <label><input type="checkbox" name="rank" value="sergeant" id="rank_serjant"> Serjant</label>
+                            <label><input type="checkbox" name="rank" value="officer" id="rank_ofitser"> Ofitser</label>
+                        </div>
+
                         <div class="col-12 text-center">
                             <input type="hidden" name="id" id="id" value="">
                             <input type="hidden" name="photo" id="photo" value="">
@@ -209,7 +222,6 @@
 
         // 🔥 Default holatda +998 turadi
         phoneMask.value = '+998 ';
-
 
 
         var dt_basic_table = $('.datatables-projects'),
@@ -266,6 +278,15 @@
                 $('#surname').val(sInfo.surname);
                 $('#phone').val(sInfo.phone);
                 $('#photo').val(sInfo.photo);
+
+                // Gender
+                $('#gender_m').prop('checked', sInfo.gender == "man");
+                $('#gender_f').prop('checked', sInfo.gender == "woman");
+
+                // Rank
+                $('#rank_askar').prop('checked', sInfo.rank == "soldier");
+                $('#rank_serjant').prop('checked', sInfo.rank == "sergeant");
+                $('#rank_ofitser').prop('checked', sInfo.rank == "officer");
             });
         })
 
@@ -324,6 +345,18 @@
                     form_data.append('firstname', $('#firstname').val());
                     form_data.append('surname', $('#surname').val());
                     form_data.append('phone', $('#phone').val());
+
+                    // Gender
+                    let gender = $('#gender_m').is(':checked') ? "man" : "woman";
+                    form_data.append('gender', gender);
+
+                    // Rank
+                    let rank = "";
+                    if ($('#rank_ofitser').is(':checked')) rank = "officer";
+                    else if ($('#rank_serjant').is(':checked')) rank = "sergeant";
+                    else if ($('#rank_askar').is(':checked')) rank = "soldier";
+
+                    form_data.append('rank', rank);
 
                     if (myDropzone.files.length > 0) {
                         myDropzone.files.forEach(function(file, index) {
