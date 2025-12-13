@@ -1691,6 +1691,7 @@ switch ($Act) {
 		array_agg(distinct drd.smena) FILTER (WHERE drd.smena IS NOT NULL) AS smena_list,
 		COUNT(DISTINCT CASE WHEN drd.bodycam_id IS NOT NULL THEN 1 ELSE 0 END ) AS bodycam_count,
 		SUM(DISTINCT drd.horse_count) AS horse_total,
+		(COUNT(DISTINCT CASE WHEN drd.dog_id IS NOT NULL THEN drd.id END) + SUM(DISTINCT drd.horse_count)) AS animals_count,
 		COUNT(DISTINCT drd.staff_id) AS staff_count________________________________________________1,
 		COUNT(DISTINCT CASE WHEN staff.is_man = true THEN drd.id END) AS man_count,
 		COUNT(DISTINCT CASE WHEN staff.is_ofitser = true THEN drd.id END) AS ofitser_count,
@@ -1716,14 +1717,16 @@ switch ($Act) {
 		COUNT(DISTINCT CASE WHEN cm.id = 14 THEN drd.id END) AS caddy_count,
 		COUNT(DISTINCT CASE WHEN cm.id = 16 THEN drd.id END) AS zil_count________________________________________________1,
 
+		SUM(DISTINCT COALESCE(array_length(drd.epikirofka_id,1),0) ) AS epikirofka_total,
+		COUNT(DISTINCT CASE WHEN 16 = ANY(drd.epikirofka_id) THEN drd.id END) AS light_count,
+		COUNT(DISTINCT CASE WHEN 12 = ANY(drd.epikirofka_id) THEN drd.id END) AS connection_count,
+		COUNT(DISTINCT CASE WHEN 13 = ANY(drd.epikirofka_id) THEN drd.id END) AS detector_count,
+		COUNT(DISTINCT CASE WHEN 15 = ANY(drd.epikirofka_id) THEN drd.id END) AS kishan_count,
+		COUNT(DISTINCT CASE WHEN 17 = ANY(drd.epikirofka_id) THEN drd.id END) AS whistle_count,
+		COUNT(DISTINCT CASE WHEN 20 = ANY(drd.epikirofka_id) THEN drd.id END) AS planshet_count	
 
 
-
-		SUM( COALESCE(array_length(drd.epikirofka_id,1),0) ) AS epikirofka_total,
-		COUNT(*) FILTER (WHERE drd.patrul_type IS NOT NULL) AS patrul_rows,
-		SUM( CASE WHEN drd.staff_phone IS NOT NULL THEN 1 ELSE 0 END ) AS phones_reported
-
-
+		
 
 
 		FROM hr.daily_routine dr
@@ -1737,9 +1740,10 @@ switch ($Act) {
 		LEFT JOIN ref.patrul_types pt ON pt.id = drd.patrul_type
 		left join hr.staff staff ON staff.id = drd.staff_id
 		left join tur.dog_types dt ON dt.id = drd.dog_id
-
 		left join hr.tech_guard_cars tc ON tc.id = drd.car_id
 		left join ref.car_models cm ON cm.id = tc.car_model_id
+
+		left join ref.epic epic ON epic.id = ANY(drd.epikirofka_id)
 
 		WHERE dr.date = (now() AT TIME ZONE 'Asia/Tashkent')::date
 		AND dr.object_id = {$object_id}
@@ -1779,6 +1783,39 @@ switch ($Act) {
         'Types' => $Types,
     ));
     break;
+
+	case "hr_market_according_duty":
+		$object_id = 16; // For testing purpose
+		$region_id = 31; // For testing purpose
+		$routine_id = 22; // For testing purpose
+
+		$query = "SELECT * FROM hr.dailiy_routine_date drd
+		LEFT JOIN hr.daily_routine dr ON dr.id = drd.routine_id
+		WHERE dr.object_id = {$object_id} AND dr.date = (now() AT TIME ZONE 'Asia/Tashkent')::date";
+		$sql->query($query);
+		$markets = $sql->fetchAll();
+
+		// echo '<pre>';
+		// print_r($markets);
+		// echo '</pre>';
+		// die();
+
+		 // Agar hududlar ro'yxati kerak bo'lsa (misol tariqasida)
+		$query = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t WHERE t.id > 1 AND t.id < 16 ORDER BY t.turn ASC";
+		$sql->query($query);
+		$Regions = $sql->fetchAll();
+
+		// Agar tur/kanal ro'yxati kerak bo'lsa (misol tariqasida)
+		$query = "SELECT t.id, t.name{$slang} as name FROM tur.criminals_types t ORDER BY t.id ASC";
+		$sql->query($query);
+		$Types = $sql->fetchAll();
+
+		$smarty->assign(array(
+        'markets' => $markets,
+        'Regions' => $Regions,
+        'Types' => $Types,
+    ));
+		break;
 
 
 
