@@ -1690,15 +1690,37 @@ switch ($Act) {
 		COUNT(DISTINCT CASE WHEN drd.patrul_type = 4 THEN drd.id END) AS otliq_patrul_count,
 		array_agg(distinct drd.smena) FILTER (WHERE drd.smena IS NOT NULL) AS smena_list,
 		COUNT(DISTINCT CASE WHEN drd.bodycam_id IS NOT NULL THEN 1 ELSE 0 END ) AS bodycam_count,
-		COUNT(DISTINCT CASE WHEN drd.dog_id IS NOT NULL THEN drd.id END) AS dog_count,
 		SUM(DISTINCT drd.horse_count) AS horse_total,
-		COUNT(DISTINCT drd.car_id) AS cars_count,
 		COUNT(DISTINCT drd.staff_id) AS staff_count________________________________________________1,
+		COUNT(DISTINCT CASE WHEN staff.is_man = true THEN drd.id END) AS man_count,
+		COUNT(DISTINCT CASE WHEN staff.is_ofitser = true THEN drd.id END) AS ofitser_count,
+		COUNT(DISTINCT CASE WHEN staff.is_woman = true THEN drd.id END) AS woman_count,
+		COUNT(DISTINCT CASE WHEN staff.is_sergeant = true THEN drd.id END) AS sergeant_count,
+		COUNT(DISTINCT CASE WHEN staff.is_soldier = true THEN drd.id END) AS soldier_count________________________________________________1,
+		
+		COUNT(DISTINCT CASE WHEN drd.dog_id IS NOT NULL THEN drd.id END) AS dog_count,
+		COUNT(DISTINCT CASE WHEN dt.id = 1 THEN drd.id END) AS guard_dogs_count,
+		COUNT(DISTINCT CASE WHEN dt.id = 2 THEN drd.id END) AS search_dogs_count,
+		COUNT(DISTINCT CASE WHEN dt.id = 3 THEN drd.id END) AS addict_dogs_count,
+		COUNT(DISTINCT CASE WHEN dt.id = 4 THEN drd.id END) AS anti_terror_dogs_count________________________________________________1,
+		COUNT(DISTINCT drd.car_id) AS cars_count,
+		COUNT(DISTINCT CASE WHEN cm.id = 1 THEN drd.id END) AS nexia3_count,
+		COUNT(DISTINCT CASE WHEN cm.id = 4 THEN drd.id END) AS tigr_count,
+		COUNT(DISTINCT CASE WHEN cm.id = 5 THEN drd.id END) AS spark_count,
+		COUNT(DISTINCT CASE WHEN cm.id = 7 THEN drd.id END) AS gazelle_count,
+		COUNT(DISTINCT CASE WHEN cm.id = 8 THEN drd.id END) AS uaz_patriot_count,
+		COUNT(DISTINCT CASE WHEN cm.id = 9 THEN drd.id END) AS captiva_count,
+		COUNT(DISTINCT CASE WHEN cm.id = 11 THEN drd.id END) AS damas_count,
+		COUNT(DISTINCT CASE WHEN cm.id = 12 THEN drd.id END) AS gentra_count,
+		COUNT(DISTINCT CASE WHEN cm.id = 13 THEN drd.id END) AS isuzu_count,
+		COUNT(DISTINCT CASE WHEN cm.id = 14 THEN drd.id END) AS caddy_count,
+		COUNT(DISTINCT CASE WHEN cm.id = 16 THEN drd.id END) AS zil_count________________________________________________1,
+
+
+
 
 		SUM( COALESCE(array_length(drd.epikirofka_id,1),0) ) AS epikirofka_total,
 		COUNT(*) FILTER (WHERE drd.patrul_type IS NOT NULL) AS patrul_rows,
-		
-		
 		SUM( CASE WHEN drd.staff_phone IS NOT NULL THEN 1 ELSE 0 END ) AS phones_reported
 
 
@@ -1713,13 +1735,19 @@ switch ($Act) {
 		LEFT JOIN hr.jts_objects_door od ON od.object_id = o.id
 		LEFT JOIN hr.jts_objects_camera oc ON oc.object_id = o.id
 		LEFT JOIN ref.patrul_types pt ON pt.id = drd.patrul_type
+		left join hr.staff staff ON staff.id = drd.staff_id
+		left join tur.dog_types dt ON dt.id = drd.dog_id
+
+		left join hr.tech_guard_cars tc ON tc.id = drd.car_id
+		left join ref.car_models cm ON cm.id = tc.car_model_id
+
 		WHERE dr.date = (now() AT TIME ZONE 'Asia/Tashkent')::date
 		AND dr.object_id = {$object_id}
 		AND dr.structure_id = {$region_id}
 		AND dr.id = {$routine_id}
 		GROUP BY
-		o.id, o.object_name, o.area, o.sektors_count, o.markets_count,
-		dr.structure_id, s.name{$slang}, r.name{$slang}, dr.id,
+		o.id, o.object_name, o.area, o.sektors_count, o.markets_count,st.is_man,st.is_ofitser,
+		dr.structure_id, s.name{$slang}, r.name{$slang}, dr.id,st.is_woman,st.is_sergeant,st.is_soldier,
 		dr.date, dr.responsible_id, dr.responsible_sname, dr.responsible_phone,
 		st.lastname, st.firstname, st.surname
 		ORDER BY o.object_name;

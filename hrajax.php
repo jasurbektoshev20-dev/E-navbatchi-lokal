@@ -371,9 +371,23 @@ switch ($Action) {
     $surname   = $_POST['surname'];
     $phone     = $_POST['phone'];
 
+    $man      = isset($_POST['man']) ? 'true' : 'false';
+    $woman    = isset($_POST['woman']) ? 'true' : 'false';
+    $soldier  = isset($_POST['soldier']) ? 'true' : 'false';
+    $sergeant = isset($_POST['sergeant']) ? 'true' : 'false';
+    $officer  = isset($_POST['officer']) ? 'true' : 'false';
+
+
+
     $username  = !empty($_POST['username']) ? $_POST['username'] : "";
     $password  = !empty($_POST['password']) ? md5($_POST['password']) : "";
 
+
+
+        // echo '<pre>';
+		// print_r($markets);
+		// echo '</pre>';
+		// die();
     // ─────────────────────────────
     // 📌 UPDATE (agar mavjud bo'lsa)
     // ─────────────────────────────
@@ -391,7 +405,12 @@ switch ($Action) {
                 phone = '{$phone}',
                 username = '{$username}',
                 password = '{$password}',
-                photo = '{$photo}'
+                photo = '{$photo}',
+                is_man = '{$man}',
+                is_woman = '{$woman}',
+                is_soldier = '{$soldier}',
+                is_sergeant = '{$sergeant}',
+                is_ofitser = '{$officer}'
             WHERE id = {$RowId}
         ";
 
@@ -421,7 +440,12 @@ switch ($Action) {
                 phone,
                 username,
                 password,
-                photo
+                photo,
+                is_man,
+                is_woman,
+                is_soldier,
+                is_sergeant,
+                is_ofitser
             ) VALUES (
                 '{$structure_id}',
                 {$role},
@@ -433,7 +457,12 @@ switch ($Action) {
                 '{$phone}',
                 '{$username}',
                 '{$password}',
-                '{$photo}'
+                '{$photo}',
+                '{$man}',
+                '{$woman}',
+                '{$soldier}',
+                '{$sergeant}',
+                '{$officer}'
             )
         ";
 
