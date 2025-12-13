@@ -1757,10 +1757,10 @@ switch ($Act) {
     $markets = $sql->fetchAll();
 	
 	
-		echo '<pre>';
-		print_r($markets);
-		echo '</pre>';
-		die();
+		// echo '<pre>';
+		// print_r($markets);
+		// echo '</pre>';
+		// die();
 
 
     // Agar hududlar ro'yxati kerak bo'lsa (misol tariqasida)

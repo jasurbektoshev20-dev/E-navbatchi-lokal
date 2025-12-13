@@ -151,9 +151,7 @@
                             <th class="text-center">Қўл кишани</th>
                             <th class="text-center">Чўнтак фонари</th>
                             <th class="text-center">Хуштак</th>
-                             <th class="text-center">Тиббий ҳимоя воситалари</th>
-                            <th class="text-center">Индивидуал боғлов пакети</th>
-                           <th class="text-center">Аэрозол</th>                      
+                             <th class="text-center">Биринчи ёрдам тўплами</th>                   
                             <th class="text-center">Хизмат ити</th>
                             <th class="text-center">Хизмат оти</th>
                             <th class="text-center">Автотранспорт</th>
@@ -180,8 +178,6 @@
                             <td>1</td>
                             <td>1</td>
                             <td>1</td>
-                            <td>1</td>
-                            <td>0</td>
                             <td>0</td>
                             <td>1</td>
                            
@@ -209,8 +205,7 @@
                             <td>1</td>
                             <td>1</td>
                             <td>1</td>
-                            <td>1</td>
-                            <td>0</td>
+              
                             <td>0</td>
                             <td>1</td>
                            
@@ -238,8 +233,7 @@
                             <td>1</td>
                             <td>0</td>
                             <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
+               
                             <td>1</td>
                             <td>0</td>
                         
@@ -264,8 +258,7 @@
                             <td>1</td>
                             <td>0</td>
                             <td>1</td>
-                            <td>0</td>
-                            <td>1</td>
+                 
                             <td>1</td>
                             <td>1</td>
                             <td>0</td>
@@ -291,8 +284,7 @@
                             <td>1</td>
                             <td>0</td>
                             <td>1</td>
-                            <td>0</td>
-                            <td>1</td>
+                  
                             <td>1</td>
                             <td>1</td>
                             <td>0</td>
@@ -318,8 +310,7 @@
                             <td>1</td>
                             <td>1</td>
                             <td>0</td>
-                            <td>1</td>
-                            <td>1</td>
+     
                             <td>1</td>
                             <td>1</td>
                             <td>1</td>
