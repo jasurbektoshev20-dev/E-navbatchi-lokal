@@ -1083,7 +1083,9 @@
 /* object cluster: ko'k rang */
 .cluster-objects { background: #1e90ff; }
 
-
+.leaflet-popup-content{
+  color: #fff;
+}
   {/literal}
 </style>
 
@@ -1438,11 +1440,11 @@
                 <div class="row mb-3 history-filter-section">
                 <div class="col-4">
                     <label>{$Dict.bdate}</label>
-                    <input type="date" id="fromDate" class="form-control">
+                    <input type="text" class="form-control" placeholder="DD-MM-YYYY" id="fromDate" />
                 </div>
                 <div class="col-4">
                     <label>{$Dict.tdate}</label>
-                    <input type="date" id="toDate" class="form-control">
+                    <input type="text" class="form-control" placeholder="DD-MM-YYYY" id="toDate" />
                 </div>
                 <div class="col-4">
                       <button id="searchHistory" class="btn btn-primary w-100">{$Dict.search}</button>
@@ -4344,11 +4346,12 @@ map.on('load', () => {
 
         let isPaused = false;
         let replayIndex = 0;
-
+        let replayTimer = null;
         let replayLatLngs = [];
         let replayTimeArray = [];
         let replaySpeedArray = [];
         let replayDuration = 1000;
+        let isPaused = false;
         let currentTimer = null;
         const BASE_API_URL = 'https://smpo.uzgps.uz/sdx/mobject/track-by-day'; 
              // Proxy orqali token olish
@@ -4380,19 +4383,14 @@ function initHistoryMapIfNeeded() {
 // 2) showCarHistory ichida mapni init qiling AVVAL
 function showCarHistory(id) {
   console.log("History bosildi! Car ID:", id);
+
+    $('#historyModal').data('generalData', id); 
   $('#historyModal').modal('show');
 
   // 2a) mapni ishlatishdan oldin yaratib qo'ymiz
   initHistoryMapIfNeeded();
 
-  // 2b) token olish va keyin marker qo'yish
-  getTokenViaProxy(id.contract_id)
-    .done(function(res){
-      const token = res.result?.map?.jwtToken;
-      console.log('Proxy orqali token:', token);
-      sessionStorage.setItem("smpo_token", token);
-      // turli variantlardan lat/lng olish
-      const lat = Number(id.lat ?? id.latitude ?? id.y ?? id[0] ?? id.lat_dd ?? id.latitude_dd);
+   const lat = Number(id.lat ?? id.latitude ?? id.y ?? id[0] ?? id.lat_dd ?? id.latitude_dd);
       const lng = Number(id.lon ?? id.lng ?? id.longitude ?? id.x ?? id[1] ?? id.longitude_dd);
 
       if (isNaN(lat) || isNaN(lng)) {
@@ -4427,95 +4425,189 @@ function showCarHistory(id) {
       historyMap.setView([lat, lng], Math.max(historyMap.getZoom() || 13, 14));
       // agar modal allaqachon ko'rsatilgan bo'lsa invalidate qo'ying
       setTimeout(()=> historyMap.invalidateSize(), 250);
-    })
-    .fail(function(err){
-      console.error('Proxy error', err);
-    });
+
+  // 2b) token olish va keyin marker qo'yish
+  // getTokenViaProxy(id.contract_id)
+  //   .done(function(res){
+  //     const token = res.result?.map?.jwtToken;
+  //     console.log('Proxy orqali token:', token);
+  //     sessionStorage.setItem("smpo_token", token);
+  //     // turli variantlardan lat/lng olish
+     
+  //   })
+  //   .fail(function(err){
+  //     console.error('Proxy error', err);
+  //   });
 }
 
 function getSavedToken() {
   return sessionStorage.getItem('smpo_token') || null;
 }
 
-   
-// dd.MM.yyyy formatga aylantirish (input[type=date] dan value "yyyy-mm-dd" keladi)
-function formatDateForApi(dateValue, isEnd=false) {
-  if (!dateValue) return null;
-  // dateValue: "2025-12-11"
-  const parts = dateValue.split('-');
-  if (parts.length !== 3) return null;
-  const yyyy = parts[0], mm = parts[1], dd = parts[2];
-  // agar isEnd bo'lsa oxirgi daqiqani qo'yamiz
-  const time = isEnd ? '23:59' : '00:00';
-  return `${dd}.${mm}.${yyyy} ${time}`;
-}
 
-// chizish uchun yordamchi (olddan berilgan funksiyaga mos)
+// GLOBALDA bo‘lishi shart
+let historyLayerGroup = null;
+
 function drawKmlTrackOnMap(response) {
-  if (!window.historyMap) return console.warn('historyMap yo\'q');
-  const placemarks = response?.kmlFolder?.kmlPlacemarkList || [];
-  if (!placemarks.length) {
-    console.warn('KML placemark topilmadi');
-    return;
-  }
-  const track = placemarks[0]?.kmlTrack;
-  if (!track) {
-    console.warn('kmlTrack mavjud emas');
-    return;
-  }
-  const coordList = track.kmlCoordList || [];
-  if (!coordList.length) {
-    console.warn('kmlCoordList bo\'sh');
-    return;
-  }
-  const latlngs = coordList.map(s => {
-    const parts = (s + '').trim().split(/\s+/);
-    const lon = parseFloat(parts[0]);
-    const lat = parseFloat(parts[1]);
-    return [lat, lon];
-  }).filter(p => !isNaN(p[0]) && !isNaN(p[1]));
-  if (!latlngs.length) return console.warn('Hech qanday to\'g\'ri coord topilmadi');
 
-  // clear old
-  try { if (window.historyPolyline) historyMap.removeLayer(window.historyPolyline); } catch(e){}
-  try { if (window.replayMarker) historyMap.removeLayer(window.replayMarker); } catch(e){}
-
-  // color from style if exists
-  let colorHex = '#ff0000';
-  const style = (response.kmlStyleList && response.kmlStyleList[0]) || null;
-  if (style && style.kmlLineStyle && style.kmlLineStyle.color) {
-    const k = style.kmlLineStyle.color; // aabbggrr
-    if (/^[0-9a-fA-F]{8}$/.test(k)) {
-      const rr = k.slice(6,8), gg = k.slice(4,6), bb = k.slice(2,4);
-      colorHex = `#${rr}${gg}${bb}`;
+    if (!historyMap) {
+        console.warn('historyMap yo‘q');
+        return;
     }
-  }
 
-  window.historyPolyline = L.polyline(latlngs, { color: colorHex, weight: 4, opacity: 0.95 }).addTo(historyMap);
+    // 1️⃣ HAMMA ESKI YO‘LLARNI TOZALASH
+    if (historyLayerGroup) {
+        historyLayerGroup.clearLayers();
+    } else {
+        historyLayerGroup = L.layerGroup().addTo(historyMap);
+    }
 
-  // start & end markers
-  L.marker(latlngs[0]).addTo(historyMap).bindPopup('Start').openPopup();
-  L.marker(latlngs[latlngs.length-1]).addTo(historyMap).bindPopup('End');
+    // replay state reset
+    replayLatLngs = [];
+    replayTimeArray = [];
+    replaySpeedArray = [];
+    replayIndex = 0;
 
-  historyMap.fitBounds(historyPolyline.getBounds(), { padding: [40,40] });
+    // 2️⃣ PLACEMARKLARNI OLISH
+    const placemarks = response?.kmlFolder?.kmlPlacemarkList || [];
+    if (!placemarks.length) {
+        console.warn('KML placemark topilmadi');
+        return;
+    }
 
-  // store for future replay
-  window.replayLatLngs = latlngs.slice();
-  window.replayIndex = 0;
-  console.log('Polyline chizildi, nuqtalar:', latlngs.length);
+    // ===== START & END (SEN AYTGANCHA) =====
+
+    // START → birinchi placemark, birinchi nuqta
+    const firstPlacemark = placemarks[0];
+    const firstCoordStr = firstPlacemark.kmlTrack.kmlCoordList[0];
+    const [startLon, startLat] = firstCoordStr.split(' ').map(Number);
+    const startLatLng = [startLat, startLon];
+
+    // END → oxirgi placemark, oxirgi nuqta
+    const lastPlacemark = placemarks[placemarks.length - 1];
+    const lastCoordList = lastPlacemark.kmlTrack.kmlCoordList;
+    const lastCoordStr = lastCoordList[lastCoordList.length - 1];
+    const [endLon, endLat] = lastCoordStr.split(' ').map(Number);
+    const endLatLng = [endLat, endLon];
+
+    // ===== POLYLINE UCHUN DATA =====
+    const track = placemarks[0]?.kmlTrack;
+    if (!track) {
+        console.warn('kmlTrack mavjud emas');
+        return;
+    }
+
+    const coordList = track.kmlCoordList || [];
+    if (!coordList.length) {
+        console.warn('kmlCoordList bo‘sh');
+        return;
+    }
+
+    const latlngs = coordList.map(s => {
+        const parts = String(s).trim().split(/\s+/);
+        const lon = parseFloat(parts[0]);
+        const lat = parseFloat(parts[1]);
+        return [lat, lon];
+    }).filter(p => !isNaN(p[0]) && !isNaN(p[1]));
+
+    if (latlngs.length < 2) {
+        console.warn('Polyline chizish uchun nuqtalar yetarli emas');
+        return;
+    }
+
+    // 4️⃣ RANG
+    let colorHex = '#ff0000';
+    const style = response?.kmlStyleList?.[0];
+    if (style?.kmlLineStyle?.color) {
+        const k = style.kmlLineStyle.color;
+        if (/^[0-9a-fA-F]{8}$/.test(k)) {
+            const rr = k.slice(6, 8);
+            const gg = k.slice(4, 6);
+            const bb = k.slice(2, 4);
+            colorHex = `#${rr}${gg}${bb}`;
+        }
+    }
+
+    // 5️⃣ POLYLINE
+    historyPolyline = L.polyline(latlngs, {
+        color: colorHex,
+        weight: 4,
+        opacity: 0.95
+    }).addTo(historyLayerGroup);
+
+    // 6️⃣ START / END MARKERLAR
+    L.marker(startLatLng)
+        .addTo(historyLayerGroup)
+        .bindPopup('Start');
+
+    L.marker(endLatLng)
+        .addTo(historyLayerGroup)
+        .bindPopup('End');
+
+    // 7️⃣ FIT
+    if (historyPolyline?.getBounds) {
+        historyMap.fitBounds(historyPolyline.getBounds(), {
+            padding: [40, 40]
+        });
+    }
+
+    // 8️⃣ REPLAY
+    replayLatLngs = latlngs.slice();
+    replayIndex = 0;
+
+    console.log('✅ Start/End to‘g‘ri qo‘yildi');
 }
+
+
+  const flatpickrDate = document.querySelector('#fromDate');
+    if (flatpickrDate) {
+        flatpickrDate.flatpickr({
+           enableTime: true,
+            dateFormat: "d.m.Y H:i",
+            time_24hr: true,
+            monthSelectorType: 'static'
+        });
+    }
+
+    let fromDate;
+    $('#fromDate').on('change', function() {
+        let [datePart, timePart] = this.value.split(' ');
+        let [day, month, year] = datePart.split('-');
+
+        start_date = `${year}.${month}.${day} ${timePart}`;
+    });
+
+
+     const flatpickrEndDate = document.querySelector('#toDate');
+    if (flatpickrEndDate) {
+        flatpickrEndDate.flatpickr({
+            enableTime: true,
+            dateFormat: "d.m.Y H:i",
+            time_24hr: true,
+            monthSelectorType: 'static'
+        });
+    }
+
+    let toDate;
+    $('#toDate').on('change', function() {
+        let [datePart, timePart] = this.value.split(' ');
+        let [day, month, year] = datePart.split('-');
+
+        toDate = `${year}.${month}.${day} ${timePart}`;
+    });
+
 
 // --- MAIN: search button click handler ---
 $('#searchHistory').on('click', function () {
-  // const objectId = $('#historyModal').data('objectId'); // showCarHistory da set qilgansan degan faraz
-  const objectId = 18409;
-  if (!objectId) { alert('ObjectId topilmadi'); return; }
 
-  const token = getSavedToken();
-  if (!token) { alert('Token topilmadi. Iltimos avval token oling.'); return; }
+  const objectId = $('#historyModal').data().generalData.mobject_id; 
+  const contractId = $('#historyModal').data().generalData.contract_id;
+  if (!objectId) { alert('ObjectId topilmadi'); return; }
+  if (!contractId) { alert('Shartnoma raqami topilmadi'); return; }
+
 
   // read dates
-  const fromDateRaw = $('#fromDate').val(); // "yyyy-mm-dd"
+  const fromDateRaw = $('#fromDate').val(); 
   const toDateRaw   = $('#toDate').val();
 
   if (!fromDateRaw || !toDateRaw) {
@@ -4523,18 +4615,16 @@ $('#searchHistory').on('click', function () {
     return;
   }
 
-  const startDate = formatDateForApi(fromDateRaw, false); // dd.MM.yyyy 00:00
-  const endDate   = formatDateForApi(toDateRaw, true);    // dd.MM.yyyy 23:59
-
   // build URL with query params exactly like screenshot expects
   const params = new URLSearchParams({
     'object-id': String(objectId),
-    'start-date': startDate,
-    'end-date': endDate,
+    'start-date': fromDateRaw,
+    'end-date': toDateRaw,
     'point-count': '0',
     'track-type-color': 'solid',
     'color': '%23ff0000', // percent-encoded #ff0000
-    'line-width': '1'
+    'line-width': '1',
+    'contractId': contractId,
   });
 
   const url = BASE_API_URL + '?' + params.toString();
@@ -4547,14 +4637,13 @@ $('#searchHistory').on('click', function () {
     url: './../../track_proxy.php?' + params.toString(),
     method: 'GET',
     dataType: 'json',
-    // headers: {
-    //   'Authorization': 'Bearer ' + token,
-    //   'Accept': 'application/json'
-    // }
+
   })
   .done(function (resp) {
     // resp kutilgan struktura bo'lishi kerak
     drawKmlTrackOnMap(resp);
+    $btn.prop('disabled', false).text('{$Dict.search}' || 'Излаш');
+
   })
   .fail(function (jqXHR, textStatus, errorThrown) {
     console.error('History API xato', textStatus, errorThrown, jqXHR.responseText);
@@ -4567,13 +4656,84 @@ $('#searchHistory').on('click', function () {
 
 
 
+function calculateReplayDuration(distanceKm) {
+    // sekundlarda
+    let seconds = distanceKm * 0.7; // 1 km ≈ 0.7 s (vizual balans)
+    seconds = Math.max(seconds, 10); // min 10 s
+    seconds = Math.min(seconds, 45); // max 45 s
+    return seconds * 1000; // ms
+}
 
 
+$('#btnPlay').on('click', function () {
+
+    if (!replayLatLngs || replayLatLngs.length < 2) {
+        console.warn('Replay uchun nuqtalar yo‘q');
+        return;
+    }
+
+    if (replayMarker && !isPaused) {
+        // allaqachon yurib ketyapti
+        return;
+    }
+
+    // agar birinchi marta yoki restartdan keyin
+    if (!replayMarker) {
+        replayMarker = L.marker(replayLatLngs[0]).addTo(historyLayerGroup);
+        replayIndex = 0;
+    }
+
+    isPaused = false;
+
+    // 🔥 animatsiya vaqtini masofaga qarab hisoblash
+    // 👉 bu qiymatni API javobidan olasan:
+    // masalan: response.kmlExtraDataList.kmlExtraDataList[0].distance
+    const distanceKm = window.historyDistanceKm || 10; // fallback
+    replayDuration = calculateReplayDuration(distanceKm);
+
+    const stepTime = replayDuration / replayLatLngs.length;
+
+    replayTimer = setInterval(() => {
+
+        if (isPaused) return;
+
+        replayIndex++;
+
+        if (replayIndex >= replayLatLngs.length) {
+            clearInterval(replayTimer);
+            replayTimer = null;
+            return;
+        }
+
+        replayMarker.setLatLng(replayLatLngs[replayIndex]);
+
+    }, stepTime);
+});
 
 
+$('#btnPause').on('click', function () {
+    if (!replayTimer) return;
+
+    isPaused = true;
+});
 
 
+$('#btnRestart').on('click', function () {
 
+    if (replayTimer) {
+        clearInterval(replayTimer);
+        replayTimer = null;
+    }
+
+    isPaused = false;
+    replayIndex = 0;
+
+    if (replayMarker) {
+        replayMarker.setLatLng(replayLatLngs[0]);
+    } else if (replayLatLngs.length) {
+        replayMarker = L.marker(replayLatLngs[0]).addTo(historyLayerGroup);
+    }
+});
 
 
 

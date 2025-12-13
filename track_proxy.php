@@ -11,9 +11,10 @@ $input = json_decode(file_get_contents('php://input'), true);
 $objectId = isset($_GET['object-id']) ? intval($_GET['object-id']) : 0;
 $startDate = isset($_GET['start-date']) ? $_GET['start-date'] : date('Y-m-d', strtotime('-7 days'));
 $endDate = isset($_GET['end-date']) ? $_GET['end-date'] : date('Y-m-d');
+$contractId = isset($_GET['contractId']) ? intval($_GET['contractId']) : 0;
 
 // --- API Token Retrieval ---
-$token = getToken(2672); // Get your token (ensure the function works)
+$token = getToken($contractId); 
 
 // --- Build the URL Safely using http_build_query() ---
 $baseURL = 'https://smpo.uzgps.uz/api/sdx/mobject/track-by-day';
