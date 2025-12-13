@@ -224,7 +224,7 @@
             font-size: 18px;
         }
 
-        .telemetryCard{
+        /* .telemetryCard{
             position: absolute;
             top: 110px;
             right: 30px;
@@ -264,7 +264,7 @@
             margin-right: 5px;
             background-color: #fff;
             box-shadow: 2px 4px 20px 0px rgba(34, 60, 80, 0.34);
-         }
+         } */
 
          .car-title {
   font-size: 22px;
@@ -1086,6 +1086,139 @@
 .leaflet-popup-content{
   color: #fff;
 }
+
+.replay-controls {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    padding-bottom: 10px;
+}
+
+.replay-btn {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 24px;
+    transition: all 0.25s ease;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+}
+
+/* PLAY */
+.replay-btn.play {
+    background: #28c76f;
+    color: #fff;
+}
+.replay-btn.play:hover {
+    transform: scale(1.1);
+    background: #22b965;
+}
+
+/* PAUSE */
+.replay-btn.pause {
+    background: #ff9f43;
+    color: #fff;
+}
+.replay-btn.pause:hover {
+    transform: scale(1.1);
+    background: #f08c2e;
+}
+
+/* RESTART */
+.replay-btn.restart {
+    background: #ea5455;
+    color: #fff;
+}
+.replay-btn.restart:hover {
+    transform: scale(1.1);
+    background: #d94344;
+}
+
+.telemetryCard {
+    position: absolute;
+    top: 110px;
+    right: 30px;
+    width: 350px;
+    z-index: 9999;
+    font-family: sans-serif;
+    background: linear-gradient(160deg, #1e2235, #14172a);
+    border-radius: 16px;
+    padding: 14px 14px 10px;
+    color: #fff;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    
+}
+
+.telementary-card-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.telementary-card-head img {
+    width: 54px;
+    height: auto;
+}
+
+.telement-date-now {
+    font-size: 17px;
+    opacity: 0.85;
+}
+
+.telemetry-card-body > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255,255,255,0.04);
+    border-radius: 10px;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    font-size: 17px;
+}
+
+.telemetry-card-body strong {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.telemetry-card-body svg {
+    opacity: 0.85;
+}
+
+.telemetry-card-body span {
+    font-weight: 600;
+    font-size: 18px;
+}
+
+
+#telemetrySpeed {
+    color: #28c76f;
+}
+
+#telemetryDistance {
+    color: #00cfe8;
+}
+
+#telemetryTime {
+    letter-spacing: 1px;
+}
+
+.replay-controls {
+    margin-top: 12px;
+}
+
+#telemetryRegion{
+  font-size: 14px;
+}
+
+
   {/literal}
 </style>
 
@@ -1135,7 +1268,7 @@
         <div class="modal-body">
             <div id="markerLoader" class="text-center py-4" style="display:none;">
               <div class="spinner-border text-info" role="status">
-                <span class="visually-hidden">Loading...</span>
+                <span class="visually-hidden">Юкланмоқда...</span>
               </div>
               <div class="mt-2 text-white">Юкланмоқда...</div>
             </div>
@@ -1469,20 +1602,30 @@
                                 </svg>  {$Dict.speed}:</strong> <span id="telemetrySpeed">0 km/h</span></div>
                                                         <div class="col-12"><strong>  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-arrow-right-square" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm4.5 5.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z"/>
-                                </svg>  {$Dict.distance}:</strong> <span id="telemetryDistance">0 km</span></div>
+                                </svg>  {$Dict.distance}:</strong> <span id="telemetryDistance">0 км</span></div>
                                                         <div class="col-12"><strong><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-building" viewBox="0 0 16 16">
                                 <path d="M4 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zM4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM7.5 5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM4.5 8a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z"/>
                                 <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1zm11 0H3v14h3v-2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V15h3z"/>
-                                </svg>  {$Dict.region}:</strong> <span id="telemetryRegion">Ташкент</span></div>
+                                </svg>  {$Dict.region}:</strong> <span id="telemetryRegion">-</span></div>
                                                     </div>
 
-                                                    <hr style="border-color: white;">
+                                  
+                  
+                    <div class="replay-controls">
 
-                    <div class="d-flex justify-content-between" style="padding-bottom: 10px; gap:5px; font-size:16px;">
-                        <button id="btnPause" class="btn btn-warning btn">⏸ Тўхтатмоқ</button>
-                        <button id="btnPlay" class="btn btn-success btn">▶ Давом этмоқ</button>
-                        <button id="btnRestart" class="btn btn-danger btn">⟲ Қайта бошлаш</button>
+                       <div id="btnPlay" class="replay-btn play" title="Play">
+                            <i class="ti ti-player-play"></i>
+                        </div>
+
+                        <div id="btnPause" class="replay-btn pause" title="Pause">
+                            <i class="ti ti-player-pause"></i>
+                        </div>
+
+                        <div id="btnRestart" class="replay-btn restart" title="Restart">
+                            <i class="ti ti-refresh"></i>
+                        </div>
                     </div>
+
                                 
                 </div>
 
@@ -3478,44 +3621,6 @@ map.on('load', () => {
       }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       function fullScreenSingle(id) {
           jsDecoder.JS_FullScreenSingle(id);
       }
@@ -3570,343 +3675,6 @@ map.on('load', () => {
 
 
 
-
-      // mashinani vaqtlar bo'yicha filter qilishimiz uchun statik baza 
-        const carHistory = {
-            "01-226-PSF": [
-                {lat:  41.29929539100351, lng: 69.26026328418045, time: "2025-11-01 09:00", speed: 40},
-                {lat: 41.30029201645182, lng: 69.26159494206286, time: "2025-11-02 10:10", speed: 45},
-                {lat: 41.30061154208356, lng: 69.26196962893377, time: "2025-11-03 11:20", speed: 50},
-                {lat: 41.30094247769464, lng: 69.26153418202972, time: "2025-11-04 12:30", speed: 47},
-                {lat: 41.30166520479998, lng: 69.2624962158875, time: "2025-11-05 13:40", speed: 34},
-                {lat: 41.30209883724476, lng: 69.26168101876353, time: "2025-11-06 14:40", speed: 41},
-                {lat: 41.30262375684117, lng: 69.26073923825014, time: "2025-11-07 15:40", speed: 50},
-                {lat: 41.30363935017743, lng: 69.26094683502515, time: "2025-11-08 11:40", speed: 60},
-                {lat: 41.30445713853788, lng: 69.26101265839436, time: "2025-11-09 08:40", speed: 55},
-                {lat: 41.30399309245029, lng: 69.25930631407961, time: "2025-11-10 07:40", speed: 46},
-                {lat: 41.303673583380416, lng: 69.25821769674299, time: "2025-11-11 18:40", speed: 39},
-                {lat: 41.302452587879706, lng: 69.25888099377529, time: "2025-11-12 19:40", speed: 41},
-                {lat: 41.30188202140375, lng: 69.25694173605149, time: "2025-11-13 20:40", speed: 0},
-            ],
-            "01-303-PSF": [
-                {lat: 41.3102, lng: 69.2408, time: "2025-11-01 09:00"},
-                {lat: 41.3111, lng: 69.2420, time: "2025-11-01 09:10"},
-                {lat: 41.3124, lng: 69.2450, time: "2025-11-01 09:20"}
-            ],
-            "01-555-PSF": [
-                {lat: 41.3202, lng: 69.2308, time: "2025-11-01 09:00"},
-                {lat: 41.3221, lng: 69.2310, time: "2025-11-01 09:10"},
-                {lat: 41.3234, lng: 69.2340, time: "2025-11-01 09:20"}
-            ]
-        };
-
-         let totalDistance = 0; // masofa km da
-         let prevPoint = null; // oldingi nuqta replay davomida
-
-
-
-
-     // modal ochilgandagi xarita chiqish joyi
-//         let historyMap;
-//         let historyPolyline;
-//         let selectedCarId = null;
-//         let currentMarker;
-//         let replayMarker; // replay animatsiya uchun
-
-//         let isPaused = false;
-//         let replayIndex = 0;
-
-//         let replayLatLngs = [];
-//         let replayTimeArray = [];
-//         let replaySpeedArray = [];
-//         let replayDuration = 1000;
-//         let currentTimer = null;
-
-
-
-//         $(document).ready(function() {
-//             $('#historyModal').on('shown.bs.modal', function () {
-//                       setTimeout(() => {
-//                 if (!historyMap) {
-//                     historyMap = L.map('historyMap').setView([41.31, 69.25], 13);
-
-//                     // L.tileLayer('http://10.100.9.145:8080/tile/{z}/{x}/{y}.png', {
-//                      layers: L.tileLayer(`https://tile.openstreetmap.org/{z}/{x}/{y}.png`, {
-//                         className: 'dark' == 'dark' ? 'map-tiles' : 'map-tiles-light',
-//                         maxZoom: 19
-//                     }).addTo(historyMap);
-//                 }
-
-//                 historyMap.invalidateSize();
-
-//                   // Hozirgi mashina pozitsiyasi (statik misol)
-//             const currentCarPos = carHistory[selectedCarId][carHistory[selectedCarId]?.length - 1];
-         
-//             if(currentMarker) historyMap.removeLayer(currentMarker);
-//              currentMarker = L.marker([currentCarPos.lat, currentCarPos.lng]).addTo(historyMap)
-//                 .bindPopup('<span style="color: white;">Ҳозирги машина позицияси</span>')
-//             .openPopup();
-
-//                historyMap.setView([currentCarPos.lat, currentCarPos.lng], 15);
-
-
-//                   // Faqat HUDUDNI chizish
-//                  const geofenceCoords = [
-//                     [41.323238002671104, 69.23698976904528],  // yaqin nuqta
-//                     [41.28888775241128, 69.23362138773061],
-//                     [41.28596223874519, 69.30989438509913],
-//                     [41.33838705993267, 69.30770949258125],
-//                     ];
-
-
-//                     L.polygon(geofenceCoords, {
-//                         color: 'blue',
-//                         fillColor: 'blue',
-//                         fillOpacity: 0.2
-//                     }).addTo(historyMap);
-
-//             }, 200);
-//             });
-//         });
-
-
-
-//         // // tugma bosilganda modal oyna ochilishi
-//         $(document).on('click', '#show_car_history', function () {
-
-//             selectedCarId = "01-226-PSF";
-//             $('#historyModal').modal('show');
-//         });
-
-//                 // Qidirish tugmasi bosilganda
-//         $(document).on('click','#searchHistory', function () {
-//             if (!selectedCarId || !carHistory[selectedCarId]) return;
-
-//             // Sanalarni olish
-//             const fromDate = $('#fromDate').val();
-//             const toDate = $('#toDate').val();
-//             if (!fromDate || !toDate) {
-//                 alert("Iltimos, ikkala sanani ham kiriting");
-//                 return;
-//             }
-
-//             // // Filtrlash
-//             // const filtered = carHistory[selectedCarId].filter(item => {
-//             //     const itemDate = item.time.split(" ")[0]; // "2025-11-01"
-//             //     return itemDate >= fromDate && itemDate <= toDate;
-//             // });
-//             const filtered = (carHistory[selectedCarId] || []).filter(item => {
-//               const timeStr = item?.time || ''; // undefined safe
-//               // agar timeStr string bo'lsa bo'ling
-//               const datePart = String(timeStr).split(' ')[0] || '';
-//               // endi taqqoslash: fromDate/toDate formatiga mosligini tekshirish foydali
-//               return datePart >= fromDate && datePart <= toDate;
-//             });
-
-
-//             if (filtered.length === 0) {
-//                 alert("Bu davrda mashina ma'lumotlari topilmadi");
-//                 return;
-//             }
-
-//             // Agar oldingi polyline bo'lsa, o'chirish
-//             if (historyPolyline) {
-//                 historyMap.removeLayer(historyPolyline);
-//             }
-
-//              if(historyPolyline) historyMap.removeLayer(historyPolyline);
-//             const latlngs = filtered.map(item => [item.lat, item.lng]);
-//             historyPolyline = L.polyline(latlngs, {color: 'red', weight: 5, smoothFactor: 1}).addTo(historyMap);
-
-
-//             // Xarita markazini polyline markaziga qo'yish
-//             const bounds = historyPolyline.getBounds();
-//             historyMap.fitBounds(bounds);
-
-
-//                     // Replay marker yaratish (birinchi nuqtada)
-
-//             //  latlngs = filtered.map(item => [item.lat, item.lng]);
-//                  const timeArray = filtered.map(item => item.time);
-//                  const speedArray = filtered.map(item => item.speed);
-
-
-//             if(replayMarker) historyMap.removeLayer(replayMarker);
-//             const startPos = filtered[0];
-//             replayMarker = L.marker([startPos.lat, startPos.lng], {icon: L.icon({iconUrl: '/pictures/cars/matiz.png', iconSize: [25,50]}),
-//              rotationAngle: 0, 
-//              rotationOrigin: 'center center'
-//             }).addTo(historyMap);
-
-//             // Replay animatsiyasi smooth harakat bilan
-//             smoothReplay(latlngs, replayMarker, 1000, timeArray, speedArray); // 1000ms = 1 soniya har nuqta
-
-//         });
-
-//       function getAngle(start, end) {
-//         const dy = end[0] - start[0];
-//         const dx = end[1] - start[1];
-//         return Math.atan2(dy, dx) * 180 / Math.PI;
-//       }
-
-
-//           function smoothReplay(latlngs, marker, durationPerSegment, timeArray, speedArray) {
-//                 replayLatLngs = latlngs;
-//                 replayTimeArray = timeArray;
-//                 replaySpeedArray = speedArray;
-//                 replayDuration = durationPerSegment;
-
-//                 replayIndex = 0;
-//                 isPaused = false;
-//                 prevPoint = null;
-
-//                 function move(i) {
-//                     if (i >= latlngs.length - 1) return;
-
-//                     replayIndex = i;
-
-//                     const start = latlngs[i];
-//                     const end = latlngs[i + 1];
-//                     const steps = 20;
-//                     let step = 0;
-
-//                     const angle = getAngle(start, end);
-//                     marker.setRotationAngle(angle);
-
-//                     function animate() {
-
-//                         // PAUSE holati
-//                         if (isPaused) {
-//                             setTimeout(animate, 100);
-//                             return;
-//                         }
-
-//                         if (step > steps) {
-//                             prevPoint = {
-//                                 lat: end[0],
-//                                 lng: end[1],
-//                                 time: timeArray[i],
-//                                 speed: speedArray[i]
-//                             };
-
-//                             move(i + 1);
-//                             return;
-//                         }
-
-//                         const lat = start[0] + (end[0] - start[0]) * (step / steps);
-//                         const lng = start[1] + (end[1] - start[1]) * (step / steps);
-
-//                         marker.setLatLng([lat, lng]);
-//                         historyMap.panTo([lat, lng], { animate: false });
-
-//                         // index
-//                         const tIndex = i + (step / steps);
-//                         const t = timeArray[Math.min(Math.floor(tIndex), timeArray.length - 1)];
-//                         const s = speedArray[Math.min(Math.floor(tIndex), speedArray.length - 1)];
-
-//                         updateTelemetry({
-//                             lat,
-//                             lng,
-//                             time: t,
-//                             speed: s
-//                         });
-
-//                         step++;
-//                         // setTimeout(animate, durationPerSegment / steps);
-//                         currentTimer = setTimeout(animate, durationPerSegment/steps);
-
-//                     }
-
-//                     animate();
-//                 }
-
-//                 move(0);
-//             }
-
-
-//         function updateTelemetry(currPoint) {
-//             // Masofa
-//             if(prevPoint) {
-//                 const prevLatLng = L.latLng(prevPoint.lat, prevPoint.lng);
-//                 const currLatLng = L.latLng(currPoint.lat, currPoint.lng);
-
-//                 const dist = prevLatLng.distanceTo(currLatLng)/1000; // km
-//                 totalDistance += dist;
-
-//                 $('#telemetryDistance').text(totalDistance.toFixed(2) + " km");            
-//             }
-
-//             // Vaqt va sana
-//             $('#telemetryTime').text(currPoint.time);
-
-//             $('#telemetrySpeed').text(currPoint.speed + " km/h");
-
-//             prevPoint = currPoint;
-//         }
-
-
-
-//       // PAUSE
-//       $("#btnPause").on("click", function () {
-//     isPaused = true;
-
-//     if (currentTimer) clearTimeout(currentTimer);
-// });
-
-//         // PLAY
-//         $("#btnPlay").on("click", function () {
-//             if (isPaused) {
-//                 resumeReplay();
-//             }
-//         });
-
-//         $("#btnRestart").on("click", function () {
-//     isPaused = false;
-
-//     // Replay indeksini boshidan boshlash
-//     replayIndex = 0;
-//     prevPoint = null;
-//     totalDistance = 0;
-
-//     // eski animatsiyani o‘chirib tashlash
-//     if (currentTimer) clearTimeout(currentTimer);
-
-//     // Replay markerini boshidagi nuqtaga qo‘yish
-//     const start = replayLatLngs[0];
-//     replayMarker.setLatLng([start[0], start[1]]);
-//     historyMap.panTo([start[0], start[1]], {animate: false});
-
-//     // Smooth replay boshidan boshlash
-//     smoothReplay(
-//         replayLatLngs,
-//         replayMarker,
-//         replayDuration,
-//         replayTimeArray,
-//         replaySpeedArray
-//           );
-//       });
-
-
-
-
-//       function resumeReplay() {
-//                 isPaused = false;
-
-//                 // eski animatsiyani o‘chirib yuboramiz
-//                 if (currentTimer) clearTimeout(currentTimer);
-
-//                 smoothReplay(
-//                     replayLatLngs.slice(replayIndex),
-//                     replayMarker,
-//                     replayDuration,
-//                     replayTimeArray.slice(replayIndex),
-//                     replaySpeedArray.slice(replayIndex)
-//                 );
-//             }
-
-
-
-
        function myIcon(marker) {
             console.log("marker", marker.car_width)
             const unixtime = marker.unixtime;
@@ -3954,19 +3722,6 @@ map.on('load', () => {
             })
         }, 10000);
 
-  
-
-        // Finding cars
-        $(document).ready(function() {
-          
-
-                // Find functions
-        
-            // --- Find functions
-
-         
-        });
-
           $('#searchCars').wrap('<div class="position-relative my-2"></div>').select2({
                 placeholder: dict_select,
                 dropdownParent: $('#searchCars').parent()
@@ -3998,7 +3753,7 @@ map.on('load', () => {
             data.forEach(function (marker) {
                 bounds.extend([marker.lat, marker.lon]);
             });
-            // map.flyToBounds(bounds, { duration: 2, maxZoom: 14 });
+         
         }
         
         // Pop up element maker
@@ -4092,55 +3847,7 @@ map.on('load', () => {
             })
         }
         
-        // --- Util functions
-        // function getInterTime(time) {
-        //     // Get the current time in milliseconds
-        //     const currentTime = new Date().getTime();
-        //     const timestamp = new Date(time).getTime();
-
-        //     // Calculate the time difference in milliseconds
-        //     const timeDifference = currentTime - timestamp;
-
-        //     // Convert milliseconds to seconds, minutes, hours, and days
-        //     const seconds = Math.floor(timeDifference / 1000);
-        //     const minutes = Math.floor(seconds / 60);
-        //     const hours = Math.floor(minutes / 60);
-        //     const days = Math.floor(hours / 24);
-
-        //     // Log the appropriate message based on the time difference
-        //     if (seconds < 60) {
-        //         return `${seconds} sek`;
-        //     } else if (minutes < 60) {
-        //         return `${minutes} min`;
-        //     } else if (hours < 24) {
-        //         return `${hours} soat`;
-        //     } else {
-        //         return `${days} kun`;
-        //     }
-        // }
-        // function getInterTime(timeStr) {
-        //     // Agar format "DD.MM.YYYY HH:mm" bo‘lsa, uni ISO formatga o‘zgartiramiz
-        //     const [datePart, timePart] = timeStr.split(' ');
-        //     const [day, month, year] = datePart.split('.');
-        //     const isoString = `${year}-${month}-${day}T${timePart}:00`;
-
-        //     const timestamp = new Date(isoString).getTime();
-        //     const currentTime = new Date().getTime();
-
-        //     const diff = currentTime - timestamp;
-
-        //     if (isNaN(timestamp)) return "Noto‘g‘ri sana formati";
-
-        //     const seconds = Math.floor(diff / 1000);
-        //     const minutes = Math.floor(seconds / 60);
-        //     const hours = Math.floor(minutes / 60);
-        //     const days = Math.floor(hours / 24);
-
-        //     if (seconds < 60) return `${seconds} sek`;
-        //     else if (minutes < 60) return `${minutes} min`;
-        //     else if (hours < 24) return `${hours} soat`;
-        //     else return `${days} kun`;
-        // }
+       
         function getInterTime(timeStr) {
              console.log('times', timeStr)
             // 1) guard: null/undefined
@@ -4195,11 +3902,6 @@ map.on('load', () => {
             else if (hours < 24) return `${hours} soat`;
             else return `${days} kun`;
           }
-
-
-
-
-
 
     });
 
@@ -4329,30 +4031,37 @@ map.on('load', () => {
 
 
 
+      let animating = false;
+      let segmentStartTime = null;
+      let segmentDuration = 0;
+
+      let currentSegmentIndex = 0;
 
 
 
-
-
-
-
-
-
+        const FOLLOW_ZOOM = 16;       // mashina yaqin ko‘rinishi
+        const MAX_AUTO_ZOOM = 17;    // undan oshirmaymiz
+        const FOLLOW_INTERVAL = 500;
+        let currentAngle = null;
+        let lastFollowTime = 0;
+        let followInitialized = false;
+        let lastGeocodeTime = 0;
+        const GEOCODE_INTERVAL = 7000; // 7 sekund
         let historyMap;
         let historyPolyline;
-        let selectedCarId = null;
-        let currentMarker;
         let replayMarker; // replay animatsiya uchun
 
-        let isPaused = false;
+
         let replayIndex = 0;
-        let replayTimer = null;
         let replayLatLngs = [];
         let replayTimeArray = [];
         let replaySpeedArray = [];
         let replayDuration = 1000;
         let isPaused = false;
-        let currentTimer = null;
+        let historyDistanceKm = 0;
+        let replayAngles = [];
+        const CAR_ANGLE_OFFSET = -90;
+
         const BASE_API_URL = 'https://smpo.uzgps.uz/sdx/mobject/track-by-day'; 
              // Proxy orqali token olish
         function getTokenViaProxy(contractId) {
@@ -4383,6 +4092,8 @@ function initHistoryMapIfNeeded() {
 // 2) showCarHistory ichida mapni init qiling AVVAL
 function showCarHistory(id) {
   console.log("History bosildi! Car ID:", id);
+
+   resetHistoryModal(); 
 
     $('#historyModal').data('generalData', id); 
   $('#historyModal').modal('show');
@@ -4467,6 +4178,15 @@ function drawKmlTrackOnMap(response) {
     replayTimeArray = [];
     replaySpeedArray = [];
     replayIndex = 0;
+    historyDistanceKm = 0;
+
+    replayAngles = response?.kmlFolder?.kmlPlacemarkList?.[0]?.kmlTrack?.kmlAngelsList || [];
+    replaySpeedArray =  response?.kmlFolder?.kmlPlacemarkList?.[0]?.kmlTrack?.kmlSpeedList || [];
+
+
+    if(response?.kmlExtraDataList?.kmlExtraDataList){
+     historyDistanceKm = Number(response?.kmlExtraDataList?.kmlExtraDataList?.[0]?.distance || 0);
+    }
 
     // 2️⃣ PLACEMARKLARNI OLISH
     const placemarks = response?.kmlFolder?.kmlPlacemarkList || [];
@@ -4535,14 +4255,39 @@ function drawKmlTrackOnMap(response) {
         opacity: 0.95
     }).addTo(historyLayerGroup);
 
-    // 6️⃣ START / END MARKERLAR
-    L.marker(startLatLng)
-        .addTo(historyLayerGroup)
-        .bindPopup('Start');
+    const startIcon = L.divIcon({
+        className: '',
+        html: `
+        <svg width="50" height="50" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="18" cy="18" r="16" fill="#000"/>
+            <path d="M14 10 L22 14 L14 18 Z" fill="#fff"/>
+            <line x1="14" y1="10" x2="14" y2="26" stroke="#fff" stroke-width="2"/>
+        </svg>
+        `,
+        iconSize: [36, 36],
+        iconAnchor: [18, 18]
+    });
 
-    L.marker(endLatLng)
-        .addTo(historyLayerGroup)
-        .bindPopup('End');
+    const endIcon = L.divIcon({
+    className: '',
+    html: `
+    <svg width="40" height="40" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="18" cy="18" r="16" fill="#ea5455"/>
+        <rect x="11" y="11" width="14" height="14" rx="2" fill="#fff"/>
+    </svg>
+    `,
+    iconSize: [36, 36],
+    iconAnchor: [18, 18]
+});
+
+
+
+   L.marker(startLatLng, { icon: startIcon })
+    .addTo(historyLayerGroup);
+
+L.marker(endLatLng, { icon: endIcon })
+    .addTo(historyLayerGroup);
+
 
     // 7️⃣ FIT
     if (historyPolyline?.getBounds) {
@@ -4631,7 +4376,7 @@ $('#searchHistory').on('click', function () {
 
   // UI: disable button while loading
   const $btn = $(this);
-  $btn.prop('disabled', true).text('Loading...');
+  $btn.prop('disabled', true).text('Юкланмоқда...');
 
   $.ajax({
     url: './../../track_proxy.php?' + params.toString(),
@@ -4642,7 +4387,7 @@ $('#searchHistory').on('click', function () {
   .done(function (resp) {
     // resp kutilgan struktura bo'lishi kerak
     drawKmlTrackOnMap(resp);
-    $btn.prop('disabled', false).text('{$Dict.search}' || 'Излаш');
+    $btn.prop('disabled', false).text('Юкланди' || 'Излаш');
 
   })
   .fail(function (jqXHR, textStatus, errorThrown) {
@@ -4650,99 +4395,338 @@ $('#searchHistory').on('click', function () {
     alert('Tarixni olishda xato: ' + (jqXHR.status ? jqXHR.status + ' ' : '') + textStatus);
   })
   .always(function () {
-    $btn.prop('disabled', false).text('{$Dict.search}' || 'Излаш');
+    $btn.prop('disabled', false).text('Юкланди' || 'Излаш');
   });
 });
 
-
-
 function calculateReplayDuration(distanceKm) {
     // sekundlarda
-    let seconds = distanceKm * 0.7; // 1 km ≈ 0.7 s (vizual balans)
-    seconds = Math.max(seconds, 10); // min 10 s
-    seconds = Math.min(seconds, 45); // max 45 s
+    let seconds = distanceKm * 1; // 1 km ≈ 0.7 s (vizual balans)
+    // seconds = Math.max(seconds, 10); // min 10 s
+    // seconds = Math.min(seconds, 45); // max 45 s
     return seconds * 1000; // ms
 }
+
+let startTime = Date.now(); // Start vaqtini olish
+
+let totalDistance = 0;  // Umumiy masofa (km)
+let lastLatLng = replayLatLngs[0]; // Start nuqtasi
 
 
 $('#btnPlay').on('click', function () {
 
+    console.log('▶ PLAY bosildi');
+
     if (!replayLatLngs || replayLatLngs.length < 2) {
         console.warn('Replay uchun nuqtalar yo‘q');
+        alert("Саналарни киритинг")
         return;
     }
 
-    if (replayMarker && !isPaused) {
-        // allaqachon yurib ketyapti
-        return;
-    }
+    // agar animatsiya ketayotgan bo‘lsa va pauzada bo‘lmasa — qaytmaymiz
+    if (animating && !isPaused) return;
 
-    // agar birinchi marta yoki restartdan keyin
+    // marker yo‘q bo‘lsa yaratamiz
     if (!replayMarker) {
-        replayMarker = L.marker(replayLatLngs[0]).addTo(historyLayerGroup);
-        replayIndex = 0;
+        replayMarker = L.marker(replayLatLngs[0], {
+            rotationAngle: replayAngles[0] || 0,
+            rotationOrigin: 'center center'
+        }).addTo(historyLayerGroup);
     }
 
     isPaused = false;
+    animating = true;
 
-    // 🔥 animatsiya vaqtini masofaga qarab hisoblash
-    // 👉 bu qiymatni API javobidan olasan:
-    // masalan: response.kmlExtraDataList.kmlExtraDataList[0].distance
-    const distanceKm = window.historyDistanceKm || 10; // fallback
+    // agar restartdan keyin bo‘lsa
+    replayIndex = replayIndex || 0;
+    currentSegmentIndex = replayIndex;
+
+    // masofaga qarab umumiy vaqt
+    const distanceKm = Number(historyDistanceKm) || 5;
     replayDuration = calculateReplayDuration(distanceKm);
 
-    const stepTime = replayDuration / replayLatLngs.length;
+    // har bir segment vaqti
+    segmentDuration = replayDuration / replayLatLngs.length;
+    segmentStartTime = null;
 
-    replayTimer = setInterval(() => {
+    // telemetry — rasmiy distance
+    $('#telemetryDistance').text(`${Math.round(Number(historyDistanceKm))} км`);
 
-        if (isPaused) return;
 
-        replayIndex++;
+    // ⏱ vaqtni boshidan olamiz (faqat birinchi playda)
+    if (!startTime || replayIndex === 0) {
+        startTime = Date.now();
+    }
 
-        if (replayIndex >= replayLatLngs.length) {
-            clearInterval(replayTimer);
-            replayTimer = null;
-            return;
-        }
-
-        replayMarker.setLatLng(replayLatLngs[replayIndex]);
-
-    }, stepTime);
+    requestAnimationFrame(animateReplay);
 });
 
 
-$('#btnPause').on('click', function () {
-    if (!replayTimer) return;
+// Helper: Time formatting
+function pad(n) {
+    return n < 10 ? '0' + n : n;
+}
 
+$('#btnPause').on('click', function () {
     isPaused = true;
 });
 
-
 $('#btnRestart').on('click', function () {
+  currentAngle = null;
 
-    if (replayTimer) {
-        clearInterval(replayTimer);
-        replayTimer = null;
-    }
-
+    animating = false;
     isPaused = false;
     replayIndex = 0;
+    currentSegmentIndex = 0;
+    segmentStartTime = null;
+    startTime = null;
 
-    if (replayMarker) {
+    if (replayMarker && replayLatLngs.length) {
         replayMarker.setLatLng(replayLatLngs[0]);
-    } else if (replayLatLngs.length) {
-        replayMarker = L.marker(replayLatLngs[0]).addTo(historyLayerGroup);
+        replayMarker.setRotationAngle(replayAngles[0] || 0);
     }
+
+    followInitialized = false;
 });
 
 
 
+function reverseGeocode(lat, lng) {
+    return fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`,
+        {
+            headers: {
+                'Accept': 'application/json'
+            }
+        }
+    )
+    .then(res => res.json())
+    .catch(err => {
+        console.warn('Geocode error', err);
+        return null;
+    });
+}
 
 
+function updateRegionFromLatLng(latlng) {
+
+    const now = Date.now();
+
+    // ⏱ tez-tez so‘rov yubormaymiz
+    if (now - lastGeocodeTime < GEOCODE_INTERVAL) return;
+
+    lastGeocodeTime = now;
+
+    const lat = Array.isArray(latlng) ? latlng[0] : latlng.lat;
+    const lng = Array.isArray(latlng) ? latlng[1] : latlng.lng;
+
+    reverseGeocode(lat, lng).then(data => {
+        console.log("Viloyat haqida data : ", data)
+        if (!data || !data.address) return;
+
+        const addr = data.address;
+
+        // region nomini yig‘amiz
+     const regionText = [
+          addr.city || addr.town || addr.village,
+          addr.county || addr.country
+      ].filter(Boolean).join(', ') || '—';
+
+        $('#telemetryRegion').text(regionText);
+    });
+}
 
 
+function followCarWithZoom(latlng) {
+
+    if (!historyMap) return;
+
+    const now = Date.now();
+    if (now - lastFollowTime < FOLLOW_INTERVAL) return;
+    lastFollowTime = now;
+
+    const currentZoom = historyMap.getZoom();
+
+    // 🔍 faqat bir marta yoki juda uzoq bo‘lsa yaqinlashtiramiz
+    if (!followInitialized || currentZoom < FOLLOW_ZOOM) {
+
+        historyMap.setView(latlng, Math.min(FOLLOW_ZOOM, MAX_AUTO_ZOOM), {
+            animate: true,
+            duration: 0.6
+        });
+
+        followInitialized = true;
+        return;
+    }
+
+    // 🗺 zoomni o‘zgartirmay, faqat ergashamiz
+    historyMap.panTo(latlng, {
+        animate: true,
+        duration: 0.4
+    });
+}
 
 
+function lerp(a, b, t) {
+    return a + (b - a) * t;
+}
+
+function lerpLatLng(p1, p2, t) {
+    return [
+        lerp(p1[0], p2[0], t),
+        lerp(p1[1], p2[1], t)
+    ];
+}
+
+// function lerpAngle(a1, a2, t) {
+//     let diff = ((a2 - a1 + 540) % 360) - 180;
+//     return a1 + diff * t;
+// }
+
+
+function animateReplay(timestamp) {
+
+    if (!animating || isPaused) return;
+
+    if (!segmentStartTime) segmentStartTime = timestamp;
+
+    const elapsed = timestamp - segmentStartTime;
+    const t = Math.min(elapsed / segmentDuration, 1);
+
+    const p1 = replayLatLngs[currentSegmentIndex];
+    const p2 = replayLatLngs[currentSegmentIndex + 1];
+
+    if (!p1 || !p2) {
+        animating = false;
+        console.log('🏁 Replay tugadi');
+        return;
+    }
+
+    // 📍 silliq harakat
+    const pos = lerpLatLng(p1, p2, t);
+    replayMarker.setLatLng(pos);
+
+    // 🧭 silliq burilish
+    if (replayAngles.length) {
+      // yo‘lga qarab angle hisoblaymiz
+        const bearing1 = calculateBearing(p1, p2);
+
+        // keyingi segment bo‘lsa, silliqlik uchun oldingi angle saqlaymiz
+        if (typeof currentAngle === 'undefined') {
+            currentAngle = bearing1;
+        }
+
+        // silliq burilish
+        const smoothAngle = lerpAngle(currentAngle, bearing1, t);
+        currentAngle = smoothAngle;
+
+        // mashinani buramiz
+        replayMarker.setRotationAngle(smoothAngle + CAR_ANGLE_OFFSET);
+
+    }
+
+    // 🗺 follow
+    followCarWithZoom(pos);
+
+    // 📍 region
+    updateRegionFromLatLng(pos);
+
+    // ⏱ time telemetry
+    const elapsedSec = Math.floor((Date.now() - startTime) / 1000);
+    $('#telemetryTime').text(
+        `${pad(Math.floor(elapsedSec / 3600))}:${pad(Math.floor((elapsedSec % 3600) / 60))}:${pad(elapsedSec % 60)}`
+    );
+
+    // 🚀 speed — API’dan
+    const apiSpeed = replaySpeedArray[currentSegmentIndex];
+    $('#telemetrySpeed').text(
+        apiSpeed !== undefined && !isNaN(apiSpeed) ? `${apiSpeed} km/h` : '0 km/h'
+    );
+
+    if (t < 1) {
+        requestAnimationFrame(animateReplay);
+    } else {
+        // keyingi segment
+        currentSegmentIndex++;
+        replayIndex = currentSegmentIndex;
+        segmentStartTime = null;
+
+        if (currentSegmentIndex < replayLatLngs.length - 1) {
+            requestAnimationFrame(animateReplay);
+        } else {
+            animating = false;
+            console.log('🏁 Replay tugadi');
+        }
+    }
+}
+
+$('#historyModal').on('hidden.bs.modal', function () {
+    resetHistoryModal();
+});
+
+function resetHistoryModal() {
+
+    console.log('♻️ History modal reset');
+
+    // 🛑 animatsiyani to‘xtatamiz
+    animating = false;
+    isPaused = false;
+
+    // 🧭 replay state
+    replayIndex = 0;
+    currentSegmentIndex = 0;
+    segmentStartTime = null;
+    startTime = null;
+
+    replayLatLngs = [];
+    replayAngles = [];
+    replaySpeedArray = [];
+
+    // 🗺 xaritadan hamma layerlarni olib tashlaymiz
+    if (historyLayerGroup) {
+        historyLayerGroup.clearLayers();
+    }
+
+    // marker reference
+    replayMarker = null;
+    historyPolyline = null;
+
+    // 🗺 follow holati
+    followInitialized = false;
+    lastFollowTime = 0;
+
+    // 📊 telemetry UI ni tozalash
+    $('#telemetryTime').text('--:--:--');
+    $('#telemetrySpeed').text('0 km/h');
+    $('#telemetryDistance').text('0 km');
+    $('#telemetryRegion').text('—');
+
+    // agar sana inputlar bo‘lsa
+    $('#fromDate').val('');
+    $('#toDate').val('');
+}
+
+
+function calculateBearing(p1, p2) {
+    const lat1 = p1[0] * Math.PI / 180;
+    const lat2 = p2[0] * Math.PI / 180;
+    const dLon = (p2[1] - p1[1]) * Math.PI / 180;
+
+    const y = Math.sin(dLon) * Math.cos(lat2);
+    const x =
+        Math.cos(lat1) * Math.sin(lat2) -
+        Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
+
+    let bearing = Math.atan2(y, x) * 180 / Math.PI;
+    bearing = (bearing + 360) % 360;
+
+    return bearing;
+}
+
+function lerpAngle(a1, a2, t) {
+    let diff = ((a2 - a1 + 540) % 360) - 180;
+    return a1 + diff * t;
+}
 
 
 
