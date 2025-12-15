@@ -4393,6 +4393,7 @@ $('#searchHistory').on('click', function () {
   .fail(function (jqXHR, textStatus, errorThrown) {
     console.error('History API xato', textStatus, errorThrown, jqXHR.responseText);
     alert('Tarixni olishda xato: ' + (jqXHR.status ? jqXHR.status + ' ' : '') + textStatus);
+    
   })
   .always(function () {
     $btn.prop('disabled', false).text('Юкланди' || 'Излаш');
