@@ -223,6 +223,7 @@
 
                         <div class="col-12 text-center">
                             <input type="hidden" name="id" id="id" value="">
+                            <input type="hidden" name="photo" id="photo" value="">
                             <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal"
                                 aria-label="Close">
                                 {$Dict.cancel}

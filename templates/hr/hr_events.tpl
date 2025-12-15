@@ -101,8 +101,8 @@
                                     <td class="text-center">{$item.sapyor}</td>
                                     <td class="text-center">{$item.responsible_spring_name}</td>
                                     <td class="text-center">{$item.spring_count}</td>
-                                    <td class="text-center">{$item.reserve_name} {$item.reserve_name}</td>
-                                    <td class="text-center">{$item.reserve_count} {$item.reserve_count}</td>
+                                    <td class="text-center">{$item.reserve_name} </td>
+                                    <td class="text-center">{$item.reserve_count}</td>
                                     <td class="text-center">{$item.organizer}</td>
                                     <td>
                                         <div class="dropdown">

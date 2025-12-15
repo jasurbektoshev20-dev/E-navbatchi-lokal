@@ -62,14 +62,16 @@
                                  <td class="text-right">{$tkey+1}</td>
                                  <td class="text-center">{$Table.name}</td>
                                 <td class="text-center">{$Table.post_phone}</td>
-                                <td class="text-center">
-                                    {if $Table.photo neq ""}
-                                        <img src="/pictures/embassy/{$Table.photo}" style="width: 50px; height:50px; object-fit:cover;">
+                               <td class="text-center">
+                                    {if isset($Table.photo) && $Table.photo|trim neq ""}
+                                        <img src="/pictures/embassy/{$Table.photo}"
+                                            style="width:50px;height:50px;object-fit:cover;">
                                     {else}
-                                        <img src="/assets/images/german_flag.png" style="width: 50px; height:50px; object-fit:cover;">
+                                        <img src="/assets/images/german_flag.png"
+                                            style="width:50px;height:50px;object-fit:cover;">
                                     {/if}
                                 </td>
-                                <td class="text-center">{$Table.address}</td>
+                                                                <td class="text-center">{$Table.address}</td>
                                 <td class="text-center">{$Table.structure_name}</td>
                                 <td class="text-center">{$Table.responsible}</td>
                                 <td class="text-center">{$Table.military_unit_phone}</td>

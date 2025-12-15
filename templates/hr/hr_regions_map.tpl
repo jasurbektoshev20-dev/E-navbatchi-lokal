@@ -4060,7 +4060,7 @@ map.on('load', () => {
         let isPaused = false;
         let historyDistanceKm = 0;
         let replayAngles = [];
-        const CAR_ANGLE_OFFSET = -90;
+        const CAR_ANGLE_OFFSET = 0;
 
         const BASE_API_URL = 'https://smpo.uzgps.uz/sdx/mobject/track-by-day'; 
              // Proxy orqali token olish
@@ -4180,7 +4180,7 @@ function drawKmlTrackOnMap(response) {
     replayIndex = 0;
     historyDistanceKm = 0;
 
-    replayAngles = response?.kmlFolder?.kmlPlacemarkList?.[0]?.kmlTrack?.kmlAngelsList || [];
+    // replayAngles = response?.kmlFolder?.kmlPlacemarkList?.[0]?.kmlTrack?.kmlAngelsList || [];
     replaySpeedArray =  response?.kmlFolder?.kmlPlacemarkList?.[0]?.kmlTrack?.kmlSpeedList || [];
 
 
@@ -4297,8 +4297,26 @@ L.marker(endLatLng, { icon: endIcon })
     }
 
     // 8️⃣ REPLAY
+    // replayLatLngs = latlngs.slice();
+    // replayIndex = 0;
+
     replayLatLngs = latlngs.slice();
+    replayAngles = [];
+
+    // 🔥 ANGLE’LARNI O‘ZIMIZ HISOBLAYMIZ
+    for (let i = 0; i < replayLatLngs.length - 1; i++) {
+        const angle = calculateBearing(
+            replayLatLngs[i],
+            replayLatLngs[i + 1]
+        );
+        replayAngles.push(angle);
+    }
+
+    // oxirgi nuqta uchun
+    replayAngles.push(replayAngles[replayAngles.length - 1]);
+
     replayIndex = 0;
+
 
     console.log('✅ Start/End to‘g‘ri qo‘yildi');
 }
@@ -4393,7 +4411,7 @@ $('#searchHistory').on('click', function () {
   .fail(function (jqXHR, textStatus, errorThrown) {
     console.error('History API xato', textStatus, errorThrown, jqXHR.responseText);
     alert('Tarixni olishda xato: ' + (jqXHR.status ? jqXHR.status + ' ' : '') + textStatus);
-    
+
   })
   .always(function () {
     $btn.prop('disabled', false).text('Юкланди' || 'Излаш');
@@ -4608,22 +4626,9 @@ function animateReplay(timestamp) {
     replayMarker.setLatLng(pos);
 
     // 🧭 silliq burilish
-    if (replayAngles.length) {
-      // yo‘lga qarab angle hisoblaymiz
-        const bearing1 = calculateBearing(p1, p2);
-
-        // keyingi segment bo‘lsa, silliqlik uchun oldingi angle saqlaymiz
-        if (typeof currentAngle === 'undefined') {
-            currentAngle = bearing1;
-        }
-
-        // silliq burilish
-        const smoothAngle = lerpAngle(currentAngle, bearing1, t);
-        currentAngle = smoothAngle;
-
-        // mashinani buramiz
-        replayMarker.setRotationAngle(smoothAngle + CAR_ANGLE_OFFSET);
-
+    const angle = calculateBearing(p1, p2);
+    if (!isNaN(angle)) {
+        replayMarker.setRotationAngle(angle + CAR_ANGLE_OFFSET);
     }
 
     // 🗺 follow
@@ -4689,6 +4694,11 @@ function resetHistoryModal() {
     }
 
     // marker reference
+    // ❗ ESKI MASHINANI XARITADAN OLIB TASHLASH
+    if (replayMarker && historyMap) {
+        historyMap.removeLayer(replayMarker);
+    }
+
     replayMarker = null;
     historyPolyline = null;
 
@@ -4708,20 +4718,36 @@ function resetHistoryModal() {
 }
 
 
-function calculateBearing(p1, p2) {
-    const lat1 = p1[0] * Math.PI / 180;
-    const lat2 = p2[0] * Math.PI / 180;
-    const dLon = (p2[1] - p1[1]) * Math.PI / 180;
+// function calculateBearing(p1, p2) {
+//     const lat1 = p1[0] * Math.PI / 180;
+//     const lat2 = p2[0] * Math.PI / 180;
+//     const dLon = (p2[1] - p1[1]) * Math.PI / 180;
+
+//     const y = Math.sin(dLon) * Math.cos(lat2);
+//     const x =
+//         Math.cos(lat1) * Math.sin(lat2) -
+//         Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
+
+//     let bearing = Math.atan2(y, x) * 180 / Math.PI;
+//     bearing = (bearing + 360) % 360;
+
+//     return bearing;
+// }
+
+function calculateBearing(from, to) {
+    const lat1 = from[0] * Math.PI / 180;
+    const lat2 = to[0] * Math.PI / 180;
+    const dLon = (to[1] - from[1]) * Math.PI / 180;
 
     const y = Math.sin(dLon) * Math.cos(lat2);
     const x =
         Math.cos(lat1) * Math.sin(lat2) -
         Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
 
-    let bearing = Math.atan2(y, x) * 180 / Math.PI;
-    bearing = (bearing + 360) % 360;
+    let brng = Math.atan2(y, x) * 180 / Math.PI;
+    brng = (brng + 360) % 360;
 
-    return bearing;
+    return brng;
 }
 
 function lerpAngle(a1, a2, t) {

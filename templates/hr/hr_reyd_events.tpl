@@ -210,6 +210,9 @@
     var Var_ObjectId	= "{$Organization.id}";
     {literal}
 
+    var editStructureId = null;
+
+
     const flatpickrDate = document.querySelector('#start_date');
     if (flatpickrDate) {
         flatpickrDate.flatpickr({
@@ -247,8 +250,6 @@
         end_date = `${year}-${month}-${day} ${timePart}`;
     });
 
-
-
     
     $('#region_id').change(function(event) {
         $.get("ajax.php?act=get_divisions&structure_id=" + this.value, function(html) {
@@ -261,6 +262,7 @@
         });
     });
 
+    
 
 
     var dt_basic_table = $('.datatables-projects'),
@@ -277,13 +279,15 @@
     $('.datatables-projects tbody').on('click', '.editAction', function() {
         $('#submitModal').modal('toggle');
         var RowId = $(this).attr('rel');
-       
+       $('#structure_id').empty();
         $.get("hrajax.php?act=get_reyd_events&rowid=" + RowId, function(html) {
             var sInfo = jQuery.parseJSON(html);
              console.log('sinfo: ', sInfo)
-            // $('#region_id').val(sInfo.region_id);
-            // $('#region_id').trigger("change");
-            $('#structure_id').val(sInfo.structure_id).trigger("change");
+             editStructureId = sInfo.structure_id;
+            $('#region_id').val(sInfo.region_id ? sInfo.region_id : sInfo.structure_id);
+            $('#region_id').trigger("change");
+            $('#structure_id').append(`<option value="${sInfo.structure_id}"></option>`);
+            // $('#structure_id').val(sInfo.structure_id).trigger("change");
             $('#responsible_id').val(sInfo.responsible_id);
             $('#responsible_id').trigger("change");
             $('#type').val(sInfo.type);
