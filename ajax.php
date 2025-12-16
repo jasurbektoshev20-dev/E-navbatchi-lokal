@@ -548,7 +548,7 @@ switch ($Action) {
 
 	case "get_jts_objects":
 		$page = isset($_GET['page']) ? $_GET['page'] : 1;
-		$limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
+		$limit = isset($_GET['limit']) ? $_GET['limit'] : 100000000;
 		$start = ($page - 1) * $limit;
 		$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
 
