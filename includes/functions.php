@@ -56,12 +56,12 @@ function MyEscapeSymbols($data)
 function GetCamUrl($camindex)
 {
 	// AppKey va AppSecret
-	$app_key = "25554795";
-	$app_secret = "x11zPwP4qlVtMOv7e3HN";
+	$app_key = "19237793";
+	$app_secret = "qPXC2OjLk66wyrbxJMRb";
 
 	// So'rov uchun URL
 	$uri = "/artemis/api/video/v1/cameras/previewURLs";
-	$base_url = "https://10.100.9.131";
+	$base_url = "https://10.10.80.12:443";
 	$full_url = $base_url . $uri;
 
 	// Sana va vaqt

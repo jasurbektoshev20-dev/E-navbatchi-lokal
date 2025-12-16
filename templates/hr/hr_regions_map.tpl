@@ -3101,7 +3101,7 @@ map.on('load', () => {
       `);
 
       // ⏳ 3. 1 soniyadan keyin yana aktiv holatga keltirish
-      setTimeout(() => {
+      setTimeout(() => {playWind
         btn.prop('disabled', false);
         btn.find('.btn-text').text(originalText);
       }, 3000);
