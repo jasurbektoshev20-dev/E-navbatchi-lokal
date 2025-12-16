@@ -2046,7 +2046,7 @@
 
       // Xarita yaratish
 // ===== GLOBAL O'ZGARUVCHILAR =====
-const CLUSTER_ZOOM = 16; // 13 dan pastda faqat cluster, 13 va undan yuqori — DOM markerlar
+const CLUSTER_ZOOM = 15; // 13 dan pastda faqat cluster, 13 va undan yuqori — DOM markerlar
 
 let doorMarkers = [];
 let trackMarkers = [];
@@ -2551,7 +2551,8 @@ map.on('load', () => {
             dataType: 'json',
             success: function(response) {
               response.forEach(item=>{
-                updateCameraPosition(item.id, item.lat, item.lon)
+                // console.log('kelayotgan malumotlar bodi: ', item)
+                updateCameraPosition(item.id, item.lat, item.long)
               })
             }
           })
@@ -2566,7 +2567,9 @@ map.on('load', () => {
     // Funksiya: yangi koordinatalarni yangilash (socket orqali)
     function updateCameraPosition(id, newLat, newLon) {
       const camera = bodyCameraMarkers[id];
+ 
       if (!camera) return;
+      // console.log("kamera joyi: ", newLat, newLon)
 
       // Yangi target koordinatalarni o‘rnatamiz
       camera.target = { lat: newLat, lon: newLon };

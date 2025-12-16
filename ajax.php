@@ -862,6 +862,7 @@ switch ($Action) {
 
 		$result['data'] = $JtsObject;
 		$result['cameras'] = $CamUrl;
+		$result['body_cameras'] = $BodyCamUrl;
 		$res = json_encode($result);
 		break;
 
