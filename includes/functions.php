@@ -156,7 +156,7 @@ function GetCamUrlBody($camindex)
 
 	// So'rov uchun URL
 	$uri = "/artemis/api/video/v1/cameras/previewURLs";
-	$base_url = "https://10.100.9.130";
+	$base_url = "https://10.10.80.12:443";
 	$full_url = $base_url . $uri;
 
 	// Sana va vaqt
@@ -239,7 +239,6 @@ function GetCamUrlBody($camindex)
 	$response = curl_exec($curl);
 	curl_close($curl);
 	$data  = json_decode($response, true);
-
 	return $data;
 }
 

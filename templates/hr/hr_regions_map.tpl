@@ -2567,7 +2567,7 @@ map.on('load', () => {
     // Funksiya: yangi koordinatalarni yangilash (socket orqali)
     function updateCameraPosition(id, newLat, newLon) {
       const camera = bodyCameraMarkers[id];
- 
+      console.log("kamera joyi: ", newLat, newLon)
       if (!camera) return;
       // console.log("kamera joyi: ", newLat, newLon)
 
