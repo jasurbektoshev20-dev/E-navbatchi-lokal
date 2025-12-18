@@ -294,32 +294,7 @@
                              <td>1</td>
                             <td>0</td>
                         </tr>
-                         <tr class="lb text-center" id="row_{$Table.id|crypt}">
-                            <td class="text-right">6</td>
-                            <td>лейтенант</td>
-                             <td>
-                              Умрзоқов Ж.О
-                            </td>
-                            <td>Ўрикзор</td>
-                            <td>55-123-45-90</td>
-                            <td>1-босқич (08:00-16:00)</td>
-                            <td>ПП 1-йўналиш</td>
-                              {* <td>Бошқа</td> *}
-                            <td>1</td>
-                            <td>0</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>0</td>
-     
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>Қоровул</td>
-                             <td>0</td>
-                            <td>0</td>
-                        </tr>
+                        
                         </tbody>
                     </table>
                 </div>

@@ -1569,6 +1569,7 @@ switch ($Act) {
 		where t.id > 1 and t.id < 16
 		ORDER BY t.turn ASC";
 		$sql->query($query);
+		
 		$Regions = $sql->fetchAll();
 
 		$query  = "SELECT t.id, t.name{$slang} as name FROM ref.embassy_object_types t ORDER BY t.id ASC";
@@ -1784,23 +1785,108 @@ switch ($Act) {
     ));
     break;
 
-	case "hr_market_according_duty":
-		$object_id = 16; // For testing purpose
-		$region_id = 31; // For testing purpose
-		$routine_id = 22; // For testing purpose
 
-		$query = "SELECT * FROM hr.dailiy_routine_date drd
-		LEFT JOIN hr.daily_routine dr ON dr.id = drd.routine_id
-		WHERE dr.object_id = {$object_id} AND dr.date = (now() AT TIME ZONE 'Asia/Tashkent')::date";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	case "hr_market_according_duty":
+			// $object_id = ($_GET['object_id']) ? $_GET['object_id'] : 0;
+			// $region_id = ($_GET['region_id']) ? $_GET['region_id'] : 0;
+			// $routine_id = ($_GET['routine_id']) ? $_GET['routine_id'] : 0;
+			$object_id = 16; // For testing purpose
+			$region_id = 31; // For testing purpose
+			$routine_id = 22; // For testing purpose
+			//date needed
+			// $query = "// --- daily_routinelarni BUGUNGI KUN bo'yicha chiqarish (Tashkent timezone) ---
+			$query = "SELECT
+			dr.id AS routine_id,
+			dr.structure_id,
+			s.name{$slang} AS structure_name,
+			o.id AS object_id,
+			o.object_name AS market_name,
+			dr.date::text AS date,
+			CONCAT(r.name{$slang},' ',staff.lastname,' ',staff.firstname,' ', staff.surname) AS troop_name,
+			dr.date,
+			drd.direction,
+			drd.smena,
+			cm.name,
+			pt.name{$slang},
+			bc.comment,
+			drd.staff_phone,
+			dt.name{$slang},
+			drd.horse_count,
+
+			SUM(DISTINCT COALESCE(array_length(drd.epikirofka_id,1),0) ) AS epikirofka_total,
+			COUNT(DISTINCT CASE WHEN 16 = ANY(drd.epikirofka_id) THEN drd.id END) AS light_count,
+			COUNT(DISTINCT CASE WHEN 12 = ANY(drd.epikirofka_id) THEN drd.id END) AS connection_count,
+			COUNT(DISTINCT CASE WHEN 13 = ANY(drd.epikirofka_id) THEN drd.id END) AS detector_count,
+			COUNT(DISTINCT CASE WHEN 15 = ANY(drd.epikirofka_id) THEN drd.id END) AS kishan_count,
+			COUNT(DISTINCT CASE WHEN 17 = ANY(drd.epikirofka_id) THEN drd.id END) AS whistle_count,
+			COUNT(DISTINCT CASE WHEN 20 = ANY(drd.epikirofka_id) THEN drd.id END) AS planshet_count	
+
+
+
+
+
+			FROM hr.dailiy_routine_date drd
+		
+			left join hr.daily_routine dr on dr.id = drd.routine_id
+			JOIN hr.jts_objects o ON o.id = dr.object_id
+			LEFT JOIN hr.structure s ON s.id = dr.structure_id
+			LEFT JOIN hr.jts_objects_door od ON od.object_id = o.id
+			LEFT JOIN hr.jts_objects_camera oc ON oc.object_id = o.id
+			LEFT JOIN ref.patrul_types pt ON pt.id = drd.patrul_type
+			left join hr.staff staff ON staff.id = drd.staff_id
+			LEFT JOIN ref.ranks r ON r.id = staff.rank_id
+			left join tur.dog_types dt ON dt.id = drd.dog_id
+			left join hr.tech_guard_cars tc ON tc.id = drd.car_id
+			left join ref.car_models cm ON cm.id = tc.car_model_id
+			left join hr.body_cameras bc on bc.id = drd.bodycam_id
+
+			left join ref.epic epic ON epic.id = ANY(drd.epikirofka_id)
+
+			WHERE dr.date = (now() AT TIME ZONE 'Asia/Tashkent')::date
+			AND dr.object_id = {$object_id}
+			AND dr.structure_id = {$region_id}
+			AND drd.routine_id = {$routine_id}
+			GROUP BY
+			o.id, o.object_name, o.markets_count,drd.direction,dt.name{$slang},drd.horse_count,
+			dr.structure_id, s.name{$slang}, r.name{$slang}, dr.id,drd.bodycam_id,drd.staff_phone,bc.comment,
+			dr.date, dr.responsible_id, dr.responsible_sname, dr.responsible_phone,	drd.smena,pt.name{$slang},
+			staff.lastname, staff.firstname, staff.surname,cm.name
+			ORDER BY o.object_name;
+			";
+
 		$sql->query($query);
 		$markets = $sql->fetchAll();
+		
+		
+			echo '<pre>';
+			print_r($markets);
+			echo '</pre>';
+			die();
 
-		// echo '<pre>';
-		// print_r($markets);
-		// echo '</pre>';
-		// die();
 
-		 // Agar hududlar ro'yxati kerak bo'lsa (misol tariqasida)
+		// Agar hududlar ro'yxati kerak bo'lsa (misol tariqasida)
 		$query = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t WHERE t.id > 1 AND t.id < 16 ORDER BY t.turn ASC";
 		$sql->query($query);
 		$Regions = $sql->fetchAll();
@@ -1810,11 +1896,11 @@ switch ($Act) {
 		$sql->query($query);
 		$Types = $sql->fetchAll();
 
-		$smarty->assign(array(
-        'markets' => $markets,
-        'Regions' => $Regions,
-        'Types' => $Types,
-    ));
+			$smarty->assign(array(
+			'markets' => $markets,
+			'Regions' => $Regions,
+			'Types' => $Types,
+		));
 		break;
 
 
