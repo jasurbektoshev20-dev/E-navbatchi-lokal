@@ -2026,19 +2026,6 @@ break;
 		$sql->query($query);
 		$markets_duty = $sql->fetchAll();
 		
-		
-<<<<<<< HEAD
-			echo '<pre>';
-			print_r($markets_duty);
-			echo '</pre>';
-			die();
-=======
-			// echo '<pre>';
-			// print_r($markets);
-			// echo '</pre>';
-			// die();
->>>>>>> b7ce218261c77f6924a769a3c1b7307d89b957ca
-
 		// Agar hududlar ro'yxati kerak bo'lsa (misol tariqasida)
 		$query = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t WHERE t.id > 1 AND t.id < 16 ORDER BY t.turn ASC";
 		$sql->query($query);
