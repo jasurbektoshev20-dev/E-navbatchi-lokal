@@ -1639,6 +1639,31 @@
         </div>
      </div>
 
+<div class="modal fade" id="bodyCamModal" tabindex="-1" style="z-index: 99999999999 !important;">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content bg-dark">
+
+      <div class="modal-header border-0">
+        <h5 class="modal-title text-white" id="bodyCamTitle">
+          Body camera
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body p-0">
+        <video
+          id="bodyCamVideo"
+          autoplay
+          playsinline
+          muted
+          controls
+          style="width:100%; height:70vh; background:#000;">
+        </video>
+      </div>
+
+    </div>
+  </div>
+</div>
 
 </div>
 
@@ -1727,6 +1752,7 @@
     });
 
 
+      let bodyCamPC = null;
 
 
       let urlParams = new URLSearchParams(window.location.search);
@@ -1942,6 +1968,7 @@
                   type: 'GET',
                   dataType: 'json',
                   success: function (response) {
+                    console.log("response", response)
                     if (!response) return;
 
                      // LOADER → OFF
@@ -2567,9 +2594,8 @@ map.on('load', () => {
     // Funksiya: yangi koordinatalarni yangilash (socket orqali)
     function updateCameraPosition(id, newLat, newLon) {
       const camera = bodyCameraMarkers[id];
- 
+
       if (!camera) return;
-      // console.log("kamera joyi: ", newLat, newLon)
 
       // Yangi target koordinatalarni o‘rnatamiz
       camera.target = { lat: newLat, lon: newLon };
@@ -3101,7 +3127,7 @@ map.on('load', () => {
       `);
 
       // ⏳ 3. 1 soniyadan keyin yana aktiv holatga keltirish
-      setTimeout(() => {
+      setTimeout(() => {playWind
         btn.prop('disabled', false);
         btn.find('.btn-text').text(originalText);
       }, 3000);
@@ -3113,12 +3139,12 @@ map.on('load', () => {
       }
 
       // 🧠 5. Kamera tanlandi – asosiy ro‘yxatdan mosini topib, click trigger
-      const target = $(`#body_change_camera a[data-id="${id}"]`);
-      if (target.length) {
-        target.trigger('click');
-      } else {
-        console.warn(`Камера ИД ${id} учун элемент топилмади`);
-      }
+      // const target = $(`#body_change_camera a[data-id="${id}"]`);
+      // if (target.length) {
+      //   target.trigger('click');
+      // } else {
+      //   console.warn(`Камера ИД ${id} учун элемент топилмади`);
+      // }
     });
 
 
@@ -3259,18 +3285,24 @@ map.on('load', () => {
               }
           })
   
-          fetched_body?.forEach((item, index) => {
-              if (item.status == 1) {
-                  $('#body_change_camera').append(`<a href="#" class="dropdown-item camera_item g_status" tabindex="-1" data-id="${item.id}" data-toggle="tab" 
-                      style="font-size:22px;" ptz="0" cam_index="${item.cam_index}" el_count="${index}" 
-                      status="${item.status}" playURL="${item.url}">${item.comment}</a>`)
-                  
-              } else {
-                  $('#body_change_camera').append(`<a href="#" class="dropdown-item camera_item r_status" tabindex="-1" data-id="${item.id}" 
-                      data-toggle="tab" style="font-size:22px;" ptz="0" cam_index="${item.cam_index}" 
-                      el_count="${index}" status="${item.status}" playURL="${item.url}">${item.comment}</a>`)
-              }
-          })
+            fetched_body?.forEach((item, index) => {
+                
+                console.log("fotr echdagi item: ", item)
+                const cls = item.status == 1 ? 'g_status' : 'r_status';
+               
+                $('#body_change_camera').append(`
+                  <a href="#"
+                    class="dropdown-item camera_item ${cls}"
+                    data-id="${item.id}"
+                    data-cam_index="${item.cam_index}"
+                    data-status="${item.status}"
+                    data-index="${index}"
+                    style="font-size:22px;">
+                    ${item.comment}
+                  </a>
+                `);
+              });
+
           $("#body_current_camera").html(fetched_body?.[0]?.comment);
 
 
@@ -3315,45 +3347,45 @@ map.on('load', () => {
           //     })
           // }, camera_status_interval_time);
       }
-      async function get_body_camera() {
-          $('#body_change_camera').empty();
-          arrangeWindow(1);
-          if(!fetched_body || !fetched_body.length) return
-          fetched_body?.forEach((item, index) => {
-              if (item.status == 1) {
-                  $('#body_change_camera').append(`<a href="#" class="dropdown-item camera_item g_status" tabindex="-1" data-toggle="tab" 
-                      style="font-size:22px;" ptz="0" cam_index="${item.cam_index}" el_count="${index}" 
-                      status="${item.status}" playURL="${item.url}">${item.comment}</a>`)
+      // async function get_body_camera() {
+      //     $('#body_change_camera').empty();
+      //     arrangeWindow(1);
+      //     if(!fetched_body || !fetched_body.length) return
+      //     fetched_body?.forEach((item, index) => {
+      //         if (item.status == 1) {
+      //             $('#body_change_camera').append(`<a href="#" class="dropdown-item camera_item g_status" tabindex="-1" data-toggle="tab" 
+      //                 style="font-size:22px;" ptz="0" cam_index="${item.cam_index}" el_count="${index}" 
+      //                 status="${item.status}" playURL="${item.url}">${item.comment}</a>`)
                   
-              } else {
-                  $('#body_change_camera').append(`<a href="#" class="dropdown-item camera_item r_status" tabindex="-1" 
-                      data-toggle="tab" style="font-size:22px;" ptz="0" cam_index="${item.cam_index}" 
-                      el_count="${index}" status="${item.status}" playURL="${item.url}">${item.comment}</a>`)
-              }
-          })
+      //         } else {
+      //             $('#body_change_camera').append(`<a href="#" class="dropdown-item camera_item r_status" tabindex="-1" 
+      //                 data-toggle="tab" style="font-size:22px;" ptz="0" cam_index="${item.cam_index}" 
+      //                 el_count="${index}" status="${item.status}" playURL="${item.url}">${item.comment}</a>`)
+      //         }
+      //     })
           
-          $("#body_current_camera").html(fetched_body[0].comment);
-          let playURL = fetched_body[0].url;
-          if (fetched_body[0].status) {
-              jsDecoder.JS_Play(playURL, { playURL }, 0).then(
-                  function() { 
-                      cam_idx_code = fetched_body[0].cam_index;
-                      is_played = true; 
-                      $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/online.svg") no-repeat center center'); 
-                  },
-                  function() { 
-                      console.log("realplay failed");
-                      is_played = false;
-                      $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
-                  });
-              $("#body_current_camera").html(fetched_body[0].comment);
-          } else {
-              is_played = false; 
-              $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
-          }
+      //     $("#body_current_camera").html(fetched_body[0].comment);
+      //     let playURL = fetched_body[0].url;
+      //     if (fetched_body[0].status) {
+      //         jsDecoder.JS_Play(playURL, { playURL }, 0).then(
+      //             function() { 
+      //                 cam_idx_code = fetched_body[0].cam_index;
+      //                 is_played = true; 
+      //                 $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/online.svg") no-repeat center center'); 
+      //             },
+      //             function() { 
+      //                 console.log("realplay failed");
+      //                 is_played = false;
+      //                 $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
+      //             });
+      //         $("#body_current_camera").html(fetched_body[0].comment);
+      //     } else {
+      //         is_played = false; 
+      //         $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
+      //     }
 
-          $(".body_camera_length").html(fetched_body.length);
-      }
+      //     $(".body_camera_length").html(fetched_body.length);
+      // }
 
       $(document).on('click', '#change_camera a', async function() {
           $("#current_camera").html($(this).text());
@@ -3435,84 +3467,124 @@ map.on('load', () => {
               }
           }
       });
-      $(document).on('click', '#body_change_camera a', async function() {
-          $("#body_current_camera").html($(this).text());
-          $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/online.svg") no-repeat center center');
-          $("#controller").hide();
+    //  $(document).on('click', '#body_change_camera a', async function() {
+       //    console.log('hello clice')
+          // $("#body_current_camera").html($(this).text());
+          // $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/online.svg") no-repeat center center');
+          // $("#controller").hide();
           
-          let ptz = $(this).attr("ptz");
-          let cam_index = $(this).attr("cam_index");
-          let el_count = parseInt($(this).attr("el_count"));
-          let playURL = $(this).attr("playURL");
-          let status = $(this).attr("status");
-          let this_cam_item = $(this);
-          let classValue = this_cam_item.attr('class');
-            let safeClassValue = String(classValue || '');
-          let parts = safeClassValue.split(/\s+/); // bir yoki bir nechta bo'shliqqa mos
-          let remove_class = parts[2] || null; // agar yo'q bo'lsa null olamiz
+          // let ptz = $(this).attr("ptz");
+          // let cam_index = $(this).attr("cam_index");
+          // let el_count = parseInt($(this).attr("el_count"));
+          // let playURL = $(this).attr("playURL");
+          // let status = $(this).attr("status");
+          // let this_cam_item = $(this);
+          // let classValue = this_cam_item.attr('class');
+          //   let safeClassValue = String(classValue || '');
+          // let parts = safeClassValue.split(/\s+/); // bir yoki bir nechta bo'shliqqa mos
+          // let remove_class = parts[2] || null; // agar yo'q bo'lsa null olamiz
 
-          // debug:
-          if (!parts[2]) console.warn('remove_class topilmadi, classValue=', classValue);
+          // // debug:
+          // if (!parts[2]) console.warn('remove_class topilmadi, classValue=', classValue);
 
-          // $(".camera_active").html(el_count + 1);
+          // // $(".camera_active").html(el_count + 1);
 
-          // const current_status = await get_camera_status(cam_index);
-          const current_status = 1;
-          if (current_status) {
-            console.log('working');
+          // // const current_status = await get_camera_status(cam_index);
+          // const current_status = 1;
+          // if (current_status) {
+          //   console.log('working');
             
-            this_cam_item.removeClass(remove_class).addClass('g_status');
-            if (is_played) {
-                jsDecoder.JS_Stop(0).then(function() {
-                    StopRealPlayAll();
-                    console.log("stop success");
-                    jsDecoder.JS_Play(playURL, { playURL }, 0).then(
-                        function() { 
-                            console.log("realplay success");
-                            // $(".camera_active").html(`${el_count + 1}`)
-                            cam_idx_code = cam_index;
-                            if (ptz == 1) $("#controller").show();
-                            is_played = true; 
-                        },
-                        function() { 
-                            console.log("realplay failed");
-                            is_played = false;
-                            $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
-                            StopRealPlayAll();
-                        }
-                    );
-                }, function() {
-                    StopRealPlayAll();
-                    console.log("stop failed");
-                    $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
-                });
-            } else {
-                if (ptz == 1) $("#controller").show();
-                jsDecoder.JS_Play(playURL, { playURL }, 0).then(
-                    function() { 
-                        console.log("realplay success");
-                        is_played = true;
-                        cam_idx_code = cam_index;
-                    },
-                    function() { 
-                        console.log("realplay failed");
-                        is_played = false;
-                        $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
-                        StopRealPlayAll();
-                    }
-                );
-            }
-          } else {
-              this_cam_item.removeClass(remove_class).addClass('r_status');
-              $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
-              if (is_played) {
-                  jsDecoder.JS_Stop(iWind).then(
-                      function() { is_played = false; console.log("stop success"); }, 
-                      function() { console.log("stop failed"); });
-                  StopRealPlayAll();
-              }
+          //   this_cam_item.removeClass(remove_class).addClass('g_status');
+          //   if (is_played) {
+          //       jsDecoder.JS_Stop(0).then(function() {
+          //           StopRealPlayAll();
+          //           console.log("stop success");
+          //           jsDecoder.JS_Play(playURL, { playURL }, 0).then(
+          //               function() { 
+          //                   console.log("realplay success");
+          //                   // $(".camera_active").html(`${el_count + 1}`)
+          //                   cam_idx_code = cam_index;
+          //                   if (ptz == 1) $("#controller").show();
+          //                   is_played = true; 
+          //               },
+          //               function() { 
+          //                   console.log("realplay failed");
+          //                   is_played = false;
+          //                   $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
+          //                   StopRealPlayAll();
+          //               }
+          //           );
+          //       }, function() {
+          //           StopRealPlayAll();
+          //           console.log("stop failed");
+          //           $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
+          //       });
+          //   } else {
+          //       if (ptz == 1) $("#controller").show();
+          //       jsDecoder.JS_Play(playURL, { playURL }, 0).then(
+          //           function() { 
+          //               console.log("realplay success");
+          //               is_played = true;
+          //               cam_idx_code = cam_index;
+          //           },
+          //           function() { 
+          //               console.log("realplay failed");
+          //               is_played = false;
+          //               $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
+          //               StopRealPlayAll();
+          //           }
+          //       );
+          //   }
+          // } else {
+          //     this_cam_item.removeClass(remove_class).addClass('r_status');
+          //     $('.parent-wnd > div:first-child').css('background', '#000 url("/assets/offline.svg") no-repeat center center');
+          //     if (is_played) {
+          //         jsDecoder.JS_Stop(iWind).then(
+          //             function() { is_played = false; console.log("stop success"); }, 
+          //             function() { console.log("stop failed"); });
+          //         StopRealPlayAll();
+          //     }
+          // }
+     // });
+
+     $(document).on('click', '#body_change_camera a', async function (e) {
+          e.preventDefault();
+
+          const camCode = $(this).data('cam_index');
+          // const status  = 1;
+          const status  = $(this).data('status');
+          const title   = $(this).text();
+
+          console.log("status: ", $(this).data('cam_index'))
+
+          // if (status != 1) {
+          //   alert('Kamera offline');
+          //   return;
+          // }
+
+          // 🔹 Modal title
+          $('#bodyCamTitle').text(title);
+
+          // 🔹 Modal ochamiz
+          const modalEl = document.getElementById('bodyCamModal');
+          const modal = new bootstrap.Modal(modalEl);
+          modal.show();
+
+          // 🔹 Old streamni yopamiz
+          if (bodyCamPC) {
+            bodyCamPC.close();
+            bodyCamPC = null;
           }
-      });
+
+          // 🔹 Stream ochamiz
+          try {
+            bodyCamPC = await openHyteraWebRTC(camCode, 'bodyCamVideo');
+          } catch (err) {
+            console.error(err);
+            alert('Video ochilmadi');
+          }
+        });
+
       
       $('.unmute').hide();
       $('.mute').click(function(e) {
@@ -3531,6 +3603,61 @@ map.on('load', () => {
           $('.unmute').hide();
           CloseSound();
       })
+
+      async function openHyteraWebRTC(camCode, videoId) {
+  const video = document.getElementById(videoId);
+
+  const pc = new RTCPeerConnection({
+    iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
+  });
+
+  pc.ontrack = e => {
+    video.srcObject = e.streams[0];
+    video.play();
+  };
+
+  const offer = await pc.createOffer({
+    offerToReceiveVideo: true,
+    offerToReceiveAudio: true
+  });
+
+  await pc.setLocalDescription(offer);
+
+  const res = await fetch('/hytera_api.php?action=webrtc', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      id: camCode,
+      sdp: offer.sdp
+    })
+  });
+
+  const json = await res.json();
+
+  if (json.code !== 0) {
+    throw new Error(json.msg || 'WebRTC failed');
+  }
+
+  await pc.setRemoteDescription({
+    type: 'answer',
+    sdp: json.data.sdp
+  });
+
+  return pc;
+}
+
+
+document.getElementById('bodyCamModal')
+  .addEventListener('hidden.bs.modal', () => {
+    if (bodyCamPC) {
+      bodyCamPC.close();
+      bodyCamPC = null;
+    }
+
+    const video = document.getElementById('bodyCamVideo');
+    video.srcObject = null;
+  });
+
 
       function stop() {
           jsDecoder.JS_Stop(iWind).then(function() {

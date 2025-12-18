@@ -273,9 +273,9 @@
 
     let drawCoords
 
-    let currentPage = 1;
-    const itemsPerPage = 9;
-    let totalPages = 0;
+    // let currentPage = 1;
+    // const itemsPerPage = 9;
+    // let totalPages = 0;
 
     const tbody = document.getElementById("table-body");
 
@@ -292,9 +292,9 @@
         let url = `${AJAXPHP}?act=get_jts_objects`;
         let params = [];
         
-        if (currentPage) params.push(`start=${currentPage}`);
-        if (itemsPerPage) params.push(`number=${itemsPerPage}`);
-        if (params.length > 0) url += '&' + params.join('&');
+        // if (currentPage) params.push(`start=${currentPage}`);
+        // if (itemsPerPage) params.push(`number=${itemsPerPage}`);
+        // if (params.length > 0) url += '&' + params.join('&');
 
 
         $.ajax({
@@ -304,7 +304,7 @@
           success: function(response) {
             $('.loader').empty();
             if (!response.data.length) {
-                $('#pagination').hide();
+                // $('#pagination').hide();
                 $('.loader').append(`
                     <div class="text-center my-5" style="padding: 10vh 0">
                         Маълумот мавжуд эмас!
@@ -355,8 +355,8 @@
                   tbody.appendChild(tr);
               });
             }
-            totalPages = Math.ceil(response.total / itemsPerPage);
-            renderPagination()
+            // totalPages = Math.ceil(response.total / itemsPerPage);
+            // renderPagination()
 
           },
           error: function(xhr, status, error) {
@@ -638,78 +638,78 @@
     
     // Render pagination buttons based on currentPage and totalPages
     function renderPagination() {
-        $('#pagination').empty();
-        const visiblePages = 3;  // Number of visible pages around the current page
-        const sidePages = 2;  
+        // $('#pagination').empty();
+        // const visiblePages = 3;  // Number of visible pages around the current page
+        // const sidePages = 2;  
 
-        $('#pagination').append(`
-            <li class="page-item prev ${currentPage === 1 ? 'disabled' : ''}">
-                <a class="page-link" href="javascript:void(0);" onclick="changePage(currentPage - 1)">
-                    <i class="ti ti-chevron-left ti-xs scaleX-n1-rtl"></i>
-                </a>
-            </li>
-        `);
+        // $('#pagination').append(`
+        //     <li class="page-item prev ${currentPage === 1 ? 'disabled' : ''}">
+        //         <a class="page-link" href="javascript:void(0);" onclick="changePage(currentPage - 1)">
+        //             <i class="ti ti-chevron-left ti-xs scaleX-n1-rtl"></i>
+        //         </a>
+        //     </li>
+        // `);
 
         // Function to render a single page number
-        function renderPage(i) {
-            $('#pagination').append(`
-                <li class="page-item ${i === currentPage ? 'active' : ''}">
-                    <a class="page-link" href="javascript:void(0);" onclick="changePage(${i})">${i}</a>
-                </li>
-            `);
-        }
+        // function renderPage(i) {
+        //     $('#pagination').append(`
+        //         <li class="page-item ${i === currentPage ? 'active' : ''}">
+        //             <a class="page-link" href="javascript:void(0);" onclick="changePage(${i})">${i}</a>
+        //         </li>
+        //     `);
+        // }
 
         // Display first few pages and current surrounding pages
-        if (totalPages <= visiblePages + sidePages * 2) {
-            // If the total number of pages is small, show all pages
-            for (let i = 1; i <= totalPages; i++) {
-                renderPage(i);
-            }
-        } else {
-            // Show the first few pages
-            for (let i = 1; i <= sidePages; i++) {
-                renderPage(i);
-            }
+        // if (totalPages <= visiblePages + sidePages * 2) {
+        //     // If the total number of pages is small, show all pages
+        //     for (let i = 1; i <= totalPages; i++) {
+        //         renderPage(i);
+        //     }
+        // } else {
+        //     // Show the first few pages
+        //     for (let i = 1; i <= sidePages; i++) {
+        //         renderPage(i);
+        //     }
 
-            // Show ellipsis (...) if we're skipping pages in the middle
-            if (currentPage > visiblePages + sidePages) {
-                $('#pagination').append('<li class="page-item disabled"><span class="page-link">...</span></li>');
-            }
+        //     // Show ellipsis (...) if we're skipping pages in the middle
+        //     if (currentPage > visiblePages + sidePages) {
+        //         $('#pagination').append('<li class="page-item disabled"><span class="page-link">...</span></li>');
+        //     }
 
-            // Show a few pages around the current page
-            const startPage = Math.max(currentPage - visiblePages, sidePages + 1);
-            const endPage = Math.min(currentPage + visiblePages, totalPages - sidePages);
-            for (let i = startPage; i <= endPage; i++) {
-                renderPage(i);
-            }
+        //     // Show a few pages around the current page
+        //     const startPage = Math.max(currentPage - visiblePages, sidePages + 1);
+        //     const endPage = Math.min(currentPage + visiblePages, totalPages - sidePages);
+        //     for (let i = startPage; i <= endPage; i++) {
+        //         renderPage(i);
+        //     }
 
-            // Show ellipsis (...) if we're skipping pages at the end
-            if (currentPage < totalPages - visiblePages - sidePages) {
-                $('#pagination').append('<li class="page-item disabled"><span class="page-link">...</span></li>');
-            }
+        //     // Show ellipsis (...) if we're skipping pages at the end
+        //     if (currentPage < totalPages - visiblePages - sidePages) {
+        //         $('#pagination').append('<li class="page-item disabled"><span class="page-link">...</span></li>');
+        //     }
 
-            // Show the last few pages
-            for (let i = totalPages - sidePages + 1; i <= totalPages; i++) {
-                renderPage(i);
-            }
-        }
+        //     // Show the last few pages
+        //     for (let i = totalPages - sidePages + 1; i <= totalPages; i++) {
+        //         renderPage(i);
+        //     }
+        // }
 
         // Append the next button
-        $('#pagination').append(`
-            <li class="page-item next ${currentPage === totalPages ? 'disabled' : ''}">
-                <a class="page-link" href="javascript:void(0);" onclick="changePage(currentPage + 1)">
-                    <i class="ti ti-chevron-right ti-xs scaleX-n1-rtl"></i>
-                </a>
-            </li>
-        `);
+        // $('#pagination').append(`
+        //     <li class="page-item next ${currentPage === totalPages ? 'disabled' : ''}">
+        //         <a class="page-link" href="javascript:void(0);" onclick="changePage(currentPage + 1)">
+        //             <i class="ti ti-chevron-right ti-xs scaleX-n1-rtl"></i>
+        //         </a>
+        //     </li>
+        // `);
     }
 
     // Change the page and re-fetch data
-    function changePage(page) {
-        if (page < 1 || page > totalPages) return;  // Prevent invalid page navigation
-        currentPage = page;  // Update current page
-        renderTable()
-    }
+    // function changePage(page) {
+    //     if (page < 1 || page > totalPages) return;  // Prevent invalid page navigation
+    //     currentPage = page;  // Update current page
+    //     renderTable()
+    // }
 
     renderTable();
     {/literal}

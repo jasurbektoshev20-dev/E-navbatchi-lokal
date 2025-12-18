@@ -548,7 +548,7 @@ switch ($Action) {
 
 	case "get_jts_objects":
 		$page = isset($_GET['page']) ? $_GET['page'] : 1;
-		$limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
+		$limit = isset($_GET['limit']) ? $_GET['limit'] : 100000000;
 		$start = ($page - 1) * $limit;
 		$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
 
@@ -730,9 +730,9 @@ switch ($Action) {
 			foreach ($RoutineDate as $key => $value) {
 				$car_ids[] = $value['car_id'];
 				if (isset($value['bodycam_id']) && $value['patrul_type'] == 1) {
-					$query  = "SELECT t.id, t.cam_code, t.comment, t.lat, t.long
+					$query  = "SELECT t.id, t.cam_code, t.comment, t.lat, t.long, t.status
 					FROM hr.body_cameras t 
-					WHERE t.id = {$value['bodycam_id']}";
+					WHERE t.id = {$value['bodycam_id']}";						
 					$sql->query($query);
 					$Bodys[] = $sql->fetchAssoc();
 
@@ -758,19 +758,19 @@ switch ($Action) {
 
 				$dataBodyCam = GetCamUrlBody($bodycamindex);
 				if (isset($dataBodyCam['data']['url'])) {
-					$BodyCamUrl[] = [
-						'id' => $bodyCamId,
-						'url' => $dataBodyCam['data']['url'],
-						'status' => 1,
-						'cam_index' => $bodycamindex,
-						'comment' => $comment,
-						'lat' => $body_c['lat'],
-						'long' => $body_c['long'],
-						'staff_name' => $body_c['staff_name'],
-						'staff_photo' => $body_c['staff_photo'],
-						'staff_phone' => $body_c['staff_phone'],
-						'staff_sname' => $body_c['staff_sname']
-					];
+				$BodyCamUrl[] = [
+					'id' => $bodyCamId,
+					'url' => $dataBodyCam['data']['url'] ?? '',
+					'status' => (bool)$body_c['status'], // 🔥 DB’dan
+					'cam_index' => $bodycamindex,
+					'comment' => $comment,
+					'lat' => $body_c['lat'],
+					'long' => $body_c['long'],
+					'staff_name' => $body_c['staff_name'],
+					'staff_photo' => $body_c['staff_photo'],
+					'staff_phone' => $body_c['staff_phone'],
+					'staff_sname' => $body_c['staff_sname']
+				];
 				} else {
 					$BodyCamUrl[] = [
 						'id' => $bodyCamId,

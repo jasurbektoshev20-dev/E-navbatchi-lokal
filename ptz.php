@@ -61,7 +61,7 @@ $command   = isset($Command[$_GET['command']]) ? $Command[$_GET['command']] : 0;
 $curl = curl_init();
 if ($source == 1) {
     curl_setopt_array($curl, array(
-        CURLOPT_URL => 'https://10.100.16.228/artemis/api/video/v1/ptzs/controlling',
+        CURLOPT_URL => 'https://10.10.80.12:443/artemis/api/video/v1/ptzs/controlling',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_SSL_VERIFYPEER => false,
         CURLOPT_SSL_VERIFYHOST => false,
@@ -87,7 +87,7 @@ if ($source == 1) {
     ));
 } else {
     curl_setopt_array($curl, array(
-        CURLOPT_URL => 'https://10.100.9.131/artemis/api/video/v1/ptzs/controlling',
+        CURLOPT_URL => 'https://10.10.80.12:443/artemis/api/video/v1/ptzs/controlling',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_SSL_VERIFYPEER => false,
         CURLOPT_SSL_VERIFYHOST => false,
@@ -131,7 +131,7 @@ m_sleep(500);
 $curl = curl_init();
 if ($source == 1) {
     curl_setopt_array($curl, array(
-        CURLOPT_URL => 'https://10.100.16.228/artemis/api/video/v1/ptzs/controlling',
+        CURLOPT_URL => 'https://10.10.80.12:443/artemis/api/video/v1/ptzs/controlling',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_SSL_VERIFYPEER => false,
         CURLOPT_SSL_VERIFYHOST => false,
@@ -157,7 +157,7 @@ if ($source == 1) {
     ));
 } else {
     curl_setopt_array($curl, array(
-        CURLOPT_URL => 'https://10.100.9.131/artemis/api/video/v1/ptzs/controlling',
+        CURLOPT_URL => 'https://10.10.80.12:443/artemis/api/video/v1/ptzs/controlling',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_SSL_VERIFYPEER => false,
         CURLOPT_SSL_VERIFYHOST => false,

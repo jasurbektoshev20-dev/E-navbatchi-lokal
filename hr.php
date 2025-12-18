@@ -763,7 +763,7 @@ switch ($Act) {
 		left join hr.structure s on s.id  = t.structure_id
 		left join hr.involved_objects o on o.id = t.object_type
 		LEFT JOIN hr.cooperate c on c.id = t.cooperate_id
-		ORDER BY t.id desc LIMIT 10";
+		ORDER BY t.id desc LIMIT 200";
 		$sql->query($query);
 		$JtsObjects = $sql->fetchAll();
 
