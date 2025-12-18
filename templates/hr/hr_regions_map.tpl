@@ -1218,6 +1218,20 @@
   font-size: 14px;
 }
 
+.cluster-bodycam {
+    background: #16a34a; /* green */
+    color: #fff;
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    border: 3px solid #fff;
+    box-shadow: 0 0 12px rgba(22, 163, 74, 0.6);
+}
+
 
   {/literal}
 </style>
@@ -1754,7 +1768,7 @@
 
       let bodyCamPC = null;
 
-
+      let objectsBoundsApplied = false;
       let urlParams = new URLSearchParams(window.location.search);
 
         let cluster = L.markerClusterGroup({ chunkedLoading: true });
@@ -1798,19 +1812,61 @@
         });
       }
     });
-      const map = L.map("uzbMap", {
-        center: [41.6384, 64.0202],
-        zoom: 7,     
-        // layers: L.tileLayer(`http://10.19.7.4:8080/tile/{z}/{x}/{y}.png`, { maxZoom: 19 }),
-        //  layers: L.tileLayer(`http://10.100.9.145:8080/tile/{z}/{x}/{y}.png`, { 
-         layers: L.tileLayer(`https://tile.openstreetmap.org/{z}/{x}/{y}.png`, {
-           className: 'dark' == 'dark' ? 'map-tiles' : 'map-tiles-light',
-           maxZoom: 20
-         }),
-        // layers: L.tileLayer(`https://tile.openstreetmap.org/{z}/{x}/{y}.png`, { maxZoom: 19 }),
-      });
-      map.addLayer(carsCluster);
-      map.addLayer(objectsCluster);
+
+    // 🔥 BODY CAMERA CLUSTER
+          const bodyCamCluster = L.markerClusterGroup({
+              chunkedLoading: true,          // katta performance
+              spiderfyOnMaxZoom: true,
+              disableClusteringAtZoom: 17,   // 17 dan keyin bittalashadi
+              iconCreateFunction: function (cluster) {
+                  return L.divIcon({
+                      html: `
+                          <div class="cluster-icon cluster-bodycam">
+                              ${cluster.getChildCount()}
+                          </div>
+                      `,
+                      className: 'my-cluster',
+                      iconSize: L.point(42, 42)
+                  });
+              }
+          });
+
+      
+
+
+
+    const baseLayer = L.tileLayer(
+    'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+        maxZoom: 20,
+        className: 'map-tiles'
+    }
+);
+
+const map = L.map("uzbMap", {
+    center: [41.6384, 64.0202],
+    zoom: 7,
+    zoomControl: true,
+    preferCanvas: true // 🔥 KATTA FARK QILADI
+});
+
+baseLayer.addTo(map);
+map.addLayer(carsCluster);
+map.addLayer(objectsCluster);
+    map.addLayer(bodyCamCluster);
+      // const map = L.map("uzbMap", {
+      //   center: [41.6384, 64.0202],
+      //   zoom: 7,     
+      //   // layers: L.tileLayer(`http://10.19.7.4:8080/tile/{z}/{x}/{y}.png`, { maxZoom: 19 }),
+      //   //  layers: L.tileLayer(`http://10.100.9.145:8080/tile/{z}/{x}/{y}.png`, { 
+      //    layers: L.tileLayer(`https://tile.openstreetmap.org/{z}/{x}/{y}.png`, {
+      //      className: 'dark' == 'dark' ? 'map-tiles' : 'map-tiles-light',
+      //      maxZoom: 20
+      //    }),
+      //   // layers: L.tileLayer(`https://tile.openstreetmap.org/{z}/{x}/{y}.png`, { maxZoom: 19 }),
+      // });
+      // map.addLayer(carsCluster);
+      // map.addLayer(objectsCluster);
 
       // Marker ikonkalari
       const markerIcons = {
@@ -1997,16 +2053,200 @@
             });
 
             // boundsni clusterdan olamiz
+           // faqat 1-marta avtomatik zoom
+          if (!objectsBoundsApplied) {
             const bounds = objectsCluster.getBounds();
             if (bounds.isValid()) {
-              map.flyToBounds(bounds, { padding: [50, 50], duration: 1 });
+              map.fitBounds(bounds, { padding: [50, 50] });
+              objectsBoundsApplied = true;
             }
+          }
+
           },
           error: function (xhr, status, error) {
             console.error('AJAX error:', error);
           }
         });
 }
+
+
+const bodyCamIcons = {
+  online: L.icon({
+    iconUrl: './assets/assets/img/avatars/online_body.png',
+    iconSize: [28, 28],
+    iconAnchor: [14, 28],
+  }),
+  offline: L.icon({
+    iconUrl: './assets/assets/img/avatars/ofline_body.png',
+    iconSize: [28, 28],
+    iconAnchor: [14, 28],
+  })
+};
+
+function loadBodyCameras() {
+    $.ajax({
+        url: '/ajax.php',
+        url: `${AJAXPHP}?act=get_body_cameras_map`,
+        type: 'GET',
+        dataType: 'json',
+        success: function (res) {
+            if (!res.success) {
+                console.warn('Body cam data kelmadi');
+                return;
+            }
+            drawBodyCamerasOnMap(res.data);
+        },
+        error: function (err) {
+            console.error('AJAX error:', err);
+        }
+    });
+}
+
+let bodyCamMarkers = {};
+
+function drawBodyCamerasOnMap(cameras) {
+
+    cameras.forEach(cam => {
+        const lat = +cam.lat;
+        const lng = +cam.long;
+        if (isNaN(lat) || isNaN(lng)) return;
+
+        const icon = cam.status == 1
+            ? bodyCamIcons.online
+            : bodyCamIcons.offline;
+
+        const popupHtml = `
+            <b>${cam.comment}</b><br>
+            Ҳолати: ${cam.status ? '🟢 Ёниқ' : '🔴 Ўчган'}<br>
+            <button
+              class="btn btn-sm btn-primary mt-2 open-bodycam"
+              data-camcode="${cam.cam_code}"
+              data-status="${cam.status}"
+            >
+              📹 Видео
+            </button>
+        `;
+
+        // 🔁 BOR BO‘LSA → UPDATE
+        if (bodyCamMarkers[cam.id]) {
+            const marker = bodyCamMarkers[cam.id];
+
+            if (marker._status !== cam.status) {
+                marker.setIcon(icon);
+                marker._status = cam.status;
+            }
+
+            const old = marker.getLatLng();
+            if (old.lat !== lat || old.lng !== lng) {
+                marker.setLatLng([lat, lng]);
+            }
+
+            marker.setPopupContent(popupHtml);
+
+        } 
+        // 🆕 YO‘Q BO‘LSA → CREATE
+        else {
+            const marker = L.marker([lat, lng], { icon })
+                .bindPopup(popupHtml);
+
+            marker._status = cam.status;
+
+            bodyCamMarkers[cam.id] = marker;
+            bodyCamCluster.addLayer(marker); // 🔥 MUHIM
+        }
+    });
+}
+
+
+// let mapBusy = false;
+
+// map.on('movestart zoomstart', () => mapBusy = true);
+// map.on('moveend zoomend', () => mapBusy = false);
+
+function loadBodyCameras() {
+    // if (mapBusy) return;
+
+    $.getJSON(`${AJAXPHP}?act=get_body_cameras_map`, res => {
+        if (res?.success) {
+            drawBodyCamerasOnMap(res.data);
+        }
+    });
+}
+
+
+
+loadBodyCameras();
+setInterval(loadBodyCameras, 60000);
+
+
+
+$(document).on('click', '.open-bodycam', async function (e) {
+    e.preventDefault();
+
+    const camCode = $(this).data('camcode');   // PU_2098BF61
+    const status  = $(this).data('status');    // 1 / 0
+    const title   = $(this).closest('.leaflet-popup')
+                          .find('b')
+                          .text() || camCode;
+
+    console.log('camCode:', camCode, 'status:', status);
+
+    if (status != 1) {
+        alert('Kamera offline');
+        return;
+    }
+
+    // 🔹 Modal title
+    $('#bodyCamTitle').text(title);
+
+    // 🔹 Modal ochamiz
+    const modalEl = document.getElementById('bodyCamModal');
+    const modal   = new bootstrap.Modal(modalEl);
+    modal.show();
+
+    // 🔹 Oldingi streamni yopamiz (KECHAGI LOGIKA)
+    if (window.bodyCamPC) {
+        try {
+            bodyCamPC.close();
+        } catch (e) {}
+        bodyCamPC = null;
+    }
+
+    // 🔹 Stream ochamiz (KECHAGI FUNKSIYA)
+    try {
+        bodyCamPC = await openHyteraWebRTC(camCode, 'bodyCamVideo');
+    } catch (err) {
+        console.error('Video error:', err);
+        alert('Video ochilmadi');
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2570,21 +2810,21 @@ map.on('load', () => {
       }
 
 
-      setInterval(() => {
-        if(document.querySelector('#dialogMap')){
-          $.ajax({
-            url: `${AJAXPHP}?act=get_bodycam_location&id=${params?.id}`,
-            type: 'GET',
-            dataType: 'json',
-            success: function(response) {
-              response.forEach(item=>{
-                // console.log('kelayotgan malumotlar bodi: ', item)
-                updateCameraPosition(item.id, item.lat, item.long)
-              })
-            }
-          })
-        }
-      }, 10000);
+      // setInterval(() => {
+      //   if(document.querySelector('#dialogMap')){
+      //     $.ajax({
+      //       url: `${AJAXPHP}?act=get_bodycam_location&id=${params?.id}`,
+      //       type: 'GET',
+      //       dataType: 'json',
+      //       success: function(response) {
+      //         response.forEach(item=>{
+              
+      //           updateCameraPosition(item.id, item.lat, item.long)
+      //         })
+      //       }
+      //     })
+      //   }
+      // }, 10000);
     }
 
 
@@ -3557,10 +3797,10 @@ map.on('load', () => {
 
           console.log("status: ", $(this).data('cam_index'))
 
-          // if (status != 1) {
-          //   alert('Kamera offline');
-          //   return;
-          // }
+          if (status != 1) {
+            alert('Kamera offline');
+            return;
+          }
 
           // 🔹 Modal title
           $('#bodyCamTitle').text(title);

@@ -1502,6 +1502,280 @@ document.getElementById("criminal_compare_button").onclick = function () {
 
 
 
+//   let structure_id = null;
+
+//  const colors = [
+//         "#6EB5FF", // ko‘k
+//         "#5CC97B", // yashil
+//         "#A472FF", // to‘q binafsha
+//         "#FFB84D", // och sariq
+//         "#99CCFF", // och ko‘k
+//         "#FFD24C", // sariq (eng katta bo‘lak)
+//         "#4BA3C7", // havorang
+//         "#7AD67A", // och yashil
+//         "#FF884C", // to‘q sariq
+//         "#B266FF", // binafsha
+//         "#FF6666", // qizil
+//       ];
+
+//        const colors1 = [
+//         // "#6EB5FF", // ko‘k
+//         "#5CC97B", // yashil
+//         "#A472FF", // to‘q binafsha
+//         "#FFB84D", // och sariq
+//         "#99CCFF", // och ko‘k
+//         "#FFD24C", // sariq (eng katta bo‘lak)
+//         "#4BA3C7", // havorang
+//         "#7AD67A", // och yashil
+//         "#FF884C", // to‘q sariq
+//         "#B266FF", // binafsha
+//         "#FF6666", // qizil
+//       ];
+
+  
+//   function safeDisposeChartByDom(dom) {
+//     if (!dom) return;
+//     try {
+//       const prev = echarts.getInstanceByDom(dom);
+//       if (!prev) return;
+    
+//       if (dom.parentNode) {
+//         echarts.dispose(dom);
+//       } else {
+       
+//         prev.clear && prev.clear();
+//       }
+//     } catch (err) {
+//       console.warn('safeDisposeChartByDom error:', err);
+//     }
+//   }
+
+//   // Global resize handler variant (optional)
+//   function globalResizeAllCharts() {
+//     try {
+//       echarts.getInstanceByDom(document.getElementById('all_events_by_type'))?.resize();
+//       echarts.getInstanceByDom(document.getElementById('get_events_by_region'))?.resize();
+//     } catch (err) {
+//       // ignorable
+//     }
+//   }
+
+//   // --- AJAX / Data fetch ---
+//   function getObjects() {
+//     // URL build
+//     let url = `${AJAXPHP}?act=administrative_violation`;
+//     const params = [];
+//     if (structure_id !== null && !Number.isNaN(structure_id)) params.push(`structure_id=${encodeURIComponent(structure_id)}`);
+//     if (params.length) url += '&' + params.join('&');
+
+//     // AJAX
+//     $.ajax({
+//       url: url,
+//       type: 'GET',
+//       dataType: 'json',
+//       success: function(response) {
+//         // safety defaults
+//         const stats = response?.stats || [];
+//         all_events_by_type(stats);
+//         get_events_by_region(response || {});
+//         console.log('AJAX success:', { structure_id, url, response });
+//       },
+//       error: function(xhr, status, error) {
+//         console.error('AJAX error:', error, xhr);
+//       }
+//     });
+//   }
+
+//   // --- CHART: ALL EVENTS BY TYPE (pie donut) ---
+//   function all_events_by_type(data = []) {
+//     const dom = document.getElementById('all_events_by_type');
+//     if (!dom) return console.error('Container #all_events_by_type topilmadi');
+
+//     // safe dispose old
+//     safeDisposeChartByDom(dom);
+
+//     dom.innerHTML = '';
+
+//     const myChart = echarts.init(dom);
+
+//     const total = Array.isArray(data) ? data.reduce((s, it) => s + Number(it.value || 0), 0) : 0;
+
+//     const option = {
+//       color: colors1,
+//       textStyle: { fontFamily: "Arial, sans-serif", fontSize: "18px" },
+//       title: {
+//         text: String(total),
+//         left: 'center',
+//         top: '37%',
+//         textStyle: { fontSize: 18, fontWeight: 'bold', color: '#b7b7b7' },
+//       },
+//       legend: {
+//         bottom: 0,
+//         left: 'center',
+//         padding: [20, 0, 0, 0],
+//         textStyle: { color: '#b7b7b7', fontSize: 18 }
+//       },
+//       tooltip: {
+//         backgroundColor: 'white',
+//         textStyle: { fontSize: 18, color: '#000' }
+//       },
+//       series: [{
+//         type: 'pie',
+//         radius: ['20%', '60%'],
+//         center: ['50%', '40%'],
+//         label: {
+//           show: true,
+//           position: 'outside',
+//           formatter: '{c}',
+//           textStyle: { fontSize: 18, fontWeight: 'bold', color: '#b7b7b7' }
+//         },
+//         itemStyle: {
+//           borderRadius: 10,
+//           shadowColor: 'rgba(0,0,0,0.5)',
+//           shadowBlur: 20
+//         },
+//         data: (Array.isArray(data) ? data : []).map(item => ({
+//           name: item.name || '',
+//           value: Number(item.value || 0),
+//           id: item.id
+//         }))
+//       }]
+//     };
+
+//     myChart.setOption(option);
+
+//     // remove old click handlers (agar mavjud bo'lsa)
+//     try { myChart.off && myChart.off('click'); } catch(e){}
+
+//     myChart.on('click', function(params) {
+//       // agar structure_id null bo'lsa umumiy xarita; aks holda region ichidagi objectlar uchun
+//       if (structure_id !== null) {
+//         window.location.href = `hr.php?act=regions_map&region_id=${structure_id}&object_type=${params.data.id}`;
+//       } else {
+//         window.location.href = `hr.php?act=regions_map&object_type=${params.data.id}`;
+//       }
+//     });
+
+//     const resizeFn = () => myChart.resize();
+//     window.addEventListener('resize', resizeFn);
+
+//   }
+
+//   // --- CHART / LIST: EVENTS BY REGION or OBJECT LIST ---
+//   function get_events_by_region(data = {}) {
+//     const dom = document.getElementById('get_events_by_region');
+//     if (!dom) return console.error('Container #get_events_by_region topilmadi');
+
+//     // Dispose old charts safely
+//     safeDisposeChartByDom(dom);
+
+//     dom.innerHTML = '';
+
+//     if (structure_id !== null) {
+//       // Build HTML
+//       let allHtml = `<div class="col-12"><div class="region-box">`;
+//       (data.list || []).forEach(cat => {
+//         const places = cat.objects || [];
+//         let listHtml = '<ul class="place-list scrollable">';
+//         places.forEach(p => {
+
+//           const name = String(p.object_name || '').replace(/</g, "&lt;").replace(/>/g, "&gt;");
+//           listHtml += `<li class="alert alert-dark" role="alert" data-cat="${cat.name}" data-place="${name}">${name}</li>`;
+//         });
+//         listHtml += '</ul>';
+
+//         allHtml += `
+//           <div class="category-block mb-2">
+//             <h5 class="mb-2 text-primary">${cat.name}</h5>
+//             ${listHtml}
+//           </div>
+//         `;
+//       });
+//       allHtml += `</div></div>`;
+
+//       dom.innerHTML = allHtml;
+//       return;
+//     }
+
+//     const myChart = echarts.init(dom);
+
+//     const statRegion = Array.isArray(data.stat_region) ? data.stat_region : [];
+//     const option = {
+//       textStyle: { fontFamily: "Arial, sans-serif", fontSize: "18px" },
+//       xAxis: {
+//         type: 'category',
+//         data: statRegion.map(item => item.name),
+//         axisLabel: { interval: 0, fontSize: 18, rotate: 45, color: '#b7b7b7' },
+//         axisLine: { show: false },
+//         splitLine: { show: false }
+//       },
+//       grid: { bottom: 110, right: 30, left: 60 },
+//       yAxis: {
+//         type: 'value',
+//         minInterval: 1,
+//         axisLabel: { color: '#b7b7b7', fontSize: 18 },
+//         axisLine: { show: false },
+//         splitLine: { show: false }
+//       },
+//        tooltip: {
+//           backgroundColor: 'white',
+//            textStyle: {
+//                 fontSize: 18,     // 🔥 shu yerda o'zgartirasan
+//                 color: '#000'
+//             }
+//         },
+//       series: [{
+//         data: statRegion.map(item => parseInt(item.value) || 0),
+//         type: 'bar',
+//         barMaxWidth: 60,
+//         itemStyle: { color: (p) => colors[p.dataIndex % colors.length], borderRadius: [8, 8, 0, 0] },
+//         label: { fontSize: 18, show: true, position: 'top', color: '#b7b7b7' }
+//       }]
+//     };
+
+//     myChart.setOption(option);
+
+//     // resize handler for this chart
+//     const resizeFn = () => myChart.resize();
+//     window.addEventListener('resize', resizeFn);
+//   }
+
+//   // --- SELECT HANDLER ---
+//   $(document).ready(function(){
+//     // init: if select has a preselected non-empty value, set it; else null
+//     const rawInit = $('#event_count').val();
+//     structure_id = rawInit ? (isNaN(parseInt(rawInit,10)) ? null : parseInt(rawInit,10)) : null;
+
+//     // initial fetch
+//     getObjects();
+
+//     // change handler
+//     $('#event_count').on('change', function() {
+//       const raw = $(this).val();
+//       structure_id = raw ? (isNaN(parseInt(raw,10)) ? null : parseInt(raw,10)) : null;
+//       console.log('Select changed, structure_id =', structure_id);
+//       getObjects();
+//     });
+
+//     // optional: delegate click on place items
+//     $(document).on('click', '.place-list li', function(){
+//       const place = $(this).data('place') || $(this).text();
+//       // misol uchun tooltip yoki modal ochish mumkin
+//       console.log('Place clicked:', place);
+//     });
+//   });
+
+//   // Expose some helpers for debugging (optional)
+//   window.__jts_debug = {
+//     getObjects,
+//     safeDisposeChartByDom,
+//     globalResizeAllCharts
+//   };
+
+
+
+
+
 
     {/literal}
 </script>

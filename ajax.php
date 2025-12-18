@@ -1816,6 +1816,33 @@ switch ($Action) {
 
 break;
 
+case 'get_body_cameras_map':
+
+    $query = "
+        SELECT id, cam_code, comment, lat, long, status
+        FROM hr.body_cameras
+        WHERE status = true
+    ";
+
+    $sql->query($query);
+    $cams = $sql->fetchAll();
+
+    foreach ($cams as &$cam) {
+        $cam['status'] = (
+            $cam['status'] === true ||
+            $cam['status'] === 't' ||
+            $cam['status'] === 1 ||
+            $cam['status'] === '1'
+        ) ? 1 : 0;
+    }
+
+    echo json_encode([
+        'success' => true,
+        'data' => $cams
+    ]);
+    exit;
+
+
 }
 
 // echo iconv("cp1251", "UTF-8", $res);

@@ -3099,123 +3099,111 @@ case "get_event_duty":
             break;
 
 
-    case "act_embassy_objects":
-        $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
+ case "act_embassy_objects":
 
-            // ─────────────────────────────
-            // 📌 Rasm yuklash
-            // ─────────────────────────────
-            if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-                $file = $_FILES['photo'];
-                $uploadDir = 'pictures/embassy/';
+    $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
 
-                $newFileName = uniqid('embassy_', true) . '.' . pathinfo($file['name'], PATHINFO_EXTENSION);
+    // Default qiymat
+    $photo = null;
+
+    // ─────────────────────────────
+    // 📌 RASM YUKLASH (SAFE)
+    // ─────────────────────────────
+    if (!empty($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+
+        $uploadDir = __DIR__ . '/pictures/embassy/';
+
+        // Papka yo‘q bo‘lsa — yaratamiz
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0755, true);
+        }
+
+        if (is_writable($uploadDir)) {
+
+            $ext = strtolower(pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION));
+            $allowed = ['jpg','jpeg','png','webp'];
+
+            if (in_array($ext, $allowed)) {
+
+                $newFileName = uniqid('embassy_', true) . '.' . $ext;
                 $uploadFile = $uploadDir . $newFileName;
 
-                if (move_uploaded_file($file['tmp_name'], $uploadFile)) {
+                if (move_uploaded_file($_FILES['photo']['tmp_name'], $uploadFile)) {
                     $photo = $newFileName;
                 }
             }
-
-            // Agar yangi rasm yuklanmagan bo'lsa — eski rasmni olamiz
-            $photo = isset($photo) ? $photo : $_POST['photo'];
-
-
-
-
-        $structure_id = $_POST['structure_id'];
-        $district = $_POST['district'];
-        $type_id = $_POST['obj_type'];
-        $lat = $_POST['obj_lat'];
-        $long = $_POST['obj_long'];
-        $name = $_POST['obj_name'];
-        $responsible_id = $_POST['responsible_id'];
-        $post_phone = $_POST['post_phone'];
-        $structure_phone = $_POST['structure_phone'];
-        $prevention_inspector = $_POST['prevention_inspector'];
-        $inspector_phone = $_POST['inspector_phone'];
-        $territorial_iib = $_POST['territorial_iib'];
-        $iib_phone = $_POST['iib_phone'];
-        $address = $_POST['obj_address'];
-     
-        $LastId = null;
-        $success = true;
-
-        if ($RowId != "0") {
-            $updquery = "UPDATE hr.embassy_objects SET
-                structure_id = '{$structure_id}',
-                district = '{$district}',
-                name = '{$name}',
-                type_id = '{$type_id}',
-                lat = '{$lat}',
-                long = '{$long}',
-                post_phone = '{$post_phone}',
-                photo = '{$photo}',
-                address = '{$address}',
-                responsible_id = '{$responsible_id}',
-                military_unit_phone = '{$structure_phone}',
-                iiv_inspector = '{$prevention_inspector}',
-                iiv_inspector_phone = '{$inspector_phone}',
-                iiv_unit = '{$territorial_iib}',
-                iiv_unit_phone = '{$iib_phone}'
-              
-                WHERE id = {$RowId}";
-            $sql->query($updquery);
-            if ($sql->error() == "") {
-                $status = 0;
-                $res = json_encode(['status' => $status, 'rowid' => MyPiCrypt($RowId)]);
-            } else {
-                $res = $sql->error();
-                $success = false;
-            }
-        } else {
-            // FIXED INSERT: removed trailing comma after column list and added missing commas/quotes in VALUES
-            $insquery = "INSERT INTO hr.embassy_objects (
-                    structure_id,
-                    district,
-                    name,
-                    type_id,
-                    lat,
-                    long,
-                    post_phone,
-                    photo,
-                    address,
-                    responsible_id,
-                    military_unit_phone,
-                    iiv_inspector,
-                    iiv_inspector_phone,
-                    iiv_unit,
-                    iiv_unit_phone
-                  
-                ) VALUES (
-                    '{$structure_id}',
-                    '{$district}',
-                    '{$name}',
-                    '{$type_id}',
-                    '{$lat}',
-                    '{$long}',
-                    '{$post_phone}',
-                    '{$photo}',
-                    '{$address}',
-                    '{$responsible_id}',
-                    '{$structure_phone}',
-                    '{$prevention_inspector}',
-                    '{$inspector_phone}',
-                    '{$territorial_iib}',
-                    '{$iib_phone}'
-                    
-                )";
-            $sql->query($insquery);
-
-            if ($sql->error() == "") {
-                $status = 0;
-                $res = json_encode(['status' => $status]);
-            } else {
-                $res = $sql->error();
-                $success = false;
-            }
         }
-        break;
+    }
+
+    // Agar yangi rasm bo‘lmasa — eski rasm
+    if ($photo === null && isset($_POST['photo'])) {
+        $photo = $_POST['photo'];
+    }
+
+    // POST ma'lumotlar
+    $structure_id = $_POST['structure_id'];
+    $district = $_POST['district'];
+    $type_id = $_POST['obj_type'];
+    $lat = $_POST['obj_lat'];
+    $long = $_POST['obj_long'];
+    $name = $_POST['obj_name'];
+    $responsible_id = $_POST['responsible_id'];
+    $post_phone = $_POST['post_phone'];
+    $structure_phone = $_POST['structure_phone'];
+    $prevention_inspector = $_POST['prevention_inspector'];
+    $inspector_phone = $_POST['inspector_phone'];
+    $territorial_iib = $_POST['territorial_iib'];
+    $iib_phone = $_POST['iib_phone'];
+    $address = $_POST['obj_address'];
+
+    if ($RowId != "0") {
+
+        $updquery = "UPDATE hr.embassy_objects SET
+            structure_id = '{$structure_id}',
+            district = '{$district}',
+            name = '{$name}',
+            type_id = '{$type_id}',
+            lat = '{$lat}',
+            long = '{$long}',
+            post_phone = '{$post_phone}',
+            photo = '{$photo}',
+            address = '{$address}',
+            responsible_id = '{$responsible_id}',
+            military_unit_phone = '{$structure_phone}',
+            iiv_inspector = '{$prevention_inspector}',
+            iiv_inspector_phone = '{$inspector_phone}',
+            iiv_unit = '{$territorial_iib}',
+            iiv_unit_phone = '{$iib_phone}'
+        WHERE id = {$RowId}";
+
+        $sql->query($updquery);
+        $res = ($sql->error() == "")
+            ? json_encode(['status'=>0,'rowid'=>MyPiCrypt($RowId)])
+            : $sql->error();
+
+    } else {
+
+        $insquery = "INSERT INTO hr.embassy_objects (
+            structure_id, district, name, type_id, lat, long,
+            post_phone, photo, address, responsible_id,
+            military_unit_phone, iiv_inspector, iiv_inspector_phone,
+            iiv_unit, iiv_unit_phone
+        ) VALUES (
+            '{$structure_id}', '{$district}', '{$name}', '{$type_id}',
+            '{$lat}', '{$long}', '{$post_phone}', '{$photo}', '{$address}',
+            '{$responsible_id}', '{$structure_phone}',
+            '{$prevention_inspector}', '{$inspector_phone}',
+            '{$territorial_iib}', '{$iib_phone}'
+        )";
+
+        $sql->query($insquery);
+        $res = ($sql->error() == "")
+            ? json_encode(['status'=>0])
+            : $sql->error();
+    }
+
+break;
+
 
 
         case "del_embassy_objects":
