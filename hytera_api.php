@@ -1,93 +1,118 @@
 <?php
 header('Content-Type: application/json');
 
-// ====== HYTERA CONFIG ======
+/* =======================
+   HYTERA CONFIG
+======================= */
 $HYTERA   = 'http://10.10.80.21:9780';
 $USERNAME = 'admin';
 $PASSWORD = '123456';
 
-// ====== POSTGRES CONFIG ======
+/* =======================
+   POSTGRES CONFIG
+======================= */
 $PG_DSN  = "pgsql:host=10.10.80.20;port=5432;dbname=e-gvardiya";
 $PG_USER = "postgres";
 $PG_PASS = "Qwerty123";
 
-// ====== DB CONNECT ======
+/* =======================
+   DB CONNECT
+======================= */
 try {
     $pdo = new PDO($PG_DSN, $PG_USER, $PG_PASS, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
     ]);
 } catch (Exception $e) {
     http_response_code(500);
-    echo json_encode(['error' => 'DB CONNECT FAILED', 'msg' => $e->getMessage()]);
+    echo json_encode([
+        'error' => 'DB CONNECT FAILED',
+        'msg'   => $e->getMessage()
+    ]);
     exit;
 }
 
-// ====== SHA256 ======
-function sha256($str) {
-    return hash('sha256', $str);
-}
-
-// ====== CURL JSON REQUEST ======
+/* =======================
+   HELPERS
+======================= */
 function curl_json($url, $headers, $body) {
     $ch = curl_init($url);
     curl_setopt_array($ch, [
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST => true,
-        CURLOPT_HTTPHEADER => $headers,
-        CURLOPT_POSTFIELDS => json_encode($body),
-        CURLOPT_TIMEOUT => 10,
+        CURLOPT_POST           => true,
+        CURLOPT_HTTPHEADER     => $headers,
+        CURLOPT_POSTFIELDS     => json_encode($body),
+        CURLOPT_TIMEOUT        => 10,
     ]);
     $res = curl_exec($ch);
     curl_close($ch);
     return json_decode($res, true);
 }
 
-// ====== LOGIN ======
-function hytera_login() {
+/* =======================
+   HYTERA LOGIN
+======================= */
+function hytera_get_token() {
     global $HYTERA, $USERNAME, $PASSWORD;
 
-    $ts = time(); // seconds
+    $tokenFile = __DIR__ . '/hytera_token.json';
+    $now = time();
 
-    // 1️⃣ step1 = SHA256(username_password)
+    // 1️⃣ Agar token fayli bor bo‘lsa
+    if (file_exists($tokenFile)) {
+        $data = json_decode(file_get_contents($tokenFile), true);
+
+        // token hali amal qilsa
+        if (!empty($data['token']) && $data['expire_at'] > $now) {
+            return $data['token'];
+        }
+    }
+
+    // 2️⃣ Yangi token olamiz
+    $ts = time();
     $step1 = hash('sha256', $USERNAME . '_' . $PASSWORD);
-
-    // 2️⃣ step2 = SHA256(step1_timestamp)
     $step2 = hash('sha256', $step1 . '_' . $ts);
-
-    // 3️⃣ final
     $encrypted = 'SHA256_T:' . $step2;
 
     $json = curl_json(
         $HYTERA . '/bvcsp/v1/auth/login',
         ['Content-Type: application/json'],
         [
-            'Username' => $USERNAME,
+            'Username'           => $USERNAME,
             'password_encrypted' => $encrypted,
-            'timestamp' => $ts
+            'timestamp'          => $ts
         ]
     );
 
     if (!isset($json['code']) || $json['code'] != 0) {
         http_response_code(500);
-        echo json_encode([
-            'error' => 'LOGIN FAILED',
-            'detail' => $json
-        ]);
+        echo json_encode(['error' => 'LOGIN FAILED', 'detail' => $json]);
         exit;
     }
 
-    return $json['data']['token'];
+    // 🔥 Hytera odatda tokenni 30–60 min beradi
+    $token     = $json['data']['token'];
+    $expireAt  = $now + 25 * 60; // 25 minut
+
+    file_put_contents($tokenFile, json_encode([
+        'token'     => $token,
+        'expire_at'=> $expireAt
+    ]));
+
+    return $token;
 }
 
 
-// ====== ROUTER ======
+/* =======================
+   ROUTER
+======================= */
 $action = $_GET['action'] ?? '';
 
-// ====== DEVICE LIST + SAVE TO DB ======
+/* =======================
+   DEVICE LIST + FULL SYNC
+======================= */
 if ($action === 'devices') {
-    global $pdo;
 
-    $token = hytera_login();
+    $token = hytera_get_token();
 
     $json = curl_json(
         $HYTERA . '/bvcsp/v1/pu/list',
@@ -96,46 +121,81 @@ if ($action === 'devices') {
             'Authorization: ' . $token
         ],
         [
-            'page' => 0,
-            'pageSize' => 1000,
+            'page'       => 0,
+            'pageSize'   => 1000,
             'needStatus' => true
         ]
     );
 
-    // 🔥 DB GA SAQLASH
-    if (isset($json['data']) && is_array($json['data'])) {
-        $sql = "
-            INSERT INTO hr.body_cameras
-              (cam_code, comment, lat, long, status)
-            VALUES
-              (:cam_code, :comment, :lat, :long, :status)
-            ON CONFLICT (cam_code)
-            DO UPDATE SET
-              comment = EXCLUDED.comment,
-              lat = EXCLUDED.lat,
-              long = EXCLUDED.long,
-              status = EXCLUDED.status
-        ";
-
-        $stmt = $pdo->prepare($sql);
-
-        foreach ($json['data'] as $cam) {
-            $stmt->execute([
-                ':cam_code' => $cam['id'],
-                ':comment'  => $cam['name'] ?? '',
-                ':lat'      => $cam['gps']['lat'] ?? null,
-                ':long'     => $cam['gps']['lng'] ?? null,
-                ':status'   => $cam['status'] ?? 0
-            ]);
-        }
+    if (!isset($json['data']) || !is_array($json['data'])) {
+        echo json_encode($json);
+        exit;
     }
 
-    echo json_encode($json);
+    /* =======================
+       1️⃣ INSERT / UPDATE
+    ======================= */
+    $activeCamCodes = [];
+
+    $sqlUpsert = "
+        INSERT INTO hr.body_cameras
+          (cam_code, comment, lat, long, status)
+        VALUES
+          (:cam_code, :comment, :lat, :long, :status)
+        ON CONFLICT (cam_code)
+        DO UPDATE SET
+          comment = EXCLUDED.comment,
+          lat     = EXCLUDED.lat,
+          long    = EXCLUDED.long,
+          status  = EXCLUDED.status
+    ";
+
+    $stmtUpsert = $pdo->prepare($sqlUpsert);
+
+    foreach ($json['data'] as $cam) {
+        $camCode = $cam['id'];
+
+        $activeCamCodes[] = $camCode;
+
+        $stmtUpsert->execute([
+            ':cam_code' => $camCode,
+            ':comment'  => $cam['name'] ?? '',
+            ':lat'      => $cam['gps']['lat'] ?? null,
+            ':long'     => $cam['gps']['lng'] ?? null,
+            ':status'   => $cam['status'] ?? 0
+        ]);
+    }
+
+    /* =======================
+       2️⃣ OFFLINE QILISH
+       Hytera’da yo‘qlari
+    ======================= */
+    if (!empty($activeCamCodes)) {
+        $placeholders = implode(',', array_fill(0, count($activeCamCodes), '?'));
+
+        $sqlOff = "
+            UPDATE hr.body_cameras
+            SET status = false
+            WHERE cam_code NOT IN ($placeholders)
+        ";
+
+        $stmtOff = $pdo->prepare($sqlOff);
+        $stmtOff->execute($activeCamCodes);
+    }
+
+    echo json_encode([
+        'code'    => 0,
+        'synced'  => count($activeCamCodes),
+        'message' => 'Body cameras synced successfully'
+    ]);
     exit;
 }
 
-// ====== WEBRTC OPEN ======
+/* =======================
+   WEBRTC OPEN
+======================= */
 if ($action === 'webrtc') {
+
     $input = json_decode(file_get_contents('php://input'), true);
     $id  = $input['id']  ?? null;
     $sdp = $input['sdp'] ?? null;
@@ -146,7 +206,8 @@ if ($action === 'webrtc') {
         exit;
     }
 
-    $token = hytera_login();
+    $token = hytera_get_token();
+
 
     $json = curl_json(
         $HYTERA . '/bvcsp/v1/dialog/device/webrtc',
@@ -155,9 +216,9 @@ if ($action === 'webrtc') {
             'Authorization: ' . $token
         ],
         [
-            'id' => $id,
+            'id'    => $id,
             'index' => 0,
-            'sdp' => $sdp
+            'sdp'   => $sdp
         ]
     );
 
@@ -165,6 +226,8 @@ if ($action === 'webrtc') {
     exit;
 }
 
-// ====== DEFAULT ======
+/* =======================
+   DEFAULT
+======================= */
 http_response_code(404);
 echo json_encode(['error' => 'Invalid action']);

@@ -1968,6 +1968,7 @@
                   type: 'GET',
                   dataType: 'json',
                   success: function (response) {
+                    console.log("response", response)
                     if (!response) return;
 
                      // LOADER → OFF
@@ -2593,9 +2594,8 @@ map.on('load', () => {
     // Funksiya: yangi koordinatalarni yangilash (socket orqali)
     function updateCameraPosition(id, newLat, newLon) {
       const camera = bodyCameraMarkers[id];
-      console.log("kamera joyi: ", newLat, newLon)
+
       if (!camera) return;
-      // console.log("kamera joyi: ", newLat, newLon)
 
       // Yangi target koordinatalarni o‘rnatamiz
       camera.target = { lat: newLat, lon: newLon };
@@ -3286,6 +3286,7 @@ map.on('load', () => {
           })
   
             fetched_body?.forEach((item, index) => {
+                
                 console.log("fotr echdagi item: ", item)
                 const cls = item.status == 1 ? 'g_status' : 'r_status';
                
