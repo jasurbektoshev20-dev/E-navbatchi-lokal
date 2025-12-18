@@ -870,12 +870,15 @@ switch ($Act) {
 		$sql->query($query);
 		$Door = $sql->fetchAll();
 
-
+		// $smarty->assign(array(
+		// 	'Door' => $Door,
+		// ));
+		// break;
 		$smarty->assign(array(
 			'Door' => $Door,
 		));
 		break;
-		
+
 
 	case "hr_dailiy_routine_date":
 		$object_id = isset($_GET['obyekt']) ? ($_GET['obyekt']) : 1;
