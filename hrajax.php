@@ -515,7 +515,7 @@ switch ($Action) {
 
     case "act_events":
         $RowId    = (!empty($_POST['id'])) ? $_POST['id'] : 0;
-        $region_id = $_POST['region_id'];
+        $                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           _id = $_POST['region_id'];
         $object_id =  $_POST['object_id'];
         $event_type = $_POST['event_type'];
         $event_category = $_POST['event_category'];
@@ -611,7 +611,6 @@ switch ($Action) {
                         ,responsible_mg_name
                         ,sapyor_count
                         ,event_category_id
-                
                     ) values (
                          '{$region_id}'
                         ,'{$object_id}'

@@ -1338,7 +1338,6 @@ break;
 
 
 	case "hr_neighborhood":
-
 		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t 
 		where t.id > 1 and t.id < 16
 		ORDER BY t.turn ASC";
@@ -1362,7 +1361,6 @@ break;
 
 
 		case "hr_general_report":
-
 			// 1) Regions (siz ilgari olgandek)
 			$query  = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t 
 					where t.id > 1 and t.id < 16
@@ -1408,9 +1406,8 @@ break;
 						ORDER BY s.id;
 			";
 			$sql->query($query);
-			$objects = $sql->fetchAll(); // each: ['structure_id'=>..., 'structure_name'=>..., 'object_types'=>json]
+			$objects = $sql->fetchAll();
 
-			// 4) Build regions array in the SAME order as $Regions (so headers match)
 			// Map $objects by structure_id for faster lookup
 			$objectsByStructure = [];
 			foreach ($objects as $o) {
@@ -1434,7 +1431,7 @@ break;
 						$objTypesArr = [];
 					}
 				} else {
-					$objTypesArr = []; // no data for this region
+					$objTypesArr = []; 
 				}
 
 				$regions[] = [
@@ -1444,7 +1441,7 @@ break;
 				];
 			}
 
-			// 5) Build tableData: one row per object_type (ensures all 4 types appear), and footer sums
+		
 			$tableData = [];    // rows: each row => ['object_type'=>id, 'object_type_name'=>name, 'regions'=>[region_id=>val,...], 'total'=>N]
 			$footer_sum = [];   // region_id => sum
 			$footer_total = 0;
@@ -1976,12 +1973,14 @@ break;
 			dr.date,
 			drd.direction,
 			drd.smena,
-			cm.name,
-			pt.name{$slang},
+			cm.name as car_name,
+			tc.plate_number,
+			pt.name{$slang} as patrul_type,
 			bc.comment,
 			drd.staff_phone,
-			dt.name{$slang},
+			dt.name{$slang} as dog_name,
 			drd.horse_count,
+
 
 			SUM(DISTINCT COALESCE(array_length(drd.epikirofka_id,1),0) ) AS epikirofka_total,
 			COUNT(DISTINCT CASE WHEN 16 = ANY(drd.epikirofka_id) THEN drd.id END) AS light_count,
@@ -2017,7 +2016,7 @@ break;
 			AND dr.structure_id = {$region_id}
 			AND drd.routine_id = {$routine_id}
 			GROUP BY
-			o.id, o.object_name, o.markets_count,drd.direction,dt.name{$slang},drd.horse_count,
+			o.id, o.object_name, o.markets_count,drd.direction,dt.name{$slang},drd.horse_count,tc.plate_number,
 			dr.structure_id, s.name{$slang}, r.name{$slang}, dr.id,drd.bodycam_id,drd.staff_phone,bc.comment,
 			dr.date, dr.responsible_id, dr.responsible_sname, dr.responsible_phone,	drd.smena,pt.name{$slang},
 			staff.lastname, staff.firstname, staff.surname,cm.name
@@ -2025,14 +2024,20 @@ break;
 			";
 
 		$sql->query($query);
-		$markets = $sql->fetchAll();
+		$markets_duty = $sql->fetchAll();
 		
 		
+<<<<<<< HEAD
+			echo '<pre>';
+			print_r($markets_duty);
+			echo '</pre>';
+			die();
+=======
 			// echo '<pre>';
 			// print_r($markets);
 			// echo '</pre>';
 			// die();
-
+>>>>>>> b7ce218261c77f6924a769a3c1b7307d89b957ca
 
 		// Agar hududlar ro'yxati kerak bo'lsa (misol tariqasida)
 		$query = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t WHERE t.id > 1 AND t.id < 16 ORDER BY t.turn ASC";
@@ -2045,7 +2050,7 @@ break;
 		$Types = $sql->fetchAll();
 
 			$smarty->assign(array(
-			'markets' => $markets,
+			'markets' => $markets_duty,
 			'Regions' => $Regions,
 			'Types' => $Types,
 		));
