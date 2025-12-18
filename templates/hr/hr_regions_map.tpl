@@ -2070,15 +2070,14 @@ map.addLayer(objectsCluster);
 }
 
 
-
 const bodyCamIcons = {
   online: L.icon({
-    iconUrl: './assets/assets/img/avatars/1.png',
+    iconUrl: './assets/assets/img/avatars/online_body.png',
     iconSize: [28, 28],
     iconAnchor: [14, 28],
   }),
   offline: L.icon({
-    iconUrl: '/assets/icons/bodycam_off.png',
+    iconUrl: './assets/assets/img/avatars/ofline_body.png',
     iconSize: [28, 28],
     iconAnchor: [14, 28],
   })
