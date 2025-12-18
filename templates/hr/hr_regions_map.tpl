@@ -2158,13 +2158,13 @@ function drawBodyCamerasOnMap(cameras) {
 }
 
 
-let mapBusy = false;
+// let mapBusy = false;
 
-map.on('movestart zoomstart', () => mapBusy = true);
-map.on('moveend zoomend', () => mapBusy = false);
+// map.on('movestart zoomstart', () => mapBusy = true);
+// map.on('moveend zoomend', () => mapBusy = false);
 
 function loadBodyCameras() {
-    if (mapBusy) return;
+    // if (mapBusy) return;
 
     $.getJSON(`${AJAXPHP}?act=get_body_cameras_map`, res => {
         if (res?.success) {

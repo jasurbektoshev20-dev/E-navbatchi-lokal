@@ -1868,7 +1868,7 @@ case 'get_body_cameras_map':
     $query = "
         SELECT id, cam_code, comment, lat, long, status
         FROM hr.body_cameras
-        WHERE lat IS NOT NULL AND long IS NOT NULL
+        WHERE status = true
     ";
 
     $sql->query($query);
