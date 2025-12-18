@@ -522,29 +522,65 @@ switch ($Act) {
 		$sql->query($query);
 		$Regions = $sql->fetchAll();
 
-		$query = "SELECT id, name{$slang} as name FROM hr.structure where id > 999 order by id";
-		$sql->query($query);
-		$Distcity = $sql->fetchAll();
+		// $query = "SELECT id, name{$slang} as name FROM hr.structure where id > 999 order by id";
+		// $sql->query($query);
+		// $Distcity = $sql->fetchAll();
 
-		$query = "SELECT id, name{$slang} as name FROM tur.violation_types order by turn";
+		$query = "SELECT id, name{$slang} as name FROM tur.administrativ_types";
 		$sql->query($query);
-		$ViolationTypes = $sql->fetchAll();
+		$AdministrativTypes = $sql->fetchAll();
 
-		$query = "SELECT m.id, r.shortname{$slang} as region_id, t.name{$slang} as violation_type, m.lat, m.lon,
-		m.type, m.date, m.incident_place, m.citizen, m.birthdate, m.live_adress, m.work_place, m.text 
-		FROM tur.violations m
-		left join hr.v_head_structure r on r.id = m.region_id
-		left join tur.violation_types t on t.id = m.violation_type where 1=1";
-		if ($UserStructure > 1) {
-			$query .= " and m.region_id = {$UserStructure}";
-		}
-		$query .= " order by m.id";
+		$query = "SELECT id, name{$slang} as name FROM tur.criminals_types";
 		$sql->query($query);
-		$Violations = $sql->fetchAll();
-		// echo '<pre>';
-		// print_r($Violations);
-		// echo '</pre>';
-		// die();
+		$CriminalsTypes = $sql->fetchAll();
+
+
+		$query = "SELECT 
+			c.id,
+			c.region_id,
+			s.name{$slang} as structure_name,
+			c.violation_id,
+			ct.name{$slang} as substance,
+			c.count,
+			c.date
+		FROM tur.administrativ c
+		left join tur.criminals_types ct on ct.id = c.violation_id
+		left join hr.structure s on s.id = c.region_id";
+		$sql->query($query);
+		$Administrativ = $sql->fetchAll();
+
+		$query = "SELECT 
+			c.id,
+			c.region_id,
+			s.name{$slang} as structure_name,
+			c.violation_id,
+			ct.name{$slang} as substance,
+			c.count,
+			c.date
+		
+		FROM tur.criminals c
+		left join tur.criminals_types ct on ct.id = c.violation_id
+		left join hr.structure s on s.id = c.region_id
+		";
+		$sql->query($query);
+		$Criminals = $sql->fetchAll();
+
+		// $query = "SELECT m.id, r.shortname{$slang} as region_id, t.name{$slang} as violation_type, m.lat, m.lon,
+		// m.type, m.date, m.incident_place, m.citizen, m.birthdate, m.live_adress, m.work_place, m.text 
+		// FROM tur.violations m
+		// left join hr.v_head_structure r on r.id = m.region_id
+		// left join tur.violation_types t on t.id = m.violation_type where 1=1";
+		// if ($UserStructure > 1) {
+		// 	$query .= " and m.region_id = {$UserStructure}";
+		// }
+		// $query .= " order by m.id";
+		// $sql->query($query); 
+		// $Violations = $sql->fetchAll();
+
+		echo '<pre>';
+		print_r($Administrativ);
+		echo '</pre>';
+		die();
 
 		$smarty->assign(array(
 			'Regions'        =>    $Regions,
