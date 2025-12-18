@@ -41,7 +41,7 @@
                         <thead>
                             <tr>
                                 <th>t/r</th>
-                                <th class="text-center">Ҳудуд</th>
+                                <th class="text-center">Ҳудуд1</th>
                                 <th class="text-center">Туман</th>
                                 <th class="text-center">Номи</th>
                                 <th class="text-center">Тури</th>
