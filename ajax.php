@@ -750,44 +750,42 @@ switch ($Action) {
 		// die();
 
 
-		if ($Bodys) {
-			foreach ($Bodys as $bkey => $body_c) {
-				$bodycamindex = $body_c['cam_code'];
-				$bodyCamId = $body_c['id'];
-				$comment = $body_c['comment'];
 
-				$dataBodyCam = GetCamUrlBody($bodycamindex);
-				if (isset($dataBodyCam['data']['url'])) {
-				$BodyCamUrl[] = [
-					'id' => $bodyCamId,
-					'url' => $dataBodyCam['data']['url'] ?? '',
-					'status' => (bool)$body_c['status'], // 🔥 DB’dan
-					'cam_index' => $bodycamindex,
-					'comment' => $comment,
-					'lat' => $body_c['lat'],
-					'long' => $body_c['long'],
-					'staff_name' => $body_c['staff_name'],
-					'staff_photo' => $body_c['staff_photo'],
-					'staff_phone' => $body_c['staff_phone'],
-					'staff_sname' => $body_c['staff_sname']
-				];
-				} else {
-					$BodyCamUrl[] = [
-						'id' => $bodyCamId,
-						'url' => '',
-						'status' => 0,
-						'cam_index' => $bodycamindex,
-						'comment' => $comment,
-						'lat' => $body_c['lat'],
-						'long' => $body_c['long'],
-						'staff_name' => isset($body_c['staff_name']) ? $body_c['staff_name'] : '',
-						'staff_photo' => isset($body_c['staff_photo']) ? $body_c['staff_photo'] : '',
-						'staff_phone' => isset($body_c['staff_phone']) ? $body_c['staff_phone'] : '',
-						'staff_sname' => isset($body_c['staff_sname']) ? $body_c['staff_sname'] : '',
-					];
-				}
-			}
-		}
+	if ($Bodys) {
+    foreach ($Bodys as $body_c) {
+
+        $bodycamindex = $body_c['cam_code'];
+        $bodyCamId    = $body_c['id'];
+        $comment      = $body_c['comment'];
+
+        // 🔥 DB STATUS (universal)
+        $status = (
+            $body_c['status'] === true ||
+            $body_c['status'] === 't' ||
+            $body_c['status'] === 1 ||
+            $body_c['status'] === '1'
+        );
+
+        // 🔹 URL faqat stream uchun
+        $dataBodyCam = GetCamUrlBody($bodycamindex);
+        $playUrl = $dataBodyCam['data']['url'] ?? '';
+
+        $BodyCamUrl[] = [
+            'id'           => $bodyCamId,
+            'url'          => $playUrl,
+            'status'       => $status ? 1 : 0, // 🔥 FAQAT DB
+            'cam_index'    => $bodycamindex,
+            'comment'      => $comment,
+            'lat'          => $body_c['lat'],
+            'long'         => $body_c['long'],
+            'staff_name'   => $body_c['staff_name'] ?? '',
+            'staff_photo'  => $body_c['staff_photo'] ?? '',
+            'staff_phone'  => $body_c['staff_phone'] ?? '',
+            'staff_sname'  => $body_c['staff_sname'] ?? '',
+        ];
+    }
+}
+
 
 		$JtsObject['body_cameras'] = $BodyCamUrl;
 		$JtsObject['tracks'] = [];
