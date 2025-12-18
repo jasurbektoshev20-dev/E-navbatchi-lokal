@@ -2117,13 +2117,13 @@ function drawBodyCamerasOnMap(cameras) {
 
         const popupHtml = `
             <b>${cam.comment}</b><br>
-            Status: ${cam.status ? '🟢 Online' : '🔴 Offline'}<br>
+            Ҳолати: ${cam.status ? '🟢 Ёниқ' : '🔴 Ўчган'}<br>
             <button
               class="btn btn-sm btn-primary mt-2 open-bodycam"
               data-camcode="${cam.cam_code}"
               data-status="${cam.status}"
             >
-              📹 Video
+              📹 Видео
             </button>
         `;
 
