@@ -1096,6 +1096,7 @@ switch ($Action) {
 
 
 
+
 	case "get_divisions":
 		$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
 		$query  = "SELECT t.id, t.name{$slang} as name
@@ -1281,54 +1282,6 @@ switch ($Action) {
 
 		$res = json_encode($data);
 		break;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
