@@ -1232,6 +1232,18 @@
     box-shadow: 0 0 12px rgba(22, 163, 74, 0.6);
 }
 
+.mpg-details{
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.mpg-details h3{
+  font-size: 22px;
+  color: rgb(149, 219, 149);
+  margin: 0;
+}
+
 
   {/literal}
 </style>
@@ -1578,9 +1590,21 @@
             <div class="modal-content">
 
             <div class="modal-header">
-                <h3 class="modal-title">Босиб ўтилган масофа</h3>
+                <div class="mpg-details">
+                     <h3>Босиб ўтилган масофа</h3>
+                     <div style="display: flex; gap: 15px;">
+                        <h3 class="name-map-detail">Nomi: </h3>
+                        <h3 class="region-map-detail">Hududi: </h3>
+                        <h3 class="number-map-detail">Raqami: </h3>
+                     </div>
+                     
+                     
+                </div>
+               
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
+           
+
 
             <div class="modal-body">
 
@@ -4462,6 +4486,9 @@ function initHistoryMapIfNeeded() {
 // 2) showCarHistory ichida mapni init qiling AVVAL
 function showCarHistory(id) {
   console.log("History bosildi! Car ID:", id);
+   document.querySelector('.region-map-detail').innerHTML = id.region;
+  document.querySelector('.number-map-detail').innerHTML = id.plate_number;
+  document.querySelector('.name-map-detail').innerHTML   = id.car_name;
 
    resetHistoryModal(); 
 
@@ -4788,13 +4815,24 @@ $('#searchHistory').on('click', function () {
   });
 });
 
-function calculateReplayDuration(distanceKm) {
-    // sekundlarda
-    let seconds = distanceKm * 1; // 1 km ≈ 0.7 s (vizual balans)
-    // seconds = Math.max(seconds, 10); // min 10 s
-    // seconds = Math.min(seconds, 45); // max 45 s
-    return seconds * 1000; // ms
+// function calculateSegmentDuration(p1, p2) {
+//     const distKm = calculateDistance(p1, p2); // km
+
+//     // sekin, chiroyli vizual tezlik
+//     let duration = distKm * 3000; // 1 km ≈ 3 s
+
+//     // qat’iy limitlar
+//     duration = Math.max(duration, 200);   // min 0.2s
+//     duration = Math.min(duration, 2000);  // max 2s
+
+//     return duration; // ms
+// }
+
+function calculateSegmentDuration(p1, p2) {
+    return 300; // har segment 0.8 sekund
 }
+
+
 
 let startTime = Date.now(); // Start vaqtini olish
 
@@ -4802,17 +4840,65 @@ let totalDistance = 0;  // Umumiy masofa (km)
 let lastLatLng = replayLatLngs[0]; // Start nuqtasi
 
 
+// $('#btnPlay').on('click', function () {
+
+//     console.log('▶ PLAY bosildi');
+
+//     if (!replayLatLngs || replayLatLngs.length < 2) {
+//         console.warn('Replay uchun nuqtalar yo‘q');
+//         alert("Саналарни киритинг")
+//         return;
+//     }
+
+//     // agar animatsiya ketayotgan bo‘lsa va pauzada bo‘lmasa — qaytmaymiz
+//     if (animating && !isPaused) return;
+
+//     // marker yo‘q bo‘lsa yaratamiz
+//     if (!replayMarker) {
+//         replayMarker = L.marker(replayLatLngs[0], {
+//             rotationAngle: replayAngles[0] || 0,
+//             rotationOrigin: 'center center'
+//         }).addTo(historyLayerGroup);
+//     }
+
+//     isPaused = false;
+//     animating = true;
+
+//     // agar restartdan keyin bo‘lsa
+//     replayIndex = replayIndex || 0;
+//     currentSegmentIndex = replayIndex;
+
+//     // masofaga qarab umumiy vaqt
+//     const distanceKm = Number(historyDistanceKm) || 5;
+//     replayDuration = calculateReplayDuration(distanceKm);
+
+//     // har bir segment vaqti
+//     segmentDuration = replayDuration / replayLatLngs.length;
+//     segmentStartTime = null;
+
+//     // telemetry — rasmiy distance
+//     $('#telemetryDistance').text(`${Math.round(Number(historyDistanceKm))} км`);
+
+
+//     // ⏱ vaqtni boshidan olamiz (faqat birinchi playda)
+//     if (!startTime || replayIndex === 0) {
+//         startTime = Date.now();
+//     }
+
+//     requestAnimationFrame(animateReplay);
+// });
+
 $('#btnPlay').on('click', function () {
 
     console.log('▶ PLAY bosildi');
 
     if (!replayLatLngs || replayLatLngs.length < 2) {
         console.warn('Replay uchun nuqtalar yo‘q');
-        alert("Саналарни киритинг")
+        alert("Саналарни киритинг");
         return;
     }
 
-    // agar animatsiya ketayotgan bo‘lsa va pauzada bo‘lmasa — qaytmaymiz
+    // agar animatsiya ketayotgan bo‘lsa va pauzada bo‘lmasa
     if (animating && !isPaused) return;
 
     // marker yo‘q bo‘lsa yaratamiz
@@ -4826,29 +4912,25 @@ $('#btnPlay').on('click', function () {
     isPaused = false;
     animating = true;
 
-    // agar restartdan keyin bo‘lsa
+    // indekslar
     replayIndex = replayIndex || 0;
     currentSegmentIndex = replayIndex;
 
-    // masofaga qarab umumiy vaqt
-    const distanceKm = Number(historyDistanceKm) || 5;
-    replayDuration = calculateReplayDuration(distanceKm);
-
-    // har bir segment vaqti
-    segmentDuration = replayDuration / replayLatLngs.length;
+    // ❗ endi bu yerda segmentDuration YO‘Q
     segmentStartTime = null;
+    segmentDuration = null;
 
-    // telemetry — rasmiy distance
+    // telemetry — distance
     $('#telemetryDistance').text(`${Math.round(Number(historyDistanceKm))} км`);
 
-
-    // ⏱ vaqtni boshidan olamiz (faqat birinchi playda)
+    // vaqtni boshidan olamiz
     if (!startTime || replayIndex === 0) {
         startTime = Date.now();
     }
 
     requestAnimationFrame(animateReplay);
 });
+
 
 
 // Helper: Time formatting
@@ -4979,9 +5061,7 @@ function animateReplay(timestamp) {
 
     if (!segmentStartTime) segmentStartTime = timestamp;
 
-    const elapsed = timestamp - segmentStartTime;
-    const t = Math.min(elapsed / segmentDuration, 1);
-
+    // 📍 AVVAL POINTLARNI OLAMIZ
     const p1 = replayLatLngs[currentSegmentIndex];
     const p2 = replayLatLngs[currentSegmentIndex + 1];
 
@@ -4991,11 +5071,19 @@ function animateReplay(timestamp) {
         return;
     }
 
+    // ⏱ segment vaqti
+    if (!segmentDuration) {
+        segmentDuration = calculateSegmentDuration(p1, p2);
+    }
+
+    const elapsed = timestamp - segmentStartTime;
+    const t = Math.min(elapsed / segmentDuration, 1);
+
     // 📍 silliq harakat
     const pos = lerpLatLng(p1, p2, t);
     replayMarker.setLatLng(pos);
 
-    // 🧭 silliq burilish
+    // 🧭 burilish
     const angle = calculateBearing(p1, p2);
     if (!isNaN(angle)) {
         replayMarker.setRotationAngle(angle + CAR_ANGLE_OFFSET);
@@ -5007,7 +5095,7 @@ function animateReplay(timestamp) {
     // 📍 region
     updateRegionFromLatLng(pos);
 
-    // ⏱ time telemetry
+    // ⏱ telemetry time
     const elapsedSec = Math.floor((Date.now() - startTime) / 1000);
     $('#telemetryTime').text(
         `${pad(Math.floor(elapsedSec / 3600))}:${pad(Math.floor((elapsedSec % 3600) / 60))}:${pad(elapsedSec % 60)}`
@@ -5026,6 +5114,7 @@ function animateReplay(timestamp) {
         currentSegmentIndex++;
         replayIndex = currentSegmentIndex;
         segmentStartTime = null;
+        segmentDuration = null;
 
         if (currentSegmentIndex < replayLatLngs.length - 1) {
             requestAnimationFrame(animateReplay);
@@ -5035,6 +5124,7 @@ function animateReplay(timestamp) {
         }
     }
 }
+
 
 $('#historyModal').on('hidden.bs.modal', function () {
     resetHistoryModal();
