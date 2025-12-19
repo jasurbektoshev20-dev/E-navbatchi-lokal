@@ -493,6 +493,34 @@
   font-weight: 500;
   word-break: break-word;
 }
+.circle-marker {
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #fff; /* ixtiyoriy */
+    object-fit: cover;
+}
+
+ .flag-wrapper{
+    position: relative;
+ }
+
+ .flag-wrapper img {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50%;
+    object-fit: cover;
+} 
+
+.badge {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    background: #fff;
+    border-radius: 50%;
+    font-size: 16px;
+    padding: 2px;
+}
+
 
 
 
@@ -728,15 +756,40 @@
         fg.addTo(map);
 
         // Create custom icons for markers
+        // function myIcon(marker) {
+        //     console.log('fleg icon : ', marker)
+        //     const unixtime = marker.unixtime;
+        //      let myIcon = L.icon({
+        //     iconUrl: `/pictures/embassy/${marker.photo}`,
+        //     iconSize:  [50, 30]
+        //     });
+        //    return myIcon;
+        // }
+
+        // function myIcon(marker) {
+        //         const myIcon = L.icon({
+        //             iconUrl: `/pictures/embassy/${marker.photo}`,
+        //             iconSize: [50, 50],          // dumaloq bo‘lishi uchun teng
+        //             className: 'circle-marker'   // CSS class
+        //         });
+        //         return myIcon;
+        //     }
+
         function myIcon(marker) {
-            console.log('fleg icon : ', marker)
-            const unixtime = marker.unixtime;
-             let myIcon = L.icon({
-            iconUrl: `/pictures/embassy/${marker.photo}`,
-            iconSize:  [50, 50]
-            });
-           return myIcon;
-        }
+                return L.divIcon({
+                    html: `
+                        <div class="flag-wrapper">
+                            <img src="/pictures/embassy/${marker.photo}">
+                            <span class="badge">
+                              ${Number(marker.type_id) === 3 ? '🏢' : '🏠'}
+                            </span>
+                        </div>
+                    `,
+                     className: '',
+                    // iconSize: [60, 60]
+                });
+            }
+
 
         $(document).ready(function() {
             callEmbassy(UserStructure, in_service);
@@ -764,6 +817,7 @@
 
             // Keyin yangilarini qo‘shamiz
             data.forEach((marker) => {
+                console.log('data markar: ', marker)
                 const LamMarker = new L.marker([
                     marker.lat ? marker.lat : 0,
                     marker.long ? marker.long : 0
@@ -823,6 +877,7 @@
         // --- Pop up element maker
 
         // --- Find functions
+
 
         function callEmbassy(region, in_service) {
             allEmbassy.forEach(item => { item.remove(); });

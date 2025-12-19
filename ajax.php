@@ -1600,7 +1600,7 @@ switch ($Action) {
 		$object_type = isset($_GET['object_type']) ? $_GET['object_type'] : 0;
 		$object_id = isset($_GET['object_id']) ? $_GET['object_id'] : 0;
 
-		$query  = "SELECT t.id, t.name as object_name, t.lat, t.long,ot.name{$slang} as type_name,t.photo
+		$query  = "SELECT t.id, t.name as object_name, t.lat, t.long,ot.name{$slang} as type_name,t.photo,t.type_id
 		FROM hr.embassy_objects t 
 		left join ref.embassy_object_types ot on ot.id = t.type_id
 		WHERE 1=1";
@@ -1633,7 +1633,7 @@ switch ($Action) {
 		$id = isset($_GET['id']) ? $_GET['id'] : 0;
 		$JtsObject = [];
 		$query  = "SELECT e.id,s.name{$slang} as structure,ot.name{$slang} as type_name,e.district,e.name,e.address,e.lat,e.long,e.photo,e.post_phone,
-		e.military_unit,e.military_unit_phone,e.iiv_inspector,e.iiv_inspector_phone,e.iiv_unit,iiv_unit_phone,CONCAT(r.name{$slang},st.lastname,' ',st.firstname,' ',st.surname) as responsible_name,
+		e.military_unit,e.military_unit_phone,e.iiv_inspector,e.iiv_inspector_phone,e.iiv_unit,iiv_unit_phone,CONCAT(r.name{$slang},' ',st.lastname,' ',st.firstname,' ',st.surname) as responsible_name,
 		st.phone as responsible_phone, st.photo as responsible_photo
 		FROM hr.embassy_objects e
 		left join ref.embassy_object_types ot on ot.id = e.type_id
