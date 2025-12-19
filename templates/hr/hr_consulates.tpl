@@ -921,10 +921,7 @@
                                                 <div class="embassy-value">${obj.address ?? '-'}</div>
                                             </div>
 
-                                            <div class="embassy-item">
-                                                <div class="embassy-label">Туман</div>
-                                                <div class="embassy-value">${obj.district ?? '-'}</div>
-                                            </div>
+                                        
 
                                              <div class="embassy-item">
                                                  <div class="embassy-label">Худудий ИИБ</div>
