@@ -413,9 +413,9 @@ $(document).ready(function () {
 
                 if (!data || data.length === 0) {
                     $('#card_duty').append(`
-                        <div class="card text-center">
+                        <div class="card text-center card-duty-img-box">
                             <div class="mt-3">
-                                <img style="width: 270px; height: 293px; border-radius: 20px" src="assets/images/nophoto2.png">
+                                <img style="width: 250px; height: 293px; border-radius: 20px" src="assets/images/nophoto2.png">
                             </div>
                             <div class="card-body px-3 py-3">
                                 ${no_data_found}
@@ -427,7 +427,7 @@ $(document).ready(function () {
                     data.forEach(item => {
                         cardContent += `
                             <div class="staff-item text-center">
-                                <img style="width: 230px; height: 230px; border-radius: 20px" src="pictures/staffs/${item.photo}">
+                                <img style="width: 230px; height: 270px; border-radius: 20px" src="pictures/staffs/${item.photo}">
                                 <h6 class="mt-2 mb-0 card-title">${item.staff}</h6>
                             
                                 <p class="mb-0 card-text"><small class="text-muted">${item.role} ${item.lastname}</small></p>
