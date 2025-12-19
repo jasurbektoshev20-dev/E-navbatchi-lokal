@@ -626,6 +626,27 @@
   font-size: 20px;
 }
 
+.katta-ekran-malumotlari{
+  height:75vh !important;
+}
+
+#obyektmalumoti .space-main-body-passport{ 
+max-height: 70vh;      /* xohlagan balandlik */
+overflow-y: auto;
+padding-right: 6px;     /* scroll tegmasligi uchun */
+}
+
+#kuchvosita .space-main-body-duty{
+  max-height: 70vh;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+#tadbirmalumoti .space-main-body-event{
+ max-height: 70vh;
+  overflow-y: auto;
+  padding-right: 8px;
+}
 
   {/literal}
 </style>
@@ -709,8 +730,18 @@
                               </button>
                           </li>
                           <li class="nav-item" role="presentation">
-                              <button class="nav-link" id="scheme-tab" data-bs-toggle="tab" data-bs-target="#schemeTabPane" type="button" role="tab">
-                                  Схема
+                              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#obyektmalumoti" type="button" role="tab">
+                                 Объект малумотлари
+                              </button>
+                          </li>
+                            <li class="nav-item" role="presentation">
+                              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tadbirmalumoti" type="button" role="tab">
+                                  Тадбир малумотлари
+                              </button>
+                          </li>
+                            <li class="nav-item" role="presentation">
+                              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#kuchvosita" type="button" role="tab">
+                                  Куч воситалар
                               </button>
                           </li>
                       </ul>
@@ -728,6 +759,22 @@
                                  <img src="/pictures/marker_icons/sxema.png">
                             </div>
                         </div>
+
+                          <div class="tab-pane fade katta-ekran-malumotlari" id="obyektmalumoti" role="tabpanel">
+                          
+                        </div>
+
+                         <div class="tab-pane fade katta-ekran-malumotlari" id="tadbirmalumoti" role="tabpanel">
+                           
+                        </div>
+
+                        <div class="tab-pane fade katta-ekran-malumotlari" id="kuchvosita" role="tabpanel">
+                          
+                        </div>
+                        
+                      
+
+
                     </div>
               </div>
 
@@ -1877,6 +1924,15 @@
     
        
        `
+        const parent = document.getElementById('obyektmalumoti');
+         parent.innerHTML = '';
+            const clone = container.cloneNode(true);
+
+         
+     
+          parent.appendChild(clone);
+        
+        
 
     }
 
@@ -1887,7 +1943,31 @@
       // <li class="alert alert-dark" role="alert">Секторлар сони: <span>4 ${params.responsible_name} ta</span> </li>
       container.innerHTML = `
           <ul class="">
-
+   <li class="alert alert-dark m-0" role="alert">
+                  <i class="duty-icon bi bi-flag"></i>
+                  Тадбирга масъул ташкилот:  <span>${params?.event_responsible_organization}</span>
+              </li>
+                <li class="is-accordion">
+              <details>
+                <summary>
+                  <div class="passport-icon">  <i class="duty-icon bi bi-gender-female"></i></div>
+                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Масъул ФИШ:</span> <span> ${params?.responsible_name ?? 'киритилмаган'}</span>
+                </summary>
+                <ul class="inner-list">
+                    <li>
+                      <div class="passport-icon">
+                        <i class="bi bi-telephone-fill"></i>
+                      </div>
+                      <div class="passport-li-about">
+                        <h6>Телефон рақами:</h6>
+                        <p>
+                          <a href="tel:${params?.responsible_phone}">${params?.responsible_phone ?? 'киритилмаган'}</a>
+                        </p>
+                      </div>
+                    </li>
+                </ul>
+              </details>
+            </li>
             <li class="alert alert-dark m-0" role="alert">
                 <i class="duty-icon bi bi-bell-fill"></i>
                 МГ жавобгар: <span>${params?.responsible_mg_name ?? 'киритилмаган'}</span>
@@ -1946,6 +2026,14 @@
              </li>
          </ul>
         `
+               const parent = document.getElementById('kuchvosita');
+               parent.innerHTML = '';
+         // 1️⃣ container dan to‘liq nusxa olamiz
+            const clone = container.cloneNode(true);
+
+            // 2️⃣ nusxani ikkinchi joyga joylaymiz
+          
+            parent.appendChild(clone);
     }
 
     // tadbir malumotlari
@@ -1956,31 +2044,7 @@
       // <li class="alert alert-dark" role="alert">Секторлар сони: <span>4 ${params.responsible_name} ta</span> </li>
       container.innerHTML = `
          <ul class="">
-             <li class="alert alert-dark m-0" role="alert">
-                  <i class="duty-icon bi bi-flag"></i>
-                  Тадбирга масъул ташкилот:  <span>${params?.event_responsible_organization}</span>
-              </li>
-                <li class="is-accordion">
-              <details>
-                <summary>
-                  <div class="passport-icon">  <i class="duty-icon bi bi-gender-female"></i></div>
-                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Масъул ФИШ:</span> <span> ${params?.responsible_name ?? 'киритилмаган'}</span>
-                </summary>
-                <ul class="inner-list">
-                    <li>
-                      <div class="passport-icon">
-                        <i class="bi bi-telephone-fill"></i>
-                      </div>
-                      <div class="passport-li-about">
-                        <h6>Телефон рақами:</h6>
-                        <p>
-                          <a href="tel:${params?.responsible_phone}">${params?.responsible_phone ?? 'киритилмаган'}</a>
-                        </p>
-                      </div>
-                    </li>
-                </ul>
-              </details>
-            </li>
+          
               <li class="alert alert-dark m-0" role="alert">
                   <i class="duty-icon bi bi-flag"></i>
                   Номи:  <span>${params?.event_name}</span>
@@ -2017,7 +2081,13 @@
               </li>
           </ul>
 
-        `
+        ` 
+         const parent = document.getElementById('tadbirmalumoti');
+          parent.innerHTML = '';
+            const clone = container.cloneNode(true);
+
+      
+        parent.appendChild(clone);
     }
 
 
