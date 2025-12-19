@@ -50,7 +50,7 @@
   }
 }
 
-    {/literal}
+    {literal}
 </style>
 
 <div class="flex-grow-1 container-p-y container-fluid">
@@ -296,7 +296,7 @@ selectedData.forEach((event, index) => {
 
        
 
-    {/literal}
+{/literal}
 
 </script>
 
