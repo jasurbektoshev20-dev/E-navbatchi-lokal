@@ -2331,11 +2331,8 @@ break;
 
 
 		
-<<<<<<< HEAD
-	case "hr_about_region_reyd_events":
-=======
+
 		case "hr_about_reyd_events":
->>>>>>> c30cd669b13fab0c7f2d8c854b7f38dd097916ac
 			$regionId = (int)($_GET['region_id'] ?? 0);
 			if ($regionId <= 0) {
 				die('Region topilmadi');
