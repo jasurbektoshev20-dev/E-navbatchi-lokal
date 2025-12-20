@@ -70,9 +70,8 @@
                         <table class="table table-bordered text-center">
                             <thead>
                                 <tr>
-                                    <th>T/r</th>
-                                    <th>Tadbirlar</th>
-
+                                    <th>т/р</th>
+                                    <th>Тадбирлар</th>
                                     {foreach from=$regions key=regionId item=regionName}
                                         <th>
                                            
