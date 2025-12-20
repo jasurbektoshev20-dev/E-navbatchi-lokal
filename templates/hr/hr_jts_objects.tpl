@@ -60,7 +60,7 @@
                     type="text"
                     id="searchName"
                     class="form-control mb-3"
-                    placeholder="Nomi..."
+                    placeholder="Номи..."
                   > 
               </div>
           </div>
