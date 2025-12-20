@@ -56,7 +56,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body text-center">
-                    <h4>ЎТГАН ДАВРДА МИЛЛИЙ ГВАРДИЯ БЎЛИНМАЛАРИДА ҚАЙД ЭТИЛГАН ЖАРОҲАТЛАР TO‘G‘RISIDA<br>
+                    <h4>ДАВРДА МИЛЛИЙ ГВАРДИЯ БЎЛИНМАЛАРИДА ҚАЙД ЭТИЛГАН ЖАРОҲАТЛАР ТЎҒРИСИДА<br>
                       <p class="m-0">МАЪЛУМОТ</p>
                    </h4>
                 </div>
@@ -120,8 +120,7 @@
                         <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">1</td>
                             <td>
-                                <a
-                                        href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Сиёсий тадбирлар">Фуқаролар билан можарода</a>
+                                <a href="">Фуқаролар билан можарода</a>
                             </td>
                             <td>1</td>
                             <td>2</td>
@@ -149,8 +148,7 @@
                          <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">1</td>
                             <td>
-                                <a
-                                        href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Сиёсий тадбирлар">Жанговар тайёргарликда</a>
+                                 <a href="">Жанговар тайёргарликда</a>
                             </td>
                             <td>0</td>
                             <td>0</td>
@@ -178,8 +176,7 @@
                          <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">1</td>
                             <td>
-                                <a
-                                        href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Сиёсий тадбирлар">Жисмоний тайёргарликда</a>
+                                 <a href="">Жисмоний тайёргарликда</a>
                             </td>
                             <td>0</td>
                             <td>2</td>
@@ -207,8 +204,7 @@
                          <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">1</td>
                             <td>
-                                <a
-                                        href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Сиёсий тадбирлар">ЙТХ</a>
+                                <a href="">ЙТХ</a>
                             </td>
                             <td>1</td>
                             <td>2</td>
@@ -237,8 +233,7 @@
                          <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">1</td>
                             <td>
-                                <a
-                                        href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Сиёсий тадбирлар">Маиший</a>
+                                 <a href="">Маиший</a>
                             </td>
                             <td>0</td>
                             <td>2</td>
@@ -266,8 +261,7 @@
                          <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">1</td>
                             <td>
-                                <a
-                                        href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Сиёсий тадбирлар">Ҳўжалик ишларида</a>
+                                 <a href="">Ҳўжалик ишларида</a>
                             </td>
                             <td>1</td>
                             <td>2</td>
@@ -295,8 +289,7 @@
                          <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">1</td>
                             <td>
-                                <a
-                                        href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Сиёсий тадбирлар">Хизмат олиб боришда (ҳ/қ ҳудудидан ташқарида)</a>
+                                 <a href="">Хизмат олиб боришда (ҳ/қ ҳудудидан ташқарида)</a>
                             </td>
                             <td>0</td>
                             <td>2</td>
@@ -324,8 +317,7 @@
                          <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">1</td>
                             <td>
-                                <a
-                                        href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Сиёсий тадбирлар">Қоровул ва ички хизмат ўташда</a>
+                                 <a href="">Қоровул ва ички хизмат ўташда</a>
                             </td>
                             <td>0</td>
                             <td>2</td>
@@ -353,8 +345,7 @@
                          <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">1</td>
                             <td>
-                                <a
-                                        href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Сиёсий тадбирлар">Жисмоний тайёргарликда</a>
+                                 <a href="">Жисмоний тайёргарликда</a>
                             </td>
                             <td>0</td>
                             <td>2</td>
