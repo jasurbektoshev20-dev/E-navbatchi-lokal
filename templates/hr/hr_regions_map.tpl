@@ -1247,7 +1247,7 @@
   display: block;
 }
 
-/* 👇 O‘RTADAGI OCHIQ TO‘RTBURCHAK ICHIDAGI RAQAM */
+/* O‘RTADAGI OCHIQ TO‘RTBURCHAK ICHIDAGI RAQAM */
 .bodycam-count {
   position: absolute;
   top:35px;        /* rasmga moslab */
