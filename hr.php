@@ -2266,10 +2266,10 @@ break;
 		$sql->query($query);
 		$events = $sql->fetchAll();
 			
-		echo '<pre>';
-		print_r($events);
-		echo '</pre>';
-		die();
+		// echo '<pre>';
+		// print_r($events);
+		// echo '</pre>';
+		// die();
 	
 		$eventTypes = [];
 		foreach ($EventTypesFromDB as $t) {
@@ -2290,7 +2290,7 @@ break;
 			$types = json_decode($row['event_types'], true);
 
 			foreach ($types as $t) {
-				$table[$t['event_type']][$regionId] = $t['total_events'];
+				$table[$t['type']][$regionId] = $t['total_events'];
 			}
 		}
 		$regionTotals = [];
@@ -2317,23 +2317,19 @@ break;
 		$smarty->assign('regions', $regions);
 		$smarty->assign('table', $table);
 
-
 			// 6) Assign to Smarty
 			// $smarty->assign(array(
 			// 	// 'Regions' => $Regions,           // for header order & names
 			// 	// 'regions' => $regions,           // regions with object_types arrays
 			// 	// 'tableData' => $tableData,       // rows to render
 			// 	// 'footer_sum' => $footer_sum,
-			// 	// 'footer_total' => $footer_total,
-			// 	// 'objectTypesList' => $objectTypes // optional
-			// ));
 		break;	
 
 
 
 
 		
-		case "hr_about_region_reyd_events":
+	case "hr_about_region_reyd_events":
 			$regionId = (int)($_GET['region_id'] ?? 0);
 			if ($regionId <= 0) {
 				die('Region topilmadi');
@@ -2375,14 +2371,20 @@ break;
 			";
 			$sql->query($q);
 			$events = $sql->fetchAll();
-			echo '<pre>';
-			print_r($events);
-			echo '</pre>';
-			die();
+			// echo '<pre>';
+			// print_r($events);
+			// echo '</pre>';
+			// die();
 
 			$smarty->assign('regionName', $regionName);
 			$smarty->assign('events', $events);
 			break;
+
+			
+
+	
+
+	
 
 
 

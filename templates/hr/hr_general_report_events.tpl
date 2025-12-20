@@ -62,7 +62,14 @@
                         <input class="form-control" type="date" placeholder="Oxirgi vaqtni tanlang">
                     
                         <button class="btn btn-primary">Кўриш</button>
-                     </div>   
+                        <a href="general_report_event.php"
+                            target="_blank"
+                            class="btn btn-danger">
+                                📄 PDF 
+                            </a>
+
+                     </div>  
+
             </div>
             <div class="card">
                 <div class="card-datatable table-responsive">
