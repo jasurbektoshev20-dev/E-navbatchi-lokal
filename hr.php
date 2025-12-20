@@ -2319,22 +2319,19 @@ break;
 		$smarty->assign('regions', $regions);
 		$smarty->assign('table', $table);
 
-
 			// 6) Assign to Smarty
 			// $smarty->assign(array(
 			// 	// 'Regions' => $Regions,           // for header order & names
 			// 	// 'regions' => $regions,           // regions with object_types arrays
 			// 	// 'tableData' => $tableData,       // rows to render
 			// 	// 'footer_sum' => $footer_sum,
-			// 	// 'footer_total' => $footer_total,
-			// 	// 'objectTypesList' => $objectTypes // optional
-			// ));
 		break;	
 
 
 
 
 		
+
 		case "hr_about_reyd_events":
 			$regionId = (int)($_GET['region_id'] ?? 0);
 			if ($regionId <= 0) {
@@ -2386,6 +2383,12 @@ break;
 			$smarty->assign('regionName', $regionName);
 			$smarty->assign('events', $events);
 			break;
+
+			
+
+	
+
+	
 
 
 
