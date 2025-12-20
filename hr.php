@@ -2159,6 +2159,7 @@ break;
 			SELECT 
 				pe.id,
 				et.name1 AS event_type,
+				j.object_name,
 				pe.event_direction,
 				pe.event_view,
 				pe.start_event,
@@ -2191,6 +2192,7 @@ break;
 			FROM hr.public_event1 pe
 			LEFT JOIN tur.public_event_types et ON et.id = pe.event_type
 			LEFT JOIN tur.event_category ec on ec.id = pe.event_category_id
+			LEFT JOIN hr.jts_objects j on j.id = pe.object_id
 
 			WHERE pe.region_id = {$regionId}
 			GROUP BY pe.id,ec.name{$slang},et.name1
