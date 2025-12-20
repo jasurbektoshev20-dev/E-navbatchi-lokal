@@ -67,118 +67,60 @@
             <div class="card">
                 <div class="card-datatable table-responsive">
                     <table class="datatables-projects table border-top table-hover table-striped table-bordered">
-                        <thead>
-                        <tr class="text-center">
-                            <th style="white-space: nowrap;">Т/р</th>
-                            <th>Тадбирлар</th>
-                            <th>Қорақалпоғистон Республикаси</th>
-                            <th>Тошкент шаҳри</th>
-                            <th>Андижон вилояти</th>
-                            <th>Бухоро вилояти</th>
-                            <th>Фарғона вилояти</th>
-                            <th>Жиззах вилояти</th>
-                            <th>Қашқадарё вилояти</th>
-                            <th>Хоразм вилояти</th>
-                            <th>Наманган вилояти</th>
-                            <th>Навоий вилояти</th>
-                            <th>Самарқанд вилояти</th>                           
-                            <th>Сирдарё вилояти</th>
-                            <th>Сурхандарё вилояти</th>
-                            <th>Тошкент вилояти</th>   
-                            <th>Жами</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr class="lb text-center" id="row_{$Table.id|crypt}">
-                            <td class="text-right">1</td>
-                            <td>
-                                <a
-                                        href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Сиёсий тадбирлар">Сиёсий тадбирлар</a>
-                            </td>
-                            <td>4</td>
-                            <td>2</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>2</td>
-                            <td>2</td>
-                            <td>2</td>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>1</td>
-                            <td>3</td>
-                            <td>30</td>
-                        </tr>
-                        <tr class="lb text-center" id="row_{$Table.id|crypt}">
-                            <td class="text-right">2</td>
-                            <td>
-                                <a
-                                        href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Маданий тадбирлар">Маданий тадбирлар</a>
-                            </td>
-                            <td>5</td>
-                            <td>3</td>
-                            <td>2</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>2</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>3</td>
-                            <td>40</td>
-                        </tr>
-                        <tr class="lb text-center" id="row_{$Table.id|crypt}">
-                            <td class="text-right">3</td>
-                            <td>
-                                <a
-                                        href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Спорт тадбирлар">Спорт тадбирлар</a>
-                            </td>
-                            <td>4</td>
-                            <td>2</td>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>2</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>1</td>
-                            <td>3</td>
-                            <td>38</td>
-                        </tr>
-                        <tr class="lb text-center" id="row_{$Table.id|crypt}">
-                            <td class="text-right">4</td>
-                            <td>
-                                <a
-                                        href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Бошқа тадбирлар">Бошқа тадбирлар</a>
-                            </td>
-                            <td>3</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>2</td>
-                            <td>2</td>
-                            <td>2</td>
-                            <td>2</td>
-                            <td>2</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>22</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                        <table class="table table-bordered text-center">
+                            <thead>
+                                <tr>
+                                    <th>T/r</th>
+                                    <th>Tadbirlar</th>
+
+                                    {foreach from=$regions key=regionId item=regionName}
+                                        <th>
+                                           
+                                            <a href="hr.php?act=about_region_events&mid={$smarty.get.mid}&region_id={$regionId}">
+                                                {$regionName}
+                                            </a>
+                                        </th>
+                                    {/foreach}
+
+                                    <th>Жами</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {assign var=i value=1}
+
+                                {foreach from=$eventTypes key=typeId item=typeName}
+                                    {assign var=rowTotal value=0}
+
+                                    <tr>
+                                        <td>{$i}</td>
+                                        <td>{$typeName}</td>
+
+                                        {foreach from=$regions key=regionId item=regionName}
+                                            {assign var=val value=$table[$typeId][$regionId]|default:0}
+                                            {assign var=rowTotal value=$rowTotal+$val}
+                                            <td>{$val}</td>
+                                        {/foreach}
+
+                                        <td><strong>{$rowTotal}</strong></td>
+                                    </tr>
+
+                                    {assign var=i value=$i+1}
+                                {/foreach}
+                            </tbody>
+                            <tfoot>
+                                <tr class="table-dark">
+                                    <th colspan="2">Жами</th>
+
+                                    {foreach from=$regions key=regionId item=regionName}
+                                        <th>{$regionTotals[$regionId]|default:0}</th>
+                                    {/foreach}
+
+                                    <th>{$grandTotal}</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+
                 </div>
             </div>
         </div>

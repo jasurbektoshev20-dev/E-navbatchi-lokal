@@ -1939,20 +1939,6 @@ break;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	case "hr_market_according_duty":
 			// $object_id = ($_GET['object_id']) ? $_GET['object_id'] : 0;
 			// $region_id = ($_GET['region_id']) ? $_GET['region_id'] : 0;
@@ -2043,7 +2029,351 @@ break;
 		));
 		break;
 
-	case general_report_events:
+	case "hr_general_report_events":
+		// 1) Regions (siz ilgari olgandek)
+		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t 
+				where t.id > 1 and t.id < 16
+				ORDER BY t.turn ASC";
+		$sql->query($query);
+		$Regions = $sql->fetchAll(); // each: ['id'=>..., 'name'=>...]
+
+		// 2) Object types (hr.involved_objects) — bizga 4 ta type kerak
+		$qt = "SELECT id, name1 as name FROM tur.public_event_types ORDER BY id";
+		$sql->query($qt);
+		$EventTypesFromDB = $sql->fetchAll(); // [ ['id'=>1,'name'=>'Bozorlar'], ... ]
+
+		// Build objectTypes map: id => name
+		$objectTypes = [];
+		foreach ($EventTypesFromDB as $t) {
+			$objectTypes[$t['id']] = $t['name'];
+		}
+			
+			// 3) Your main query that returns structure + json array of object_types
+		$query  = "SELECT
+						s.id AS structure_id,
+						s.name1 AS structure_name,
+						json_agg(
+							json_build_object(
+								'event_type', et.id,
+									'event_type_name', et.name1,
+								'total_events', COALESCE(cnt.total_events, 0)
+							) ORDER BY et.id
+						) AS event_types
+					FROM hr.structure s
+					CROSS JOIN tur.public_event_types et
+					LEFT JOIN (
+						SELECT 
+							pe.region_id,
+							pe.event_type,
+							COUNT(*) AS total_events
+						FROM hr.public_event1 pe
+						GROUP BY pe.region_id, pe.event_type
+					) cnt
+						ON cnt.region_id = s.id AND cnt.event_type = et.id
+					WHERE s.parent = 1
+					GROUP BY s.id, s.name1
+					ORDER BY s.id;
+			";
+		$sql->query($query);
+		$events = $sql->fetchAll();
+			
+		// echo '<pre>';
+		// print_r($events);
+		// echo '</pre>';
+		// die();
+	
+		$eventTypes = [];
+		foreach ($EventTypesFromDB as $t) {
+			$eventTypes[$t['id']] = $t['name'];
+		}
+
+		// 2. Regionlar (id => name)
+		$regions = [];
+		foreach ($events as $r) {
+			$regions[$r['structure_id']] = $r['structure_name'];
+		}
+
+		// 3. Jadval ma’lumotlari
+		$table = [];
+
+		foreach ($events as $row) {
+			$regionId = $row['structure_id'];
+			$types = json_decode($row['event_types'], true);
+
+			foreach ($types as $t) {
+				$table[$t['event_type']][$regionId] = $t['total_events'];
+			}
+		}
+		$regionTotals = [];
+
+		// boshlang‘ich 0
+		foreach ($regions as $regionId => $name) {
+			$regionTotals[$regionId] = 0;
+		}
+
+		// yig‘amiz
+		foreach ($table as $typeId => $rows) {
+			foreach ($rows as $regionId => $val) {
+				$regionTotals[$regionId] += $val;
+			}
+		}
+
+		// umumiy jami
+		$grandTotal = array_sum($regionTotals);
+
+		$smarty->assign('regionTotals', $regionTotals);
+
+		// Smarty’ga beramiz
+		$smarty->assign('eventTypes', $eventTypes);
+		$smarty->assign('regions', $regions);
+		$smarty->assign('table', $table);
+
+
+			// 6) Assign to Smarty
+			// $smarty->assign(array(
+			// 	// 'Regions' => $Regions,           // for header order & names
+			// 	// 'regions' => $regions,           // regions with object_types arrays
+			// 	// 'tableData' => $tableData,       // rows to render
+			// 	// 'footer_sum' => $footer_sum,
+			// 	// 'footer_total' => $footer_total,
+			// 	// 'objectTypesList' => $objectTypes // optional
+			// ));
+		break;
+
+	
+	case "hr_about_region_events":
+		$regionId = (int)($_GET['region_id'] ?? 0);
+		if ($regionId <= 0) {
+			die('Region topilmadi');
+		}
+
+		$q = "
+			SELECT name1
+			FROM hr.structure
+			WHERE id = {$regionId}
+		";
+		$sql->query($q);
+		$regionName = $sql->fetchAll();
+
+		$q = "
+			SELECT 
+				pe.id,
+				et.name1 AS event_type,
+				pe.event_direction,
+				pe.event_view,
+				pe.start_event,
+				pe.finish_event,
+				pe.event_name,
+				pe.organizer,
+				pe.event_responsible_organization,
+				pe.people_count,
+				COUNT(pe.id) as event_count,
+				pe.responsible_iiv_name,
+				pe.responsible_fvv_name,
+				pe.responsible_mg_name,
+				ec.name{$slang} as event_category,
+				
+				SUM(
+					COALESCE(pe.mg_counts, 0) +
+					COALESCE(pe.fvv_count, 0) +
+					COALESCE(pe.iiv_count, 0) +
+					COALESCE(pe.sapyor_count, 0) +
+					COALESCE(pe.spring_count, 0)
+				) AS all_troops
+
+
+
+
+			FROM hr.public_event1 pe
+			LEFT JOIN tur.public_event_types et ON et.id = pe.event_type
+			LEFT JOIN tur.event_category ec on ec.id = pe.event_category_id
+
+			WHERE pe.region_id = {$regionId}
+			GROUP BY pe.id,ec.name{$slang},et.name1
+		";
+		$sql->query($q);
+		$events = $sql->fetchAll();
+		echo '<pre>';
+		print_r($events);
+		echo '</pre>';
+		die();
+
+		$smarty->assign('regionName', $regionName);
+		$smarty->assign('events', $events);
+		break;
+
+
+
+
+
+	case "hr_reyd_events_report":
+		// 1) Regions (siz ilgari olgandek)
+		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t 
+				where t.id > 0
+				ORDER BY t.turn ASC";
+		$sql->query($query);
+		$Regions = $sql->fetchAll(); // each: ['id'=>..., 'name'=>...]
+
+		// 2) Object types (hr.involved_objects) — bizga 4 ta type kerak
+		$qt = "SELECT id, name1 as name FROM ref.reyd_event_types ORDER BY id";
+		$sql->query($qt);
+		$EventTypesFromDB = $sql->fetchAll(); // [ ['id'=>1,'name'=>'Bozorlar'], ... ]
+
+		// Build objectTypes map: id => name
+		$objectTypes = [];
+		foreach ($EventTypesFromDB as $t) {
+			$objectTypes[$t['id']] = $t['name'];
+		}
+			
+			// 3) Your main query that returns structure + json array of object_types
+		$query  = "SELECT
+						s.id AS structure_id,
+						s.name1 AS structure_name,
+						json_agg(
+							json_build_object(
+								'type', et.id,
+									'event_type_name', et.name1,
+								'total_events', COALESCE(cnt.total_events, 0)
+							) ORDER BY et.id
+						) AS event_types
+					FROM hr.structure s
+					CROSS JOIN ref.reyd_event_types et
+					LEFT JOIN (
+						SELECT 
+							pe.structure_id,
+							pe.type,
+							COUNT(*) AS total_events
+						FROM tur.reyd_events pe
+						GROUP BY pe.structure_id, pe.type
+					) cnt
+						ON cnt.structure_id = s.id AND cnt.type = et.id
+					WHERE s.parent = 1
+					GROUP BY s.id, s.name1
+					ORDER BY s.id;
+			";
+		$sql->query($query);
+		$events = $sql->fetchAll();
+			
+		echo '<pre>';
+		print_r($events);
+		echo '</pre>';
+		die();
+	
+		$eventTypes = [];
+		foreach ($EventTypesFromDB as $t) {
+			$eventTypes[$t['id']] = $t['name'];
+		}
+
+		// 2. Regionlar (id => name)
+		$regions = [];
+		foreach ($events as $r) {
+			$regions[$r['structure_id']] = $r['structure_name'];
+		}
+
+		// 3. Jadval ma’lumotlari
+		$table = [];
+
+		foreach ($events as $row) {
+			$regionId = $row['structure_id'];
+			$types = json_decode($row['event_types'], true);
+
+			foreach ($types as $t) {
+				$table[$t['event_type']][$regionId] = $t['total_events'];
+			}
+		}
+		$regionTotals = [];
+
+		// boshlang‘ich 0
+		foreach ($regions as $regionId => $name) {
+			$regionTotals[$regionId] = 0;
+		}
+
+		// yig‘amiz
+		foreach ($table as $typeId => $rows) {
+			foreach ($rows as $regionId => $val) {
+				$regionTotals[$regionId] += $val;
+			}
+		}
+
+		// umumiy jami
+		$grandTotal = array_sum($regionTotals);
+
+		$smarty->assign('regionTotals', $regionTotals);
+
+		// Smarty’ga beramiz
+		$smarty->assign('eventTypes', $eventTypes);
+		$smarty->assign('regions', $regions);
+		$smarty->assign('table', $table);
+
+
+			// 6) Assign to Smarty
+			// $smarty->assign(array(
+			// 	// 'Regions' => $Regions,           // for header order & names
+			// 	// 'regions' => $regions,           // regions with object_types arrays
+			// 	// 'tableData' => $tableData,       // rows to render
+			// 	// 'footer_sum' => $footer_sum,
+			// 	// 'footer_total' => $footer_total,
+			// 	// 'objectTypesList' => $objectTypes // optional
+			// ));
+		break;	
+
+
+
+
+		
+		case "hr_about_region_reyd_events":
+			$regionId = (int)($_GET['region_id'] ?? 0);
+			if ($regionId <= 0) {
+				die('Region topilmadi');
+			}
+
+			$q = "
+				SELECT name1
+				FROM hr.structure
+				WHERE id = {$regionId}
+			";
+			$sql->query($q);
+			$regionName = $sql->fetchAll();
+
+			$q = "
+				SELECT 
+					pe.id,
+					s.name{$slang} as structure_name,
+					et.name{$slang} AS event_type,
+					CONCAT(r.name{$slang},' ',st.lastname,' ',st.firstname) as responsible_name,
+					pe.exercises_type,
+					pe.start_date,
+					pe.end_date,
+					pe.staff_count,
+					pe.vehicles_count,
+					pe.description,
+					COUNT(pe.id) as event_count
+
+
+
+
+				FROM tur.reyd_events pe
+				LEFT JOIN ref.reyd_event_types et ON et.id = pe.type
+				LEFT JOIN hr.structure s on s.id = pe.structure_id
+				LEFT JOIN hr.staff st on st.id = pe.responsible_id
+				LEFT JOIN ref.ranks r on r.id = st.rank_id
+
+				WHERE pe.structure_id = {$regionId}
+				GROUP BY pe.id,s.name{$slang},et.name{$slang},r.name{$slang},st.lastname,st.firstname
+			";
+			$sql->query($q);
+			$events = $sql->fetchAll();
+			echo '<pre>';
+			print_r($events);
+			echo '</pre>';
+			die();
+
+			$smarty->assign('regionName', $regionName);
+			$smarty->assign('events', $events);
+			break;
+
+
+
 		
 
 
