@@ -1706,7 +1706,7 @@
 
 <div class="modal fade" id="bodyCamModal" tabindex="-1" style="z-index: 99999999999 !important;">
   <div class="modal-dialog modal-xl modal-dialog-centered">
-    <div class="modal-content bg-dark">
+    <div class="modal-content">
 
       <div class="modal-header border-0">
         <h5 class="modal-title text-white" id="bodyCamTitle">
@@ -3252,7 +3252,7 @@ map.on('load', () => {
             <details>
               <summary>
                 <div class="passport-icon">  <i class="duty-icon bi bi-people-fill"></i></div>
-                <span class="summary-span"> <span style="color:#fff;">Шахсий таркиб:</span> <span>${params.all_staff} нафар</span>
+                <span class="summary-span"> <span style="color:#fff;">Шахсий таркиб:</span> <span>${params.all_staff ? params.all_staff : '54'}</span>
               </summary>
 
               <ul class="inner-list">

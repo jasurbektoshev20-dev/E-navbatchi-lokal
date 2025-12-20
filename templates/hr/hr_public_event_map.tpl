@@ -2050,11 +2050,7 @@ padding-right: 6px;     /* scroll tegmasligi uchun */
                   Номи:  <span>${params?.event_name}</span>
               </li>
 
-              <li class="alert alert-dark m-0" role="alert">
-                  <i class="duty-icon bi bi-diagram-3-fill"></i>
-                  Тадбир тури: <span>${params?.event_type}</span>
-              </li>
-
+             
               <li class="alert alert-dark m-0" role="alert">
                   <i class="duty-icon bi bi-journal-text"></i>
                   Асос: <span>${params?.event_view}</span>
