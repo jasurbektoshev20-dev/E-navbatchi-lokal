@@ -2161,6 +2161,8 @@ break;
 				et.name1 AS event_type,
 				j.object_name,
 				pe.event_direction,
+				pe.responsible_name,
+				pe.responsible_phone,
 				pe.event_view,
 				pe.start_event,
 				pe.finish_event,
@@ -2176,6 +2178,10 @@ break;
 				pe.iiv_count,
 				pe.fvv_count,
 				pe.mg_counts,
+				pe.sapyor_count,
+				pe.spring_count,
+				pe.responsible_msgr_name,
+				pe.responsible_spring_name,
 				ec.name{$slang} as event_category,
 				
 				SUM(
@@ -2195,7 +2201,7 @@ break;
 			LEFT JOIN hr.jts_objects j on j.id = pe.object_id
 
 			WHERE pe.region_id = {$regionId}
-			GROUP BY pe.id,ec.name{$slang},et.name1
+			GROUP BY pe.id,ec.name{$slang},et.name1,j.object_name
 		";
 		$sql->query($q);
 		$events = $sql->fetchAll();
