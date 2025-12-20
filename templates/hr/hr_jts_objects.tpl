@@ -17,6 +17,32 @@
           display: flex;
           justify-content: space-between;
         }
+        .neighborhood-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 220px;
+  overflow-y: auto;
+  background: #817878;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  list-style: none;
+  padding: 0;
+  margin: 4px 0 0;
+  z-index: 1000;
+  display: none;
+}
+
+.neighborhood-list li {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.neighborhood-list li:hover {
+  background: #f1f5f9;
+}
+
     {/literal}          
 </style>
 
@@ -240,15 +266,41 @@
             </div>
 
 
-             <div class="col-sm-4">
-              <label>Mahalla</label>
+             {* <div class="col-sm-4">
+              <label>Маҳалла</label>
               <select required class="form-select" id="neighborhood_id">
                 <option value="">Танланг...</option>
                 {foreach from=$neighborhoods item=Item1 key=ikey1}
                   <option value="{$Item1.id}">{$Item1.name}</option>
                 {/foreach}
               </select>
+            </div> *}
+            <div class="col-sm-4 position-relative">
+              <label>Маҳалла</label>
+
+              <input
+                type="text"
+                id="neighborhood_search"
+                class="form-control"
+                placeholder="Маҳалани қидиринг..."
+                autocomplete="off"
+              >
+
+              <select
+                required
+                class="form-select d-none"
+                id="neighborhood_id"
+                name="neighborhood_id"
+              >
+                <option value="">Танланг...</option>
+                {foreach from=$neighborhoods item=Item1}
+                  <option value="{$Item1.id}">{$Item1.name}</option>
+                {/foreach}
+              </select>
+
+              <ul id="neighborhood_list" class="neighborhood-list"></ul>
             </div>
+
 
 
             <div class="col-sm-12">
@@ -299,6 +351,61 @@
     var HRAJAXPHP = "hrajax{$AddURL}.php";
 
     {literal}
+
+    const searchInput = document.getElementById('neighborhood_search');
+const selectEl = document.getElementById('neighborhood_id');
+const listEl = document.getElementById('neighborhood_list');
+
+// select dan data olib JS array qilamiz
+const neighborhoods = Array.from(selectEl.options)
+  .filter(o => o.value)
+  .map(o => ({ id: o.value, name: o.text }));
+
+searchInput.addEventListener('input', function () {
+  const val = this.value.toLowerCase();
+  listEl.innerHTML = '';
+
+  if (!val) {
+    listEl.style.display = 'none';
+    return;
+  }
+
+  const filtered = neighborhoods.filter(n =>
+    n.name.toLowerCase().includes(val)
+  );
+
+  if (!filtered.length) {
+    listEl.style.display = 'none';
+    return;
+  }
+
+  filtered.forEach(item => {
+    const li = document.createElement('li');
+    li.textContent = item.name;
+    li.onclick = () => {
+      searchInput.value = item.name;
+      selectEl.value = item.id;
+      listEl.style.display = 'none';
+    };
+    listEl.appendChild(li);
+  });
+
+  listEl.style.display = 'block';
+});
+
+// tashqariga bosilganda yopish
+document.addEventListener('click', e => {
+  if (!e.target.closest('.position-relative')) {
+    listEl.style.display = 'none';
+  }
+});
+
+
+
+
+
+
+
 
     function filterTable() {
         const region = document.getElementById('searchRegion').value.toLowerCase();
