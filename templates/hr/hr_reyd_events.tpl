@@ -40,7 +40,7 @@
                     <table class="datatables-projects table border-top">
                         <thead>
                             <tr>
-                                <th>No̱</th>
+                                <th>т/р</th>
                                 {* <th class="text-center">{$Dict.region}</th> *}
                                 <th class="text-center">{$Dict.structure}</th>
                                 <th class="text-center">{$Dict.responsible}</th>
@@ -65,7 +65,7 @@
                                 <td class="text-center">{$Table.start_date}</td>
                                 <td class="text-center">{$Table.end_date}</td>
                                 <td class="text-center">{$Table.vehicles_count}</td>
-                                <td class="text-center">{$Table.type}</td>
+                                <td class="text-center">{$Table.r_type}</td>
                                 <td class="text-center">{$Table.exercises_type}</td>
                                 <td class="text-center">{$Table.description}</td>
                                 <td>

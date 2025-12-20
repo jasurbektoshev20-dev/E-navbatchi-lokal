@@ -1218,20 +1218,6 @@
   font-size: 14px;
 }
 
-.cluster-bodycam {
-    background: #16a34a; /* green */
-    color: #fff;
-    border-radius: 50%;
-    width: 42px;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    border: 3px solid #fff;
-    box-shadow: 0 0 12px rgba(22, 163, 74, 0.6);
-}
-
 .mpg-details{
   display: flex;
   justify-content: space-around;
@@ -1243,6 +1229,47 @@
   color: rgb(149, 219, 149);
   margin: 0;
 }
+
+.bodycam-cluster-wrapper {
+  background: transparent;
+}
+
+.bodycam-cluster {
+  position: relative;
+  width: 60px;
+  height: 80px;
+}
+
+.bodycam-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* 👇 O‘RTADAGI OCHIQ TO‘RTBURCHAK ICHIDAGI RAQAM */
+.bodycam-count {
+  position: absolute;
+  top:34px;        /* rasmga moslab */
+  left: 47%;
+  transform: translateX(-50%);
+  width: 34px;
+  height: 26px;
+
+  /* background: rgba(0, 0, 0, 0.65); */
+  color: #00ff88;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 15px;
+  font-weight: bold;
+  /* border-radius: 4px; */
+
+  /* box-shadow: inset 0 0 6px rgba(0, 255, 136, 0.6); */
+}
+
 
 
   {/literal}
@@ -1838,22 +1865,46 @@
     });
 
     // 🔥 BODY CAMERA CLUSTER
+          // const bodyCamCluster = L.markerClusterGroup({
+          //     chunkedLoading: true,          // katta performance
+          //     spiderfyOnMaxZoom: true,
+          //     disableClusteringAtZoom: 17,   // 17 dan keyin bittalashadi
+          //     iconCreateFunction: function (cluster) {
+          //         return L.divIcon({
+          //             html: `
+          //                 <div class="cluster-icon cluster-bodycam">
+          //                     ${cluster.getChildCount()}
+          //                 </div>
+          //             `,
+          //             className: 'my-cluster',
+          //             iconSize: L.point(42, 42)
+          //         });
+          //     }
+          // });
           const bodyCamCluster = L.markerClusterGroup({
-              chunkedLoading: true,          // katta performance
+              chunkedLoading: true,
               spiderfyOnMaxZoom: true,
-              disableClusteringAtZoom: 17,   // 17 dan keyin bittalashadi
+              disableClusteringAtZoom: 17,
+
               iconCreateFunction: function (cluster) {
-                  return L.divIcon({
-                      html: `
-                          <div class="cluster-icon cluster-bodycam">
-                              ${cluster.getChildCount()}
-                          </div>
-                      `,
-                      className: 'my-cluster',
-                      iconSize: L.point(42, 42)
-                  });
+                return L.divIcon({
+                  html: `
+                    <div class="bodycam-cluster">
+                      <img src="/pictures/icons_marker/bodycam.png" class="bodycam-img" />
+                      <div class="bodycam-count">
+                        ${cluster.getChildCount()}
+                      </div>
+                    </div>
+                  `,
+                  className: 'bodycam-cluster-wrapper',
+                  iconSize: L.point(60, 80),
+                  iconAnchor: [30, 40]
+                });
               }
-          });
+            });
+
+
+
 
       
 
@@ -1877,7 +1928,7 @@ const map = L.map("uzbMap", {
 baseLayer.addTo(map);
 map.addLayer(carsCluster);
 map.addLayer(objectsCluster);
-    map.addLayer(bodyCamCluster);
+  map.addLayer(bodyCamCluster);
       // const map = L.map("uzbMap", {
       //   center: [41.6384, 64.0202],
       //   zoom: 7,     

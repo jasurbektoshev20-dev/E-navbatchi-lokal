@@ -487,10 +487,12 @@ switch ($Act) {
 		$sql->query($query);
 		// $Distcity = $sql->fetchAll();
 
-		$query = "SELECT m.id, s.name{$slang} as structure_name, m.start_date, m.end_date,m.staff_count,CONCAT(r.name{$slang},' ',d.lastname,' ',d.firstname) AS responsible_name, 
+		$query = "SELECT m.id, s.name{$slang} as structure_name, m.start_date, m.end_date,m.staff_count,CONCAT(r.name{$slang},' ',d.lastname,' ',d.firstname) AS responsible_name,et.name{$slang} as r_type,
 		m.type, m.responsible_id, m.exercises_type,m.vehicles_count,m.description FROM tur.reyd_events m
 		left join hr.structure s on s.id = m.structure_id
 		left join hr.staff d on d.id = m.responsible_id 
+		LEFT JOIN ref.reyd_event_types et ON et.id = m.type
+
 		LEFT JOIN ref.ranks r on r.id = d.rank_id
 		where 1=1";
 		if ($UserStructure > 1) {
@@ -2205,10 +2207,10 @@ break;
 		";
 		$sql->query($q);
 		$events = $sql->fetchAll();
-		echo '<pre>';
-		print_r($events);
-		echo '</pre>';
-		die();
+		// echo '<pre>';
+		// print_r($regionName);
+		// echo '</pre>';
+		// die();
 
 		$smarty->assign('regionName', $regionName);
 		$smarty->assign('events', $events);
@@ -2329,7 +2331,11 @@ break;
 
 
 		
+<<<<<<< HEAD
 	case "hr_about_region_reyd_events":
+=======
+		case "hr_about_reyd_events":
+>>>>>>> c30cd669b13fab0c7f2d8c854b7f38dd097916ac
 			$regionId = (int)($_GET['region_id'] ?? 0);
 			if ($regionId <= 0) {
 				die('Region topilmadi');
@@ -2354,6 +2360,7 @@ break;
 					pe.end_date,
 					pe.staff_count,
 					pe.vehicles_count,
+					et.name{$slang} as type,
 					pe.description,
 					COUNT(pe.id) as event_count
 

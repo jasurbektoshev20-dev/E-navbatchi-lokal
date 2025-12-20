@@ -280,11 +280,11 @@
 
         document.querySelectorAll('.phone-mask').forEach(input => {
             const mask = IMask(input, {
-                mask: '+998 00 000-00-00'
+                mask: '00 000-00-00'
             });
 
             // default holatda +998 turishi uchun
-            mask.value = '+998 ';
+          
         });
 
 

@@ -387,7 +387,7 @@
 
         var phoneMask = IMask(
             document.getElementById('responsible_phone'), {
-                mask: '+998 00 000-00-00'
+                mask: '00 000-00-00'
          });
 
 

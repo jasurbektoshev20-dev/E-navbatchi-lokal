@@ -42,7 +42,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body text-center">
-                    <h4>Миллий гвардия жавобгарлик ҳудудларида режалаштирилган сиёсий, маданий, спорт ва бошқа оммавий тадбирлар тўғрисида <br>
+                    <h4>Миллий гвардия жавобгарлик ҳудудларида режалаштирилган идоравий тадбирлар тўғрисида <br>
                       <p class="m-0">МАЪЛУМОТ</p>
                    </h4>
                 </div>
@@ -62,14 +62,7 @@
                         <input class="form-control" type="date" placeholder="Oxirgi vaqtni tanlang">
                     
                         <button class="btn btn-primary">Кўриш</button>
-                        <a href="general_report_event.php"
-                            target="_blank"
-                            class="btn btn-danger">
-                                📄 PDF 
-                            </a>
-
-                     </div>  
-
+                     </div>   
             </div>
             <div class="card">
                 <div class="card-datatable table-responsive">
@@ -79,10 +72,11 @@
                                 <tr>
                                     <th>т/р</th>
                                     <th>Тадбирлар</th>
+
                                     {foreach from=$regions key=regionId item=regionName}
                                         <th>
                                            
-                                            <a href="hr.php?act=about_region_events&mid={$smarty.get.mid}&region_id={$regionId}">
+                                            <a href="hr.php?act=about_reyd_events&mid={$smarty.get.mid}&region_id={$regionId}">
                                                 {$regionName}
                                             </a>
                                         </th>
