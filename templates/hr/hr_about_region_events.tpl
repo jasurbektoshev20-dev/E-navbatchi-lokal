@@ -94,7 +94,7 @@
                     <table class="datatables-projects table border-top table-hover table-striped table-bordered">
                        <thead>
                             <tr>
-                                <th>t/r</th>
+                                <th>т/р</th>
                                 <th class="text-center">Ҳудуд</th>
                                 <th class="text-center">Жойи</th>
                                 <th class="text-center">Тури</th>

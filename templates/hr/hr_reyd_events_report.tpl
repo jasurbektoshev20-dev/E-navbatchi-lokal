@@ -42,7 +42,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body text-center">
-                    <h4>Миллий гвардия жавобгарлик ҳудудларида режалаштирилган сиёсий, маданий, спорт ва бошқа оммавий тадбирлар тўғрисида <br>
+                    <h4>Миллий гвардия жавобгарлик ҳудудларида режалаштирилган идоравий тадбирлар тўғрисида <br>
                       <p class="m-0">МАЪЛУМОТ</p>
                    </h4>
                 </div>
@@ -70,8 +70,8 @@
                         <table class="table table-bordered text-center">
                             <thead>
                                 <tr>
-                                    <th>T/r</th>
-                                    <th>Tadbirlar</th>
+                                    <th>т/р</th>
+                                    <th>Тадбирлар</th>
 
                                     {foreach from=$regions key=regionId item=regionName}
                                         <th>
