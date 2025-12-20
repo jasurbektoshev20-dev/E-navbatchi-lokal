@@ -245,8 +245,8 @@
 <script>
    	{literal}
 
-            var dt_basic_table = $('.datatables-projects'),
-            dt_basic;
+        var dt_basic_table = $('.datatables-projects'),
+        dt_basic;
 
         // DataTable with buttons
         if (dt_basic_table.length) {

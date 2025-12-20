@@ -37,6 +37,35 @@
     <!-- Jadval -->
     <div class="row mt-3">
         <div class="col-12">
+
+          <div class="row">
+              <div class="col-4">
+                 <input
+                    type="text"
+                    id="searchRegion"
+                    class="form-control mb-3"
+                    placeholder="Ҳудуд..."
+                  > 
+              </div>
+               <div class="col-4">
+                 <input
+                    type="text"
+                    id="searchType"
+                    class="form-control mb-3"
+                    placeholder="Тури..."
+                  > 
+              </div>
+               <div class="col-4">
+                 <input
+                    type="text"
+                    id="searchName"
+                    class="form-control mb-3"
+                    placeholder="Nomi..."
+                  > 
+              </div>
+          </div>
+          
+
             <div class="card">
                 <div class="card-datatable table-responsive">
                     <table class="datatables-projects table border-top">
@@ -270,6 +299,33 @@
     var HRAJAXPHP = "hrajax{$AddURL}.php";
 
     {literal}
+
+    function filterTable() {
+        const region = document.getElementById('searchRegion').value.toLowerCase();
+        const type   = document.getElementById('searchType').value.toLowerCase();
+        const name   = document.getElementById('searchName').value.toLowerCase();
+
+        const rows = document.querySelectorAll('#table-body tr');
+
+        rows.forEach(row => {
+          const regionText = row.children[1].innerText.toLowerCase(); // Вилоят
+          const typeText   = row.children[2].innerText.toLowerCase(); // Тури
+          const nameText   = row.children[3].innerText.toLowerCase(); // Номи
+
+          const match =
+            regionText.includes(region) &&
+            typeText.includes(type) &&
+            nameText.includes(name);
+
+          row.style.display = match ? '' : 'none';
+        });
+     }
+
+      document.getElementById('searchRegion').addEventListener('input', filterTable);
+      document.getElementById('searchType').addEventListener('input', filterTable);
+      document.getElementById('searchName').addEventListener('input', filterTable);
+
+      
 
     let drawCoords
 
@@ -712,6 +768,8 @@
     // }
 
     renderTable();
+
+   
     {/literal}
 </script>
 
