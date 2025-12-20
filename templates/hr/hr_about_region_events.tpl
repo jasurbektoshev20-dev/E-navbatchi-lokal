@@ -92,24 +92,74 @@
                 </div>
                 <div class="card-datatable table-responsive">
                     <table class="datatables-projects table border-top table-hover table-striped table-bordered">
-                        <thead>
-                        <tr class="text-center">
-                            <th rowspan="2">Т/р</th>
-                            <th rowspan="2">Ҳудудлар</th>
-                            <th colspan="3">Тадбирлар</th>
-                            <th rowspan="2">Тахминий фуқаролар сони</th>
-                            <th rowspan="2">Шахсий таркиб</th>
-                            <th rowspan="2">Техникалар</th>
-                            <th rowspan="2">Махсус воситалар</th>
-                        </tr>
-                         <tr>
-                          <th>Жами</th>
-                          <th>Ҳукумат қарорлари асосида</th>
-                          <th>Пулли хизмат асосида</th>
-                        </tr>
+                       <thead>
+                            <tr>
+                                <th>t/r</th>
+                                <th class="text-center">Ҳудуд</th>
+                                <th class="text-center">Жойи</th>
+                                <th class="text-center">Тури</th>
+                                <th class="text-center">Тоифаси</th>
+                                <th class="text-center">Номи</th>
+                                <th class="text-center">Йўналиши</th>
+                                <th class="text-center">Кўриниши</th>
+                                <th class="text-center">Бошланиш вақти</th>
+                                <th class="text-center">Тугаш вақти</th>
+                                <th class="text-center">Фуқаролар сони</th>
+                                <th class="text-center">Тадбирга масъул ташкилот</th>
+                                <th class="text-center">Масъул ФИШ</th>
+                                <th class="text-center">Телефон</th>
+                                <th class="text-center">МГ жавобгар</th>
+                                <th class="text-center">МГ сони</th>
+                                <th class="text-center">ИИВ масъул ФИШ</th>
+                                <th class="text-center">ИИВ ҲХ сони</th>
+                                <th class="text-center">ФВВ масъул ФИШ</th>
+                                <th class="text-center">ФВВ ҲХ сони</th>
+                                <th class="text-center">МГ МСГр масъул ФИШ</th>
+                                <th class="text-center">МГ МСГр сони</th>
+                                <th class="text-center">ИИВ Спринг масъул ФИШ</th>
+                                <th class="text-center">ИИВ Спринг сони</th>
+                                <th class="text-center">Захирага масъул</th>
+                                <th class="text-center">Захира сони</th>
+                                <th class="text-center">Тадбирни ўтказувчи ташаббускор</th>
+                           
+                            </tr>
                         </thead>
-                        <tbody id="event-tbody">
-                       
+                        <tbody>
+                            {foreach from=$Events item=item key=tkey name=name}
+                                <tr class="lb" id="row_{$item.id|crypt}">
+                                    <td class="text-right">{$tkey+1}</td>
+                                    <td class="text-center">
+                                        <a href="hr.php?act=about_region_events&mid={$item.id|crypt}">
+                                            {$item.regionName}
+                                        </a>
+                                    </td>
+                                    <td class="text-center">{$item.object_name}</td>
+                                    <td class="text-center">{$item.event_type}</td>     
+                                    <td class="text-center">{$item.event_category}</td>     
+                                    <td class="text-center">{$item.event_name}</td>
+                                    <td class="text-center">{$item.event_direction}</td>
+                                    <td class="text-center">{$item.event_view}</td>
+                                    <td class="text-center">{$item.start_event}</td>
+                                    <td class="text-center">{$item.finish_event}</td>
+                                    <td class="text-center">{$item.people_count}</td>
+                                    <td class="text-center">{$item.event_responsible_organization}</td>
+                                    <td class="text-center">{$item.responsible_name}</td>
+                                    <td class="text-center">{$item.responsible_phone}</td>
+                                    <td class="text-center">{$item.responsible_mg_name}</td>
+                                    <td class="text-center">{$item.mg_counts}</td>
+                                    <td class="text-center">{$item.responsible_iiv_name}</td>
+                                    <td class="text-center">{$item.iiv_count}</td>
+                                    <td class="text-center">{$item.responsible_fvv_name}</td>
+                                    <td class="text-center">{$item.fvv_count}</td>
+                                    <td class="text-center">{$item.responsible_msgr_name}</td>
+                                    <td class="text-center">{$item.sapyor_count}</td>
+                                    <td class="text-center">{$item.responsible_spring_name}</td>
+                                    <td class="text-center">{$item.spring_count}</td>
+                                    <td class="text-center">{$item.reserve_name} </td>
+                                    <td class="text-center">{$item.reserve_count}</td>
+                                    <td class="text-center">{$item.organizer}</td>
+                                </tr>
+                            {/foreach}
                         </tbody>
                     </table>
                 </div>
@@ -198,101 +248,101 @@ window.addEventListener('load', function() {
     {literal}
 
 
-    const region = "{/literal}{$smarty.get.date}{literal}";     
+//     const region = "{/literal}{$smarty.get.date}{literal}";     
        
-     const allEvents = {
-  "Сиёсий тадбирлар": [
-    { eventRegion: "Қорақалпоғистон Республикаsi", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
-    { eventRegion: "Тошкент шаҳри", eventCount: 3, hukumatqarori: 2, pullixizmat: 1, evetPersonCount: 900, evetDutyCount: 220, evetTransportCount: 30, evetVositaCount: 170 },
-    { eventRegion: "Андижон вилояти", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
-    { eventRegion: "Бухоро вилояти", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Фарғона вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Жиззах вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Қашқадарё вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Навоий вилояти", eventCount: 1, hukumatqarori: 1, pullixizmat: 0, evetPersonCount: 500, evetDutyCount: 120, evetTransportCount: 9, evetVositaCount: 70 },  
-    { eventRegion: "Наманган вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Самарқанд вилояти", eventCount: 2, hukumatqarori: 1, pullixizmat: 1, evetPersonCount: 1000, evetDutyCount: 320, evetTransportCount: 12, evetVositaCount: 100 },
-    { eventRegion: "Сирдарё вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Сурхандарё вилояти", eventCount:0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Тошкент вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Хоразм вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,   evetTransportCount: 0, evetVositaCount: 0 }, 
+//      const allEvents = {
+//   "Сиёсий тадбирлар": [
+//     { eventRegion: "Қорақалпоғистон Республикаsi", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
+//     { eventRegion: "Тошкент шаҳри", eventCount: 3, hukumatqarori: 2, pullixizmat: 1, evetPersonCount: 900, evetDutyCount: 220, evetTransportCount: 30, evetVositaCount: 170 },
+//     { eventRegion: "Андижон вилояти", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
+//     { eventRegion: "Бухоро вилояти", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
+//     { eventRegion: "Фарғона вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
+//     { eventRegion: "Жиззах вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
+//     { eventRegion: "Қашқадарё вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
+//     { eventRegion: "Навоий вилояти", eventCount: 1, hukumatqarori: 1, pullixizmat: 0, evetPersonCount: 500, evetDutyCount: 120, evetTransportCount: 9, evetVositaCount: 70 },  
+//     { eventRegion: "Наманган вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
+//     { eventRegion: "Самарқанд вилояти", eventCount: 2, hukumatqarori: 1, pullixizmat: 1, evetPersonCount: 1000, evetDutyCount: 320, evetTransportCount: 12, evetVositaCount: 100 },
+//     { eventRegion: "Сирдарё вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
+//     { eventRegion: "Сурхандарё вилояти", eventCount:0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
+//     { eventRegion: "Тошкент вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
+//     { eventRegion: "Хоразм вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,   evetTransportCount: 0, evetVositaCount: 0 }, 
     
-  ],
-  "Маданий тадбирлар": [
-    { eventRegion: "Қорақалпоғистон Республикаsi", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
-   { eventRegion: "Тошкент шаҳри", eventCount: 3, hukumatqarori: 2, pullixizmat: 1, evetPersonCount: 900, evetDutyCount: 16, evetTransportCount: 4, evetVositaCount: 16 },
-    { eventRegion: "Андижон вилояти", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
-   { eventRegion: "Бухоро вилояти", eventCount: 2, hukumatqarori: 1, pullixizmat: 1, evetPersonCount: 300, evetDutyCount: 20, evetTransportCount: 3, evetVositaCount: 20 },
-    { eventRegion: "Фарғона вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Жиззах вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Қашқадарё вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
-   { eventRegion: "Наманган вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Наманган вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Самарқанд вилояти",eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Сирдарё вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Сурхандарё вилояти", eventCount: 1, hukumatqarori: 1, pullixizmat: 0, evetPersonCount: 200, evetDutyCount: 18, evetTransportCount: 2, evetVositaCount: 20 },
-    { eventRegion: "Тошкент вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Хоразм вилояти", eventCount: 1, hukumatqarori: 1, pullixizmat: 0, evetPersonCount: 350, evetDutyCount: 25, evetTransportCount: 4, evetVositaCount: 30 },
+//   ],
+//   "Маданий тадбирлар": [
+//     { eventRegion: "Қорақалпоғистон Республикаsi", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
+//    { eventRegion: "Тошкент шаҳри", eventCount: 3, hukumatqarori: 2, pullixizmat: 1, evetPersonCount: 900, evetDutyCount: 16, evetTransportCount: 4, evetVositaCount: 16 },
+//     { eventRegion: "Андижон вилояти", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
+//    { eventRegion: "Бухоро вилояти", eventCount: 2, hukumatqarori: 1, pullixizmat: 1, evetPersonCount: 300, evetDutyCount: 20, evetTransportCount: 3, evetVositaCount: 20 },
+//     { eventRegion: "Фарғона вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
+//     { eventRegion: "Жиззах вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
+//     { eventRegion: "Қашқадарё вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
+//    { eventRegion: "Наманган вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
+//     { eventRegion: "Наманган вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
+//     { eventRegion: "Самарқанд вилояти",eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
+//     { eventRegion: "Сирдарё вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
+//     { eventRegion: "Сурхандарё вилояти", eventCount: 1, hukumatqarori: 1, pullixizmat: 0, evetPersonCount: 200, evetDutyCount: 18, evetTransportCount: 2, evetVositaCount: 20 },
+//     { eventRegion: "Тошкент вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
+//     { eventRegion: "Хоразм вилояти", eventCount: 1, hukumatqarori: 1, pullixizmat: 0, evetPersonCount: 350, evetDutyCount: 25, evetTransportCount: 4, evetVositaCount: 30 },
 
-  ],
-  "Спорт тадбирлар": [
-   { eventRegion: "Қорақалпоғистон Республикаsi", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
-    { eventRegion: "Тошкент шаҳри", eventCount: 4, hukumatqarori: 3, pullixizmat: 1, evetPersonCount: 1000, evetDutyCount: 50, evetTransportCount: 12, evetVositaCount: 50 },
-    { eventRegion: "Андижон вилояти", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
-   { eventRegion: "Бухоро вилояти",eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
-    { eventRegion: "Фарғона вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Жиззах вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Қашқадарё вилояти", eventCount: 1, hukumatqarori: 1, pullixizmat: 0, evetPersonCount: 200, evetDutyCount: 18, evetTransportCount: 2, evetVositaCount: 20}, 
-    { eventRegion: "Навоий вилояти", eventCount: 1, hukumatqarori: 1, pullixizmat: 0, evetPersonCount: 100, evetDutyCount: 10, evetTransportCount: 2, evetVositaCount: 8 },
-    { eventRegion: "Наманган вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Самарқанд вилояти", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
-    { eventRegion: "Сирдарё вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Сурхандарё вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },
-    { eventRegion: "Тошкент вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
-    { eventRegion: "Хоразм вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,   evetTransportCount: 0, evetVositaCount: 0 }, 
-  ],
-  "Бошқа тадбирлар": [
-     { eventRegion: "Қорақалпоғистон Республикаsi",  eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,   evetTransportCount: 0, evetVositaCount: 0  },
-    { eventRegion: "Тошкент шаҳри", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
-    { eventRegion: "Андижон вилояти", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
-   { eventRegion: "Бухоро вилояти",eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
-    { eventRegion: "Фарғона вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
-   { eventRegion: "Жиззах вилояти", eventCount: 1, hukumatqarori: 1, pullixizmat: 0, evetPersonCount: 100, evetDutyCount: 20, evetTransportCount: 3, evetVositaCount: 20 },
-    { eventRegion: "Қашқадарё вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Навоий вилояти", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
-   { eventRegion: "Наманган вилояти", eventCount: 4, hukumatqarori: 3, pullixizmat: 1, evetPersonCount: 1000, evetDutyCount: 50, evetTransportCount: 12, evetVositaCount: 50 },
-    { eventRegion: "Самарқанд вилояти", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
-    { eventRegion: "Сирдарё вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
-    { eventRegion: "Сурхандарё вилояти", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
-    { eventRegion: "Тошкент вилояти", eventCount: 1, hukumatqarori: 1, pullixizmat: 0, evetPersonCount: 100, evetDutyCount: 20, evetTransportCount: 3, evetVositaCount: 20 }, 
-    { eventRegion: "Хоразм вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,   evetTransportCount: 0, evetVositaCount: 0 }, 
-  ]
-};
+//   ],
+//   "Спорт тадбирлар": [
+//    { eventRegion: "Қорақалпоғистон Республикаsi", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
+//     { eventRegion: "Тошкент шаҳри", eventCount: 4, hukumatqarori: 3, pullixizmat: 1, evetPersonCount: 1000, evetDutyCount: 50, evetTransportCount: 12, evetVositaCount: 50 },
+//     { eventRegion: "Андижон вилояти", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
+//    { eventRegion: "Бухоро вилояти",eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
+//     { eventRegion: "Фарғона вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
+//     { eventRegion: "Жиззах вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
+//     { eventRegion: "Қашқадарё вилояти", eventCount: 1, hukumatqarori: 1, pullixizmat: 0, evetPersonCount: 200, evetDutyCount: 18, evetTransportCount: 2, evetVositaCount: 20}, 
+//     { eventRegion: "Навоий вилояти", eventCount: 1, hukumatqarori: 1, pullixizmat: 0, evetPersonCount: 100, evetDutyCount: 10, evetTransportCount: 2, evetVositaCount: 8 },
+//     { eventRegion: "Наманган вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
+//     { eventRegion: "Самарқанд вилояти", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
+//     { eventRegion: "Сирдарё вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
+//     { eventRegion: "Сурхандарё вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },
+//     { eventRegion: "Тошкент вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
+//     { eventRegion: "Хоразм вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,   evetTransportCount: 0, evetVositaCount: 0 }, 
+//   ],
+//   "Бошқа тадбирлар": [
+//      { eventRegion: "Қорақалпоғистон Республикаsi",  eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,   evetTransportCount: 0, evetVositaCount: 0  },
+//     { eventRegion: "Тошкент шаҳри", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
+//     { eventRegion: "Андижон вилояти", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 },  
+//    { eventRegion: "Бухоро вилояти",eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
+//     { eventRegion: "Фарғона вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
+//    { eventRegion: "Жиззах вилояти", eventCount: 1, hukumatqarori: 1, pullixizmat: 0, evetPersonCount: 100, evetDutyCount: 20, evetTransportCount: 3, evetVositaCount: 20 },
+//     { eventRegion: "Қашқадарё вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,  evetTransportCount: 0, evetVositaCount: 0 }, 
+//     { eventRegion: "Навоий вилояти", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
+//    { eventRegion: "Наманган вилояти", eventCount: 4, hukumatqarori: 3, pullixizmat: 1, evetPersonCount: 1000, evetDutyCount: 50, evetTransportCount: 12, evetVositaCount: 50 },
+//     { eventRegion: "Самарқанд вилояти", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
+//     { eventRegion: "Сирдарё вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0 }, 
+//     { eventRegion: "Сурхандарё вилояти", eventCount: 0, hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0, evetTransportCount: 0, evetVositaCount: 0  },
+//     { eventRegion: "Тошкент вилояти", eventCount: 1, hukumatqarori: 1, pullixizmat: 0, evetPersonCount: 100, evetDutyCount: 20, evetTransportCount: 3, evetVositaCount: 20 }, 
+//     { eventRegion: "Хоразм вилояти", eventCount: 0,hukumatqarori: 0, pullixizmat: 0, evetPersonCount: 0, evetDutyCount: 0,   evetTransportCount: 0, evetVositaCount: 0 }, 
+//   ]
+// };
 
-const selectedData = allEvents[region] || [];
+// const selectedData = allEvents[region] || [];
 
-const tbody = document.getElementById("event-tbody");
-tbody.innerHTML = "";
+// const tbody = document.getElementById("event-tbody");
+// tbody.innerHTML = "";
 
-selectedData.forEach((event, index) => {
-  tbody.innerHTML += `
-    <tr class="lb text-center">
-      <td>${index + 1}</td>
-      <td>
-        <a href="hr.php?act=about_region_events_detail&mid=&date=${encodeURIComponent(event.eventRegion)}&dataTadbir=${encodeURIComponent(region)}">
-          ${event.eventRegion}
-        </a>
-      </td>
-      <td>${event.eventCount}</td>
-      <td>${event.hukumatqarori}</td>
-      <td>${event.pullixizmat}</td>
-      <td>${event.evetPersonCount}</td>
-      <td>${event.evetDutyCount}</td>
-      <td>${event.evetTransportCount}</td>
-      <td>${event.evetVositaCount}</td>
-    </tr>
-  `;
-});
+// selectedData.forEach((event, index) => {
+//   tbody.innerHTML += `
+//     <tr class="lb text-center">
+//       <td>${index + 1}</td>
+//       <td>
+//         <a href="hr.php?act=about_region_events_detail&mid=&date=${encodeURIComponent(event.eventRegion)}&dataTadbir=${encodeURIComponent(region)}">
+//           ${event.eventRegion}
+//         </a>
+//       </td>
+//       <td>${event.eventCount}</td>
+//       <td>${event.hukumatqarori}</td>
+//       <td>${event.pullixizmat}</td>
+//       <td>${event.evetPersonCount}</td>
+//       <td>${event.evetDutyCount}</td>
+//       <td>${event.evetTransportCount}</td>
+//       <td>${event.evetVositaCount}</td>
+//     </tr>
+//   `;
+// });
 
        
 
