@@ -32,6 +32,20 @@
     .date-filter-box div button{
         width: 250px;     
     }
+    .date-box-sel-link{
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        text-decoration: none;
+        box-sizing: border-box;
+        white-space: nowrap;
+        border: 1px solid #cfcece;
+        border-radius: 7px;
+        padding: 7px 20px;
+        color: #6f6b7d;
+        background-color: green;
+        color: #fff;
+    }
 
     {/literal}
 </style>
@@ -62,6 +76,13 @@
                         <input class="form-control" type="date" placeholder="Oxirgi vaqtni tanlang">
                     
                         <button class="btn btn-primary">Кўриш</button>
+
+                         <a href="#" class="date-box-sel-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-file-earmark-text" viewBox="0 0 16 16">
+                            <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5"/>
+                            <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>
+                            </svg>  Юклаб олиш
+                        </a>
                      </div>   
             </div>
             <div class="card">
@@ -102,7 +123,7 @@
                                 <a
                                         href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Сиёсий тадбирлар">Фуқаролар билан можарода</a>
                             </td>
-                            <td>4</td>
+                            <td>1</td>
                             <td>2</td>
                             <td>1</td>
                             <td>1</td>
@@ -131,7 +152,7 @@
                                 <a
                                         href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Сиёсий тадбирлар">Жанговар тайёргарликда</a>
                             </td>
-                            <td>2</td>
+                            <td>0</td>
                             <td>0</td>
                             <td>1</td>
                             <td>0</td>
@@ -160,7 +181,7 @@
                                 <a
                                         href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Сиёсий тадбирлар">Жисмоний тайёргарликда</a>
                             </td>
-                            <td>4</td>
+                            <td>0</td>
                             <td>2</td>
                             <td>1</td>
                             <td>1</td>
@@ -189,7 +210,7 @@
                                 <a
                                         href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Сиёсий тадбирлар">ЙТХ</a>
                             </td>
-                            <td>0</td>
+                            <td>1</td>
                             <td>2</td>
                             <td>1</td>
                             <td>1</td>
@@ -219,7 +240,7 @@
                                 <a
                                         href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Сиёсий тадбирлар">Маиший</a>
                             </td>
-                            <td>4</td>
+                            <td>0</td>
                             <td>2</td>
                             <td>1</td>
                             <td>1</td>
@@ -248,7 +269,7 @@
                                 <a
                                         href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Сиёсий тадбирлар">Ҳўжалик ишларида</a>
                             </td>
-                            <td>4</td>
+                            <td>1</td>
                             <td>2</td>
                             <td>1</td>
                             <td>1</td>
@@ -306,7 +327,7 @@
                                 <a
                                         href="hr.php?act=about_region_events&mid={$smarty.get.mid}&date=Сиёсий тадбирлар">Қоровул ва ички хизмат ўташда</a>
                             </td>
-                            <td>4</td>
+                            <td>0</td>
                             <td>2</td>
                             <td>1</td>
                             <td>1</td>
@@ -364,7 +385,7 @@
                                 <a  href="">Jami</a>
                                    
                             </td>
-                            <td>12</td>
+                            <td>5</td>
                             <td>21</td>
                             <td>11</td>
                             <td>11</td>
