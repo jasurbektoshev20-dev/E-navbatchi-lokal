@@ -92,71 +92,53 @@
                 </div>
                 <div class="card-datatable table-responsive">
                     <table class="datatables-projects table border-top table-hover table-striped table-bordered">
-                       <thead>
+                         <thead>
                             <tr>
-                                <th>t/r</th>
-                                <th class="text-center">Ҳудуд</th>
-                                <th class="text-center">Жойи</th>
-                                <th class="text-center">Тури</th>
-                                <th class="text-center">Тоифаси</th>
-                                <th class="text-center">Номи</th>
-                                <th class="text-center">Йўналиши</th>
-                                <th class="text-center">Кўриниши</th>
+                                <th>No̱</th>
+                                {* <th class="text-center">{$Dict.region}</th> *}
+                                <th class="text-center">{$Dict.structure}</th>
+                                <th class="text-center">{$Dict.responsible}</th>
+                                <th class="text-center">{$Dict.staff}</th>
                                 <th class="text-center">Бошланиш вақти</th>
                                 <th class="text-center">Тугаш вақти</th>
-                                <th class="text-center">Фуқаролар сони</th>
-                                <th class="text-center">Тадбирга масъул ташкилот</th>
-                                <th class="text-center">Масъул ФИШ</th>
-                                <th class="text-center">Телефон</th>
-                                <th class="text-center">МГ жавобгар</th>
-                                <th class="text-center">МГ сони</th>
-                                <th class="text-center">ИИВ масъул ФИШ</th>
-                                <th class="text-center">ИИВ ҲХ сони</th>
-                                <th class="text-center">ФВВ масъул ФИШ</th>
-                                <th class="text-center">ФВВ ҲХ сони</th>
-                                <th class="text-center">МГ МСГр масъул ФИШ</th>
-                                <th class="text-center">МГ МСГр сони</th>
-                                <th class="text-center">ИИВ Спринг масъул ФИШ</th>
-                                <th class="text-center">ИИВ Спринг сони</th>
-                                <th class="text-center">Захирага масъул</th>
-                                <th class="text-center">Захира сони</th>
-                                <th class="text-center">Тадбирни ўтказувчи ташаббускор</th>
-                           
+                                <th class="text-center">Техника сони</th>
+                                <th class="text-center">Асосий</th>
+                                <th class="text-center">Тури</th>
+                                <th class="text-center">Холат ҳақида қисқача</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            {foreach from=$events item=item key=tkey name=name}
-                                <tr class="lb" id="row_{$item.id|crypt}">
-                                    <td class="text-right">{$tkey+1}</td>
-                                    <td class="text-center">
-                                         {$regionName[0].name1}
-                                    </td>
-                                    <td class="text-center">{$item.object_name}</td>
-                                    <td class="text-center">{$item.event_type}</td>     
-                                    <td class="text-center">{$item.event_category}</td>     
-                                    <td class="text-center">{$item.event_name}</td>
-                                    <td class="text-center">{$item.event_direction}</td>
-                                    <td class="text-center">{$item.event_view}</td>
-                                    <td class="text-center">{$item.start_event}</td>
-                                    <td class="text-center">{$item.finish_event}</td>
-                                    <td class="text-center">{$item.people_count}</td>
-                                    <td class="text-center">{$item.event_responsible_organization}</td>
-                                    <td class="text-center">{$item.responsible_name}</td>
-                                    <td class="text-center">{$item.responsible_phone}</td>
-                                    <td class="text-center">{$item.responsible_mg_name}</td>
-                                    <td class="text-center">{$item.mg_counts}</td>
-                                    <td class="text-center">{$item.responsible_iiv_name}</td>
-                                    <td class="text-center">{$item.iiv_count}</td>
-                                    <td class="text-center">{$item.responsible_fvv_name}</td>
-                                    <td class="text-center">{$item.fvv_count}</td>
-                                    <td class="text-center">{$item.responsible_msgr_name}</td>
-                                    <td class="text-center">{$item.sapyor_count}</td>
-                                    <td class="text-center">{$item.responsible_spring_name}</td>
-                                    <td class="text-center">{$item.spring_count}</td>
-                                    <td class="text-center">{$item.reserve_name} </td>
-                                    <td class="text-center">{$item.reserve_count}</td>
-                                    <td class="text-center">{$item.organizer}</td>
-                                </tr>
+                            {foreach from=$events item=Table key=tkey}
+                                <tr class="lb" id="row_{$Table.id|crypt}">
+                                <td class="text-right">{$tkey+1}</td>
+                                {* <td class="text-center">{$Table.region_id}</td> *}
+                                <td class="text-center">{$Table.structure_name}</td>
+                                <td class="text-center">{$Table.responsible_name}</td>
+                                <td class="text-center">{$Table.staff_count}</td>
+                                <td class="text-center">{$Table.start_date}</td>
+                                <td class="text-center">{$Table.end_date}</td>
+                                <td class="text-center">{$Table.vehicles_count}</td>
+                                <td class="text-center">{$Table.type}</td>
+                                <td class="text-center">{$Table.exercises_type}</td>
+                                <td class="text-center">{$Table.description}</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                            data-bs-toggle="dropdown">
+                                            <i class="ti ti-dots-vertical"></i>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a rel="{$Table.id|crypt}" class="dropdown-item editAction"
+                                                href="javascript:void(0);"><i
+                                                    class="ti ti-pencil me-1"></i>{$Dict.edit}</a>
+                                            <a rel="{$Table.id|crypt}" class="dropdown-item delete"
+                                                href="javascript:void(0);"><i
+                                                    class="ti ti-trash me-1"></i>{$Dict.delete}</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
                             {/foreach}
                         </tbody>
                     </table>
