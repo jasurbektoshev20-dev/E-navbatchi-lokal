@@ -2167,10 +2167,14 @@ break;
 				pe.organizer,
 				pe.event_responsible_organization,
 				pe.people_count,
-				COUNT(pe.id) as event_count,
 				pe.responsible_iiv_name,
 				pe.responsible_fvv_name,
 				pe.responsible_mg_name,
+				pe.reserve_name,
+				pe.reserve_count,
+				pe.iiv_count,
+				pe.fvv_count,
+				pe.mg_counts,
 				ec.name{$slang} as event_category,
 				
 				SUM(
