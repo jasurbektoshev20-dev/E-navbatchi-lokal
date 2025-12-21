@@ -1236,8 +1236,8 @@
 
 .bodycam-cluster {
   position: relative;
-  width: 40px;
-  height: 70px;
+  width: 30px;
+  height: 55px;
 }
 
 .bodycam-img {
@@ -1250,14 +1250,14 @@
 /* O‘RTADAGI OCHIQ TO‘RTBURCHAK ICHIDAGI RAQAM */
 .bodycam-count {
   position: absolute;
-  top:35px;        /* rasmga moslab */
-  left: 84%;
+ bottom: -5px;
+    left: 130%;
   transform: translateX(-50%);
   width: 34px;
   height: 26px;
 
-  /* background: rgba(0, 0, 0, 0.65); */
-  color: blue;
+ background: greenyellow;
+  color: black;
 
   display: flex;
   align-items: center;
@@ -1265,9 +1265,9 @@
 
   font-size: 20px;
   font-weight: bold;
-  /* border-radius: 4px; */
+ border-radius: 50%; 
 
-  /* box-shadow: inset 0 0 6px rgba(0, 255, 136, 0.6); */
+   box-shadow: inset 0 0 6px rgba(0, 255, 136, 0.6); 
 }
 
 
@@ -1890,7 +1890,7 @@
                 return L.divIcon({
                   html: `
                     <div class="bodycam-cluster">
-                      <img src="/pictures/icons_marker/bodiicon.png" class="bodycam-img" />
+                      <img src="/pictures/icons_marker/bodiikon.png" class="bodycam-img" />
                       <div class="bodycam-count">
                         ${cluster.getChildCount()}
                       </div>
