@@ -537,6 +537,7 @@ document.addEventListener('click', function (e) {
 
 let hisobot = document.getElementById('shaxsiytarkib');
 hisobot.addEventListener('click', ()=>{
+   console.log('clicked')
      const modal = new bootstrap.Modal(
             document.getElementById('showDetail')
         );
