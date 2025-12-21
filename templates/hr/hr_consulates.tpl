@@ -780,7 +780,7 @@
                     html: `
                         <div class="flag-wrapper">
                             <img src="/pictures/embassy/${marker.photo}">
-                            <span class="badge">
+                            <span class="${Number(marker.type_id) === 5 ? 'badge' : '' }">
                               ${Number(marker.type_id) === 5 ? '🏠' : ''}
                             </span>
                         </div>
