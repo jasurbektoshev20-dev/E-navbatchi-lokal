@@ -1250,11 +1250,11 @@
 /* O‘RTADAGI OCHIQ TO‘RTBURCHAK ICHIDAGI RAQAM */
 .bodycam-count {
   position: absolute;
- bottom: -5px;
-    left: 130%;
+    bottom: -10px;
+    left: 170%;
   transform: translateX(-50%);
-  width: 34px;
-  height: 26px;
+  width: 28px;
+  height: 28px;
 
  background: greenyellow;
   color: black;
@@ -1263,7 +1263,7 @@
   align-items: center;
   justify-content: center;
 
-  font-size: 20px;
+  font-size: 16px;
   font-weight: bold;
  border-radius: 50%; 
 
@@ -2147,8 +2147,8 @@ map.addLayer(objectsCluster);
 
 const bodyCamIcons = {
   online: L.icon({
-    // iconUrl: './assets/assets/img/avatars/online_body.png',
-    iconUrl: './pictures/icons_marker/bodiikon.png',
+    iconUrl: './assets/assets/img/avatars/online_body.png',
+    // iconUrl: './pictures/icons_marker/bodiikon.png',
     iconSize: [35, 35],
     iconAnchor: [14, 28],
   }),
