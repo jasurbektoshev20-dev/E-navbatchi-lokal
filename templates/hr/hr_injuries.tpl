@@ -59,8 +59,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body text-center">
-                    <h4>ДАВРДА МИЛЛИЙ ГВАРДИЯ БЎЛИНМАЛАРИДА ҚАЙД ЭТИЛГАН ЖАРОҲАТЛАР ТЎҒРИСИДА<br>
-                      <p class="m-0">МАЪЛУМОТ</p>
+                    <h4>МИЛЛИЙ ГВАРДИЯ БЎЛИНМАЛАРИДА ҚАЙД ЭТИЛГАН ЖАРОҲАТЛАР ТЎҒРИСИДАГИ<br>
+                      <p class="m-0">МАЪЛУМОТЛАР</p>
                    </h4>
                 </div>
             </div>
@@ -346,36 +346,9 @@
                             <td class="clickable-cell">3</td>
                             <td class="clickable-cell">34</td>
                         </tr>
+                       
                          <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">9</td>
-                            <td>
-                                 <a href="">Жисмоний тайёргарликда</a>
-                            </td>
-                            <td class="clickable-cell">0</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">3</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">3</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">3</td>
-                            <td class="clickable-cell">39</td>
-                        </tr>
-                         <tr class="lb text-center" id="row_{$Table.id|crypt}">
-                            <td class="text-right">10</td>
                             <td>
                                Жами
                                    
@@ -475,7 +448,7 @@
                Сержантлар: 20 нафар
             </div>
              <div class="alert alert-dark" role="alert">
-                Шартнома асосида ҳарбий хизматчилар : 10 нафар
+                Муддатли ҳарбий хизматчилар : 10 нафар
             </div> 
       </div>
     </div>
@@ -537,6 +510,7 @@ document.addEventListener('click', function (e) {
 
 let hisobot = document.getElementById('shaxsiytarkib');
 hisobot.addEventListener('click', ()=>{
+   console.log('clicked')
      const modal = new bootstrap.Modal(
             document.getElementById('showDetail')
         );

@@ -1236,8 +1236,8 @@
 
 .bodycam-cluster {
   position: relative;
-  width: 60px;
-  height: 80px;
+  width: 30px;
+  height: 55px;
 }
 
 .bodycam-img {
@@ -1247,28 +1247,33 @@
   display: block;
 }
 
-/* 👇 O‘RTADAGI OCHIQ TO‘RTBURCHAK ICHIDAGI RAQAM */
+/* O‘RTADAGI OCHIQ TO‘RTBURCHAK ICHIDAGI RAQAM */
 .bodycam-count {
   position: absolute;
+<<<<<<< HEAD
   background-color: #00ff88;
   top:44px;        /* rasmga moslab */
   left: 67%;
+=======
+    bottom: -10px;
+    left: 170%;
+>>>>>>> bef0dc69a4dff8683c8c07de2f2371d7ec916b4e
   transform: translateX(-50%);
-  width: 34px;
-  height: 26px;
+  width: 28px;
+  height: 28px;
 
-  /* background: rgba(0, 0, 0, 0.65); */
-  color: #00ff88;
+ background: greenyellow;
+  color: black;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  font-size: 15px;
+  font-size: 16px;
   font-weight: bold;
-  /* border-radius: 4px; */
+ border-radius: 50%; 
 
-  /* box-shadow: inset 0 0 6px rgba(0, 255, 136, 0.6); */
+   box-shadow: inset 0 0 6px rgba(0, 255, 136, 0.6); 
 }
 
 
@@ -1891,14 +1896,14 @@
                 return L.divIcon({
                   html: `
                     <div class="bodycam-cluster">
-                      <img src="/pictures/icons_marker/bodycam.png" class="bodycam-img" />
+                      <img src="/pictures/icons_marker/bodiikon.png" class="bodycam-img" />
                       <div class="bodycam-count">
                         ${cluster.getChildCount()}
                       </div>
                     </div>
                   `,
                   className: 'bodycam-cluster-wrapper',
-                  iconSize: L.point(60, 80),
+                  iconSize: L.point(40, 60),
                   iconAnchor: [30, 40]
                 });
               }
@@ -2149,7 +2154,8 @@ map.addLayer(objectsCluster);
 const bodyCamIcons = {
   online: L.icon({
     iconUrl: './assets/assets/img/avatars/online_body.png',
-    iconSize: [28, 28],
+    // iconUrl: './pictures/icons_marker/bodiikon.png',
+    iconSize: [35, 35],
     iconAnchor: [14, 28],
   }),
   offline: L.icon({
