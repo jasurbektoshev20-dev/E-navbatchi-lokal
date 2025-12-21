@@ -96,6 +96,7 @@ if (isset($_POST['login']) and isset($_POST['password'])) {
 
 
         session_write_close();
+        
         header("Location: index.php?act=index&mid=DQtttt");
     } else {
         header('Location: login.php');

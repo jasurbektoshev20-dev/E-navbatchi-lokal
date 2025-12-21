@@ -85,7 +85,16 @@ $smarty->assign(array(
 
 switch ($TheAct) {
 	case "index":
-		$query = "SELECT id, name{$slang} as name FROM hr.structure where id != 1 and id < 100 order by turn";
+		// $query = "SELECT id, name{$slang} as name FROM hr.structure where id != 1 and id < 100 order by turn";
+		// $sql->query($query);
+		// $Regions = $sql->fetchAll();
+
+		$query = "SELECT id, name{$slang} as name FROM hr.structure ";
+		if ($UserStructure > 1) {
+			$query .= " where id = {$UserStructure}";
+		} else {
+			$query .= " where id != 1 and id < 16 order by turn";
+		}
 		$sql->query($query);
 		$Regions = $sql->fetchAll();
 

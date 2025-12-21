@@ -913,9 +913,12 @@ break;
 		$sql->query($query);
 		$JtsObjects = $sql->fetchAll();
 
-		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t 
-		where id > 1 and id < 16
-		ORDER BY t.turn ASC";
+		$query = "SELECT id, name{$slang} as name FROM hr.structure ";
+		if ($UserStructure > 1) {
+			$query .= " where id = {$UserStructure}";
+		} else {
+			$query .= " where id != 1 and id < 16 order by turn";
+		}
 		$sql->query($query);
 		$Regions = $sql->fetchAll();
 
@@ -1141,9 +1144,12 @@ break;
 		$sql->query($query);
 		$Objects = $sql->fetchAll();
 
-		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t 
-		where t.id > 1 and t.id < 16
-		ORDER BY t.turn ASC";
+		$query = "SELECT id, name{$slang} as name FROM hr.structure ";
+		if ($UserStructure > 1) {
+			$query .= " where id = {$UserStructure}";
+		} else {
+			$query .= " where id != 1 and id < 16 order by turn";
+		}
 		$sql->query($query);
 		$Regions = $sql->fetchAll();
 
@@ -1172,9 +1178,12 @@ break;
 		$sql->query($query);
 		$Objects = $sql->fetchAll();
 
-		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t 
-		where t.id > 1 and t.id < 16
-		ORDER BY t.turn ASC";
+		$query = "SELECT id, name{$slang} as name FROM hr.structure ";
+		if ($UserStructure > 1) {
+			$query .= " where id = {$UserStructure}";
+		} else {
+			$query .= " where id != 1 and id < 16 order by turn";
+		}
 		$sql->query($query);
 		$Regions = $sql->fetchAll();
 
@@ -1340,9 +1349,12 @@ break;
 
 
 	case "hr_neighborhood":
-		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t 
-		where t.id > 1 and t.id < 16
-		ORDER BY t.turn ASC";
+		$query = "SELECT id, name{$slang} as name FROM hr.structure ";
+		if ($UserStructure > 1) {
+			$query .= " where id = {$UserStructure}";
+		} else {
+			$query .= " where id != 1 and id < 16 order by turn";
+		}
 		$sql->query($query);
 		$Regions = $sql->fetchAll();
 

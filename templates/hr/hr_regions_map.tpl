@@ -1250,8 +1250,9 @@
 /* 👇 O‘RTADAGI OCHIQ TO‘RTBURCHAK ICHIDAGI RAQAM */
 .bodycam-count {
   position: absolute;
-  top:34px;        /* rasmga moslab */
-  left: 47%;
+  background-color: #00ff88;
+  top:44px;        /* rasmga moslab */
+  left: 67%;
   transform: translateX(-50%);
   width: 34px;
   height: 26px;

@@ -307,7 +307,7 @@ name1 = '{$name1}'
                 $FormId = $FormId['id'];
                 ActionLog($RowId, $FormId, 2);
                 $insquery = "INSERT into ref.marker_icons (
-									name1
+							name1
 							,name2
 							,name3
 							,photo
@@ -415,11 +415,11 @@ name1 = '{$name1}'
             $isNotNew = $sql->fetchAssoc();
             if ($isNotNew['ccount'] == 0) {
                 $insquery = "INSERT into ref.substances (
-										name1
+								name1
 								,name2
 								,name3
 						) values (
-										'{$name1}'
+								'{$name1}'
 								,'{$name2}'
 								,'{$name3}'
 						)";
@@ -431,9 +431,9 @@ name1 = '{$name1}'
                     $LastId = $result['last_id'];
 
                     $selquery  = "SELECT 
-																					name1
-																										,name2
-																										,name3
+									name1
+									,name2
+									,name3
 														
 
 			from ref.substances t where t.id = {$LastId}";
