@@ -346,36 +346,9 @@
                             <td class="clickable-cell">3</td>
                             <td class="clickable-cell">34</td>
                         </tr>
+                       
                          <tr class="lb text-center" id="row_{$Table.id|crypt}">
                             <td class="text-right">9</td>
-                            <td>
-                                 <a href="">Жисмоний тайёргарликда</a>
-                            </td>
-                            <td class="clickable-cell">0</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">3</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">3</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">3</td>
-                            <td class="clickable-cell">39</td>
-                        </tr>
-                         <tr class="lb text-center" id="row_{$Table.id|crypt}">
-                            <td class="text-right">10</td>
                             <td>
                                Жами
                                    
