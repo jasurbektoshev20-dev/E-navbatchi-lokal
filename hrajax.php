@@ -3122,8 +3122,6 @@ case "get_event_duty":
             $photo = isset($photo) ? $photo : $_FILES['photo'];
 
 
-
-
         $structure_id = $_POST['structure_id'];
         $district = $_POST['district'];
         $type_id = $_POST['obj_type'];
