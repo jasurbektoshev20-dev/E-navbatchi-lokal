@@ -347,7 +347,7 @@
 <script src="/assets/assets/vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js"></script>
 
 <script>
-    var AJAXPHP = "ajax{$AddURL}.php";
+    var AJAXPHP = "ajax.php";
     var HRAJAXPHP = "hrajax{$AddURL}.php";
 
     {literal}
