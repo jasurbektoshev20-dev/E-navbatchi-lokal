@@ -41,21 +41,37 @@
                         <thead>
                             <tr>
                                 <th>No̱</th>
-                                <th class="text-center">Ҳудуд</th>  
+                                <th class="text-center">Ҳудуд</th>
+                                <th class="text-center">Бўлинма</th>
+                           
                                 <th class="text-center">{$Dict.date}</th>
+                           
+                                <th class="text-center">Жиноят тури</th>
                                 <th class="text-center">Модда</th>
-                                <th class="text-center">Soni</th>
+                             
+                      
+                                <th class="text-center">Жиноятчи ФИШ</th>
+                             
+                                <th class="text-center">Холат ҳақида қисқача</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            {foreach from=$violations item=Table key=tkey}
+                            {foreach from=$Staffs item=Table key=tkey}
                                 <tr class="lb" id="row_{$Table.id|crypt}">
                                     <td class="text-right">{$tkey+1}</td>
-                                    <td class="text-center">{$Table.structure_name}</td>
-                                    <td class="text-center">{$Table.date}</td> 
-                                    <td class="text-center">{$Table.type_name}</td> 
-                                    <td class="text-center">{$Table.count}</td>                       
+                                    <td>{$Table.region_id}</td>
+                                    <td>{$Table.structure_id}</td>
+                                 
+                                     <td>{$Table.date}</td> 
+                                   
+                                     <td>{$Table.crime_type}</td> 
+                                     <td>{$Table.substance}</td> 
+                                    
+                                  
+                                    <td>{$Table.criminal_username}</td>
+                                 
+                                    <td>{$Table.situation_text}</td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -92,7 +108,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <form class="needs-validation" novalidate>
                     <div class="row g-3">
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <label>{$Dict.region}</label>
                             <select required class="select form-control" name="region_id" id="region_id">
                                 <option value="">{$Dict.choose}</option>
@@ -101,29 +117,50 @@
                                 {/foreach}
                             </select>
                         </div>
-                          <div class="col-sm-6">
-                            <label>Моддаси</label>
-                            <select required class="select form-control" name="substance" id="substance">
+                      <div class="col-sm-4">
+                            <label>Ҳудудий бўлинмалар</label>
+                            <select required class="select form-control" name="structure_id" id="structure_id">
                                 <option value="">{$Dict.choose}</option>
-                                    {foreach from=$Types item=Item6 key=ikey6}
-                                    <option value="{$Item6.id}">{$Item6.name}</option>
-                                {/foreach}
                             </select>
-                        </div> 
-                         <div class="col-sm-6">
-                            <label>Soni</label>
-                            <input required type="number" class="form-control" name="crime_count" id="crime_count" value="">
                         </div>
-
-                        <div class="col-sm-6">
-                            <label for="event_date" class="form-label">Sana</label>
+                   
+                         <div class="col-sm-4">
+                            <label for="event_date" class="form-label">Жиноят бўлган вақт</label>
                             <input type="datetime" class="form-control" placeholder="DD-MM-YYYY" id="event_date"
                                 name="event_date" />
                          </div>
-                     
+                      
+                        <div class="col-sm-4">
+                            <label>Жиноят тури</label>
+                            <select required class="select form-control" name="crime_type" id="crime_type">
+                                <option value="">{$Dict.choose}</option>
+                                    <option value="o'g'rilik">O'g'rilik</option>
+                                    <option value="janjal">janjal</option>
+                            </select>
+                        </div> 
+                         <div class="col-sm-4">
+                            <label>Моддаси</label>
+                            <select required class="select form-control" name="substance" id="substance">
+                                <option value="">{$Dict.choose}</option>
+                                    <option value="144-modda">144-modda</option>
+                                    <option value="256-modda">256-modda</option>
+                            </select>
+                        </div> 
+                 
+                         <div class="col-sm-4">
+                            <label>Жиноятчи ФИШ</label>
+                            <input required type="text" class="form-control" name="criminal_username" id="criminal_username" value="">
+                        </div>
+                        
+                         <div class="col-sm-6">
+                            <label>{$Dict.case_summary}</label>
+                            <textarea class="form-control" rows=3 name="situation_text" id="situation_text"></textarea>
+                        </div>
+                  
+                      
                         <div class="col-12 text-center">
                             <input type="hidden" name="id" id="id" value="">
-                            <input type="hidden" name="photo" id="photo" value="">
+                         
                             <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal"
                                 aria-label="Close">
                                 {$Dict.cancel}
@@ -167,46 +204,110 @@
     var dict_choose = "{$Dict.choose}";
     {literal}
 
-           const flatpickrDate = document.querySelector('#event_date');
+    
+
+         const flatpickrDate = document.querySelector('#event_date');
         if (flatpickrDate) {
             flatpickrDate.flatpickr({
             enableTime: true,
-            dateFormat: "d-m-Y",
-            // time_24hr: true,
+            dateFormat: "d-m-Y H:i",
+            time_24hr: true,
             monthSelectorType: 'static'
             });
         }
 
         let event_date;
         $('#event_date').on('change', function() {
+            let [datePart, timePart] = this.value.split(' ');
             let [day, month, year] = datePart.split('-');
-            event_date = `${year}-${month}-${day}`;
+
+            event_date = `${year}-${month}-${day} ${timePart}`;
         })
+
+        $('#region_id').change(function(event) {
+            $.get("ajax.php?act=get_divisions&structure_id=" + this.value, function(html) {
+                var sInfo = jQuery.parseJSON(html);
+                $('#structure_id').empty();
+                $('#structure_id').append(`<option value="">Tanlang</option>`);
+                sInfo.forEach((item, index) => {
+                    $('#structure_id').append(`<option value="${item.id}">${item.name}</option>`);
+                });
+            });
+        });
+
+        var dt_basic_table = $('.datatables-projects'),
+            dt_basic;
+
+        // DataTable with buttons
+        if (dt_basic_table.length) {
+            dt_basic = dt_basic_table.DataTable({
+                displayLength: 10,
+                lengthMenu: [5, 10, 25, 50, 75, 100, 1000]
+            });
+        }
 
 
         $('#new').click(function() {
             $('#submitModal').modal('toggle');
             $('#region_id').val(0);
             $('#region_id').trigger("change");
-            $('#substance').val(0);
+            $('#structure_id').val(0);
+            $('#structure_id').trigger("change");
+     
+              $('#substance').val(0);
             $('#substance').trigger("change");
-            $('#crime_count').val("");
+              $('#crime_type').val(0);
+            $('#crime_type').trigger("change");
             $('#event_date').val("");
+    
+            $('#situation_text').val("");
+            $('#criminal_username').val("");
+        
+          
         });
 
         $('.datatables-projects tbody').on('click', '.editAction', function() {
             $('#submitModal').modal('toggle');
 
             var RowId = $(this).attr('rel');
-            $.get("hrajax.php?act=get_criminals&rowid=" + RowId, function(html) {
+            $.get("hrajax.php?act=get_staffs&rowid=" + RowId, function(html) {
                 var sInfo = jQuery.parseJSON(html);
+
                 $('#id').val(sInfo.id);
-                $('#region_id').val(sInfo.region_id);
-                $('#substance').val(sInfo.violation_id);
-                $('#crime_count').val(sInfo.count);
-                $('#event_date').val(sInfo.date);
+                $('#region_id').val(sInfo.structure_id);
+                $('#structure_id').val(sInfo.structure_id);
+          
+                $('#substance').val(sInfo.substance);
+                $('#crime_type').val(sInfo.crime_type);
+                $('#event_date').val(sInfo.event_date);
+          
+                $('#situation_text').val(sInfo.situation_text);
+                $('#criminal_username').val(sInfo.criminal_username);
+             
+       
+             
             });
         })
+
+
+        const previewTemplate = `
+            <div class="dz-preview dz-file-preview">
+                <div class="dz-details">
+                    <div class="dz-thumbnail">
+                        <img data-dz-thumbnail>
+                        <span class="dz-nopreview">No preview</span>
+                        <div class="dz-success-mark"></div>
+                        <div class="dz-error-mark"></div>
+                        <div class="dz-error-message"><span data-dz-errormessage></span></div>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuemin="0" aria-valuemax="100" data-dz-uploadprogress></div>
+                        </div>
+                    </div>
+                    <div class="dz-filename" data-dz-name></div>
+                    <div class="dz-size" data-dz-size></div>
+                </div>
+            </div>
+        `;
 
 
         // Form validation and submit
@@ -219,12 +320,22 @@
 
                     var form_data = new FormData();
                     form_data.append('id', $('#id').val());
-                    form_data.append('region_id', $('#region_id').val());
-                    form_data.append('violation_id', $('#substance').val());
-                    form_data.append('count', $('#crime_count').val());
-                    form_data.append('date', $('#event_date').val());
+                    
+                    if ($('#structure_id').val() == 0) {
+                        form_data.append('structure_id', $('#region_id').val());
+                    } else {
+                        form_data.append('structure_id', $('#structure_id').val() || $('#region_id').val());
+                    }
+                
+                    form_data.append('substance', $('#substance').val());
+                    form_data.append('crime_type', $('#crime_type').val());
+                    form_data.append('event_date', $('#event_date').val());
+                
+                    form_data.append('situation_text', $('#situation_text').val());
+                    form_data.append('criminal_username', $('#criminal_username').val());
+              
                     $.ajax({
-                        url: 'hrajax.php?act=act_criminals',
+                        url: 'hrajax.php?act=act_crimes',
                         dataType: 'text',
                         cache: false,
                         contentType: false,
@@ -232,6 +343,7 @@
                         data: form_data,
                         type: 'post',
                         success: function(resdata) {
+                            //console.log(resdata);
                             var NewArray = resdata.split("<&sep&>");
                             if (NewArray[0] == 0) {
                                 location.reload();
@@ -249,7 +361,7 @@
         // Delete Record
         $('.datatables-projects tbody').on('click', '.delete', function() {
             var RowId = $(this).attr('rel');
-            $.get("hrajax.php?act=del_administrative_offenses&rowid=" + RowId, function(html) {
+            $.get("hrajax.php?act=del_staffs&rowid=" + RowId, function(html) {
                 if (html == 0) {
                     $("#row_" + RowId).remove();
                 }

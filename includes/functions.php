@@ -151,8 +151,9 @@ function GetCamUrl($camindex)
 function GetCamUrlBody($camindex)
 {
 	// AppKey va AppSecret
-	$app_key = "28494656";
-	$app_secret = "UpLav0h2OoY63DUkw114";
+		$app_key = "19237793";
+	$app_secret = "qPXC2OjLk66wyrbxJMRb";
+
 
 	// So'rov uchun URL
 	$uri = "/artemis/api/video/v1/cameras/previewURLs";

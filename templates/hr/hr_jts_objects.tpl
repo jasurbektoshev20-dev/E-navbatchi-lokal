@@ -174,7 +174,7 @@
               <!-- Maydoni -->
             <div class="col-sm-4">
               <label>Майдони</label>
-              <input required type="text" class="form-control" id="area" placeholder="Майдонини киритинг гектарда..." />
+              <input type="text" class="form-control" id="area" placeholder="Майдонини киритинг гектарда..." />
             </div>
 
             <!-- Chiroq -->
@@ -223,18 +223,18 @@
                <!-- Admin tel -->
             <div class="col-sm-4">
               <label>Администратор телефон рақамлари</label>
-              <input required type="text" class="form-control" id="admin_phone" placeholder="Телефон рақам киритинг..." />
+              <input type="text" class="form-control" id="admin_phone" placeholder="Телефон рақам киритинг..." />
             </div>
 
                <!-- Bozor raxbari -->
             <div class="col-sm-4">
               <label>Раҳбари</label>
-              <input required type="text" class="form-control" id="object_head" placeholder="Ҳудуд раҳбарини киритинг..." />
+              <input type="text" class="form-control" id="object_head" placeholder="Ҳудуд раҳбарини киритинг..." />
             </div>
 
             <div class="col-sm-4">
               <label>Раҳбар телефон рақами</label>
-              <input required type="text" class="form-control" id="head_phone" placeholder="Телефон рақамини киритинг..." />
+              <input type="text" class="form-control" id="head_phone" placeholder="Телефон рақамини киритинг..." />
             </div>
 
               <!-- Bozor rasmi -->
@@ -256,13 +256,13 @@
 
              <div class="col-sm-4">
               <label>Объект kuzatuv maskani кенглиги(lat)</label>
-              <input required type="text" class="form-control" id="observation_lat" placeholder="кенглигини киритинг..." />
+              <input type="text" class="form-control" id="observation_lat" placeholder="кенглигини киритинг..." />
             </div>
 
         
             <div class="col-sm-4">
               <label>Объект kuzatuv maskani узунлиги(lot)</label>
-              <input required type="text" class="form-control" id="observation_long" placeholder="узунлигини киритинг..." />
+              <input type="text" class="form-control" id="observation_long" placeholder="узунлигини киритинг..." />
             </div>
 
 
@@ -287,7 +287,7 @@
               >
 
               <select
-                required
+                
                 class="form-select d-none"
                 id="neighborhood_id"
                 name="neighborhood_id"
