@@ -40,18 +40,12 @@
                     <table class="datatables-projects table border-top">
                         <thead>
                             <tr>
-                                <th>No̱</th>
+                                <th>т/р</th>
                                 <th class="text-center">Ҳудуд</th>
                                 <th class="text-center">Бўлинма</th>
-                           
-                                <th class="text-center">{$Dict.date}</th>
-                           
-                                <th class="text-center">Жиноят тури</th>
-                                <th class="text-center">Модда</th>
-                             
-                      
-                                <th class="text-center">Жиноятчи ФИШ</th>
-                             
+                                <th class="text-center">{$Dict.date}</th>                     
+                                <th class="text-center">Тури</th>             
+                                <th class="text-center">Ҳарбий хизматчи ФИШ</th>                        
                                 <th class="text-center">Холат ҳақида қисқача</th>
                                 <th></th>
                             </tr>
@@ -65,11 +59,11 @@
                                  
                                      <td>{$Table.date}</td> 
                                    
-                                     <td>{$Table.crime_type}</td> 
-                                     <td>{$Table.substance}</td> 
+                                     <td>{$Table.injury_type}</td> 
+                                 
                                     
                                   
-                                    <td>{$Table.criminal_username}</td>
+                                    <td>{$Table.sick_username}</td>
                                  
                                     <td>{$Table.situation_text}</td>
                                     <td>
@@ -125,31 +119,24 @@
                         </div>
                    
                          <div class="col-sm-4">
-                            <label for="event_date" class="form-label">Жиноят бўлган вақт</label>
+                            <label for="event_date" class="form-label">Ҳолат вақти</label>
                             <input type="datetime" class="form-control" placeholder="DD-MM-YYYY" id="event_date"
                                 name="event_date" />
                          </div>
                       
                         <div class="col-sm-4">
-                            <label>Жиноят тури</label>
-                            <select required class="select form-control" name="crime_type" id="crime_type">
+                            <label>Тури</label>
+                            <select required class="select form-control" name="injury_type" id="injury_type">
                                 <option value="">{$Dict.choose}</option>
-                                    <option value="o'g'rilik">O'g'rilik</option>
-                                    <option value="janjal">janjal</option>
+                                    <option value="jismoniy">Jismoniy tayyorgarlikda</option>
+                                    <option value="amaliy">Amaliy mashqda</option>
                             </select>
                         </div> 
-                         <div class="col-sm-4">
-                            <label>Моддаси</label>
-                            <select required class="select form-control" name="substance" id="substance">
-                                <option value="">{$Dict.choose}</option>
-                                    <option value="144-modda">144-modda</option>
-                                    <option value="256-modda">256-modda</option>
-                            </select>
-                        </div> 
+                   
                  
                          <div class="col-sm-4">
-                            <label>Жиноятчи ФИШ</label>
-                            <input required type="text" class="form-control" name="criminal_username" id="criminal_username" value="">
+                            <label>Ҳарбий хизматчи ФИШ</label>
+                            <input required type="text" class="form-control" name="sick_username" id="sick_username" value="">
                         </div>
                         
                          <div class="col-sm-6">
@@ -254,14 +241,13 @@
             $('#structure_id').val(0);
             $('#structure_id').trigger("change");
      
-              $('#substance').val(0);
-            $('#substance').trigger("change");
-              $('#crime_type').val(0);
-            $('#crime_type').trigger("change");
+         
+              $('#injury_type').val(0);
+            $('#injury_type').trigger("change");
             $('#event_date').val("");
     
             $('#situation_text').val("");
-            $('#criminal_username').val("");
+            $('#sick_username').val("");
         
           
         });
@@ -277,12 +263,12 @@
                 $('#region_id').val(sInfo.structure_id);
                 $('#structure_id').val(sInfo.structure_id);
           
-                $('#substance').val(sInfo.substance);
-                $('#crime_type').val(sInfo.crime_type);
+              
+                $('#injury_type').val(sInfo.injury_type);
                 $('#event_date').val(sInfo.event_date);
           
                 $('#situation_text').val(sInfo.situation_text);
-                $('#criminal_username').val(sInfo.criminal_username);
+                $('#sick_username').val(sInfo.sick_username);
              
        
              
@@ -327,12 +313,12 @@
                         form_data.append('structure_id', $('#structure_id').val() || $('#region_id').val());
                     }
                 
-                    form_data.append('substance', $('#substance').val());
-                    form_data.append('crime_type', $('#crime_type').val());
+            
+                    form_data.append('injury_type', $('#injury_type').val());
                     form_data.append('event_date', $('#event_date').val());
                 
                     form_data.append('situation_text', $('#situation_text').val());
-                    form_data.append('criminal_username', $('#criminal_username').val());
+                    form_data.append('sick_username', $('#sick_username').val());
               
                     $.ajax({
                         url: 'hrajax.php?act=act_crimes',

@@ -670,6 +670,11 @@
                             <i class="tf-icons ti ti-screenshot"></i>
                         </button>
                     </div>
+                      <div class="col-1">
+                        <button class="px-2 py-1 btn btn-success ml-2" type="button">
+                              <i class="ti ti-bell-ringing"></i>
+                        </button>
+                    </div>
                     <div class="col radio_call text-danger" style="text-align: right; font-size: 20px">
                         
                     </div>
@@ -865,17 +870,14 @@
                             <h3>${marker.object_name}</h3>
                         </div>
                         <hr class="my-0 hr-line" />
-                        <div class="col-6 mt-3 popup-btn d-flex gap-2">
+                        <div class="col-4 mt-3 popup-btn d-flex gap-2">
                         <h6 class="icon-btn" onclick="openBodyCam(${marker.id})">
                             <i class="ti ti-camera"></i>
                         </h6>
                         <h6 class="icon-btn" onclick='openStaffInfo(${marker.id})'>
                             <i class="ti ti-users"></i>
                         </h6>
-                        <h6 class="icon-btn" onclick='btnWarning(${marker.id})'>
-                         <i class="ti ti-bell-ringing"></i>
-
-                        </h6>
+                    
                         </div>
                     </div>`;
         }
