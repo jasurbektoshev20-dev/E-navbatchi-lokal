@@ -1270,6 +1270,32 @@
    box-shadow: inset 0 0 6px rgba(0, 255, 136, 0.6); 
 }
 
+.search-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 220px;
+  overflow-y: auto;
+  background: #565555;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  list-style: none;
+  padding: 0;
+  margin: 4px 0 0;
+  z-index: 1000;
+  display: none;
+}
+
+.search-dropdown li {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.search-dropdown li:hover {
+  background: #f1f5f9;
+}
+
 
 
   {/literal}
@@ -1505,7 +1531,7 @@
                                 </select>
                               </div>
 
-                              <div class="mb-1 col-12">
+                              {* <div class="mb-1 col-12">
                                 <label for="objectSelect" id="objectLabelLabel" class="form-label text-warning fs-5">Объект номи</label>
                                 <select id="objectSelect" class="form-select">
                                   <option value="">Танланг</option>
@@ -1513,7 +1539,30 @@
                                   <option value="{$Item1.id}">{$Item1.name}</option>
                                   {/foreach}
                                 </select>
-                              </div>
+                              </div> *}
+                              <div class="mb-1 col-12 position-relative" id="object-wrapper">
+                                  <label class="form-label text-warning fs-5">Объект номи</label>
+
+                                  <input
+                                    type="text"
+                                    id="object_search"
+                                    class="form-control"
+                                    placeholder="Объектни қидиринг..."
+                                    autocomplete="off"
+                                  >
+
+                                  <!-- select form submit va change uchun -->
+                                  <select id="objectSelect" class="form-select d-none">
+                                    <option value="">Танланг</option>
+                                    {foreach from=$Objects item=Item1}
+                                      <option value="{$Item1.id}">{$Item1.name}</option>
+                                    {/foreach}
+                                  </select>
+
+                                  <ul id="object_list" class="search-dropdown"></ul>
+                                </div>
+
+
 
                           <div class="mb-1 col-12">
                               <label class="form-label text-warning fs-5">{$Dict.in_service}</label>
@@ -1830,7 +1879,7 @@
         let in_service = 0;
         let lastCarsPositions;
         let allCars = [];
-
+        const objectMarkers = {};
 
       let object_id, object_type
 
@@ -1864,23 +1913,6 @@
       }
     });
 
-    // 🔥 BODY CAMERA CLUSTER
-          // const bodyCamCluster = L.markerClusterGroup({
-          //     chunkedLoading: true,          // katta performance
-          //     spiderfyOnMaxZoom: true,
-          //     disableClusteringAtZoom: 17,   // 17 dan keyin bittalashadi
-          //     iconCreateFunction: function (cluster) {
-          //         return L.divIcon({
-          //             html: `
-          //                 <div class="cluster-icon cluster-bodycam">
-          //                     ${cluster.getChildCount()}
-          //                 </div>
-          //             `,
-          //             className: 'my-cluster',
-          //             iconSize: L.point(42, 42)
-          //         });
-          //     }
-          // });
           const bodyCamCluster = L.markerClusterGroup({
               chunkedLoading: true,
               spiderfyOnMaxZoom: true,
@@ -2127,6 +2159,14 @@ map.addLayer(objectsCluster);
               });
             });
 
+            if (object_id && response.length === 1) {
+              const m = response[0];
+              map.flyTo([m.lat, m.long], 17, {
+                animate: true,
+                duration: 1.2
+              });
+            }
+
             // boundsni clusterdan olamiz
            // faqat 1-marta avtomatik zoom
           if (!objectsBoundsApplied) {
@@ -2356,11 +2396,108 @@ $(document).on('click', '.open-bodycam', async function (e) {
     })
 
 
-    $('#objectSelect').on('change', function() {
-      let id = this.value;
-      object_id = id
-      getObjects()
-    })
+    //  $('#objectSelect').on('change', function() {
+    //     let id = this.value;
+    //     object_id = id
+    //     getObjects()
+    //   })
+
+    // let object_id = null;
+
+// SELECT CHANGE (sizdagi funksiya)
+$('#objectSelect').on('change', function () {
+  object_id = this.value;
+  console.log('Selected object_id:', object_id);
+  getObjects(); // sizning funksiyangiz
+});
+
+const objectSearch = document.getElementById('object_search');
+const objectSelect = document.getElementById('objectSelect');
+const objectList   = document.getElementById('object_list');
+const wrapper      = document.getElementById('object-wrapper');
+
+// select → JS array
+const objects = Array.from(objectSelect.options)
+  .filter(o => o.value)
+  .map(o => ({ id: o.value, name: o.text }));
+
+// 🔹 Ro‘yxatni chizish funksiyasi
+function renderList(list) {
+  objectList.innerHTML = '';
+
+  if (!list.length) {
+    objectList.style.display = 'none';
+    return;
+  }
+
+  list.forEach(item => {
+    const li = document.createElement('li');
+    li.textContent = item.name;
+
+    li.onclick = () => {
+      objectSearch.value = item.name;
+      objectSelect.value = item.id;
+
+      // 🔥 change eventni qo‘lda chaqiramiz
+      objectSelect.dispatchEvent(new Event('change'));
+
+      objectList.style.display = 'none';
+    };
+
+    objectList.appendChild(li);
+  });
+
+  objectList.style.display = 'block';
+}
+
+// 🔹 Inputga yozilganda filter
+// objectSearch.addEventListener('input', function () {
+//   const val = this.value.toLowerCase();
+
+//   if (!val) {
+//     renderList(objects);
+//     return;
+//   }
+
+//   const filtered = objects.filter(o =>
+//     o.name.toLowerCase().includes(val)
+//   );
+
+//   renderList(filtered);
+// });
+
+objectSearch.addEventListener('input', function () {
+  const val = this.value.toLowerCase();
+
+  // 🔥 AGAR INPUT TOZALANSA
+  if (!val) {
+    object_id = null;                 // filter o‘chadi
+    objectSelect.value = '';          // select reset
+    objectList.style.display = 'none';
+
+    objectsBoundsApplied = false;     // 🔥 fitBounds yana ishlashi uchun
+    getObjects();                     // 🔥 HAMMA OBYEKTNI QAYTA OLAMIZ
+    return;
+  }
+
+  // Aks holda qidiruv ishlaydi
+  renderList(
+    objects.filter(o => o.name.toLowerCase().includes(val))
+  );
+});
+
+
+// 🔹 Input bosilganda to‘liq ro‘yxat chiqadi
+objectSearch.addEventListener('focus', function () {
+  renderList(objects);
+});
+
+// 🔹 Tashqariga bosilganda yopiladi
+document.addEventListener('click', function (e) {
+  if (!e.target.closest('#object-wrapper')) {
+    objectList.style.display = 'none';
+  }
+});
 
 
 
