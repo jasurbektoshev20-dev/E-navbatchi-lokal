@@ -270,14 +270,31 @@ switch ($Act) {
 
 	case "hr_events":
 
-		$query = "SELECT id, name{$slang} as name FROM hr.structure ";
+		$query = "SELECT id, name{$slang} AS name FROM hr.structure ";
+
 		if ($UserStructure > 1) {
-			$query .= " where id = {$UserStructure}";
+
+			$query .= "
+				WHERE id IN (
+					SELECT id FROM hr.structure WHERE id = {$UserStructure}
+					UNION
+					SELECT id FROM hr.structure WHERE parent = {$UserStructure}
+				)
+				ORDER BY turn
+			";
+
 		} else {
-			$query .= " where id != 1 and id < 16 order by turn";
+
+			$query .= "
+				WHERE id != 1 
+				AND id < 16
+				ORDER BY turn
+			";
 		}
+
 		$sql->query($query);
 		$Regions = $sql->fetchAll();
+
 
 		// $query = "SELECT id, name{$slang} as name FROM hr.structure";
 		// if ($UserStructure > 1) {
@@ -298,6 +315,7 @@ switch ($Act) {
 
 
 		$query = "SELECT id, object_name as name FROM hr.jts_objects";
+		
 		$sql->query($query);
 		$jts_objects = $sql->fetchAll();
 
@@ -328,7 +346,9 @@ switch ($Act) {
         left join hr.jts_objects j on j.id = m.object_id
 		left join tur.event_category ec on ec.id = m.event_category_id
         ";
-
+		if ($UserStructure > 1) {
+			$query .= " WHERE m.region_id = {$UserStructure} ";
+		}
 
 		$query .= " order by m.id";
 		$sql->query($query);
@@ -899,6 +919,8 @@ break;
 		));
 		break;
 	/// personal_staff
+
+
 
 	/// jts_objects
 	case "hr_jts_objects":
@@ -2382,6 +2404,22 @@ break;
 
 			$smarty->assign('regionName', $regionName);
 			$smarty->assign('events', $events);
+			break;
+
+		case "hr_add_injuries":
+
+			$query  = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t 
+			where t.id > 1 and t.id < 16
+			ORDER BY t.turn ASC";
+			$sql->query($query);
+			$Regions = $sql->fetchAll();
+
+
+			$smarty->assign(array(
+				
+				'Regions' => $Regions,
+				
+			));
 			break;
 
 			

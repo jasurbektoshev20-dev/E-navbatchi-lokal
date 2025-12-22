@@ -1291,101 +1291,271 @@ switch ($Action) {
 
 
 
-	case "jts_objects":
-		$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
+	// case "jts_objects":
+	// 	// header('Content-Type: application/json; charset=utf-8');
+	// 	$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
 
-		// 1) Statistika (COUNT)
-		$query = "SELECT COUNT(t.id) as value, b.id, b.name{$slang} as name
-		FROM hr.jts_objects t
-		LEFT JOIN hr.involved_objects b ON b.id = t.object_type
-		WHERE 1=1 ";
+	// 	// 1) Statistika (COUNT)
+	// 	$query = "SELECT COUNT(t.id) as value, b.id, b.name{$slang} as name
+	// 	FROM hr.jts_objects t
+	// 	LEFT JOIN hr.involved_objects b ON b.id = t.object_type
+	// 	WHERE 1=1 ";
 
-		if ($UserStructure > 1) {
-			$query .= " AND t.structure_id = {$UserStructure} ";
-		}
-		if ($structure_id > 0) {
-			$query .= " AND t.structure_id = {$structure_id} ";
-		}
-		$query .= " GROUP BY b.id ORDER BY b.id ASC";
+	// 	if ($UserStructure > 1) {
+	// 		$query .= " AND t.structure_id = {$UserStructure} ";
+	// 	}
+	// 	if ($structure_id > 0) {
+	// 		$query .= " AND t.structure_id = {$structure_id} ";
+	// 	}
 
-		$sql->query($query);
-		$stats = $sql->fetchAll();
+	// 	$query .= " GROUP BY b.id ORDER BY b.id ASC";
 
-		// 2) Statistika hududlar kesimida
-		$regionQuery = "SELECT 
-				s.id,
-				s.name{$slang} as name,
-				COUNT(t.id) as value
-			FROM hr.jts_objects t
-			LEFT JOIN hr.structure s ON s.id = t.structure_id
-			WHERE 1=1
-		";
+	// 	$sql->query($query);
+	// 	$stats = $sql->fetchAll();
 
-		if ($UserStructure > 1) {
-			$regionQuery .= " AND t.structure_id = {$UserStructure} ";
-		}
-		if ($structure_id > 0) {
-			$regionQuery .= " AND t.structure_id = {$structure_id} ";
-		}
+	// 	// 2) Statistika hududlar kesimida
+	// 	$regionQuery = "SELECT 
+	// 			s.id,
+	// 			s.name{$slang} as name,
+	// 			COUNT(t.id) as value
+	// 		FROM hr.jts_objects t
+	// 		LEFT JOIN hr.structure s ON s.id = t.structure_id
+	// 		WHERE 1=1
+	// 	";
 
-		$regionQuery .= " GROUP BY s.id ORDER BY s.id ASC";
+	// 	if ($UserStructure > 1) {
+	// 		$regionQuery .= " AND t.structure_id = {$UserStructure} ";
+	// 	}
+	// 	if ($structure_id > 0) {
+	// 		$regionQuery .= " AND t.structure_id = {$structure_id} ";
+	// 	}
 
-		$sql->query($regionQuery);
-		$stat_region = $sql->fetchAll();
+	// 	$regionQuery .= " GROUP BY s.id ORDER BY s.id ASC";
 
-
-		// 3) Ob'ektlar ro'yxati
-		$listQuery = "SELECT 
-				t.id,
-				t.object_name,
-				b.id as type_id,
-				b.name{$slang} AS type_name
-			FROM hr.jts_objects t
-			LEFT JOIN hr.involved_objects b ON b.id = t.object_type
-			WHERE 1=1
-		";
-
-		if ($UserStructure > 1) {
-			$listQuery .= " AND t.structure_id = {$UserStructure} ";
-		}
-		if ($structure_id > 0) {
-			$listQuery .= " AND t.structure_id = {$structure_id} ";
-		}
-
-		$listQuery .= " ORDER BY b.name{$slang} ASC, t.object_name ASC";
-
-		$sql->query($listQuery);
-		$list = $sql->fetchAll();
+	// 	$sql->query($regionQuery);
+	// 	$stat_region = $sql->fetchAll();
 
 
-		// 3) Guruhlash (type → object list)
-		$grouped = [];
-		foreach ($list as $row) {
-			$typeId = $row['type_id'];
+	// 	// 3) Ob'ektlar ro'yxati
+	// 	$listQuery = "SELECT 
+	// 			t.id,
+	// 			t.object_name,
+	// 			b.id as type_id,
+	// 			b.name{$slang} AS type_name
+	// 		FROM hr.jts_objects t
+	// 		LEFT JOIN hr.involved_objects b ON b.id = t.object_type
+	// 		WHERE 1=1
+	// 	";
 
-			if (!isset($grouped[$typeId])) {
-				$grouped[$typeId] = [
-					"id" => $typeId,
-					"name" => $row['type_name'],
-					"objects" => []
+	// 	if ($UserStructure > 1) {
+	// 		$listQuery .= " AND t.structure_id = {$UserStructure} ";
+	// 	}
+	// 	if ($structure_id > 0) {
+	// 		$listQuery .= " AND t.structure_id = {$structure_id} ";
+	// 	}
+
+
+	// 	$listQuery .= " ORDER BY b.name{$slang} ASC, t.object_name ASC";
+
+	// 	$sql->query($listQuery);
+	// 	$list = $sql->fetchAll();
+
+
+	// 	// 3) Guruhlash (type → object list)
+	// 	$grouped = [];
+	// 	foreach ($list as $row) {
+	// 		$typeId = $row['type_id'];
+
+	// 		if (!isset($grouped[$typeId])) {
+	// 			$grouped[$typeId] = [
+	// 				"id" => $typeId,
+	// 				"name" => $row['type_name'],
+	// 				"objects" => []
+	// 			];
+	// 		}
+
+	// 		$grouped[$typeId]["objects"][] = [
+	// 			"id" => $row['id'],
+	// 			"object_name" => $row['object_name']
+	// 		];
+	// 	}
+
+	// 	// Convert to numeric array
+	// 	$grouped = array_values($grouped);
+
+	// 	// Final response
+	// 	$res = json_encode([
+	// 		"stats" => $stats,
+	// 		"list" => $grouped,
+	// 		"stat_region" => $stat_region
+	// 	]);
+	// 	break;
+		case "jts_objects":
+
+			$structure_id = isset($_GET['structure_id']) ? (int)$_GET['structure_id'] : 0;
+
+			/*
+			|--------------------------------------------------------------------------
+			| 1) Statistikalar (Pie chart)
+			|--------------------------------------------------------------------------
+			*/
+			$query = "
+				SELECT 
+					COUNT(t.id) AS value,
+					b.id,
+					b.name{$slang} AS name
+				FROM hr.jts_objects t
+				LEFT JOIN hr.involved_objects b ON b.id = t.object_type
+				WHERE 1=1
+			";
+
+			if ($UserStructure > 1) {
+				$query .= "
+					AND t.structure_id IN (
+						SELECT id FROM hr.structure WHERE id = {$UserStructure}
+						UNION
+						SELECT id FROM hr.structure WHERE parent = {$UserStructure}
+					)
+				";
+			}
+
+			if ($structure_id > 0) {
+				$query .= "
+					AND t.structure_id IN (
+						SELECT id FROM hr.structure WHERE id = {$structure_id}
+						UNION
+						SELECT id FROM hr.structure WHERE parent = {$structure_id}
+					)
+				";
+			}
+
+			$query .= " GROUP BY b.id ORDER BY b.id ASC";
+
+			$sql->query($query);
+			$stats = $sql->fetchAll();
+
+
+			/*
+			|--------------------------------------------------------------------------
+			| 2) Hududlar kesimida (Bar chart)
+			|--------------------------------------------------------------------------
+			*/
+			$regionQuery = "
+				SELECT 
+					s.id,
+					s.name{$slang} AS name,
+					COUNT(t.id) AS value
+				FROM hr.jts_objects t
+				LEFT JOIN hr.structure s ON s.id = t.structure_id
+				WHERE 1=1
+			";
+
+			if ($UserStructure > 1) {
+				$regionQuery .= "
+					AND t.structure_id IN (
+						SELECT id FROM hr.structure WHERE id = {$UserStructure}
+						UNION
+						SELECT id FROM hr.structure WHERE parent = {$UserStructure}
+					)
+				";
+			}
+
+			if ($structure_id > 0) {
+				$regionQuery .= "
+					AND t.structure_id IN (
+						SELECT id FROM hr.structure WHERE id = {$structure_id}
+						UNION
+						SELECT id FROM hr.structure WHERE parent = {$structure_id}
+					)
+				";
+			}
+
+			$regionQuery .= " GROUP BY s.id ORDER BY s.id ASC";
+
+			$sql->query($regionQuery);
+			$stat_region = $sql->fetchAll();
+
+
+			/*
+			|--------------------------------------------------------------------------
+			| 3) Ob'ektlar ro‘yxati
+			|--------------------------------------------------------------------------
+			*/
+			$listQuery = "
+				SELECT 
+					t.id,
+					t.object_name,
+					b.id AS type_id,
+					b.name{$slang} AS type_name
+				FROM hr.jts_objects t
+				LEFT JOIN hr.involved_objects b ON b.id = t.object_type
+				WHERE 1=1
+			";
+
+			if ($UserStructure > 1) {
+				$listQuery .= "
+					AND t.structure_id IN (
+						SELECT id FROM hr.structure WHERE id = {$UserStructure}
+						UNION
+						SELECT id FROM hr.structure WHERE parent = {$UserStructure}
+					)
+				";
+			}
+
+			if ($structure_id > 0) {
+				$listQuery .= "
+					AND t.structure_id IN (
+						SELECT id FROM hr.structure WHERE id = {$structure_id}
+						UNION
+						SELECT id FROM hr.structure WHERE parent = {$structure_id}
+					)
+				";
+			}
+
+			$listQuery .= " ORDER BY b.name{$slang} ASC, t.object_name ASC";
+
+			$sql->query($listQuery);
+			$list = $sql->fetchAll();
+
+
+			/*
+			|--------------------------------------------------------------------------
+			| 4) Guruhlash (type → object list)
+			|--------------------------------------------------------------------------
+			*/
+			$grouped = [];
+
+			foreach ($list as $row) {
+				$typeId = $row['type_id'];
+
+				if (!isset($grouped[$typeId])) {
+					$grouped[$typeId] = [
+						"id"      => $typeId,
+						"name"    => $row['type_name'],
+						"objects" => []
+					];
+				}
+
+				$grouped[$typeId]["objects"][] = [
+					"id"          => $row['id'],
+					"object_name" => $row['object_name']
 				];
 			}
 
-			$grouped[$typeId]["objects"][] = [
-				"id" => $row['id'],
-				"object_name" => $row['object_name']
-			];
-		}
+			$grouped = array_values($grouped);
 
-		// Convert to numeric array
-		$grouped = array_values($grouped);
 
-		// Final response
-		$res = json_encode([
-			"stats" => $stats,
-			"list" => $grouped,
-			"stat_region" => $stat_region
-		]);
+			/*
+			|--------------------------------------------------------------------------
+			| 5) Final JSON
+			|--------------------------------------------------------------------------
+			*/
+			$res = json_encode([
+				"stats"        => $stats,
+				"stat_region" => $stat_region,
+				"list"         => $grouped
+			]);
+
 		break;
 
 
@@ -1397,40 +1567,83 @@ switch ($Action) {
 
 
 	case "public_events":
-		$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
 
-		// 1) Statistika (COUNT)
-		$query = "SELECT COUNT(t.id) as value, b.id, b.name{$slang} as name
-				FROM hr.public_event1 t
-				LEFT JOIN tur.public_event_types b ON b.id = t.event_type
-				WHERE 1=1 ";
+		$structure_id = isset($_GET['structure_id']) ? (int)$_GET['structure_id'] : 0;
+
+		/*
+		|--------------------------------------------------------------------------
+		| 1) Statistikalar (Pie chart)
+		|--------------------------------------------------------------------------
+		*/
+		$query = "
+			SELECT 
+				COUNT(t.id) AS value,
+				b.id,
+				b.name{$slang} AS name
+			FROM hr.public_event1 t
+			LEFT JOIN tur.public_event_types b ON b.id = t.event_type
+			WHERE 1=1
+		";
 
 		if ($UserStructure > 1) {
-			$query .= " AND t.region_id = {$UserStructure} ";
+			$query .= "
+				AND t.region_id IN (
+					SELECT id FROM hr.structure WHERE id = {$UserStructure}
+					UNION
+					SELECT id FROM hr.structure WHERE parent = {$UserStructure}
+				)
+			";
 		}
+
 		if ($structure_id > 0) {
-			$query .= " AND t.region_id = {$structure_id} ";
+			$query .= "
+				AND t.region_id IN (
+					SELECT id FROM hr.structure WHERE id = {$structure_id}
+					UNION
+					SELECT id FROM hr.structure WHERE parent = {$structure_id}
+				)
+			";
 		}
+
 		$query .= " GROUP BY b.id ORDER BY b.id ASC";
 
 		$sql->query($query);
 		$stats = $sql->fetchAll();
 
-		// 2) Statistika hududlar kesimida
-		$regionQuery = "SELECT 
-						s.id,
-						s.name{$slang} as name,
-						COUNT(t.id) as value
-					FROM hr.public_event1 t
-					LEFT JOIN hr.structure s ON s.id = t.region_id
-					WHERE 1=1
-				";
+
+		/*
+		|--------------------------------------------------------------------------
+		| 2) Hududlar kesimida (Bar chart)
+		|--------------------------------------------------------------------------
+		*/
+		$regionQuery = "
+			SELECT 
+				s.id,
+				s.name{$slang} AS name,
+				COUNT(t.id) AS value
+			FROM hr.public_event1 t
+			LEFT JOIN hr.structure s ON s.id = t.region_id
+			WHERE 1=1
+		";
 
 		if ($UserStructure > 1) {
-			$regionQuery .= " AND t.region_id = {$UserStructure} ";
+			$regionQuery .= "
+				AND t.region_id IN (
+					SELECT id FROM hr.structure WHERE id = {$UserStructure}
+					UNION
+					SELECT id FROM hr.structure WHERE parent = {$UserStructure}
+				)
+			";
 		}
+
 		if ($structure_id > 0) {
-			$regionQuery .= " AND t.region_id = {$structure_id} ";
+			$regionQuery .= "
+				AND t.region_id IN (
+					SELECT id FROM hr.structure WHERE id = {$structure_id}
+					UNION
+					SELECT id FROM hr.structure WHERE parent = {$structure_id}
+				)
+			";
 		}
 
 		$regionQuery .= " GROUP BY s.id ORDER BY s.id ASC";
@@ -1439,23 +1652,41 @@ switch ($Action) {
 		$stat_region = $sql->fetchAll();
 
 
-		// 3) Ob'ektlar ro'yxati
-		$listQuery = "SELECT 
-						t.id,
-						j.object_name,
-						b.id as type_id,
-						b.name{$slang} AS type_name
-					FROM hr.public_event1 t
-					LEFT JOIN tur.public_event_types b ON b.id = t.event_type
-					LEFT JOIN hr.jts_objects j ON j.id = t.object_id
-					WHERE 1=1
-				";
+		/*
+		|--------------------------------------------------------------------------
+		| 3) Tadbirlar ro‘yxati
+		|--------------------------------------------------------------------------
+		*/
+		$listQuery = "
+			SELECT 
+				t.id,
+				j.object_name,
+				b.id AS type_id,
+				b.name{$slang} AS type_name
+			FROM hr.public_event1 t
+			LEFT JOIN tur.public_event_types b ON b.id = t.event_type
+			LEFT JOIN hr.jts_objects j ON j.id = t.object_id
+			WHERE 1=1
+		";
 
 		if ($UserStructure > 1) {
-			$listQuery .= " AND t.region_id = {$UserStructure} ";
+			$listQuery .= "
+				AND t.region_id IN (
+					SELECT id FROM hr.structure WHERE id = {$UserStructure}
+					UNION
+					SELECT id FROM hr.structure WHERE parent = {$UserStructure}
+				)
+			";
 		}
+
 		if ($structure_id > 0) {
-			$listQuery .= " AND t.region_id = {$structure_id} ";
+			$listQuery .= "
+				AND t.region_id IN (
+					SELECT id FROM hr.structure WHERE id = {$structure_id}
+					UNION
+					SELECT id FROM hr.structure WHERE parent = {$structure_id}
+				)
+			";
 		}
 
 		$listQuery .= " ORDER BY b.name{$slang} ASC, j.object_name ASC";
@@ -1464,137 +1695,216 @@ switch ($Action) {
 		$list = $sql->fetchAll();
 
 
-		// 3) Guruhlash (type → object list)
+		/*
+		|--------------------------------------------------------------------------
+		| 4) Guruhlash (type → object list)
+		|--------------------------------------------------------------------------
+		*/
 		$grouped = [];
+
 		foreach ($list as $row) {
 			$typeId = $row['type_id'];
 
 			if (!isset($grouped[$typeId])) {
 				$grouped[$typeId] = [
-					"id" => $typeId,
-					"name" => $row['type_name'],
+					"id"      => $typeId,
+					"name"    => $row['type_name'],
 					"objects" => []
 				];
 			}
 
 			$grouped[$typeId]["objects"][] = [
-				"id" => $row['id'],
+				"id"          => $row['id'],
 				"object_name" => $row['object_name']
 			];
 		}
 
-		// Convert to numeric array
 		$grouped = array_values($grouped);
-		// Final response
+
+
+		/*
+		|--------------------------------------------------------------------------
+		| 5) Final JSON
+		|--------------------------------------------------------------------------
+		*/
 		$res = json_encode([
-			"stats" => $stats,
-			"list" => $grouped,
-			"stat_region" => $stat_region
+			"stats"        => $stats,
+			"stat_region" => $stat_region,
+			"list"         => $grouped
 		]);
 
-		break;
-
-
+	break;
 
 
 
 	case "reyd_events":
-		$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
 
-		// 1) Statistika (COUNT)
-		$query = "SELECT SUM(t.staff_count) as value, b.id, b.name{$slang} as name
-				FROM tur.reyd_events t
-				LEFT JOIN ref.reyd_event_types b ON b.id = t.type
-				WHERE 1=1 ";
+    $structure_id = isset($_GET['structure_id']) ? (int)$_GET['structure_id'] : 0;
 
-		if ($UserStructure > 1) {
-			$query .= " AND t.structure_id = {$UserStructure} ";
-		}
-		if ($structure_id > 0) {
-			$query .= " AND t.structure_id = {$structure_id} ";
-		}
-		$query .= " GROUP BY b.id ORDER BY b.id ASC";
+    /*
+    |--------------------------------------------------------------------------
+    | 1) Statistikalar (Pie chart)
+    |--------------------------------------------------------------------------
+    */
+    $query = "
+        SELECT 
+            SUM(t.staff_count) AS value,
+            b.id,
+            b.name{$slang} AS name
+        FROM tur.reyd_events t
+        LEFT JOIN ref.reyd_event_types b ON b.id = t.type
+        WHERE 1=1
+    ";
 
-		$sql->query($query);
-		$stats = $sql->fetchAll();
+    // USER structure
+    if ($UserStructure > 1) {
+        $query .= "
+            AND t.structure_id IN (
+                SELECT id FROM hr.structure WHERE id = {$UserStructure}
+                UNION
+                SELECT id FROM hr.structure WHERE parent = {$UserStructure}
+            )
+        ";
+    }
 
-		// 2) Statistika hududlar kesimida
-		$regionQuery = "SELECT 
-						s.id,
-						s.name{$slang} as name,
-						SUM(t.staff_count) as value
-					FROM tur.reyd_events t
-					LEFT JOIN hr.structure s ON s.id = t.structure_id
-					WHERE 1=1
-				";
+    // SELECT orqali kelgan structure
+    if ($structure_id > 0) {
+        $query .= "
+            AND t.structure_id IN (
+                SELECT id FROM hr.structure WHERE id = {$structure_id}
+                UNION
+                SELECT id FROM hr.structure WHERE parent = {$structure_id}
+            )
+        ";
+    }
 
-		if ($UserStructure > 1) {
-			$regionQuery .= " AND t.structure_id = {$UserStructure} ";
-		}
-		if ($structure_id > 0) {
-			$regionQuery .= " AND t.structure_id = {$structure_id} ";
-		}
+    $query .= " GROUP BY b.id ORDER BY b.id ASC";
 
-		$regionQuery .= " GROUP BY s.id ORDER BY s.id ASC";
-
-		$sql->query($regionQuery);
-		$stat_region = $sql->fetchAll();
-
-
-		// 3) Ob'ektlar ro'yxati
-		$listQuery = "SELECT 
-						t.id,
-						b.id as type_id,
-
-						b.name{$slang} AS type_name
-					FROM tur.reyd_events t
-					LEFT JOIN ref.reyd_event_types b ON b.id = t.type
-					-- LEFT JOIN hr.jts_objects j ON j.id = t.object_id
-					WHERE 1=1
-				";
-
-		if ($UserStructure > 1) {
-			$listQuery .= " AND t.structure_id = {$UserStructure} ";
-		}
-		if ($structure_id > 0) {
-			$listQuery .= " AND t.structure_id = {$structure_id} ";
-		}
-
-		$listQuery .= " ORDER BY b.name{$slang} ASC";
-
-		$sql->query($listQuery);
-		$list = $sql->fetchAll();
+    $sql->query($query);
+    $stats = $sql->fetchAll();
 
 
-		// 3) Guruhlash (type → object list)
-		$grouped = [];
-		foreach ($list as $row) {
-			$typeId = $row['type_id'];
+    /*
+    |--------------------------------------------------------------------------
+    | 2) Hududlar kesimida (Bar chart)
+    |--------------------------------------------------------------------------
+    */
+    $regionQuery = "
+        SELECT 
+            s.id,
+            s.name{$slang} AS name,
+            SUM(t.staff_count) AS value
+        FROM tur.reyd_events t
+        LEFT JOIN hr.structure s ON s.id = t.structure_id
+        WHERE 1=1
+    ";
 
-			if (!isset($grouped[$typeId])) {
-				$grouped[$typeId] = [
-					"id" => $typeId,
-					"name" => $row['type_name'],
-					"objects" => []
-				];
-			}
+    if ($UserStructure > 1) {
+        $regionQuery .= "
+            AND t.structure_id IN (
+                SELECT id FROM hr.structure WHERE id = {$UserStructure}
+                UNION
+                SELECT id FROM hr.structure WHERE parent = {$UserStructure}
+            )
+        ";
+    }
 
-			$grouped[$typeId]["objects"][] = [
-				"id" => $row['id'],
-				// "object_name" => $row['object_name']
-			];
-		}
+    if ($structure_id > 0) {
+        $regionQuery .= "
+            AND t.structure_id IN (
+                SELECT id FROM hr.structure WHERE id = {$structure_id}
+                UNION
+                SELECT id FROM hr.structure WHERE parent = {$structure_id}
+            )
+        ";
+    }
 
-		// Convert to numeric array
-		$grouped = array_values($grouped);
-		// Final response
-		$res = json_encode([
-			"stats" => $stats,
-			"list" => $grouped,
-			"stat_region" => $stat_region
-		]);
+    $regionQuery .= " GROUP BY s.id ORDER BY s.id ASC";
 
-		break;
+    $sql->query($regionQuery);
+    $stat_region = $sql->fetchAll();
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | 3) Tadbirlar ro‘yxati
+    |--------------------------------------------------------------------------
+    */
+    $listQuery = "
+        SELECT 
+            t.id,
+            b.id AS type_id,
+            b.name{$slang} AS type_name
+        FROM tur.reyd_events t
+        LEFT JOIN ref.reyd_event_types b ON b.id = t.type
+        WHERE 1=1
+    ";
+
+    if ($UserStructure > 1) {
+        $listQuery .= "
+            AND t.structure_id IN (
+                SELECT id FROM hr.structure WHERE id = {$UserStructure}
+                UNION
+                SELECT id FROM hr.structure WHERE parent = {$UserStructure}
+            )
+        ";
+    }
+
+    if ($structure_id > 0) {
+        $listQuery .= "
+            AND t.structure_id IN (
+                SELECT id FROM hr.structure WHERE id = {$structure_id}
+                UNION
+                SELECT id FROM hr.structure WHERE parent = {$structure_id}
+            )
+        ";
+    }
+
+    $listQuery .= " ORDER BY b.name{$slang} ASC";
+
+    $sql->query($listQuery);
+    $list = $sql->fetchAll();
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | 4) Guruhlash (type → objects)
+    |--------------------------------------------------------------------------
+    */
+    $grouped = [];
+
+    foreach ($list as $row) {
+        $typeId = $row['type_id'];
+
+        if (!isset($grouped[$typeId])) {
+            $grouped[$typeId] = [
+                "id"      => $typeId,
+                "name"    => $row['type_name'],
+                "objects" => []
+            ];
+        }
+
+        $grouped[$typeId]["objects"][] = [
+            "id" => $row['id']
+        ];
+    }
+
+    $grouped = array_values($grouped);
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | 5) Final JSON
+    |--------------------------------------------------------------------------
+    */
+    $res = json_encode([
+        "stats"        => $stats,
+        "stat_region" => $stat_region,
+        "list"         => $grouped
+    ]);
+
+	break;
+
 
 
 

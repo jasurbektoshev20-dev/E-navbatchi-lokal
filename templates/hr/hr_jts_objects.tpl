@@ -348,7 +348,7 @@
 
 <script>
     var AJAXPHP = "ajax.php";
-    var HRAJAXPHP = "hrajax{$AddURL}.php";
+    var HRAJAXPHP = "hrajax.php";
 
     {literal}
 
