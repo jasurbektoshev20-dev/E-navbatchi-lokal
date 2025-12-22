@@ -153,6 +153,7 @@ function GetCamUrlBody($camindex)
 	// AppKey va AppSecret
 		$app_key = "19237793";
 	$app_secret = "qPXC2OjLk66wyrbxJMRb";
+	
 
 
 	// So'rov uchun URL
