@@ -1296,7 +1296,7 @@
               <div class="map-about-box map-about-box-bog">
                 <img src="pictures/icons_marker/istirohat.png"
                   alt="Isritohat bog'i uchun marker">
-                <p>Исритоҳат боғлари-<span>0</span> та</p>
+                <p>Истироҳат боғлари-<span>0</span> та</p>
               </div>
               <div class="map-about-box map-about-box-boshqa">
                 <img src="pictures/icons_marker/boshqa.png" alt="Boshqa joy uchun marker">
