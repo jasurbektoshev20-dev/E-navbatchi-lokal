@@ -547,6 +547,10 @@ switch ($Action) {
 		break;
 
 	case "get_jts_objects":
+
+		header('Content-Type: application/json; charset=utf-8');
+
+
 		$page = isset($_GET['page']) ? $_GET['page'] : 1;
 		$limit = isset($_GET['limit']) ? $_GET['limit'] : 100000000;
 		$start = ($page - 1) * $limit;
@@ -566,8 +570,8 @@ switch ($Action) {
 		LEFT JOIN hr.jts_objects_sos js on js.object_id = t.id
 		LEFT JOIN hr.jts_objects_door jd on jd.object_id = t.id
 		WHERE 1=1 ";
-		if ($structure_id > 0) {
-			$query .= " AND t.structure_id = {$structure_id} ";
+		if ($UserStructure > 1) {
+			$query .= " and t.structure_id = {$UserStructure}";
 		}
 		$query .= " 
 		GROUP BY t.id, s.name{$slang}, o.name{$slang}
@@ -580,8 +584,8 @@ switch ($Action) {
 
 		//total count
 		$count_query = "SELECT COALESCE(COUNT(*) , 0) as total FROM hr.jts_objects t WHERE 1=1 ";
-		if ($structure_id > 0) {
-			$count_query .= " AND t.structure_id = {$structure_id} ";
+		if ($UserStructure > 1) {
+			$query .= " where id = {$UserStructure}";
 		}
 		$sql->query($count_query);
 		$total_count = $sql->fetchAssoc();
@@ -594,8 +598,8 @@ switch ($Action) {
 			'total' => (int)$total_count['total'],
 			'data' => $JtsObjects
 		];
-		$res = json_encode($JtsObjects);
-		break;
+		echo json_encode($JtsObjects);
+		exit;
 
 	case "get_jts_object_by_id":
 		$id = isset($_GET['id']) ? $_GET['id'] : 0;
