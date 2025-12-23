@@ -4341,6 +4341,7 @@ document.getElementById('bodyCamModal')
         
         // Pop up element maker
         function carPopUp(marker) {
+          console.log('markerlar: ', marker)
             let markerString = JSON.stringify(marker)
             return ` <div class="row text-center">
                         <div class="col-12">
@@ -4534,7 +4535,7 @@ document.getElementById('bodyCamModal')
         })
 
         function openBodyCam(car_id, og_id) {
-          console.log(car_id, og_id)
+          console.log("salom ogid: ", car_id, og_id)
             initCamera()
             $("#carCameraModal").show();
 

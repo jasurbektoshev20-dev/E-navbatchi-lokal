@@ -585,7 +585,7 @@
               <div class="col-12">
                   <div class="card">
                       <div class="card-body px-3 py-1" style="height: fit-content;">
-                              <div class="mb-1 col-12">
+                              {* <div class="mb-1 col-12">
                                 <label for="viloyatSelect" class="form-label text-warning fs-5">{$Dict.regions}</label>
                                 <select id="viloyatSelect" class="form-select">
                                   <option value="">Танланг</option>
@@ -593,7 +593,7 @@
                                   <option value="{$Item1.id}">{$Item1.name}</option>
                                   {/foreach}
                                 </select>
-                              </div>
+                              </div> *}
 
                               <div class="mb-1 col-12">
                                 <label for="objectTypeSelect" class="form-label text-warning fs-5">Тури</label>
@@ -728,7 +728,6 @@
 
         document.getElementById("filterToggleBtn").addEventListener("click", function () {
             const panel = document.querySelector(".filter-mpg");
-            // panel.classList.toggle("active");
             $(".filter-mpg").toggleClass("hidden-panel");
         });
 
@@ -741,8 +740,8 @@
         let lastCarsPositions;
         let allEmbassy = [];
 
-      let object_id = '' ;
-      let object_type = '';
+        let object_id = '' ;
+        let object_type = '';
 
 
         //Initialize map 
@@ -759,26 +758,6 @@
 
         const fg = L.featureGroup();
         fg.addTo(map);
-
-        // Create custom icons for markers
-        // function myIcon(marker) {
-        //     console.log('fleg icon : ', marker)
-        //     const unixtime = marker.unixtime;
-        //      let myIcon = L.icon({
-        //     iconUrl: `/pictures/embassy/${marker.photo}`,
-        //     iconSize:  [50, 30]
-        //     });
-        //    return myIcon;
-        // }
-
-        // function myIcon(marker) {
-        //         const myIcon = L.icon({
-        //             iconUrl: `/pictures/embassy/${marker.photo}`,
-        //             iconSize: [50, 50],          // dumaloq bo‘lishi uchun teng
-        //             className: 'circle-marker'   // CSS class
-        //         });
-        //         return myIcon;
-        //     }
 
         function myIcon(marker) {
                 return L.divIcon({
@@ -823,7 +802,6 @@
 
             // Keyin yangilarini qo‘shamiz
             data.forEach((marker) => {
-                console.log('data markar: ', marker)
                 const LamMarker = new L.marker([
                     marker.lat ? marker.lat : 0,
                     marker.long ? marker.long : 0
@@ -844,8 +822,6 @@
     });
 }
 
-
-
         getElchixonalar()
 
 
@@ -860,7 +836,6 @@
         
         // Pop up element maker
         function carPopUp(marker) {
-            console.log("carpopup", marker);
             let markerString = JSON.stringify(marker)
             return ` <div class="row text-center popup-container-box">
                         <div class="col-12 img-popup">
@@ -927,8 +902,6 @@
                                                 <div class="embassy-label">Манзил</div>
                                                 <div class="embassy-value">${obj.address ?? '-'}</div>
                                             </div>
-
-                                        
 
                                              <div class="embassy-item">
                                                  <div class="embassy-label">Худудий ИИБ</div>
@@ -1012,24 +985,15 @@
 
          if (urlParams.get('object_type')) {
         if (urlParams.get('region_id')) {
-          $('#viloyatSelect')
-            .val(urlParams.get('region_id'))
-
             $('#objectTypeSelect')
             .val(urlParams.get('object_type'))
-
-          region_id = urlParams.get('region_id')
           object_type = urlParams.get('object_type')
-          
         }else{
           $('#objectTypeSelect')
           .val(urlParams.get('object_type'))
-
           object_type = urlParams.get('object_type')
         }
-
         setTimeout(() => {
-          urlParams.set('region_id', '');
           urlParams.set('object_type', '');
           let newUrl = window.location.pathname + '?' + urlParams.toString();
           window.history.replaceState({}, '', newUrl);
@@ -1038,12 +1002,6 @@
       }else{
         getElchixonalar()
       }
-
-        $('#viloyatSelect').on('change', function() {
-            region_id = this.value;
-            getElchixonalar();
-            callEmbassy(region_id, in_service); // kerak bo‘lsa
-        });
 
         $('#objectTypeSelect').on('change', function() {
             object_type = this.value;

@@ -3104,9 +3104,9 @@ case "get_event_duty":
         $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
 
             // ─────────────────────────────
-            // 📌 Rasm yuklash
-            // ─────────────────────────────
-            if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+          $photo = null;
+
+            if (!empty($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
                 $file = $_FILES['photo'];
                 $uploadDir = 'pictures/embassy/';
 
@@ -3117,10 +3117,7 @@ case "get_event_duty":
                     $photo = $newFileName;
                 }
             }
-
-            // Agar yangi rasm yuklanmagan bo'lsa — eski rasmni olamiz
-            $photo = isset($photo) ? $photo : $_FILES['photo'];
-
+                
 
         $structure_id = $_POST['structure_id'];
         $district = $_POST['district'];
@@ -3141,6 +3138,12 @@ case "get_event_duty":
         $success = true;
 
         if ($RowId != "0") {
+              // agar yangi rasm bo‘lmasa — eskisini olib qolamiz
+            if ($photo === null) {
+                $sql->query("SELECT photo FROM hr.embassy_objects WHERE id = {$RowId}");
+                $old = $sql->fetchAssoc();
+                $photo = $old['photo'] ?? null;
+            }
             $updquery = "UPDATE hr.embassy_objects SET
                 structure_id = '{$structure_id}',
                 district = '{$district}',
@@ -3149,7 +3152,7 @@ case "get_event_duty":
                 lat = '{$lat}',
                 long = '{$long}',
                 post_phone = '{$post_phone}',
-                photo = '{$photo}',
+                photo = " . ($photo ? "'{$photo}'" : "NULL") . ",
                 address = '{$address}',
                 responsible_id = '{$responsible_id}',
                 military_unit_phone = '{$structure_phone}',
