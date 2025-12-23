@@ -117,12 +117,12 @@
                                 {/foreach}
                             </select>
                         </div>
-                      <div class="col-sm-4">
+                      {* <div class="col-sm-4">
                             <label>Ҳудудий бўлинмалар</label>
                             <select required class="select form-control" name="structure_id" id="structure_id">
                                 <option value="">{$Dict.choose}</option>
                             </select>
-                        </div>
+                        </div> *}
                    
                          <div class="col-sm-4">
                             <label for="event_date" class="form-label">Жиноят бўлган вақт</label>
@@ -130,14 +130,14 @@
                                 name="event_date" />
                          </div>
                       
-                        <div class="col-sm-4">
+                        {* <div class="col-sm-4">
                             <label>Жиноят тури</label>
                             <select required class="select form-control" name="crime_type" id="crime_type">
                                 <option value="">{$Dict.choose}</option>
                                     <option value="o'g'rilik">O'g'rilik</option>
                                     <option value="janjal">janjal</option>
                             </select>
-                        </div> 
+                        </div>  *}
                          <div class="col-sm-4">
                             <label>Моддаси</label>
                             <select required class="select form-control" name="substance" id="substance">

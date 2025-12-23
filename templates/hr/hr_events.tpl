@@ -67,6 +67,8 @@
                                 <th class="text-center">Захирага масъул</th>
                                 <th class="text-center">Захира сони</th>
                                 <th class="text-center">Тадбирни ўтказувчи ташаббускор</th>
+                                <th class="text-center">Холат ҳақида қисқача</th>
+                                <th class="text-center">Камералар</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -75,9 +77,7 @@
                                 <tr class="lb" id="row_{$item.id|crypt}">
                                     <td class="text-right">{$tkey+1}</td>
                                     <td class="text-center">
-                                        <a href="hr.php?act=public_event_duty&mid={$item.id|crypt}">
-                                            {$item.region_name}
-                                        </a>
+                                       {$item.region_name}
                                     </td>
                                     <td class="text-center">{$item.obj_name}</td>
                                     <td class="text-center">{$item.event_type}</td>     
@@ -104,6 +104,12 @@
                                     <td class="text-center">{$item.reserve_name} </td>
                                     <td class="text-center">{$item.reserve_count}</td>
                                     <td class="text-center">{$item.organizer}</td>
+                                    <td class="text-center">{$item.situation_text}</td>
+                                    <td class="text-center">
+                                        <a href="hr.php?act=events_cam&mid={$item.id}">
+                                            <i class="ti ti-camera me-1" style="font-size: 28px;"></i>
+                                        </a>
+                                    </td>                                
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -153,14 +159,8 @@
 
                         <div class="col-sm-4">
                             <label>Тадбир ўтказиладиган жой</label>
-                            <select required class="select form-control" name="object_id" id="object_id">
-                                <option value="">{$Dict.choose}</option>
-                                {foreach from=$jts_objects item=Item1 key=ikey1}
-                                    <option value="{$Item1.id}">{$Item1.name}</option>
-                                {/foreach}
-                            </select>
+                            <input required type="text" class="form-control" name="object_id" id="object_id" value="">
                         </div>
-
                         <div class="col-sm-4">
                             <label>Тадбир тури</label>
                             <select required class="select form-control" name="event_type" id="event_type">
@@ -255,60 +255,72 @@
 
                         <div class="col-sm-4">
                             <label>ИИВ масъул</label>
-                            <input required type="text" class="form-control" name="responsible_iiv_name" id="responsible_iiv_name"  value="">
+                            <input type="text" class="form-control" name="responsible_iiv_name" id="responsible_iiv_name"  value="">
                         </div>
 
                         <div class="col-sm-4">
                             <label>ИИВ ҲХ сони</label>
-                            <input required type="number" class="form-control" name="iiv_count" id="event_number_iiv"
+                            <input type="number" class="form-control" name="iiv_count" id="event_number_iiv"
                                 value="">
                         </div>
 
                          <div class="col-sm-4">
                             <label>ФВВ масъул</label>
-                            <input required type="text" class="form-control" name="responsible_fvv_name" id="responsible_fvv_name"  value="">
+                            <input type="text" class="form-control" name="responsible_fvv_name" id="responsible_fvv_name"  value="">
                         </div>
 
                         <div class="col-sm-4">
                             <label>ФВВ ҲХ сони</label>
-                            <input required type="number" class="form-control" name="fvv_count" id="event_number_fvv"
+                            <input type="number" class="form-control" name="fvv_count" id="event_number_fvv"
                                 value="">
                         </div>
 
                        <div class="col-sm-4">
                             <label>МГ МСГр масъул</label>
-                            <input required type="text" class="form-control" name="responsible_msgr_name" id="responsible_msgr_name"  value="">
+                            <input type="text" class="form-control" name="responsible_msgr_name" id="responsible_msgr_name"  value="">
                         </div>
 
                         <div class="col-sm-4">
                             <label>МГ МСГр сони</label>
-                            <input required type="number" class="form-control" name="mg_count" id="mg_count" value="">
+                            <input type="number" class="form-control" name="mg_count" id="mg_count" value="">
                         </div>
 
                         <div class="col-sm-4">
                             <label>ИИВ Спринг масъул</label>
-                            <input required type="text" class="form-control" name="responsible_spring_name" id="responsible_spring_name"  value="">
+                            <input type="text" class="form-control" name="responsible_spring_name" id="responsible_spring_name"  value="">
                         </div>
 
                         <div class="col-sm-4">
                             <label>ИИВ Спринг сони</label>
-                            <input required type="number" class="form-control" name="spring_count" id="event_number_spring" value="">
+                            <input type="number" class="form-control" name="spring_count" id="event_number_spring" value="">
                         </div>
 
                         <div class="col-sm-4">
                             <label>Захирага масъул</label>
-                            <input required type="text" class="form-control" name="reserve_name" id="reserve_name"  value="">
+                            <input type="text" class="form-control" name="reserve_name" id="reserve_name"  value="">
                         </div>
 
                         <div class="col-sm-4">
                             <label>Захира сони</label>
-                            <input required type="number" class="form-control" name="reserve_count" id="reserve_count" value="">
+                            <input type="number" class="form-control" name="reserve_count" id="reserve_count" value="">
                         </div>
 
                         <div class="col-sm-8">
                             <label>Тадбирни ўтказувчи ташаббускор</label>
                             <input required type="text" class="form-control" name="organizer" id="organizer"
                                 value="">
+                        </div>
+                           <div class="col-sm-6">
+                            <label>Obyekt joylashuvi uzunligi (lat)</label>
+                            <input required type="text" class="form-control" name="lat" id="lat" value="">
+                        </div>
+                        <div class="col-sm-6">
+                            <label>byekt joylashuvi kengligi (long)</label>
+                            <input required type="text" class="form-control" name="long" id="long" value="">
+                        </div>
+                        <div class="col-sm-12">
+                            <label>{$Dict.case_summary}</label>
+                            <textarea class="form-control" rows=3 name="situation_text" id="situation_text"></textarea>
                         </div>
 
                         <div class="col-12 text-center">
@@ -442,7 +454,6 @@
                 $('#event_view').val(sInfo.event_view);
                 $('#event_responsible_organization').val(sInfo.event_responsible_organization);
                 $('#region_id').trigger("change");
-                $('#object_id').trigger("change");
                 $('#event_type').trigger("change");
                 $('#event_category').trigger("change");
                 $('#event_direction').trigger("change");
@@ -467,6 +478,9 @@
                 $('#event_number_fvv').val(sInfo.fvv_count);
                 $('#mg_count').val(sInfo.sapyor_count);
                 $('#event_number_spring').val(sInfo.spring_count);
+                $('#situation_text').val(sInfo.situation_text);
+                  $('#lat').val(sInfo.lat);
+                $('#long').val(sInfo.long);
                 $('#id').val(sInfo.id);
             });
         })
@@ -475,8 +489,7 @@
             $('#submitModal').modal('toggle');
             $('#region_id').val(0);
             $('#region_id').trigger("change");
-            $('#object_id').val(0);
-            $('#object_id').trigger("change");
+            $('#object_id').val("");
             $('#event_type').val(0);
             $('#event_type').trigger("change");
              $('#event_category').val(0);
@@ -506,6 +519,10 @@
             $('#event_number_spring').val("");
             $('#event_number_fvv').val("");
             $('#event_number_iiv').val("");
+            $('#situation_text').val("");
+            $('#lat').val('');
+            $('#long').val('');
+
             $('#id').val(0)
         });
 
@@ -546,6 +563,10 @@
                     form_data.append('spring_count', $('#event_number_spring').val());
                     form_data.append('fvv_count', $('#event_number_fvv').val());
                     form_data.append('iiv_count', $('#event_number_iiv').val());
+                    form_data.append('situation_text', $('#situation_text').val());
+                    form_data.append('lat', $('#lat').val());
+                    form_data.append('long', $('#long').val());
+
                     form_data.append('id', $('#id').val());
                     $.ajax({
                         url: 'hrajax.php?act=act_events',
