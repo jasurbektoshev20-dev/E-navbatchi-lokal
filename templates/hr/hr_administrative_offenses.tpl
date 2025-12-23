@@ -40,7 +40,7 @@
                     <table class="datatables-projects table border-top">
                         <thead>
                             <tr>
-                                <th>No̱</th>
+                                <th>т/р</th>
                                 <th class="text-center">Ҳудуд</th>
                                 <th class="text-center">Бўлинма</th>
                            
@@ -52,7 +52,7 @@
                       
                                 <th class="text-center">Жиноятчи ФИШ</th>
                              
-                                <th class="text-center">Холат ҳақида қисқача</th>
+                                <th class="text-center">Ҳолат ҳақида қисқача</th>
                                 <th></th>
                             </tr>
                         </thead>

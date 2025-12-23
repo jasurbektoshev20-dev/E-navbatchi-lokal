@@ -2406,26 +2406,79 @@ break;
 			$smarty->assign('events', $events);
 			break;
 
+		// case "hr_add_injuries":
+
+		// 	$query  = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t 
+		// 	where t.id > 1 and t.id < 16
+		// 	ORDER BY t.turn ASC";
+		// 	$sql->query($query);
+		// 	$Regions = $sql->fetchAll();
+
+
+		// 	$smarty->assign(array(
+				
+		// 		'Regions' => $Regions,
+				
+		// 	));
+		// 	break;
+
 		case "hr_add_injuries":
 
-			$query  = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t 
-			where t.id > 1 and t.id < 16
-			ORDER BY t.turn ASC";
+           // 📌 Hududlar (regions)
+			$query = "SELECT t.id, t.name{$slang} AS name
+					FROM hr.v_head_structure t
+					WHERE t.id > 1 AND t.id < 16
+					ORDER BY t.turn ASC";
 			$sql->query($query);
 			$Regions = $sql->fetchAll();
 
+			// 📌 Injury types (select uchun)
+			$query = "SELECT 
+						it.id,
+						it.name{$slang} AS name
+					FROM tur.injuries_types it
+					ORDER BY it.id ASC";
+			$sql->query($query);
+			$InjuryTypes = $sql->fetchAll();
 
-			$smarty->assign(array(
-				
-				'Regions' => $Regions,
-				
-			));
+			$query  = "SELECT t.id, CONCAT(t.lastname,' ',t.firstname,' ', t.surname) as name
+			FROM hr.staff t ";
+			if ($UserStructure > 1) {
+				$query .= " WHERE t.structure_id = {$UserStructure} ";
+			}
+			$query .= " ORDER BY t.id ASC";
+			$sql->query($query);
+			$Staffs = $sql->fetchAll();
+
+			// 📌 Injuries ro‘yxati (TYPE NOMI BILAN)
+			$query = "SELECT 
+						i.id,
+						i.region_id,
+						i.injury_type_id,
+						it.name{$slang} AS injury_type_name,
+						i.comment,
+						i.date,
+						i.structure_id,
+						i.troops_id
+					FROM hr.injuries i
+					LEFT JOIN tur.injuries_types it 
+                     ON it.id = i.injury_type_id::bigint
+					ORDER BY i.id ASC";
+			$sql->query($query);
+			$Injuries = $sql->fetchAll();
+
+			$smarty->assign([
+				'Regions'      => $Regions,
+				'InjuryTypes' => $InjuryTypes,
+				'Injuries'    => $Injuries,
+				'Staffs'    => $Staffs
+			]);
+
 			break;
 
-			
 
-	
-
+					
+		
 	
 
 

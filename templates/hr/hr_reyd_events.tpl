@@ -50,7 +50,7 @@
                                 <th class="text-center">Техника сони</th>
                                 <th class="text-center">Асосий</th>
                                 <th class="text-center">Тури</th>
-                                <th class="text-center">Холат ҳақида қисқача</th>
+                                <th class="text-center">Ҳолат ҳақида қисқача</th>
                                 <th></th>
                             </tr>
                         </thead>

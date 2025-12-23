@@ -51,7 +51,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {foreach from=$Staffs item=Table key=tkey}
+                            {foreach from=$Injuries item=Table key=tkey}
                                 <tr class="lb" id="row_{$Table.id|crypt}">
                                     <td class="text-right">{$tkey+1}</td>
                                     <td>{$Table.region_id}</td>
@@ -59,13 +59,13 @@
                                  
                                      <td>{$Table.date}</td> 
                                    
-                                     <td>{$Table.injury_type}</td> 
+                                     <td>{$Table.injury_type_id}</td> 
                                  
                                     
                                   
-                                    <td>{$Table.sick_username}</td>
+                                    <td>{$Table.troops_id}</td>
                                  
-                                    <td>{$Table.situation_text}</td>
+                                    <td>{$Table.comment}</td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -113,7 +113,7 @@
                         </div>
                       <div class="col-sm-4">
                             <label>Ҳудудий бўлинмалар</label>
-                            <select required class="select form-control" name="structure_id" id="structure_id">
+                            <select class="select form-control" name="structure_id" id="structure_id">
                                 <option value="">{$Dict.choose}</option>
                             </select>
                         </div>
@@ -128,15 +128,20 @@
                             <label>Тури</label>
                             <select required class="select form-control" name="injury_type" id="injury_type">
                                 <option value="">{$Dict.choose}</option>
-                                    <option value="jismoniy">Jismoniy tayyorgarlikda</option>
-                                    <option value="amaliy">Amaliy mashqda</option>
+                                      {foreach from=$InjuryTypes item=Item7 key=ikey7}
+                                    <option value="{$Item7.id}">{$Item7.name}</option>
+                                {/foreach}
                             </select>
                         </div> 
                    
                  
                          <div class="col-sm-4">
                             <label>Ҳарбий хизматчи ФИШ</label>
-                            <input required type="text" class="form-control" name="sick_username" id="sick_username" value="">
+                              <select id="troops_id" class="select form-control">
+                                {foreach from=$Staffs item=Item key=key name=name}
+                                    <option value="{$Item.id}">{$Item.name}</option>
+                                {/foreach}
+                            </select>
                         </div>
                         
                          <div class="col-sm-6">
@@ -197,7 +202,7 @@
         if (flatpickrDate) {
             flatpickrDate.flatpickr({
             enableTime: true,
-            dateFormat: "d-m-Y H:i",
+            dateFormat: "Y-m-d",
             time_24hr: true,
             monthSelectorType: 'static'
             });
@@ -208,7 +213,7 @@
             let [datePart, timePart] = this.value.split(' ');
             let [day, month, year] = datePart.split('-');
 
-            event_date = `${year}-${month}-${day} ${timePart}`;
+            event_date = `${year}-${month}-${day}`;
         })
 
         $('#region_id').change(function(event) {
@@ -242,12 +247,12 @@
             $('#structure_id').trigger("change");
      
          
-              $('#injury_type').val(0);
+            $('#injury_type').val(0);
             $('#injury_type').trigger("change");
             $('#event_date').val("");
     
             $('#situation_text').val("");
-            $('#sick_username').val("");
+            $('#troops_id').val("");
         
           
         });
@@ -256,22 +261,15 @@
             $('#submitModal').modal('toggle');
 
             var RowId = $(this).attr('rel');
-            $.get("hrajax.php?act=get_staffs&rowid=" + RowId, function(html) {
+            $.get("hrajax.php?act=get_injury&rowid=" + RowId, function(html) {
                 var sInfo = jQuery.parseJSON(html);
-
                 $('#id').val(sInfo.id);
-                $('#region_id').val(sInfo.structure_id);
-                $('#structure_id').val(sInfo.structure_id);
-          
-              
-                $('#injury_type').val(sInfo.injury_type);
-                $('#event_date').val(sInfo.event_date);
-          
-                $('#situation_text').val(sInfo.situation_text);
-                $('#sick_username').val(sInfo.sick_username);
-             
-       
-             
+                $('#region_id').val(sInfo.region_id);
+                $('#structure_id').val(sInfo.structure_id);  
+                $('#injury_type').val(sInfo.injury_type_id);
+                $('#event_date').val(sInfo.date);       
+                $('#situation_text').val(sInfo.comment);
+                $('#troops_id').val(sInfo.troops_id);
             });
         })
 
@@ -306,22 +304,18 @@
 
                     var form_data = new FormData();
                     form_data.append('id', $('#id').val());
-                    
-                    if ($('#structure_id').val() == 0) {
-                        form_data.append('structure_id', $('#region_id').val());
-                    } else {
-                        form_data.append('structure_id', $('#structure_id').val() || $('#region_id').val());
-                    }
-                
-            
-                    form_data.append('injury_type', $('#injury_type').val());
-                    form_data.append('event_date', $('#event_date').val());
-                
-                    form_data.append('situation_text', $('#situation_text').val());
-                    form_data.append('sick_username', $('#sick_username').val());
-              
+                    form_data.append('region_id', $('#region_id').val());
+                    let structureVal = $('#structure_id').val();
+                    form_data.append(
+                    'structure_id',
+                    structureVal ? parseInt(structureVal, 10) : ''
+                    );
+                    form_data.append('injury_type_id', $('#injury_type').val());
+                    form_data.append('date', $('#event_date').val());
+                    form_data.append('comment', $('#situation_text').val());
+                    form_data.append('troops_id', $('#troops_id').val());
                     $.ajax({
-                        url: 'hrajax.php?act=act_crimes',
+                        url: 'hrajax.php?act=act_injury',
                         dataType: 'text',
                         cache: false,
                         contentType: false,
@@ -329,7 +323,6 @@
                         data: form_data,
                         type: 'post',
                         success: function(resdata) {
-                            //console.log(resdata);
                             var NewArray = resdata.split("<&sep&>");
                             if (NewArray[0] == 0) {
                                 location.reload();
@@ -347,7 +340,7 @@
         // Delete Record
         $('.datatables-projects tbody').on('click', '.delete', function() {
             var RowId = $(this).attr('rel');
-            $.get("hrajax.php?act=del_staffs&rowid=" + RowId, function(html) {
+            $.get("hrajax.php?act=del_injury&rowid=" + RowId, function(html) {
                 if (html == 0) {
                     $("#row_" + RowId).remove();
                 }

@@ -52,7 +52,7 @@
                       
                                 <th class="text-center">Жиноятчи ФИШ</th>
                              
-                                <th class="text-center">Холат ҳақида қисқача</th>
+                                <th class="text-center">Ҳолат ҳақида қисқача</th>
                                 <th></th>
                             </tr>
                         </thead>

@@ -3322,7 +3322,7 @@ case "get_event_duty":
 
     
     /// embassy_objects_responsible crud ============        
-        case "get_embassy_objects_responsible":
+    case "get_embassy_objects_responsible":
         $RowId = MyPiDeCrypt($_GET['rowid']);
 
         $query = "SELECT t.* from hr.duty_embassy t where t.id = {$RowId}";
@@ -3557,6 +3557,104 @@ case "get_event_duty":
         }
         break;
     /// administrative_offenses crud ============    
+
+
+
+/// injuries crud ============
+    case "get_injury":
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "SELECT i.* 
+                FROM hr.injuries i 
+                WHERE i.id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+
+        if ($result) {
+            $result['rowid'] = MyPiCrypt($result['id']);
+        }
+
+        $res = json_encode($result);
+        break;
+
+
+    case "act_injury":
+        $RowId          = (!empty($_POST['id'])) ? $_POST['id'] : 0;
+        $injury_type_id = $_POST['injury_type_id'];
+        $comment        = $_POST['comment'];
+        $date           = $_POST['date'];
+        $structure_id   = (!empty($_POST['structure_id'])) ? $_POST['structure_id'] : 0;
+        $troops_id      = $_POST['troops_id'];
+        $region_id = $_POST['region_id'];
+        if ($RowId != "0") {
+            // 🔄 UPDATE
+            $updquery = "UPDATE hr.injuries SET
+                injury_type_id = '{$injury_type_id}',
+                comment        = '{$comment}',
+                date           = '{$date}',
+                structure_id   = '{$structure_id}',
+                region_id = '{$region_id}',
+                troops_id      = '{$troops_id}'
+            WHERE id = {$RowId}";
+
+            $sql->query($updquery);
+
+            if ($sql->error() == "") {
+                $res = "0<&sep&>" . MyPiCrypt($RowId);
+            } else {
+                $res = $sql->error();
+            }
+
+        } else {
+            // ➕ INSERT
+            $insquery = "INSERT INTO hr.injuries (   
+               region_id, 
+                injury_type_id,
+                comment,
+                date,
+                structure_id,
+                troops_id
+            ) VALUES (
+                '{$region_id}',
+                '{$injury_type_id}',
+                '{$comment}',
+                '{$date}',
+                '{$structure_id}',
+                '{$troops_id}'
+            )";
+
+            $sql->query($insquery);
+
+            if ($sql->error() == "") {
+                $sql->query("SELECT CURRVAL('hr.injuries_id_seq') AS last_id");
+                $result = $sql->fetchAssoc();
+                $LastId = $result['last_id'];
+
+                $res = "0<&sep&>" . MyPiCrypt($LastId);
+            } else {
+                $res = $sql->error();
+            }
+        }
+        break;
+
+
+    case "del_injury":
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "DELETE FROM hr.injuries WHERE id = {$RowId}";
+        $sql->query($query);
+
+        if ($sql->error() == "") {
+            $res = 0;
+        } else {
+            $res = 2;
+        }
+        break;
+    /// injuries crud ============
+
+
+
+
 
 
     }
