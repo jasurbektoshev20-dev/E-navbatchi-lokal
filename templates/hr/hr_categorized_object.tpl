@@ -40,14 +40,14 @@
                     <table class="datatables-projects table table-bordered">
                         <thead>
                             <tr>
-                                <th>t/r</th>
+                                <th>т/р</th>
                                 <th class="text-center">Ҳудуд</th>
                                 <th class="text-center">Туман</th>
                                 <th class="text-center">Номи</th>
                                 <th class="text-center">Тури</th>
                                 {* <th class="text-center">Uzunlik</th>
                                 <th class="text-center">Kenglik</th> *}
-                                <th class="text-center">Объект ҳақида малумот</th>
+                                <th class="text-center">Объект ҳақида маълумот</th>
                                 <th class="text-center">Камера</th>
                                 <th class="text-center">Жавобгар шахс</th>
                                 <th></th>

@@ -67,7 +67,7 @@
                                 <th class="text-center">Захирага маъсули ФИШ</th>
                                 <th class="text-center">Захира сони</th>
                                 <th class="text-center">Тадбирни ўтказувчи ташаббускор</th>
-                                <th class="text-center">Холат ҳақида қисқача</th>
+                                <th class="text-center">Ҳолат ҳақида қисқача</th>
                                 <th class="text-center">Камералар</th>
                                 <th></th>
                             </tr>

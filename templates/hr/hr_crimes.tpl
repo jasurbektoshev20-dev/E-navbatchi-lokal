@@ -42,36 +42,34 @@
                             <tr>
                                 <th>No̱</th>
                                 <th class="text-center">Ҳудуд</th>
-                                <th class="text-center">Бўлинма</th>
+                                
                            
                                 <th class="text-center">{$Dict.date}</th>
-                           
-                                <th class="text-center">Жиноят тури</th>
                                 <th class="text-center">Модда</th>
                              
                       
                                 <th class="text-center">Жиноятчи ФИШ</th>
                              
-                                <th class="text-center">Холат ҳақида қисқача</th>
+                                <th class="text-center">Ҳолат ҳақида қисқача</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            {foreach from=$Staffs item=Table key=tkey}
+                            {foreach from=$Crimes item=Table key=tkey}
                                 <tr class="lb" id="row_{$Table.id|crypt}">
                                     <td class="text-right">{$tkey+1}</td>
                                     <td>{$Table.region_id}</td>
-                                    <td>{$Table.structure_id}</td>
+                                
                                  
                                      <td>{$Table.date}</td> 
                                    
-                                     <td>{$Table.crime_type}</td> 
-                                     <td>{$Table.substance}</td> 
+                             
+                                     <td>{$Table.violation_id}</td> 
                                     
                                   
-                                    <td>{$Table.criminal_username}</td>
+                                    <td>{$Table.fio}</td>
                                  
-                                    <td>{$Table.situation_text}</td>
+                                    <td>{$Table.comment}</td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -117,12 +115,7 @@
                                 {/foreach}
                             </select>
                         </div>
-                      <div class="col-sm-4">
-                            <label>Ҳудудий бўлинмалар</label>
-                            <select required class="select form-control" name="structure_id" id="structure_id">
-                                <option value="">{$Dict.choose}</option>
-                            </select>
-                        </div>
+                  
                    
                          <div class="col-sm-4">
                             <label for="event_date" class="form-label">Жиноят бўлган вақт</label>
@@ -130,21 +123,15 @@
                                 name="event_date" />
                          </div>
                       
-                        <div class="col-sm-4">
-                            <label>Жиноят тури</label>
-                            <select required class="select form-control" name="crime_type" id="crime_type">
-                                <option value="">{$Dict.choose}</option>
-                                    <option value="o'g'rilik">O'g'rilik</option>
-                                    <option value="janjal">janjal</option>
-                            </select>
-                        </div> 
+                 
                          <div class="col-sm-4">
                             <label>Моддаси</label>
                             <select required class="select form-control" name="substance" id="substance">
-                                <option value="">{$Dict.choose}</option>
-                                    <option value="144-modda">144-modda</option>
-                                    <option value="256-modda">256-modda</option>
+                                    {foreach from=$Types item=Item key=key name=name}
+                                    <option value="{$Item.id}">{$Item.name}</option>
+                                {/foreach}
                             </select>
+                           
                         </div> 
                  
                          <div class="col-sm-4">
@@ -210,7 +197,7 @@
         if (flatpickrDate) {
             flatpickrDate.flatpickr({
             enableTime: true,
-            dateFormat: "d-m-Y H:i",
+            dateFormat: "Y-m-d",
             time_24hr: true,
             monthSelectorType: 'static'
             });
@@ -221,19 +208,8 @@
             let [datePart, timePart] = this.value.split(' ');
             let [day, month, year] = datePart.split('-');
 
-            event_date = `${year}-${month}-${day} ${timePart}`;
+            event_date = `${year}-${month}-${day}`;
         })
-
-        $('#region_id').change(function(event) {
-            $.get("ajax.php?act=get_divisions&structure_id=" + this.value, function(html) {
-                var sInfo = jQuery.parseJSON(html);
-                $('#structure_id').empty();
-                $('#structure_id').append(`<option value="">Tanlang</option>`);
-                sInfo.forEach((item, index) => {
-                    $('#structure_id').append(`<option value="${item.id}">${item.name}</option>`);
-                });
-            });
-        });
 
         var dt_basic_table = $('.datatables-projects'),
             dt_basic;
@@ -251,13 +227,9 @@
             $('#submitModal').modal('toggle');
             $('#region_id').val(0);
             $('#region_id').trigger("change");
-            $('#structure_id').val(0);
-            $('#structure_id').trigger("change");
      
               $('#substance').val(0);
             $('#substance').trigger("change");
-              $('#crime_type').val(0);
-            $('#crime_type').trigger("change");
             $('#event_date').val("");
     
             $('#situation_text').val("");
@@ -270,21 +242,17 @@
             $('#submitModal').modal('toggle');
 
             var RowId = $(this).attr('rel');
-            $.get("hrajax.php?act=get_staffs&rowid=" + RowId, function(html) {
+            $.get("hrajax.php?act=get_criminals&rowid=" + RowId, function(html) {
                 var sInfo = jQuery.parseJSON(html);
 
                 $('#id').val(sInfo.id);
-                $('#region_id').val(sInfo.structure_id);
-                $('#structure_id').val(sInfo.structure_id);
+                $('#region_id').val(sInfo.region_id);
+                $('#substance').val(sInfo.violation_id);
+                $('#event_date').val(sInfo.date);
           
-                $('#substance').val(sInfo.substance);
-                $('#crime_type').val(sInfo.crime_type);
-                $('#event_date').val(sInfo.event_date);
-          
-                $('#situation_text').val(sInfo.situation_text);
-                $('#criminal_username').val(sInfo.criminal_username);
-             
-       
+                $('#situation_text').val(sInfo.comment);
+                $('#criminal_username').val(sInfo.fio);
+            
              
             });
         })
@@ -321,21 +289,16 @@
                     var form_data = new FormData();
                     form_data.append('id', $('#id').val());
                     
-                    if ($('#structure_id').val() == 0) {
-                        form_data.append('structure_id', $('#region_id').val());
-                    } else {
-                        form_data.append('structure_id', $('#structure_id').val() || $('#region_id').val());
-                    }
+                    form_data.append('region_id', $('#region_id').val());
+                    form_data.append('violation_id', $('#substance').val());
                 
-                    form_data.append('substance', $('#substance').val());
-                    form_data.append('crime_type', $('#crime_type').val());
-                    form_data.append('event_date', $('#event_date').val());
+                    form_data.append('date', $('#event_date').val());
                 
-                    form_data.append('situation_text', $('#situation_text').val());
-                    form_data.append('criminal_username', $('#criminal_username').val());
+                    form_data.append('comment', $('#situation_text').val());
+                    form_data.append('fio', $('#criminal_username').val());
               
                     $.ajax({
-                        url: 'hrajax.php?act=act_crimes',
+                        url: 'hrajax.php?act=act_criminals',
                         dataType: 'text',
                         cache: false,
                         contentType: false,
@@ -361,7 +324,7 @@
         // Delete Record
         $('.datatables-projects tbody').on('click', '.delete', function() {
             var RowId = $(this).attr('rel');
-            $.get("hrajax.php?act=del_staffs&rowid=" + RowId, function(html) {
+            $.get("hrajax.php?act=del_criminals&rowid=" + RowId, function(html) {
                 if (html == 0) {
                     $("#row_" + RowId).remove();
                 }
