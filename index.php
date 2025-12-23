@@ -186,7 +186,7 @@ switch ($TheAct) {
         //         t.phone,
         //         p.name{$slang} as position
         //     FROM hr.duty_staff d
-        //     LEFT JOIN hr.staff t ON (t.id = d.staff1 OR t.id = d.staff2 OR t.id = d.staff3)
+        //     LEFT JOIN hr.staff t ON (t.id = d.staff1 OR t.id = d.staff2 OR t.id = d.staff3)`
         //     LEFT JOIN hr.positions p ON p.id = t.position_id
         //     LEFT JOIN ref.ranks ra ON ra.id = t.rank_id
         //     WHERE d.structure_id = {$UserStructure}
