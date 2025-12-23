@@ -432,7 +432,8 @@ switch ($Action) {
 
 		$res = json_encode($data);
 		break;
-}
+
 
 // echo iconv("cp1251", "UTF-8", $res);
 echo $res;
+	}

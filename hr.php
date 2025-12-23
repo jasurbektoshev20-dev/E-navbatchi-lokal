@@ -336,23 +336,60 @@ switch ($Act) {
 
 
 
-		$query = "SELECT m.id, t.name{$slang} as event_type ,m.event_direction, m.iiv_count,m.responsible_mg_name, m.sapyor_count as sapyor, 
-        m.fvv_count, m.mg_counts, m.event_view, m.start_event, m.finish_event, m.reserve_count, m.event_name, m.responsible_spring_name, m.event_responsible_organization,ec.name{$slang} as event_category,
-        m.organizer, m.responsible_name, m.responsible_phone, m.responsible_iiv_name, m.reserve_name, m.responsible_msgr_name, m.responsible_fvv_name, m.people_count, m.mg_counts, m.iiv_count, m.spring_count, m.fvv_count,
-        j.object_name as obj_name, m.organizer, s.name{$slang} as region_name 
-        FROM hr.public_event1 m
-        left join tur.public_event_types t on t.id = m.event_type
-        left join hr.structure s on s.id = m.region_id
-        left join hr.jts_objects j on j.id = m.object_id
-		left join tur.event_category ec on ec.id = m.event_category_id
-        ";
-		if ($UserStructure > 1) {
-			$query .= " WHERE m.region_id = {$UserStructure} ";
-		}
+			$query = "
+		SELECT 
+			m.id,
+			t.name{$slang} AS event_type,
+			m.event_direction,
+			m.iiv_count,
+			m.responsible_mg_name,
+			m.sapyor_count AS sapyor,
+			m.fvv_count,
+			m.mg_counts,
+			m.event_view,
+			m.start_event,
+			m.finish_event,
+			m.reserve_count,
+			m.event_name,
+			m.responsible_spring_name,
+			m.event_responsible_organization,
+			ec.name{$slang} AS event_category,
+			m.organizer,
+			m.responsible_name,
+			m.responsible_phone,
+			m.responsible_iiv_name,
+			m.reserve_name,
+			m.responsible_msgr_name,
+			m.responsible_fvv_name,
+			m.people_count,
+			m.spring_count,
+			m.object_name,
+			s.name{$slang} AS region_name,
+			m.lat,
+			m.long,
+			m.comment
+		FROM hr.public_event1 m
+		LEFT JOIN tur.public_event_types t ON t.id = m.event_type
+		LEFT JOIN hr.structure s ON s.id = m.region_id
+		LEFT JOIN tur.event_category ec ON ec.id = m.event_category_id
+		WHERE 1=1
+	";
 
-		$query .= " order by m.id";
-		$sql->query($query);
-		$Events = $sql->fetchAll();
+	if ($UserStructure > 1) {
+		$query .= "
+			AND m.region_id IN (
+				SELECT id FROM hr.structure WHERE id = {$UserStructure}
+				UNION
+				SELECT id FROM hr.structure WHERE parent = {$UserStructure}
+			)
+		";
+	}
+
+	$query .= " ORDER BY m.id";
+
+	$sql->query($query);
+	$Events = $sql->fetchAll();
+
 
 		// echo '<pre>';
 		// print_r($Events);
@@ -2421,6 +2458,26 @@ break;
 				
 			));
 			break;
+		
+	case "hr_events_cam":
+		$event_id = ($_GET['mid']);
+		$query  = "SELECT t.id, t.name, t.cam_code,  t.lat, t.long,
+		case when t.is_ptz then 'PTZ' else 'No PTZ' end as is_ptz 
+		FROM hr.public_event_cameras t 
+		WHERE t.event_id = {$event_id}
+		ORDER BY t.id desc ";
+		$sql->query($query);
+		$Camera = $sql->fetchAll();
+
+		// echo '<pre>';
+		// print_r($Camera);
+		// echo '</pre>';
+		// die();
+
+		$smarty->assign(array(
+			'Camera' => $Camera,
+		));
+		break;
 
 			
 

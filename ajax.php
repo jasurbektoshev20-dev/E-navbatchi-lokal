@@ -869,51 +869,116 @@ switch ($Action) {
 		break;
 
 	case "get_jts_map":
-		$structure_id = isset($_GET['region_id']) ? $_GET['region_id'] : 0;
-		$object_type = isset($_GET['object_type']) ? $_GET['object_type'] : 0;
-		$object_id = isset($_GET['object_id']) ? $_GET['object_id'] : 0;
 
-		$query  = "SELECT t.id, t.object_name, t.object_type, t.lat, t.long
-		FROM hr.jts_objects t 
-		WHERE 1=1 AND t.id != 20";
-		if ($structure_id > 0) {
-			$query .= " AND t.structure_id = {$structure_id} ";
+		$structure_id = isset($_GET['region_id']) ? (int)$_GET['region_id'] : 0;
+		$object_type  = isset($_GET['object_type']) ? (int)$_GET['object_type'] : 0;
+		$object_id    = isset($_GET['object_id']) ? (int)$_GET['object_id'] : 0;
+
+		$query = "
+			SELECT 
+				t.id,
+				t.object_name,
+				t.object_type,
+				t.lat,
+				t.long
+			FROM hr.jts_objects t
+			WHERE 1=1
+		";
+
+		// Region (structure + parent structures)
+		if ($UserStructure > 1) {
+			$query .= "
+				AND t.structure_id IN (
+					SELECT id FROM hr.structure WHERE id = {$UserStructure}
+					UNION
+					SELECT id FROM hr.structure WHERE parent = {$UserStructure}
+				)
+			";
 		}
+
+		// Object type filter
 		if ($object_type > 0) {
 			$query .= " AND t.object_type = {$object_type} ";
 		}
+
+		// Exact object
 		if ($object_id > 0) {
 			$query .= " AND t.id = {$object_id} ";
 		}
+
 		$sql->query($query);
 		$JtsObjects = $sql->fetchAll();
 
 		$res = json_encode($JtsObjects);
+
 		break;
+
 
 	case "get_public_events":
-		$structure_id = isset($_GET['region_id']) ? $_GET['region_id'] : 0;
-		$object_type = isset($_GET['object_type']) ? $_GET['object_type'] : 0;
-		$object_id = isset($_GET['object_id']) ? $_GET['object_id'] : 0;
 
-		$query  = "SELECT t.id, t.event_name as name, o.object_type,o.object_name, o.lat, o.long
-		FROM hr.public_event1 t 
-		LEFT JOIN hr.jts_objects o on o.id = t.object_id
-		WHERE 1=1 ";
-		if ($structure_id > 0) {
-			$query .= " AND t.region_id = {$structure_id} ";
-		}
-		if ($object_type > 0) {
-			$query .= " AND o.object_type = {$object_type} ";
-		}
-		if ($object_id > 0) {
-			$query .= " AND o.id = {$object_id} ";
-		}
-		$sql->query($query);
-		$JtsObjects = $sql->fetchAll();
+			$UserStructure = isset($_SESSION['structure_id']) 
+				? (int)$_SESSION['structure_id'] 
+				: 0;
 
-		$res = json_encode($JtsObjects);
+			$structure_id = isset($_GET['region_id']) 
+				? (int)$_GET['region_id'] 
+				: 0;
+
+			$object_type = isset($_GET['object_type']) 
+				? (int)$_GET['object_type'] 
+				: 0;
+
+			/*
+			|--------------------------------------------------------------------------
+			| Tadbirlar ro‘yxati (xarita uchun)
+			|--------------------------------------------------------------------------
+			*/
+			$query = "
+				SELECT 
+					t.id,
+					t.event_name AS name,
+					t.lat,
+					t.long,
+					t.event_type
+				FROM hr.public_event1 t
+				LEFT JOIN tur.public_event_types et ON et.id = t.event_type
+				WHERE 1=1
+			";
+
+			// SESSION dagi structure (UserStructure)
+			if ($UserStructure > 1) {
+				$query .= "
+					AND t.region_id IN (
+						SELECT id FROM hr.structure WHERE id = {$UserStructure}
+						UNION
+						SELECT id FROM hr.structure WHERE parent = {$UserStructure}
+					)
+				";
+			}
+
+			// Mapdan kelayotgan object_type (kategoriya)
+			if ($object_type > 0) {
+				$query .= " AND t.event_category_id = {$object_type} ";
+			}
+
+			// Agar region_id GET orqali berilsa (ixtiyoriy)
+			if ($structure_id > 0) {
+				$query .= "
+					AND t.region_id IN (
+						SELECT id FROM hr.structure WHERE id = {$structure_id}
+						UNION
+						SELECT id FROM hr.structure WHERE parent = {$structure_id}
+					)
+				";
+			}
+
+			$sql->query($query);
+			$JtsObjects = $sql->fetchAll();
+
+			$res = json_encode($JtsObjects);
+
 		break;
+
 
 	case "get_public_events_by_id":
 		header('Content-Type: application/json; charset=utf-8');
@@ -921,93 +986,35 @@ switch ($Action) {
 		$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 		$car_ids = [];
 
-		// Get event row
-		$query = "SELECT t.*, t.object_id AS pe_object_id
-              FROM hr.public_event1 t
-              WHERE t.id = {$id} LIMIT 1";
-		$sql->query($query);
-		$PE = $sql->fetchAssoc();
+		// // Get event row
+		// $query = "SELECT t.*
+        //       FROM hr.public_event1 t
+        //       WHERE t.id = {$id} LIMIT 1";
+		// $sql->query($query);
+		// $PE = $sql->fetchAssoc();
 
-		if (!$PE) {
-			http_response_code(404);
-			echo json_encode(['error' => "Event with id {$id} not found"], JSON_UNESCAPED_UNICODE);
-			exit;
-		}
+		// if (!$PE) {
+		// 	http_response_code(404);
+		// 	echo json_encode(['error' => "Event with id {$id} not found"], JSON_UNESCAPED_UNICODE);
+		// 	exit;
+		// }
 
 		// Try to join jts_objects info
 		$query  = "SELECT 
-        t.id AS event_id,
-        t.object_id AS object_id,
-        j.id AS jts_object_id,
-        s.name{$slang} AS structure,
-        j.object_name,
-        o.name{$slang} AS object_type,
-        j.address, j.area, j.admin_phone, j.object_head, j.head_phone,j.lamps_count,j.capacity,t.responsible_mg_name,t.mg_counts,t.sapyor_count,
-        n.head_iiv, n.head_iiv_phone, j.markets_count, j.eating_place_count,j.sektors_count,
-        n.head, n.assistant_governor, n.youth_leader, n.womens_activist,n.name as neighborhood_name,
-        n.tax_inspector, n.social_employe, j.sales_places_count,n.head_iiv,n.head_iiv_phone,n.head_fvv,n.head_fvv_phone,
-        n.head_phone, n.assistant_governor_phone, n.youth_leader_phone,
-        n.womens_activist_phone, n.tax_inspector_phone, n.social_employe_phone,
-        j.lat, j.long, ST_AsGeoJSON(j.geom) AS geom_geojson
-    FROM hr.public_event1 t
-    LEFT JOIN hr.jts_objects j ON j.id = t.object_id
-    LEFT JOIN hr.structure s ON s.id = t.region_id
-    LEFT JOIN hr.involved_objects o ON o.id = j.object_type
-    LEFT JOIN hr.neighborhoods n ON n.id = j.neighborhood_id
-    WHERE t.id = {$id}
-    GROUP BY 
-        t.id, t.object_id, j.id, s.name{$slang}, j.object_name, o.name{$slang},
-        j.address, j.area, j.admin_phone, j.object_head, j.head_phone,
-        n.head_iiv, n.head_iiv_phone, j.markets_count, j.eating_place_count,
-        n.head, n.assistant_governor, n.youth_leader, n.womens_activist,n.head_fvv,n.head_fvv_phone,
-        n.tax_inspector, n.social_employe, j.sales_places_count,
-        n.head_phone, n.assistant_governor_phone, n.youth_leader_phone,n.name,
-        n.womens_activist_phone, n.tax_inspector_phone, n.social_employe_phone,
-        j.lat, j.long, ST_AsGeoJSON(j.geom)";
-
+				t.*
+			FROM hr.public_event1 t
+			WHERE t.id = {$id}";
+   
 		$sql->query($query);
 		$JtsObject = $sql->fetchAssoc();
-		if (!$JtsObject) $JtsObject = [];
-
-		// Determine object id for related lookups
-		$objId = 0;
-		if (!empty($PE['pe_object_id'])) {
-			$possibleObj = intval($PE['pe_object_id']);
-			$sql->query("SELECT id FROM hr.jts_objects WHERE id = {$possibleObj} LIMIT 1");
-			$chk = $sql->fetchAssoc();
-			if ($chk && isset($chk['id'])) $objId = intval($chk['id']);
-		}
-		if ($objId === 0 && !empty($JtsObject['jts_object_id'])) {
-			$objId = intval($JtsObject['jts_object_id']);
-		}
-		if ($objId === 0 && !empty($PE['lat']) && !empty($PE['long'])) {
-			$lat = floatval($PE['lat']);
-			$lon = floatval($PE['long']);
-			$sql->query("SELECT id FROM hr.jts_objects WHERE lat IS NOT NULL AND long IS NOT NULL ORDER BY ((lat - {$lat})*(lat - {$lat}) + (long - {$lon})*(long - {$lon})) ASC LIMIT 1");
-			$f = $sql->fetchAssoc();
-			if ($f && isset($f['id'])) $objId = intval($f['id']);
-		}
-
+		
 		// Attach raw event
-		$JtsObject['event_raw'] = $PE;
-
-		// SOS and Doors
-		$Sos = [];
-		$Door = [];
-		if ($objId > 0) {
-			$sql->query("SELECT t.id, t.name, t.lat, t.long FROM hr.jts_objects_sos t WHERE t.object_id = {$objId} ORDER BY t.id DESC");
-			$Sos = $sql->fetchAll();
-
-			$sql->query("SELECT t.id, t.name, t.lat, t.long FROM hr.jts_objects_door t WHERE t.object_id = {$objId} ORDER BY t.id DESC");
-			$Door = $sql->fetchAll();
-		}
-		$JtsObject['sos'] = $Sos;
-		$JtsObject['door'] = $Door;
+		// $JtsObject['event_raw'] = $PE;
 
 		// Cameras — build same structure as get_jts_object_by_id returns, AND also set data.cameras for compatibility
 		$CamUrl = [];
-		if ($objId > 0) {
-			$sql->query("SELECT t.id, t.cam_code, t.name, t.lat, t.long, CASE WHEN t.is_ptz THEN 1 ELSE 0 END AS is_ptz FROM hr.jts_objects_camera t WHERE t.object_id = {$objId}");
+		if ($id > 0) {
+			$sql->query("SELECT t.id, t.cam_code, t.name, t.lat, t.long, CASE WHEN t.is_ptz THEN 1 ELSE 0 END AS is_ptz FROM hr.public_event_cameras t WHERE t.id = {$id}");
 			$Cams = $sql->fetchAll();
 
 			if ($Cams) {
@@ -1054,38 +1061,6 @@ switch ($Action) {
 			}
 		}
 
-		// Routine (stats) specific to event
-		$query = "SELECT pe.id AS event_id,
-        COUNT(DISTINCT t.staff_id) AS all_staff, 
-        COUNT(t.car_id) AS car_count,
-        COALESCE(SUM(cardinality(t.epikirofka_id)), 0) AS epikirofka_count,
-        (
-            SELECT STRING_AGG(e.name{$slang}, ', ')
-            FROM (
-                SELECT DISTINCT unnest(ped.epikirofka_id) AS epic_id
-                FROM hr.public_event_duty ped
-                WHERE ped.public_event1_id = pe.id
-            ) x
-            JOIN ref.epic e ON e.id = x.epic_id
-        ) AS epic,
-        (SELECT COUNT(*) FROM hr.jts_objects_camera WHERE object_id = pe.object_id) AS count_cameras,
-        (SELECT COUNT(*) FROM hr.jts_objects_sos WHERE object_id = pe.object_id) AS count_sos
-    FROM hr.public_event1 pe 
-    LEFT JOIN hr.public_event_duty t ON t.public_event1_id = pe.id 
-    WHERE pe.id = {$id}
-    GROUP BY pe.id, pe.object_id;";
-		$sql->query($query);
-		$Routine = $sql->fetchAll();
-
-		// Body cams & Tracks placeholders
-		$BodyCamUrl = [];
-		$Tracks = [];
-
-		// Final assembly with BOTH places for cameras to match your frontend expectations
-		$JtsObject['cameras'] = $CamUrl;        // inside data
-		$JtsObject['routine'] = $Routine;
-		$JtsObject['body_cameras'] = $BodyCamUrl;
-		$JtsObject['tracks'] = $Tracks;
 
 		$result = [
 			'data' => $JtsObject,
@@ -1660,12 +1635,11 @@ switch ($Action) {
 		$listQuery = "
 			SELECT 
 				t.id,
-				j.object_name,
+				t.event_name,
 				b.id AS type_id,
 				b.name{$slang} AS type_name
 			FROM hr.public_event1 t
 			LEFT JOIN tur.public_event_types b ON b.id = t.event_type
-			LEFT JOIN hr.jts_objects j ON j.id = t.object_id
 			WHERE 1=1
 		";
 
@@ -1689,7 +1663,7 @@ switch ($Action) {
 			";
 		}
 
-		$listQuery .= " ORDER BY b.name{$slang} ASC, j.object_name ASC";
+		$listQuery .= " ORDER BY b.name{$slang} ASC, t.event_name ASC";
 
 		$sql->query($listQuery);
 		$list = $sql->fetchAll();
@@ -1715,7 +1689,7 @@ switch ($Action) {
 
 			$grouped[$typeId]["objects"][] = [
 				"id"          => $row['id'],
-				"object_name" => $row['object_name']
+				"object_name" => $row['event_name']
 			];
 		}
 
@@ -2155,6 +2129,9 @@ case 'get_body_cameras_map':
         'data' => $cams
     ]);
     exit;
+
+
+
 
 
 }

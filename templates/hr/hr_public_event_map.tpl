@@ -976,8 +976,8 @@ padding-right: 6px;     /* scroll tegmasligi uchun */
 
 
 <script>
-  var AJAXPHP = "ajax{$AddURL}.php";
-  var HRAJAXPHP = "hrajax{$AddURL}.php";
+  var AJAXPHP = "ajax.php";
+  var HRAJAXPHP = "hrajax.php";
   {literal}
 
 
@@ -985,7 +985,7 @@ padding-right: 6px;     /* scroll tegmasligi uchun */
       var urlParams = new URLSearchParams(window.location.search);
 
 
-      let region_id, object_id, object_type
+      let region_id, event_name, event_type
 
       let fetched_camera, fetched_body;
 
@@ -1067,27 +1067,27 @@ padding-right: 6px;     /* scroll tegmasligi uchun */
 
 
 
-      if (urlParams.get('object_type')) {
+      if (urlParams.get('event_type')) {
         if (urlParams.get('region_id')) {
           $('#viloyatSelect')
             .val(urlParams.get('region_id'))
 
             $('#objectTypeSelect')
-            .val(urlParams.get('object_type'))
+            .val(urlParams.get('event_type'))
 
           region_id = urlParams.get('region_id')
-          object_type = urlParams.get('object_type')
+          event_type = urlParams.get('event_type')
           
         }else{
           $('#objectTypeSelect')
-          .val(urlParams.get('object_type'))
+          .val(urlParams.get('event_type'))
 
-          object_type = urlParams.get('object_type')
+          event_type = urlParams.get('event_type')
         }
 
         setTimeout(() => {
           urlParams.set('region_id', '');
-          urlParams.set('object_type', '');
+          urlParams.set('event_type', '');
           var newUrl = window.location.pathname + '?' + urlParams.toString();
           window.history.replaceState({}, '', newUrl);
         }, 2000);
@@ -1103,8 +1103,8 @@ padding-right: 6px;     /* scroll tegmasligi uchun */
         let url = `${AJAXPHP}?act=get_public_events`;
         let params = [];
         if (region_id) params.push(`region_id=${region_id}`);
-        if (object_id) params.push(`object_id=${object_id}`);
-        if (object_type) params.push(`object_type=${object_type}`);
+        if (event_name) params.push(`event_name=${event_name}`);
+        if (event_type) params.push(`event_type=${event_type}`);
 
 
         if (params.length > 0) url += '&' + params.join('&');
@@ -1117,10 +1117,10 @@ padding-right: 6px;     /* scroll tegmasligi uchun */
             allMarkers.clearLayers();
             if (!response && !response.length) return
 
-            const bozor = response.filter(item => item.object_type == 1)
-            const bog = response.filter(item => item.object_type == 3)
-            const xiyobon = response.filter(item => item.object_type == 2)
-            const boshqa = response.filter(item => item.object_type == 4)
+            const bozor = response.filter(item => item.event_type == 1)
+            const bog = response.filter(item => item.event_type == 3)
+            const xiyobon = response.filter(item => item.event_type == 2)
+            const boshqa = response.filter(item => item.event_type == 4)
            
             console.log('response', response)
 
@@ -1128,11 +1128,11 @@ padding-right: 6px;     /* scroll tegmasligi uchun */
 
             // Markerlarni LayerGroup ga qo'shamiz
             response.forEach(m => {
-              const marker = L.marker([m.lat, m.long], { icon: markerIcons[m.object_type] })
+              const marker = L.marker([m.lat, m.long], { icon: markerIcons[m.event_type] })
                 .bindTooltip(m.object_name, { direction: 'top', offset: [0, -10],  className: 'my-tooltip' });
 
               marker.id = m.id;
-              marker.type = m.object_type;
+              marker.type = m.event_type;
               allMarkers.addLayer(marker);
              
               marker.on('click', function() {
@@ -1225,13 +1225,13 @@ padding-right: 6px;     /* scroll tegmasligi uchun */
     
     $('#objectTypeSelect').on('change', function() {
       var id = this.value;
-      object_type = id
+      event_type = id
 
       getObjects()
     })
     $('#objectSelect').on('change', function() {
       var id = this.value;
-      object_id = id
+      event_name = id
       getObjects()
     })
 
