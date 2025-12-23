@@ -3402,78 +3402,117 @@ case "get_event_duty":
 
 
      /// criminals crud ============        
-        case "get_criminals":
-        $RowId = MyPiDeCrypt($_GET['rowid']);
+      case "get_criminals":
 
-        $query = "SELECT t.* from tur.criminals t where t.id = {$RowId}";
-        $sql->query($query);
-        $result = $sql->fetchAssoc();
+    $RowId = MyPiDeCrypt($_GET['rowid']);
+
+    $query = "
+        SELECT 
+            c.* 
+        FROM tur.criminals c
+        WHERE c.id = {$RowId}
+    ";
+    $sql->query($query);
+    $result = $sql->fetchAssoc();
+
+    if ($result) {
         $result['rowid'] = MyPiCrypt($result['id']);
-        $res = json_encode($result);
-        break;
+    }
 
-    case "act_criminals":
-        $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
-        $region_id = $_POST['region_id'];
-        $violation_id = $_POST['violation_id'];
-        $count = $_POST['count'];
-        $date = $_POST['date'];
+    $res = json_encode($result);
 
-        if ($RowId != "0") {
-            // Update existing record
-            $updquery = "UPDATE tur.criminals SET
-                region_id = '{$region_id}',
+    break;
+
+
+   case "act_criminals":
+
+    $RowId        = !empty($_POST['id']) ? $_POST['id'] : 0;
+    $region_id    = $_POST['region_id'];
+    $violation_id = $_POST['violation_id'];
+    $date         = $_POST['date'];
+   
+    $fio          = $_POST['fio'];
+    $comment      = $_POST['comment'];
+
+    // 🔥 NULL handling (agar bo‘sh kelsa)
+    $fio     = ($fio === '' || $fio === 'null') ? null : $fio;
+    $comment = ($comment === '' || $comment === 'null') ? null : $comment;
+
+    $fioSql     = $fio === null ? "NULL" : "'{$fio}'";
+    $commentSql = $comment === null ? "NULL" : "'{$comment}'";
+
+    if ($RowId != "0") {
+
+        // 🔄 UPDATE
+        $updquery = "
+            UPDATE tur.criminals SET
+                region_id    = '{$region_id}',
                 violation_id = '{$violation_id}',
-                count = '{$count}',
-                date = '{$date}'
-              
-                WHERE id = {$RowId}";
-            $sql->query($updquery);
-            if ($sql->error() == "") {
-                $res = "0<&sep&>" . MyPiCrypt($RowId);
-            } else {
-                $res = $sql->error();
-            }
-        } else {
-            // Insert new record
-            $insquery = "INSERT INTO tur.criminals (
-                    region_id,
-                    violation_id,
-                    count,
-                    date
-                  
-                ) VALUES (
-                    '{$region_id}',
-                    '{$violation_id}',
-                    '{$count}',
-                    '{$date}'
-                    
-                )";
-            $sql->query($insquery);
-            if ($sql->error() == "") {
-                $sql->query("SELECT CURRVAL('tur.criminals_id_seq') AS last_id;");
-                $result = $sql->fetchAssoc();
-                $LastId = $result['last_id'];
-                $res = "0<&sep&>" . MyPiCrypt($LastId);
-            } else {
-                $res = $sql->error();
-            }
-        }
-        break;
-
-    case "del_criminals":
-        $RowId = MyPiDeCrypt($_GET['rowid']);
-
-        $query = "DELETE FROM tur.criminals WHERE id = {$RowId}";
-        $sql->query($query);
-        $result = $sql->fetchAssoc();
+                date         = '{$date}',
+           
+                fio          = {$fioSql},
+                comment      = {$commentSql}
+            WHERE id = {$RowId}
+        ";
+        $sql->query($updquery);
 
         if ($sql->error() == "") {
-            $res = 0;
+            $res = "0<&sep&>" . MyPiCrypt($RowId);
         } else {
-            $res = 2;
+            $res = $sql->error();
         }
-        break;
+
+    } else {
+
+        // ➕ INSERT
+        $insquery = "
+            INSERT INTO tur.criminals (
+                region_id,
+                violation_id,
+                date,
+              
+                fio,
+                comment
+            ) VALUES (
+                '{$region_id}',
+                '{$violation_id}',
+                '{$date}',
+              
+                {$fioSql},
+                {$commentSql}
+            )
+        ";
+        $sql->query($insquery);
+
+        if ($sql->error() == "") {
+            $sql->query("SELECT CURRVAL('tur.criminals_id_seq') AS last_id");
+            $result = $sql->fetchAssoc();
+            $LastId = $result['last_id'];
+
+            $res = "0<&sep&>" . MyPiCrypt($LastId);
+        } else {
+            $res = $sql->error();
+        }
+    }
+
+    break;
+
+
+   case "del_criminals":
+
+    $RowId = MyPiDeCrypt($_GET['rowid']);
+
+    $query = "DELETE FROM tur.criminals WHERE id = {$RowId}";
+    $sql->query($query);
+
+    if ($sql->error() == "") {
+        $res = 0;
+    } else {
+        $res = 2;
+    }
+
+    break;
+
     /// criminals crud ============    
 
 
@@ -3483,79 +3522,116 @@ case "get_event_duty":
 
 
     /// administrative_offenses crud ============        
-        case "get_administrative_offenses":
-        $RowId = MyPiDeCrypt($_GET['rowid']);
+    case "get_administrative_offences":
 
-        $query = "SELECT t.* from tur.criminals t where t.id = {$RowId}";
-        $sql->query($query);
-        $result = $sql->fetchAssoc();
+    $RowId = MyPiDeCrypt($_GET['rowid']);
+
+    $query = "
+        SELECT 
+            c.* 
+        FROM tur.administrativ c
+        WHERE c.id = {$RowId}
+    ";
+    $sql->query($query);
+    $result = $sql->fetchAssoc();
+
+    if ($result) {
         $result['rowid'] = MyPiCrypt($result['id']);
-        $res = json_encode($result);
-        break;
+    }
 
-    case "act_administrative_offenses":
-        $RowId = (!empty($_POST['id'])) ? $_POST['id'] : 0;
-        $region_id = $_POST['region_id'];
-        $violation_id = $_POST['violation_id'];
-        $count = $_POST['count'];
-        $date = $_POST['date'];
+    $res = json_encode($result);
+
+    break;
 
 
-        if ($RowId != "0") {
-            // Update existing record
-            $updquery = "UPDATE tur.administrativ SET
-                region_id = '{$region_id}',
+   case "act_administrative_offences":
+
+    $RowId        = !empty($_POST['id']) ? $_POST['id'] : 0;
+    $region_id    = $_POST['region_id'];
+    $violation_id = $_POST['violation_id'];
+    $date         = $_POST['date'];
+   
+    $fio          = $_POST['fio'];
+    $comment      = $_POST['comment'];
+
+    // 🔥 NULL handling (agar bo‘sh kelsa)
+    $fio     = ($fio === '' || $fio === 'null') ? null : $fio;
+    $comment = ($comment === '' || $comment === 'null') ? null : $comment;
+
+    $fioSql     = $fio === null ? "NULL" : "'{$fio}'";
+    $commentSql = $comment === null ? "NULL" : "'{$comment}'";
+
+    if ($RowId != "0") {
+
+        // 🔄 UPDATE
+        $updquery = "
+            UPDATE tur.administrativ SET
+                region_id    = '{$region_id}',
                 violation_id = '{$violation_id}',
-                count = '{$count}',
-                date = '{$date}'
-              
-                WHERE id = {$RowId}";
-            $sql->query($updquery);
-            if ($sql->error() == "") {
-                $res = "0<&sep&>" . MyPiCrypt($RowId);
-            } else {
-                $res = $sql->error();
-            }
-        } else {
-            // Insert new record
-            $insquery = "INSERT INTO tur.administrativ (
-                    region_id,
-                    violation_id,
-                    count,
-                    date
-                  
-                ) VALUES (
-                    '{$region_id}',
-                    '{$violation_id}',
-                    '{$count}',
-                    '{$date}'
-                    
-                )";
-            $sql->query($insquery);
-            if ($sql->error() == "") {
-                $sql->query("SELECT CURRVAL('tur.administrativ_id_seq') AS last_id;");
-                $result = $sql->fetchAssoc();
-                $LastId = $result['last_id'];
-                $res = "0<&sep&>" . MyPiCrypt($LastId);
-            } else {
-                $res = $sql->error();
-            }
-        }
-        break;
-
-    case "del_administrative_offenses":
-        $RowId = MyPiDeCrypt($_GET['rowid']);
-
-        $query = "DELETE FROM tur.administrativ WHERE id = {$RowId}";
-        $sql->query($query);
-        $result = $sql->fetchAssoc();
+                date         = '{$date}',
+           
+                fio          = {$fioSql},
+                comment      = {$commentSql}
+            WHERE id = {$RowId}
+        ";
+        $sql->query($updquery);
 
         if ($sql->error() == "") {
-            $res = 0;
+            $res = "0<&sep&>" . MyPiCrypt($RowId);
         } else {
-            $res = 2;
+            $res = $sql->error();
         }
-        break;
+
+    } else {
+
+        // ➕ INSERT
+        $insquery = "
+            INSERT INTO tur.administrativ (
+                region_id,
+                violation_id,
+                date,
+              
+                fio,
+                comment
+            ) VALUES (
+                '{$region_id}',
+                '{$violation_id}',
+                '{$date}',
+              
+                {$fioSql},
+                {$commentSql}
+            )
+        ";
+        $sql->query($insquery);
+
+        if ($sql->error() == "") {
+            $sql->query("SELECT CURRVAL('tur.administrativ_id_seq') AS last_id");
+            $result = $sql->fetchAssoc();
+            $LastId = $result['last_id'];
+
+            $res = "0<&sep&>" . MyPiCrypt($LastId);
+        } else {
+            $res = $sql->error();
+        }
+    }
+
+    break;
+
+
+   case "del_administrative_offences":
+
+    $RowId = MyPiDeCrypt($_GET['rowid']);
+
+    $query = "DELETE FROM tur.administrativ WHERE id = {$RowId}";
+    $sql->query($query);
+
+    if ($sql->error() == "") {
+        $res = 0;
+    } else {
+        $res = 2;
+    }
+
+    break;
     /// administrative_offenses crud ============    
 
 

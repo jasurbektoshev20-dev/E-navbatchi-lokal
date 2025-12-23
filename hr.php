@@ -1758,69 +1758,124 @@ break;
 		break;	
 
 
-	case "hr_administrative_offenses":
-		$query  = "SELECT t.id, s.name{$slang} as structure_name,ot.name{$slang} as type_name,
-		t.date,t.count FROM tur.administrativ t
-		left join tur.administrativ_types ot on ot.id  = t.violation_id
-		left join hr.structure s on s.id  = t.region_id
-		ORDER BY t.id ASC";
-		$sql->query($query);
-		$violations = $sql->fetchAll();
+     case "hr_administrative_offenses":
 
-		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t 
-		where t.id > 1 and t.id < 16
-		ORDER BY t.turn ASC";
+		// 📌 Жиноятлар рўйхати (region + type номи билан)
+		$query = "
+			SELECT 
+				c.id,
+				c.region_id,
+				s.name{$slang}        AS region_name,
+				c.violation_id,
+				ct.name{$slang}       AS violation_name,
+				c.date,
+				c.fio,
+				c.comment
+			FROM tur.administrativ c
+			LEFT JOIN tur.administrativ_types ct 
+				ON ct.id = c.violation_id
+			LEFT JOIN hr.structure s 
+				ON s.id = c.region_id
+			ORDER BY c.id ASC
+		";
+		$sql->query($query);
+		$Administrativ = $sql->fetchAll();
+
+
+		// 📌 Ҳудудлар (Region select учун)
+		$query = "
+			SELECT 
+				t.id, 
+				t.name{$slang} AS name
+			FROM hr.v_head_structure t
+			WHERE t.id > 1 AND t.id < 16
+			ORDER BY t.turn ASC
+		";
 		$sql->query($query);
 		$Regions = $sql->fetchAll();
 
-		$query  = "SELECT t.id, t.name{$slang} as name FROM tur.administrativ_types t ORDER BY t.id ASC";
+
+		// 📌 Жиноят турлари (Type select учун)
+		$query = "
+			SELECT 
+				t.id, 
+				t.name{$slang} AS name
+			FROM tur.administrativ_types t
+			ORDER BY t.id ASC
+		";
 		$sql->query($query);
 		$Types = $sql->fetchAll();
 
-		// echo '<pre>';
-		// print_r($violations);
-		// echo '</pre>';
-		// die();
 
-		$smarty->assign(array(
-			'violations' => $violations,
+		// 📌 Smarty’га юбориш
+		$smarty->assign([
+			'Administrativ'  => $Administrativ,
 			'Regions' => $Regions,
-			'Types' => $Types,
-		));
-		break;	
+			'Types'   => $Types,
+		]);
+
+		break;
 		
 		
 
 	case "hr_crimes":
-		$query  = "SELECT t.id, s.name{$slang} as structure_name,ot.name{$slang} as type_name,
-		t.date,t.count FROM tur.criminals t
-		left join tur.criminals_types ot on ot.id  = t.violation_id
-		left join hr.structure s on s.id  = t.region_id
-		ORDER BY t.id ASC";
-		$sql->query($query);
-		$violations = $sql->fetchAll();
 
-		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t 
-		where t.id > 1 and t.id < 16
-		ORDER BY t.turn ASC";
+		// 📌 Жиноятлар рўйхати (region + type номи билан)
+		$query = "
+			SELECT 
+				c.id,
+				c.region_id,
+				s.name{$slang}        AS region_name,
+				c.violation_id,
+				ct.name{$slang}       AS violation_name,
+				c.date,
+				c.fio,
+				c.comment
+			FROM tur.criminals c
+			LEFT JOIN tur.criminals_types ct 
+				ON ct.id = c.violation_id
+			LEFT JOIN hr.structure s 
+				ON s.id = c.region_id
+			ORDER BY c.id ASC
+		";
+		$sql->query($query);
+		$Crimes = $sql->fetchAll();
+
+
+		// 📌 Ҳудудлар (Region select учун)
+		$query = "
+			SELECT 
+				t.id, 
+				t.name{$slang} AS name
+			FROM hr.v_head_structure t
+			WHERE t.id > 1 AND t.id < 16
+			ORDER BY t.turn ASC
+		";
 		$sql->query($query);
 		$Regions = $sql->fetchAll();
 
-		$query  = "SELECT t.id, t.name{$slang} as name FROM tur.criminals_types t ORDER BY t.id ASC";
+
+		// 📌 Жиноят турлари (Type select учун)
+		$query = "
+			SELECT 
+				t.id, 
+				t.name{$slang} AS name
+			FROM tur.criminals_types t
+			ORDER BY t.id ASC
+		";
 		$sql->query($query);
 		$Types = $sql->fetchAll();
 
-		// echo '<pre>';
-		// print_r($violations);
-		// echo '</pre>';
-		// die();
 
-		$smarty->assign(array(
-			'violations' => $violations,
+		// 📌 Smarty’га юбориш
+		$smarty->assign([
+			'Crimes'  => $Crimes,
 			'Regions' => $Regions,
-			'Types' => $Types,
-		));
-		break;	
+			'Types'   => $Types,
+		]);
+
+		break;
+
 
 
 
