@@ -52,19 +52,19 @@
                                 <th class="text-center">Тугаш вақти</th>
                                 <th class="text-center">Фуқаролар сони</th>
                                 <th class="text-center">Тадбирга масъул ташкилот</th>
-                                <th class="text-center">Масъул ФИШ</th>
-                                <th class="text-center">Телефон</th>
+                                <th class="text-center">Тадбирга масъул ФИШ</th>
+                                <th class="text-center">Тадбирга масъул телефони</th>
                                 <th class="text-center">МГ жавобгар</th>
                                 <th class="text-center">МГ сони</th>
-                                <th class="text-center">ИИВ масъул ФИШ</th>
+                                <th class="text-center">ИИВ маъсули ФИШ</th>
                                 <th class="text-center">ИИВ ҲХ сони</th>
-                                <th class="text-center">ФВВ масъул ФИШ</th>
+                                <th class="text-center">ФВВ маъсули ФИШ</th>
                                 <th class="text-center">ФВВ ҲХ сони</th>
-                                <th class="text-center">МГ МСГр масъул ФИШ</th>
+                                <th class="text-center">МГ МСГр маъсули ФИШ</th>
                                 <th class="text-center">МГ МСГр сони</th>
-                                <th class="text-center">ИИВ Спринг масъул ФИШ</th>
+                                <th class="text-center">ИИВ Спринг маъсули ФИШ</th>
                                 <th class="text-center">ИИВ Спринг сони</th>
-                                <th class="text-center">Захирага масъул</th>
+                                <th class="text-center">Захирага маъсули ФИШ</th>
                                 <th class="text-center">Захира сони</th>
                                 <th class="text-center">Тадбирни ўтказувчи ташаббускор</th>
                                 <th class="text-center">Холат ҳақида қисқача</th>
@@ -158,11 +158,11 @@
                         </div>
 
                         <div class="col-sm-4">
-                            <label>Тадбир ўтказиладиган жой</label>
+                            <label>Ўтказиладиган жой манзили</label>
                             <input required type="text" class="form-control" name="object_id" id="object_id" value="">
                         </div>
                         <div class="col-sm-4">
-                            <label>Тадбир тури</label>
+                            <label>тури</label>
                             <select required class="select form-control" name="event_type" id="event_type">
                                 <option value="">{$Dict.choose}</option>
                                 {foreach from=$EventTypes item=Item1 key=ikey1}
@@ -172,7 +172,7 @@
                         </div>
 
                         <div class="col-sm-4">
-                            <label>Тадбир Тоифаси</label>
+                            <label>Тоифаси</label>
                             <select required class="select form-control" name="event_category" id="event_category">
                                 <option value="">{$Dict.choose}</option>
                                 {foreach from=$EventCategory item=Item1 key=ikey1}
@@ -182,12 +182,12 @@
                         </div>
 
                         <div class="col-sm-4">
-                            <label>Тадбир номи</label>
+                            <label>Номи</label>
                             <input required type="text" class="form-control" name="event_name" id="event_name" value="">
                         </div>
 
                         <div class="col-sm-4">
-                            <label>Тадбир йўналиши</label>
+                            <label>Йўналиши</label>
                             <select required class="select form-control" name="event_direction" id="event_direction">
                                 <option value="">{$Dict.choose}</option>
                                 <option value="Халқаро">Халқаро</option>
@@ -196,7 +196,7 @@
                         </div>
 
                         <div class="col-sm-4">
-                            <label>Тадбир кўриниши</label>
+                            <label>Кўриниши</label>
                             <select required class="select form-control" name="event_view" id="event_view">
                                 <option value="">{$Dict.choose}</option>
                                 <option value="Ҳукумат қарори асосидаги тадбир">Ҳукумат қарори асосидаги тадбир</option>
@@ -205,7 +205,7 @@
                         </div>
 
                         <div class="col-sm-4">
-                            <label >Бошланиш вақти</label>
+                            <label>Бошланиш вақти</label>
                             <input type="datetime" class="form-control" placeholder="DD-MM-YYYY" id="start_event_date"
                                 name="start_event" />
                         </div>
@@ -223,7 +223,7 @@
                         </div>
 
                         <div class="col-sm-4">
-                            <label>Тадбирга масъул ташкилот</label>
+                            <label>Масъул ташкилот</label>
                             <select required class="select form-control" name="event_responsible_organization" id="event_responsible_organization">
                                 <option value="">{$Dict.choose}</option>
                                 <option value="ИИБ">ИИБ</option>
@@ -233,28 +233,28 @@
                         </div>
                         
                         <div class="col-sm-4">
-                            <label>Масъул номи</label>
+                            <label>Ташкилот масъули ФИШ</label>
                             <input required type="text" class="form-control" name="responsible_name" id="responsible_name"  value="">
                         </div>
 
                          <div class="col-sm-4">
-                            <label>Масъул телефон рақами</label>
+                            <label>Ташкилот масъули телефон рақами</label>
                             <input required type="text" class="form-control" name="responsible_phone" id="responsible_phone" placeholder="90 345 76 87"  value="">
                         </div>
 
                          <div class="col-sm-4">
-                            <label>MG масъул</label>
+                            <label>МГ масъул ФИШ</label>
                             <input required type="text" class="form-control" name="responsible_mg_name" id="responsible_mg_name"  value="">
                         </div>
 
                         <div class="col-sm-4">
-                            <label>MG сони</label>
+                            <label>МГ сони</label>
                             <input required type="number" class="form-control" name="event_number_mg" id="event_number_mg"
                                 value="">
                         </div>
 
                         <div class="col-sm-4">
-                            <label>ИИВ масъул</label>
+                            <label>ИИВ масъул ФИШ</label>
                             <input type="text" class="form-control" name="responsible_iiv_name" id="responsible_iiv_name"  value="">
                         </div>
 
@@ -265,7 +265,7 @@
                         </div>
 
                          <div class="col-sm-4">
-                            <label>ФВВ масъул</label>
+                            <label>ФВВ масъул ФИШ</label>
                             <input type="text" class="form-control" name="responsible_fvv_name" id="responsible_fvv_name"  value="">
                         </div>
 
@@ -276,7 +276,7 @@
                         </div>
 
                        <div class="col-sm-4">
-                            <label>МГ МСГр масъул</label>
+                            <label>МГ МСГр масъул ФИШ</label>
                             <input type="text" class="form-control" name="responsible_msgr_name" id="responsible_msgr_name"  value="">
                         </div>
 
@@ -286,7 +286,7 @@
                         </div>
 
                         <div class="col-sm-4">
-                            <label>ИИВ Спринг масъул</label>
+                            <label>ИИВ Спринг масъул ФИШ</label>
                             <input type="text" class="form-control" name="responsible_spring_name" id="responsible_spring_name"  value="">
                         </div>
 
@@ -296,7 +296,7 @@
                         </div>
 
                         <div class="col-sm-4">
-                            <label>Захирага масъул</label>
+                            <label>Захирага масъул ФИШ</label>
                             <input type="text" class="form-control" name="reserve_name" id="reserve_name"  value="">
                         </div>
 
@@ -306,16 +306,16 @@
                         </div>
 
                         <div class="col-sm-8">
-                            <label>Тадбирни ўтказувчи ташаббускор</label>
+                            <label>Тадбирни ўтказувчи ташаббускор ташкилот</label>
                             <input required type="text" class="form-control" name="organizer" id="organizer"
                                 value="">
                         </div>
                            <div class="col-sm-6">
-                            <label>Obyekt joylashuvi uzunligi (lat)</label>
+                            <label>Объект жойлашуви X </label>
                             <input required type="text" class="form-control" name="lat" id="lat" value="">
                         </div>
                         <div class="col-sm-6">
-                            <label>byekt joylashuvi kengligi (long)</label>
+                            <label>Оект жойлашуви Y</label>
                             <input required type="text" class="form-control" name="long" id="long" value="">
                         </div>
                         <div class="col-sm-12">
