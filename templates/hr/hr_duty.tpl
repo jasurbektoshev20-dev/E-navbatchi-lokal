@@ -26,19 +26,26 @@
                     <table class="datatables-projects table border-top">
                         <thead>
                             <tr>
-                                <th>No̱</th>
-                                <th>{$Dict.structure}</th>
-                                <th>{$Dict.name2}</th>
-                                <th>{$Dict.name3}</th>
+                                <th class="text-center">т/р</th>
+                                <th class="text-center">{$Dict.structure}</th>
+                                <th class="text-center">{$Dict.name2}</th>
+                                <th class="text-center">{$Dict.name3}</th>
+                                <th class="text-center">Камера</th>
                             </tr>
                         </thead>
                         <tbody>
                             {foreach from=$RegDyns item=Table key=tkey}
                                 <tr class="lb" id="row_{$Table.id|crypt}">
-                                    <td>{$tkey+1}</td>
-                                    <td><a href="hr.php?act=duty_staff&mid={$smarty.get.mid}&regdyn={$Table.id|crypt}">{$Table.name1}</a></td>
-                                    <td>{$Table.name2}</td>
-                                    <td>{$Table.name3}</td>
+                                    <td class="text-center">{$tkey+1}</td>
+                                    <td class="text-center"><a href="hr.php?act=duty_staff&mid={$smarty.get.mid}&regdyn={$Table.id|crypt}">{$Table.name1}</a></td>
+                                    <td class="text-center">{$Table.name2}</td>
+                                    <td class="text-center">{$Table.name3}</td>
+                                    <td class="text-center">
+                                        <a href="hr.php?act=duty_cameras&mid={$Table.id|crypt}">
+                                            <i class="ti ti-camera me-1" style="font-size: 24px;"></i>
+                                        </a>
+                                    </td>
+
                                     {* <td class="text-right">{$Table.scount}</td> *}
                                 </tr>
                             {/foreach}
