@@ -2156,6 +2156,230 @@ case 'get_body_cameras_map':
     ]);
     exit;
 
+    
+	 case "administrative_offences":
+
+    // 1️⃣ Pie chart – moddalar bo‘yicha
+    $query = "
+        SELECT
+            t.id,
+            t.name{$slang} AS name,
+            SUM(a.count) AS value
+        FROM tur.administrativ a
+        LEFT JOIN tur.administrativ_types t ON t.id = a.violation_id
+        WHERE 1=1
+        GROUP BY t.id, t.name{$slang}
+        ORDER BY t.id
+    ";
+    $sql->query($query);
+    $stats = $sql->fetchAll();
+
+    // 2️⃣ Bar chart – hududlar bo‘yicha
+    $query = "
+        SELECT
+            s.id,
+            s.name{$slang} AS name,
+            SUM(a.count) AS value
+        FROM tur.administrativ a
+        LEFT JOIN hr.structure s ON s.id = a.region_id
+        WHERE s.id IS NOT NULL
+        GROUP BY s.id, s.name{$slang}
+        ORDER BY s.id
+    ";
+    $sql->query($query);
+    $stat_region = $sql->fetchAll();
+
+    // 3️⃣ Final JSON
+    $res = json_encode([
+        "stats"        => $stats,
+        "stat_region" => $stat_region,
+        "list"        => [] // hozircha bo‘sh
+    ]);
+
+break;
+
+
+
+       case "get_administrative_stats":
+
+			$structure_id = isset($_GET['structure_id']) ? (int)$_GET['structure_id'] : 0;
+
+			/*
+			|--------------------------------------------------------------------------
+			| 1) PIE CHART — Маъмурий ҳуқуқбузарликлар (TURLAR bo‘yicha)
+			|--------------------------------------------------------------------------
+			| ❗ Eslatma:
+			| tur.administrativ.count YO‘Q
+			| Har bir yozuv = 1 ta huquqbuzarlik
+			| Shuning uchun COUNT(a.id) ishlatamiz
+			*/
+			$query = "
+				SELECT
+					at.id,
+					at.name{$slang} AS name,
+					COUNT(a.id) AS value
+				FROM tur.administrativ a
+				LEFT JOIN tur.administrativ_types at ON at.id = a.violation_id
+				WHERE 1=1
+			";
+
+			if ($structure_id > 0) {
+				$query .= " AND a.region_id = {$structure_id}";
+			}
+
+			$query .= "
+				GROUP BY at.id, at.name{$slang}
+				ORDER BY at.id ASC
+			";
+
+			$sql->query($query);
+			$stats = $sql->fetchAll();
+
+					$regionQuery = "
+					SELECT
+						a.region_id AS id,
+						COALESCE(s.name{$slang}, 'Номаълум') AS name,
+						COUNT(a.id) AS value
+					FROM tur.administrativ a
+					LEFT JOIN hr.structure s 
+						ON s.id = a.region_id
+					WHERE a.region_id IS NOT NULL
+				";
+
+				if ($structure_id > 0) {
+					$regionQuery .= " AND a.region_id = {$structure_id}";
+				}
+
+				$regionQuery .= "
+					GROUP BY a.region_id, s.name{$slang}
+					ORDER BY a.region_id ASC
+				";
+
+			$sql->query($regionQuery);
+			$stat_region = $sql->fetchAll();
+
+
+			/*
+			|--------------------------------------------------------------------------
+			| 3) LIST (keyingi bosqich uchun)
+			|--------------------------------------------------------------------------
+			*/
+			$list = [];
+
+
+			/*
+			|--------------------------------------------------------------------------
+			| 4) FINAL JSON
+			|--------------------------------------------------------------------------
+			*/
+			$res = json_encode([
+				'stats'       => $stats,
+				'stat_region' => $stat_region,
+				'list'        => $list
+			]);
+
+      break;
+
+	  case "get_criminal_stats":
+
+			$structure_id = isset($_GET['structure_id']) ? (int)$_GET['structure_id'] : 0;
+
+			/*
+			|--------------------------------------------------------------------------
+			| 1) PIE CHART — Жиноятлар (TURLAR bo‘yicha)
+			|--------------------------------------------------------------------------
+			| tur.criminals jadvalida:
+			| - violation_id → type
+			| - har bir yozuv = 1 ta jinoyat
+			| → COUNT(c.id)
+			*/
+			$query = "
+				SELECT
+					ct.id,
+					ct.name{$slang} AS name,
+					COUNT(c.id) AS value
+				FROM tur.criminals c
+				LEFT JOIN tur.criminals_types ct 
+					ON ct.id = c.violation_id
+				WHERE 1=1
+			";
+
+			if ($structure_id > 0) {
+				$query .= " AND c.region_id = {$structure_id}";
+			}
+
+			$query .= "
+				GROUP BY ct.id, ct.name{$slang}
+				ORDER BY ct.id ASC
+			";
+
+			$sql->query($query);
+			$stats = $sql->fetchAll();
+
+
+			/*
+			|--------------------------------------------------------------------------
+			| 2) BAR CHART — Ҳудудлар кесимида
+			|--------------------------------------------------------------------------
+			*/
+			$regionQuery = "
+				SELECT
+					c.region_id AS id,
+					COALESCE(s.name{$slang}, 'Номаълум') AS name,
+					COUNT(c.id) AS value
+				FROM tur.criminals c
+				LEFT JOIN hr.structure s 
+					ON s.id = c.region_id
+				WHERE c.region_id IS NOT NULL
+			";
+
+			if ($structure_id > 0) {
+				$regionQuery .= " AND c.region_id = {$structure_id}";
+			}
+
+			$regionQuery .= "
+				GROUP BY c.region_id, s.name{$slang}
+				ORDER BY c.region_id ASC
+			";
+
+			$sql->query($regionQuery);
+			$stat_region = $sql->fetchAll();
+
+
+			/*
+			|--------------------------------------------------------------------------
+			| 3) LIST (keyingi bosqichlar uchun — hozir bo‘sh)
+			|--------------------------------------------------------------------------
+			*/
+			$list = [];
+
+
+			/*
+			|--------------------------------------------------------------------------
+			| 4) FINAL JSON
+			|--------------------------------------------------------------------------
+			*/
+			$res = json_encode([
+				'stats'       => $stats,
+				'stat_region' => $stat_region,
+				'list'        => $list
+			]);
+
+		break;
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
 
 }
 

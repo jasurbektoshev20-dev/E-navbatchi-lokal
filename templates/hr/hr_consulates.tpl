@@ -521,7 +521,10 @@
     padding: 2px;
 }
 
-
+.btn-sos{
+    padding: 5px 10px !important;
+    font-size: 16px;
+}
 
 
 
@@ -671,8 +674,9 @@
                         </button>
                     </div>
                       <div class="col-1">
-                        <button class="px-2 py-1 btn btn-success ml-2" type="button">
-                              <i class="ti ti-bell-ringing"></i>
+                        <button class="px-2 py-1 btn btn-danger btn-sos ml-2" type="button">
+                              {* <i class="ti ti-bell-ringing"></i> *}
+                              SOS
                         </button>
                     </div>
                     <div class="col radio_call text-danger" style="text-align: right; font-size: 20px">
