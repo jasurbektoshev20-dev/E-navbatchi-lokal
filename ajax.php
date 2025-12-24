@@ -2102,7 +2102,7 @@ break;
 case 'get_body_cameras_map':
 
     $query = "
-        SELECT id, cam_code, comment, lat, long, status
+        SELECT id, cam_code, comment, lat, long, status, structure_id
         FROM hr.body_cameras
         WHERE status = true
     ";

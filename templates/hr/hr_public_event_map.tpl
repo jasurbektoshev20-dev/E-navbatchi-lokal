@@ -1947,7 +1947,7 @@ padding-right: 6px;     /* scroll tegmasligi uchun */
       }
 
       window.onresize = function() {
-          jsDecoder.JS_Resize(1115, 700);
+          jsDecoder.JS_Resize(1050, 700);
       }
 
     });
