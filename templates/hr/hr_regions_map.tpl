@@ -1531,15 +1531,7 @@
                                 </select>
                               </div>
 
-                              {* <div class="mb-1 col-12">
-                                <label for="objectSelect" id="objectLabelLabel" class="form-label text-warning fs-5">Объект номи</label>
-                                <select id="objectSelect" class="form-select">
-                                  <option value="">Танланг</option>
-                                  {foreach from=$Objects item=Item1 key=ikey1}
-                                  <option value="{$Item1.id}">{$Item1.name}</option>
-                                  {/foreach}
-                                </select>
-                              </div> *}
+                           
                               <div class="mb-1 col-12 position-relative" id="object-wrapper">
                                   <label class="form-label text-warning fs-5">Объект номи</label>
 
@@ -1572,19 +1564,7 @@
                               </select>
                           </div>
 
-                          {* <div class="mb-1 col-12">
-                              <label class="form-label text-warning fs-5">{$Dict.regions}</label>
-                              <select class="form-select" id="select_region">
-                                  <option value="0">{$Dict.all}</option>
-                                {foreach from=$Regions item=Item key=key name=regionsLoop}
-                                  {if $smarty.foreach.regionsLoop.iteration <= 14}
-                                      <option value="{$Item.id}" data-lat="{$Item.latitude}" data-lon="{$Item.longtitude}" data-zoom="{$Item.zoom}">
-                                          {$Item.name}
-                                      </option>
-                                  {/if}
-                              {/foreach}
-                              </select>
-                          </div> *}
+                         
 
                           <div class="col-12 mt-3">
                               <label class="form-label text-success fs-5">{$Dict.cars}<span style="color: #ddd;" id="total_thg"></span></label>
@@ -1859,11 +1839,23 @@
 
     document.addEventListener("DOMContentLoaded", function() {
 
-     document.getElementById("filterToggleBtn").addEventListener("click", function () {
-        const panel = document.querySelector(".filter-mpg");
-        // panel.classList.toggle("active");
-          $(".filter-mpg").toggleClass("hidden-panel");
-    });
+   document.getElementById("filterToggleBtn").addEventListener("click", function (e) {
+    e.stopPropagation(); // 🔥 tashqariga o'tib ketmasin
+    $(".filter-mpg").toggleClass("hidden-panel");
+   });
+
+      document.querySelector(".filter-mpg").addEventListener("click", function (e) {
+          e.stopPropagation();
+      });
+
+      document.addEventListener("click", function () {
+    const panel = document.querySelector(".filter-mpg");
+
+    if (!panel.classList.contains("hidden-panel")) {
+        panel.classList.add("hidden-panel");
+    }
+});
+
 
 
       let bodyCamPC = null;
@@ -2062,6 +2054,8 @@ map.addLayer(objectsCluster);
         getObjects()
       }
 
+         
+
       // carsCluster.clearLayers();
       // objectsCluster.clearLayers();
 
@@ -2199,6 +2193,14 @@ const bodyCamIcons = {
   })
 };
 
+function clearBodyCamMarkers() {
+    Object.values(bodyCamMarkers).forEach(marker => {
+        bodyCamCluster.removeLayer(marker);
+    });
+    bodyCamMarkers = {};
+}
+
+
 function loadBodyCameras() {
     $.ajax({
         url: '/ajax.php',
@@ -2273,16 +2275,17 @@ function drawBodyCamerasOnMap(cameras) {
     });
 }
 
-
-// let mapBusy = false;
-
-// map.on('movestart zoomstart', () => mapBusy = true);
-// map.on('moveend zoomend', () => mapBusy = false);
-
 function loadBodyCameras() {
-    // if (mapBusy) return;
 
-    $.getJSON(`${AJAXPHP}?act=get_body_cameras_map`, res => {
+    clearBodyCamMarkers(); // 🔥 MUHIM
+
+    let params = [];
+    if (region_id) params.push(`region_id=${region_id}`);
+
+    let url = `${AJAXPHP}?act=get_body_cameras_map`;
+    if (params.length) url += '&' + params.join('&');
+
+    $.getJSON(url, res => {
         if (res?.success) {
             drawBodyCamerasOnMap(res.data);
         }
@@ -2293,8 +2296,6 @@ function loadBodyCameras() {
 
 loadBodyCameras();
 setInterval(loadBodyCameras, 60000);
-
-
 
 $(document).on('click', '.open-bodycam', async function (e) {
     e.preventDefault();
@@ -2337,43 +2338,21 @@ $(document).on('click', '.open-bodycam', async function (e) {
     }
 });
 
+    // $('#viloyatSelect').on('change', function() {
+    //   let id = this.value;
+    //   region_id = id
+    //   getObjects()
+    //    
+    // })
 
+    $('#viloyatSelect').on('change', function () {
+    region_id = this.value || null;
 
+    getObjects();        // obyektlar
+    loadBodyCameras();  // 🔥 body kameralar
+     callCars(region_id, in_service);
+});
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    $('#viloyatSelect').on('change', function() {
-      let id = this.value;
-      region_id = id
-      getObjects()
-        callCars(region_id, in_service);
-    })
 
     // Filtering in service
     $('#in_service').change(function(event) {
@@ -2381,35 +2360,25 @@ $(document).on('click', '.open-bodycam', async function (e) {
         callCars(region_id, in_service);
     });
 
-          // Filtering regions
-        // $('#select_region').change(function(event) {
-        //     region_id = this.value;
-        //     callCars(region_id, in_service);
-        // });
 
-     
-    
-    $('#objectTypeSelect').on('change', function() {
-      let id = this.value;
-      object_type = id
-      getObjects()
-    })
+// $('#viloyatSelect').on('change', function () {
+//   region_id = this.value || null;
+//   getObjects();
+// });
 
+$('#viloyatSelect').on('change', function () {
+    region_id = this.value || null;
 
-    //  $('#objectSelect').on('change', function() {
-    //     let id = this.value;
-    //     object_id = id
-    //     getObjects()
-    //   })
-
-    // let object_id = null;
-
-// SELECT CHANGE (sizdagi funksiya)
-$('#objectSelect').on('change', function () {
-  object_id = this.value;
-  console.log('Selected object_id:', object_id);
-  getObjects(); // sizning funksiyangiz
+    getObjects();        // obyektlar
+    loadBodyCameras();  // 🔥 body kameralar
 });
+
+
+$('#objectTypeSelect').on('change', function () {
+  object_type = this.value || null;
+  getObjects();
+});
+
 
 const objectSearch = document.getElementById('object_search');
 const objectSelect = document.getElementById('objectSelect');
