@@ -79,7 +79,7 @@
                                     <td class="text-center">
                                        {$item.region_name}
                                     </td>
-                                    <td class="text-center">{$item.obj_name}</td>
+                                    <td class="text-center">{$item.object_name}</td>
                                     <td class="text-center">{$item.event_type}</td>     
                                     <td class="text-center">{$item.event_category}</td>     
                                     <td class="text-center">{$item.event_name}</td>
@@ -104,7 +104,7 @@
                                     <td class="text-center">{$item.reserve_name} </td>
                                     <td class="text-center">{$item.reserve_count}</td>
                                     <td class="text-center">{$item.organizer}</td>
-                                    <td class="text-center">{$item.situation_text}</td>
+                                    <td class="text-center">{$item.comment}</td>
                                     <td class="text-center">
                                         <a href="hr.php?act=events_cam&mid={$item.id}">
                                             <i class="ti ti-camera me-1" style="font-size: 28px;"></i>
@@ -150,7 +150,7 @@
                         <div class="col-sm-4">
                             <label>{$Dict.region}</label>
                             <select required class="select form-control" name="region_id" id="region_id">
-                                <option value="">{$Dict.choose}</option>
+                               
                                 {foreach from=$Regions item=Item1 key=ikey1}
                                     <option value="{$Item1.id}">{$Item1.name}</option>
                                 {/foreach}
@@ -164,7 +164,7 @@
                         <div class="col-sm-4">
                             <label>тури</label>
                             <select required class="select form-control" name="event_type" id="event_type">
-                                <option value="">{$Dict.choose}</option>
+                               
                                 {foreach from=$EventTypes item=Item1 key=ikey1}
                                     <option value="{$Item1.id}">{$Item1.event_type}</option>
                                 {/foreach}
@@ -174,7 +174,7 @@
                         <div class="col-sm-4">
                             <label>Тоифаси</label>
                             <select required class="select form-control" name="event_category" id="event_category">
-                                <option value="">{$Dict.choose}</option>
+                               
                                 {foreach from=$EventCategory item=Item1 key=ikey1}
                                     <option value="{$Item1.id}">{$Item1.event_category}</option>
                                 {/foreach}
@@ -189,7 +189,7 @@
                         <div class="col-sm-4">
                             <label>Йўналиши</label>
                             <select required class="select form-control" name="event_direction" id="event_direction">
-                                <option value="">{$Dict.choose}</option>
+                                
                                 <option value="Халқаро">Халқаро</option>
                                 <option value="Республика">Республика</option>
                             </select>
@@ -198,7 +198,7 @@
                         <div class="col-sm-4">
                             <label>Кўриниши</label>
                             <select required class="select form-control" name="event_view" id="event_view">
-                                <option value="">{$Dict.choose}</option>
+                              
                                 <option value="Ҳукумат қарори асосидаги тадбир">Ҳукумат қарори асосидаги тадбир</option>
                                 <option value="Пулли хизмат асосида тадбир">Пулли хизмат асосида тадбир</option>
                             </select>
@@ -225,7 +225,7 @@
                         <div class="col-sm-4">
                             <label>Масъул ташкилот</label>
                             <select required class="select form-control" name="event_responsible_organization" id="event_responsible_organization">
-                                <option value="">{$Dict.choose}</option>
+                               
                                 <option value="ИИБ">ИИБ</option>
                                 <option value="ФВВ">ФВВ</option>
                                 <option value="МГ">МГ</option>
@@ -315,7 +315,7 @@
                             <input required type="text" class="form-control" name="lat" id="lat" value="">
                         </div>
                         <div class="col-sm-6">
-                            <label>Оект жойлашуви Y</label>
+                            <label>Объект жойлашуви Y</label>
                             <input required type="text" class="form-control" name="long" id="long" value="">
                         </div>
                         <div class="col-sm-12">

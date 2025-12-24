@@ -515,37 +515,43 @@ switch ($Action) {
 
     case "act_events":
         $RowId    = (!empty($_POST['id'])) ? $_POST['id'] : 0;
-        $region_id = $_POST['region_id'];
-        $object_id =  $_POST['object_id'];
-        $event_type = $_POST['event_type'];
-        $event_category = $_POST['event_category'];
-        $event_direction = $_POST['event_direction'];
-        $event_view = $_POST['event_view'];
-        $event_respnsible_organization = $_POST['event_responsible_organization'];
+        $region_id = isset($_POST['region_id']) ? (int)$_POST['region_id'] : null;
+        $object_name = isset($_POST['object_id']) ? (int)$_POST['object_id'] : null;
+        $event_type = isset($_POST['event_type']) ? (int)$_POST['event_type'] : null;
+        $event_category = isset($_POST['event_category']) ? (int)$_POST['event_category'] : null;
+        $event_direction = isset($_POST['event_direction']) ? $_POST['event_direction'] : null;
+        $event_view = isset($_POST['event_view']) ? $_POST['event_view'] : null;
+        $event_respnsible_organization = isset($_POST['event_responsible_organization']) ? (int)$_POST['event_responsible_organization'] : null;
         $start_event = $_POST['start_event'];
         $finish_event = $_POST['finish_event'];
-        $organizer = $_POST['organizer'];
-        $event_name = $_POST['event_name'];
-        $responsible_name = $_POST['responsible_name'];
-        $responsible_phone = $_POST['responsible_phone'];
-        $responsible_iiv_name = $_POST['responsible_iiv_name'];
-        $responsible_mg_name = $_POST['responsible_mg_name'];
-        $mg_count = $_POST['mg_count'];
-        $responsible_msgr_name = $_POST['responsible_msgr_name'];
-        $reserve_count = $_POST['reserve_count'];
-        $reserve_name = $_POST['reserve_name'];
-        $responsible_spring_name = $_POST['responsible_spring_name'];
-        $responsible_fvv_name = $_POST['responsible_fvv_name'];
-        $people_count = $_POST['people_count'];
-        $sapyor = $_POST['sapyor'];
-        $spring_count = $_POST['spring_count'];
-        $fvv_count = $_POST['fvv_count'];
-        $iiv_count = $_POST['iiv_count'];
+        $organizer = isset($_POST['organizer']) ? $_POST['organizer'] : null;
+        $event_name =  isset($_POST['event_name']) ? $_POST['event_name'] : null;
+        $responsible_name = isset($_POST['responsible_name']) ? $_POST['responsible_name'] : null;
+        $responsible_phone = isset($_POST['responsible_phone']) ? $_POST['responsible_phone'] : null;
+        $responsible_iiv_name =  isset($_POST['responsible_iiv_name']) ? $_POST['responsible_iiv_name'] : null;
+        $responsible_mg_name = isset($_POST['responsible_mg_name']) ? $_POST['responsible_mg_name'] : null;
+
+        $mg_count = isset($_POST['mg_count']) ? (int)$_POST['mg_count'] : 0;
+        $responsible_msgr_name = isset($_POST['responsible_msgr_name']) ? $_POST['responsible_msgr_name'] : null;
+        $reserve_count = isset($_POST['reserve_count']) ? (int)$_POST['reserve_count'] : 0;
+        $reserve_name = isset($_POST['reserve_name']) ? $_POST['reserve_name'] : null;
+        $responsible_spring_name = isset($_POST['responsible_spring_name']) ? $_POST['responsible_spring_name'] : null;
+        $responsible_fvv_name = isset($_POST['responsible_fvv_name']) ? $_POST['responsible_fvv_name'] : null;
+        $people_count = isset($_POST['people_count']) ? (int)$_POST['people_count'] : 0;
+        $sapyor =  isset($_POST['sapyor']) ? $_POST['sapyor'] : null;
+        $sapyor_count =  isset($_POST['sapyor_count']) ? $_POST['sapyor_count'] : 0;
+        $spring_count = isset($_POST['spring_count']) ? (int)$_POST['spring_count'] : 0;
+        $iiv_count = isset($_POST['iiv_count']) ? (int)$_POST['iiv_count'] : 0;
+        $fvv_count = isset($_POST['fvv_count']) ? (int)$_POST['fvv_count'] : 0;
+        $comment = isset($_POST['situation_text']) ? $_POST['situation_text'] : null;
+        $lat = isset($_POST['lat']) ? $_POST['lat'] : null;
+        $long = isset($_POST['long']) ? $_POST['long'] : null;
+
 
         if ($RowId != "0") {
             $updquery = "UPDATE hr.public_event1 set
             region_id = '{$region_id}',
-            object_id = '{$object_id}',
+            object_name = '{$object_name}',
             event_type = '{$event_type}',
             event_name = '{$event_name}',
             event_direction = '{$event_direction}',
@@ -568,10 +574,12 @@ switch ($Action) {
             reserve_name = '{$reserve_name}',
             iiv_count = '{$iiv_count}',
             fvv_count = '{$fvv_count}',
-            sapyor_count =  '{$sapyor}',
-            event_category_id = '{$event_category}'
-
-
+            sapyor_count =  '{$sapyor_count}',
+            sapyor =  '{$sapyor}',
+            event_category_id = '{$event_category}',
+            comment = '{$comment}',
+            lat = '{$lat}',
+            long ='{$long}'
 
             WHERE id = {$RowId}";
             $sql->query($updquery);
@@ -586,7 +594,7 @@ switch ($Action) {
             if ($isNotNew['ccount'] == 0) {
                 $insquery = "INSERT into hr.public_event1 (
                          region_id
-                        ,object_id
+                        ,object_name
                         ,event_type
                         ,event_name
                         ,event_direction
@@ -610,11 +618,15 @@ switch ($Action) {
                         ,fvv_count
                         ,responsible_mg_name
                         ,sapyor_count
+                        ,sapyor
                         ,event_category_id
+                        ,comment
+                        ,lat
+                        ,long
                 
                     ) values (
                          '{$region_id}'
-                        ,'{$object_id}'
+                        ,'{$object_name}'
                         ,'{$event_type}'
                         ,'{$event_name}'
                         ,'{$event_direction}'
@@ -637,8 +649,12 @@ switch ($Action) {
                         ,'{$iiv_count}'
                         ,'{$fvv_count}'
                         ,'{$responsible_mg_name}'
+                        ,'{$sapyor_count}'
                         ,'{$sapyor}'
                         ,'{$event_category}'
+                        ,'{$comment}'
+                        ,'{$lat}'
+                        ,'{$long}'
 
                     )";
                 $sql->query($insquery);
@@ -3727,6 +3743,95 @@ case "get_event_duty":
         }
         break;
     /// injuries crud ============
+
+
+
+
+
+
+
+
+
+
+    /// public_events_camera crud ============        
+        case "get_public_events_camera":
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "SELECT t.* from hr.public_event_cameras t where t.id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+        $result['rowid'] = MyPiCrypt($result['id']);
+        $res = json_encode($result);
+        break;
+
+    case "act_public_events_camera":
+        $RowId = (!empty($_POST['id'])) ? MyPiDeCrypt($_POST['id']) : 0;
+        $object_id = $_POST['object_id'];
+        $name = $_POST['name'];
+        $cam_code = $_POST['cam_code'];
+        $is_ptz = $_POST['is_ptz'];
+        $lat = isset($_POST['lat']) ? $_POST['lat'] : null;
+        $long = isset($_POST['long']) ? $_POST['long'] : null;
+
+        if ($RowId != "0") {
+            // Update existing record
+            $updquery = "UPDATE hr.public_event_cameras SET
+                event_id = '{$object_id}',
+                name = '{$name}',
+                cam_code = '{$cam_code}',
+                is_ptz = '{$is_ptz}',
+                lat = '{$lat}',
+                long = '{$long}'
+                WHERE id = {$RowId}";
+            $sql->query($updquery);
+            if ($sql->error() == "") {
+                $res = "0<&sep&>" . MyPiCrypt($RowId);
+            } else {
+                $res = $sql->error();
+            }
+        } else {
+            // Insert new record
+            $insquery = "INSERT INTO hr.public_event_cameras (
+                    event_id,
+                    name,
+                    cam_code,
+                    is_ptz,
+                    lat,
+                    long
+                ) VALUES (
+                    '{$object_id}',
+                    '{$name}',
+                    '{$cam_code}',
+                    '{$is_ptz}',
+                    '{$lat}',
+                    '{$long}'
+                )";
+            $sql->query($insquery);
+            if ($sql->error() == "") {
+                $sql->query("SELECT CURRVAL('hr.public_event_cameras_id_seq') AS last_id;");
+                $result = $sql->fetchAssoc();
+                $LastId = $result['last_id'];
+                $res = "0<&sep&>" . MyPiCrypt($LastId);
+            } else {
+                $res = $sql->error();
+            }
+        }
+        break;
+
+    case "del_public_events_camera":
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        $query = "DELETE FROM hr.public_event_cameras WHERE id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+
+        if ($sql->error() == "") {
+            $res = 0;
+        } else {
+            $res = 2;
+        }
+        break;
+    /// public_events_camera crud ============        
 
 
 

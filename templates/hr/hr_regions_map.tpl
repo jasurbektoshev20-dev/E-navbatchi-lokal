@@ -1837,8 +1837,8 @@
 <script src="/assets/assets/vendor/libs/toastr/toastr.js"></script>
 
 <script>
-  let AJAXPHP = "ajax{$AddURL}.php";
-  let HRAJAXPHP = "hrajax{$AddURL}.php";
+  let AJAXPHP = "ajax.php";
+  let HRAJAXPHP = "hrajax.php";
 
     let text_more = "{$Dict.more}";
     let dict_select = "{$Dict.select}";
