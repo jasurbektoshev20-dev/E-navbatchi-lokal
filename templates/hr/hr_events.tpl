@@ -23,6 +23,21 @@
             <div class="card">
                 <div class="card-body d-flex" style="justify-content: space-between;">
                     <h4>{$ThisMenu.name}</h4>
+                        <div class="row filter-date">
+                                <div class="col-sm-4">
+                                    <input type="datetime" class="form-control" placeholder="DD-MM-YYYY" id="start_date"
+                                        name="start_date" />
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <input type="datetime" class="form-control" placeholder="DD-MM-YYYY" id="finish_date"
+                                        name="finish_date" />
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <button class="btn btn-info" id="event_view">Ko'rish</button>
+                                </div>
+                        </div>
                     <button id="new" type="button" class="btn btn-primary waves-effect waves-light"
                         data-bs-toggle="submitModal" data-bs-target="#modal">
                         <i class="menu-icon tf-icons ti ti-plus"></i>{$Dict.adding}
@@ -413,6 +428,66 @@
 
 
 
+
+        const flatpickrDate3 = document.querySelector('#start_date');
+        if (flatpickrDate3) {
+            flatpickrDate3.flatpickr({
+                enableTime: true,
+            dateFormat: "Y-m-d",
+            time_24hr: true,
+            monthSelectorType: 'static'
+            });
+        }
+
+        let start_date;
+        $('#start_date').on('change', function() {
+           let [datePart, timePart] = this.value.split(' ');
+            let [day, month, year] = datePart.split('-');
+            start_date = `${year}-${month}-${day}`;
+        })
+
+        const flatpickrDate4 = document.querySelector('#finish_date');
+        if (flatpickrDate4) {
+            flatpickrDate4.flatpickr({
+                enableTime: true,
+            dateFormat: "Y-m-d",
+            time_24hr: true,
+            monthSelectorType: 'static'
+            });
+        }
+
+        let finish_date;
+        $('#finish_date').on('change', function() {
+           let [datePart, timePart] = this.value.split(' ');
+            let [day, month, year] = datePart.split('-');
+            finish_date = `${year}-${month}-${day}`;
+        });
+
+        const eventView = document.querySelector('#event_view')
+        eventView.addEventListener('click', ()=>{
+                  if (start_date && finish_date) {
+                   event.preventDefault();
+                    event.stopPropagation();
+                    var form_data = new FormData();
+                    form_data.append('start_date', $('#start_date').val());
+                    form_data.append('finish_date', $('#finish_date').val());
+                    $.ajax({
+                        url: 'hr.php?act=hr_events',
+                        dataType: 'text',
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        data: form_data,
+                        type: 'post',
+                        success: function(resdata) {
+                              console.log('data keldi: ', resdata)
+                        }
+                    });
+                } else {
+                   alert('sanalarni kiriting')
+                }
+        })
+    
         // $('#region_id').change(function(event) {
         //     $.ajax({
         //         type: "GET",

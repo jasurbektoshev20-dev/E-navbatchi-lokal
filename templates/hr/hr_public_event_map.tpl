@@ -704,19 +704,19 @@ padding-right: 6px;     /* scroll tegmasligi uchun */
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
 
-<div class="modal-body">
-   <div id="markerLoader" class="text-center py-4" style="display:none;">
-              <div class="spinner-border text-info" role="status">
-                <span class="visually-hidden">Loading...</span>
-              </div>
-              <div class="mt-2 text-white">Юкланмоқда...</div>
-            </div>
-  <div class="space-main-modal-box">
-    <div class="row">
+   <div class="modal-body">
+        <div id="markerLoader" class="text-center py-4" style="display:none;">
+                    <div class="spinner-border text-info" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <div class="mt-2 text-white">Юкланмоқда...</div>
+                  </div>
+        <div class="space-main-modal-box">
+          <div class="row">
 
       <!-- LEFT SIDE — MAP -->
         <!-- LEFT SIDE — MAP -->
-              <div class="col-7 modal-object-about">
+              <div class="col-5 modal-object-about">
                 {* <div class="space-main-head">
                   <h4 class="m-0">Харита</h4>
                 </div>
@@ -724,22 +724,18 @@ padding-right: 6px;     /* scroll tegmasligi uchun */
                 <div id="dialogMap" class="mt-1" ></div> *}
                    <div class="space-main-head d-flex justify-content-between align-items-center">
                       <ul class="nav nav-tabs" id="mapTabs" role="tablist">
-                          <li class="nav-item" role="presentation">
-                              <button class="nav-link active" id="map-tab" data-bs-toggle="tab" data-bs-target="#mapTabPane" type="button" role="tab">
-                                  Харита
-                              </button>
-                          </li>
+                  
                           <li class="nav-item" role="presentation">
                               <button class="nav-link" data-bs-toggle="tab" data-bs-target="#obyektmalumoti" type="button" role="tab">
                                  Объект малумотлари
                               </button>
                           </li>
-                            <li class="nav-item" role="presentation">
+                          <li class="nav-item" role="presentation">
                               <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tadbirmalumoti" type="button" role="tab">
                                   Тадбир малумотлари
                               </button>
                           </li>
-                            <li class="nav-item" role="presentation">
+                          <li class="nav-item" role="presentation">
                               <button class="nav-link" data-bs-toggle="tab" data-bs-target="#kuchvosita" type="button" role="tab">
                                   Куч воситалар
                               </button>
@@ -760,9 +756,7 @@ padding-right: 6px;     /* scroll tegmasligi uchun */
                             </div>
                         </div>
 
-                          <div class="tab-pane fade katta-ekran-malumotlari" id="obyektmalumoti" role="tabpanel">
-                          
-                        </div>
+                         
 
                          <div class="tab-pane fade katta-ekran-malumotlari" id="tadbirmalumoti" role="tabpanel">
                            
@@ -779,7 +773,7 @@ padding-right: 6px;     /* scroll tegmasligi uchun */
               </div>
 
       <!-- RIGHT SIDE -->
-      <div class="col-5 d-flex flex-column">
+      <div class="col-7 d-flex flex-column">
 
         <!-- CAMERA BLOCK -->
         <div>
