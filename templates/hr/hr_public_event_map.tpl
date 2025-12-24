@@ -704,19 +704,19 @@ padding-right: 6px;     /* scroll tegmasligi uchun */
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
 
-   <div class="modal-body">
-        <div id="markerLoader" class="text-center py-4" style="display:none;">
-                    <div class="spinner-border text-info" role="status">
-                      <span class="visually-hidden">Loading...</span>
-                    </div>
-                    <div class="mt-2 text-white">Юкланмоқда...</div>
-                  </div>
-        <div class="space-main-modal-box">
-          <div class="row">
+<div class="modal-body">
+   <div id="markerLoader" class="text-center py-4" style="display:none;">
+              <div class="spinner-border text-info" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <div class="mt-2 text-white">Юкланмоқда...</div>
+            </div>
+  <div class="space-main-modal-box">
+    <div class="row">
 
       <!-- LEFT SIDE — MAP -->
         <!-- LEFT SIDE — MAP -->
-              <div class="col-5 modal-object-about">
+              <div class="col-4 modal-object-about">
                 {* <div class="space-main-head">
                   <h4 class="m-0">Харита</h4>
                 </div>
@@ -724,18 +724,22 @@ padding-right: 6px;     /* scroll tegmasligi uchun */
                 <div id="dialogMap" class="mt-1" ></div> *}
                    <div class="space-main-head d-flex justify-content-between align-items-center">
                       <ul class="nav nav-tabs" id="mapTabs" role="tablist">
-                  
-                          <li class="nav-item" role="presentation">
-                              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#obyektmalumoti" type="button" role="tab">
+                          {* <li class="nav-item" role="presentation">
+                              <button class="nav-link active" id="map-tab" data-bs-toggle="tab" data-bs-target="#mapTabPane" type="button" role="tab">
+                                  Харита
+                              </button>
+                          </li> *}
+                          {* <li class="nav-item" role="presentation">
+                              <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#obyektmalumoti" type="button" role="tab">
                                  Объект малумотлари
                               </button>
-                          </li>
-                          <li class="nav-item" role="presentation">
-                              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tadbirmalumoti" type="button" role="tab">
+                          </li> *}
+                            <li class="nav-item" role="presentation">
+                              <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tadbirmalumoti" type="button" role="tab">
                                   Тадбир малумотлари
                               </button>
                           </li>
-                          <li class="nav-item" role="presentation">
+                            <li class="nav-item" role="presentation">
                               <button class="nav-link" data-bs-toggle="tab" data-bs-target="#kuchvosita" type="button" role="tab">
                                   Куч воситалар
                               </button>
@@ -745,20 +749,22 @@ padding-right: 6px;     /* scroll tegmasligi uchun */
                     <div class="tab-content mt-2" id="mapTabsContent">
 
                         <!-- Харита -->
-                        <div class="tab-pane fade show active" id="mapTabPane" role="tabpanel">
+                        {* <div class="tab-pane fade show active" id="mapTabPane" role="tabpanel">
                             <div id="dialogMap"></div>
-                        </div>
+                        </div> *}
 
                         <!-- Схема -->
-                        <div class="tab-pane fade" id="schemeTabPane" role="tabpanel">
+                        {* <div class="tab-pane fade show active" id="schemeTabPane" role="tabpanel">
                             <div id="dialogScheme">
                                  <img src="/pictures/marker_icons/sxema.png">
                             </div>
-                        </div>
+                        </div> *}
 
-                         
+                          {* <div class="tab-pane fade katta-ekran-malumotlari" id="obyektmalumoti" role="tabpanel">
+                          
+                        </div> *}
 
-                         <div class="tab-pane fade katta-ekran-malumotlari" id="tadbirmalumoti" role="tabpanel">
+                         <div class="tab-pane fade katta-ekran-malumotlari show active" id="tadbirmalumoti" role="tabpanel">
                            
                         </div>
 
@@ -773,7 +779,7 @@ padding-right: 6px;     /* scroll tegmasligi uchun */
               </div>
 
       <!-- RIGHT SIDE -->
-      <div class="col-7 d-flex flex-column">
+      <div class="col-8 d-flex flex-column">
 
         <!-- CAMERA BLOCK -->
         <div>
@@ -831,16 +837,14 @@ padding-right: 6px;     /* scroll tegmasligi uchun */
         </div>
 
         <!-- TABS -->
-        <ul class="nav nav-tabs mt-3" id="myTab">
+        {* <ul class="nav nav-tabs mt-3" id="myTab">
         <div class="row">
             <div class="col-4">
-         <li class="nav-item">
-            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab_passport">Умумий маълумотлар</button>
-          </li>
+        
             </div>
              <div class="col-4">
            <li class="nav-item">
-            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#public_event_about">Тадбир маълумотлари</button>
+            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#public_event_about">Тадбир маълумотлари</button>
           </li>
             </div>
              <div class="col-4">
@@ -852,18 +856,18 @@ padding-right: 6px;     /* scroll tegmasligi uchun */
         </div>
          
         
-        </ul>
+        </ul> *}
 
         <!-- TAB CONTENT -->
         <div class="tab-content flex-grow-1">
 
           <!-- TAB 1 -->
-          <div class="tab-pane fade show active" id="tab_passport">
+          {* <div class="tab-pane fade show active" id="tab_passport">
             <div class="space-main-body-passport passport-card"></div>
-          </div>
+          </div> *}
 
           <!-- TAB 2 -->
-          <div class="tab-pane fade" id="tab_duty">
+          <div class="tab-pane fade show active" id="tab_duty">
             <div class="space-main-body-duty"></div>
           </div>
 
@@ -1155,11 +1159,9 @@ padding-right: 6px;     /* scroll tegmasligi uchun */
 
                     // CONTENТ → SHOW
                     $(".modal-body .space-main-modal-box").show();
-
-                    renderDialogMap(response?.data, response?.cameras)
-                    renderPassportDetails(response?.data)
-                    renderDutyDetails(response?.data?.event_raw)
-                    renderEventDetails(response?.data?.event_raw)
+                
+                    renderDutyDetails(response?.data)
+                    renderEventDetails(response?.data)
 
 
                     $('#change_camera').empty();
@@ -1203,11 +1205,7 @@ padding-right: 6px;     /* scroll tegmasligi uchun */
           console.error('AJAX error:', error);
         }
       })
-
-
-
     }
-
 
 
 
@@ -1229,358 +1227,6 @@ padding-right: 6px;     /* scroll tegmasligi uchun */
       getObjects()
     })
 
-
-
-
-
-
-    function renderDialogMap(params, cameras) {
-      const mapContainer = document.querySelector('#dialogMap')
-      if (!mapContainer || !params) return
-      // Eski Харита mavjud bo‘lsa, tozalaymiz
-      if (mapContainer._mapbox_instance) {
-        mapContainer._mapbox_instance.remove();
-      }
-
-      const MAPBOX_ACCESS_TOKEN =
-        'pk.eyJ1Ijoic2hhdmthdDAxIiwiYSI6ImNsOHJjcmo2azA2dWEzb254amM0dHlzcjEifQ.HNCCG0V7PLGSnAKUBZWzuw';
-
-      mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
-      const map_center = [
-        parseFloat(params.long) || 69.276138,
-        parseFloat(params.lat) || 41.312123,
-      ];
-
-      // Харита yaratish
-      const map = new mapboxgl.Map({
-        container: 'dialogMap',
-        style: `mapbox://styles/mapbox/standard`,
-        center: map_center,
-        zoom: 6,
-        pitch: 0,
-        antialias: true,
-      });
-
-      mapContainer._mapbox_instance = map;
-      map.addControl(new mapboxgl.NavigationControl());
-
-      setTimeout(() => map.resize(), 300);
-
-      // --- Dastlab yuklanganda chizish ---
-      map.on('load', ()=>{
-        drawPolygon()
-
-        // ✅ 2. DOOR markerlar (eshiklar)
-        if (Array.isArray(params.door)) {
-          params.door.forEach(door => {
-            const lat = parseFloat(door.lat);
-            const lon = parseFloat(door.long);
-            if (isNaN(lat) || isNaN(lon)) return;
-
-            const el = document.createElement('div');
-            el.className = 'door-marker';
-             el.style.width = '44px';
-             el.style.height = '55px';
-            el.style.backgroundImage = `url('/pictures/icons_marker/eshik.png')`;
-            el.style.backgroundSize = 'cover';
-            el.title = door.name;
-
-            new mapboxgl.Marker(el)
-              .setLngLat([lon, lat])
-              .setPopup(new mapboxgl.Popup()
-                .setHTML(
-                  `<div style="color: #38BDF8; font-size:18px; padding-top:7px;">${door.name}</div>`
-                ))
-              .addTo(map);
-          });
-        }
-
-        // ✅ 3. TRACK marker (mashina)
-        if (Array.isArray(params.tracks)) {
-          params.tracks.forEach(track => {
-            const lat = parseFloat(track.lat);
-            const lon = parseFloat(track.lon);
-            if (isNaN(lat) || isNaN(lon)) return;
-            const el = document.createElement('div');
-            el.className = 'car-marker';
-            el.style.width = track.car_width + 'px';
-            el.style.height = track.car_height + 'px';
-            // el.style.backgroundImage = `url('/pictures/cars/${track.car_photo || 'car.png'}')`;
-            el.style.backgroundImage = `url('/pictures/cars/${track.car_photo || 'car.png'}')`;
-            el.style.backgroundSize = 'cover';
-            el.style.transform = `rotate(${track.angle || 0}deg)`;
-            el.title = track.car_name;
-
-            new mapboxgl.Marker(el)
-              .setLngLat([lon, lat])
-              .setPopup(
-                new mapboxgl.Popup().setHTML(
-                  `<div style="color: #38BDF8; font-size:20px; padding:7px; text-align:center;"> <b>${track.car_name}</b><br>Tezlik: ${track.speed} km/h<br>${track.date} </div>`
-                )
-              )
-              .addTo(map);
-          });
-        }
-
-        // ✅ 4. Camera marker
-        if (Array.isArray(cameras)) {
-          cameras.forEach(camera => {
-            const lat = parseFloat(camera.lat);
-            const lon = parseFloat(camera.long);
-            if (isNaN(lat) || isNaN(lon)) return;
-
-            const el = document.createElement('div');
-            el.className = 'camera-marker';
-            // el.style.backgroundImage = `url('/assets/images/video-camera-recording-yellow.png')`;
-            el.style.backgroundImage = `url('/pictures/icons_marker/camera.png')`;
-            el.style.backgroundSize = 'cover';
-            el.title = camera.comment;
-             el.style.width = '25px';
-            el.style.height = '25px';
-            const popupHTML = `
-               <div style="color: #38BDF8; text-align:center; display:flex; flex-direction:column; align-items:center;">
-                <b style="font-size: 18px; padding-top:5px;">${camera.comment}</b>
-                <button 
-                  class="btn btn-primary popup-camera-btn" 
-                  style="padding: 6px 12px; margin-top:6px;"
-                  data-id="${camera.id}">
-                  <span class="btn-text">Tanlash</span>
-                </button>
-              </div>
-            `;
-
-            const popup = new mapboxgl.Popup().setHTML(popupHTML);
-
-            new mapboxgl.Marker(el)
-              .setLngLat([lon, lat])
-              .setPopup(popup)
-              .addTo(map);
-          });
-        }
-        if (Array.isArray(params.body_cameras)) {
-          params.body_cameras.forEach(camera => {
-            const lat = parseFloat(camera.lat);
-            const lon = parseFloat(camera.long);
-            if (isNaN(lat) || isNaN(lon)) return;
-
-            const el = document.createElement('div');
-            el.className = 'body-marker';
-            el.style.backgroundImage = `url('/assets/images/policeman.png')`;
-            el.style.backgroundSize = 'cover';
-            el.title = camera.comment;
-                 el.style.width = '40px';
-      el.style.height = '40px';
-            // Xodim rasmi
-            const photoUrl = camera.staff_photo
-              ? `/pictures/staffs/${camera.staff_photo}`
-              : '/assets/images/nophoto2.png';
-
-            // Popup HTML
-            const popupHTML = `
-                <div class="user-card-about p-3 stylish-card">
-      <div class="user-about-card-img text-center mb-3">
-        <img src="${photoUrl}" alt="расм юкланмаган" class="staff-photo" />
-      </div>
-
-      <div class="user-card-about-text text-center">
-        <div class="staff-name">${camera.staff_name || 'Xodim nomi yo‘q'}</div>
-
-        <div class="mt-2 staff-phone">
-          <i class="bi bi-telephone-fill text-success me-1"></i>
-          <a href="tel:${camera.staff_phone || ''}" class="staff-phone-link">
-            ${camera.staff_phone || ''}
-          </a>
-        </div> <br>
-
-         <div class="mt-2 staff-cal-word">
-         <i class="bi bi-shield-lock-fill text-warning me-1 cursor-pointer" id="cal-word-id"></i>
-         <span class="cal-word hidden">lochin21</span>
-        </div>
-
-        <div class="d-flex align-items-center justify-content-center">
-          <button
-            class="btn mt-2 px-4 py-2 popup-body-camera-btn view-camera-btn"
-            data-id="${camera.id}"
-          >
-            <i class="bi bi-camera-video-fill me-2 camera-icon-style"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-            `;
-
-            const popup = new mapboxgl.Popup({ offset: 15 }).setHTML(popupHTML);
-
-            const marker = new mapboxgl.Marker(el)
-              .setLngLat([lon, lat])
-              .setPopup(popup)
-              .addTo(map);
-              
-              
-              
-              // Marker va pozitsiyani saqlaymiz
-              bodyCameraMarkers[camera.id] = {
-                marker,
-                current: { lat, lon },
-                target: { lat, lon }
-              };
-          });
-
-        }
-
-        // ✅ 5. SOS markerlar
-      if (Array.isArray(params.sos)) {
-              params.sos.forEach(sos => {
-                const lat = parseFloat(sos.lat);
-                const lon = parseFloat(sos.long);
-                if (isNaN(lat) || isNaN(lon)) return;
-
-                const el = document.createElement('div');
-                el.className = 'sos-marker';
-                el.style.backgroundImage = `url('/pictures/icons_marker/sos.png')`;
-                el.style.backgroundSize = 'cover';
-                el.title = sos.name;
-                  el.style.width = '35px';
-                el.style.height = '50px';
-
-                new mapboxgl.Marker(el)
-                  .setLngLat([lon, lat])
-                  .setPopup(new mapboxgl.Popup().setHTML(
-                    `<div style="color: #38BDF8; font-size:18px; padding-top:7px;">${sos.name}</div>`
-                  ))
-                  .addTo(map);
-              });
-            }
-      });
-
-      map.on('style.load', () => {
-        drawPolygon(); // markerlar va polygonlarni qayta chizish
-      });
-      // ✅ Layer style switcher (Standard / Satellite / Dark)
-      const layerSwitcher = document.createElement('div');
-      layerSwitcher.className = 'mapbox-style-switcher';
-      layerSwitcher.style.cssText = `
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background: rgba(255,255,255,0.9);
-        border-radius: 6px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-        padding: 4px;
-        font-family: sans-serif;
-        z-index: 999;
-      `;
-
-      const styles = [
-        { id: 'standard', label: '🗺', url: 'mapbox://styles/mapbox/standard' },
-        { id: 'satellite', label: '🌍', url: 'mapbox://styles/mapbox/satellite-streets-v12' },
-        { id: 'dark', label: '🌑', url: 'mapbox://styles/mapbox/dark-v11' },
-      ];
-
-      // Tugmalarni yaratish
-      styles.forEach(style => {
-        const btn = document.createElement('button');
-        btn.textContent = style.label;
-        btn.style.cssText = `
-          display: block;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-          margin: 3px 0;
-          padding: 4px 8px;
-          cursor: pointer;
-          text-align: left;
-        `;
-        btn.onclick = () => {
-          map.setStyle(style.url);
-        };
-        layerSwitcher.appendChild(btn);
-      });
-
-      // DOMga joylash
-      map.getContainer().appendChild(layerSwitcher);
-
-      
-      $(document).on('click','#cal-word-id', function(){
-        let calWord = document.querySelector('.cal-word')
-        calWord.classList.toggle('hidden')
-      })
-
-      $(document).on('click','#responsible-key-icon', function(){
-        let calWord = document.querySelector('.responsible-key-text')
-        calWord.classList.toggle('hidden')
-      })
-
-
-
-      function drawPolygon() {
-        if (params.geom_geojson) {
-          try {
-            // eski polygonni tozalash
-            if (map.getSource('object-polygon')) {
-              if (map.getLayer('object-polygon-fill')) map.removeLayer('object-polygon-fill');
-              if (map.getLayer('object-polygon-outline')) map.removeLayer('object-polygon-outline');
-              map.removeSource('object-polygon');
-            }
-
-
-            const geom = JSON.parse(params.geom_geojson);
-            map.addSource('object-polygon', {
-              type: 'geojson',
-              data: geom,
-            });
-
-            map.addLayer({
-              id: 'object-polygon-fill',
-              type: 'fill',
-              source: 'object-polygon',
-              paint: {
-                'fill-color': '#3b82f6',
-                'fill-opacity': 0,
-              },
-            });
-
-            map.addLayer({
-              id: 'object-polygon-outline',
-              type: 'line',
-              source: 'object-polygon',
-              paint: {
-                'line-color': '#481566',
-                'line-width': 4,
-              },
-            });
-
-            // Polygon chegarasiga yumshoq zoom
-            const bounds = new mapboxgl.LngLatBounds();
-            geom.coordinates[0].forEach(coord => bounds.extend(coord));
-            map.fitBounds(bounds, { padding: 80, duration: 1500 });
-          } catch (err) {
-            console.warn('Polygon parse xatolik:', err);
-          }
-        }
-        
-      }
-
-
-      setInterval(() => {
-        if(document.querySelector('#dialogMap')){
-          $.ajax({
-            url: `${AJAXPHP}?act=get_bodycam_location&id=${params?.id}`,
-            type: 'GET',
-            dataType: 'json',
-            success: function(response) {
-              response.forEach(item=>{
-                updateCameraPosition(item.id, item.lat, item.lon)
-              })
-            }
-          })
-        }
-      }, 10000);
-    }
-
-
-
-
-
     // Funksiya: yangi koordinatalarni yangilash (socket orqali)
     function updateCameraPosition(id, newLat, newLon) {
       const camera = bodyCameraMarkers[id];
@@ -1590,344 +1236,6 @@ padding-right: 6px;     /* scroll tegmasligi uchun */
       camera.target = { lat: newLat, lon: newLon };
 
       camera.setLngLat([newLon, newLat]);
-    }
-
-
-    function renderPassportDetails(params) {
-      const container = document.querySelector('.space-main-body-passport')
-      if (!container || !params) return
-
-      container.innerHTML = `
-            <ul>
-  
-        <li class="is-accordion">
-            <details>
-              <summary>
-                <div class="passport-icon">  <i class="duty-icon bi bi-person-fill"></i></div>
-                <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Объект раҳбари:</span> <span> ${params.object_head}</span>
-              </summary>
-              <ul class="inner-list">
-                  <li>
-                    <div class="passport-icon">
-                      <i class="bi bi-telephone-fill"></i>
-                    </div>
-                    <div class="passport-li-about">
-                      <h6>Раҳбар телефони:</h6>
-                      <p>
-                        <a href="tel:${params.object_head_phone}">${params.object_head_phone}</a>
-                      </p>
-                    </div>
-                  </li>
-              </ul>
-            </details>
-          </li>
-             <li>
-        <div class="passport-icon">
-          <i class="bi bi-clock-history"></i>
-        </div>
-        <div class="passport-li-about">
-          <h6>Ишга тушган вақти:</h6>
-          <p>${params.address}</p>
-        </div>
-      </li>
-          <li>
-            <div class="passport-icon">
-              <i class="bi bi-geo-alt-fill"></i>
-            </div>
-            <div class="passport-li-about">
-              <h6>Манзили:</h6>
-              <p>${params.address}</p>
-            </div>
-          </li>
-
-          <li>
-            <div class="passport-icon">
-              <i class="bi bi-telephone-fill"></i>
-            </div>
-            <div class="passport-li-about">
-              <h6>Администратор телефон рақами:</h6>
-              <p><a href="tel:${params.admin_phone}">${params.admin_phone}</a></p>
-            </div>
-          </li>
-
-           <li class="is-accordion">
-        <details>
-          <summary>
-            <div class="passport-icon">  <i class="duty-icon bi bi-person-fill"></i></div>
-            <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Объект профилактика инспектори:</span> <span> ${params.head_iiv}</span>
-          </summary>
-          <ul class="inner-list">
-              <li>
-                <div class="passport-icon">
-                  <i class="bi bi-telephone-fill"></i>
-                </div>
-                <div class="passport-li-about">
-                  <h6>Телефон рақами:</h6>
-                  <p>
-                    <a href="tel:${params?.head_iiv_phone}">${params?.head_iiv_phone ?? 'киритилмаган'}</a>
-                  </p>
-                </div>
-              </li>
-          </ul>
-        </details>
-      </li>
-
-          <li>
-        <div class="passport-icon">
-          <i class="bi bi-aspect-ratio"></i>
-        </div>
-        <div class="passport-li-about">
-          <h6>Майдони:</h6>
-          <p>${params?.area} га</p>
-        </div>
-      </li>
-
-      <li>
-        <div class="passport-icon">
-          <i class="bi bi-people-fill"></i>
-        </div>
-        <div class="passport-li-about">
-          <h6>Сиғими:</h6>
-          <p>${params?.capacity ?? '0'} та</p>
-        </div>
-      </li>
-
-      <li>
-        <div class="passport-icon">
-          <i class="bi bi-diagram-3-fill"></i>
-        </div>
-        <div class="passport-li-about">
-          <h6>Секторлар сони:</h6>
-          <p>${params?.sektors_count ?? 'киритилмаган'} </p>
-        </div>
-      </li>
-
-        <li>
-        <div class="passport-icon">
-          <i class="bi bi-diagram-3-fill"></i>
-        </div>
-        <div class="passport-li-about">
-          <h6>Овқатланиш жойлари сони:</h6>
-          <p>${params?.eating_place_count} та</p>
-        </div>
-      </li>
-
-          <li>
-            <div class="passport-icon">
-              <i class="bi bi-door-open-fill"></i>
-            </div>
-            <div class="passport-li-about">
-              <h6>Кириш чиқиш эшиклар сони:</h6>
-              <p>${params?.door?.length ?? '0'} та</p>
-            </div>
-          </li>
-
-          <li>
-        <div class="passport-icon">
-          <i class="bi bi-lightbulb-fill"></i>
-        </div>
-        <div class="passport-li-about">
-          <h6>Ёритиш чироқлари сони:</h6>
-          <p>${params?.lamps_count} та</p>
-        </div>
-      </li>
-      <li class="is-accordion">
-        <details>
-          <summary>
-            <div class="passport-icon">  <i class="duty-icon bi bi-person-fill"></i></div>
-            <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Ҳамкор ташкилотлар</span>
-          </summary>
-          <ul class="inner-list">
-             <li>
-                <div class="passport-icon">
-                  <i class="bi bi-telephone-fill"></i>
-                </div>
-                <div class="passport-li-about">
-                  <h6>ИИВ</h6>
-                  <p><a href="tel:${params?.head_iiv_phone}">${params?.head_iiv_phone}</a></p>
-                </div>
-              </li>
-
-              <li>
-                <div class="passport-icon">
-                  <i class="bi bi-telephone-plus-fill"></i>
-                </div>
-                <div class="passport-li-about">
-                  <h6>ФВВ</h6>
-                  <p><a href="tel:${params?.event?.head_fvv_phone}">${params?.event?.head_fvv_phone ?? 'киритилмаган'}</a></p>
-                </div>
-              </li>
-          </ul>
-        </details>
-      </li>
-
-
-<li class="is-accordion">
-  <details>
-    <summary>
-      <div class="passport-icon"><i class="bi bi-people-fill"></i></div>
-      <span class="summary-span" style="color:#fff; font-weight:bold;">МФЙ</span>
-    </summary>
-
-    <ul class="inner-list">
-           <li>
-            <div class="passport-icon">
-              <i class="bi bi-geo"></i>
-            </div>
-            <div class="passport-li-about">
-              <h6>Номи:</h6>
-              <p>${params?.neighborhood_name ?? 'киритилмаган'}</p>
-            </div>
-          </li>
-          
-      <li class="is-accordion">
-        <details>
-          <summary>
-            <div class="passport-icon">  <i class="duty-icon bi bi-person-badge"></i></div>
-            <span class="summary-span"> <span style="color:#fff; font-weight:bold;">МФЙ раиси:</span> <span> ${params?.head ?? 'киритилмаган'}</span>
-          </summary>
-          <ul class="inner-list">
-              <li>
-                <div class="passport-icon">
-                  <i class="bi bi-telephone-fill"></i>
-                </div>
-                <div class="passport-li-about">
-                  <h6>Телефон рақами:</h6>
-                  <p>
-                    <a href="tel:${params?.head_phone}">${params?.head_phone ?? 'киритилмаган'}</a>
-                  </p>
-                </div>
-              </li>
-          </ul>
-        </details>
-      </li>
-
-
-   <li class="is-accordion">
-        <details>
-          <summary>
-            <div class="passport-icon">  <i class="duty-icon bi bi-building"></i></div>
-            <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Хоким ёрдамчиси:</span> <span> ${params?.assistant_governor ?? 'киритилмаган'}</span>
-          </summary>
-          <ul class="inner-list">
-              <li>
-                <div class="passport-icon">
-                  <i class="bi bi-telephone-fill"></i>
-                </div>
-                <div class="passport-li-about">
-                  <h6>Телефон рақами:</h6>
-                  <p>
-                    <a href="tel:${params?.assistant_governor_phone}">${params?.assistant_governor_phone}</a>
-                  </p>
-                </div>
-              </li>
-          </ul>
-        </details>
-      </li>
-
-      <li class="is-accordion">
-              <details>
-                <summary>
-                  <div class="passport-icon">  <i class="duty-icon bi bi-people"></i></div>
-                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Ёшлар етакчиси:</span> <span> ${params?.youth_leader ?? 'киритилмаган'}</span>
-                </summary>
-                <ul class="inner-list">
-                    <li>
-                      <div class="passport-icon">
-                        <i class="bi bi-telephone-fill"></i>
-                      </div>
-                      <div class="passport-li-about">
-                        <h6>Телефон рақами:</h6>
-                        <p>
-                          <a href="tel:${params?.youth_leader_phone}">${params?.youth_leader_phone}</a>
-                        </p>
-                      </div>
-                    </li>
-                </ul>
-              </details>
-            </li>
-
-         <li class="is-accordion">
-              <details>
-                <summary>
-                  <div class="passport-icon">  <i class="duty-icon bi bi-gender-female"></i></div>
-                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Хотин-қизлар фаоли:</span> <span> ${params?.womens_activist ?? 'киритилмаган'}</span>
-                </summary>
-                <ul class="inner-list">
-                    <li>
-                      <div class="passport-icon">
-                        <i class="bi bi-telephone-fill"></i>
-                      </div>
-                      <div class="passport-li-about">
-                        <h6>Телефон рақами:</h6>
-                        <p>
-                          <a href="tel:${params?.womens_activist_phone}">${params?.womens_activist_phone}</a>
-                        </p>
-                      </div>
-                    </li>
-                </ul>
-              </details>
-            </li>
-
-          <li class="is-accordion">
-              <details>
-                <summary>
-                  <div class="passport-icon">  <i class="duty-icon bi bi-receipt"></i></div>
-                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">МФЙ солиқ инспектори:</span> <span> ${params?.tax_inspector ?? 'киритилмаган'}</span>
-                </summary>
-                <ul class="inner-list">
-                    <li>
-                      <div class="passport-icon">
-                        <i class="bi bi-telephone-fill"></i>
-                      </div>
-                      <div class="passport-li-about">
-                        <h6>Телефон рақами:</h6>
-                        <p>
-                          <a href="tel:${params?.tax_inspector_phone}">${params?.tax_inspector_phone}</a>
-                        </p>
-                      </div>
-                    </li>
-                </ul>
-              </details>
-            </li>
-            <li class="is-accordion">
-              <details>
-                <summary>
-                  <div class="passport-icon">  <i class="duty-icon bi bi-person-heart"></i></div>
-                  <span class="summary-span"> <span style="color:#fff; font-weight:bold;">Ижтмоий ходими:</span> <span> ${params?.social_employe ?? 'киритилмаган'}</span>
-                </summary>
-                <ul class="inner-list">
-                    <li>
-                      <div class="passport-icon">
-                        <i class="bi bi-telephone-fill"></i>
-                      </div>
-                      <div class="passport-li-about">
-                        <h6>Телефон рақами:</h6>
-                        <p>
-                          <a href="tel:${params?.social_employe_phone}">${params?.social_employe_phone}</a>
-                              </p>
-                            </div>
-                          </li>
-                      </ul>
-                    </details>
-                  </li>
-              </ul>
-            </details>
-          </li>
-        </ul>
-    
-       
-       `
-        const parent = document.getElementById('obyektmalumoti');
-         parent.innerHTML = '';
-            const clone = container.cloneNode(true);
-
-         
-     
-          parent.appendChild(clone);
-        
-        
-
     }
 
     function renderDutyDetails(params) {
@@ -2020,14 +1328,9 @@ padding-right: 6px;     /* scroll tegmasligi uchun */
              </li>
          </ul>
         `
-               const parent = document.getElementById('kuchvosita');
-               parent.innerHTML = '';
-         // 1️⃣ container dan to‘liq nusxa olamiz
-            const clone = container.cloneNode(true);
-
-            // 2️⃣ nusxani ikkinchi joyga joylaymiz
-          
-            parent.appendChild(clone);
+            const parent = document.getElementById('kuchvosita');
+            
+            parent.appendChild(container);
     }
 
     // tadbir malumotlari
@@ -2072,12 +1375,9 @@ padding-right: 6px;     /* scroll tegmasligi uchun */
           </ul>
 
         ` 
-         const parent = document.getElementById('tadbirmalumoti');
-          parent.innerHTML = '';
-            const clone = container.cloneNode(true);
+       const parent = document.getElementById('tadbirmalumoti');
 
-      
-        parent.appendChild(clone);
+        parent.appendChild(container);
     }
 
 
@@ -2647,7 +1947,7 @@ padding-right: 6px;     /* scroll tegmasligi uchun */
       }
 
       window.onresize = function() {
-          jsDecoder.JS_Resize(615, 300);
+          jsDecoder.JS_Resize(1050, 700);
       }
 
     });

@@ -2206,6 +2206,7 @@ function loadBodyCameras() {
         type: 'GET',
         dataType: 'json',
         success: function (res) {
+          
             if (!res.success) {
                 console.warn('Body cam data kelmadi');
                 return;
@@ -2221,7 +2222,6 @@ function loadBodyCameras() {
 let bodyCamMarkers = {};
 
 function drawBodyCamerasOnMap(cameras) {
-
     cameras.forEach(cam => {
         const lat = +cam.lat;
         const lng = +cam.long;

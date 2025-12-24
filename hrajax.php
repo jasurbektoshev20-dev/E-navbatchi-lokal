@@ -1888,109 +1888,89 @@ case "get_event_duty":
         $res = json_encode($result);
         break;
 
-   case "act_body_cameras":
 
-    header('Content-Type: text/html; charset=UTF-8');
+    case "act_body_cameras":
 
-    // ID
-    $RowId = (!empty($_POST['id'])) ? (int) MyPiDeCrypt($_POST['id']) : 0;
+        header('Content-Type: text/html; charset=UTF-8');
 
-    // structure_id (INTEGER)
-    $structure_id = (isset($_POST['structure_id']) && $_POST['structure_id'] !== '')
-        ? (int) $_POST['structure_id']
-        : null;
+        // ================= ID =================
+        $RowId = (!empty($_POST['id'])) ? (int) $_POST['id'] : 0;
 
-    // comment (TEXT)
-    $comment_raw = isset($_POST['comment']) ? $_POST['comment'] : '';
-    $comment = iconv('UTF-8', 'UTF-8//IGNORE', $comment_raw);
+        // ================= structure_id =================
+        $structure_id = (isset($_POST['structure_id']) && $_POST['structure_id'] !== '')
+            ? (int) $_POST['structure_id']
+            : null;
 
-    // cam_code (TEXT, UNIQUE, NULL allowed)
-    $cam_code_raw = isset($_POST['cam_code']) ? trim($_POST['cam_code']) : '';
-    if ($cam_code_raw === '' || $cam_code_raw === '0') {
-        $cam_code = null;
-    } else {
-        $cam_code = iconv('UTF-8', 'UTF-8//IGNORE', $cam_code_raw);
-    }
+        // ================= comment =================
+        $comment_raw = $_POST['comment'] ?? '';
+        $comment = iconv('UTF-8', 'UTF-8//IGNORE', $comment_raw);
 
-    // lat / long (NUMERIC / FLOAT)
-    $lat = (isset($_POST['lat']) && $_POST['lat'] !== '')
-        ? (float) $_POST['lat']
-        : null;
+        // ================= cam_code =================
+        $cam_code_raw = trim($_POST['cam_code'] ?? '');
+        $cam_code = ($cam_code_raw === '' || $cam_code_raw === '0')
+            ? null
+            : iconv('UTF-8', 'UTF-8//IGNORE', $cam_code_raw);
 
-    $long = (isset($_POST['long']) && $_POST['long'] !== '')
-        ? (float) $_POST['long']
-        : null;
+        // ================= lat / long =================
+        $lat  = ($_POST['lat']  ?? '') !== '' ? (float) $_POST['lat']  : null;
+        $long = ($_POST['long'] ?? '') !== '' ? (float) $_POST['long'] : null;
 
-        // echo '<pre>';
-        // print_r($structure_id);
-        // print_r($comment);
-        // print_r($cam_code);
-        // print_r($lat);
-        // print_r($long);
-        // echo '</pre>';
-        // die();
-    // ================= UPDATE =================
-    if ($RowId != "0") {
+        // ================= UPDATE =================
+        if ($RowId > 0) {
 
-        $updquery = "
-            UPDATE hr.body_cameras SET
-                structure_id = " . ($structure_id === null ? "NULL" : $structure_id) . ",
-                comment = '" . pg_escape_string($comment) . "',
-                cam_code = " . ($cam_code === null ? "NULL" : "'" . pg_escape_string($cam_code) . "'") . ",
-                lat = " . ($lat === null ? "NULL" : $lat) . ",
-                long = " . ($long === null ? "NULL" : $long) . "
-            WHERE id = {$RowId}
-        ";
+            // ❗ cam_code boshqa row’da bormi (himoya)
+            if ($cam_code !== null) {
+                $chk = $sql->query("
+                    SELECT id FROM hr.body_cameras
+                    WHERE cam_code = '".pg_escape_string($cam_code)."'
+                    AND id <> {$RowId}
+                ");
+                if ($sql->numRows($chk) > 0) {
+                    echo "ERROR: cam_code already exists";
+                    exit;
+                }
+            }
 
-        $sql->query($updquery);
+            $updquery = "
+                UPDATE hr.body_cameras SET
+                    structure_id = " . ($structure_id === null ? "NULL" : $structure_id) . ",
+                    comment      = '" . pg_escape_string($comment) . "',
+                    cam_code     = " . ($cam_code === null ? "NULL" : "'" . pg_escape_string($cam_code) . "'") . ",
+                    lat          = " . ($lat === null ? "NULL" : $lat) . ",
+                    long         = " . ($long === null ? "NULL" : $long) . "
+                WHERE id = {$RowId}
+            ";
 
-        $res = ($sql->error() === "")
-            ? "0<&sep&>" . MyPiCrypt($RowId)
-            : $sql->error();
+            $sql->query($updquery);
 
-    // ================= INSERT =================
-    } else {
+            $res = ($sql->error() === "")
+                ? "0<&sep&>" . $RowId
+                : $sql->error();
 
-        $insquery = "
-            INSERT INTO hr.body_cameras
-                (structure_id, comment, cam_code, lat, long)
-            VALUES (
-                " . ($structure_id === null ? "NULL" : $structure_id) . ",
-                '" . pg_escape_string($comment) . "',
-                " . ($cam_code === null ? "NULL" : "'" . pg_escape_string($cam_code) . "'") . ",
-                " . ($lat === null ? "NULL" : $lat) . ",
-                " . ($long === null ? "NULL" : $long) . "
-            )
-        ";
-
-        $sql->query($insquery);
-
-        if ($sql->error() === "") {
-            $sql->query("SELECT CURRVAL('hr.body_cameras_id_seq') AS last_id;");
-            $row = $sql->fetchAssoc();
-            $res = "0<&sep&>" . MyPiCrypt($row['last_id']);
+        // ================= INSERT =================
         } else {
-            $res = $sql->error();
+
+            echo "ERROR: Invalid ID";
+            exit;
         }
-    }
 
-break;
-
-
-    case "del_body_cameras":
-        $RowId = MyPiDeCrypt($_GET['rowid']);
-
-        $query = "DELETE FROM hr.body_cameras WHERE id = {$RowId}";
-        $sql->query($query);
-        $result = $sql->fetchAssoc();
-
-        if ($sql->error() == "") {
-            $res = 0;
-        } else {
-            $res = 2;
-        }
+        echo $res;
         break;
-    /// jts_objects_sos ==============================================
+
+        case "del_body_cameras":
+            $RowId = MyPiDeCrypt($_GET['rowid']);
+
+            $query = "DELETE FROM hr.body_cameras WHERE id = {$RowId}";
+            $sql->query($query);
+            $result = $sql->fetchAssoc();
+
+            if ($sql->error() == "") {
+                $res = 0;
+            } else {
+                $res = 2;
+            }
+            break;
+        /// jts_objects_sos ==============================================
 
 
     case "get_daily_routine":

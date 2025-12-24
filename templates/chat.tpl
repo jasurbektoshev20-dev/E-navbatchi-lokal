@@ -24,13 +24,13 @@
             width: 10px;
         }
 
-        .chart-container {
+        /* .chart-container {
             position: relative;
             height: calc(50vh - 16.3rem);
             overflow: visible;
             padding: 0 5px;
             padding-bottom: 10px;
-        }
+        } */
 
         .form-select-box{
             position: fixed;
@@ -53,7 +53,7 @@
         small, .small {
             font-size: 1.25rem !important;
         }
-
+/* 
         .chat-box-span{
             position: relative;
         }
@@ -72,7 +72,56 @@
 
         .chat-message-text p{
             text-align: end;
+        } */
+
+     .chat-popup {
+            position: fixed;
+            bottom: 50px;
+            right: 20px;
+            width: 560px;
+            height: 75vh;          /* 🔥 MUHIM */
+            z-index: 9999;
+            /* background: #fff;
+            border-radius: 12px; */
+            display: flex;
+            flex-direction: column;
         }
+
+        .chat-history-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin: 10px;
+}
+
+.chat-history-header {
+    flex: 0 0 auto;
+}
+
+.chat-history-body {
+    flex: 1 1 auto;        /* 🔥 ASOSIY JOY */
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.chat-history-footer {
+    flex: 0 0 auto;
+}
+
+.chat-history {
+    margin: 0;
+    padding: 0;
+}
+
+.message-input {
+    min-height: 40px;
+}
+
+.app-chat .app-chat-history .chat-history-body {
+    height: 55vh;
+    padding: 2rem 1.5rem;
+    overflow: hidden;
+}
 
     {/literal}
 </style>
@@ -80,7 +129,7 @@
 <div class="flex-grow-1 container-p-y container-fluid">
     <div class="app-chat">
         <div style="height: calc(100vh - 7rem);" class="row">
-            <div class="col-8">
+            <div class="col-7">
 
                 <div class="form-select-box">
                    <select class="form-select card" id="regions">
@@ -121,7 +170,7 @@
             </div>
 
             <!-- Chat History -->
-            <div style="background-color: transparent;" class="col-4 app-chat-history card ">
+            {* <div style="background-color: transparent;" class="col-5 app-chat-history card ">
                 <div class="chat-history-wrapper">
                     <div class="chat-history-header border-bottom">
                         <div class="d-flex justify-content-between align-items-center">
@@ -137,7 +186,7 @@
                         <ul class="list-unstyled chat-history">
                         </ul>
                     </div>
-                    <!-- Chat message form -->
+                  
                     <div class="chat-history-footer shadow-sm">
                         <div class="form-send-message d-flex justify-content-between align-items-center">
                             <input class="form-control message-input card border-0 me-3 shadow-none"
@@ -151,10 +200,44 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> *}
             <!-- /Chat History -->
+            <!-- CHAT POPUP -->
+            <div id="chatPopup" class="chat-popup d-none">
+                <div style="background-color: transparent;" class="app-chat-history card">
+                    <div class="chat-history-wrapper">
+                        <div class="chat-history-header border-bottom d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="m-0">{$Dict.instant_messaging_window}</h6>
+                                <small class="text-muted">{$Dict.chat}</small>
+                            </div>
+                            <button id="closeChat" class="btn btn-sm btn-light">✕</button>
+                        </div>
 
-            <div class="app-overlay"></div>
+                        <div class="chat-history-body">
+                            <ul class="list-unstyled chat-history"></ul>
+                        </div>
+
+                        <div class="chat-history-footer shadow-sm">
+                            <div class="form-send-message d-flex align-items-center">
+                                <input class="form-control message-input border-0 me-2"
+                                    placeholder="{$Dict.write_message}">
+                                <button class="btn btn-primary" id="sendMsg">
+                                    <i class="ti ti-send"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button id="openChat" class="btn btn-primary position-fixed"
+                    style="bottom:20px; right:20px; border-radius:50%; width:55px; height:55px;">
+                💬
+            </button>
+
+
+
+        
         </div>
     </div>
 </div>
@@ -181,6 +264,14 @@
 
         // Hozirgi user ID (Smarty’dan data-attr orqali olishing mumkin)
         // const UserStructure = parseInt($('#UserStructure').val() || 0); 
+
+        $('#openChat').on('click', function () {
+            $('#chatPopup').toggleClass('d-none');
+        });
+
+        $('#closeChat').on('click', function () {
+            $('#chatPopup').addClass('d-none');
+        });
 
         function renderChats(messages) {
                     const $list = $('.chat-history'); // <ul class="list-unstyled chat-history">
