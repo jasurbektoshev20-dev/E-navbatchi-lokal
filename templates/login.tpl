@@ -71,7 +71,7 @@
 
                     <div class="row" style="justify-content: center;">
                         {* <h3 class="mb-1 text-center">{$Dict.site_title}</h3> *}
-                        <h3 class="mb-1 text-center">E-Gvardiya тизимига хуш келибсиз</h3>
+                        <h3 class="mb-1 text-center"><br>"E-GVARDIYA" МОНИТОРИНГ ТИЗИМИ</h3>
                     </div>
 
                     <form id="formAuthentication" class="mb-3" action="auth.php" method="POST">

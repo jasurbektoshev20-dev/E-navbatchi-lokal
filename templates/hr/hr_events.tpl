@@ -472,7 +472,7 @@
                     form_data.append('start_date', $('#start_date').val());
                     form_data.append('finish_date', $('#finish_date').val());
                     $.ajax({
-                        url: 'hr.php?act=hr_events',
+                        url: 'ajax.php?act=get_events_date',
                         dataType: 'text',
                         cache: false,
                         contentType: false,
