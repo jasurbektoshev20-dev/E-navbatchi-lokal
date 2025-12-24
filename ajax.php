@@ -1012,51 +1012,46 @@ switch ($Action) {
 		// $JtsObject['event_raw'] = $PE;
 
 		// Cameras — build same structure as get_jts_object_by_id returns, AND also set data.cameras for compatibility
+		$query  = "SELECT t.id, t.cam_code, t.name, t.lat, t.long,
+		case when t.is_ptz then 1 else 0 end as is_ptz
+		FROM hr.public_event_cameras t 
+		WHERE t.event_id = {$JtsObject['id']}";
+		$sql->query($query);
+		$Cams = $sql->fetchAll();
+
 		$CamUrl = [];
-		if ($id > 0) {
-			$sql->query("SELECT t.id, t.cam_code, t.name, t.lat, t.long, CASE WHEN t.is_ptz THEN 1 ELSE 0 END AS is_ptz FROM hr.public_event_cameras t WHERE t.id = {$id}");
-			$Cams = $sql->fetchAll();
+		if ($Cams) {
+			foreach ($Cams as $mkey => $cam_c) {
+				$camindex = $cam_c['cam_code'];
+				$camId = $cam_c['id'];
+				$IsPtz = $cam_c['is_ptz'];
+				$comment = $cam_c['name'];
+				$lat = $cam_c['lat'];
+				$long = $cam_c['long'];
 
-			if ($Cams) {
-				foreach ($Cams as $cam_c) {
-					$camindex = $cam_c['cam_code'];
-					$camId = $cam_c['id'];
-					$IsPtz = $cam_c['is_ptz'];
-					$comment = $cam_c['name'];
-					$lat = $cam_c['lat'];
-					$long = $cam_c['long'];
-					// foreach ($Cams as $cam_c) {
-					// $camindex = $cam_c['cam_code'];
-					// $camId = $cam_c['id'];
-					// $IsPtz = $cam_c['is_ptz'];
-					// $comment = $cam_c['name'];
-					// $lat = $cam_c['lat'];
-					// $long = $cam_c['long'];
-
-					$dataCam = GetCamUrl($camindex);
-					if (isset($dataCam['data']['url'])) {
-						$CamUrl[] = [
-							'id' => $camId,
-							'url' => $dataCam['data']['url'],
-							'isptz' => $IsPtz,
-							'status' => 1,
-							'cam_index' => $camindex,
-							'comment' => $comment,
-							'lat' => $lat,
-							'long' => $long
-						];
-					} else {
-						$CamUrl[] = [
-							'id' => $camId,
-							'url' => '',
-							'status' => 0,
-							'isptz' => $IsPtz,
-							'cam_index' => $camindex,
-							'comment' => $comment,
-							'lat' => $lat,
-							'long' => $long
-						];
-					}
+				$dataCam = GetCamUrl($camindex);
+				if (isset($dataCam['data']['url'])) {
+					$CamUrl[] = [
+						'id' => $camId,
+						'url' => $dataCam['data']['url'],
+						'isptz' => $IsPtz,
+						'status' => 1,
+						'cam_index' => $camindex,
+						'comment' => $comment,
+						'lat' => $lat,
+						'long' => $long
+					];
+				} else {
+					$CamUrl[] = [
+						'id' => $camId,
+						'url' => '',
+						'status' => 0,
+						'isptz' => $IsPtz,
+						'cam_index' => $camindex,
+						'comment' => $comment,
+						'lat' => $lat,
+						'long' => $long
+					];
 				}
 			}
 		}

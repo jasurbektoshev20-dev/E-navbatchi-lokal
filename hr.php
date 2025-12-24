@@ -372,7 +372,7 @@ switch ($Act) {
 		LEFT JOIN tur.public_event_types t ON t.id = m.event_type
 		LEFT JOIN hr.structure s ON s.id = m.region_id
 		LEFT JOIN tur.event_category ec ON ec.id = m.event_category_id
-		WHERE 1=1
+		WHERE 1=1 AND DATE(m.start_event) = CURRENT_DATE
 	";
 
 	if ($UserStructure > 1) {
