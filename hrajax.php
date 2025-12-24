@@ -1888,57 +1888,94 @@ case "get_event_duty":
         $res = json_encode($result);
         break;
 
-    case "act_body_cameras":
-        $RowId = (!empty($_POST['id'])) ? MyPiDeCrypt($_POST['id']) : 0;
-        $structure_id = $_POST['structure_id'];
-        $comment = $_POST['comment'];
-        $cam_code = $_POST['cam_code'];
-        $lat = isset($_POST['lat']) ? $_POST['lat'] : null;
-        $long = isset($_POST['long']) ? $_POST['long'] : null;
+   case "act_body_cameras":
 
+    header('Content-Type: text/html; charset=UTF-8');
 
-        if ($RowId != "0") {
-            // Update existing record
-            $updquery = "UPDATE hr.body_cameras SET
-                structure_id = '{$structure_id}',
-                comment = '{$comment}',
-                cam_code = '{$cam_code}',
-                lat = '{$lat}',
-                long = '{$long}'
-                WHERE id = {$RowId}";
-            $sql->query($updquery);
-            if ($sql->error() == "") {
-                $res = "0<&sep&>" . MyPiCrypt($RowId);
-            } else {
-                $res = $sql->error();
-            }
+    // ID
+    $RowId = (!empty($_POST['id'])) ? (int) MyPiDeCrypt($_POST['id']) : 0;
+
+    // structure_id (INTEGER)
+    $structure_id = (isset($_POST['structure_id']) && $_POST['structure_id'] !== '')
+        ? (int) $_POST['structure_id']
+        : null;
+
+    // comment (TEXT)
+    $comment_raw = isset($_POST['comment']) ? $_POST['comment'] : '';
+    $comment = iconv('UTF-8', 'UTF-8//IGNORE', $comment_raw);
+
+    // cam_code (TEXT, UNIQUE, NULL allowed)
+    $cam_code_raw = isset($_POST['cam_code']) ? trim($_POST['cam_code']) : '';
+    if ($cam_code_raw === '' || $cam_code_raw === '0') {
+        $cam_code = null;
+    } else {
+        $cam_code = iconv('UTF-8', 'UTF-8//IGNORE', $cam_code_raw);
+    }
+
+    // lat / long (NUMERIC / FLOAT)
+    $lat = (isset($_POST['lat']) && $_POST['lat'] !== '')
+        ? (float) $_POST['lat']
+        : null;
+
+    $long = (isset($_POST['long']) && $_POST['long'] !== '')
+        ? (float) $_POST['long']
+        : null;
+
+        // echo '<pre>';
+        // print_r($structure_id);
+        // print_r($comment);
+        // print_r($cam_code);
+        // print_r($lat);
+        // print_r($long);
+        // echo '</pre>';
+        // die();
+    // ================= UPDATE =================
+    if ($RowId != "0") {
+
+        $updquery = "
+            UPDATE hr.body_cameras SET
+                structure_id = " . ($structure_id === null ? "NULL" : $structure_id) . ",
+                comment = '" . pg_escape_string($comment) . "',
+                cam_code = " . ($cam_code === null ? "NULL" : "'" . pg_escape_string($cam_code) . "'") . ",
+                lat = " . ($lat === null ? "NULL" : $lat) . ",
+                long = " . ($long === null ? "NULL" : $long) . "
+            WHERE id = {$RowId}
+        ";
+
+        $sql->query($updquery);
+
+        $res = ($sql->error() === "")
+            ? "0<&sep&>" . MyPiCrypt($RowId)
+            : $sql->error();
+
+    // ================= INSERT =================
+    } else {
+
+        $insquery = "
+            INSERT INTO hr.body_cameras
+                (structure_id, comment, cam_code, lat, long)
+            VALUES (
+                " . ($structure_id === null ? "NULL" : $structure_id) . ",
+                '" . pg_escape_string($comment) . "',
+                " . ($cam_code === null ? "NULL" : "'" . pg_escape_string($cam_code) . "'") . ",
+                " . ($lat === null ? "NULL" : $lat) . ",
+                " . ($long === null ? "NULL" : $long) . "
+            )
+        ";
+
+        $sql->query($insquery);
+
+        if ($sql->error() === "") {
+            $sql->query("SELECT CURRVAL('hr.body_cameras_id_seq') AS last_id;");
+            $row = $sql->fetchAssoc();
+            $res = "0<&sep&>" . MyPiCrypt($row['last_id']);
         } else {
-            // Insert new record
-            $insquery = "INSERT INTO hr.body_cameras (
-                    structure_id,
-                    comment,
-                    cam_code,
-                    lat,
-                    long
-                ) VALUES (
-                    '{$structure_id}',
-                    '{$comment}',
-                    '{$cam_code}',
-                    '{$lat}',
-                    '{$long}'
-                )";
-            $sql->query($insquery);
-
-            if ($sql->error() == "") {
-                $sql->query("SELECT CURRVAL('hr.body_cameras_id_seq') AS last_id;");
-                $result = $sql->fetchAssoc();
-                $LastId = $result['last_id'];
-                $res = "0<&sep&>" . MyPiCrypt($LastId);
-            } else {
-                $res = $sql->error();
-            }
+            $res = $sql->error();
         }
-        break;
+    }
+
+break;
+
 
     case "del_body_cameras":
         $RowId = MyPiDeCrypt($_GET['rowid']);
@@ -3772,6 +3809,10 @@ case "get_event_duty":
         $is_ptz = $_POST['is_ptz'];
         $lat = isset($_POST['lat']) ? $_POST['lat'] : null;
         $long = isset($_POST['long']) ? $_POST['long'] : null;
+        // echo '<pre>';
+		// print_r($object_id);
+		// echo '</pre>';
+		// die();
 
         if ($RowId != "0") {
             // Update existing record
