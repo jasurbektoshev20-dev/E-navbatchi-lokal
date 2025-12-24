@@ -123,6 +123,21 @@
     overflow: hidden;
 }
 
+.noselect {
+    user-select: none;
+}
+
+#playWind {
+    float: left;
+    display: inline-block;
+    text-align: center !important;
+    position: relative;
+}
+
+#playWind .parent-wnd {
+    text-align: center !important;
+}
+
     {/literal}
 </style>
 
@@ -168,43 +183,18 @@
                     {/foreach}
                 </div>
             </div>
+            <div class="col-5">
+                  <div class="camera-box position-relative">
+                    <div id="playWind" style="width: 100%; height: 280px; border-radius: 12px;">    
+                    </div>
+                  </div>
+            </div>
 
-            <!-- Chat History -->
-            {* <div style="background-color: transparent;" class="col-5 app-chat-history card ">
-                <div class="chat-history-wrapper">
-                    <div class="chat-history-header border-bottom">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex overflow-hidden align-items-center">
-                                <div class="chat-contact-info flex-grow-1 ms-2">
-                                    <h6 class="m-0">{$Dict.instant_messaging_window}</h6>
-                                    <small class="user-status text-muted">{$Dict.chat}</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="background-color: transparent;" class="chat-history-body">
-                        <ul class="list-unstyled chat-history">
-                        </ul>
-                    </div>
-                  
-                    <div class="chat-history-footer shadow-sm">
-                        <div class="form-send-message d-flex justify-content-between align-items-center">
-                            <input class="form-control message-input card border-0 me-3 shadow-none"
-                                placeholder="{$Dict.write_message}" />
-                            <div class="message-actions d-flex align-items-center">
-                                <button class="btn btn-primary d-flex send-msg-btn" id="sendMsg">
-                                    <i class="ti ti-send me-md-1 me-0"></i>
-                                    <span class="align-middle d-md-inline-block d-none">{$Dict.send}</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> *}
-            <!-- /Chat History -->
+
+
             <!-- CHAT POPUP -->
             <div id="chatPopup" class="chat-popup d-none">
-                <div style="background-color: transparent;" class="app-chat-history card">
+                <div style="background-color: transparent;" class="app-chat-history card"  id="chatDragHandle">
                     <div class="chat-history-wrapper">
                         <div class="chat-history-header border-bottom d-flex justify-content-between align-items-center">
                             <div>
@@ -245,6 +235,14 @@
 <script src="/assets/js/echarts.min.js"></script>
 <script src="/assets/js/socketio.js"></script>
 
+<script src="/assets/hls.js"></script>
+
+<script src="/dist/jsPlugin-1.2.0.min.js"></script>
+<script src="/dist/polyfill2.js"></script>
+<script src="/dist/cryptico.min.js"></script>
+<script src="/dist/uuid.js"></script>
+<script src="/dist/jquery.cookie.js"></script>
+
 <!-- Vendors JS -->
 <script src="/assets/assets/vendor/libs/bootstrap-maxlength/bootstrap-maxlength.js"></script>
 <script src="/assets/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
@@ -261,9 +259,40 @@
     let staffphoto = `/pictures/staffs/{$smarty.session.staffphoto}` || "/assets/assets/img/avatars/1.png"
     {literal}
 
+        let isDragging = false;
+        let offsetX = 0;
+        let offsetY = 0;
 
-        // Hozirgi user ID (Smarty’dan data-attr orqali olishing mumkin)
-        // const UserStructure = parseInt($('#UserStructure').val() || 0); 
+const $popup = $('#chatPopup');
+const $handle = $('#chatDragHandle');
+
+$handle.on('mousedown', function (e) {
+    isDragging = true;
+
+    const pos = $popup.offset();
+    offsetX = e.pageX - pos.left;
+    offsetY = e.pageY - pos.top;
+
+    $('body').addClass('noselect'); // text select bo'lmasin
+});
+
+$(document).on('mousemove', function (e) {
+    if (!isDragging) return;
+
+    $popup.css({
+        left: e.pageX - offsetX,
+        top:  e.pageY - offsetY,
+        bottom: 'auto',
+        right: 'auto'
+    });
+});
+
+$(document).on('mouseup', function () {
+    isDragging = false;
+    $('body').removeClass('noselect');
+});
+
+
 
         $('#openChat').on('click', function () {
             $('#chatPopup').toggleClass('d-none');
@@ -279,7 +308,7 @@
 
                     messages.forEach(function (m) {
                         const isMe = (UserStructure === parseInt(m.sender_id));
-                        console.log('chat m : ', m)
+                     
                         if (isMe) {
                         // O'ng tomondagi (o'zing) xabar
                         const html = `
@@ -469,81 +498,62 @@
         });
         $('#sendMsg').on('click', sendMsg);
 
-        // Chat refresh (every 1 second)
-    //    function refreshChat(newHtml) {
-    //         let chatList = $(".chat-history");
-    //         let oldHtml = chatList.html();
-    //          chatList.html(newHtml);
-    //         // Faqat o'zgarish bo'lsa yangilaymiz
-    //         if (oldHtml.trim() !== newHtml.trim()) {
-                
-
-    //             // Silliq scroll pastga
-    //             chatHistoryBody.scrollTo({
-    //                 top: chatHistoryBody.scrollHeight,
-    //                 behavior: "smooth"
-    //             });
-    //         }
-    //     }
-
-
-    //     // Har 1 sekundda chaqirish
-    //     setInterval(refreshChat, 1000);
-
-
         
-$(document).ready(function () {
+   $(document).ready(function () {
+        let fetched_camera = [];
 
-    function loadDutyByRegion(region) {
-        $.ajax({
-            type: "GET",
-            url: `${AJAXPHP}?act=get_duty&id=${region}`,
-            dataType: "json",
-            success: function (data) {
-                $('#card_duty').empty();
+        function loadDutyByRegion(region) {
+            $.ajax({
+                type: "GET",
+                url: `${AJAXPHP}?act=get_duty&id=${region}`,
+                dataType: "json",
+                success: function (data) {
+                    fetched_camera = data?.cameras;
+                    initCamera();
+                    $('#card_duty').empty();
 
-                if (!data || data.length === 0) {
-                    $('#card_duty').append(`
-                        <div class="card text-center card-duty-img-box">
-                            <div class="mt-3">
-                                <img style="width: 250px; height: 293px; border-radius: 20px" src="assets/images/nophoto2.png">
+                    if (!data || data.length === 0) {
+                        $('#card_duty').append(`
+                            <div class="card text-center card-duty-img-box">
+                                <div class="mt-3">
+                                    <img style="width: 250px; height: 293px; border-radius: 20px" src="assets/images/nophoto2.png">
+                                </div>
+                                <div class="card-body px-3 py-3">
+                                    ${no_data_found}
+                                </div>
                             </div>
-                            <div class="card-body px-3 py-3">
-                                ${no_data_found}
-                            </div>
-                        </div>
-                    `);
-                } else {
-                    let cardContent = '';
-                    data.forEach(item => {
-                        cardContent += `
-                            <div class="staff-item text-center">
-                                <img style="width: 230px; height: 270px; border-radius: 20px" src="pictures/staffs/${item.photo}">
-                                <h6 class="mt-2 mb-0 card-title">${item.staff}</h6>
-                            
-                                <p class="mb-0 card-text"><small class="text-muted">${item.role} ${item.lastname}</small></p>
-                                <p class="mb-0 card-text"><small class="text-muted">
-                                   <a href="tel:${item.phone}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-forward-fill" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877zm10.761.135a.5.5 0 0 1 .708 0l2.5 2.5a.5.5 0 0 1 0 .708l-2.5 2.5a.5.5 0 0 1-.708-.708L14.293 4H9.5a.5.5 0 0 1 0-1h4.793l-1.647-1.646a.5.5 0 0 1 0-.708"/>
-                                    </svg> ${item.phone}
-                                    </a>
-                                </small></p>
-                            </div>
-                        `;
-                    });
+                        `);
+                    } else {
+                        let cardContent = '';
+                        data.forEach(item => {
+                            cardContent += `
+                                <div class="staff-item text-center">
+                                    <img style="width: 230px; height: 270px; border-radius: 20px" src="pictures/staffs/${item.photo}">
+                                    <h6 class="mt-2 mb-0 card-title">${item.staff}</h6>
+                                
+                                    <p class="mb-0 card-text"><small class="text-muted">${item.role} ${item.lastname}</small></p>
+                                    <p class="mb-0 card-text"><small class="text-muted">
+                                    <a href="tel:${item.phone}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-forward-fill" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877zm10.761.135a.5.5 0 0 1 .708 0l2.5 2.5a.5.5 0 0 1 0 .708l-2.5 2.5a.5.5 0 0 1-.708-.708L14.293 4H9.5a.5.5 0 0 1 0-1h4.793l-1.647-1.646a.5.5 0 0 1 0-.708"/>
+                                        </svg> ${item.phone}
+                                        </a>
+                                    </small></p>
+                                </div>
+                            `;
+                        });
 
-                    $('#card_duty').append(`
-                        <div class="card text-center p-3">
-                            <div class="d-flex justify-content-center gap-4 flex-wrap">
-                                ${cardContent}
+                        $('#card_duty').append(`
+                            <div class="card text-center p-3">
+                                <div class="d-flex justify-content-center gap-4 flex-wrap">
+                                    ${cardContent}
+                                </div>
                             </div>
-                        </div>
-                    `);
+                        `);
+                    }
                 }
-            }
-        });
-    }
+            });
+        }
 
     function loadDivisionsByRegion(regionId) {
         $.get(`${AJAXPHP}?act=get_divisions&structure_id=${regionId}`, function (data) {
@@ -555,6 +565,7 @@ $(document).ready(function () {
             }
         }, 'json');
     }
+
     let initialRegion = $('#regions').val();
     let divisionId = $('#division_id').val();
 
@@ -575,12 +586,177 @@ $(document).ready(function () {
         loadDutyByRegion(divisionId);
     });
 
-   
-
     if (initialRegion) {
         loadDivisionsByRegion(initialRegion);
         loadDutyByRegion(initialRegion);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function getSplitCount(count) {
+        if (count <= 1) return 1;
+        if (count <= 4) return 4;
+        if (count <= 9) return 9;
+        return 16;
+    }
+
+
+
+     let jsDecoder;
+         function fullSreen() {
+          const el = document.getElementById('playWind');
+          if (el.requestFullscreen) el.requestFullscreen();
+          else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+          else if (el.msRequestFullscreen) el.msRequestFullscreen();
+          jsDecoder.JS_FullScreenDisplay(true);
+      }
+
+      function openFullscreen() {
+          setTimeout(() => {
+              jsDecoder.JS_Resize(window.innerWidth, window.innerHeight);
+              console.log("kattalashdi");
+          }, 100);
+      }
+
+      document.addEventListener("fullscreenchange", function () {
+          const el = document.getElementById('playWind');
+          if (!document.fullscreenElement) {
+              jsDecoder.JS_Resize(615, 300);
+              console.log("kichiklashdi");
+          }
+      });
+
+      function bindDblClick() {
+          const el = document.getElementById('playWind');
+          if (!el) return console.warn('#playWind topilmadi');
+          el.addEventListener('dblclick', function (e) {
+              e.preventDefault();
+              fullSreen();
+              openFullscreen();
+          }, { capture: true });
+      }
+      
+    function bindWndClick() {
+    $('#playWind').on('click', '.parent-wnd > div', function () {
+        const idx = $(this).index();
+        jsDecoder.JS_FullScreenSingle(idx);
+    });
+}
+
+
+      function fullScreenSingle(id) {
+          jsDecoder.JS_FullScreenSingle(id);
+      }
+
+      function GetSelectWndInfo(xml) {
+          console.log(xml);
+          iWind = xml;
+      }
+
+    //   function initCamera() {
+    //     jsDecoder = new JSPlugin({
+    //       szId: "playWind",
+    //       iType: 2,
+    //       iWidth: 500,
+    //       iHeight: 350,
+    //       iMaxSplit: 4,
+    //       iCurrentSplit: 1,
+    //       szBasePath: "./dist",
+    //       oStyle: {
+    //           border: "#343434",
+    //           borderSelect: "transparent",
+    //           background: "#000 url('/assets/online.svg') no-repeat center center;"
+    //       }
+    //     })
+    //     jsDecoder.JS_Resize(615, 300);
+
+    //     get_camera()
+    //     bindDblClick()
+    //   }
+    function initCamera() {
+
+    jsDecoder = new JSPlugin({
+        szId: "playWind",
+        iType: 2,
+        iWidth: 615,
+        iHeight: 300,
+        iMaxSplit: 16,          // 🔥 MUHIM
+        iCurrentSplit: 1,
+        szBasePath: "./dist",
+        oStyle: {
+            border: "#343434",
+            borderSelect: "#4caf50",
+            background: "#000"
+        }
+    });
+
+    jsDecoder.JS_Resize(615, 300);
+    bindDblClick();
+    bindWndClick();
+}
+
+
+    let is_played = false;
+   async function get_camera() {
+
+    if (!fetched_camera || !fetched_camera.length) return;
+
+    const camCount = fetched_camera.length;
+    const split = getSplitCount(camCount);
+
+    // 🔥 oynalarni bo‘lamiz
+    jsDecoder.JS_ArrangeWindow(split);
+
+    fetched_camera.forEach((cam, index) => {
+
+        if (!cam.status) {
+            $('.parent-wnd > div').eq(index)
+                .css('background', '#000 url("/assets/offline.svg") no-repeat center center');
+            return;
+        }
+
+        jsDecoder.JS_Play(
+            cam.url,
+            { playURL: cam.url },
+            index               // 🔥 HAR BIRI O‘Z WINDOW’IDA
+        ).then(
+            () => {
+                console.log('Playing cam', index);
+            },
+            () => {
+                console.warn('Failed cam', index);
+            }
+        );
+    });
+
+    $(".camera_length").html(camCount);
+}
+
+
+        function arrangeWindow (i) {
+            jsDecoder.JS_ArrangeWindow(i);
+        }
+
+
+
 
 });
 

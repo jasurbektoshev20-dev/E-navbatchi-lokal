@@ -1857,7 +1857,6 @@
 });
 
 
-
       let bodyCamPC = null;
 
       let objectsBoundsApplied = false;
@@ -3560,13 +3559,6 @@ map.on('load', () => {
         if (popupInstance) popupInstance.remove();
       }
 
-      // 🧠 5. Kamera tanlandi – asosiy ro‘yxatdan mosini topib, click trigger
-      // const target = $(`#body_change_camera a[data-id="${id}"]`);
-      // if (target.length) {
-      //   target.trigger('click');
-      // } else {
-      //   console.warn(`Камера ИД ${id} учун элемент топилмади`);
-      // }
     });
 
 
