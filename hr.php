@@ -270,10 +270,14 @@ switch ($Act) {
 
 	case "hr_events":
 
+		$start_date  = !empty($_POST['start_date']) ? $_POST['start_date'] : null;
+		$finish_date = !empty($_POST['finish_date']) ? $_POST['finish_date'] : null;
+
+
+		/* ================= REGIONS ================= */
 		$query = "SELECT id, name{$slang} AS name FROM hr.structure ";
 
 		if ($UserStructure > 1) {
-
 			$query .= "
 				WHERE id IN (
 					SELECT id FROM hr.structure WHERE id = {$UserStructure}
@@ -282,9 +286,7 @@ switch ($Act) {
 				)
 				ORDER BY turn
 			";
-
 		} else {
-
 			$query .= "
 				WHERE id != 1 
 				AND id < 16
@@ -296,117 +298,129 @@ switch ($Act) {
 		$Regions = $sql->fetchAll();
 
 
-		// $query = "SELECT id, name{$slang} as name FROM hr.structure";
-		// if ($UserStructure > 1) {
-		// 	$query .= " where parent = {$UserStructure}";
-		// } else {
-		// 	$query .= " where id > 999 order by id";
-		// }
-		// $sql->query($query);
-		// $Distcity = $sql->fetchAll();
-
-		$query = "SELECT id, name{$slang} as event_type FROM tur.public_event_types";
+		/* ================= EVENT TYPES ================= */
+		$query = "SELECT id, name{$slang} AS event_type FROM tur.public_event_types";
 		$sql->query($query);
 		$EventTypes = $sql->fetchAll();
 
-		$query = "SELECT id, name{$slang} as event_category FROM tur.event_category";
+
+		/* ================= EVENT CATEGORY ================= */
+		$query = "SELECT id, name{$slang} AS event_category FROM tur.event_category";
 		$sql->query($query);
 		$EventCategory = $sql->fetchAll();
 
 
-		$query = "SELECT id, object_name as name FROM hr.jts_objects";
-		
+		/* ================= JTS OBJECTS ================= */
+		$query = "SELECT id, object_name AS name FROM hr.jts_objects";
 		$sql->query($query);
 		$jts_objects = $sql->fetchAll();
 
-		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.structure t 
-		ORDER BY t.turn ASC";
+
+		/* ================= STRUCTURES ================= */
+		$query = "SELECT t.id, t.name{$slang} AS name FROM hr.structure t ORDER BY t.turn ASC";
 		$sql->query($query);
 		$Structures = $sql->fetchAll();
 
 
-		$query  = "SELECT t.id, CONCAT(t.lastname,' ',t.firstname,' ', t.surname) as name
-		FROM hr.staff t ";
+		/* ================= RESPONSIBLE STAFF ================= */
+		$query = "
+			SELECT t.id, CONCAT(t.lastname,' ',t.firstname,' ',t.surname) AS name
+			FROM hr.staff t
+		";
+
 		if ($UserStructure > 1) {
 			$query .= " WHERE t.structure_id = {$UserStructure} ";
 		}
+
 		$query .= " ORDER BY t.id ASC";
 		$sql->query($query);
+
 		$Responsible = $sql->fetchAll();
 
 
-
-			$query = "
-		SELECT 
-			m.id,
-			t.name{$slang} AS event_type,
-			m.event_direction,
-			m.iiv_count,
-			m.responsible_mg_name,
-			m.sapyor_count AS sapyor,
-			m.fvv_count,
-			m.mg_counts,
-			m.event_view,
-			m.start_event,
-			m.finish_event,
-			m.reserve_count,
-			m.event_name,
-			m.responsible_spring_name,
-			m.event_responsible_organization,
-			ec.name{$slang} AS event_category,
-			m.organizer,
-			m.responsible_name,
-			m.responsible_phone,
-			m.responsible_iiv_name,
-			m.reserve_name,
-			m.responsible_msgr_name,
-			m.responsible_fvv_name,
-			m.people_count,
-			m.spring_count,
-			m.object_name,
-			s.name{$slang} AS region_name,
-			m.lat,
-			m.long,
-			m.comment
-		FROM hr.public_event1 m
-		LEFT JOIN tur.public_event_types t ON t.id = m.event_type
-		LEFT JOIN hr.structure s ON s.id = m.region_id
-		LEFT JOIN tur.event_category ec ON ec.id = m.event_category_id
-		WHERE 1=1 AND DATE(m.start_event) = CURRENT_DATE
-	";
-
-	if ($UserStructure > 1) {
-		$query .= "
-			AND m.region_id IN (
-				SELECT id FROM hr.structure WHERE id = {$UserStructure}
-				UNION
-				SELECT id FROM hr.structure WHERE parent = {$UserStructure}
-			)
+		/* ================= EVENTS ================= */
+		$query = "
+			SELECT 
+				m.id,
+				t.name{$slang} AS event_type,
+				m.event_direction,
+				m.iiv_count,
+				m.responsible_mg_name,
+				m.sapyor_count AS sapyor,
+				m.fvv_count,
+				m.mg_counts,
+				m.event_view,
+				m.start_event,
+				m.finish_event,
+				m.reserve_count,
+				m.event_name,
+				m.responsible_spring_name,
+				m.event_responsible_organization,
+				ec.name{$slang} AS event_category,
+				m.organizer,
+				m.responsible_name,
+				m.responsible_phone,
+				m.responsible_iiv_name,
+				m.reserve_name,
+				m.responsible_msgr_name,
+				m.responsible_fvv_name,
+				m.people_count,
+				m.spring_count,
+				m.object_name,
+				s.name{$slang} AS region_name,
+				m.lat,
+				m.long,
+				m.comment
+			FROM hr.public_event1 m
+			LEFT JOIN tur.public_event_types t ON t.id = m.event_type
+			LEFT JOIN hr.structure s ON s.id = m.region_id
+			LEFT JOIN tur.event_category ec ON ec.id = m.event_category_id
+			WHERE 1=1
 		";
-	}
 
-	$query .= " ORDER BY m.id";
+		/* ======== DATE FILTER ======== */
+		if ($start_date && $finish_date) {
+			$query .= " AND DATE(m.start_event) BETWEEN '{$start_date}' AND '{$finish_date}' ";
+		} else {
+			$query .= " AND DATE(m.start_event) = CURRENT_DATE ";
+		}
 
-	$sql->query($query);
-	$Events = $sql->fetchAll();
+		/* ======== USER STRUCTURE FILTER ======== */
+		if ($UserStructure > 1) {
+			$query .= "
+				AND m.region_id IN (
+					SELECT id FROM hr.structure WHERE id = {$UserStructure}
+					UNION
+					SELECT id FROM hr.structure WHERE parent = {$UserStructure}
+				)
+			";
+		}
 
+		$query .= " ORDER BY m.id ASC";
 
+		$sql->query($query);
+		$Events = $sql->fetchAll();
+		
 		// echo '<pre>';
 		// print_r($Events);
 		// echo '</pre>';
 		// die();
 
+		/* =============== SMARTY ================= */
+
 		$smarty->assign(array(
-			'Regions'        =>    $Regions,
-			// 'Distcity'       =>    $Distcity,
-			'EventTypes'       =>    $EventTypes,
-			'Events'       =>    $Events,
-			'jts_objects' => $jts_objects,
-			'structures' => $Structures,
-			'responsible' => $Responsible,
-			'EventCategory' => $EventCategory
+			'Regions'        => $Regions,
+			'EventTypes'     => $EventTypes,
+			'Events'         => $Events,
+			'jts_objects'    => $jts_objects,
+			'structures'     => $Structures,
+			'responsible'    => $Responsible,
+			'EventCategory'  => $EventCategory
 		));
+		
+
 		break;
+
 
 
 
@@ -459,7 +473,6 @@ switch ($Act) {
 		$query  = "SELECT e.id, e.plate_number as name FROM hr.tech_guard_cars e";
 		$sql->query($query);
 		$cars = $sql->fetchAll();
-
 
 
 		$query = "SELECT 
