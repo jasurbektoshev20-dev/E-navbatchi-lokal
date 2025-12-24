@@ -650,111 +650,58 @@ switch ($Act) {
 	// 	break;
 	case "hr_violations":
 
-    // Regions
-    $query = "SELECT id, name{$slang} as name 
-              FROM hr.structure 
-              WHERE id != 1 AND id < 16 
-              ORDER BY turn";
-    $sql->query($query);
-    $Regions = $sql->fetchAll();
+			// Regions
+			$query = "SELECT id, name{$slang} as name 
+					FROM hr.structure 
+					WHERE id != 1 AND id < 16 
+					ORDER BY turn";
+			$sql->query($query);
+			$Regions = $sql->fetchAll();
 
-    // Distcity (avval kommentda edi)
-    $query = "SELECT id, name{$slang} as name 
-              FROM hr.structure 
-              WHERE id > 999 
-              ORDER BY id";
-    $sql->query($query);
-    $Distcity = $sql->fetchAll();
+			$query = "SELECT *
+					FROM tur.administrativ 
+					ORDER BY id";
+			$sql->query($query);
+			$administrativ = $sql->fetchAll();
 
-    // Violation Types
-    $query = "SELECT id, name{$slang} as name 
-              FROM tur.violation_types";
-    $sql->query($query);
-    $ViolationTypes = $sql->fetchAll();
+			$query = "SELECT *
+					FROM tur.criminals 
+					ORDER BY id";
+			$sql->query($query);
+			$criminals = $sql->fetchAll();
 
-    // Administrativ types
-    $query = "SELECT id, name{$slang} as name 
-              FROM tur.administrativ_types";
-    $sql->query($query);
-    $AdministrativTypes = $sql->fetchAll();
+			
+		
+			// Administrativ types
+			$query = "SELECT id,name{$slang}
+					FROM tur.administrativ_types";
+			$sql->query($query);
+			$AdministrativTypes = $sql->fetchAll();
+			
 
-    // Criminal types
-    $query = "SELECT id, name{$slang} as name 
-              FROM tur.criminals_types";
-    $sql->query($query);
-    $CriminalsTypes = $sql->fetchAll();
+			// Criminal types
+			$query = "SELECT id, name{$slang} as name 
+					FROM tur.criminals_types";
+			$sql->query($query);
+			$CriminalsTypes = $sql->fetchAll();
+			
 
-    // Administrativ violations
-    $query = "SELECT 
-                c.id,
-                c.region_id,
-                s.name{$slang} as structure_name,
-                c.violation_id,
-                ct.name{$slang} as substance,
-                c.count,
-                c.date
-              FROM tur.administrativ c
-              LEFT JOIN tur.criminals_types ct ON ct.id = c.violation_id
-              LEFT JOIN hr.structure s ON s.id = c.region_id";
-    $sql->query($query);
-    $Administrativ = $sql->fetchAll();
-
-    // Criminal violations
-    $query = "SELECT 
-                c.id,
-                c.region_id,
-                s.name{$slang} as structure_name,
-                c.violation_id,
-                ct.name{$slang} as substance,
-                c.count,
-                c.date
-              FROM tur.criminals c
-              LEFT JOIN tur.criminals_types ct ON ct.id = c.violation_id
-              LEFT JOIN hr.structure s ON s.id = c.region_id";
-    $sql->query($query);
-    $Criminals = $sql->fetchAll();
-
-    // Main violations (avval kommentda edi)
-    $query = "SELECT 
-                m.id,
-                r.shortname{$slang} as region_id,
-                t.name{$slang} as violation_type,
-                m.lat,
-                m.lon,
-                m.type,
-                m.date,
-                m.incident_place,
-                m.citizen,
-                m.birthdate,
-                m.live_adress,
-                m.work_place,
-                m.text
-              FROM tur.violations m
-              LEFT JOIN hr.v_head_structure r ON r.id = m.region_id
-              LEFT JOIN tur.violation_types t ON t.id = m.violation_type
-              WHERE 1=1";
-
-    if ($UserStructure > 1) {
-        $query .= " AND m.region_id = {$UserStructure}";
-    }
-
-    $query .= " ORDER BY m.id";
-    $sql->query($query);
-    $Violations = $sql->fetchAll();
-
-    // Smarty assign
-    $smarty->assign(array(
-        'Regions'            => $Regions,
-        'Distcity'           => $Distcity,
-        'ViolationTypes'     => $ViolationTypes,
-        'Violations'         => $Violations,
-        'Administrativ'      => $Administrativ,
-        'Criminals'          => $Criminals,
-        'AdministrativTypes' => $AdministrativTypes,
-        'CriminalsTypes'     => $CriminalsTypes,
-    ));
-
-break;
+			// Administrativ violations
+			
+			
+			// Smarty assign
+			$res = json_encode([
+				'Regions'            => $Regions,
+				'Administrativ'      => $administrativ,
+				'Criminals'          => $criminals,
+				'AdministrativTypes' => $AdministrativTypes,
+				'CriminalsTypes'     => $CriminalsTypes,
+			]);
+			// echo '<pre>';
+			// print_r($res);
+			// echo '</pre>';
+			// die();
+		break;
 
 
 	case "hr_duty":
