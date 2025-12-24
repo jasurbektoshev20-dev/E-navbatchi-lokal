@@ -191,7 +191,7 @@
                 $('#camName').val(sInfo.name);
                 $('#cam_code').val(sInfo.cam_code);
                 $('#is_ptz').val(sInfo.is_ptz);
-                $('#object_id').val(sInfo.object_id); // bu yerda object_id set qilinadi
+                $('#object_id').val(sInfo.event_id); // bu yerda object_id set qilinadi
 
                 $('#id').val(sInfo.rowid);
             });
