@@ -103,7 +103,7 @@
                     </div>
                     <div class="col-4">
                         <label>{$Dict.cam_code}</label>
-                        <input type="number" class="form-control" name="cam_code" id="cam_code" value="">
+                        <input type="text" class="form-control" name="cam_code" id="cam_code" value="">
                     </div>
                    
                     <div class="col-12 text-center">
