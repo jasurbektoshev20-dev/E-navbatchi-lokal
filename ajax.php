@@ -2568,6 +2568,42 @@ break;
 
 		$res;
 	break;
+
+
+
+
+	case 'sync_body_cameras':
+
+    $lockFile = __DIR__ . '/bodycam_sync.lock';
+    $now = time();
+
+    $lastRun = file_exists($lockFile)
+        ? (int)file_get_contents($lockFile)
+        : 0;
+
+    // faqat 60 sekundda 1 marta
+    if ($now - $lastRun < 60) {
+        echo json_encode([
+            'success' => true,
+            'skipped' => true,
+            'msg' => 'Already synced recently'
+        ]);
+        exit;
+    }
+
+    file_put_contents($lockFile, $now);
+
+    // 🔥 HYTERA SYNC CHAQIRAMIZ
+    @file_get_contents(
+        "http://127.0.0.1/hytera_api.php?action=devices"
+    );
+
+    echo json_encode([
+        'success' => true,
+        'synced' => true
+    ]);
+    exit;
+
 	
 }
 

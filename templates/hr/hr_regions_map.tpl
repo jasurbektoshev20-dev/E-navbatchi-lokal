@@ -2271,9 +2271,22 @@ function drawBodyCamerasOnMap(cameras) {
     });
 }
 
+function cleanupMissingMarkers(cameras) {
+    const aliveIds = cameras.map(c => String(c.id));
+
+    Object.keys(bodyCamMarkers).forEach(id => {
+        if (!aliveIds.includes(id)) {
+            bodyCamCluster.removeLayer(bodyCamMarkers[id]);
+            delete bodyCamMarkers[id];
+        }
+    });
+}
+
+
+
   function loadBodyCameras() {
 
-      clearBodyCamMarkers(); // 🔥 MUHIM
+      // clearBodyCamMarkers(); // 🔥 MUHIM
 
       let params = [];
       if (region_id) params.push(`region_id=${region_id}`);
@@ -2284,6 +2297,7 @@ function drawBodyCamerasOnMap(cameras) {
       $.getJSON(url, res => {
           if (res?.success) {
               drawBodyCamerasOnMap(res.data);
+              cleanupMissingMarkers(res.data); 
           }
       });
   }
@@ -2387,6 +2401,16 @@ $(document).on('click', '.open-bodycam', async function (e) {
       video.srcObject = null;
     });
 
+    setInterval(() => {
+        fetch(`${AJAXPHP}?act=sync_body_cameras`)
+            .then(r => r.json())
+            .then(d => {
+                if (d.synced) {
+                    console.log('Hytera synced');
+                }
+            })
+            .catch(() => {});
+    }, 180000);
 
 
 
