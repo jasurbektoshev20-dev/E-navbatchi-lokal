@@ -2178,24 +2178,6 @@ map.addLayer(objectsCluster);
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const bodyCamIcons = {
   online: L.icon({
     iconUrl: './assets/assets/img/avatars/online_body.png',
@@ -2489,6 +2471,12 @@ $(document).on('click', '.open-bodycam', async function (e) {
       object_type = this.value || null;
       getObjects();
     });
+
+     $('#objectSelect').on('change', function () {
+      object_id = this.value ? parseInt(this.value) : null;
+      getObjects();     
+    });
+
 
 
 const objectSearch = document.getElementById('object_search');

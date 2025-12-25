@@ -405,67 +405,102 @@
 }
 
 #staffInfoModal {
-    position: absolute;
-    width: 320px;
-    height:450px;
-    right: 1.2vw;
-    top: 0.7vh;
-    z-index: 55555 !important;
+  position: absolute;
+  top: 0.7vh;
+  right: 1.2vw;
+  height: 500px;
+  z-index: 55555;
+  width: 840px;
 }
 
-#staffInfoModal .card-body{
-
+/* CARD */
+.staff-info-card {
+  color: #eaffea;
 }
 
-.card-body .staff-photo-box {
+/* PHOTO */
+.staff-photo-box {
   width: 100%;
-  height: 240px;
+  height: 220px;
   overflow: hidden;
   border-radius: 14px;
-  border: 1px solid rgba(0, 255, 136, 0.3);
+  border: 1px solid rgba(0, 255, 136, 0.35);
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.15);
 }
 
-.card-body .staff-photo2 {
+.staff-photo2 {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: top;
-  border-radius: 14px;
 }
 
-/* Name */
-.card-body .staff-name2 {
+/* ROLE */
+.staff-role {
+  font-size: 0.9rem;
+  color: #00ff88;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* NAME */
+.staff-name2 {
   font-size: 1.35rem;
-  color: #eaffea;
   font-weight: 600;
 }
 
-/* Phone — clickable */
-.card-body .staff-phone2 {
-  font-size: 1.2rem;
+/* PHONE */
+.staff-phone2 {
+  font-size: 1.1rem;
   color: #00ff88;
   text-decoration: none;
-  display: inline-block;
   padding: 6px 14px;
-  border: 1px solid rgba(0, 255, 136, 0.3);
+  border: 1px solid rgba(0, 255, 136, 0.35);
   border-radius: 12px;
   background: rgba(0, 0, 0, 0.35);
   transition: 0.25s ease;
 }
 
-.card-body .staff-phone2:hover {
-  border-color: #00ff88;
-  background: rgba(0, 255, 136, 0.1);
+.staff-phone2:hover {
+  background: rgba(0, 255, 136, 0.15);
   transform: translateY(-2px);
 }
- 
-/* .embassy-card {
-  background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(14px);
-  border: 1px solid rgba(56, 189, 248, 0.25);
-  border-radius: 18px;
-  box-shadow: 0 0 25px rgba(0,0,0,0.7);
-} */
+
+/* RIGHT SIDE */
+.staff-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.staff-block {
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.35);
+  border-left: 3px solid #00ff88;
+}
+
+.staff-block h6 {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #9affc7;
+}
+
+.staff-block span {
+  display: block;
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+
+.staff-block a {
+  display: inline-block;
+  margin-top: 4px;
+  color: #00ff88;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+
 
 .embassy-title {
   color: #38BDF8;
@@ -910,18 +945,24 @@
                                              <div class="embassy-item">
                                                  <div class="embassy-label">Ҳудудий ИИБ</div>
                                                  <div class="embassy-value">${obj.iiv_unit ?? '-'}</div>
-                                                 <div class="embassy-value">${obj.iiv_unit_phone ?? '-'}</div>
+                                                 <div class="embassy-value">
+                                                   <a href="tel:${obj?.iiv_unit_phone}">${obj.iiv_unit_phone ?? '-'}</a> 
+                                                 </div>
                                             </div>
 
                                             <div class="embassy-item">
                                                 <div class="embassy-label">Пост телефон рақами</div>
-                                                <div class="embassy-value">${obj.post_phone ?? '-'}</div>
+                                                <div class="embassy-value">
+                                                    <a href="tel:${obj?.post_phone}">${obj.post_phone ?? '-'}</a> 
+                                                </div>
                                             </div>
 
                                             <div class="embassy-item">
                                                 <div class="embassy-label">Профилактика инспектори</div>
                                                 <div class="embassy-value">${obj.iiv_inspector ?? '-'}</div>
-                                                 <div class="embassy-value">${obj.iiv_inspector_phone ?? '-'}</div>
+                                                 <div class="embassy-value">
+                                                    <a href="tel:${obj?.iiv_inspector_phone}">${obj.iiv_inspector_phone ?? '-'}</a> 
+                                                 </div>
                                             </div>
 
                                             <div class="embassy-item">
@@ -963,19 +1004,50 @@
                     success: function(data) {
 
                         $body.append(`
-                            <div class="col-12 text-center">
+                           <div class="row g-3 staff-info-card">
+
+                            <!-- LEFT: PHOTO + MAIN INFO -->
+                            <div class="col-4 text-center">
                                 <div class="staff-photo-box">
-                                    <img class="staff-photo2" src="/pictures/staffs/${data.data.objects?.responsible_photo}" alt="">
+                                <img class="staff-photo2"
+                                    src="/pictures/staffs/${data.data.objects?.responsible_photo}"
+                                    alt="Mas'ul shaxs">
                                 </div>
 
-                                <div class="staff-name2 mt-3">
-                                    ${data.data.objects?.responsible_name}
+                                <div class="staff-role mt-2">Mas’ul</div>
+
+                                <div class="staff-name2 mt-2">
+                                ${data.data.objects?.responsible_name}
                                 </div>
 
-                                <a href="tel:${data.data.objects?.responsible_phone}" class="staff-phone2 mt-2">
-                                    📞 ${data.data.objects?.responsible_phone}
+                                <a href="tel:${data.data.objects?.responsible_phone}"
+                                class="staff-phone2 mt-2 d-inline-block">
+                                📞 ${data.data.objects?.responsible_phone}
                                 </a>
                             </div>
+
+                            <!-- RIGHT: COMMAND + PATROLS -->
+                            <div class="col-8 staff-details">
+
+                                <div class="staff-block">
+                                <h6>Guruh komandiri I-dar. serjant</h6>
+                                <span>Hasanov Rustam Ergash o‘g‘li</span>
+                                <a href="tel:907277898">📞 90 727 78 98</a>
+                                </div>
+
+                                <div class="staff-block">
+                                <h6>12-yo‘nalish patrul MHX</h6>
+                                <span>Yo'ldashev Javohir Murod o‘g‘li</span>
+                                </div>
+
+                                <div class="staff-block">
+                                <h6>13-yo‘nalish patrul MHX</h6>
+                                <span>Salomov Ulug'bek Islom o‘g‘li</span>
+                                </div>
+
+                            </div>
+                            </div>
+
                         `); 
                     }
                 });

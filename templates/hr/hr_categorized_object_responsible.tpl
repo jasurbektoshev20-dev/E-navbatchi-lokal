@@ -20,7 +20,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body d-flex" style="justify-content: space-between;">
-                    <h4>Жавобгар шахс</h4>
+                    <h4>Хизматга жалб этилганлар</h4>
                     <button id="new" type="button" class="btn btn-primary waves-effect waves-light"
                         data-bs-toggle="submitModal" data-bs-target="#modal">
                         <i class="menu-icon tf-icons ti ti-plus"></i>{$Dict.adding}
@@ -38,10 +38,12 @@
                     <table class="datatables-projects table border-top">
                         <thead>
                             <tr>
-                                <th>No̱</th>
+                                <th>т/р</th>
                                 <th class="text-center">Сана</th>
                                 <th class="text-center">Бўлинма</th>
-                                <th class="text-center">Навбатчи</th>
+                                <th class="text-center">Хизмат тури</th>
+                                <th class="text-center">Хизмат йўналиши</th>
+                                <th class="text-center">Ҳарбий хизматчи</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -50,7 +52,9 @@
                                 <tr class="lb" id="row_{$Table.id|crypt}">
                                     <td class="text-right">{$tkey+1}</td>
                                     <td class="text-center">{$Table.date}</td> 
-                                    <td class="text-center">{$Table.structure_name}</td>
+                                     <td class="text-center">{$Table.structure_name}</td>
+                                    <td class="text-center">{$Table.duty_type}</td>
+                                    <td class="text-center">{$Table.duty_direction}</td>
                                     <td class="text-center">{$Table.staff_name}</td>
                                     <td>
                                         <div class="dropdown">
@@ -88,7 +92,7 @@
 </div>
 
 
-<!-- Edit Modal -->
+<!-- Modal -->
 <div class="modal fade" id="submitModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-simple modal-edit-user">
         <div class="modal-content p-3 p-md-5">
@@ -97,7 +101,6 @@
                 <form class="needs-validation" novalidate>
                     <div class="row g-3">
                     <input type="hidden" name="object_id" id="object_id">
-
 
                         <div class="col-6">
                             <label>Сана</label>
@@ -115,32 +118,36 @@
                         </div>
 
                         <div class="col-6">
-                            <label>Xizmat</label>
+                            <label>Хизмат</label>
                             <select  class="select form-control" name="duty_type" id="duty_type">
                                 <option value="">{$Dict.choose}</option>
-                                <option value="Piyoda patrul">Piyoda patrul</option>
-                                <option value="Guruh boshlig'i">Guruh boshlig'i</option>
+                                <option value="Пиёда патрул">Пиёда патрул</option>
+                                <option value="Гуруҳ бошлиғи">Гуруҳ бошлиғи</option>
                             </select>
                         </div>
 
                         <div class="col-sm-4">
-                            <label>Xizmat yo'nalishi</label>
+                            <label>Хизмат йўналиши</label>
                             <input required type="number" class="form-control" name="duty_direction" id="duty_direction" value="">
                         </div>
 
-                        <div class="col-sm-6">
-                            <label>Ҳарбий хизматчи</label>
-                            <select id="staff_id" class="form-select">
+                        <div class="col-sm-12">
+                           <label class="form-label">Ҳарбий хизматчи</label>
+                            <input type="text" id="staffSearch"
+                                class="form-control mb-2"
+                                placeholder="Қидириш...">
+
+                            <select id="staff_id"
+                                    class="form-select d-none"
+                                    size="8">
                                 <option value="">{$Dict.choose}</option>
                                 {foreach from=$troops item=obj}
-                                    <option value="{$obj.id}">{$obj.troop_name}</option>
+                                    <option value="{$obj.id}">
+                                        {$obj.troop_name}
+                                    </option>
                                 {/foreach}
                             </select>
                         </div>
-
-                     
-                        
-                     
                        
                         <div class="col-12 text-center">
                             <input type="hidden" name="id" id="id" value="">
@@ -187,6 +194,44 @@
     var dict_choose = "{$Dict.choose}";
     {literal}
 
+                const searchInput = document.getElementById('staffSearch');
+            const selectBox   = document.getElementById('staff_id');
+
+            searchInput.addEventListener('focus', () => {
+                selectBox.classList.remove('d-none');
+            });
+
+            searchInput.addEventListener('input', function () {
+                const filter = this.value.toLowerCase();
+                const options = selectBox.querySelectorAll('option');
+
+                options.forEach(opt => {
+                    if (opt.value === "") return;
+                    opt.style.display = opt.text.toLowerCase().includes(filter)
+                        ? ''
+                        : 'none';
+                });
+
+                // yozish boshlanganida ham ochiq tursin
+                selectBox.classList.remove('d-none');
+            });
+
+            // option tanlanganda
+            selectBox.addEventListener('change', function () {
+                const selected = this.options[this.selectedIndex];
+                if (selected && selected.value) {
+                    searchInput.value = selected.text;
+                    selectBox.classList.add('d-none');
+                }
+            });
+
+            // tashqariga bosilganda yopilsin
+            document.addEventListener('click', function (e) {
+                if (!searchInput.contains(e.target) && !selectBox.contains(e.target)) {
+                    selectBox.classList.add('d-none');
+                }
+            });
+
           function getUrlParameter(name) {
             name = name.replace(/[\[\]]/g, '\\$&');
             var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
@@ -203,7 +248,7 @@
         if (flatpickrDate) {
             flatpickrDate.flatpickr({
                 enableTime: true,
-            dateFormat: "Y-m-d H:i",
+            dateFormat: "Y-m-d",
             time_24hr: true,
             monthSelectorType: 'static'
             });
@@ -214,7 +259,7 @@
            let [datePart, timePart] = this.value.split(' ');
             let [day, month, year] = datePart.split('-');
 
-            start_event_date = `${year}-${month}-${day} ${timePart}`;
+            start_event_date = `${year}-${month}-${day}`;
         })
 
         var dt_basic_table = $('.datatables-projects'),
@@ -233,9 +278,12 @@
             $('#submitModal').modal('toggle');
             $('#structure_id').val(0);
             $('#structure_id').trigger("change");
+             $('#duty_type').val(0);
+            $('#duty_type').trigger("change");
             $('#staff_id').val(0);
             $('#staff_id').trigger("change");
             $('#date').val('');
+            $('#duty_direction').val('');
            $('#object_id').val(object_id);
         });
 
@@ -248,6 +296,8 @@
 
                 $('#id').val(sInfo.rowid);
                 $('#structure_id').val(sInfo.structure_id);
+                $('#duty_type').val(sInfo.duty_type);
+                $('#duty_direction').val(sInfo.duty_direction);
                 $('#staff_id').val(sInfo.staff_id);
                 $('#date').val(sInfo.date);
                 $('#object_id').val(sInfo.object_id); // bu yerda object_id set qilinadi
@@ -270,9 +320,11 @@
                     var form_data = new FormData();
                     form_data.append('id', $('#id').val());
                     form_data.append('structure_id', $('#structure_id').val());
+                    form_data.append('duty_type', $('#duty_type').val());
+                    form_data.append('duty_direction', $('#duty_direction').val());
                     form_data.append('staff_id', $('#staff_id').val());
                     form_data.append('date', $('#date').val());
-                form_data.append('object_id', $('#object_id').val());
+                      form_data.append('object_id', $('#object_id').val());
 
                     $.ajax({
                         url: 'hrajax.php?act=act_embassy_objects_responsible',
