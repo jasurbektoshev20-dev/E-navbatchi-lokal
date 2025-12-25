@@ -648,6 +648,57 @@ padding-right: 6px;     /* scroll tegmasligi uchun */
   padding-right: 8px;
 }
 
+
+.event-single-card {
+  background: linear-gradient(180deg, #0d1b33, #0a1428);
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 0 0 1px rgba(0, 173, 255, 0.25),
+              0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.event-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.event-row.last {
+  border-bottom: none;
+}
+
+.event-row i {
+  font-size: 22px;
+  color: #2ecbff;
+  background: rgba(46, 203, 255, 0.15);
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.event-row .label {
+  display: block;
+  font-size: 16px;
+  color: #8fa7c9;
+  margin-bottom: 2px;
+  font-weight: bold;
+}
+
+.event-row .value {
+  font-size: 18px;
+  font-weight: 500;
+  color: #eaf2ff;
+  line-height: 1.4;
+}
+
+
+
   {/literal}
 </style>
 
@@ -705,14 +756,14 @@ padding-right: 6px;     /* scroll tegmasligi uchun */
         </div>
 
 <div class="modal-body">
-   <div id="markerLoader" class="text-center py-4" style="display:none;">
-              <div class="spinner-border text-info" role="status">
-                <span class="visually-hidden">Loading...</span>
-              </div>
-              <div class="mt-2 text-white">Юкланмоқда...</div>
-            </div>
-  <div class="space-main-modal-box">
-    <div class="row">
+        <div id="markerLoader" class="text-center py-4" style="display:none;">
+                    <div class="spinner-border text-info" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <div class="mt-2 text-white">Юкланмоқда...</div>
+                  </div>
+        <div class="space-main-modal-box">
+          <div class="row">
 
       <!-- LEFT SIDE — MAP -->
         <!-- LEFT SIDE — MAP -->
@@ -1339,42 +1390,77 @@ padding-right: 6px;     /* scroll tegmasligi uchun */
       if (!container || !params) return
 
       // <li class="alert alert-dark" role="alert">Секторлар сони: <span>4 ${params.responsible_name} ta</span> </li>
-      container.innerHTML = `
-         <ul class="">
-          
-              <li class="alert alert-dark m-0" role="alert">
-                  <i class="duty-icon bi bi-flag"></i>
-                  Номи:  <span>${params?.event_name}</span>
-              </li>
+     container.innerHTML = `
+<div class="event-single-card">
 
-             
-              <li class="alert alert-dark m-0" role="alert">
-                  <i class="duty-icon bi bi-journal-text"></i>
-                  Асос: <span>${params?.event_view}</span>
-              </li>
+  <div class="event-row">
+    <i class="bi bi-flag"></i>
+    <div>
+      <span class="label">Номи</span>
+      <span class="value">${params?.event_name || '-'}</span>
+    </div>
+  </div>
 
-              <li class="alert alert-dark m-0" role="alert">
-                  <i class="duty-icon bi bi-compass"></i>
-                  Йўналиши: <span>${params?.event_direction}</span>
-              </li>
+  <div class="event-row">
+    <i class="bi bi-journal-text"></i>
+    <div>
+      <span class="label">Асос</span>
+      <span class="value">${params?.event_view || '-'}</span>
+    </div>
+  </div>
 
-              <li class="alert alert-dark m-0" role="alert">
-                  <i class="duty-icon bi bi-people-fill"></i>
-                  Фуқаролар сони: <span>${params?.people_count} нафар</span>
-              </li>
+  <div class="event-row">
+    <i class="bi bi-compass"></i>
+    <div>
+      <span class="label">Йўналиши</span>
+      <span class="value">${params?.event_direction || '-'}</span>
+    </div>
+  </div>
 
-              <li class="alert alert-dark m-0" role="alert">
-                  <i class="duty-icon bi bi-clock-history"></i>
-                  Бошланиш вақти: <span>${params?.start_event}</span>
-              </li>
+  <div class="event-row">
+    <i class="bi bi-people-fill"></i>
+    <div>
+      <span class="label">Фуқаролар сони</span>
+      <span class="value">${params?.people_count || 0} нафар</span>
+    </div>
+  </div>
 
-              <li class="alert alert-dark m-0" role="alert">
-                  <i class="duty-icon bi bi-clock"></i>
-                  Тугаш вақти: <span>${params?.finish_event}</span>
-              </li>
-          </ul>
+  <div class="event-row">
+    <i class="bi bi-clock-history"></i>
+    <div>
+      <span class="label">Бошланиш вақти</span>
+      <span class="value">${params?.start_event || '-'}</span>
+    </div>
+  </div>
 
-        ` 
+  <div class="event-row">
+    <i class="bi bi-clock"></i>
+    <div>
+      <span class="label">Тугаш вақти</span>
+      <span class="value">${params?.finish_event || '-'}</span>
+    </div>
+  </div>
+
+  <div class="event-row">
+    <i class="bi bi-people"></i>
+    <div>
+      <span class="label">Ташаббускор</span>
+      <span class="value">${params?.organizer || '-'}</span>
+    </div>
+  </div>
+
+  <div class="event-row last">
+    <i class="bi bi-info-circle"></i>
+    <div>
+      <span class="label">Қўшимча маълумот</span>
+      <span class="value">${params?.comment || '-'}</span>
+    </div>
+  </div>
+
+</div>
+`;
+
+
        const parent = document.getElementById('tadbirmalumoti');
 
         parent.appendChild(container);

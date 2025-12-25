@@ -114,8 +114,22 @@
                             </select>
                         </div>
 
+                        <div class="col-6">
+                            <label>Xizmat</label>
+                            <select  class="select form-control" name="duty_type" id="duty_type">
+                                <option value="">{$Dict.choose}</option>
+                                <option value="Piyoda patrul">Piyoda patrul</option>
+                                <option value="Guruh boshlig'i">Guruh boshlig'i</option>
+                            </select>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <label>Xizmat yo'nalishi</label>
+                            <input required type="number" class="form-control" name="duty_direction" id="duty_direction" value="">
+                        </div>
+
                         <div class="col-sm-6">
-                            <label>Навбатчи</label>
+                            <label>Ҳарбий хизматчи</label>
                             <select id="staff_id" class="form-select">
                                 <option value="">{$Dict.choose}</option>
                                 {foreach from=$troops item=obj}

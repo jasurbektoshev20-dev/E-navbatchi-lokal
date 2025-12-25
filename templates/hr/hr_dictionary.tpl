@@ -39,7 +39,7 @@
                     <table class="datatables-projects table border-top">
                         <thead>
                             <tr>
-                                <th>No̱</th>
+                                <th>т/р</th>
                                 <th>{$Dict.infraction}</th>
                                 <th>{$Dict.action_taken}</th>
                                 <th>{$Dict.person_drafted}</th>

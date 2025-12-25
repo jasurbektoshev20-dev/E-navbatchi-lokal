@@ -39,7 +39,7 @@
                     <table class="datatables-projects table border-top">
                         <thead>
                             <tr>
-                                <th>No̱</th>
+                                <th>т/р</th>
                                 <th class="text-center">{$Dict.structure}</th>
                                 <th class="text-center">{$Dict.photo}</th>
                                 <th class="text-center">{$Dict.lastname}</th>

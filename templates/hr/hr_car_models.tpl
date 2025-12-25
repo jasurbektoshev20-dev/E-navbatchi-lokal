@@ -39,7 +39,7 @@
                     <table class="datatables-projects table border-top">
                         <thead>
                             <tr>
-                                <th>No̱</th>
+                                <th>т/р</th>
                                 <th>{$Dict.name}</th>
                                 <th>{$Dict.photo}</th>
                                 <th>{$Dict.width}</th>

@@ -868,50 +868,71 @@ switch ($Action) {
 		$res = json_encode($result);
 		break;
 
+
 	case "get_jts_map":
 
-		$structure_id = isset($_GET['region_id']) ? (int)$_GET['region_id'] : 0;
-		$object_type  = isset($_GET['object_type']) ? (int)$_GET['object_type'] : 0;
-		$object_id    = isset($_GET['object_id']) ? (int)$_GET['object_id'] : 0;
+    // GET paramlar
+    $structure_id = isset($_GET['region_id']) ? (int)$_GET['region_id'] : 0;
+    $object_type  = isset($_GET['object_type']) ? (int)$_GET['object_type'] : 0;
+    $object_id    = isset($_GET['object_id']) ? (int)$_GET['object_id'] : 0;
 
-		$query = "
-			SELECT 
-				t.id,
-				t.object_name,
-				t.object_type,
-				t.lat,
-				t.long
-			FROM hr.jts_objects t
-			WHERE 1=1
-		";
+    $query = "
+        SELECT 
+            t.id,
+            t.object_name,
+            t.object_type,
+            t.lat,
+            t.long
+        FROM hr.jts_objects t
+        WHERE 1=1
+    ";
 
-		// Region (structure + parent structures)
-		if ($UserStructure > 1) {
-			$query .= "
-				AND t.structure_id IN (
-					SELECT id FROM hr.structure WHERE id = {$UserStructure}
-					UNION
-					SELECT id FROM hr.structure WHERE parent = {$UserStructure}
-				)
-			";
-		}
+    /**
+     * 1️⃣ FOYDALANUVCHI STRUKTURASI CHEGARASI
+     * (admin bo‘lmasa)
+     */
+    if ($UserStructure > 1) {
+        $query .= "
+            AND t.structure_id IN (
+                SELECT id FROM hr.structure WHERE id = {$UserStructure}
+                UNION
+                SELECT id FROM hr.structure WHERE parent = {$UserStructure}
+            )
+        ";
+    }
 
-		// Object type filter
-		if ($object_type > 0) {
-			$query .= " AND t.object_type = {$object_type} ";
-		}
+    /**
+     * 2️⃣ SELECTDAN KELGAN REGION (VILOYAT)
+     */
+    if ($structure_id > 0) {
+        $query .= " AND t.structure_id = {$structure_id} ";
+    }
 
-		// Exact object
-		if ($object_id > 0) {
-			$query .= " AND t.id = {$object_id} ";
-		}
+    /**
+     * 3️⃣ OBYEKT TURI
+     */
+    if ($object_type > 0) {
+        $query .= " AND t.object_type = {$object_type} ";
+    }
 
-		$sql->query($query);
-		$JtsObjects = $sql->fetchAll();
+    /**
+     * 4️⃣ ANIQ OBYEKT (MARKER BOSILGANDA)
+     */
+    if ($object_id > 0) {
+        $query .= " AND t.id = {$object_id} ";
+    }
 
-		$res = json_encode($JtsObjects);
+    // So‘rovni bajarish
+    $sql->query($query);
+    $JtsObjects = $sql->fetchAll();
 
-		break;
+    // JSON qaytarish
+    $res = json_encode($JtsObjects);
+
+break;
+
+
+
 
 
 	case "get_public_events":
@@ -2099,17 +2120,74 @@ switch ($Action) {
 
 break;
 
+// case 'get_body_cameras_map':
+
+//     $query = "
+//         SELECT id, cam_code, comment, lat, long, status, structure_id
+//         FROM hr.body_cameras
+//         WHERE status = true
+//     ";
+
+//     $sql->query($query);
+//     $cams = $sql->fetchAll();
+
+//     foreach ($cams as &$cam) {
+//         $cam['status'] = (
+//             $cam['status'] === true ||
+//             $cam['status'] === 't' ||
+//             $cam['status'] === 1 ||
+//             $cam['status'] === '1'
+//         ) ? 1 : 0;
+//     }
+
+//     echo json_encode([
+//         'success' => true,
+//         'data' => $cams
+//     ]);
+//     exit;
+
 case 'get_body_cameras_map':
 
+    // selectdan kelgan region (viloyat)
+    $structure_id = isset($_GET['region_id']) ? (int)$_GET['region_id'] : 0;
+
     $query = "
-        SELECT id, cam_code, comment, lat, long, status, structure_id
+        SELECT 
+            id,
+            cam_code,
+            comment,
+            lat,
+            long,
+            status,
+            structure_id
         FROM hr.body_cameras
         WHERE status = true
     ";
 
+    /**
+     * 1️⃣ FOYDALANUVCHI STRUKTURASI CHEGARASI
+     */
+    if ($UserStructure > 1) {
+        $query .= "
+            AND structure_id IN (
+                SELECT id FROM hr.structure WHERE id = {$UserStructure}
+                UNION
+                SELECT id FROM hr.structure WHERE parent = {$UserStructure}
+            )
+        ";
+    }
+
+    /**
+     * 2️⃣ SELECTDAN KELGAN REGION
+     */
+    if ($structure_id > 0) {
+        $query .= " AND structure_id = {$structure_id} ";
+    }
+
     $sql->query($query);
     $cams = $sql->fetchAll();
 
+    // statusni normalize qilamiz (senga yoqqan logika 😄)
     foreach ($cams as &$cam) {
         $cam['status'] = (
             $cam['status'] === true ||
@@ -2124,6 +2202,7 @@ case 'get_body_cameras_map':
         'data' => $cams
     ]);
     exit;
+
 
     
 	 case "administrative_offences":
