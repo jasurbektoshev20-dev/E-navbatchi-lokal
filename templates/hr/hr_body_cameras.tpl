@@ -141,7 +141,7 @@
         // DataTable with buttons
         if (dt_basic_table.length) {
             dt_basic = dt_basic_table.DataTable({
-                displayLength: 200,
+                displayLength: 1000,
                 lengthMenu: [5, 10, 25, 50, 75, 100,200, 1000]
             });
         }
