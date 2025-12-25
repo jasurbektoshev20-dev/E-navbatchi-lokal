@@ -121,7 +121,7 @@
 
                    
                         <div class="col-sm-4">
-                            <label>Худудий бўлинма</label>
+                            <label>Ҳудудий бўлинма</label>
                             <select class="select form-control" name="structure_id" id="structure_id">
                                 <option value="">{$Dict.choose}</option>
                                  {foreach from=$units item=Item1 key=ikey1}
@@ -201,7 +201,7 @@
                         </div>
                     
                         <div class="col-sm-4">
-                            <label>Худудий ИИБ</label>
+                            <label>Ҳудудий ИИБ</label>
                             <input required type="text" class="form-control" name="territorial_iib" id="territorial_iib" value="">
                         </div>
 

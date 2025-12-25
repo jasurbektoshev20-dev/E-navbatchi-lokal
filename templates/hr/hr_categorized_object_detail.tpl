@@ -46,12 +46,12 @@
                                 <th class="text-center">Пост телефон рақами</th>
                                 <th class="text-center">Расм</th>
                                 <th class="text-center">Манзили</th>
-                                <th class="text-center">Худудий бўлинма</th>
+                                <th class="text-center">Ҳудудий бўлинма</th>
                                 <th class="text-center">Масъул раҳбар</th>
                                 <th class="text-center">Бўлинма телефон рақами</th>
                                 <th class="text-center">Профилактика инспектори</th>
                                 <th class="text-center">Телефон</th>
-                                <th class="text-center">Худудий ИИБ</th>
+                                <th class="text-center">Ҳудудий ИИБ</th>
                                 <th class="text-center">ИИБ телефон рақами</th>
                                 <th></th>
                             </tr>
@@ -135,7 +135,7 @@
                         </div>
                       
                          <div class="col-sm-6">
-                            <label>Худудий бўлинмалар</label>
+                            <label>Ҳудудий бўлинмалар</label>
                             <select required class="select form-control" name="structure_id" id="structure_id">
                                 <option value="">{$Dict.choose}</option>
                                  {foreach from=$staffs item=Item1 key=ikey1}
@@ -170,7 +170,7 @@
                         </div>
                     
                         <div class="col-sm-6">
-                            <label>Худудий ИИБ</label>
+                            <label>Ҳудудий ИИБ</label>
                             <input required type="text" class="form-control" name="territorial_iib" id="territorial_iib" value="">
                         </div>
 

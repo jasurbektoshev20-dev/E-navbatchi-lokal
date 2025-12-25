@@ -908,7 +908,7 @@
                                             </div>
 
                                              <div class="embassy-item">
-                                                 <div class="embassy-label">Худудий ИИБ</div>
+                                                 <div class="embassy-label">Ҳудудий ИИБ</div>
                                                  <div class="embassy-value">${obj.iiv_unit ?? '-'}</div>
                                                  <div class="embassy-value">${obj.iiv_unit_phone ?? '-'}</div>
                                             </div>

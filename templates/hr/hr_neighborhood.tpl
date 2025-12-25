@@ -5,7 +5,7 @@
         .table thead th,
         .table tbody td {
             text-transform: none !important;
-            font-size: 18px;
+            font-size: 16px;
         }
 
         .dt-buttons {
@@ -37,7 +37,7 @@
                     <table class="datatables-projects table table-border">
                         <thead>
                             <tr>
-                                <th style="white-space: nowrap">Т/р</th>
+                                <th style="white-space: nowrap">т/р</th>
                                 <th>Ҳудуд</th>
                                 <th>Туман</th>
                                 <th style="white-space: nowrap">Маҳалла номи</th>
