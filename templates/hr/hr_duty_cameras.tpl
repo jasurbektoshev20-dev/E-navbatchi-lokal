@@ -49,7 +49,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {foreach from=$embassy_cameras item=obekt key=tkey}
+                            {foreach from=$Camera item=obekt key=tkey}
                                 <tr class="lb" id="row_{$obekt.id|crypt}">
                                     <td class="text-right">{$tkey+1}</td>
                                     <td class="text-center">{$obekt.name}</td>
@@ -186,7 +186,7 @@
         $('.datatables-projects tbody').on('click', '.editAction', function() {
             $('#submitModal').modal('toggle');
             var RowId = $(this).attr('rel');
-            $.get("hrajax.php?act=get_duty_camera&rowid=" + RowId, function(html) {
+            $.get("hrajax.php?act=get_duty_part_camera&rowid=" + RowId, function(html) {
                 var sInfo = jQuery.parseJSON(html);
                 $('#camName').val(sInfo.name);
                 $('#cam_code').val(sInfo.cam_code);
@@ -244,7 +244,7 @@
 
                 // 🔥 AJAX orqali backendga yuborish
                 $.ajax({
-                    url: 'hrajax.php?act=act_duty_camera',
+                    url: 'hrajax.php?act=act_duty_part_camera',
                     type: 'POST',
                     data: form_data,
                     contentType: false,
@@ -274,7 +274,7 @@
         // Delete Record 
         $('.datatables-projects tbody').on('click', '.delete', function() {
             var RowId = $(this).attr('rel');
-            $.get("hrajax.php?act=del_duty_camera&rowid=" + RowId,
+            $.get("hrajax.php?act=del_duty_part_camera&rowid=" + RowId,
                 function(html) {
                     if (html == 0) {
                         $("#row_" + RowId).remove();

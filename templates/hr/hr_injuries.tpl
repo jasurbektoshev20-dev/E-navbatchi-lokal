@@ -503,6 +503,19 @@ document.addEventListener('click', function (e) {
   // modalni ochish
   const modal = new bootstrap.Modal(
     document.getElementById('submitModal')
+    $.ajax({
+        url:'ajax.php?act=get_injuries',
+        type:'POST',
+        data:fd,
+        contentType:false,
+        processData:false,
+        success:r=>{
+            if(r.split('<&sep&>')[0]==0){
+                $('#submitModal').modal('hide');
+                loadEvents();
+            } else alert(r);
+        }
+    });
   );
   modal.show();
 });
@@ -511,6 +524,17 @@ document.addEventListener('click', function (e) {
 let hisobot = document.getElementById('shaxsiytarkib');
 hisobot.addEventListener('click', ()=>{
    console.log('clicked')
+   $.ajax({
+        url:'ajax.php?act=get_injuries',
+        type:'POST',
+        data:fd,
+        contentType:false,
+        processData:false,
+        success:r=>{
+        
+            } 
+        }
+    });
      const modal = new bootstrap.Modal(
             document.getElementById('showDetail')
         );

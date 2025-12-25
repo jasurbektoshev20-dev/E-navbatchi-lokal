@@ -345,6 +345,26 @@ switch ($Action) {
 		$sql->query($query);
 		$Duty = $sql->fetchAll();
 
+		$query = "SELECT
+				c.id AS camera_id,
+				c.name AS camera_name,
+				c.cam_code,
+				s.id AS structure_id,
+				s.name{$slang} AS structure_name,
+				CASE
+					WHEN c.is_ptz THEN 'PTZ'
+					ELSE 'No PTZ'
+				END AS is_ptz
+			FROM hr.structure s
+			JOIN hr.duty_part_cameras c
+				ON c.structure_id = s.id
+			WHERE s.parent = {$RegId} or s.id = {$RegId}
+			ORDER BY s.id, c.id DESC";
+
+			$sql->query($query);
+			$Camera = $sql->fetchAll();
+
+
 		$staffs = [$Dict['masul'], $Dict['staff_2'], $Dict['staff_3']];
 		foreach ($Duty as $key => &$item) {
 			$item['staff'] = $staffs[$key] ?? null;
@@ -356,8 +376,13 @@ switch ($Action) {
 		// die();
 
 
-		$res = json_encode($Duty);
+		$res = json_encode([
+			'Duty' => $Duty,
+			'cameras' => $Camera
+		]);
 		break;
+
+
 	case "get_patrul_types":
 		$query  = "SELECT t.id, t.name{$slang} as name FROM ref.patrul_types t ORDER BY t.id ASC";
 		$sql->query($query);
@@ -2563,46 +2588,76 @@ break;
 
 		/* =============== SMARTY ================= */
 
-		$res = [];
-		$res['Events'] = $Events;
-
-		$res;
+		$res = json_encode([
+				'Events'       => $Events
+			]);
 	break;
 
+	case "get_injuries":
+		$query = "
+			SELECT
+			r.id AS region_id,
+			r.name1 AS hudud,
+
+			/* ================= INJURY TYPE COUNTS ================= */
+			COALESCE(
+				(
+					SELECT json_agg(
+						json_build_object(
+							'injury_type_id', it.id,
+							'count', COALESCE(cnt.cnt, 0)
+						)
+						ORDER BY it.id
+					)
+					FROM tur.injuries_types it
+					LEFT JOIN (
+						SELECT
+							injury_type_id::int,
+							COUNT(*) AS cnt
+						FROM hr.injuries
+						WHERE region_id = r.id
+						AND date BETWEEN '2025-01-01' AND '2025-12-31'
+						GROUP BY injury_type_id::int
+					) cnt
+						ON cnt.injury_type_id = it.id
+				),
+				'[]'::json
+			) AS injury_type_counts,
+
+			/* ================= STAFF / TROOPS INJURIES ================= */
+			COALESCE(
+				json_agg(
+					json_build_object(
+						'id', i.id,
+						'structure_id', i.structure_id,
+						'region_id', i.region_id,
+						'injury_type_id', i.injury_type_id,
+						'comment', i.comment,
+						'date', i.date
+					)
+					ORDER BY i.date
+				) FILTER (WHERE i.id IS NOT NULL),
+				'[]'::json
+			) AS staff_injuries
 
 
+		FROM hr.structure r
+		LEFT JOIN hr.injuries i
+			ON i.region_id = r.id
+		AND i.date BETWEEN '2025-01-01' AND '2025-12-31'
 
-	case 'sync_body_cameras':
-
-    $lockFile = __DIR__ . '/bodycam_sync.lock';
-    $now = time();
-
-    $lastRun = file_exists($lockFile)
-        ? (int)file_get_contents($lockFile)
-        : 0;
-
-    // faqat 60 sekundda 1 marta
-    if ($now - $lastRun < 60) {
-        echo json_encode([
-            'success' => true,
-            'skipped' => true,
-            'msg' => 'Already synced recently'
-        ]);
-        exit;
-    }
-
-    file_put_contents($lockFile, $now);
-
-    // 🔥 HYTERA SYNC CHAQIRAMIZ
-    @file_get_contents(
-        "http://127.0.0.1/hytera_api.php?action=devices"
-    );
-
-    echo json_encode([
-        'success' => true,
-        'synced' => true
-    ]);
-    exit;
+		WHERE r.id BETWEEN 2 AND 15
+		GROUP BY r.id, r.name1
+		ORDER BY r.id;
+		";
+		$sql->query($query);
+		$Injuries = $sql->fetchAll();
+		echo '<pre>';
+		print_r($Injuries);
+		echo '</pre>';
+		die();
+		$res = json_encode($Injuries);
+		break;
 
 	
 }
