@@ -1339,42 +1339,76 @@ padding-right: 6px;     /* scroll tegmasligi uchun */
       if (!container || !params) return
 
       // <li class="alert alert-dark" role="alert">Секторлар сони: <span>4 ${params.responsible_name} ta</span> </li>
-      container.innerHTML = `
-         <ul class="">
-          
-              <li class="alert alert-dark m-0" role="alert">
-                  <i class="duty-icon bi bi-flag"></i>
-                  Номи:  <span>${params?.event_name}</span>
-              </li>
+       container.innerHTML = `
+<div class="event-info-card">
 
-             
-              <li class="alert alert-dark m-0" role="alert">
-                  <i class="duty-icon bi bi-journal-text"></i>
-                  Асос: <span>${params?.event_view}</span>
-              </li>
+  <div class="info-row">
+    <div class="icon-box"><i class="bi bi-flag"></i></div>
+    <div class="info-content">
+      <div class="label">Номи</div>
+      <div class="value">${params?.event_name || '-'}</div>
+    </div>
+  </div>
 
-              <li class="alert alert-dark m-0" role="alert">
-                  <i class="duty-icon bi bi-compass"></i>
-                  Йўналиши: <span>${params?.event_direction}</span>
-              </li>
+  <div class="info-row">
+    <div class="icon-box"><i class="bi bi-journal-text"></i></div>
+    <div class="info-content">
+      <div class="label">Асос</div>
+      <div class="value">${params?.event_view || '-'}</div>
+    </div>
+  </div>
 
-              <li class="alert alert-dark m-0" role="alert">
-                  <i class="duty-icon bi bi-people-fill"></i>
-                  Фуқаролар сони: <span>${params?.people_count} нафар</span>
-              </li>
+  <div class="info-row">
+    <div class="icon-box"><i class="bi bi-compass"></i></div>
+    <div class="info-content">
+      <div class="label">Йўналиши</div>
+      <div class="value">${params?.event_direction || '-'}</div>
+    </div>
+  </div>
 
-              <li class="alert alert-dark m-0" role="alert">
-                  <i class="duty-icon bi bi-clock-history"></i>
-                  Бошланиш вақти: <span>${params?.start_event}</span>
-              </li>
+  <div class="info-row">
+    <div class="icon-box"><i class="bi bi-people-fill"></i></div>
+    <div class="info-content">
+      <div class="label">Фуқаролар сони</div>
+      <div class="value">${params?.people_count || 0} нафар</div>
+    </div>
+  </div>
 
-              <li class="alert alert-dark m-0" role="alert">
-                  <i class="duty-icon bi bi-clock"></i>
-                  Тугаш вақти: <span>${params?.finish_event}</span>
-              </li>
-          </ul>
+  <div class="info-row">
+    <div class="icon-box"><i class="bi bi-clock-history"></i></div>
+    <div class="info-content">
+      <div class="label">Бошланиш вақти</div>
+      <div class="value">${params?.start_event || '-'}</div>
+    </div>
+  </div>
 
-        ` 
+  <div class="info-row">
+    <div class="icon-box"><i class="bi bi-clock"></i></div>
+    <div class="info-content">
+      <div class="label">Тугаш вақти</div>
+      <div class="value">${params?.finish_event || '-'}</div>
+    </div>
+  </div>
+
+  <div class="info-row">
+    <div class="icon-box"><i class="bi bi-people"></i></div>
+    <div class="info-content">
+      <div class="label">Ташаббускор</div>
+      <div class="value">${params?.organizer || '-'}</div>
+    </div>
+  </div>
+
+  <div class="info-row">
+    <div class="icon-box"><i class="bi bi-info-circle"></i></div>
+    <div class="info-content">
+      <div class="label">Қўшимча маълумот</div>
+      <div class="value">${params?.comment || '-'}</div>
+    </div>
+  </div>
+
+</div>
+`;
+
        const parent = document.getElementById('tadbirmalumoti');
 
         parent.appendChild(container);
