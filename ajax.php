@@ -2484,11 +2484,76 @@ break;
 
 		/* =============== SMARTY ================= */
 
-		$res = [];
-		$res['Events'] = $Events;
-
-		$res;
+		$res = json_encode([
+				'Events'       => $Events
+			]);
 	break;
+
+	case "get_injuries":
+		$query = "
+			SELECT
+			r.id AS region_id,
+			r.name1 AS hudud,
+
+			/* ================= INJURY TYPE COUNTS ================= */
+			COALESCE(
+				(
+					SELECT json_agg(
+						json_build_object(
+							'injury_type_id', it.id,
+							'count', COALESCE(cnt.cnt, 0)
+						)
+						ORDER BY it.id
+					)
+					FROM tur.injuries_types it
+					LEFT JOIN (
+						SELECT
+							injury_type_id::int,
+							COUNT(*) AS cnt
+						FROM hr.injuries
+						WHERE region_id = r.id
+						AND date BETWEEN '2025-01-01' AND '2025-12-31'
+						GROUP BY injury_type_id::int
+					) cnt
+						ON cnt.injury_type_id = it.id
+				),
+				'[]'::json
+			) AS injury_type_counts,
+
+			/* ================= STAFF / TROOPS INJURIES ================= */
+			COALESCE(
+				json_agg(
+					`json_build_object(
+					`	'id', i.id,
+						'structure_id', i.structure_id,
+						'region_id', i.region_id,
+						'injury_type_id', i.injury_type_id,
+						'comment', i.comment,
+						'date', i.date
+					)
+					ORDER BY i.date
+				) FILTER (WHERE i.id IS NOT NULL),
+				'[]'::json
+			) AS staff_injuries
+
+		FROM hr.structure r
+		LEFT JOIN hr.injuries i
+			ON i.region_id = r.id
+		AND i.date BETWEEN '2025-01-01' AND '2025-12-31'
+
+		WHERE r.id BETWEEN 2 AND 15
+		GROUP BY r.id, r.name1
+		ORDER BY r.id;
+		";
+		$sql->query($query);
+		$Injuries = $sql->fetchAll();
+		echo '<pre>';
+		print_r($Injuries);
+		echo '</pre>';
+		die();
+		$res = json_encode($Injuries);
+		break;
+
 	
 }
 

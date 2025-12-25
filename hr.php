@@ -270,8 +270,8 @@ switch ($Act) {
 
 	case "hr_events":
 
-		$start_date  = !empty($_POST['start_date']) ? $_POST['start_date'] : null;
-		$finish_date = !empty($_POST['finish_date']) ? $_POST['finish_date'] : null;
+		// $start_date  = !empty($_POST['start_date']) ? $_POST['start_date'] : null;
+		// $finish_date = !empty($_POST['finish_date']) ? $_POST['finish_date'] : null;
 
 
 		/* ================= REGIONS ================= */
@@ -339,67 +339,67 @@ switch ($Act) {
 
 
 		/* ================= EVENTS ================= */
-		$query = "
-			SELECT 
-				m.id,
-				t.name{$slang} AS event_type,
-				m.event_direction,
-				m.iiv_count,
-				m.responsible_mg_name,
-				m.sapyor_count AS sapyor,
-				m.fvv_count,
-				m.mg_counts,
-				m.event_view,
-				m.start_event,
-				m.finish_event,
-				m.reserve_count,
-				m.event_name,
-				m.responsible_spring_name,
-				m.event_responsible_organization,
-				ec.name{$slang} AS event_category,
-				m.organizer,
-				m.responsible_name,
-				m.responsible_phone,
-				m.responsible_iiv_name,
-				m.reserve_name,
-				m.responsible_msgr_name,
-				m.responsible_fvv_name,
-				m.people_count,
-				m.spring_count,
-				m.object_name,
-				s.name{$slang} AS region_name,
-				m.lat,
-				m.long,
-				m.comment
-			FROM hr.public_event1 m
-			LEFT JOIN tur.public_event_types t ON t.id = m.event_type
-			LEFT JOIN hr.structure s ON s.id = m.region_id
-			LEFT JOIN tur.event_category ec ON ec.id = m.event_category_id
-			WHERE 1=1
-		";
+		// $query = "
+		// 	SELECT 
+		// 		m.id,
+		// 		t.name{$slang} AS event_type,
+		// 		m.event_direction,
+		// 		m.iiv_count,
+		// 		m.responsible_mg_name,
+		// 		m.sapyor_count AS sapyor,
+		// 		m.fvv_count,
+		// 		m.mg_counts,
+		// 		m.event_view,
+		// 		m.start_event,
+		// 		m.finish_event,
+		// 		m.reserve_count,
+		// 		m.event_name,
+		// 		m.responsible_spring_name,
+		// 		m.event_responsible_organization,
+		// 		ec.name{$slang} AS event_category,
+		// 		m.organizer,
+		// 		m.responsible_name,
+		// 		m.responsible_phone,
+		// 		m.responsible_iiv_name,
+		// 		m.reserve_name,
+		// 		m.responsible_msgr_name,
+		// 		m.responsible_fvv_name,
+		// 		m.people_count,
+		// 		m.spring_count,
+		// 		m.object_name,
+		// 		s.name{$slang} AS region_name,
+		// 		m.lat,
+		// 		m.long,
+		// 		m.comment
+		// 	FROM hr.public_event1 m
+		// 	LEFT JOIN tur.public_event_types t ON t.id = m.event_type
+		// 	LEFT JOIN hr.structure s ON s.id = m.region_id
+		// 	LEFT JOIN tur.event_category ec ON ec.id = m.event_category_id
+		// 	WHERE 1=1
+		// ";
 
-		/* ======== DATE FILTER ======== */
-		if ($start_date && $finish_date) {
-			$query .= " AND DATE(m.start_event) BETWEEN '{$start_date}' AND '{$finish_date}' ";
-		} else {
-			$query .= " AND DATE(m.start_event) = CURRENT_DATE ";
-		}
+		// /* ======== DATE FILTER ======== */
+		// if ($start_date && $finish_date) {
+		// 	$query .= " AND DATE(m.start_event) BETWEEN '{$start_date}' AND '{$finish_date}' ";
+		// } else {
+		// 	$query .= " AND DATE(m.start_event) = CURRENT_DATE ";
+		// }
 
-		/* ======== USER STRUCTURE FILTER ======== */
-		if ($UserStructure > 1) {
-			$query .= "
-				AND m.region_id IN (
-					SELECT id FROM hr.structure WHERE id = {$UserStructure}
-					UNION
-					SELECT id FROM hr.structure WHERE parent = {$UserStructure}
-				)
-			";
-		}
+		// /* ======== USER STRUCTURE FILTER ======== */
+		// if ($UserStructure > 1) {
+		// 	$query .= "
+		// 		AND m.region_id IN (
+		// 			SELECT id FROM hr.structure WHERE id = {$UserStructure}
+		// 			UNION
+		// 			SELECT id FROM hr.structure WHERE parent = {$UserStructure}
+		// 		)
+		// 	";
+		// }
 
-		$query .= " ORDER BY m.id ASC";
+		// $query .= " ORDER BY m.id ASC";
 
-		$sql->query($query);
-		$Events = $sql->fetchAll();
+		// $sql->query($query);
+		// $Events = $sql->fetchAll();
 		
 		// echo '<pre>';
 		// print_r($Events);
@@ -411,15 +411,14 @@ switch ($Act) {
 		$smarty->assign(array(
 			'Regions'        => $Regions,
 			'EventTypes'     => $EventTypes,
-			'Events'         => $Events,
+			// 'Events'         => $Events,
 			'jts_objects'    => $jts_objects,
 			'structures'     => $Structures,
 			'responsible'    => $Responsible,
 			'EventCategory'  => $EventCategory
 		));
-		
-
 		break;
+
 
 
 
@@ -737,6 +736,7 @@ switch ($Act) {
 			'RegDyns' => $Regions
 		));
 		break;
+		
 	case "hr_duty_staff":
 		$RegDyn = MyPiDeCrypt($_GET['regdyn']) ? MyPiDeCrypt($_GET['regdyn']) : 0;
 
@@ -2546,19 +2546,37 @@ switch ($Act) {
 		$smarty->assign(array(
 			'Camera' => $Camera,
 		));
+	break;
+
+
+
+	case "duty_cameras":
+		$structire_id = ($_GET['mid']);
+		$query  = "SELECT t.id, t.name, t.cam_code,  t.lat, t.long,
+		case when t.is_ptz then 'PTZ' else 'No PTZ' end as is_ptz 
+		FROM hr.duty_part_cameras t 
+		WHERE t.structure_id = {$structure_id}
+		ORDER BY t.id desc ";
+		$sql->query($query);
+		$Camera = $sql->fetchAll();
+
+		// echo '<pre>';
+		// print_r($Camera);
+		// echo '</pre>';
+		// die();
+
+		$smarty->assign(array(
+			'Camera' => $Camera,
+		));
 		break;
 
+	case "hr_injuries":
 
-					
+		// 📌 Жиноятлар рўйхати (region + type номи билан)
+
+
+		break;
 		
-	
-
-
-
-		
-
-
-
 }
 
 $smarty->display("hr/{$Act}.tpl");

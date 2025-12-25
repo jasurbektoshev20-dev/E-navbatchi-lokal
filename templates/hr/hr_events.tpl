@@ -1,3 +1,5 @@
+
+Вы сказали:
 {include file="header.tpl"}
 
 <style>
@@ -397,7 +399,7 @@
            let [datePart, timePart] = this.value.split(' ');
             let [day, month, year] = datePart.split('-');
 
-            start_event_date = `${year}-${month}-${day} ${timePart}`;
+            start_event_date = ${year}-${month}-${day} ${timePart};
         })
 
 
@@ -423,7 +425,7 @@
              let [datePart, timePart] = this.value.split(' ');
         let [day, month, year] = datePart.split('-');
 
-        finish_event_date = `${year}-${month}-${day} ${timePart}`;
+        finish_event_date = ${year}-${month}-${day} ${timePart};
         })
 
 
@@ -443,7 +445,7 @@
         $('#start_date').on('change', function() {
            let [datePart, timePart] = this.value.split(' ');
             let [day, month, year] = datePart.split('-');
-            start_date = `${year}-${month}-${day}`;
+            start_date = ${year}-${month}-${day};
         })
 
         const flatpickrDate4 = document.querySelector('#finish_date');
@@ -460,7 +462,7 @@
         $('#finish_date').on('change', function() {
            let [datePart, timePart] = this.value.split(' ');
             let [day, month, year] = datePart.split('-');
-            finish_date = `${year}-${month}-${day}`;
+            finish_date = ${year}-${month}-${day};
         });
 
         const eventView = document.querySelector('#event_view')
@@ -491,13 +493,13 @@
         // $('#region_id').change(function(event) {
         //     $.ajax({
         //         type: "GET",
-        //         url: `ajax.php?act=get_distcity_by_id&id=${this.value}`,
+        //         url: ajax.php?act=get_distcity_by_id&id=${this.value},
         //         dataType: "json",
         //         encode: true,
         //         success: function(data) {
         //             $("#distcity_id").empty();
         //             data.forEach(item => {
-        //                 $("#distcity_id").append(`<option value="${item.id}">${item.name}</option>`);
+        //                 $("#distcity_id").append(<option value="${item.id}">${item.name}</option>);
         //             });
         //         }
         //     })

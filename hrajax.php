@@ -3770,8 +3770,8 @@ case "get_event_duty":
 
 
 
-    /// public_events_camera crud ============        
-        case "get_public_events_camera":
+    /// duty_part_camera crud ============        
+        case "get_duty_part_camera":
         $RowId = MyPiDeCrypt($_GET['rowid']);
 
         $query = "SELECT t.* from hr.public_event_cameras t where t.id = {$RowId}";
@@ -3781,14 +3781,13 @@ case "get_event_duty":
         $res = json_encode($result);
         break;
 
-    case "act_public_events_camera":
+    case "act_duty_part_camera":
         $RowId = (!empty($_POST['id'])) ? MyPiDeCrypt($_POST['id']) : 0;
         $object_id = $_POST['object_id'];
         $name = $_POST['name'];
         $cam_code = $_POST['cam_code'];
         $is_ptz = $_POST['is_ptz'];
-        $lat = isset($_POST['lat']) ? $_POST['lat'] : null;
-        $long = isset($_POST['long']) ? $_POST['long'] : null;
+       
         // echo '<pre>';
 		// print_r($object_id);
 		// echo '</pre>';
@@ -3796,13 +3795,12 @@ case "get_event_duty":
 
         if ($RowId != "0") {
             // Update existing record
-            $updquery = "UPDATE hr.public_event_cameras SET
-                event_id = '{$object_id}',
+            $updquery = "UPDATE hr.duty_part_cameras SET
+                structure_id = '{$object_id}',
                 name = '{$name}',
                 cam_code = '{$cam_code}',
-                is_ptz = '{$is_ptz}',
-                lat = '{$lat}',
-                long = '{$long}'
+                is_ptz = '{$is_ptz}'
+             
                 WHERE id = {$RowId}";
             $sql->query($updquery);
             if ($sql->error() == "") {
@@ -3812,24 +3810,22 @@ case "get_event_duty":
             }
         } else {
             // Insert new record
-            $insquery = "INSERT INTO hr.public_event_cameras (
-                    event_id,
+            $insquery = "INSERT INTO hr.duty_part_cameras (
+                    structure_id,
                     name,
                     cam_code,
-                    is_ptz,
-                    lat,
-                    long
+                    is_ptz
+                
                 ) VALUES (
                     '{$object_id}',
                     '{$name}',
                     '{$cam_code}',
-                    '{$is_ptz}',
-                    '{$lat}',
-                    '{$long}'
+                    '{$is_ptz}'
+                
                 )";
             $sql->query($insquery);
             if ($sql->error() == "") {
-                $sql->query("SELECT CURRVAL('hr.public_event_cameras_id_seq') AS last_id;");
+                $sql->query("SELECT CURRVAL('hr.duty_part_cameras_id_seq') AS last_id;");
                 $result = $sql->fetchAssoc();
                 $LastId = $result['last_id'];
                 $res = "0<&sep&>" . MyPiCrypt($LastId);
@@ -3839,10 +3835,10 @@ case "get_event_duty":
         }
         break;
 
-    case "del_public_events_camera":
+    case "del_duty_part_camera":
         $RowId = MyPiDeCrypt($_GET['rowid']);
 
-        $query = "DELETE FROM hr.public_event_cameras WHERE id = {$RowId}";
+        $query = "DELETE FROM hr.duty_part_cameras WHERE id = {$RowId}";
         $sql->query($query);
         $result = $sql->fetchAssoc();
 
@@ -3852,7 +3848,11 @@ case "get_event_duty":
             $res = 2;
         }
         break;
-    /// public_events_camera crud ============        
+    /// duty_part_camera crud ============        
+
+
+
+
 
 
 
