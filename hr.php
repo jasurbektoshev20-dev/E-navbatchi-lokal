@@ -736,7 +736,7 @@ switch ($Act) {
 			'RegDyns' => $Regions
 		));
 		break;
-		
+
 	case "hr_duty_staff":
 		$RegDyn = MyPiDeCrypt($_GET['regdyn']) ? MyPiDeCrypt($_GET['regdyn']) : 0;
 
@@ -2550,25 +2550,36 @@ switch ($Act) {
 
 
 
-	case "duty_cameras":
-		$structire_id = ($_GET['mid']);
-		$query  = "SELECT t.id, t.name, t.cam_code,  t.lat, t.long,
-		case when t.is_ptz then 'PTZ' else 'No PTZ' end as is_ptz 
-		FROM hr.duty_part_cameras t 
-		WHERE t.structure_id = {$structure_id}
-		ORDER BY t.id desc ";
+	case "hr_duty_cameras":
+		$structure_id = MyPiDeCrypt($_GET['mid']);
+
+		$query = "
+			SELECT 
+				t.id,
+				t.name,
+				t.cam_code,
+				CASE 
+					WHEN t.is_ptz THEN 'PTZ' 
+					ELSE 'No PTZ' 
+				END AS is_ptz
+			FROM hr.duty_part_cameras t
+			WHERE t.structure_id = {$structure_id}
+			ORDER BY t.id DESC
+		";
+
 		$sql->query($query);
 		$Camera = $sql->fetchAll();
 
 		// echo '<pre>';
-		// print_r($Camera);
+		// print_r($structure_id);
 		// echo '</pre>';
 		// die();
 
 		$smarty->assign(array(
 			'Camera' => $Camera,
 		));
-		break;
+	break;
+
 
 	case "hr_injuries":
 

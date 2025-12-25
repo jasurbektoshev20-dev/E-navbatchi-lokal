@@ -3783,7 +3783,7 @@ case "get_event_duty":
 
     case "act_duty_part_camera":
         $RowId = (!empty($_POST['id'])) ? MyPiDeCrypt($_POST['id']) : 0;
-        $object_id = $_POST['object_id'];
+        $object_id = MyPiDeCrypt($_POST['object_id']);
         $name = $_POST['name'];
         $cam_code = $_POST['cam_code'];
         $is_ptz = $_POST['is_ptz'];

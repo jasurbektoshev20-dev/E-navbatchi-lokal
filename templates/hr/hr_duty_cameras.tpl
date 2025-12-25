@@ -49,7 +49,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {foreach from=$embassy_cameras item=obekt key=tkey}
+                            {foreach from=$Camera item=obekt key=tkey}
                                 <tr class="lb" id="row_{$obekt.id|crypt}">
                                     <td class="text-right">{$tkey+1}</td>
                                     <td class="text-center">{$obekt.name}</td>

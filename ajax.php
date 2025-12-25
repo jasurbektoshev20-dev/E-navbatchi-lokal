@@ -345,6 +345,26 @@ switch ($Action) {
 		$sql->query($query);
 		$Duty = $sql->fetchAll();
 
+		$query = "SELECT
+				c.id AS camera_id,
+				c.name AS camera_name,
+				c.cam_code,
+				s.id AS structure_id,
+				s.name{$slang} AS structure_name,
+				CASE
+					WHEN c.is_ptz THEN 'PTZ'
+					ELSE 'No PTZ'
+				END AS is_ptz
+			FROM hr.structure s
+			JOIN hr.duty_part_cameras c
+				ON c.structure_id = s.id
+			WHERE s.parent = {$RegId} or s.id = {$RegId}
+			ORDER BY s.id, c.id DESC";
+
+			$sql->query($query);
+			$Camera = $sql->fetchAll();
+
+
 		$staffs = [$Dict['masul'], $Dict['staff_2'], $Dict['staff_3']];
 		foreach ($Duty as $key => &$item) {
 			$item['staff'] = $staffs[$key] ?? null;
@@ -356,8 +376,13 @@ switch ($Action) {
 		// die();
 
 
-		$res = json_encode($Duty);
+		$res = json_encode([
+			'Duty' => $Duty,
+			'cameras' => $Camera
+		]);
 		break;
+
+
 	case "get_patrul_types":
 		$query  = "SELECT t.id, t.name{$slang} as name FROM ref.patrul_types t ORDER BY t.id ASC";
 		$sql->query($query);
@@ -2602,8 +2627,8 @@ break;
 			/* ================= STAFF / TROOPS INJURIES ================= */
 			COALESCE(
 				json_agg(
-					`json_build_object(
-					`	'id', i.id,
+					json_build_object(
+						'id', i.id,
 						'structure_id', i.structure_id,
 						'region_id', i.region_id,
 						'injury_type_id', i.injury_type_id,
@@ -2614,6 +2639,7 @@ break;
 				) FILTER (WHERE i.id IS NOT NULL),
 				'[]'::json
 			) AS staff_injuries
+
 
 		FROM hr.structure r
 		LEFT JOIN hr.injuries i
