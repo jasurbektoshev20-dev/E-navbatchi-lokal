@@ -46,7 +46,7 @@
                                 <th class="text-center">{$Dict.date}</th>                     
                                 <th class="text-center">Тури</th>             
                                 <th class="text-center">Ҳарбий хизматчи ФИШ</th>                        
-                                <th class="text-center">Холат ҳақида қисқача</th>
+                                <th class="text-center">Ҳолат ҳақида қисқача маълумот</th>
                                 <th></th>
                             </tr>
                         </thead>
