@@ -512,7 +512,7 @@ $(document).on('mouseup', function () {
                     initCamera();
                     $('#card_duty').empty();
 
-                    if (!data || data.length === 0) {
+                    if (!data?.Duty || data?.Duty.length === 0) {
                         $('#card_duty').append(`
                             <div class="card text-center card-duty-img-box">
                                 <div class="mt-3">
@@ -525,7 +525,7 @@ $(document).on('mouseup', function () {
                         `);
                     } else {
                         let cardContent = '';
-                        data.forEach(item => {
+                        data?.Duty.forEach(item => {
                             cardContent += `
                                 <div class="staff-item text-center">
                                     <img style="width: 230px; height: 270px; border-radius: 20px" src="pictures/staffs/${item.photo}">

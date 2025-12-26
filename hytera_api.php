@@ -122,7 +122,7 @@ if ($action === 'devices') {
         ],
         [
             'page'       => 0,
-            'pageSize'   => 1000,
+            'pageSize'   => 1500,
             'needStatus' => true
         ]
     );

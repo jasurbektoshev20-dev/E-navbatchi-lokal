@@ -494,12 +494,6 @@ document.addEventListener('click', function (e) {
   const value = cell.dataset.value;
   const col = cell.dataset.col;
 
-  // modal ichini to‘ldirish
-//   document.getElementById('modalContent').innerHTML = `
-//     <h4 class="mb-3">${col}</h4>
-//     <p>Жароҳатлар сони: <strong>${value}</strong></p>
-//   `;
-
   // modalni ochish
   const modal = new bootstrap.Modal(
     document.getElementById('submitModal')
