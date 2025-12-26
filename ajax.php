@@ -2697,15 +2697,22 @@ break;
 		ORDER BY r.id;
 	";
 
-	$sql->query($query);
-	$Injuries = $sql->fetchAll();
+	 $sql->query($query);
+    $rows = $sql->fetchAll();
 
-	echo '<pre>';
-	print_r($Injuries);
-	echo '</pre>';
-	die();
+    foreach ($rows as &$row) {
+        $row['injury_type_counts'] = json_decode($row['injury_type_counts'], true);
+        $row['staff_injuries']     = json_decode($row['staff_injuries'], true);
+    }
+    unset($row);
 
-	break;
+    header('Content-Type: application/json');
+    $res = json_encode([
+        'success' => true,
+        'data' => $rows
+    ]);
+    break;
+	
 
 
 
