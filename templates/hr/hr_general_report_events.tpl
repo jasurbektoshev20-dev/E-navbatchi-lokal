@@ -62,10 +62,13 @@
                         <input class="form-control" type="date" placeholder="Oxirgi vaqtni tanlang">
                     
                         <button class="btn btn-primary">Кўриш</button>
-                        <a href="general_report_event.php"
+                        {* <a href="reports/pdfs/general_report_event.php"
                             target="_blank"
                             class="btn btn-danger">
                                 📄 PDF 
+                            </a> *}
+                            <a href="reports/excels/general_report_events.php" class="btn btn-success">
+                                Excel
                             </a>
 
                      </div>  

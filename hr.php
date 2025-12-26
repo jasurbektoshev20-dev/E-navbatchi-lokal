@@ -2224,8 +2224,7 @@ switch ($Act) {
 			die('Region topilmadi');
 		}
 
-		$q = "
-			SELECT name1
+		$q = "SELECT name1
 			FROM hr.structure
 			WHERE id = {$regionId}
 		";
@@ -2236,8 +2235,8 @@ switch ($Act) {
 			SELECT 
 				pe.id,
 				et.name1 AS event_type,
-				j.object_name,
 				pe.event_direction,
+				pe.object_name,
 				pe.responsible_name,
 				pe.responsible_phone,
 				pe.event_view,
@@ -2275,15 +2274,14 @@ switch ($Act) {
 			FROM hr.public_event1 pe
 			LEFT JOIN tur.public_event_types et ON et.id = pe.event_type
 			LEFT JOIN tur.event_category ec on ec.id = pe.event_category_id
-			LEFT JOIN hr.jts_objects j on j.id = pe.object_id
 
 			WHERE pe.region_id = {$regionId}
-			GROUP BY pe.id,ec.name{$slang},et.name1,j.object_name
+			GROUP BY pe.id,ec.name{$slang},et.name1
 		";
 		$sql->query($q);
 		$events = $sql->fetchAll();
 		// echo '<pre>';
-		// print_r($regionName);
+		// print_r($events);
 		// echo '</pre>';
 		// die();
 
@@ -2419,7 +2417,7 @@ switch ($Act) {
 				WHERE id = {$regionId}
 			";
 			$sql->query($q);
-			$regionName = $sql->fetchAll();
+			$regionName = $sql->fetchAll(); 
 
 			$q = "
 				SELECT 
@@ -2450,6 +2448,8 @@ switch ($Act) {
 			";
 			$sql->query($q);
 			$events = $sql->fetchAll();
+
+
 			// echo '<pre>';
 			// print_r($events);
 			// echo '</pre>';
@@ -2506,20 +2506,28 @@ switch ($Act) {
 			// 📌 Injuries ro‘yxati (TYPE NOMI BILAN)
 			$query = "SELECT 
 						i.id,
-						i.region_id,
-						i.injury_type_id,
+						sr.name{$slang} AS region_name,
 						it.name{$slang} AS injury_type_name,
 						i.comment,
 						i.date,
-						i.structure_id,
-						i.troops_id
+						str.name{$slang} AS structure_name,
+						CONCAT(r.name{$slang},' ',s.lastname,' ',s.firstname,' ', s.surname) as troop_name
 					FROM hr.injuries i
-					LEFT JOIN tur.injuries_types it 
-                     ON it.id = i.injury_type_id::bigint
+					LEFT JOIN tur.injuries_types it  ON it.id = i.injury_type_id::bigint
+					left JOIN hr.staff s ON s.id = i.troops_id 
+					LEFT JOIN ref.ranks r ON r.id = s.rank_id
+					left JOIN hr.structure sr ON sr.id = i.region_id
+					left JOIN hr.structure str ON str.id = i.structure_id
+					-- WHERE i.structure_id = {$UserStructure}
+                    
 					ORDER BY i.id ASC";
 			$sql->query($query);
 			$Injuries = $sql->fetchAll();
-
+			
+			// echo '<pre>';
+			// print_r($Injuries);
+			// echo '</pre>';
+			// die();
 			$smarty->assign([
 				'Regions'      => $Regions,
 				'InjuryTypes' => $InjuryTypes,
@@ -2588,6 +2596,10 @@ switch ($Act) {
 
 
 		break;
+
+
+
+	
 		
 }
 

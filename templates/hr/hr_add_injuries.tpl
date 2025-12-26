@@ -54,16 +54,16 @@
                             {foreach from=$Injuries item=Table key=tkey}
                                 <tr class="lb" id="row_{$Table.id|crypt}">
                                     <td class="text-right">{$tkey+1}</td>
-                                    <td>{$Table.region_id}</td>
-                                    <td>{$Table.structure_id}</td>
+                                    <td>{$Table.region_name}</td>
+                                    <td>{$Table.structure_name}</td>
                                  
                                      <td>{$Table.date}</td> 
                                    
-                                     <td>{$Table.injury_type_id}</td> 
+                                     <td>{$Table.injury_type_name}</td> 
                                  
                                     
                                   
-                                    <td>{$Table.troops_id}</td>
+                                    <td>{$Table.troop_name}</td>
                                  
                                     <td>{$Table.comment}</td>
                                     <td>

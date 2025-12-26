@@ -87,6 +87,13 @@
   <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>
 </svg>  Юклаб олиш
                       </a>
+                      <a 
+                    href="/reports/excels/region_reyd_events.php?region_id={$smarty.get.region_id}" 
+                    class="btn btn-success"
+                    target="_blank"
+                    >
+                        Excel
+                    </a>
                    </div>
                
                 </div>

@@ -62,6 +62,9 @@
                         <input class="form-control" type="date" placeholder="Oxirgi vaqtni tanlang">
                     
                         <button class="btn btn-primary">Кўриш</button>
+                        <a href="reports/excels/general_report_reyd_events.php" class="btn btn-success">
+                                Excel
+                            </a>
                      </div>   
             </div>
             <div class="card">
