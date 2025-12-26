@@ -666,6 +666,35 @@ $(document).on('mouseup', function () {
 
 let jsDecoder = null;
 
+// function initCamera() {
+
+//     const el = document.getElementById('playWind');
+//     const w = el.clientWidth;
+//     const h = el.clientHeight;
+
+//     if (jsDecoder) {
+//         jsDecoder.JS_StopRealPlayAll();
+//         return;
+//     }
+
+//     jsDecoder = new JSPlugin({
+//         szId: "playWind",
+//         iType: 2,
+//         iWidth: w,
+//         iHeight: h,
+//         iMaxSplit: 16,
+//         szBasePath: "./dist",
+//         oStyle: {
+//             border: "#343434",
+//             borderSelect: "#4caf50",
+//             background: "#000"
+//         }
+//     });
+
+//     jsDecoder.JS_Resize(w, h);
+//     bindDblClick();
+// }
+
 function initCamera() {
 
     const el = document.getElementById('playWind');
@@ -694,6 +723,7 @@ function initCamera() {
     jsDecoder.JS_Resize(w, h);
     bindDblClick();
 }
+
 
 
 async function get_camera() {
@@ -752,21 +782,38 @@ async function get_camera() {
           jsDecoder.JS_FullScreenDisplay(true);
       }
 
-            function openFullscreen() {
-          setTimeout(() => {
-              jsDecoder.JS_Resize(window.innerWidth, window.innerHeight);
-              console.log("kattalashdi");
-          }, 100);
-      }
+    //   function openFullscreen() {
+    //       setTimeout(() => {
+    //           jsDecoder.JS_Resize(window.innerWidth, window.innerHeight);
+    //           console.log("kattalashdi");
+    //       }, 100);
+    //   }
 
-      document.addEventListener("fullscreenchange", function () {
-          const el = document.getElementById('playWind');
+    function openFullscreen() {
+        setTimeout(() => {
+            const w = window.innerWidth;
+            const h = window.innerHeight;
+            jsDecoder.JS_Resize(w, h);
+        }, 200);
+    }
 
-          if (!document.fullscreenElement) {
-              jsDecoder.JS_Resize(615, 300);
-              console.log("kichiklashdi");
-          }
-      });
+
+    //   document.addEventListener("fullscreenchange", function () {
+    //       const el = document.getElementById('playWind');
+
+    //       if (!document.fullscreenElement) {
+    //           jsDecoder.JS_Resize(615, 300);
+    //           console.log("kichiklashdi");
+    //       }
+    //   });
+
+    document.addEventListener("fullscreenchange", function () {
+        if (!document.fullscreenElement) {
+            const el = document.getElementById('playWind');
+            jsDecoder.JS_Resize(el.clientWidth, el.clientHeight);
+        }
+    });
+
 
       function bindDblClick() {
           const el = document.getElementById('playWind');
