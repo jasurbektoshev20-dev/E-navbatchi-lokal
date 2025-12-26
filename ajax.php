@@ -391,6 +391,8 @@ switch ($Action) {
 		$res = json_encode($PatrulTypes);
 		break;
 
+
+		 
 	case "crime_by_week":
 		$date = isset($_GET['date']) ? $_GET['date'] : 0;
 
@@ -477,6 +479,7 @@ switch ($Action) {
 
 		$res = json_encode($data);
 		break;
+
 	case "all_events":
 		$query  = "SELECT TO_CHAR(t.date, 'DD.MM.YYYY') AS date,
 		COUNT(CASE WHEN t.event_type = 'event' THEN t.id END) AS events,
@@ -526,6 +529,7 @@ switch ($Action) {
 
 		$res = json_encode($result);
 		break;
+		
 	case "power_by_vehicle":
 		$query  = "SELECT 
         SUM(t.pp_mg + t.pp_qb) AS staff,
@@ -2594,8 +2598,9 @@ break;
 	break;
 
 	case "get_injuries":
-		$query = "
-			SELECT
+
+	$query = "
+		SELECT
 			r.id AS region_id,
 			r.name1 AS hudud,
 
@@ -2604,22 +2609,23 @@ break;
 				(
 					SELECT json_agg(
 						json_build_object(
-							'injury_type_id', it.id,
+							'injury_type_id', it2.id,
+							'injury_type_name', it2.name{$slang},
 							'count', COALESCE(cnt.cnt, 0)
 						)
-						ORDER BY it.id
+						ORDER BY it2.id
 					)
-					FROM tur.injuries_types it
+					FROM tur.injuries_types it2
 					LEFT JOIN (
 						SELECT
-							injury_type_id::int,
+							injury_type_id::bigint,
 							COUNT(*) AS cnt
 						FROM hr.injuries
 						WHERE region_id = r.id
-						AND date BETWEEN '2025-01-01' AND '2025-12-31'
-						GROUP BY injury_type_id::int
+						  AND date BETWEEN '2025-01-01' AND '2025-12-31'
+						GROUP BY injury_type_id::bigint
 					) cnt
-						ON cnt.injury_type_id = it.id
+						ON cnt.injury_type_id = it2.id
 				),
 				'[]'::json
 			) AS injury_type_counts,
@@ -2632,6 +2638,7 @@ break;
 						'structure_id', i.structure_id,
 						'region_id', i.region_id,
 						'injury_type_id', i.injury_type_id,
+						'injury_type_name', it.name{$slang},
 						'comment', i.comment,
 						'date', i.date
 					)
@@ -2640,24 +2647,32 @@ break;
 				'[]'::json
 			) AS staff_injuries
 
-
 		FROM hr.structure r
+
 		LEFT JOIN hr.injuries i
 			ON i.region_id = r.id
-		AND i.date BETWEEN '2025-01-01' AND '2025-12-31'
+		   AND i.date BETWEEN '2025-01-01' AND '2025-12-31'
+
+		LEFT JOIN tur.injuries_types it
+			ON it.id = i.injury_type_id::bigint
 
 		WHERE r.id BETWEEN 2 AND 15
 		GROUP BY r.id, r.name1
 		ORDER BY r.id;
-		";
-		$sql->query($query);
-		$Injuries = $sql->fetchAll();
-		echo '<pre>';
-		print_r($Injuries);
-		echo '</pre>';
-		die();
-		$res = json_encode($Injuries);
-		break;
+	";
+
+	$sql->query($query);
+	$Injuries = $sql->fetchAll();
+
+	echo '<pre>';
+	print_r($Injuries);
+	echo '</pre>';
+	die();
+
+	$res = json_encode($Injuries);
+	break;
+
+
 
 	
 }

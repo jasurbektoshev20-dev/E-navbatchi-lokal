@@ -1365,7 +1365,8 @@ switch ($Act) {
 		$sql->query($query);
 		$Regions = $sql->fetchAll();
 
-		$query  = "SELECT t.* FROM hr.neighborhoods t ";
+		$query  = "SELECT t.*,s.name{$slang} as structure_id FROM hr.neighborhoods t 
+		left join hr.structure s on s.id  = t.structure_id";
 		$sql->query($query);
 		$neighborhoods = $sql->fetchAll();
 
