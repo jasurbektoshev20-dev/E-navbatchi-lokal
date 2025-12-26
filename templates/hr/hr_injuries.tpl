@@ -91,293 +91,49 @@
             </div>
             <div class="card">
                 <div class="card-datatable table-responsive">
-                    <table class="datatables-projects table border-top table-bordered">
-                        <thead>
-                        <tr class="text-center">
-                            <th style="white-space: nowrap;">Т/р</th>
-                            <th>Жароҳат турлари</th>
-                            <th>Марказий девон</th>
-                            <th>Жамоат хавфсизлиги университети</th>
-                            <th>65921 ҳ.қ.</th>
-                            <th>98244 ҳ.қ.</th>
-                            <th>98162 ҳ.қ.</th>
-                            <th>Моддий ТТМ базаси</th>
-                            <th>Маънавият маркази</th>
-                            <th>Қорақалпоғистон Республикаси</th>
-                            <th>Тошкент шаҳри</th>
-                            <th>Андижон вилояти</th>
-                            <th>Бухоро вилояти</th>
-                            <th>Фарғона вилояти</th>
-                            <th>Жиззах вилояти</th>
-                            <th>Қашқадарё вилояти</th>
-                            <th>Хоразм вилояти</th>
-                            <th>Наманган вилояти</th>
-                            <th>Навоий вилояти</th>
-                            <th>Самарқанд вилояти</th>                           
-                            <th>Сирдарё вилояти</th>
-                            <th>Сурхондарё вилояти</th>
-                            <th>Тошкент вилояти</th>   
-                            <th>Жами</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr class="lb text-center" id="row_{$Table.id|crypt}">
-                            <td class="text-right">1</td>
-                            <td>
-                                <a href="">Фуқаролар билан можарода</a>
-                            </td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">3</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">3</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">3</td>
-                            <td class="clickable-cell">30</td>
-                        </tr>
-                         <tr class="lb text-center" id="row_{$Table.id|crypt}">
-                            <td class="text-right">2</td>
-                            <td>
-                                 <a href="">Жанговар тайёргарликда</a>
-                            </td>
-                            <td class="clickable-cell">0</td>
-                            <td class="clickable-cell">0</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">0</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">3</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">4</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">3</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">3</td>
-                            <td class="clickable-cell">3</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">3</td>
-                            <td class="clickable-cell">35</td>
-                        </tr>
-                         <tr class="lb text-center" id="row_{$Table.id|crypt}">
-                            <td class="text-right">3</td>
-                            <td>
-                                 <a href="">Жисмоний тайёргарликда</a>
-                            </td>
-                            <td class="clickable-cell">0</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">3</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">3</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">3</td>
-                            <td class="clickable-cell">30</td>
-                        </tr>
-                         <tr class="lb text-center" id="row_{$Table.id|crypt}">
-                            <td class="text-right">4</td>
-                            <td>
-                                <a href="">ЙТХ</a>
-                            </td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">3</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">3</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">3</td>
-                            <td class="clickable-cell">23</td>
-                        </tr>
-                       
-                         <tr class="lb text-center" id="row_{$Table.id|crypt}">
-                            <td class="text-right">5</td>
-                            <td>
-                                 <a href="">Маиший</a>
-                            </td>
-                            <td class="clickable-cell">0</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">3</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">3</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">3</td>
-                            <td class="clickable-cell">30</td>
-                        </tr>
-                         <tr class="lb text-center" id="row_{$Table.id|crypt}">
-                            <td class="text-right">6</td>
-                            <td>
-                                 <a href="">Ҳўжалик ишларида</a>
-                            </td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">3</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">3</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">3</td>
-                            <td class="clickable-cell">25</td>
-                        </tr>
-                         <tr class="lb text-center" id="row_{$Table.id|crypt}">
-                            <td class="text-right">7</td>
-                            <td>
-                                 <a href="">Хизмат олиб боришда (ҳ/қ ҳудудидан ташқарида)</a>
-                            </td>
-                            <td class="clickable-cell">0</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">0</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">3</td>
-                            <td class="clickable-cell">27</td>
-                        </tr>
-                         <tr class="lb text-center" id="row_{$Table.id|crypt}">
-                            <td class="text-right">8</td>
-                            <td>
-                                 <a href="">Қоровул ва ички хизмат ўташда</a>
-                            </td>
-                            <td class="clickable-cell">0</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">3</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">3</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">2</td>
-                            <td class="clickable-cell">1</td>
-                            <td class="clickable-cell">3</td>
-                            <td class="clickable-cell">34</td>
-                        </tr>
-                       
-                         <tr class="lb text-center" id="row_{$Table.id|crypt}">
-                            <td class="text-right">9</td>
-                            <td>
-                               Жами
-                                   
-                            </td>
-                            <td class="clickable-cell">5</td>
-                            <td class="clickable-cell">21</td>
-                            <td class="clickable-cell">11</td>
-                            <td class="clickable-cell">11</td>
-                            <td class="clickable-cell">11</td>
-                            <td class="clickable-cell">21</td>
-                            <td class="clickable-cell">31</td>
-                            <td class="clickable-cell">21</td>
-                            <td class="clickable-cell">21</td>
-                            <td class="clickable-cell">21</td>
-                            <td class="clickable-cell">11</td>
-                            <td class="clickable-cell">21</td>
-                            <td class="clickable-cell">11</td>
-                            <td class="clickable-cell">31</td>
-                            <td class="clickable-cell">21</td>
-                            <td class="clickable-cell">21</td>
-                            <td class="clickable-cell">21</td>
-                            <td class="clickable-cell">11</td>
-                            <td class="clickable-cell">21</td>
-                            <td class="clickable-cell">11</td>
-                            <td class="clickable-cell">31</td>
-                            <td class="clickable-cell">134</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                        <table class="table table-bordered text-center">
+                            <thead>
+                                <tr>
+                                    <th>т/р</th>
+                                    <th>Jarohat turlari</th>
+                                    
+                                </tr>
+                            </thead>
+
+                            {* <tbody>
+                                {assign var=i value=1}
+
+                                {foreach from=$eventTypes key=typeId item=typeName}
+                                    {assign var=rowTotal value=0}
+
+                                    <tr>
+                                        <td>{$i}</td>
+                                        <td>{$typeName}</td>
+
+                                        {foreach from=$regions key=regionId item=regionName}
+                                            {assign var=val value=$table[$typeId][$regionId]|default:0}
+                                            {assign var=rowTotal value=$rowTotal+$val}
+                                            <td>{$val}</td>
+                                        {/foreach}
+
+                                        <td><strong>{$rowTotal}</strong></td>
+                                    </tr>
+
+                                    {assign var=i value=$i+1}
+                                {/foreach}
+                            </tbody> *}
+                            {* <tfoot>
+                                <tr class="table-dark">
+                                    <th colspan="2">Жами</th>
+
+                                    {foreach from=$regions key=regionId item=regionName}
+                                        <th>{$regionTotals[$regionId]|default:0}</th>
+                                    {/foreach} 
+
+                                    <th>{$grandTotal}</th>
+                                </tr>
+                            </tfoot> *}
+                        </table>
                 </div>
             </div>
         </div>
@@ -484,18 +240,19 @@
     var dict_new_photo = "{$Dict.new_photo}"
     var dict_download_pdf = "{$Dict.download_pdf}"
     var dict_docx_download = "{$Dict.docx_download}"
+     var AJAXPHP = "ajax.php";
    
 {literal}
 
-document.addEventListener('click', function (e) {
-  const cell = e.target.closest('.clickable-cell');
-  if (!cell) return;
+// document.addEventListener('click', function (e) {
+//   const cell = e.target.closest('.clickable-cell');
+//   if (!cell) return;
 
-  const value = cell.dataset.value;
-  const col = cell.dataset.col;
+//   const value = cell.dataset.value;
+//   const col = cell.dataset.col;
 
   // modalni ochish
-  const modal = new bootstrap.Modal(
+  /*const modal = new bootstrap.Modal(
     document.getElementById('submitModal')
     $.ajax({
         url:'ajax.php?act=get_injuries',
@@ -518,22 +275,39 @@ document.addEventListener('click', function (e) {
 let hisobot = document.getElementById('shaxsiytarkib');
 hisobot.addEventListener('click', ()=>{
    console.log('clicked')
-   $.ajax({
-        url:'ajax.php?act=get_injuries',
-        type:'POST',
-        data:fd,
-        contentType:false,
-        processData:false,
-        success:r=>{
-        
-            } 
-        }
-    });
+  
      const modal = new bootstrap.Modal(
             document.getElementById('showDetail')
         );
         modal.show();
-})
+})*/
+
+
+        const tableData = [];
+
+        function getInjury() {
+        $.ajax({
+            url: `${AJAXPHP}?act=get_injuries`,
+            type: 'GET',
+            dataType: 'json',
+            success: function (res) {
+            console.log("res:", res);
+
+            if (res?.data) {
+                tableData.length = 0;              // eski tozalaymiz
+                tableData.push(...res.data);       // 🔥 to‘ldiramiz
+                console.log('tableData:', tableData);
+            }
+            },
+            error: function (xhr, status, error) {
+            console.error('get_injuries AJAX error:', error);
+            console.log(xhr.responseText); // 🔥 MUHIM
+            }
+        });
+        }
+
+        getInjury();
+
 
 {/literal}
 </script>
