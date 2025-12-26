@@ -2597,12 +2597,12 @@ break;
 			]);
 	break;
 
+
 	case "get_injuries":
 
-	$query = "
-		SELECT
+	$query = "SELECT
 			r.id AS region_id,
-			r.name1 AS hudud,
+			r.name1 AS region_name,
 
 			/* ================= INJURY TYPE COUNTS ================= */
 			COALESCE(
@@ -2622,7 +2622,7 @@ break;
 							COUNT(*) AS cnt
 						FROM hr.injuries
 						WHERE region_id = r.id
-						  AND date BETWEEN '2025-01-01' AND '2025-12-31'
+						   AND date BETWEEN '2024-01-01' AND '2025-12-31'
 						GROUP BY injury_type_id::bigint
 					) cnt
 						ON cnt.injury_type_id = it2.id
@@ -2634,9 +2634,26 @@ break;
 			COALESCE(
 				json_agg(
 					json_build_object(
-						'id', i.id,
-						'structure_id', i.structure_id,
-						'region_id', i.region_id,
+						/* REGION */
+						'region_id', r.id,
+						'region_name', r.name1,
+
+						/* STRUCTURE */
+						'structure_id', st.id,
+						'structure_name', st.name1,
+
+						/* STAFF */
+						'staff_id', s.id,
+						'firstname', s.firstname,
+						'lastname', s.lastname,
+						'surname', s.surname,
+
+						/* RANK */
+						'rank_id', s.rank_id,
+						'rank_name', rk.name{$slang},
+
+						/* INJURY */
+						'injury_id', i.id,
 						'injury_type_id', i.injury_type_id,
 						'injury_type_name', it.name{$slang},
 						'comment', i.comment,
@@ -2647,14 +2664,29 @@ break;
 				'[]'::json
 			) AS staff_injuries
 
-		FROM hr.structure r
+		FROM hr.structure r   /* REGION */
 
 		LEFT JOIN hr.injuries i
 			ON i.region_id = r.id
-		   AND i.date BETWEEN '2025-01-01' AND '2025-12-31'
+		    AND i.date BETWEEN '2024-01-01' AND '2025-12-31'
 
 		LEFT JOIN tur.injuries_types it
 			ON it.id = i.injury_type_id::bigint
+
+		LEFT JOIN hr.structure st   /* STRUCTURE */
+			ON st.id = i.structure_id
+
+		
+		LEFT JOIN LATERAL (
+			SELECT *
+			FROM hr.staff s
+			WHERE s.structure_id = st.id
+			ORDER BY s.id
+			LIMIT 1
+		) s ON TRUE
+
+		LEFT JOIN ref.ranks rk
+			ON rk.id = s.rank_id
 
 		WHERE r.id BETWEEN 2 AND 15
 		GROUP BY r.id, r.name1
@@ -2669,8 +2701,10 @@ break;
 	echo '</pre>';
 	die();
 
-	$res = json_encode($Injuries);
 	break;
+
+
+	
 
 
 
