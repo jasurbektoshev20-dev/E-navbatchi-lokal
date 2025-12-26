@@ -391,6 +391,8 @@ switch ($Action) {
 		$res = json_encode($PatrulTypes);
 		break;
 
+
+		 
 	case "crime_by_week":
 		$date = isset($_GET['date']) ? $_GET['date'] : 0;
 
@@ -477,6 +479,7 @@ switch ($Action) {
 
 		$res = json_encode($data);
 		break;
+
 	case "all_events":
 		$query  = "SELECT TO_CHAR(t.date, 'DD.MM.YYYY') AS date,
 		COUNT(CASE WHEN t.event_type = 'event' THEN t.id END) AS events,
@@ -526,6 +529,7 @@ switch ($Action) {
 
 		$res = json_encode($result);
 		break;
+		
 	case "power_by_vehicle":
 		$query  = "SELECT 
         SUM(t.pp_mg + t.pp_qb) AS staff,
@@ -2653,18 +2657,16 @@ break;
 	// 	break;
 
 	case "get_injuries":
-
     $query = "
         SELECT
             r.id AS region_id,
             r.name1 AS hudud,
-
-            /* 1️⃣ Injury type counts (har bir tur bo‘yicha soni) */
             COALESCE(
                 (
                     SELECT json_agg(
                         json_build_object(
                             'injury_type_id', it.id,
+							'injury_type_name', it2.name{$slang},
                             'count', COALESCE(cnt.cnt, 0)
                         )
                         ORDER BY it.id
@@ -2727,8 +2729,6 @@ break;
     ]);
     break;
 
-
-	
 }
 
 echo $res;
