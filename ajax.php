@@ -325,62 +325,79 @@ switch ($Action) {
 		$res = json_encode($events);
 		break;
 
-	// O'zgartirish kiritgan joyim tugashi
 	case "get_duty":
-		$RegId = isset($_GET['id']) ? $_GET['id'] : 1;
 
-		$query = "SELECT 
-				t.lastname,
-				t.photo,
-				t.phone,
-				p.name{$slang} as position,
-				ra.shortname{$slang} as role
-			FROM hr.duty_staff d 
-			LEFT JOIN hr.staff t ON (t.id = d.staff1 OR t.id = d.staff2 OR t.id = d.staff3)
-			LEFT JOIN hr.positions p ON p.id = t.position_id
-			left join ref.ranks ra on ra.id  = t.rank_id
-			WHERE d.date = CURRENT_DATE and d.structure_id = {$RegId}
-			ORDER BY p.turn";
+    $RegId = isset($_GET['id']) ? intval($_GET['id']) : 1;
 
-		$sql->query($query);
-		$Duty = $sql->fetchAll();
+    // ===== DUTY STAFF =====
+    $query = "SELECT 
+            t.lastname,
+            t.photo,
+            t.phone,
+            p.name{$slang} as position,
+            ra.shortname{$slang} as role
+        FROM hr.duty_staff d 
+        LEFT JOIN hr.staff t 
+            ON (t.id = d.staff1 OR t.id = d.staff2 OR t.id = d.staff3)
+        LEFT JOIN hr.positions p ON p.id = t.position_id
+        LEFT JOIN ref.ranks ra ON ra.id = t.rank_id
+        WHERE d.date = CURRENT_DATE 
+          AND d.structure_id = {$RegId}
+        ORDER BY p.turn";
 
-		$query = "SELECT
-				c.id AS camera_id,
-				c.name AS camera_name,
-				c.cam_code,
-				s.id AS structure_id,
-				s.name{$slang} AS structure_name,
-				CASE
-					WHEN c.is_ptz THEN 'PTZ'
-					ELSE 'No PTZ'
-				END AS is_ptz
-			FROM hr.structure s
-			JOIN hr.duty_part_cameras c
-				ON c.structure_id = s.id
-			WHERE s.parent = {$RegId} or s.id = {$RegId}
-			ORDER BY s.id, c.id DESC";
+    $sql->query($query);
+    $Duty = $sql->fetchAll();
 
-			$sql->query($query);
-			$Camera = $sql->fetchAll();
+    // ===== CAMERAS =====
+    $query = "SELECT
+            c.id AS camera_id,
+            c.name AS camera_name,
+            c.cam_code,
+            s.id AS structure_id,
+            s.name{$slang} AS structure_name,
+            c.is_ptz
+        FROM hr.structure s
+        JOIN hr.duty_part_cameras c
+            ON c.structure_id = s.id
+        WHERE s.parent = {$RegId} OR s.id = {$RegId}
+        ORDER BY s.id, c.id DESC";
 
+    $sql->query($query);
+    $CamerasRaw = $sql->fetchAll();
 
-		$staffs = [$Dict['masul'], $Dict['staff_2'], $Dict['staff_3']];
-		foreach ($Duty as $key => &$item) {
-			$item['staff'] = $staffs[$key] ?? null;
-		}
+    // ===== CAMERA URL QO‘SHISH =====
+    $Cameras = [];
 
-		// echo '<pre>';
-		// print_r($Duty);
-		// echo '</pre>';
-		// die();
+    foreach ($CamerasRaw as $cam) {
 
+        $dataCam = GetCamUrl($cam['cam_code']);
 
-		$res = json_encode([
-			'Duty' => $Duty,
-			'cameras' => $Camera
-		]);
-		break;
+        if (isset($dataCam['data']['url'])) {
+            $cam['url'] = $dataCam['data']['url'];
+            $cam['status'] = 1;
+        } else {
+            $cam['url'] = '';
+            $cam['status'] = 0;
+        }
+
+        $cam['isptz'] = $cam['is_ptz'] ? 1 : 0;
+
+        $Cameras[] = $cam;
+    }
+
+    // ===== STAFF ROLE BIRIKTIRISH =====
+    $staffs = [$Dict['masul'], $Dict['staff_2'], $Dict['staff_3']];
+    foreach ($Duty as $key => &$item) {
+        $item['staff'] = $staffs[$key] ?? null;
+    }
+
+    $res = json_encode([
+        'Duty' => $Duty,
+        'cameras' => $Cameras
+    ], JSON_UNESCAPED_UNICODE);
+
+    break;
+
 
 
 	case "get_patrul_types":
@@ -1035,19 +1052,6 @@ break;
 
 		$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 		$car_ids = [];
-
-		// // Get event row
-		// $query = "SELECT t.*
-        //       FROM hr.public_event1 t
-        //       WHERE t.id = {$id} LIMIT 1";
-		// $sql->query($query);
-		// $PE = $sql->fetchAssoc();
-
-		// if (!$PE) {
-		// 	http_response_code(404);
-		// 	echo json_encode(['error' => "Event with id {$id} not found"], JSON_UNESCAPED_UNICODE);
-		// 	exit;
-		// }
 
 		// Try to join jts_objects info
 		$query  = "SELECT 
@@ -2704,11 +2708,8 @@ break;
 	break;
 
 
-	
 
 
-
-	
 }
 
 echo $res;

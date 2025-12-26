@@ -561,6 +561,11 @@
     font-size: 16px;
 }
 
+.tab-content {
+    padding: 15px 0px;
+    border-radius: 0.375rem;
+}
+
 
 
     {/literal}
@@ -659,16 +664,56 @@
       </div>
              
         </div>
-       <div class="col-3">
-            <div class="card embassy-card">
-                <div class="card-body px-3 py-2" style="height: 88vh; overflow-y:auto;" id="about_embassy">
-                    <h3 class="pt-2 text-center embassy-title">🏛 Объект малумотлари</h3>
+     <div class="col-3">
+    <div class="card embassy-card">
+        <div class="card-body" style="height: 88vh;">
+            <!-- TAB BUTTONS -->
+            <ul class="nav nav-tabs" id="embassyTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active"
+                            id="info-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#info"
+                            type="button"
+                            role="tab">
+                        Объект маълумотлари
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link"
+                            id="force-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#force"
+                            type="button"
+                            role="tab">
+                         Куч воситалар
+                    </button>
+                </li>
+            </ul>
 
-                    <!-- JS shu yerga to‘ldiradi -->
-                    <div id="embassy_content" class="mt-3"></div>
+            <!-- TAB CONTENT -->
+            <div class="tab-content" style="height: calc(88vh - 140px); overflow-y:auto;">
+
+                <!-- Obyekt ma'lumotlari -->
+                <div class="tab-pane fade show active"
+                     id="info"
+                     role="tabpanel">
+                    <div id="embassy_content"></div>
                 </div>
+
+                <!-- Kuch vositalar -->
+                <div class="tab-pane fade"
+                     id="force"
+                     role="tabpanel">
+                    <div id="force_content"></div>
+                </div>
+
             </div>
+
         </div>
+    </div>
+</div>
+
 
     </div>
 
@@ -973,9 +1018,41 @@
                                             </div>
                                         `;
 
-                                        $('#embassy_content').html(html);
-                                    }
+                                        let htmlForce = `
+                                            <div class="embassy-item">
+                                                <div class="embassy-label">Масъул</div>
+                                                <div class="embassy-value">${obj.responsible_name?? '-'}</div>
+                                            </div>
 
+                                            <div class="embassy-item">
+                                                <div class="embassy-label">Маъсул телефон рақами</div>
+                                                <div class="embassy-value">${obj.responsible_phone ?? '-'}</div>
+                                            </div>
+
+                                            <div class="embassy-item">
+                                                <div class="embassy-label">Гуруҳ бошлиғи I-дар сержант</div>
+                                                <div class="embassy-value">${obj?.group_leader_name?? '-'}</div>
+                                            </div>
+
+                                            <div class="embassy-item">
+                                                <div class="embassy-label">Гуруҳ бошлиғи телефон рақами</div>
+                                                <div class="embassy-value">${obj?.group_leader_phone ?? '-'}</div>
+                                            </div>
+
+                                            <div class="embassy-item">
+                                                <div class="embassy-label">12-йўналиш патрул МҲХ</div>
+                                                <div class="embassy-value">${obj?.soldier_name1?? '-'}</div>
+                                            </div>
+
+                                            <div class="embassy-item">
+                                                <div class="embassy-label">13-йўналиш патрул МҲХ</div>
+                                                <div class="embassy-value">${obj?.soldier_name1 ?? '-'}</div>
+                                            </div>
+                                           
+                                        `
+                                        $('#embassy_content').html(html);
+                                        $('#force_content').html(htmlForce);
+                                    }
                                 });
                             });
 
@@ -1011,7 +1088,7 @@
                                 <div class="staff-photo-box">
                                 <img class="staff-photo2"
                                     src="/pictures/staffs/${data.data.objects?.responsible_photo}"
-                                    alt="Mas'ul shaxs">
+                                    alt="Масъул шахс">
                                 </div>
 
                                 <div class="staff-role mt-2">Mas’ul</div>
@@ -1030,19 +1107,19 @@
                             <div class="col-8 staff-details">
 
                                 <div class="staff-block">
-                                <h6>Guruh komandiri I-dar. serjant</h6>
-                                <span>Hasanov Rustam Ergash o‘g‘li</span>
+                                <h6>Гуруҳ командири И-дар. сержант</h6>
+                                <span>Ҳасанов Рустам Эргаш ўғли</span>
                                 <a href="tel:907277898">📞 90 727 78 98</a>
                                 </div>
 
                                 <div class="staff-block">
-                                <h6>12-yo‘nalish patrul MHX</h6>
-                                <span>Yo'ldashev Javohir Murod o‘g‘li</span>
+                                <h6>12-йўналиш патрул МҲХ</h6>
+                                <span>Йўлдашев Жавоҳир Мурод ўғли</span>
                                 </div>
 
                                 <div class="staff-block">
-                                <h6>13-yo‘nalish patrul MHX</h6>
-                                <span>Salomov Ulug'bek Islom o‘g‘li</span>
+                                <h6>13-йўналиш патрул МҲХ</h6>
+                                <span>Саломов Улуғбек Ислом ўғли</span>
                                 </div>
 
                             </div>

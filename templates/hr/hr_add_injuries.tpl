@@ -305,11 +305,7 @@
                     var form_data = new FormData();
                     form_data.append('id', $('#id').val());
                     form_data.append('region_id', $('#region_id').val());
-                    let structureVal = $('#structure_id').val();
-                    form_data.append(
-                    'structure_id',
-                    structureVal ? parseInt(structureVal, 10) : ''
-                    );
+                    form_data.append('structure_id', $('#structure_id').val() ?  $('#structure_id').val() : $('#region_id').val());          
                     form_data.append('injury_type_id', $('#injury_type').val());
                     form_data.append('date', $('#event_date').val());
                     form_data.append('comment', $('#situation_text').val());
