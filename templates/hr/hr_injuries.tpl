@@ -92,47 +92,10 @@
             <div class="card">
                 <div class="card-datatable table-responsive">
                         <table class="table table-bordered text-center">
-                            <thead>
-                                <tr>
-                                    <th>т/р</th>
-                                    <th>Jarohat turlari</th>
-                                    
-                                </tr>
-                            </thead>
-
-                            {* <tbody>
-                                {assign var=i value=1}
-
-                                {foreach from=$eventTypes key=typeId item=typeName}
-                                    {assign var=rowTotal value=0}
-
-                                    <tr>
-                                        <td>{$i}</td>
-                                        <td>{$typeName}</td>
-
-                                        {foreach from=$regions key=regionId item=regionName}
-                                            {assign var=val value=$table[$typeId][$regionId]|default:0}
-                                            {assign var=rowTotal value=$rowTotal+$val}
-                                            <td>{$val}</td>
-                                        {/foreach}
-
-                                        <td><strong>{$rowTotal}</strong></td>
-                                    </tr>
-
-                                    {assign var=i value=$i+1}
-                                {/foreach}
-                            </tbody> *}
-                            {* <tfoot>
-                                <tr class="table-dark">
-                                    <th colspan="2">Жами</th>
-
-                                    {foreach from=$regions key=regionId item=regionName}
-                                        <th>{$regionTotals[$regionId]|default:0}</th>
-                                    {/foreach} 
-
-                                    <th>{$grandTotal}</th>
-                                </tr>
-                            </tfoot> *}
+                           <table class="table table-bordered" id="injuryTable">
+                                <thead></thead>
+                                <tbody></tbody>
+                           </table>
                         </table>
                 </div>
             </div>
@@ -283,8 +246,6 @@ hisobot.addEventListener('click', ()=>{
 })*/
 
 
-        const tableData = [];
-
         function getInjury() {
         $.ajax({
             url: `${AJAXPHP}?act=get_injuries`,
@@ -292,12 +253,9 @@ hisobot.addEventListener('click', ()=>{
             dataType: 'json',
             success: function (res) {
             console.log("res:", res);
-
-            if (res?.data) {
-                tableData.length = 0;              // eski tozalaymiz
-                tableData.push(...res.data);       // 🔥 to‘ldiramiz
-                console.log('tableData:', tableData);
-            }
+            if (res.success) {
+                renderInjuryTable(res.data);
+                }
             },
             error: function (xhr, status, error) {
             console.error('get_injuries AJAX error:', error);
@@ -307,6 +265,64 @@ hisobot.addEventListener('click', ()=>{
         }
 
         getInjury();
+
+
+        function renderInjuryTable(data) {
+            const thead = document.querySelector('#injuryTable thead');
+            const tbody = document.querySelector('#injuryTable tbody');
+
+            thead.innerHTML = '';
+            tbody.innerHTML = '';
+
+            /* 1️⃣ HUDUDLAR (COLUMN) */
+            const regions = data.map(d => ({
+                id: d.region_id,
+                name: d.hudud
+            }));
+
+            /* 2️⃣ JAROHAT TURLARI (ROW) */
+            const injuryMap = new Map();
+
+            data.forEach(region => {
+                region.injury_type_counts.forEach(it => {
+                if (!injuryMap.has(it.injury_type_id)) {
+                    injuryMap.set(it.injury_type_id, {
+                    id: it.injury_type_id,
+                    name: it.injury_type_name,
+                    counts: {}
+                    });
+                }
+                injuryMap.get(it.injury_type_id).counts[region.region_id] = it.count;
+                });
+            });
+
+            const injuryTypes = Array.from(injuryMap.values());
+
+            /* 3️⃣ THEAD */
+            let headHtml = `<tr><th>т/р</th><th>Jarohat turlari</th>`;
+            regions.forEach(r => {
+                headHtml += `<th>${r.name}</th>`;
+            });
+            headHtml += `</tr>`;
+            thead.innerHTML = headHtml;
+
+            /* 4️⃣ TBODY */
+            injuryTypes.forEach((injury, index) => {
+                let row = `<tr>
+                <td>${index + 1}</td>
+                <td>${injury.name}</td>
+                `;
+
+                regions.forEach(r => {
+                const val = injury.counts[r.id] ?? 0;
+                row += `<td class="text-center">${val}</td>`;
+                });
+
+                row += `</tr>`;
+                tbody.innerHTML += row;
+            });
+        }
+
 
 
 {/literal}
