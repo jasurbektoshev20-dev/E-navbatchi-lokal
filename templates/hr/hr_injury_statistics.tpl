@@ -61,46 +61,25 @@
      <div class="row">
          <div class="col-6">
               <div class="card">
-                <div class="mx-1 my-2 row administrative-card">
+                <div class="mx-1 my-2 row injury-card">
                     <div class="col-6">
-                        <h4 class="card-title">Мамурий ҳуқуқбузарликлар</h4>
-                    </div>
-                        <div class="col-3">
-                        <input type="date" id="start_date" class="form-control">
-                    </div>
-
-                    <div class="col-3">
-                        <input type="date" id="end_date" class="form-control">
+                        <h4 class="card-title">Diagramma</h4>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-12 d-flex align-items-center justify-content-end chart-btn-box">
-                            <button id="total_button" class="btn btn-primary mb-2">Жами жиноятлар</button>
-                            <button id="compare_button" class="btn btn-warning mb-2">Солиштириш</button>
-                    </div>
-                        <div class="chart-container2" id="administrative_offenses"  style="height: 600px;"></div>
+                      <div id="injury_heatmap" style="height:800px;"></div>
                 </div>
             </div>
          </div>
         <div class="col-6 ">
             <div class="card">
-                <div class="mx-1 my-2 row administrative-card">
+                <div class="mx-1 my-2 row injury-card">
                     <div class="col-6">
-                        <h4 class="card-title">Жиноятлар</h4>
-                    </div>
-                        <div class="col-3">
-                        <input type="date" id="criminal_start_date" class="form-control">
-                    </div>
-                    <div class="col-3">
-                        <input type="date" id="criminal_end_date" class="form-control">
+                        <h4 class="card-title">Diagramma</h4>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-12 d-flex align-items-center justify-content-end chart-btn-box">
-                            <button id="criminal_total_button" class="btn btn-primary mb-2">Жами жиноятлар</button>
-                            <button id="criminal_compare_button" class="btn btn-warning mb-2">Солиштириш</button>
-                    </div>
-                        <div class="chart-container2" id="criminal_offenses"  style="height: 600px;"></div>
+                    <div id="injury_stacked_bar" style="height:800px;"></div>
                 </div>
             </div>
         </div>
@@ -143,212 +122,225 @@
 
     {literal}
 
-let adminRegionChartInstance = null;
-let adminRegionChartData = [];
-let adminRegionChartRendered = false;
+     let injuryData = null;
 
-const colors = [
-        "#6EB5FF", // ko‘k
-        "#5CC97B", // yashil
-        "#A472FF", // to‘q binafsha
-        "#FFB84D", // och sariq
-        "#99CCFF", // och ko‘k
-        "#FFD24C", // sariq (eng katta bo‘lak)
-        "#4BA3C7", // havorang
-        "#7AD67A", // och yashil
-        "#FF884C", // to‘q sariq
-        "#B266FF", // binafsha
-        "#FF6666", // qizil
-      ];
+     function aggregateByRegion(matrix) {
+  const map = {};
 
-       const colors1 = [
-        // "#6EB5FF", // ko‘k
-        "#5CC97B", // yashil
-        "#A472FF", // to‘q binafsha
-        "#FFB84D", // och sariq
-        "#99CCFF", // och ko‘k
-        "#FFD24C", // sariq (eng katta bo‘lak)
-        "#4BA3C7", // havorang
-        "#7AD67A", // och yashil
-        "#FF884C", // to‘q sariq
-        "#B266FF", // binafsha
-        "#FF6666", // qizil
-      ];
+  matrix.forEach(row => {
+    const id = row.region_id;
 
-
-// real ajax bo'yicha
-let structure_id = null;
-function loadAdministrativeCharts() {
-  $.ajax({
-    url: 'ajax.php',
-    type: 'GET',
-    dataType: 'json',
-    data: { act: 'get_administrative_stats' },
-    success: function (res) {
-      console.log('ADMIN DATA:', res);
-
-      renderAdministrativePie(res.stats || []);
-
-      // 🔥 MUHIM: faqat data saqlaymiz
-      adminRegionChartData = res.stat_region || [];
-
-      // agar tab allaqachon ochiq bo‘lsa — chizamiz
-      if ($('#pills-profile').hasClass('show')) {
-        adminRegionChartRendered = true;
-      }
+    if (!map[id]) {
+      map[id] = {
+        id: id,
+        name: row.region_name,
+        value: 0
+      };
     }
+
+    map[id].value += Number(row.value || 0);
   });
+
+  return Object.values(map);
 }
 
 
-function renderAdministrativePie(data) {
-  const dom = document.getElementById('administrative_offenses');
-  if (!dom) return;
-
-  // eski chartni o‘chiramiz
-  echarts.dispose(dom);
-  const chart = echarts.init(dom);
-
-  const total = data.reduce((s, i) => s + Number(i.value || 0), 0);
-
-  const option = {
-   color: colors1,
-      textStyle: { fontFamily: "Arial, sans-serif", fontSize: "18px" },
-      title: {
-        text: String(total),
-        left: 'center',
-        top: '37%',
-        textStyle: { fontSize: 18, fontWeight: 'bold', color: '#b7b7b7' },
-      },
-      legend: {
-        bottom: 0,
-        left: 'center',
-        padding: [20, 0, 0, 0],
-        textStyle: { color: '#b7b7b7', fontSize: 18 }
-      },
-      tooltip: {
-        backgroundColor: 'white',
-        textStyle: { fontSize: 18, color: '#000' }
-      },
-      series: [{
-        type: 'pie',
-        radius: ['20%', '60%'],
-        center: ['50%', '40%'],
-        label: {
-          show: true,
-          position: 'outside',
-          formatter: '{c}',
-          textStyle: { fontSize: 18, fontWeight: 'bold', color: '#b7b7b7' }
-        },
-        itemStyle: {
-          borderRadius: 10,
-          shadowColor: 'rgba(0,0,0,0.5)',
-          shadowBlur: 20
-        },
-      data: data.map(i => ({
-        name: i.name,
-        value: Number(i.value)
-      }))
-    }]
-  };
-
-  chart.setOption(option);
-  window.addEventListener('resize', () => chart.resize());
-}
-
-
-let criminalRegionChartInstance = null;
-let criminalRegionChartData = [];
-let criminalRegionChartRendered = false;
-
-
-function loadCriminalCharts() {
+function loadInjuryStats() {
   $.ajax({
     url: 'ajax.php',
     type: 'GET',
     dataType: 'json',
     data: {
-      act: 'get_criminal_stats'
+      act: 'get_injuries_stats'
     },
-    success: function (res) {
-      console.log('CRIMINAL DATA:', res);
+ success: function (res) {
+    renderInjuryHeatmap(res);
+    renderInjuryStackedBar(res);
+},
 
-      renderCriminalPie(res.stats || []);
-      criminalRegionChartData = res.stat_region || [];
-
-      // agar tab ochiq bo‘lsa — darrov chizamiz
-      if (document.getElementById('pills-profile').classList.contains('show')) {
-        criminalRegionChartRendered = true;
-      }
-    },
     error: function (err) {
-      console.error('CRIMINAL AJAX ERROR:', err);
+      console.error('AJAX ERROR:', err);
     }
   });
 }
 
+$(document).ready(function () {
+  loadInjuryStats();
+});
 
-function renderCriminalPie(data) {
-  const dom = document.getElementById('criminal_offenses');
+
+
+function renderInjuryHeatmap(res) {
+  const dom = document.getElementById('injury_heatmap');
   if (!dom) return;
-
-  if (echarts.getInstanceByDom(dom)) {
-    echarts.dispose(dom);
-  }
 
   const chart = echarts.init(dom);
 
-  const total = data.reduce((s, i) => s + Number(i.value || 0), 0);
+  const regions = res.regions.map(r => r.name);
+  const types   = res.types.map(t => t.name);
+
+  const regionIndex = {};
+  res.regions.forEach((r, i) => regionIndex[r.id] = i);
+
+  const typeIndex = {};
+  res.types.forEach((t, i) => typeIndex[t.id] = i);
+
+  const data = res.matrix.map(i => [
+    regionIndex[i.region_id],
+    typeIndex[i.type_id],
+    Number(i.value)
+  ]);
 
   const option = {
-      color: colors,
-      textStyle: { fontFamily: "Arial, sans-serif", fontSize: "18px" },
-      title: {
-        text: String(total),
-        left: 'center',
-        top: '37%',
-        textStyle: { fontSize: 18, fontWeight: 'bold', color: '#b7b7b7' },
+    tooltip: {
+      formatter: p =>
+        `${regions[p.value[0]]}<br>${types[p.value[1]]}: <b>${p.value[2]}</b>`
+    },
+    grid: { top: 60, left: 120, right: 40 },
+   xAxis: {
+  type: 'category',
+  data: regions,
+  axisLabel: {
+    color: '#ffffff',
+    fontSize: 14,
+    fontWeight: 'bold',
+    rotate: 45
+  },
+  axisLine: {
+    lineStyle: { color: '#3b82f6' }
+  },
+  axisTick: { show: false }
+},
+yAxis: {
+  type: 'category',
+  data: types,
+  axisLabel: {
+    color: '#ffffff',
+    fontSize: 14,
+    fontWeight: 'bold'
+  },
+  axisLine: {
+    lineStyle: { color: '#3b82f6' }
+  },
+  axisTick: { show: false }
+},
+
+    visualMap: {
+      min: 0,
+      max: Math.max(...data.map(d => d[2])),
+      calculable: true,
+      orient: 'horizontal',
+      left: 'center',
+      bottom: 10,
+      inRange: {
+        color: ['#1e3c72', '#2a5298', '#fbc531', '#e84118']
+      }
+    },
+    series: [{
+      type: 'heatmap',
+      data,
+     label: {
+        show: true,
+        position: 'top',
+        color: '#ffffff',
+        fontSize: 14,
+        fontWeight: 'bold'
       },
-      legend: {
-        bottom: 0,
-        left: 'center',
-        padding: [20, 0, 0, 0],
-        textStyle: { color: '#b7b7b7', fontSize: 18 }
-      },
-      tooltip: {
-        backgroundColor: 'white',
-        textStyle: { fontSize: 18, color: '#000' }
-      },
-      series: [{
-        type: 'pie',
-        radius: ['20%', '60%'],
-        center: ['50%', '40%'],
-        label: {
-          show: true,
-          position: 'outside',
-          formatter: '{c}',
-          textStyle: { fontSize: 18, fontWeight: 'bold', color: '#b7b7b7' }
-        },
-        itemStyle: {
-          borderRadius: 10,
-          shadowColor: 'rgba(0,0,0,0.5)',
-          shadowBlur: 20
-        },
-      data: data.map(i => ({
-        name: i.name,
-        value: Number(i.value)
-      }))
+      emphasis: {
+        itemStyle: { shadowBlur: 10, shadowColor: 'rgba(0,0,0,0.5)' }
+      }
     }]
   };
 
   chart.setOption(option);
-  window.addEventListener('resize', () => chart.resize());
 }
 
-$(document).ready(function () {
-  loadAdministrativeCharts();
-  loadCriminalCharts();
-});
+function renderInjuryStackedBar(res) {
+  const dom = document.getElementById('injury_stacked_bar');
+  if (!dom) return;
+
+  const chart = echarts.init(dom);
+
+  const regions = res.regions.map(r => r.name);
+
+  // region -> type -> value
+  const map = {};
+  res.matrix.forEach(i => {
+    if (!map[i.region_id]) map[i.region_id] = {};
+    map[i.region_id][i.type_id] = Number(i.value);
+  });
+
+  const series = res.types.map(t => ({
+    name: t.name,
+    type: 'bar',
+    stack: 'total',
+    emphasis: { focus: 'series' },
+    data: res.regions.map(r =>
+      map[r.id]?.[t.id] || 0
+    )
+  }));
+
+  const option = {
+    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+    legend: {
+  top: 10,
+  textStyle: {
+    color: '#ffffff',     // oq rang
+    fontSize: 15,         // kattaroq
+    fontWeight: 'bold'    // qalin
+  },
+  itemWidth: 22,          // rangli kvadrat kengligi
+  itemHeight: 14,
+  itemGap: 20             // legendlar orasidagi masofa
+},
+
+    grid: { left: 60, right: 30, bottom: 120 },
+xAxis: {
+  type: 'category',
+  data: regions,
+  axisLabel: {
+    color: '#ffffff',
+    fontSize: 14,
+    fontWeight: 'bold',
+    rotate: 45
+  },
+  axisLine: {
+    lineStyle: { color: '#3b82f6' }
+  }
+},
+yAxis: {
+  type: 'value',
+
+  minInterval: 1,          // ❗ faqat butun son
+  interval: 1,             // ❗ majburiy 1 qadam
+
+  axisLabel: {
+    color: '#ffffff',
+    fontSize: 14,
+    fontWeight: 'bold',
+    formatter: value => Math.round(value) // xavfsizlik uchun
+  },
+
+  axisLine: {
+    lineStyle: {
+      color: 'rgba(255,255,255,0.4)'
+    }
+  },
+
+  splitLine: {
+    lineStyle: {
+      color: 'rgba(255,255,255,0.08)'
+    }
+  }
+},
+
+
+    series
+  };
+
+  chart.setOption(option);
+}
+
 
 
     {/literal}

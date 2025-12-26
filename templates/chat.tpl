@@ -137,16 +137,15 @@
 #playWind .parent-wnd {
     text-align: center !important;
 } */
+.camera-box {
+    width: 100%;
+    height: 50vh; /* faqat shu yerda */
+}
 
 #playWind {
     width: 100%;
     height: 100%;
     position: relative;
-}
-
-.camera-box {
-    width: 100%;
-    height: 100%;
 }
 
 .cam-overlay {
@@ -179,6 +178,11 @@
     100% { opacity: .4; }
 }
 
+:fullscreen #playWind,
+:fullscreen #playWind .parent-wnd {
+    width: 100% !important;
+    height: 100% !important;
+}
 
 
     {/literal}
@@ -226,12 +230,12 @@
                     {/foreach}
                 </div>
             </div>
-            <div class="col-5">
-                  <div class="camera-box position-relative" style="height: 80vh;">
-                    <div id="playWind" style="width: 100%; height: 280px; border-radius: 12px;">    
-                    </div>
-                  </div>
+          <div class="col-5">
+            <div class="camera-box position-relative">
+                <div id="playWind"></div>
             </div>
+            </div>
+
 
 
 
@@ -656,6 +660,7 @@ $(document).on('mouseup', function () {
 
 
 
+let normalSize = { w: 0, h: 0 };
 
     function getLayoutByCount(count) {
     if (count <= 1) return 1;
@@ -665,35 +670,6 @@ $(document).on('mouseup', function () {
 }
 
 let jsDecoder = null;
-
-// function initCamera() {
-
-//     const el = document.getElementById('playWind');
-//     const w = el.clientWidth;
-//     const h = el.clientHeight;
-
-//     if (jsDecoder) {
-//         jsDecoder.JS_StopRealPlayAll();
-//         return;
-//     }
-
-//     jsDecoder = new JSPlugin({
-//         szId: "playWind",
-//         iType: 2,
-//         iWidth: w,
-//         iHeight: h,
-//         iMaxSplit: 16,
-//         szBasePath: "./dist",
-//         oStyle: {
-//             border: "#343434",
-//             borderSelect: "#4caf50",
-//             background: "#000"
-//         }
-//     });
-
-//     jsDecoder.JS_Resize(w, h);
-//     bindDblClick();
-// }
 
 function initCamera() {
 
@@ -772,59 +748,59 @@ async function get_camera() {
 }
 
 
-      function fullSreen() {
-          const el = document.getElementById('playWind');
 
-          if (el.requestFullscreen) el.requestFullscreen();
-          else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
-          else if (el.msRequestFullscreen) el.msRequestFullscreen();
 
-          jsDecoder.JS_FullScreenDisplay(true);
-      }
+let isResizing = false;
+function resetDecoder() {
+    if (!jsDecoder) return;
 
-    //   function openFullscreen() {
-    //       setTimeout(() => {
-    //           jsDecoder.JS_Resize(window.innerWidth, window.innerHeight);
-    //           console.log("kattalashdi");
-    //       }, 100);
-    //   }
+    jsDecoder.JS_StopRealPlayAll();
+    jsDecoder.JS_DestroyControl();
 
-    function openFullscreen() {
-        setTimeout(() => {
-            const w = window.innerWidth;
-            const h = window.innerHeight;
-            jsDecoder.JS_Resize(w, h);
-        }, 200);
+    jsDecoder = null;
+
+    setTimeout(() => {
+        initCamera();
+        get_camera();
+    }, 200);
+}
+
+
+function fullSreen() {
+    const el = document.getElementById('playWind');
+
+    if (!document.fullscreenElement) {
+        el.requestFullscreen();
+    } else {
+        document.exitFullscreen();
     }
+}
 
 
-    //   document.addEventListener("fullscreenchange", function () {
-    //       const el = document.getElementById('playWind');
 
-    //       if (!document.fullscreenElement) {
-    //           jsDecoder.JS_Resize(615, 300);
-    //           console.log("kichiklashdi");
-    //       }
-    //   });
+document.addEventListener("fullscreenchange", function () {
+    // fullscreen'dan chiqilganda
+    if (!document.fullscreenElement) {
+        resetDecoder();
+    }
+});
 
-    document.addEventListener("fullscreenchange", function () {
-        if (!document.fullscreenElement) {
-            const el = document.getElementById('playWind');
-            jsDecoder.JS_Resize(el.clientWidth, el.clientHeight);
-        }
+
+
+
+function bindDblClick() {
+    const el = document.getElementById('playWind');
+    if (!el) return;
+
+    el.addEventListener('dblclick', function (e) {
+        e.preventDefault();
+        fullSreen();
     });
+}
 
 
-      function bindDblClick() {
-          const el = document.getElementById('playWind');
-          if (!el) return console.warn('#playWind topilmadi');
 
-          el.addEventListener('dblclick', function (e) {
-              e.preventDefault();
-              fullSreen();
-              openFullscreen();
-          }, { capture: true });
-      }
+
 
   function retryCamera(cam, index) {
     setTimeout(() => {
