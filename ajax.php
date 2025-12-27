@@ -2697,17 +2697,114 @@ break;
 		ORDER BY r.id;
 	";
 
-	$sql->query($query);
-	$Injuries = $sql->fetchAll();
+	 $sql->query($query);
+    $rows = $sql->fetchAll();
 
-	echo '<pre>';
-	print_r($Injuries);
-	echo '</pre>';
-	die();
+    foreach ($rows as &$row) {
+        $row['injury_type_counts'] = json_decode($row['injury_type_counts'], true);
+        $row['staff_injuries']     = json_decode($row['staff_injuries'], true);
+    }
+    unset($row);
 
-	break;
+    header('Content-Type: application/json');
+    $res = json_encode([
+        'success' => true,
+        'data' => $rows
+    ]);
+    break;
+	
 
 
+
+
+
+	case "get_injuries_stats":
+
+    $start_date = $_GET['start_date'] ?? '2025-01-01';
+    $end_date   = $_GET['end_date']   ?? '2025-12-31';
+
+    // 1️⃣ Hududlar
+    $sql->query("
+        SELECT id, name{$slang} AS name
+        FROM hr.structure
+        WHERE id BETWEEN 2 AND 15
+        ORDER BY id
+    ");
+    $regions = $sql->fetchAll();
+
+    // 2️⃣ Jarohat turlari
+    $sql->query("
+        SELECT id, name{$slang} AS name
+        FROM tur.injuries_types
+        ORDER BY id
+    ");
+    $types = $sql->fetchAll();
+
+    // 3️⃣ Pie chart (jami)
+    $sql->query("
+        SELECT
+            it.id,
+            it.name{$slang} AS name,
+            COUNT(i.id) AS value
+        FROM tur.injuries_types it
+        LEFT JOIN hr.injuries i
+            ON i.injury_type_id::int = it.id
+           AND i.date BETWEEN '{$start_date}' AND '{$end_date}'
+        GROUP BY it.id, it.name{$slang}
+        ORDER BY it.id
+    ");
+    $total = $sql->fetchAll();
+
+    // 4️⃣ Hudud × Jarohat matrix
+    $matrix = [];
+
+    foreach ($regions as $r) {
+        foreach ($types as $t) {
+            $matrix[] = [
+                'region_id'   => (int)$r['id'],
+                'region_name' => $r['name'],
+                'type_id'     => (int)$t['id'],
+                'type_name'   => $t['name'],
+                'value'       => 0
+            ];
+        }
+    }
+
+    $sql->query("
+        SELECT
+            region_id::int,
+            injury_type_id::int,
+            COUNT(*) AS cnt
+        FROM hr.injuries
+        WHERE date BETWEEN '{$start_date}' AND '{$end_date}'
+          AND region_id BETWEEN 2 AND 15
+        GROUP BY region_id::int, injury_type_id::int
+    ");
+    $rows = $sql->fetchAll();
+
+    foreach ($rows as $row) {
+        foreach ($matrix as &$cell) {
+            if (
+                $cell['region_id'] == (int)$row['region_id'] &&
+                $cell['type_id']   == (int)$row['injury_type_id']
+            ) {
+                $cell['value'] = (int)$row['cnt'];
+                break;
+            }
+        }
+    }
+    unset($cell);
+
+    header('Content-Type: application/json');
+    $res = json_encode([
+        'success' => true,
+        'regions' => $regions,
+        'types'   => $types,
+        'total'   => $total,
+        'matrix'  => $matrix
+    ]);
+
+break;
 
 
 }
