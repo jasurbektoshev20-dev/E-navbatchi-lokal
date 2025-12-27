@@ -71,13 +71,13 @@ $q = "
     left join hr.structure str on str.id = pe.region_id
     LEFT JOIN hr.staff st ON st.id = pe.responsible_id
     LEFT JOIN ref.ranks r ON r.id = st.rank_id
-    WHERE pe.structure_id = {$typeId}
+    WHERE pe.type = {$typeId}
     ORDER BY pe.start_date
 ";
 $sql->query($q);
 $events = $sql->fetchAll();
 // echo '<pre>';
-// print_r($region);
+// print_r($events);
 // echo '</pre>';
 // die();
 // ===============================

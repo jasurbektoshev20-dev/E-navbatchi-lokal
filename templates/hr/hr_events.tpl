@@ -1,56 +1,48 @@
-
-Вы сказали:
 {include file="header.tpl"}
 
 <style>
-    {literal}
-        .table thead th,
-        .table tbody td {
-            text-transform: none !important;
-            font-size: 18px;
-        }
-
-        .dt-buttons {
-            gap: 10px;
-            margin-left: 20px;
-        }
-
-    {/literal}
+{literal}
+.table thead th,
+.table tbody td {
+    text-transform: none !important;
+    font-size: 16px;
+}
+.filter-box {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+{/literal}
 </style>
 
 <div class="flex-grow-1 container-p-y container-fluid">
-    <!--/ Card Border Shadow -->
+
+    <!-- HEADER -->
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-body d-flex" style="justify-content: space-between;">
+                <div class="card-body d-flex justify-content-between align-items-center">
                     <h4>{$ThisMenu.name}</h4>
-                        <div class="row filter-date">
-                                <div class="col-sm-4">
-                                    <input type="datetime" class="form-control" placeholder="DD-MM-YYYY" id="start_date"
-                                        name="start_date" />
-                                </div>
 
-                                <div class="col-sm-4">
-                                    <input type="datetime" class="form-control" placeholder="DD-MM-YYYY" id="finish_date"
-                                        name="finish_date" />
-                                </div>
+                    <!-- DATE FILTER -->
+                    <div class="filter-box">
+                        <input type="text" id="start_date" class="form-control" placeholder="Бошланиш санаси">
+                        <input type="text" id="finish_date" class="form-control" placeholder="Тугаш санаси">
+                        <button id="clearFilter" class="btn btn-secondary">
+                            Тозалаш
+                        </button>
+                    </div>
 
-                                <div class="col-sm-4">
-                                    <button class="btn btn-info" id="event_view">Ko'rish</button>
-                                </div>
-                        </div>
-                    <button id="new" type="button" class="btn btn-primary waves-effect waves-light"
-                        data-bs-toggle="submitModal" data-bs-target="#modal">
-                        <i class="menu-icon tf-icons ti ti-plus"></i>{$Dict.adding}
+                    <button id="new" type="button" class="btn btn-primary">
+                        <i class="ti ti-plus"></i> {$Dict.adding}
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- TABLE -->
     <div class="row mt-3">
-        <!-- Projects table -->
         <div class="col-12">
             <div class="card">
                 <div class="card-datatable table-responsive">
@@ -89,85 +81,28 @@
                                 <th></th>
                             </tr>
                         </thead>
-                        <tbody>
-                            {foreach from=$Events item=item key=tkey name=name}
-                                <tr class="lb" id="row_{$item.id|crypt}">
-                                    <td class="text-right">{$tkey+1}</td>
-                                    <td class="text-center">
-                                       {$item.region_name}
-                                    </td>
-                                    <td class="text-center">{$item.object_name}</td>
-                                    <td class="text-center">{$item.event_type}</td>     
-                                    <td class="text-center">{$item.event_category}</td>     
-                                    <td class="text-center">{$item.event_name}</td>
-                                    <td class="text-center">{$item.event_direction}</td>
-                                    <td class="text-center">{$item.event_view}</td>
-                                    <td class="text-center">{$item.start_event}</td>
-                                    <td class="text-center">{$item.finish_event}</td>
-                                    <td class="text-center">{$item.people_count}</td>
-                                    <td class="text-center">{$item.event_responsible_organization}</td>
-                                    <td class="text-center">{$item.responsible_name}</td>
-                                    <td class="text-center">{$item.responsible_phone}</td>
-                                    <td class="text-center">{$item.responsible_mg_name}</td>
-                                    <td class="text-center">{$item.mg_counts}</td>
-                                    <td class="text-center">{$item.responsible_iiv_name}</td>
-                                    <td class="text-center">{$item.iiv_count}</td>
-                                    <td class="text-center">{$item.responsible_fvv_name}</td>
-                                    <td class="text-center">{$item.fvv_count}</td>
-                                    <td class="text-center">{$item.responsible_msgr_name}</td>
-                                    <td class="text-center">{$item.sapyor}</td>
-                                    <td class="text-center">{$item.responsible_spring_name}</td>
-                                    <td class="text-center">{$item.spring_count}</td>
-                                    <td class="text-center">{$item.reserve_name} </td>
-                                    <td class="text-center">{$item.reserve_count}</td>
-                                    <td class="text-center">{$item.organizer}</td>
-                                    <td class="text-center">{$item.comment}</td>
-                                    <td class="text-center">
-                                        <a href="hr.php?act=events_cam&mid={$item.id}">
-                                            <i class="ti ti-camera me-1" style="font-size: 28px;"></i>
-                                        </a>
-                                    </td>                                
-                                    <td>
-                                        <div class="dropdown">
-                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                data-bs-toggle="dropdown">
-                                                <i class="ti ti-dots-vertical"></i>
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                <a rel="{$item.id|crypt}" class="dropdown-item editAction"
-                                                    href="javascript:void(0);"><i
-                                                        class="ti ti-pencil me-1"></i>{$Dict.edit}</a>
-                                                <a rel="{$item.id|crypt}" class="dropdown-item delete"
-                                                    href="javascript:void(0);"><i
-                                                        class="ti ti-trash me-1"></i>{$Dict.delete}</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            {/foreach}
-                        </tbody>
+
+                        <tbody id="events_tbody"></tbody>
                     </table>
                 </div>
             </div>
         </div>
-        <!--/ Projects table -->
     </div>
+
 </div>
-
-
 <!-- Edit Modal -->
 <div class="modal fade" id="submitModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-simple modal-edit-user">
         <div class="modal-content p-3 p-md-5">
             <div class="modal-body">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                <form class="needs-validation" novalidate>
+                <form class="needs-validation" novalidate id="eventForm">
                     <div class="row g-3">
 
                         <div class="col-sm-4">
                             <label>{$Dict.region}</label>
                             <select required class="select form-control" name="region_id" id="region_id">
-                               
+                                <option value="">{$Dict.choose}</option>
                                 {foreach from=$Regions item=Item1 key=ikey1}
                                     <option value="{$Item1.id}">{$Item1.name}</option>
                                 {/foreach}
@@ -181,7 +116,7 @@
                         <div class="col-sm-4">
                             <label>тури</label>
                             <select required class="select form-control" name="event_type" id="event_type">
-                               
+                                <option value="">{$Dict.choose}</option>
                                 {foreach from=$EventTypes item=Item1 key=ikey1}
                                     <option value="{$Item1.id}">{$Item1.event_type}</option>
                                 {/foreach}
@@ -191,7 +126,7 @@
                         <div class="col-sm-4">
                             <label>Тоифаси</label>
                             <select required class="select form-control" name="event_category" id="event_category">
-                               
+                                <option value="">{$Dict.choose}</option>
                                 {foreach from=$EventCategory item=Item1 key=ikey1}
                                     <option value="{$Item1.id}">{$Item1.event_category}</option>
                                 {/foreach}
@@ -206,7 +141,7 @@
                         <div class="col-sm-4">
                             <label>Йўналиши</label>
                             <select required class="select form-control" name="event_direction" id="event_direction">
-                                
+                                <option value="">{$Dict.choose}</option>
                                 <option value="Халқаро">Халқаро</option>
                                 <option value="Республика">Республика</option>
                             </select>
@@ -215,7 +150,7 @@
                         <div class="col-sm-4">
                             <label>Кўриниши</label>
                             <select required class="select form-control" name="event_view" id="event_view">
-                              
+                                <option value="">{$Dict.choose}</option>
                                 <option value="Ҳукумат қарори асосидаги тадбир">Ҳукумат қарори асосидаги тадбир</option>
                                 <option value="Пулли хизмат асосида тадбир">Пулли хизмат асосида тадбир</option>
                             </select>
@@ -242,7 +177,7 @@
                         <div class="col-sm-4">
                             <label>Масъул ташкилот</label>
                             <select required class="select form-control" name="event_responsible_organization" id="event_responsible_organization">
-                               
+                                <option value="">{$Dict.choose}</option>
                                 <option value="ИИБ">ИИБ</option>
                                 <option value="ФВВ">ФВВ</option>
                                 <option value="МГ">МГ</option>
@@ -332,7 +267,7 @@
                             <input required type="text" class="form-control" name="lat" id="lat" value="">
                         </div>
                         <div class="col-sm-6">
-                            <label>Объект жойлашуви Y</label>
+                            <label>Оект жойлашуви Y</label>
                             <input required type="text" class="form-control" name="long" id="long" value="">
                         </div>
                         <div class="col-sm-12">
@@ -359,325 +294,259 @@
 <!--/ Edit Modal -->
 
 <script src="/assets/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
-<script src="/assets/assets/vendor/libs/sweetalert2/sweetalert2.js"></script>
-<script src="/assets/assets/vendor/libs/dropzone/dropzone.js"></script>
 <script src="/assets/assets/vendor/libs/flatpickr/flatpickr.js"></script>
-<!-- Vendors JS -->
-<script src="/assets/assets/vendor/libs/@form-validation/umd/bundle/popular.min.js"></script>
-<script src="/assets/assets/vendor/libs/@form-validation/umd/plugin-bootstrap5/index.min.js"></script>
-<script src="/assets/assets/vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js"></script>
-<script src="https://unpkg.com/imask"></script>
+{* <script src="/assets/assets/vendor/js/bootstrap.bundle.min.js"></script>  *}
+
 
 <script>
-    var dict_infraction = "{$Dict.infraction}"
-    var dict_action_taken = "{$Dict.action_taken}"
-    var dict_person_drafted = "{$Dict.person_drafted}"
-    var dict_old_photo = "{$Dict.old_photo}"
-    var dict_new_photo = "{$Dict.new_photo}"
-    var dict_download_pdf = "{$Dict.download_pdf}"
-    var dict_docx_download = "{$Dict.docx_download}"
 
-    var Var_comment1	= "{$Dict.comment1}";
-    var Var_comment2	= "{$Dict.comment2}";
-    var Var_comment3	= "{$Dict.comment3}";
-    var Var_main_photo	= "{$Dict.main_photo}";
-    var Var_ObjectId	= "{$Organization.id}";
-    {literal}
+var dict_edit   = "{$Dict.edit}";
+var dict_delete = "{$Dict.delete}";
 
-        const flatpickrDate = document.querySelector('#start_event_date');
-        if (flatpickrDate) {
-            flatpickrDate.flatpickr({
-                enableTime: true,
-            dateFormat: "Y-m-d H:i",
-            time_24hr: true,
-            monthSelectorType: 'static'
+{literal}
+
+let dt;
+
+/* ===== DATEPICKER ===== */
+flatpickr("#start_date", {
+    dateFormat: "Y-m-d"
+});
+flatpickr("#finish_date", {
+    dateFormat: "Y-m-d"
+});
+
+/* ===== LOAD EVENTS ===== */
+function loadEvents(start_date = '', finish_date = '') {
+
+    $.ajax({
+        url: 'ajax.php?act=get_events_date',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            start_date: start_date,
+            finish_date: finish_date
+        },
+        success: function(res) {
+
+            let html = '';
+            let i = 1;
+
+            res.Events.forEach(item => {
+                html += `
+                <tr id="row_${item.id}">
+                    <td>${i++}</td>
+                    <td class="text-center">${item.region_name ?? ''}</td>
+                    <td class="text-center">${item.object_name ?? ''}</td>
+                    <td class="text-center">${item.event_type ?? ''}</td>
+                    <td class="text-center">${item.event_category ?? ''}</td>
+                    <td class="text-center">${item.event_name ?? ''}</td>
+                    <td class="text-center">${item.event_direction ?? ''}</td>
+                    <td class="text-center">${item.event_view ?? ''}</td>
+                    <td class="text-center">${item.start_event ?? ''}</td>
+                    <td class="text-center">${item.finish_event ?? ''}</td>
+                    <td class="text-center">${item.people_count ?? ''}</td>
+                    <td class="text-center">${item.event_responsible_organization ?? ''}</td>
+                    <td class="text-center">${item.responsible_name ?? ''}</td>
+                    <td class="text-center">${item.responsible_phone ?? ''}</td>
+                    <td class="text-center">${item.responsible_mg_name ?? ''}</td>
+                    <td class="text-center">${item.mg_counts ?? ''}</td>
+                    <td class="text-center">${item.responsible_iiv_name ?? ''}</td>
+                    <td class="text-center">${item.iiv_count ?? ''}</td>
+                    <td class="text-center">${item.responsible_fvv_name ?? ''}</td>
+                    <td class="text-center">${item.fvv_count ?? ''}</td>
+                    <td class="text-center">${item.responsible_msgr_name ?? ''}</td>
+                    <td class="text-center">${item.sapyor ?? ''}</td>
+                    <td class="text-center">${item.responsible_spring_name ?? ''}</td>
+                    <td class="text-center">${item.spring_count ?? ''}</td>
+                    <td class="text-center">${item.reserve_name ?? ''}</td>
+                    <td class="text-center">${item.reserve_count ?? ''}</td>
+                    <td class="text-center">${item.organizer ?? ''}</td>
+                    <td class="text-center">${item.comment ?? ''}</td>
+                    <td class="text-center">
+                        <a href="hr.php?act=events_cam&mid=${item.id}">
+                            <i class="ti ti-camera" style="font-size:26px;"></i>
+                        </a>
+                    </td>
+                    <td class="text-center">
+                        <div class="dropdown">
+                            <button class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                <i class="ti ti-dots-vertical"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item editAction" href="javascript:void(0);" data-id="${item.id}" rel="${item.id}">
+                                    <i class="ti ti-pencil me-1"></i>${dict_edit}
+                                </a>
+                                <a class="dropdown-item deleteAction" href="javascript:void(0);" rel="${item.id}">
+                                    <i class="ti ti-trash me-1"></i>${dict_delete}
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>`;
+            });
+
+            if (dt) dt.destroy();
+            $('#events_tbody').html(html);
+
+            dt = $('.datatables-projects').DataTable({
+                pageLength: 10,
+                lengthMenu: [10, 25, 50, 100]
             });
         }
+    });
+}
 
-        let start_event_date;
-        $('#start_event_date').on('change', function() {
-           let [datePart, timePart] = this.value.split(' ');
-            let [day, month, year] = datePart.split('-');
+/* ===== PAGE LOAD ===== */
+$(document).ready(function () {
+    loadEvents(); // bugungi
+});
 
-            start_event_date = ${year}-${month}-${day} ${timePart};
-        })
+/* ===== FILTER ===== */
+$('#start_date, #finish_date').on('change', function () {
+    let s = $('#start_date').val();
+    let f = $('#finish_date').val();
+    if (s && f) loadEvents(s, f);
+});
+
+/* ===== CLEAR FILTER ===== */
+$('#clearFilter').on('click', function () {
+    $('#start_date').val('');
+    $('#finish_date').val('');
+    loadEvents();
+});
 
 
 
-        const flatpickrDate2 = document.querySelector('#finish_event_date');
-        if (flatpickrDate2) {
-            flatpickrDate2.flatpickr({
-            enableTime: true,
-            dateFormat: "Y-m-d H:i",
-            time_24hr: true,
-            monthSelectorType: 'static'
-            });
+$('#eventForm').on('submit', function (e) {
+    e.preventDefault();
+
+    let formData = new FormData(this);
+
+    $.ajax({
+        url: 'hrajax.php?act=act_events',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (res) {
+
+            // 🔥 MUHIM: tozalaymiz
+            res = res.trim();
+
+            let parts = res.split('<&sep&>');
+
+            if (parts[0] === '0') {
+
+                const modalEl = document.getElementById('submitModal');
+
+                // 🔥 TO‘G‘RI USUL
+                const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+                modal.hide();
+
+                // jadvalni yangilash
+                location.reload();
+
+            } else {
+                alert(res);
+            }
+        }
+    });
+});
+
+
+
+
+// Edit Record
+$('.datatables-projects tbody').on('click', '.editAction', function (e) {
+    e.preventDefault();
+
+    let RowId = $(this).data('id');
+    if (!RowId) return;
+
+    $.get('hrajax.php?act=get_events&rowid=' + RowId, function (res) {
+
+        let data = JSON.parse(res);
+
+        // 🔥 MUHIM: array ichidan obyektni olamiz
+        if (!data.length) return;
+        let sInfo = data[0];
+
+        // SELECTS
+        $('#region_id').val(sInfo.region_id).trigger('change');
+        $('#event_type').val(sInfo.event_type).trigger('change');
+        $('#event_category').val(sInfo.event_category_id).trigger('change');
+        $('#event_direction').val(sInfo.event_direction);
+        $('#event_view').val(sInfo.event_view);
+        $('#event_responsible_organization')
+            .val(sInfo.event_responsible_organization)
+            .trigger('change');
+
+        // TEXT INPUTS
+        $('#object_id').val(sInfo.object_name);
+        $('#event_name').val(sInfo.event_name);
+        $('#responsible_name').val(sInfo.responsible_name);
+        $('#responsible_phone').val(sInfo.responsible_phone);
+        $('#responsible_mg_name').val(sInfo.responsible_mg_name);
+        $('#responsible_iiv_name').val(sInfo.responsible_iiv_name);
+        $('#responsible_fvv_name').val(sInfo.responsible_fvv_name);
+        $('#responsible_msgr_name').val(sInfo.responsible_msgr_name);
+        $('#responsible_spring_name').val(sInfo.responsible_spring_name);
+        $('#reserve_name').val(sInfo.reserve_name);
+        $('#organizer').val(sInfo.organizer);
+
+        // COUNTS
+        $('#event_participants').val(sInfo.people_count);
+        $('#event_number_mg').val(sInfo.mg_counts);
+        $('#mg_count').val(sInfo.sapyor_count);
+        $('#event_number_iiv').val(sInfo.iiv_count);
+        $('#event_number_fvv').val(sInfo.fvv_count);
+        $('#event_number_spring').val(sInfo.spring_count);
+        $('#reserve_count').val(sInfo.reserve_count);
+
+        // DATETIME FIX
+        if (sInfo.start_event) {
+            $('#start_event_date').val(
+                sInfo.start_event.replace(' ', 'T').substring(0, 16)
+            );
         }
 
-        var phoneMask = IMask(
-            document.getElementById('responsible_phone'), {
-                mask: '00 000-00-00'
-         });
-
-
-        let finish_event_date;
-        $('#finish_event_date').on('change', function() {
-             let [datePart, timePart] = this.value.split(' ');
-        let [day, month, year] = datePart.split('-');
-
-        finish_event_date = ${year}-${month}-${day} ${timePart};
-        })
-
-
-
-
-        const flatpickrDate3 = document.querySelector('#start_date');
-        if (flatpickrDate3) {
-            flatpickrDate3.flatpickr({
-                enableTime: true,
-            dateFormat: "Y-m-d",
-            time_24hr: true,
-            monthSelectorType: 'static'
-            });
+        if (sInfo.finish_event) {
+            $('#finish_event_date').val(
+                sInfo.finish_event.replace(' ', 'T').substring(0, 16)
+            );
         }
 
-        let start_date;
-        $('#start_date').on('change', function() {
-           let [datePart, timePart] = this.value.split(' ');
-            let [day, month, year] = datePart.split('-');
-            start_date = ${year}-${month}-${day};
-        })
+        // MAP + COMMENT
+        $('#lat').val(sInfo.lat);
+        $('#long').val(sInfo.long);
+        $('#situation_text').val(sInfo.comment);
 
-        const flatpickrDate4 = document.querySelector('#finish_date');
-        if (flatpickrDate4) {
-            flatpickrDate4.flatpickr({
-                enableTime: true,
-            dateFormat: "Y-m-d",
-            time_24hr: true,
-            monthSelectorType: 'static'
-            });
+        $('#id').val(sInfo.id);
+
+        // MODAL OPEN
+        const modalEl = document.getElementById('submitModal');
+        const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+        modal.show();
+    });
+});
+
+
+ // Delete Record
+$('.datatables-projects tbody').on('click', '.deleteAction', function () {
+
+    if (!confirm('Ўчиришга ишончингиз комилми?')) return;
+
+    let RowId = $(this).attr('rel');
+
+    $.get('hrajax.php?act=del_events&rowid=' + RowId, function (html) {
+        if (html == 0) {
+            $('#row_' + RowId).remove();
         }
+    });
+});
 
-        let finish_date;
-        $('#finish_date').on('change', function() {
-           let [datePart, timePart] = this.value.split(' ');
-            let [day, month, year] = datePart.split('-');
-            finish_date = ${year}-${month}-${day};
-        });
 
-        const eventView = document.querySelector('#event_view')
-        eventView.addEventListener('click', ()=>{
-                  if (start_date && finish_date) {
-                   event.preventDefault();
-                    event.stopPropagation();
-                    var form_data = new FormData();
-                    form_data.append('start_date', $('#start_date').val());
-                    form_data.append('finish_date', $('#finish_date').val());
-                    $.ajax({
-                        url: 'ajax.php?act=get_events_date',
-                        dataType: 'text',
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        data: form_data,
-                        type: 'post',
-                        success: function(resdata) {
-                              console.log('data keldi: ', resdata)
-                        }
-                    });
-                } else {
-                   alert('sanalarni kiriting')
-                }
-        })
-    
-        // $('#region_id').change(function(event) {
-        //     $.ajax({
-        //         type: "GET",
-        //         url: ajax.php?act=get_distcity_by_id&id=${this.value},
-        //         dataType: "json",
-        //         encode: true,
-        //         success: function(data) {
-        //             $("#distcity_id").empty();
-        //             data.forEach(item => {
-        //                 $("#distcity_id").append(<option value="${item.id}">${item.name}</option>);
-        //             });
-        //         }
-        //     })
-        // })
-
-        var dt_basic_table = $('.datatables-projects'),
-            dt_basic;
-
-        // DataTable with buttons
-        if (dt_basic_table.length) {
-            dt_basic = dt_basic_table.DataTable({
-                displayLength: 10,
-                lengthMenu: [5, 10, 25, 50, 75, 100, 1000]
-            });
-        }
-
-        $('.datatables-projects tbody').on('click', '.editAction', function() {
-            $('#submitModal').modal('toggle');
-            var RowId = $(this).attr('rel');
-
-            $.get("hrajax.php?act=get_events&rowid=" + RowId, function(html) {
-                var sInfo = jQuery.parseJSON(html);
-
-                $('#region_id').val(sInfo.region_id);
-                $('#object_id').val(sInfo.object_id);
-                $('#event_type').val(sInfo.event_type);
-                $('#event_category').val(sInfo.event_category_id);
-                $('#event_direction').val(sInfo.event_direction);
-                $('#event_view').val(sInfo.event_view);
-                $('#event_responsible_organization').val(sInfo.event_responsible_organization);
-                $('#region_id').trigger("change");
-                $('#event_type').trigger("change");
-                $('#event_category').trigger("change");
-                $('#event_direction').trigger("change");
-                $('#event_view').trigger("change");
-                $('#event_responsible_organization').trigger("change");
-                $('#start_event_date').val(sInfo.start_event);
-                $('#finish_event_date').val(sInfo.finish_event);
-                $('#event_name').val(sInfo.event_name);
-                $('#responsible_name').val(sInfo.responsible_name);
-                $('#responsible_phone').val(sInfo.responsible_phone);
-                $('#responsible_iiv_name').val(sInfo.responsible_iiv_name);
-                $('#responsible_mg_name').val(sInfo.responsible_mg_name);
-                $('#event_number_mg').val(sInfo.mg_counts);
-                $('#responsible_msgr_name').val(sInfo.responsible_msgr_name);
-                $('#reserve_count').val(sInfo.reserve_count);
-                $('#reserve_name').val(sInfo.reserve_name);
-                $('#responsible_spring_name').val(sInfo.responsible_spring_name);
-                $('#responsible_fvv_name').val(sInfo.responsible_fvv_name);
-                $('#organizer').val(sInfo.organizer);
-                $('#event_participants').val(sInfo.people_count);
-                $('#event_number_iiv').val(sInfo.iiv_count);
-                $('#event_number_fvv').val(sInfo.fvv_count);
-                $('#mg_count').val(sInfo.sapyor_count);
-                $('#event_number_spring').val(sInfo.spring_count);
-                $('#situation_text').val(sInfo.situation_text);
-                  $('#lat').val(sInfo.lat);
-                $('#long').val(sInfo.long);
-                $('#id').val(sInfo.id);
-            });
-        })
-
-        $('#new').click(function() {
-            $('#submitModal').modal('toggle');
-            $('#region_id').val(0);
-            $('#region_id').trigger("change");
-            $('#object_id').val("");
-            $('#event_type').val(0);
-            $('#event_type').trigger("change");
-             $('#event_category').val(0);
-            $('#event_category').trigger("change");
-            $('#event_direction').val(0);
-            $('#event_direction').trigger("change");
-            $('#event_view').val(0);
-            $('#event_view').trigger("change");
-             $('#event_responsible_organization').val(0);
-            $('#event_responsible_organization').trigger("change");
-            $('#organizer').val("");
-            $('#event_name').val("");
-            $('#responsible_name').val("");
-            $('#responsible_phone').val("");
-            $('#responsible_iiv_name').val("");
-            $('#responsible_mg_name').val("");
-            $('#event_number_mg').val("");
-            $('#responsible_msgr_name').val("");
-            $('#reserve_count').val("");
-            $('#reserve_name').val("");
-            $('#responsible_spring_name').val("");
-            $('#responsible_fvv_name').val("");
-            $('#start_event_date').val("");
-            $('#finish_event_date').val("");
-            $('#event_participants').val("");
-            $('#mg_count').val("");
-            $('#event_number_spring').val("");
-            $('#event_number_fvv').val("");
-            $('#event_number_iiv').val("");
-            $('#situation_text').val("");
-            $('#lat').val('');
-            $('#long').val('');
-
-            $('#id').val(0)
-        });
-
-        // Form validation and submit
-        const bsValidationForms = $('.needs-validation');
-        Array.prototype.slice.call(bsValidationForms).forEach(function(form) {
-            form.addEventListener('submit', function(event) {
-                if (!form.checkValidity()) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                } else {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    var form_data = new FormData();
-                    form_data.append('region_id', $('#region_id').val());
-                    form_data.append('object_id', $('#object_id').val());
-                    form_data.append('event_type', $('#event_type').val());
-                    form_data.append('event_category', $('#event_category').val());
-                    form_data.append('event_direction', $('#event_direction').val());
-                    form_data.append('event_view', $('#event_view').val());
-                    form_data.append('event_responsible_organization', $('#event_responsible_organization').val());
-                    form_data.append('start_event', $('#start_event_date').val());
-                    form_data.append('finish_event', $('#finish_event_date').val());
-                    form_data.append('organizer', $('#organizer').val());
-                    form_data.append('event_name', $('#event_name').val());
-                    form_data.append('responsible_name', $('#responsible_name').val());
-                    form_data.append('responsible_phone', $('#responsible_phone').val());
-                    form_data.append('responsible_iiv_name', $('#responsible_iiv_name').val());
-                    form_data.append('responsible_mg_name', $('#responsible_mg_name').val());
-                    form_data.append('mg_count', $('#event_number_mg').val());
-                    form_data.append('responsible_msgr_name', $('#responsible_msgr_name').val());
-                    form_data.append('reserve_count', $('#reserve_count').val());
-                    form_data.append('reserve_name', $('#reserve_name').val());
-                    form_data.append('responsible_spring_name', $('#responsible_spring_name').val());
-                    form_data.append('responsible_fvv_name', $('#responsible_fvv_name').val());
-                    form_data.append('people_count', $('#event_participants').val());
-                    form_data.append('sapyor', $('#mg_count').val());
-                    form_data.append('spring_count', $('#event_number_spring').val());
-                    form_data.append('fvv_count', $('#event_number_fvv').val());
-                    form_data.append('iiv_count', $('#event_number_iiv').val());
-                    form_data.append('situation_text', $('#situation_text').val());
-                    form_data.append('lat', $('#lat').val());
-                    form_data.append('long', $('#long').val());
-
-                    form_data.append('id', $('#id').val());
-                    $.ajax({
-                        url: 'hrajax.php?act=act_events',
-                        dataType: 'text',
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        data: form_data,
-                        type: 'post',
-                        success: function(resdata) {
-                            var NewArray = resdata.split("<&sep&>");
-                            if (NewArray[0] == 0) {
-                                location.reload();
-                            } else {
-                                alert(resdata);
-                            }
-                        }
-                    });
-                }
-                form.classList.add('was-validated');
-            });
-        });
-
-        // Delete Record
-        $('.datatables-projects tbody').on('click', '.delete', function() {
-            var RowId = $(this).attr('rel');
-            $.get("hrajax.php?act=del_events&rowid=" + RowId, function(html) {
-                if (html == 0) {
-                    $("#row_" + RowId).remove();
-                }
-            });
-        });
-        
-    {/literal}
+{/literal}
 </script>
 
 {include file="footer.tpl"}

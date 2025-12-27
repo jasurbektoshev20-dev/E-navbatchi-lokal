@@ -2575,7 +2575,7 @@ switch ($Act) {
 				LEFT JOIN hr.staff st on st.id = pe.responsible_id
 				LEFT JOIN ref.ranks r on r.id = st.rank_id
 
-				WHERE pe.structure_id = {$typeId}
+				WHERE pe.type = {$typeId}
 				GROUP BY pe.id,s.name{$slang},et.name{$slang},r.name{$slang},st.lastname,st.firstname,str.name1
 			";
 			$sql->query($q);
