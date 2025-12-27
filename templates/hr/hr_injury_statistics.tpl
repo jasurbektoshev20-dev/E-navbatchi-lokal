@@ -63,12 +63,17 @@
               <div class="card">
                 <div class="mx-1 my-2 row injury-card">
                     <div class="col-6">
-                        <h4 class="card-title">Diagramma</h4>
+                        <h4 id="injury_trend_title" class="text-white fw-bold">
+                        Jarohatlar dinamikasi
+                      </h4>
+                     <select id="injuryTypeSelect" class="form-control">
+                        <option value="1">JTV</option>
+                        <option value="2" selected>YTX</option>
+                    </select>
                     </div>
                 </div>
-                <div class="row">
-                      <div id="injury_heatmap" style="height:800px;"></div>
-                </div>
+                <div id="injury_trend_line" style="height:800px;"></div>
+
             </div>
          </div>
         <div class="col-6 ">
@@ -122,30 +127,12 @@
 
     {literal}
 
-     let injuryData = null;
 
-     function aggregateByRegion(matrix) {
-  const map = {};
+// 1. AJAX orqali ma'lumot olish
+// ============================
+let ACTIVE_INJURY_TYPE_ID = 2; // masalan: 1 = YTX, 2 = JTV
 
-  matrix.forEach(row => {
-    const id = row.region_id;
-
-    if (!map[id]) {
-      map[id] = {
-        id: id,
-        name: row.region_name,
-        value: 0
-      };
-    }
-
-    map[id].value += Number(row.value || 0);
-  });
-
-  return Object.values(map);
-}
-
-
-function loadInjuryStats() {
+function loadInjuryTrendChart() {
   $.ajax({
     url: 'ajax.php',
     type: 'GET',
@@ -153,193 +140,140 @@ function loadInjuryStats() {
     data: {
       act: 'get_injuries_stats'
     },
- success: function (res) {
-    renderInjuryHeatmap(res);
-    renderInjuryStackedBar(res);
-},
-
+    success: function (res) {
+      renderInjuryTrendLine(res, ACTIVE_INJURY_TYPE_ID);
+    },
     error: function (err) {
       console.error('AJAX ERROR:', err);
     }
   });
 }
 
-$(document).ready(function () {
-  loadInjuryStats();
-});
+function aggregateByRegionAndType(res, typeId) {
+  const map = {};
 
+  res.matrix.forEach(row => {
+    if (row.type_id !== typeId) return;
 
+    if (!map[row.region_id]) {
+      map[row.region_id] = {
+        name: row.region_name,
+        value: 0
+      };
+    }
 
-function renderInjuryHeatmap(res) {
-  const dom = document.getElementById('injury_heatmap');
+    map[row.region_id].value += Number(row.value || 0);
+  });
+
+  // 🔥 O‘suvchi–kamayuvchi
+  return Object.values(map).sort((a, b) => a.value - b.value);
+}
+function renderInjuryTrendLine(res, typeId) {
+  const dom = document.getElementById('injury_trend_line');
   if (!dom) return;
+
+  if (echarts.getInstanceByDom(dom)) {
+    echarts.dispose(dom);
+  }
 
   const chart = echarts.init(dom);
 
-  const regions = res.regions.map(r => r.name);
-  const types   = res.types.map(t => t.name);
+  const typeName =
+    res.types.find(t => t.id == typeId)?.name || 'Номаълум';
 
-  const regionIndex = {};
-  res.regions.forEach((r, i) => regionIndex[r.id] = i);
+  document.getElementById('injury_trend_title').innerText =
+    `Jarohatlar dinamikasi — ${typeName}`;
 
-  const typeIndex = {};
-  res.types.forEach((t, i) => typeIndex[t.id] = i);
-
-  const data = res.matrix.map(i => [
-    regionIndex[i.region_id],
-    typeIndex[i.type_id],
-    Number(i.value)
-  ]);
+  const data = aggregateByRegionAndType(res, typeId);
 
   const option = {
-    tooltip: {
-      formatter: p =>
-        `${regions[p.value[0]]}<br>${types[p.value[1]]}: <b>${p.value[2]}</b>`
-    },
-    grid: { top: 60, left: 120, right: 40 },
-   xAxis: {
-  type: 'category',
-  data: regions,
-  axisLabel: {
-    color: '#ffffff',
-    fontSize: 14,
-    fontWeight: 'bold',
-    rotate: 45
-  },
-  axisLine: {
-    lineStyle: { color: '#3b82f6' }
-  },
-  axisTick: { show: false }
-},
-yAxis: {
-  type: 'category',
-  data: types,
-  axisLabel: {
-    color: '#ffffff',
-    fontSize: 14,
-    fontWeight: 'bold'
-  },
-  axisLine: {
-    lineStyle: { color: '#3b82f6' }
-  },
-  axisTick: { show: false }
-},
+    backgroundColor: 'transparent',
 
-    visualMap: {
-      min: 0,
-      max: Math.max(...data.map(d => d[2])),
-      calculable: true,
-      orient: 'horizontal',
-      left: 'center',
-      bottom: 10,
-      inRange: {
-        color: ['#1e3c72', '#2a5298', '#fbc531', '#e84118']
+    tooltip: {
+      trigger: 'axis',
+      formatter: p =>
+        `${p[0].axisValue}<br>${typeName}: <b>${p[0].data}</b>`
+    },
+
+    grid: {
+      left: 70,
+      right: 40,
+      bottom: 120,
+      top: 60
+    },
+
+    xAxis: {
+      type: 'category',
+      data: data.map(i => i.name),
+      axisLabel: {
+        rotate: 45,
+        color: '#ffffff',
+        fontSize: 14,
+        fontWeight: 'bold'
+      },
+      axisLine: { lineStyle: { color: '#3b82f6' } }
+    },
+
+    yAxis: {
+      type: 'value',
+      minInterval: 1,
+      axisLabel: {
+        color: '#ffffff',
+        fontSize: 14,
+        fontWeight: 'bold'
+      },
+      splitLine: {
+        lineStyle: { color: 'rgba(255,255,255,0.08)' }
       }
     },
+
     series: [{
-      type: 'heatmap',
-      data,
-     label: {
+      name: typeName,
+      type: 'line',
+      smooth: true,
+      data: data.map(i => i.value),
+
+      symbol: 'circle',
+      symbolSize: 10,
+
+      lineStyle: {
+        width: 4,
+        color: '#22c55e'
+      },
+
+      itemStyle: {
+        color: '#22c55e',
+        borderColor: '#ffffff',
+        borderWidth: 2
+      },
+
+      label: {
         show: true,
         position: 'top',
         color: '#ffffff',
         fontSize: 14,
         fontWeight: 'bold'
       },
-      emphasis: {
-        itemStyle: { shadowBlur: 10, shadowColor: 'rgba(0,0,0,0.5)' }
+
+      areaStyle: {
+        color: 'rgba(34,197,94,0.25)'
       }
     }]
   };
 
   chart.setOption(option);
+  window.addEventListener('resize', () => chart.resize());
 }
 
-function renderInjuryStackedBar(res) {
-  const dom = document.getElementById('injury_stacked_bar');
-  if (!dom) return;
 
-  const chart = echarts.init(dom);
-
-  const regions = res.regions.map(r => r.name);
-
-  // region -> type -> value
-  const map = {};
-  res.matrix.forEach(i => {
-    if (!map[i.region_id]) map[i.region_id] = {};
-    map[i.region_id][i.type_id] = Number(i.value);
-  });
-
-  const series = res.types.map(t => ({
-    name: t.name,
-    type: 'bar',
-    stack: 'total',
-    emphasis: { focus: 'series' },
-    data: res.regions.map(r =>
-      map[r.id]?.[t.id] || 0
-    )
-  }));
-
-  const option = {
-    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
-    legend: {
-  top: 10,
-  textStyle: {
-    color: '#ffffff',     // oq rang
-    fontSize: 15,         // kattaroq
-    fontWeight: 'bold'    // qalin
-  },
-  itemWidth: 22,          // rangli kvadrat kengligi
-  itemHeight: 14,
-  itemGap: 20             // legendlar orasidagi masofa
-},
-
-    grid: { left: 60, right: 30, bottom: 120 },
-xAxis: {
-  type: 'category',
-  data: regions,
-  axisLabel: {
-    color: '#ffffff',
-    fontSize: 14,
-    fontWeight: 'bold',
-    rotate: 45
-  },
-  axisLine: {
-    lineStyle: { color: '#3b82f6' }
-  }
-},
-yAxis: {
-  type: 'value',
-
-  minInterval: 1,          // ❗ faqat butun son
-  interval: 1,             // ❗ majburiy 1 qadam
-
-  axisLabel: {
-    color: '#ffffff',
-    fontSize: 14,
-    fontWeight: 'bold',
-    formatter: value => Math.round(value) // xavfsizlik uchun
-  },
-
-  axisLine: {
-    lineStyle: {
-      color: 'rgba(255,255,255,0.4)'
-    }
-  },
-
-  splitLine: {
-    lineStyle: {
-      color: 'rgba(255,255,255,0.08)'
-    }
-  }
-},
+$(document).ready(function () {
+  loadInjuryTrendChart();
+});
 
 
-    series
-  };
-
-  chart.setOption(option);
-}
+$(document).ready(function () {
+  loadInjuryTrendChart();
+});
 
 
 

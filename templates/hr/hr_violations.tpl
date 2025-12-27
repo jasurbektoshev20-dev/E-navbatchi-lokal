@@ -393,10 +393,16 @@ function renderAdministrativePie(data) {
         textStyle: { fontSize: 18, fontWeight: 'bold', color: '#b7b7b7' },
       },
       legend: {
-        bottom: 0,
+        bottom: 20,
         left: 'center',
-        padding: [20, 0, 0, 0],
-        textStyle: { color: '#b7b7b7', fontSize: 18 }
+        textStyle: {
+          color: '#b7b7b7',
+          fontSize: 18
+        }
+      },
+      grid: {
+        bottom: 80,
+        containLabel: true
       },
       tooltip: {
         backgroundColor: 'white',
@@ -530,12 +536,20 @@ function renderCriminalPie(data) {
         top: '37%',
         textStyle: { fontSize: 18, fontWeight: 'bold', color: '#b7b7b7' },
       },
+   
       legend: {
-        bottom: 0,
+        bottom: 20,
         left: 'center',
-        padding: [20, 0, 0, 0],
-        textStyle: { color: '#b7b7b7', fontSize: 18 }
+        textStyle: {
+          color: '#b7b7b7',
+          fontSize: 18
+        }
       },
+      grid: {
+        bottom: 80,
+        containLabel: true
+      },
+
       tooltip: {
         backgroundColor: 'white',
         textStyle: { fontSize: 18, color: '#000' }
