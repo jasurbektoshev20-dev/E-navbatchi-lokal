@@ -28,9 +28,9 @@ $sql->encode('UTF8');
 // ===============================
 // URL DAN REGION_ID OLISH
 // ===============================
-$regionId = (int)($_GET['region_id'] ?? 0);
-if ($regionId <= 0) {
-    die('Region topilmadi');
+$typeId = (int)($_GET['type_id'] ?? 0);
+if ($typeId <= 0) {
+    die('turi topilmadi');
 }
 
 // ===============================
@@ -42,12 +42,12 @@ $slang = ''; // masalan: _uz, _ru bo‘lsa shu yerda belgilang
 // REGION NOMI
 // ===============================
 $q = "SELECT name1 AS name
-    FROM hr.structure
-    WHERE id = {$regionId}
+    FROM ref.reyd_event_types
+    WHERE id = {$typeId}
 ";
 $sql->query($q);
-$region = $sql->fetchAll();
-$regionName = $region['name'] ?? '';
+$type = $sql->fetchAll();
+$typeName = $type['name'] ?? '';
 
 // ===============================
 // REYD EVENTLAR
@@ -56,6 +56,7 @@ $q = "
     SELECT 
         pe.id,
         s.name1 AS structure_name,
+        str.name1 AS region_name,
         et.name1 AS event_type,
         CONCAT(r.name1, ' ', st.lastname, ' ', st.firstname) AS responsible_name,
         pe.exercises_type,
@@ -67,9 +68,10 @@ $q = "
     FROM tur.reyd_events pe
     LEFT JOIN ref.reyd_event_types et ON et.id = pe.type
     LEFT JOIN hr.structure s ON s.id = pe.structure_id
+    left join hr.structure str on str.id = pe.region_id
     LEFT JOIN hr.staff st ON st.id = pe.responsible_id
     LEFT JOIN ref.ranks r ON r.id = st.rank_id
-    WHERE pe.structure_id = {$regionId}
+    WHERE pe.structure_id = {$typeId}
     ORDER BY pe.start_date
 ";
 $sql->query($q);
@@ -90,7 +92,7 @@ $sheet->setTitle('Reyd events');
 // ===============================
 // $sheet->setCellValue('A1', 'Hudud:');
 // $sheet->setCellValue('B1', $regionName);
-$sheet->mergeCells('B1:J1');
+$sheet->mergeCells('B1:K1');
 $sheet->getStyle('A1:B1')->getFont()->setBold(true);
 
 // ===============================
@@ -98,6 +100,7 @@ $sheet->getStyle('A1:B1')->getFont()->setBold(true);
 // ===============================
 $headers = [
     '№',
+    'Hudud',
     'Bo‘linma',
     'Tadbir turi',
     'Mas’ul shaxs',
@@ -124,22 +127,23 @@ $i = 1;
 
 foreach ($events as $e) {
     $sheet->setCellValue('A' . $row, $i++);
-    $sheet->setCellValue('B' . $row, $e['structure_name']);
-    $sheet->setCellValue('C' . $row, $e['event_type']);
-    $sheet->setCellValue('D' . $row, $e['responsible_name']);
-    $sheet->setCellValue('E' . $row, $e['exercises_type']);
-    $sheet->setCellValue('F' . $row, $e['start_date']);
-    $sheet->setCellValue('G' . $row, $e['end_date']);
-    $sheet->setCellValue('H' . $row, $e['staff_count']);
-    $sheet->setCellValue('I' . $row, $e['vehicles_count']);
-    $sheet->setCellValue('J' . $row, $e['description']);
+    $sheet->setCellValue('B' . $row, $e['region_name']);
+    $sheet->setCellValue('C' . $row, $e['structure_name']);
+    $sheet->setCellValue('D' . $row, $e['event_type']);
+    $sheet->setCellValue('E' . $row, $e['responsible_name']);
+    $sheet->setCellValue('F' . $row, $e['exercises_type']);
+    $sheet->setCellValue('G' . $row, $e['start_date']);
+    $sheet->setCellValue('H' . $row, $e['end_date']);
+    $sheet->setCellValue('I' . $row, $e['staff_count']);
+    $sheet->setCellValue('J' . $row, $e['vehicles_count']);
+    $sheet->setCellValue('K' . $row, $e['description']);
     $row++;
 }
 
 // ===============================
 // AUTO SIZE
 // ===============================
-foreach (range('A', 'J') as $c) {
+foreach (range('A', 'K') as $c) {
     $sheet->getColumnDimension($c)->setAutoSize(true);
 }
 
@@ -149,7 +153,7 @@ foreach (range('A', 'J') as $c) {
 ob_end_clean();
 
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment; filename="reyd_events_region_' . $regionId . '.xlsx"');
+header('Content-Disposition: attachment; filename="reyd_events_region_' . $typeId . '.xlsx"');
 header('Cache-Control: max-age=0');
 
 $writer = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');

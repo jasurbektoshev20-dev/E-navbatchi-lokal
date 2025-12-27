@@ -103,7 +103,8 @@
 
                                     <tr>
                                         <td>{$i}</td>
-                                        <td>{$typeName}</td>
+                                        <td> <a href="hr.php?act=type_region_events&mid={$smarty.get.mid}&type_id={$typeId}">
+                                           {$typeName} </a></td>
 
                                         {foreach from=$regions key=regionId item=regionName}
                                             {assign var=val value=$table[$typeId][$regionId]|default:0}
