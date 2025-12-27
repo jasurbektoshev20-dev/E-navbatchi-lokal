@@ -498,20 +498,44 @@ switch ($Action) {
     /// roles ---========================================================
 
     /// events ==========================================================
+    // case "get_events":
+    //     $RowId = MyPiDeCrypt($_GET['rowid']);
+
+    //     $query = "SELECT 
+    //         t.*
+    //      from hr.public_event1 t where t.id = {$RowId}";
+    //     $sql->query($query);
+    //     $result = $sql->fetchAssoc();
+
+
+    //     $result['rowid'] = MyPiCrypt($result['id']);
+
+    //     $res = json_encode($result);
+    //     break;
     case "get_events":
-        $RowId = MyPiDeCrypt($_GET['rowid']);
 
-        $query = "SELECT 
-            t.*
-         from hr.public_event1 t where t.id = {$RowId}";
+        $id = isset($_GET['rowid']) ? intval($_GET['rowid']) : 0;
+
+        if ($id <= 0) {
+            echo json_encode([]);
+            exit;
+        }
+
+        $query = "
+            SELECT *
+            FROM hr.public_event1
+            WHERE id = {$id}
+            LIMIT 1
+        ";
+
         $sql->query($query);
-        $result = $sql->fetchAssoc();
+        $event = $sql->fetchAll();
 
+        echo json_encode($event);
+        exit;
 
-        $result['rowid'] = MyPiCrypt($result['id']);
+    break;
 
-        $res = json_encode($result);
-        break;
 
     case "act_events":
         $RowId    = (!empty($_POST['id'])) ? $_POST['id'] : 0;
@@ -674,7 +698,7 @@ switch ($Action) {
         break;
 
     case "del_events":
-        $RowId = MyPiDeCrypt($_GET['rowid']);
+        $RowId = $_GET['rowid'];
 
         $query = "DELETE FROM hr.public_event1 WHERE id = {$RowId}";
         $sql->query($query);

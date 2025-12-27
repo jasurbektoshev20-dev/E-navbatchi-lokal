@@ -2289,6 +2289,81 @@ switch ($Act) {
 		$smarty->assign('events', $events);
 		break;
 
+	
+	case "hr_type_region_events":
+		$typeId = (int)($_GET['type_id'] ?? 0);
+		if ($typeId <= 0) {
+			die('Region topilmadi');
+		}
+
+		$q = "SELECT name1
+			FROM tur.public_event_types
+			WHERE id = {$typeId}
+		";
+		$sql->query($q);
+		$typeName = $sql->fetchAll();
+
+		$q = "
+			SELECT 
+				pe.id,
+				s.name1 AS region_name,
+				et.name1 AS event_type,
+				pe.event_direction,
+				pe.object_name,
+				pe.responsible_name,
+				pe.responsible_phone,
+				pe.event_view,
+				pe.start_event,
+				pe.finish_event,
+				pe.event_name,
+				pe.organizer,
+				pe.event_responsible_organization,
+				pe.people_count,
+				pe.responsible_iiv_name,
+				pe.responsible_fvv_name,
+				pe.responsible_mg_name,
+				pe.reserve_name,
+				pe.reserve_count,
+				pe.iiv_count,
+				pe.fvv_count,
+				pe.mg_counts,
+				pe.sapyor_count,
+				pe.spring_count,
+				pe.responsible_msgr_name,
+				pe.responsible_spring_name,
+				ec.name{$slang} as event_category,
+				
+				SUM(
+					COALESCE(pe.mg_counts, 0) +
+					COALESCE(pe.fvv_count, 0) +
+					COALESCE(pe.iiv_count, 0) +
+					COALESCE(pe.sapyor_count, 0) +
+					COALESCE(pe.spring_count, 0)
+				) AS all_troops
+
+
+
+
+			FROM hr.public_event1 pe
+			LEFT JOIN tur.public_event_types et ON et.id = pe.event_type
+			LEFT JOIN tur.event_category ec on ec.id = pe.event_category_id
+			left join hr.structure s on s.id = pe.region_id
+
+			WHERE pe.event_type = {$typeId}
+			GROUP BY pe.id,ec.name{$slang},et.name1,s.name1
+		";
+		$sql->query($q);
+		$events = $sql->fetchAll();
+		// echo '<pre>';
+		// print_r($events);
+		// echo '</pre>';
+		// die();
+
+		$smarty->assign('typeName', $typeName);
+		$smarty->assign('events', $events);
+		break;
+
+
 
 
 
@@ -2456,6 +2531,63 @@ switch ($Act) {
 			// die();
 
 			$smarty->assign('regionName', $regionName);
+			$smarty->assign('events', $events);
+			break;
+
+
+
+		case "hr_type_reyd_events_report":
+			$typeId = (int)($_GET['type_id'] ?? 0);
+			if ($typeId <= 0) {
+				die('turi topilmadi');
+			}
+
+			$q = "SELECT name1 as name
+				FROM ref.reyd_event_types
+				WHERE id = {$typeId}
+			";
+			$sql->query($q);
+			$typeName = $sql->fetchAll(); 
+
+			$q = "
+				SELECT 
+					pe.id,
+					s.name{$slang} as structure_name,
+					str.name{$slang} as region_name,
+					et.name{$slang} AS event_type,
+					CONCAT(r.name{$slang},' ',st.lastname,' ',st.firstname) as responsible_name,
+					pe.exercises_type,
+					pe.start_date,
+					pe.end_date,
+					pe.staff_count,
+					pe.vehicles_count,
+					et.name{$slang} as type,
+					pe.description,
+					COUNT(pe.id) as event_count
+
+
+
+
+				FROM tur.reyd_events pe
+				LEFT JOIN ref.reyd_event_types et ON et.id = pe.type
+				LEFT JOIN hr.structure s on s.id = pe.structure_id
+				left join hr.structure str on str.id = pe.region_id
+				LEFT JOIN hr.staff st on st.id = pe.responsible_id
+				LEFT JOIN ref.ranks r on r.id = st.rank_id
+
+				WHERE pe.type = {$typeId}
+				GROUP BY pe.id,s.name{$slang},et.name{$slang},r.name{$slang},st.lastname,st.firstname,str.name1
+			";
+			$sql->query($q);
+			$events = $sql->fetchAll();
+
+
+			// echo '<pre>';
+			// print_r($events);
+			// echo '</pre>';
+			// die();
+
+			$smarty->assign('typeName', $typeName);
 			$smarty->assign('events', $events);
 			break;
 

@@ -31,9 +31,9 @@ $sql->encode('UTF8');
 // ===============================
 // REGION_ID
 // ===============================
-$regionId = (int)($_GET['region_id'] ?? 0);
-if ($regionId <= 0) {
-    die('region topilmadi');
+$typeId = (int)($_GET['type_id'] ?? 0);
+if ($typeId <= 0) {
+    die('turi topilmadi');
 }
 
 // ===============================
@@ -45,17 +45,19 @@ $slang = '1'; // sizda qanday bo‘lsa shuni qo‘ying
 // REGION NOMI
 // ===============================
 $q = "SELECT name1 as name
-	FROM hr.structure
-    WHERE id = {$regionId}";
+	FROM tur.public_event_types
+	WHERE id = {$typeId}
+		";
 	$sql->query($q);
-	$region = $sql->fetchAll();
+	$type = $sql->fetchAll();
 
-$regionName = $region[0]['name'] ?? '';
+$typeName = $type[0]['name'] ?? '';
 
 // ===============================
 // EVENTLAR
 // ===============================
-$q = "SELECT 
+$q = "
+    SELECT 
         pe.id,
         s.name1 as region_name,
         et.name1 AS event_type,
@@ -82,7 +84,7 @@ $q = "SELECT
         pe.spring_count,
         pe.responsible_msgr_name,
         pe.responsible_spring_name,
-        ec.name1 AS event_category,
+        ec.name{$slang} AS event_category,
         (
             COALESCE(pe.mg_counts, 0) +
             COALESCE(pe.fvv_count, 0) +
@@ -94,16 +96,16 @@ $q = "SELECT
     LEFT JOIN tur.public_event_types et ON et.id = pe.event_type
     LEFT JOIN tur.event_category ec ON ec.id = pe.event_category_id
     left join hr.structure s on s.id = pe.region_id
-    WHERE pe.region_id = {$regionId}
+    WHERE pe.event_type = {$typeId}
     ORDER BY pe.start_event
 ";
 $sql->query($q);
 $events = $sql->fetchAll();
+
 // echo '<pre>';
-// print_r($events);
+// print_r($ $_SERVER['DOCUMENT_ROOT']);
 // echo '</pre>';
 // die();
-
 
 
 // ===============================
@@ -116,8 +118,8 @@ $sheet->setTitle('Public events');
 // ===============================
 // SARLAVHA
 // ===============================
-$sheet->setCellValue('A1', 'Тадбир худуди:');
-$sheet->setCellValue('B1', $regionName);
+$sheet->setCellValue('A1', 'Тадбир тури:');
+$sheet->setCellValue('B1', $typeName);
 $sheet->mergeCells('B1:U1');
 $sheet->getStyle('A1:B1')->getFont()->setBold(true);
 
