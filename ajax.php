@@ -2602,6 +2602,158 @@ break;
 	break;
 
 
+
+
+
+
+
+
+	case "get_reyd_events_date":
+
+		$start_date  = !empty($_POST['start_date']) ? $_POST['start_date'] : null;
+		$finish_date = !empty($_POST['finish_date']) ? $_POST['finish_date'] : null;
+
+
+		/* ================= REGIONS ================= */
+		$query = "SELECT id, name{$slang} AS name FROM hr.structure ";
+
+		if ($UserStructure > 1) {
+			$query .= "
+				WHERE id IN (
+					SELECT id FROM hr.structure WHERE id = {$UserStructure}
+					UNION
+					SELECT id FROM hr.structure WHERE parent = {$UserStructure}
+				)
+				ORDER BY turn
+			";
+		} else {
+			$query .= "
+				WHERE id != 1 
+				AND id < 16
+				ORDER BY turn
+			";
+		}
+
+		$sql->query($query);
+		$Regions = $sql->fetchAll();
+
+
+		/* ================= EVENT TYPES ================= */
+		$query = "SELECT id, name{$slang} AS type FROM ref.reyd_event_types";
+		$sql->query($query);
+		$EventTypes = $sql->fetchAll();
+
+
+
+		/* ================= STRUCTURES ================= */
+		$query = "SELECT t.id, t.name{$slang} AS name FROM hr.structure t ORDER BY t.turn ASC";
+		$sql->query($query);
+		$Structures = $sql->fetchAll();
+
+
+		/* ================= RESPONSIBLE STAFF ================= */
+		$query = "
+			SELECT t.id, CONCAT(t.lastname,' ',t.firstname,' ',t.surname) AS name
+			FROM hr.staff t
+		";
+
+		if ($UserStructure > 1) {
+			$query .= " WHERE t.structure_id = {$UserStructure} ";
+		}
+
+		$query .= " ORDER BY t.id ASC";
+		$sql->query($query);
+
+		$Responsible = $sql->fetchAll();
+
+
+		/* ================= EVENTS ================= */
+		$query = "
+			SELECT 
+				m.id,
+				t.name{$slang} AS type,
+				m.event_direction,
+				m.iiv_count,
+				m.responsible_mg_name,
+				m.sapyor_count AS sapyor,
+				m.fvv_count,
+				m.mg_counts,
+				m.event_view,
+				m.start_event,
+				m.finish_event,
+				m.reserve_count,
+				m.event_name,
+				m.responsible_spring_name,
+				m.event_responsible_organization,
+				ec.name{$slang} AS event_category,
+				m.organizer,
+				m.responsible_name,
+				m.responsible_phone,
+				m.responsible_iiv_name,
+				m.reserve_name,
+				m.responsible_msgr_name,
+				m.responsible_fvv_name,
+				m.people_count,
+				m.spring_count,
+				m.object_name,
+				s.name{$slang} AS region_name,
+				str.name{$slang} AS structure_name,
+				m.lat,
+				m.long,
+				m.comment
+			FROM tur.reyd_events m
+			LEFT JOIN tur._event_types t ON t.id = m.event_type
+			LEFT JOIN hr.structure s ON s.id = m.region_id
+			LEFT JOIN hr.structure str ON str.id = m.structure_id
+			LEFT JOIN tur.event_category ec ON ec.id = m.event_category_id
+			WHERE 1=1
+		";
+
+		/* ======== DATE FILTER ======== */
+		if ($start_date && $finish_date) {
+			$query .= " AND DATE(m.start_event) BETWEEN '{$start_date}' AND '{$finish_date}' ";
+		} else {
+			$query .= " AND DATE(m.start_event) = CURRENT_DATE ";
+		}
+
+		/* ======== USER STRUCTURE FILTER ======== */
+		if ($UserStructure > 1) {
+			$query .= "
+				AND m.region_id IN (
+					SELECT id FROM hr.structure WHERE id = {$UserStructure}
+					UNION
+					SELECT id FROM hr.structure WHERE parent = {$UserStructure}
+				)
+			";
+		}
+
+		$query .= " ORDER BY m.id ASC";
+
+		$sql->query($query);
+		$Events = $sql->fetchAll();
+		
+		// echo '<pre>';
+		// print_r($Events);
+		// echo '</pre>';
+		// die();
+
+		/* =============== SMARTY ================= */
+
+		$res = json_encode([
+				'Events'       => $Events
+			]);
+	break;
+
+
+
+
+
+
+
+
+
+
+
 	case "get_injuries":
 
 	$query = "SELECT
