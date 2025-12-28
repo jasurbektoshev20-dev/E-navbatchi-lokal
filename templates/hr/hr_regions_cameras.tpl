@@ -1275,7 +1275,7 @@
   top: 100%;
   left: 0;
   right: 0;
-  max-height: 220px;
+  max-height: 600px !important;
   overflow-y: auto;
   background: #565555;
   border: 1px solid #ddd;
@@ -1358,7 +1358,31 @@
   display: none;
 }
 
+.search-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 600px;
+  overflow-y: auto;
+  background: #565555;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  list-style: none;
+  padding: 0;
+  margin: 4px 0 0;
+  z-index: 1000;
+  display: none;
+}
 
+.search-dropdown li {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.search-dropdown li:hover {
+  background: #f1f5f9;
+}
   {/literal}
 </style>
 
@@ -1366,31 +1390,39 @@
         
          <div class="row">
               <div class="mb-1 col-4">
-                <label for="viloyatSelect" class="form-label text-warning fs-5">{$Dict.regions}</label>
-                <select id="viloyatSelect" class="form-select">
-                  <option value="">Танланг</option>
-                  {foreach from=$Regions item=Item1 key=ikey1}
-                  <option value="{$Item1.id}">{$Item1.name}</option>
-                  {/foreach}
-                </select>
-              </div>
-                <div class="custom-select col-4">
-                    <input
-                      type="text"
-                      id="objectSearch"
-                      placeholder="Объектни қидириш..."
-                      autocomplete="off"
-                    />
-                    <div id="objectDropdown" class="dropdownName hidden"></div>
-                </div>
+                                <label for="viloyatSelect" class="form-label text-warning fs-5">{$Dict.regions}</label>
+                                <select id="viloyatSelect" class="form-select">
+                                  <option value="">Танланг</option>
+                                  {foreach from=$Regions item=Item1 key=ikey1}
+                                  <option value="{$Item1.id}">{$Item1.name}</option>
+                                  {/foreach}
+                                </select>
+                 </div>
+
+                     <div class="mb-1 col-4 position-relative" id="object-wrapper">
+                                  <label class="form-label text-warning fs-5">Объект номи</label>
+
+                                  <input
+                                    type="text"
+                                    id="object_search"
+                                    class="form-control"
+                                    placeholder="Объектни қидиринг..."
+                                    autocomplete="off"
+                                  >
+
+                                  <!-- select form submit va change uchun -->
+                                  <select id="objectSelect" class="form-select d-none">
+                                    <option value="">Танланг</option>
+                                    {foreach from=$Objects item=Item1}
+                                      <option value="{$Item1.id}">{$Item1.name}</option>
+                                    {/foreach}
+                                  </select>
+
+                                  <ul id="object_list" class="search-dropdown"></ul>
+                 </div>
 
          </div>
          
-
-          {* <select id="objectSelect" class="form-select">
-            <option value="">Объектни танланг</option>
-          </select> *}
-        
 
 
           <div class="row text-center modal fade show" tabindex="-1" aria-modal="true" role="dialog"
@@ -1482,7 +1514,8 @@
     
   {literal}
 
-
+    let urlParams = new URLSearchParams(window.location.search);
+     let objects = [];
 
     let region_id = null;
     let object_id = null;
@@ -1493,131 +1526,155 @@
       getObjects();
     });
 
-    $('#viloyatSelect').on('change', function () {
-      region_id = this.value || null;
-      object_id = null;
+$('#viloyatSelect').on('change', function () {
+  region_id = this.value || null;
+  object_id = null;
 
-      $('#objectSelect').html('<option value="">Объектни танланг</option>');
+  $('#object_search').val('');
+  $('#object_list').empty().hide();
+  $('#objectSelect').html('<option value="">Объектни танланг</option>');
 
-      getObjects();
+  getObjects();
+});
+
+
+
+     $('#objectSelect').on('change', function () {
+      object_id = this.value || null;
+
+      if (!object_id) return;
+
+      getObjectById(object_id);
     });
 
+function getObjects() {
+  let url = `${AJAXPHP}?act=get_jts_map`;
 
-    //  $('#objectSelect').on('change', function () {
-    //   object_id = this.value || null;
+  if (region_id) {
+    url += `&region_id=${region_id}`;
+  }
 
-    //   if (!object_id) return;
+  $.ajax({
+    url,
+    type: 'GET',
+    dataType: 'json',
+    success: function (response) {
+      fetched_camera = response || [];
 
-    //   getObjectById(object_id);
-    // });
+      // 🔥 SEARCH UCHUN ARRAY
+      objects = fetched_camera.map(o => ({
+        id: o.id,
+        name: o.object_name
+      }));
 
-    function getObjects() {
-      let url = `${AJAXPHP}?act=get_jts_map`;
-
-      if (region_id) {
-        url += `&region_id=${region_id}`;
-      }
-
-      $.ajax({
-        url,
-        type: 'GET',
-        dataType: 'json',
-        success: function (response) {
-          if (!response || !response.length) {
-            $('#objectSelect').html('<option value="">Объект топилмади</option>');
-            return;
-          }
-
-          renderObjectSelect(response);
-        },
-        error: function (err) {
-          console.error(err);
-        }
-      });
+      renderObjectSelect(fetched_camera);
+      renderList(objects); // 🔥 faqat shu viloyat obyektlari
+    },
+    error: function (err) {
+      console.error(err);
     }
+  });
+}
 
-    // function renderObjectSelect(objects) {
-    //   let html = '<option value="">Объектни танланг</option>';
 
-    //   objects.forEach(obj => {
-    //     html += `<option value="${obj.id}">${obj.object_name}</option>`;
-    //   });
 
-    //   $('#objectSelect').html(html);
-    // }
 
-  let objectsData = [];
+function filterObjectsByRegion() {
+  let filtered = fetched_camera;
+
+  if (region_id) {
+    filtered = fetched_camera.filter(obj =>
+      obj.structure_id == region_id
+    );
+  }
+
+  renderObjectSelect(filtered);
+}
+
 
 function renderObjectSelect(objects) {
-  objectsData = objects;
-  renderDropdown(objects);
+  let html = '<option value="">Объектни танланг</option>';
+
+  if (!objects.length) {
+    html += '<option value="">Объект топилмади</option>';
+  }
+
+  objects.forEach(obj => {
+    html += `<option value="${obj.id}">${obj.object_name}</option>`;
+  });
+
+  $('#objectSelect').html(html);
 }
 
-function renderDropdown(list) {
-  let html = '';
+ 
+
+const objectSearch = document.getElementById('object_search');
+const objectSelect = document.getElementById('objectSelect');
+const objectList   = document.getElementById('object_list');
+const wrapper      = document.getElementById('object-wrapper');
+
+
+// 🔹 Ro‘yxatni chizish funksiyasi
+function renderList(list) {
+  objectList.innerHTML = '';
 
   if (!list.length) {
-    html = '<div>Объект топилмади</div>';
-  } else {
-    list.forEach(obj => {
-      html += `<div data-id="${obj.id}">${obj.object_name}</div>`;
-    });
+    objectList.style.display = 'none';
+    return;
   }
 
-  $('#objectDropdown').html(html).removeClass('hidden');
+  list.forEach(item => {
+    const li = document.createElement('li');
+    li.textContent = item.name;
+
+    li.onclick = () => {
+      objectSearch.value = item.name;
+      objectSelect.value = item.id;
+
+      objectSelect.dispatchEvent(new Event('change'));
+      objectList.style.display = 'none';
+    };
+
+    objectList.appendChild(li);
+  });
+
+  objectList.style.display = 'block';
 }
 
-// qidiruv
-$('#objectSearch').on('input', function () {
-  const value = this.value.toLowerCase();
 
-  const filtered = objectsData.filter(obj =>
-    obj.object_name.toLowerCase().includes(value)
+
+objectSearch.addEventListener('input', function () {
+  const val = this.value.toLowerCase();
+
+  if (!val) {
+    object_id = null;
+    objectSelect.value = '';
+    renderList(objects); // 🔥 faqat hozirgi viloyat
+    return;
+  }
+
+  renderList(
+    objects.filter(o => o.name.toLowerCase().includes(val))
   );
-
-  renderDropdown(filtered);
 });
 
-// tanlash
-$('#objectDropdown').on('click', 'div[data-id]', function () {
-  const id = $(this).data('id');
-  const name = $(this).text();
 
-  $('#objectSearch').val(name);
-  $('#objectDropdown').addClass('hidden');
 
-  getObjectById(id); // sizning funksiyangiz
+// 🔹 Input bosilganda to‘liq ro‘yxat chiqadi
+objectSearch.addEventListener('focus', function () {
+  renderList(objects);
 });
 
-// tashqariga bosilganda yopish
-$(document).on('click', function (e) {
-  if (!$(e.target).closest('.custom-select').length) {
-    $('#objectDropdown').addClass('hidden');
+// 🔹 Tashqariga bosilganda yopiladi
+document.addEventListener('click', function (e) {
+  if (!e.target.closest('#object-wrapper')) {
+    objectList.style.display = 'none';
   }
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function getObjectById(id) {
   $("#markerLoader").show();
-
   $.ajax({
     url: `${AJAXPHP}?act=get_jts_object_by_id&id=${id}`,
     type: 'GET',
@@ -1644,33 +1701,11 @@ function getObjectById(id) {
 }
 
 
-      function getSplitCount(count) {
-        if (count <= 1) return 1;
-        if (count <= 4) return 4;
-        if (count <= 9) return 9;
-        return 16;
-      }
 
-
-function getOptimalSplit(count) {
-  if (count <= 1) return 1;
-  if (count <= 4) return 4;
-  if (count <= 9) return 9;
-  return 16;
-}
-
-function getSquareSplit(count) {
-  if (count <= 1) return 1;
-  if (count <= 4) return 4;
-  if (count <= 9) return 9;
-  return 16;
-}
-
-function arrangeWindow(count) {
+function arrangeWindow() {
   if (!jsDecoder) return;
-  jsDecoder.JS_ArrangeWindow(count);
+  jsDecoder.JS_ArrangeWindow(4); // 🔥 doim 2x2
 }
-
 
 
 function get_camera() {
@@ -1678,31 +1713,22 @@ function get_camera() {
 
   jsDecoder.JS_StopRealPlayAll();
 
-  const camCount = fetched_camera.length;
-  const split = getSquareSplit(camCount);
+  const maxView = 4; // 🔥 faqat 4 ta kamera
+  arrangeWindow();
 
-  arrangeWindow(split);
-
-  // 🔥 GRID O‘LCHAMLARI
-  const gridSize = Math.sqrt(split); // 2,3,4
-  const totalCells = split;
-
-  // 🔥 KAMERALARNI MARKAZDAN BOSHLASH
-  const startIndex = Math.floor((totalCells - camCount) / 2);
-
-  fetched_camera.forEach((cam, i) => {
+  fetched_camera.slice(0, maxView).forEach((cam, index) => {
     if (!cam || !cam.url) return;
 
-    const windowIndex = startIndex + i;
-
-    if (windowIndex >= totalCells) return;
-
-    jsDecoder.JS_Play(cam.url, { playURL: cam.url }, windowIndex)
-      .catch(() => console.warn('Play failed', cam));
+    jsDecoder.JS_Play(
+      cam.url,
+      { playURL: cam.url },
+      index // 🔥 0,1,2,3
+    ).catch(() => console.warn('Play failed', cam));
   });
 
-  $("#current_camera").html(`Kameralar: ${camCount}`);
+  $("#current_camera").html(`Kameralar: ${Math.min(fetched_camera.length, 4)}`);
 }
+
 
 
 
@@ -1739,16 +1765,14 @@ function initCamera() {
   }
 
   const el = document.getElementById('playWind');
-  const width = el.clientWidth;
-  const height = el.clientHeight;
 
   jsDecoder = new JSPlugin({
     szId: "playWind",
     iType: 2,
-    iWidth: width,
-    iHeight: height,
-    iMaxSplit: 4,
-    iCurrentSplit: 1,
+    iWidth: el.clientWidth,
+    iHeight: el.clientHeight,
+    iMaxSplit: 4,        // 🔥 maksimum 4
+    iCurrentSplit: 4,    // 🔥 boshlanishida 2x2
     szBasePath: "./dist",
     oStyle: {
       border: "#343434",
@@ -1757,11 +1781,12 @@ function initCamera() {
     }
   });
 
-  jsDecoder.JS_Resize(width, height);
+  jsDecoder.JS_Resize(el.clientWidth, el.clientHeight);
 
   get_camera();
   bindDblClick();
 }
+
 
 window.addEventListener('resize', () => {
   if (!jsDecoder) return;
@@ -1789,18 +1814,6 @@ function bindDblClick() {
     { capture: true }
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     {/literal}
