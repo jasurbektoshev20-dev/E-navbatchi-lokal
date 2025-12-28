@@ -1275,7 +1275,7 @@
   top: 100%;
   left: 0;
   right: 0;
-  max-height: 220px;
+  max-height: 600px !important;
   overflow-y: auto;
   background: #565555;
   border: 1px solid #ddd;
@@ -1363,7 +1363,7 @@
   top: 100%;
   left: 0;
   right: 0;
-  max-height: 220px;
+  max-height: 600px;
   overflow-y: auto;
   background: #565555;
   border: 1px solid #ddd;
@@ -1515,7 +1515,7 @@
   {literal}
 
     let urlParams = new URLSearchParams(window.location.search);
-
+     let objects = [];
 
     let region_id = null;
     let object_id = null;
@@ -1526,14 +1526,17 @@
       getObjects();
     });
 
-    $('#viloyatSelect').on('change', function () {
-      region_id = this.value || null;
-      object_id = null;
+$('#viloyatSelect').on('change', function () {
+  region_id = this.value || null;
+  object_id = null;
 
-      $('#objectSelect').html('<option value="">Объектни танланг</option>');
+  $('#object_search').val('');
+  $('#object_list').empty().hide();
+  $('#objectSelect').html('<option value="">Объектни танланг</option>');
 
-      getObjects();
-    });
+  getObjects();
+});
+
 
 
      $('#objectSelect').on('change', function () {
@@ -1544,40 +1547,64 @@
       getObjectById(object_id);
     });
 
-    function getObjects() {
-      let url = `${AJAXPHP}?act=get_jts_map`;
+function getObjects() {
+  let url = `${AJAXPHP}?act=get_jts_map`;
 
-      if (region_id) {
-        url += `&region_id=${region_id}`;
-      }
+  if (region_id) {
+    url += `&region_id=${region_id}`;
+  }
 
-      $.ajax({
-        url,
-        type: 'GET',
-        dataType: 'json',
-        success: function (response) {
-          // if (!response || !response.length) {
-          //   $('#objectSelect').html('<option value="">Объект топилмади</option>');
-          //   return;
-          // }
+  $.ajax({
+    url,
+    type: 'GET',
+    dataType: 'json',
+    success: function (response) {
+      fetched_camera = response || [];
 
-          // renderObjectSelect(response);
-        },
-        error: function (err) {
-          console.error(err);
-        }
-      });
+      // 🔥 SEARCH UCHUN ARRAY
+      objects = fetched_camera.map(o => ({
+        id: o.id,
+        name: o.object_name
+      }));
+
+      renderObjectSelect(fetched_camera);
+      renderList(objects); // 🔥 faqat shu viloyat obyektlari
+    },
+    error: function (err) {
+      console.error(err);
     }
+  });
+}
 
-    function renderObjectSelect(objects) {
-      let html = '<option value="">Объектни танланг</option>';
 
-      objects.forEach(obj => {
-        html += `<option value="${obj.id}">${obj.object_name}</option>`;
-      });
 
-      $('#objectSelect').html(html);
-    }
+
+function filterObjectsByRegion() {
+  let filtered = fetched_camera;
+
+  if (region_id) {
+    filtered = fetched_camera.filter(obj =>
+      obj.structure_id == region_id
+    );
+  }
+
+  renderObjectSelect(filtered);
+}
+
+
+function renderObjectSelect(objects) {
+  let html = '<option value="">Объектни танланг</option>';
+
+  if (!objects.length) {
+    html += '<option value="">Объект топилмади</option>';
+  }
+
+  objects.forEach(obj => {
+    html += `<option value="${obj.id}">${obj.object_name}</option>`;
+  });
+
+  $('#objectSelect').html(html);
+}
 
  
 
@@ -1586,10 +1613,6 @@ const objectSelect = document.getElementById('objectSelect');
 const objectList   = document.getElementById('object_list');
 const wrapper      = document.getElementById('object-wrapper');
 
-// select → JS array
-const objects = Array.from(objectSelect.options)
-  .filter(o => o.value)
-  .map(o => ({ id: o.value, name: o.text }));
 
 // 🔹 Ro‘yxatni chizish funksiyasi
 function renderList(list) {
@@ -1608,9 +1631,7 @@ function renderList(list) {
       objectSearch.value = item.name;
       objectSelect.value = item.id;
 
-      // 🔥 change eventni qo‘lda chaqiramiz
       objectSelect.dispatchEvent(new Event('change'));
-
       objectList.style.display = 'none';
     };
 
@@ -1621,25 +1642,22 @@ function renderList(list) {
 }
 
 
+
 objectSearch.addEventListener('input', function () {
   const val = this.value.toLowerCase();
 
-  // 🔥 AGAR INPUT TOZALANSA
   if (!val) {
-    object_id = null;                 // filter o‘chadi
-    objectSelect.value = '';          // select reset
-    objectList.style.display = 'none';
-
-    objectsBoundsApplied = false;     // 🔥 fitBounds yana ishlashi uchun
-    getObjects();                     // 🔥 HAMMA OBYEKTNI QAYTA OLAMIZ
+    object_id = null;
+    objectSelect.value = '';
+    renderList(objects); // 🔥 faqat hozirgi viloyat
     return;
   }
 
-  // Aks holda qidiruv ishlaydi
   renderList(
     objects.filter(o => o.name.toLowerCase().includes(val))
   );
 });
+
 
 
 // 🔹 Input bosilganda to‘liq ro‘yxat chiqadi
@@ -1683,33 +1701,11 @@ function getObjectById(id) {
 }
 
 
-      function getSplitCount(count) {
-        if (count <= 1) return 1;
-        if (count <= 4) return 4;
-        if (count <= 9) return 9;
-        return 16;
-      }
 
-
-function getOptimalSplit(count) {
-  if (count <= 1) return 1;
-  if (count <= 4) return 4;
-  if (count <= 9) return 9;
-  return 16;
-}
-
-function getSquareSplit(count) {
-  if (count <= 1) return 1;
-  if (count <= 4) return 4;
-  if (count <= 9) return 9;
-  return 16;
-}
-
-function arrangeWindow(count) {
+function arrangeWindow() {
   if (!jsDecoder) return;
-  jsDecoder.JS_ArrangeWindow(count);
+  jsDecoder.JS_ArrangeWindow(4); // 🔥 doim 2x2
 }
-
 
 
 function get_camera() {
@@ -1717,31 +1713,22 @@ function get_camera() {
 
   jsDecoder.JS_StopRealPlayAll();
 
-  const camCount = fetched_camera.length;
-  const split = getSquareSplit(camCount);
+  const maxView = 4; // 🔥 faqat 4 ta kamera
+  arrangeWindow();
 
-  arrangeWindow(split);
-
-  // 🔥 GRID O‘LCHAMLARI
-  const gridSize = Math.sqrt(split); // 2,3,4
-  const totalCells = split;
-
-  // 🔥 KAMERALARNI MARKAZDAN BOSHLASH
-  const startIndex = Math.floor((totalCells - camCount) / 2);
-
-  fetched_camera.forEach((cam, i) => {
+  fetched_camera.slice(0, maxView).forEach((cam, index) => {
     if (!cam || !cam.url) return;
 
-    const windowIndex = startIndex + i;
-
-    if (windowIndex >= totalCells) return;
-
-    jsDecoder.JS_Play(cam.url, { playURL: cam.url }, windowIndex)
-      .catch(() => console.warn('Play failed', cam));
+    jsDecoder.JS_Play(
+      cam.url,
+      { playURL: cam.url },
+      index // 🔥 0,1,2,3
+    ).catch(() => console.warn('Play failed', cam));
   });
 
-  $("#current_camera").html(`Kameralar: ${camCount}`);
+  $("#current_camera").html(`Kameralar: ${Math.min(fetched_camera.length, 4)}`);
 }
+
 
 
 
@@ -1778,16 +1765,14 @@ function initCamera() {
   }
 
   const el = document.getElementById('playWind');
-  const width = el.clientWidth;
-  const height = el.clientHeight;
 
   jsDecoder = new JSPlugin({
     szId: "playWind",
     iType: 2,
-    iWidth: width,
-    iHeight: height,
-    iMaxSplit: 4,
-    iCurrentSplit: 1,
+    iWidth: el.clientWidth,
+    iHeight: el.clientHeight,
+    iMaxSplit: 4,        // 🔥 maksimum 4
+    iCurrentSplit: 4,    // 🔥 boshlanishida 2x2
     szBasePath: "./dist",
     oStyle: {
       border: "#343434",
@@ -1796,11 +1781,12 @@ function initCamera() {
     }
   });
 
-  jsDecoder.JS_Resize(width, height);
+  jsDecoder.JS_Resize(el.clientWidth, el.clientHeight);
 
   get_camera();
   bindDblClick();
 }
+
 
 window.addEventListener('resize', () => {
   if (!jsDecoder) return;
@@ -1828,18 +1814,6 @@ function bindDblClick() {
     { capture: true }
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     {/literal}
