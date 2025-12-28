@@ -325,31 +325,123 @@ switch ($Action) {
 		$res = json_encode($events);
 		break;
 
+	// case "get_duty":
+
+    // $RegId = isset($_GET['id']) ? intval($_GET['id']) : 1;
+
+    // // ===== DUTY STAFF =====
+    // $query = "SELECT 
+    //         t.lastname,
+    //         t.photo,
+    //         t.phone,
+    //         p.name{$slang} as position,
+    //         ra.shortname{$slang} as role
+    //     FROM hr.duty_staff d 
+    //     LEFT JOIN hr.staff t 
+    //         ON (t.id = d.staff1 OR t.id = d.staff2 OR t.id = d.staff3)
+    //     LEFT JOIN hr.positions p ON p.id = t.position_id
+    //     LEFT JOIN ref.ranks ra ON ra.id = t.rank_id
+    //     WHERE d.date = CURRENT_DATE 
+    //       AND d.structure_id = {$RegId}
+    //     ORDER BY p.turn";
+
+    // $sql->query($query);
+    // $Duty = $sql->fetchAll();
+
+    // // ===== CAMERAS =====
+    // $query = "SELECT
+    //         c.id AS camera_id,
+    //         c.name AS camera_name,
+    //         c.cam_code,
+    //         s.id AS structure_id,
+    //         s.name{$slang} AS structure_name,
+    //         c.is_ptz
+    //     FROM hr.structure s
+    //     JOIN hr.duty_part_cameras c
+    //         ON c.structure_id = s.id
+    //     WHERE s.parent = {$RegId} OR s.id = {$RegId}
+    //     ORDER BY s.id, c.id DESC";
+
+    // $sql->query($query);
+    // $CamerasRaw = $sql->fetchAll();
+
+    // // ===== CAMERA URL QO‘SHISH =====
+    // $Cameras = [];
+
+    // foreach ($CamerasRaw as $cam) {
+
+    //     $dataCam = GetCamUrl($cam['cam_code']);
+
+    //     if (isset($dataCam['data']['url'])) {
+    //         $cam['url'] = $dataCam['data']['url'];
+    //         $cam['status'] = 1;
+    //     } else {
+    //         $cam['url'] = '';
+    //         $cam['status'] = 0;
+    //     }
+
+    //     $cam['isptz'] = $cam['is_ptz'] ? 1 : 0;
+
+    //     $Cameras[] = $cam;
+    // }
+
+    // // ===== STAFF ROLE BIRIKTIRISH =====
+    // $staffs = [$Dict['masul'], $Dict['staff_2'], $Dict['staff_3']];
+    // foreach ($Duty as $key => &$item) {
+    //     $item['staff'] = $staffs[$key] ?? null;
+    // }
+
+    // $res = json_encode([
+    //     'Duty' => $Duty,
+    //     'cameras' => $Cameras
+    // ], JSON_UNESCAPED_UNICODE);
+
+    // break;
+
 	case "get_duty":
 
     $RegId = isset($_GET['id']) ? intval($_GET['id']) : 1;
 
-    // ===== DUTY STAFF =====
-    $query = "SELECT 
+    // ===== DUTY STAFF (ANIQ ROLE BILAN) =====
+    $query = "
+        SELECT 
             t.lastname,
             t.photo,
             t.phone,
-            p.name{$slang} as position,
-            ra.shortname{$slang} as role
-        FROM hr.duty_staff d 
-        LEFT JOIN hr.staff t 
-            ON (t.id = d.staff1 OR t.id = d.staff2 OR t.id = d.staff3)
+            p.name{$slang} AS position,
+            ra.shortname{$slang} AS role,
+            CASE
+                WHEN t.id = d.staff1 THEN 'masul'
+                WHEN t.id = d.staff2 THEN 'staff_2'
+                WHEN t.id = d.staff3 THEN 'staff_3'
+            END AS staff_type
+        FROM hr.duty_staff d
+        JOIN hr.staff t 
+            ON t.id IN (d.staff1, d.staff2, d.staff3)
         LEFT JOIN hr.positions p ON p.id = t.position_id
         LEFT JOIN ref.ranks ra ON ra.id = t.rank_id
-        WHERE d.date = CURRENT_DATE 
+        WHERE d.date = CURRENT_DATE
           AND d.structure_id = {$RegId}
-        ORDER BY p.turn";
+        ORDER BY 
+            CASE
+                WHEN t.id = d.staff1 THEN 1
+                WHEN t.id = d.staff2 THEN 2
+                WHEN t.id = d.staff3 THEN 3
+            END
+    ";
 
     $sql->query($query);
     $Duty = $sql->fetchAll();
 
+    // ===== STAFF NOMINI BIRIKTIRISH =====
+    foreach ($Duty as &$item) {
+        $item['staff'] = $Dict[$item['staff_type']] ?? null;
+        unset($item['staff_type']);
+    }
+
     // ===== CAMERAS =====
-    $query = "SELECT
+    $query = "
+        SELECT
             c.id AS camera_id,
             c.name AS camera_name,
             c.cam_code,
@@ -359,8 +451,10 @@ switch ($Action) {
         FROM hr.structure s
         JOIN hr.duty_part_cameras c
             ON c.structure_id = s.id
-        WHERE s.parent = {$RegId} OR s.id = {$RegId}
-        ORDER BY s.id, c.id DESC";
+        WHERE s.parent = {$RegId}
+           OR s.id = {$RegId}
+        ORDER BY s.id, c.id DESC
+    ";
 
     $sql->query($query);
     $CamerasRaw = $sql->fetchAll();
@@ -372,7 +466,7 @@ switch ($Action) {
 
         $dataCam = GetCamUrl($cam['cam_code']);
 
-        if (isset($dataCam['data']['url'])) {
+        if (!empty($dataCam['data']['url'])) {
             $cam['url'] = $dataCam['data']['url'];
             $cam['status'] = 1;
         } else {
@@ -381,22 +475,19 @@ switch ($Action) {
         }
 
         $cam['isptz'] = $cam['is_ptz'] ? 1 : 0;
+        unset($cam['is_ptz']);
 
         $Cameras[] = $cam;
     }
 
-    // ===== STAFF ROLE BIRIKTIRISH =====
-    $staffs = [$Dict['masul'], $Dict['staff_2'], $Dict['staff_3']];
-    foreach ($Duty as $key => &$item) {
-        $item['staff'] = $staffs[$key] ?? null;
-    }
-
+    // ===== RESPONSE =====
     $res = json_encode([
-        'Duty' => $Duty,
-        'cameras' => $Cameras
+        'Duty'    => $Duty,
+        'cameras'=> $Cameras
     ], JSON_UNESCAPED_UNICODE);
 
     break;
+
 
 
 
