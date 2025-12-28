@@ -416,10 +416,16 @@
         textStyle: { fontSize: 18, fontWeight: 'bold', color: '#b7b7b7' },
       },
       legend: {
-        bottom: 0,
+        bottom: 20,
         left: 'center',
-        padding: [20, 0, 0, 0],
-        textStyle: { color: '#b7b7b7', fontSize: 18 }
+        textStyle: {
+          color: '#b7b7b7',
+          fontSize: 18
+        }
+      },
+      grid: {
+        bottom: 80,
+        containLabel: true
       },
       tooltip: {
         backgroundColor: 'white',
@@ -511,7 +517,7 @@
       xAxis: {
         type: 'category',
         data: statRegion.map(item => item.name),
-        axisLabel: { interval: 0, fontSize: 18, rotate: 45, color: '#b7b7b7' },
+        axisLabel: { interval: 0, fontSize: 16, rotate: 45, color: '#b7b7b7' },
         axisLine: { show: false },
         splitLine: { show: false }
       },
@@ -655,9 +661,16 @@
         textStyle: { fontSize: 18, fontWeight: 'bold', color: '#b7b7b7' },
       },
       legend: {
-        top: 'bottom',
+        bottom: 20,
         left: 'center',
-        textStyle: { color: '#b7b7b7', fontSize: 18 }
+        textStyle: {
+          color: '#b7b7b7',
+          fontSize: 18
+        }
+      },
+      grid: {
+        bottom: 80,
+        containLabel: true
       },
        tooltip: {
           backgroundColor: 'white',
@@ -748,7 +761,7 @@
       xAxis: {
         type: 'category',
         data: statRegion.map(item => item.name),
-        axisLabel: { interval: 0, fontSize: 18, rotate: 45, color: '#b7b7b7' },
+        axisLabel: { interval: 0, fontSize: 16, rotate: 45, color: '#b7b7b7' },
         axisLine: { show: false },
         splitLine: { show: false }
       },
@@ -883,10 +896,17 @@
         top: '32%',
         textStyle: { fontSize: 18, fontWeight: 'bold', color: '#b7b7b7' },
       },
-      legend: {
-        top: 'bottom',
+     legend: {
+        bottom: 20,
         left: 'center',
-        textStyle: { color: '#b7b7b7', fontSize: 18 }
+        textStyle: {
+          color: '#b7b7b7',
+          fontSize: 18
+        }
+      },
+      grid: {
+        bottom: 80,
+        containLabel: true
       },
        tooltip: {
           backgroundColor: 'white',
@@ -977,7 +997,7 @@
       xAxis: {
         type: 'category',
         data: statRegion.map(item => item.name),
-        axisLabel: { interval: 0, fontSize: 18, rotate: 45, color: '#b7b7b7' },
+        axisLabel: { interval: 0, fontSize: 16, rotate: 45, color: '#b7b7b7' },
         axisLine: { show: false },
         splitLine: { show: false }
       },

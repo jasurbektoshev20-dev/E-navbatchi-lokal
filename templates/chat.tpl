@@ -127,19 +127,9 @@
     user-select: none;
 }
 
-/* #playWind {
-    float: left;
-    display: inline-block;
-    text-align: center !important;
-    position: relative;
-}
-
-#playWind .parent-wnd {
-    text-align: center !important;
-} */
 .camera-box {
     width: 100%;
-    height: 50vh; /* faqat shu yerda */
+    height: 500px; /* faqat shu yerda */
 }
 
 #playWind {
@@ -182,6 +172,106 @@
 :fullscreen #playWind .parent-wnd {
     width: 100% !important;
     height: 100% !important;
+}
+
+.time-wrapper.horizontal {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 900px;
+  margin: 30px auto;
+}
+
+/* CARD */
+.time-card.wide {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(90deg, #0c1934, #09152a);
+  border-radius: 18px;
+  padding: 20px 28px;
+  height: 100px;
+  box-shadow: 0 0 25px rgba(79,124,255,0.25);
+}
+
+/* LEFT */
+.time-left {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.time-title {
+  color: #8ea8ff;
+  font-size: 15px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* TIME */
+.time-display {
+  font-size: 34px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  color: #ffffff;
+}
+
+.time-display.fast {
+  color: #ff4d4d; /* qizil */
+  text-shadow: 0 0 8px rgba(255, 77, 77, 0.7);
+}
+
+/* ICON */
+.time-icon {
+  font-size: 40px;
+  opacity: 0.7;
+}
+
+/* BUTTONS */
+.time-controls.horizontal {
+  display: flex;
+  gap: 12px;
+}
+
+.time-controls.horizontal button {
+  background: #0e1a32;
+  border: 1px solid #4f7cff;
+  color: #fff;
+  font-size: 18px;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.time-controls.horizontal button:hover {
+  background: #4f7cff;
+  box-shadow: 0 0 12px #4f7cff;
+}
+
+.time-controls button.active {
+  background: #4f7cff;
+  box-shadow: 0 0 14px #4f7cff;
+  transform: scale(1.05);
+}
+
+/* start active */
+.time-controls button.active.start {
+  background:  #ff4d4d;;
+  box-shadow: 0 0 8px rgba(255, 77, 77, 0.7);
+}
+
+/* stop active */
+.time-controls button.active.stop {
+  background: #ffb84d;
+  box-shadow: 0 0 14px rgba(255,184,77,.8);
+}
+
+/* reset hover */
+.time-controls button.reset:hover {
+  background: #ff5c5c;
+  box-shadow: 0 0 14px rgba(255,92,92,.8);
 }
 
 
@@ -234,6 +324,36 @@
             <div class="camera-box position-relative">
                 <div id="playWind"></div>
             </div>
+
+
+        <div class="time-wrapper horizontal">
+            <!-- MAHALLIY VAQT -->
+            <div class="time-card wide">
+                <div class="time-left">
+                <div class="time-title"> Маҳаллий вақт</div>
+                <div class="time-display" id="localTime">00:00:00</div>
+                </div>
+                <div class="time-icon">🕒</div>
+            </div>
+
+            <!-- TEZKOR VAQT -->
+            <div class="time-card wide">
+                <div class="time-left">
+                <div class="time-title">Тезкор вақт</div>
+                <div class="time-display fast" id="fastTime">00:00:00</div>
+                </div>
+
+              <div class="time-controls horizontal">
+                <button id="startBtn" class="start">▶</button>
+                <button id="stopBtn" class="stop">⏸</button>
+                <button id="resetBtn" class="reset">🔄</button>
+             </div>
+
+            </div>
+        </div>
+
+
+            
             </div>
 
 
@@ -305,6 +425,93 @@
     var no_data_found = "{$Dict.no_data_found}"
     let staffphoto = `/pictures/staffs/{$smarty.session.staffphoto}` || "/assets/assets/img/avatars/1.png"
     {literal}
+
+const startBtn = document.getElementById('startBtn');
+const stopBtn  = document.getElementById('stopBtn');
+const resetBtn = document.getElementById('resetBtn');
+
+function clearActive() {
+  startBtn.classList.remove('active');
+  stopBtn.classList.remove('active');
+}
+
+startBtn.addEventListener('click', () => {
+  clearActive();
+  startBtn.classList.add('active');
+  startBtn.classList.add('start');
+});
+
+stopBtn.addEventListener('click', () => {
+  clearActive();
+  stopBtn.classList.add('active');
+  stopBtn.classList.add('stop');
+});
+
+resetBtn.addEventListener('click', () => {
+  clearActive();
+});
+
+
+function updateLocalTime() {
+  const now = new Date();
+  const time =
+    String(now.getHours()).padStart(2, '0') + ':' +
+    String(now.getMinutes()).padStart(2, '0') + ':' +
+    String(now.getSeconds()).padStart(2, '0');
+
+  document.getElementById('localTime').innerText = time;
+}
+setInterval(updateLocalTime, 1000);
+updateLocalTime();
+
+/* ===========================
+   TEZKOR VAQT (STOPWATCH)
+=========================== */
+let timer = null;
+let seconds = 0;
+
+function renderFastTime() {
+  const h = String(Math.floor(seconds / 3600)).padStart(2, '0');
+  const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+  const s = String(seconds % 60).padStart(2, '0');
+  document.getElementById('fastTime').innerText = `${h}:${m}:${s}`;
+}
+
+document.getElementById('startBtn').onclick = () => {
+  if (timer) return;
+  timer = setInterval(() => {
+    seconds++;
+    renderFastTime();
+  }, 1000);
+};
+
+document.getElementById('stopBtn').onclick = () => {
+  clearInterval(timer);
+  timer = null;
+};
+
+document.getElementById('resetBtn').onclick = () => {
+  clearInterval(timer);
+  timer = null;
+  seconds = 0;
+  renderFastTime();
+};
+
+renderFastTime();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         let isDragging = false;
         let offsetX = 0;

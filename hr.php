@@ -2730,7 +2730,34 @@ switch ($Act) {
 		break;
 
 
+     case "hr_regions_cameras":
+		$query  = "SELECT t.id, t.object_name as name
+		FROM hr.jts_objects t where t.id != 20
+		ORDER BY t.id desc";
+		$sql->query($query);
+		$Objects = $sql->fetchAll();
 
+		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.v_head_structure t 
+		where t.id > 1 and t.id < 16
+		ORDER BY t.turn ASC";
+		$sql->query($query);
+		$Regions = $sql->fetchAll();
+
+		$query  = "SELECT t.id, t.name{$slang} as name FROM hr.involved_objects t ORDER BY t.id ASC";
+		$sql->query($query);
+		$ObjectTypes = $sql->fetchAll();
+
+		// echo '<pre>';
+		// print_r($Objects);
+		// echo '</pre>';
+		// die();
+
+		$smarty->assign(array(
+			'Objects' => $Objects,
+			'Regions' => $Regions,
+			'ObjectTypes' => $ObjectTypes,
+		));
+		break;
 	
 		
 }

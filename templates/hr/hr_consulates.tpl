@@ -566,6 +566,33 @@
     border-radius: 0.375rem;
 }
 
+.camera-menu {
+  position: absolute;
+        top: -20px;
+    left: -180px;
+
+  background: #1f2937;
+  border-radius: 10px;
+  padding: 6px 0;
+  min-width: 160px;
+  box-shadow: 0 10px 25px rgba(0,0,0,.4);
+  z-index: 999;
+}
+
+.camera-menu div {
+  padding: 8px 14px;
+  cursor: pointer;
+  color: #fff;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.camera-menu div:hover {
+  background: #374151;
+}
+
 
 
     {/literal}
@@ -806,6 +833,35 @@
 
     {literal}
 
+
+        function toggleCameraMenu(id, el) {
+            // boshqa ochiq menyularni yopamiz
+            document.querySelectorAll('.camera-menu').forEach(m => m.classList.add('d-none'));
+
+            const menu = el.parentElement.querySelector('.camera-menu');
+            menu.classList.toggle('d-none');
+            }
+
+            // tashqariga bosilganda yopiladi
+            document.addEventListener('click', function (e) {
+            if (!e.target.closest('.popup-btn')) {
+                document.querySelectorAll('.camera-menu').forEach(m => m.classList.add('d-none'));
+            }
+            });
+
+            // 🔥 FUNKSIYALAR
+            function openExternalCam(id) {
+            console.log('Tashqi kamera:', id);
+            openBodyCam(id); // hozirgi funksiyang
+            }
+
+            function openInternalCam(id) {
+            console.log('Ichki kamera:', id);
+            // yangi funksiya
+            openInternalBodyCam(id);
+            }
+
+
       let urlParams = new URLSearchParams(window.location.search);
 
 
@@ -929,15 +985,31 @@
                             <h3>${marker.object_name}</h3>
                         </div>
                         <hr class="my-0 hr-line" />
-                        <div class="col-4 mt-3 popup-btn d-flex gap-2">
-                        <h6 class="icon-btn" onclick="openBodyCam(${marker.id})">
-                            <i class="ti ti-camera"></i>
-                        </h6>
-                        <h6 class="icon-btn" onclick='openStaffInfo(${marker.id})'>
-                            <i class="ti ti-users"></i>
-                        </h6>
-                    
-                        </div>
+
+                      <div class="col-4 mt-3 popup-btn d-flex gap-2 position-relative">
+
+                            <!-- CAMERA BUTTON -->
+                            <h6 class="icon-btn" onclick="toggleCameraMenu(${marker.id}, this)">
+                                <i class="ti ti-camera"></i>
+                            </h6>
+
+                            <!-- DROPDOWN -->
+                            <div class="camera-menu d-none">
+                                <div onclick="openExternalCam(${marker.id})">
+                                <i class="ti ti-video"></i> Ташқи камера
+                                </div>
+                                <div onclick="openInternalCam(${marker.id})">
+                                <i class="ti ti-device-camera-phone"></i> Ички камера
+                                </div>
+                            </div>
+
+                            <!-- STAFF -->
+                            <h6 class="icon-btn" onclick="openStaffInfo(${marker.id})">
+                                <i class="ti ti-users"></i>
+                            </h6>
+                      </div>
+
+
                     </div>`;
         }
         // --- Pop up element maker
@@ -1019,36 +1091,35 @@
                                         `;
 
                                         let htmlForce = `
+                                
+
                                             <div class="embassy-item">
                                                 <div class="embassy-label">Масъул</div>
-                                                <div class="embassy-value">${obj.responsible_name?? '-'}</div>
+                                                <div class="embassy-value">${obj.responsible_name ?? '-'}</div>
+                                                 <div class="embassy-value">
+                                                    <a href="tel:${obj.responsible_phone}">  <i class="ti ti-phone"></i>  ${obj.responsible_phone ?? '-'}</a> 
+                                                 </div>
                                             </div>
 
-                                            <div class="embassy-item">
-                                                <div class="embassy-label">Маъсул телефон рақами</div>
-                                                <div class="embassy-value">${obj.responsible_phone ?? '-'}</div>
+                                               <div class="embassy-item">
+                                                <div class="embassy-label">Гуруҳ бошлиғи</div>
+                                                <div class="embassy-value">${obj.group_leader_name ?? 'I дар сержант Эрматов Дилшод Юлдашевич'}</div>
+                                                 <div class="embassy-value">
+                                                   <a href="tel:${obj.group_leader_phone}">   <i class="ti ti-phone"></i>  ${obj.group_leader_phone ?? '91 435 76 98'}</a> 
+                                                 </div>
                                             </div>
 
+                                         
                                             <div class="embassy-item">
-                                                <div class="embassy-label">Гуруҳ бошлиғи I-дар сержант</div>
-                                                <div class="embassy-value">${obj?.group_leader_name?? '-'}</div>
+                                                <div class="embassy-label">12-йўналиш патрул</div>
+                                                <div class="embassy-value">${obj.soldier_name1 ?? "МҲХ Ҳасанов Шоҳрух Эргаш ўғли"}</div>
                                             </div>
 
-                                            <div class="embassy-item">
-                                                <div class="embassy-label">Гуруҳ бошлиғи телефон рақами</div>
-                                                <div class="embassy-value">${obj?.group_leader_phone ?? '-'}</div>
+                                             <div class="embassy-item">
+                                                <div class="embassy-label">13-йўналиш патрул</div>
+                                                <div class="embassy-value">${obj.soldier_name1 ?? "МҲХ Равшонов Сардор Иззат ўғли"}</div>
                                             </div>
 
-                                            <div class="embassy-item">
-                                                <div class="embassy-label">12-йўналиш патрул МҲХ</div>
-                                                <div class="embassy-value">${obj?.soldier_name1?? '-'}</div>
-                                            </div>
-
-                                            <div class="embassy-item">
-                                                <div class="embassy-label">13-йўналиш патрул МҲХ</div>
-                                                <div class="embassy-value">${obj?.soldier_name1 ?? '-'}</div>
-                                            </div>
-                                           
                                         `
                                         $('#embassy_content').html(html);
                                         $('#force_content').html(htmlForce);
