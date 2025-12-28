@@ -1657,7 +1657,6 @@ document.addEventListener('click', function (e) {
 
 function getObjectById(id) {
   $("#markerLoader").show();
-
   $.ajax({
     url: `${AJAXPHP}?act=get_jts_object_by_id&id=${id}`,
     type: 'GET',
