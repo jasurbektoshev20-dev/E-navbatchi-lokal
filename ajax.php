@@ -328,22 +328,51 @@ switch ($Action) {
 	case "get_duty":
 
     $RegId = isset($_GET['id']) ? intval($_GET['id']) : 1;
+	$query = "SELECT 
+			t.lastname,
+			t.photo,
+			t.phone,
+			p.name{$slang} AS position,
+			ra.shortname{$slang} AS role,
+			1 AS staff_order
+		FROM hr.duty_staff d
+		JOIN hr.staff t ON t.id = d.staff1
+		LEFT JOIN hr.positions p ON p.id = t.position_id
+		LEFT JOIN ref.ranks ra ON ra.id = t.rank_id
+		WHERE d.date = CURRENT_DATE AND d.structure_id = {$RegId}
 
-    // ===== DUTY STAFF =====
-    $query = "SELECT 
-            t.lastname,
-            t.photo,
-            t.phone,
-            p.name{$slang} as position,
-            ra.shortname{$slang} as role
-        FROM hr.duty_staff d 
-        LEFT JOIN hr.staff t 
-            ON (t.id = d.staff1 OR t.id = d.staff2 OR t.id = d.staff3)
-        LEFT JOIN hr.positions p ON p.id = t.position_id
-        LEFT JOIN ref.ranks ra ON ra.id = t.rank_id
-        WHERE d.date = CURRENT_DATE 
-          AND d.structure_id = {$RegId}
-        ORDER BY p.turn";
+		UNION ALL
+
+		SELECT 
+			t.lastname,
+			t.photo,
+			t.phone,
+			p.name{$slang} AS position,
+			ra.shortname{$slang} AS role,
+			2 AS staff_order
+		FROM hr.duty_staff d
+		JOIN hr.staff t ON t.id = d.staff2
+		LEFT JOIN hr.positions p ON p.id = t.position_id
+		LEFT JOIN ref.ranks ra ON ra.id = t.rank_id
+		WHERE d.date = CURRENT_DATE AND d.structure_id = {$RegId}
+
+		UNION ALL
+
+		SELECT 
+			t.lastname,
+			t.photo,
+			t.phone,
+			p.name{$slang} AS position,
+			ra.shortname{$slang} AS role,
+			3 AS staff_order
+		FROM hr.duty_staff d
+		JOIN hr.staff t ON t.id = d.staff3
+		LEFT JOIN hr.positions p ON p.id = t.position_id
+		LEFT JOIN ref.ranks ra ON ra.id = t.rank_id
+		WHERE d.date = CURRENT_DATE AND d.structure_id = {$RegId}
+
+		ORDER BY staff_order
+		";
 
     $sql->query($query);
     $Duty = $sql->fetchAll();
@@ -386,10 +415,19 @@ switch ($Action) {
     }
 
     // ===== STAFF ROLE BIRIKTIRISH =====
-    $staffs = [$Dict['masul'], $Dict['staff_2'], $Dict['staff_3']];
-    foreach ($Duty as $key => &$item) {
-        $item['staff'] = $staffs[$key] ?? null;
-    }
+    // $staffs = [$Dict['staff_1'], $Dict['staff_2'], $Dict['staff_3']];
+    // foreach ($Duty as $key => &$item) {
+    //     $item['staff'] = $staffs[$key] ?? null;
+    // }
+	$staffs = [
+    1 => $Dict['staff_1'], // Масъул
+    2 => $Dict['staff_2'], // Навбатчи
+    3 => $Dict['staff_3']  // Навбатчи ёрдамчиси
+];
+
+foreach ($Duty as &$item) {
+    $item['staff'] = $staffs[$item['staff_order']] ?? null;
+}
 
     $res = json_encode([
         'Duty' => $Duty,
@@ -407,7 +445,6 @@ switch ($Action) {
 
 		$res = json_encode($PatrulTypes);
 		break;
-
 
 		 
 	case "crime_by_week":
@@ -513,6 +550,7 @@ switch ($Action) {
 
 		$res = json_encode($result);
 		break;
+
 
 	case "power":
 		$query  = "SELECT TO_CHAR(t.date, 'DD.MM.YYYY') AS date,
@@ -1139,6 +1177,7 @@ break;
 
 		$res = json_encode($data);
 		break;
+		
 	case "get_staff":
 		$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
 		$division_id = isset($_GET['division_id']) ? $_GET['division_id'] : 0;
@@ -2458,8 +2497,8 @@ break;
 		
 	case "get_events_date":
 
-		$start_date  = !empty($_POST['start_date']) ? $_POST['start_date'] : null;
-		$finish_date = !empty($_POST['finish_date']) ? $_POST['finish_date'] : null;
+		// $start_date  = !empty($_POST['start_date']) ? $_POST['start_date'] : null;
+		// $finish_date = !empty($_POST['finish_date']) ? $_POST['finish_date'] : null;
 
 
 		/* ================= REGIONS ================= */
@@ -2567,11 +2606,11 @@ break;
 		";
 
 		/* ======== DATE FILTER ======== */
-		if ($start_date && $finish_date) {
-			$query .= " AND DATE(m.start_event) BETWEEN '{$start_date}' AND '{$finish_date}' ";
-		} else {
-			$query .= " AND DATE(m.start_event) = CURRENT_DATE ";
-		}
+		// if ($start_date && $finish_date) {
+		// 	// $query .= " AND DATE(m.start_event) BETWEEN '{$start_date}' AND '{$finish_date}' ";
+		// } else {
+		// 	$query .= " AND DATE(m.start_event) = CURRENT_DATE ";
+		// }
 
 		/* ======== USER STRUCTURE FILTER ======== */
 		if ($UserStructure > 1) {
@@ -2671,33 +2710,16 @@ break;
 		$query = "
 			SELECT 
 				m.id,
+				s.name{$slang} AS region_name,
+				str.name{$slang} AS structure_name,
+				CONCAT(r.name1,' ', staff.lastname,' ',staff.firstname,' ',staff.surname) AS responsible_name,
 				t.name{$slang} AS type,
 				m.event_direction,
 				m.iiv_count,
 				m.responsible_mg_name,
-				m.sapyor_count AS sapyor,
-				m.fvv_count,
-				m.mg_counts,
-				m.event_view,
 				m.start_event,
 				m.finish_event,
-				m.reserve_count,
-				m.event_name,
-				m.responsible_spring_name,
-				m.event_responsible_organization,
-				ec.name{$slang} AS event_category,
-				m.organizer,
-				m.responsible_name,
-				m.responsible_phone,
-				m.responsible_iiv_name,
-				m.reserve_name,
-				m.responsible_msgr_name,
-				m.responsible_fvv_name,
-				m.people_count,
-				m.spring_count,
-				m.object_name,
-				s.name{$slang} AS region_name,
-				str.name{$slang} AS structure_name,
+				
 				m.lat,
 				m.long,
 				m.comment
@@ -2705,7 +2727,8 @@ break;
 			LEFT JOIN tur._event_types t ON t.id = m.event_type
 			LEFT JOIN hr.structure s ON s.id = m.region_id
 			LEFT JOIN hr.structure str ON str.id = m.structure_id
-			LEFT JOIN tur.event_category ec ON ec.id = m.event_category_id
+			LEFT JOIN hr.staff staff ON staff.id = m.responsible_id
+			LEFT JOIN ref.ranks r ON r.id = staff.rank_id
 			WHERE 1=1
 		";
 

@@ -418,7 +418,7 @@
 <script>
     var UserStructure = "{$UserStructure}";
     var StaffID = "{$smarty.session.userid}";
-    var AJAXPHP = "ajax{$AddURL}.php";
+    var AJAXPHP = "ajax.php";
     var staff_1 = "{$Dict.staff_1}"
     var staff_2 = "{$Dict.staff_2}"
     var staff_3 = "{$Dict.staff_3}"
