@@ -1358,7 +1358,31 @@
   display: none;
 }
 
+.search-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 220px;
+  overflow-y: auto;
+  background: #565555;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  list-style: none;
+  padding: 0;
+  margin: 4px 0 0;
+  z-index: 1000;
+  display: none;
+}
 
+.search-dropdown li {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.search-dropdown li:hover {
+  background: #f1f5f9;
+}
   {/literal}
 </style>
 
@@ -1366,31 +1390,39 @@
         
          <div class="row">
               <div class="mb-1 col-4">
-                <label for="viloyatSelect" class="form-label text-warning fs-5">{$Dict.regions}</label>
-                <select id="viloyatSelect" class="form-select">
-                  <option value="">Танланг</option>
-                  {foreach from=$Regions item=Item1 key=ikey1}
-                  <option value="{$Item1.id}">{$Item1.name}</option>
-                  {/foreach}
-                </select>
-              </div>
-                <div class="custom-select col-4">
-                    <input
-                      type="text"
-                      id="objectSearch"
-                      placeholder="Объектни қидириш..."
-                      autocomplete="off"
-                    />
-                    <div id="objectDropdown" class="dropdownName hidden"></div>
-                </div>
+                                <label for="viloyatSelect" class="form-label text-warning fs-5">{$Dict.regions}</label>
+                                <select id="viloyatSelect" class="form-select">
+                                  <option value="">Танланг</option>
+                                  {foreach from=$Regions item=Item1 key=ikey1}
+                                  <option value="{$Item1.id}">{$Item1.name}</option>
+                                  {/foreach}
+                                </select>
+                 </div>
+
+                     <div class="mb-1 col-4 position-relative" id="object-wrapper">
+                                  <label class="form-label text-warning fs-5">Объект номи</label>
+
+                                  <input
+                                    type="text"
+                                    id="object_search"
+                                    class="form-control"
+                                    placeholder="Объектни қидиринг..."
+                                    autocomplete="off"
+                                  >
+
+                                  <!-- select form submit va change uchun -->
+                                  <select id="objectSelect" class="form-select d-none">
+                                    <option value="">Танланг</option>
+                                    {foreach from=$Objects item=Item1}
+                                      <option value="{$Item1.id}">{$Item1.name}</option>
+                                    {/foreach}
+                                  </select>
+
+                                  <ul id="object_list" class="search-dropdown"></ul>
+                 </div>
 
          </div>
          
-
-          {* <select id="objectSelect" class="form-select">
-            <option value="">Объектни танланг</option>
-          </select> *}
-        
 
 
           <div class="row text-center modal fade show" tabindex="-1" aria-modal="true" role="dialog"
@@ -1482,6 +1514,7 @@
     
   {literal}
 
+    let urlParams = new URLSearchParams(window.location.search);
 
 
     let region_id = null;
@@ -1503,13 +1536,13 @@
     });
 
 
-    //  $('#objectSelect').on('change', function () {
-    //   object_id = this.value || null;
+     $('#objectSelect').on('change', function () {
+      object_id = this.value || null;
 
-    //   if (!object_id) return;
+      if (!object_id) return;
 
-    //   getObjectById(object_id);
-    // });
+      getObjectById(object_id);
+    });
 
     function getObjects() {
       let url = `${AJAXPHP}?act=get_jts_map`;
@@ -1523,12 +1556,12 @@
         type: 'GET',
         dataType: 'json',
         success: function (response) {
-          if (!response || !response.length) {
-            $('#objectSelect').html('<option value="">Объект топилмади</option>');
-            return;
-          }
+          // if (!response || !response.length) {
+          //   $('#objectSelect').html('<option value="">Объект топилмади</option>');
+          //   return;
+          // }
 
-          renderObjectSelect(response);
+          // renderObjectSelect(response);
         },
         error: function (err) {
           console.error(err);
@@ -1536,83 +1569,90 @@
       });
     }
 
-    // function renderObjectSelect(objects) {
-    //   let html = '<option value="">Объектни танланг</option>';
+    function renderObjectSelect(objects) {
+      let html = '<option value="">Объектни танланг</option>';
 
-    //   objects.forEach(obj => {
-    //     html += `<option value="${obj.id}">${obj.object_name}</option>`;
-    //   });
+      objects.forEach(obj => {
+        html += `<option value="${obj.id}">${obj.object_name}</option>`;
+      });
 
-    //   $('#objectSelect').html(html);
-    // }
+      $('#objectSelect').html(html);
+    }
 
-  let objectsData = [];
+ 
 
-function renderObjectSelect(objects) {
-  objectsData = objects;
-  renderDropdown(objects);
-}
+const objectSearch = document.getElementById('object_search');
+const objectSelect = document.getElementById('objectSelect');
+const objectList   = document.getElementById('object_list');
+const wrapper      = document.getElementById('object-wrapper');
 
-function renderDropdown(list) {
-  let html = '';
+// select → JS array
+const objects = Array.from(objectSelect.options)
+  .filter(o => o.value)
+  .map(o => ({ id: o.value, name: o.text }));
+
+// 🔹 Ro‘yxatni chizish funksiyasi
+function renderList(list) {
+  objectList.innerHTML = '';
 
   if (!list.length) {
-    html = '<div>Объект топилмади</div>';
-  } else {
-    list.forEach(obj => {
-      html += `<div data-id="${obj.id}">${obj.object_name}</div>`;
-    });
+    objectList.style.display = 'none';
+    return;
   }
 
-  $('#objectDropdown').html(html).removeClass('hidden');
+  list.forEach(item => {
+    const li = document.createElement('li');
+    li.textContent = item.name;
+
+    li.onclick = () => {
+      objectSearch.value = item.name;
+      objectSelect.value = item.id;
+
+      // 🔥 change eventni qo‘lda chaqiramiz
+      objectSelect.dispatchEvent(new Event('change'));
+
+      objectList.style.display = 'none';
+    };
+
+    objectList.appendChild(li);
+  });
+
+  objectList.style.display = 'block';
 }
 
-// qidiruv
-$('#objectSearch').on('input', function () {
-  const value = this.value.toLowerCase();
 
-  const filtered = objectsData.filter(obj =>
-    obj.object_name.toLowerCase().includes(value)
+objectSearch.addEventListener('input', function () {
+  const val = this.value.toLowerCase();
+
+  // 🔥 AGAR INPUT TOZALANSA
+  if (!val) {
+    object_id = null;                 // filter o‘chadi
+    objectSelect.value = '';          // select reset
+    objectList.style.display = 'none';
+
+    objectsBoundsApplied = false;     // 🔥 fitBounds yana ishlashi uchun
+    getObjects();                     // 🔥 HAMMA OBYEKTNI QAYTA OLAMIZ
+    return;
+  }
+
+  // Aks holda qidiruv ishlaydi
+  renderList(
+    objects.filter(o => o.name.toLowerCase().includes(val))
   );
-
-  renderDropdown(filtered);
 });
 
-// tanlash
-$('#objectDropdown').on('click', 'div[data-id]', function () {
-  const id = $(this).data('id');
-  const name = $(this).text();
 
-  $('#objectSearch').val(name);
-  $('#objectDropdown').addClass('hidden');
-
-  getObjectById(id); // sizning funksiyangiz
+// 🔹 Input bosilganda to‘liq ro‘yxat chiqadi
+objectSearch.addEventListener('focus', function () {
+  renderList(objects);
 });
 
-// tashqariga bosilganda yopish
-$(document).on('click', function (e) {
-  if (!$(e.target).closest('.custom-select').length) {
-    $('#objectDropdown').addClass('hidden');
+// 🔹 Tashqariga bosilganda yopiladi
+document.addEventListener('click', function (e) {
+  if (!e.target.closest('#object-wrapper')) {
+    objectList.style.display = 'none';
   }
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function getObjectById(id) {
