@@ -2609,11 +2609,11 @@ break;
 		";
 
 		/* ======== DATE FILTER ======== */
-		// if ($start_date && $finish_date) {
-		// 	// $query .= " AND DATE(m.start_event) BETWEEN '{$start_date}' AND '{$finish_date}' ";
-		// } else {
-		// 	$query .= " AND DATE(m.start_event) = CURRENT_DATE ";
-		// }
+		if ($start_date && $finish_date) {
+			// $query .= " AND DATE(m.start_event) BETWEEN '{$start_date}' AND '{$finish_date}' ";
+		} else {
+			$query .= " AND DATE(m.start_event) = CURRENT_DATE ";
+		}
 
 		/* ======== USER STRUCTURE FILTER ======== */
 		if ($UserStructure > 1) {
