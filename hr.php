@@ -723,12 +723,18 @@ switch ($Act) {
 
 
 	case "hr_duty":
-		$query = "SELECT id, name1 as name1, name2 as name2, name3  as name3 
-		FROM hr.structure ";
+		$query = "SELECT t.id, t.name1 as name1, t.name2 as name2, t.name3  as name3 
+		FROM hr.structure t where 1=1 ";
 		if ($UserStructure > 1) {
-			$query .= " where id = {$UserStructure}";
-		} else {
-			$query .= " where id < 100 order by turn";
+				$query .= "
+					AND t.id IN (
+						SELECT id FROM hr.structure WHERE id = {$UserStructure}
+						UNION
+						SELECT id FROM hr.structure WHERE parent = {$UserStructure}
+					)
+				";
+			} else {
+			$query .= " AND t.id < 100 order by turn";
 		}
 		$sql->query($query);
 		$Regions = $sql->fetchAll();
