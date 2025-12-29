@@ -79,7 +79,7 @@
                                             {$item.region_name}
                                         </a>
                                     </td>
-                                    <td class="text-center">{$item.obj_name}</td>
+                                    <td class="text-center">{$item.object_name}</td>
                                     <td class="text-center">{$item.event_type}</td>     
                                     <td class="text-center">{$item.event_category}</td>     
                                     <td class="text-center">{$item.event_name}</td>
@@ -427,49 +427,60 @@
             });
         }
 
-        $('.datatables-projects tbody').on('click', '.editAction', function() {
-            $('#submitModal').modal('toggle');
-            var RowId = $(this).attr('rel');
+ $('.datatables-projects tbody').on('click', '.editAction', function() {
+    $('#submitModal').modal('toggle');
+    var RowId = $(this).attr('rel');
 
-            $.get("hrajax.php?act=get_events&rowid=" + RowId, function(html) {
-                var sInfo = jQuery.parseJSON(html);
+    $.get("hrajax.php?act=get_events&rowid=" + RowId, function(html) {
+        var response = jQuery.parseJSON(html);
+        
+        // Agar PHP fetchAll() ishlatsa, ma'lumot massivning 0-elementida bo'ladi
+        // Skrinshotga qaraganda sizda response[0] ni olish kerak
+        var sInfo = (Array.isArray(response)) ? response[0] : response;
 
-                $('#region_id').val(sInfo.region_id);
-                $('#object_id').val(sInfo.object_id);
-                $('#event_type').val(sInfo.event_type);
-                $('#event_category').val(sInfo.event_category_id);
-                $('#event_direction').val(sInfo.event_direction);
-                $('#event_view').val(sInfo.event_view);
-                $('#event_responsible_organization').val(sInfo.event_responsible_organization);
-                $('#region_id').trigger("change");
-                $('#object_id').trigger("change");
-                $('#event_type').trigger("change");
-                $('#event_category').trigger("change");
-                $('#event_direction').trigger("change");
-                $('#event_view').trigger("change");
-                $('#event_responsible_organization').trigger("change");
-                $('#start_event_date').val(sInfo.start_event);
-                $('#finish_event_date').val(sInfo.finish_event);
-                $('#event_name').val(sInfo.event_name);
-                $('#responsible_name').val(sInfo.responsible_name);
-                $('#responsible_phone').val(sInfo.responsible_phone);
-                $('#responsible_iiv_name').val(sInfo.responsible_iiv_name);
-                $('#responsible_mg_name').val(sInfo.responsible_mg_name);
-                $('#event_number_mg').val(sInfo.mg_counts);
-                $('#responsible_msgr_name').val(sInfo.responsible_msgr_name);
-                $('#reserve_count').val(sInfo.reserve_count);
-                $('#reserve_name').val(sInfo.reserve_name);
-                $('#responsible_spring_name').val(sInfo.responsible_spring_name);
-                $('#responsible_fvv_name').val(sInfo.responsible_fvv_name);
-                $('#organizer').val(sInfo.organizer);
-                $('#event_participants').val(sInfo.people_count);
-                $('#event_number_iiv').val(sInfo.iiv_count);
-                $('#event_number_fvv').val(sInfo.fvv_count);
-                $('#mg_count').val(sInfo.sapyor_count);
-                $('#event_number_spring').val(sInfo.spring_count);
-                $('#id').val(sInfo.id);
-            });
-        })
+        if (!sInfo) return; // Agar ma'lumot kelmasa to'xtatish
+
+        $('#region_id').val(sInfo.region_id).trigger("change");
+        $('#object_id').val(sInfo.object_id).trigger("change");
+        $('#event_type').val(sInfo.event_type).trigger("change");
+        
+        // Diqqat: bazadagi nom bilan JS dagi nom mosligini tekshiring
+        // Skrinshotingizda 'event_category' kelmoqda, ID emas
+        $('#event_category').val(sInfo.event_category).trigger("change"); 
+        
+        $('#event_direction').val(sInfo.event_direction).trigger("change");
+        $('#event_view').val(sInfo.event_view).trigger("change");
+        $('#event_responsible_organization').val(sInfo.event_responsible_organization).trigger("change");
+        
+        $('#start_event_date').val(sInfo.start_event);
+        $('#finish_event_date').val(sInfo.finish_event);
+        $('#event_name').val(sInfo.event_name);
+        $('#responsible_name').val(sInfo.responsible_name);
+        $('#responsible_phone').val(sInfo.responsible_phone);
+        
+        // Telefon maskasini yangilash (agar IMask ishlatsangiz)
+        if (phoneMask) phoneMask.value = sInfo.responsible_phone || '';
+
+        $('#responsible_iiv_name').val(sInfo.responsible_iiv_name);
+        $('#responsible_mg_name').val(sInfo.responsible_mg_name);
+        $('#event_number_mg').val(sInfo.mg_counts);
+        $('#responsible_msgr_name').val(sInfo.responsible_msgr_name);
+        $('#reserve_count').val(sInfo.reserve_count);
+        $('#reserve_name').val(sInfo.reserve_name);
+        $('#responsible_spring_name').val(sInfo.responsible_spring_name);
+        $('#responsible_fvv_name').val(sInfo.responsible_fvv_name);
+        $('#organizer').val(sInfo.organizer);
+        $('#event_participants').val(sInfo.people_count);
+        $('#event_number_iiv').val(sInfo.iiv_count);
+        $('#event_number_fvv').val(sInfo.fvv_count);
+        
+        // Bazadagi 'sapyor' maydoni inputdagi 'mg_count' ga tushishi kerak
+        $('#mg_count').val(sInfo.sapyor); 
+        
+        $('#event_number_spring').val(sInfo.spring_count);
+        $('#id').val(sInfo.id);
+    });
+})
 
         $('#new').click(function() {
             $('#submitModal').modal('toggle');

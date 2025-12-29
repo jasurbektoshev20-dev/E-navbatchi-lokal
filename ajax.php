@@ -1105,12 +1105,12 @@ break;
 		
 		// Attach raw event
 		// $JtsObject['event_raw'] = $PE;
-
+		$objectId = intval($JtsObject['object_id']);
 		// Cameras — build same structure as get_jts_object_by_id returns, AND also set data.cameras for compatibility
 		$query  = "SELECT t.id, t.cam_code, t.name, t.lat, t.long,
 		case when t.is_ptz then 1 else 0 end as is_ptz
-		FROM hr.public_event_cameras t 
-		WHERE t.event_id = {$JtsObject['id']}";
+		FROM hr.jts_objects_camera t 
+		WHERE t.object_id = {$objectId}";
 		$sql->query($query);
 		$Cams = $sql->fetchAll();
 
@@ -2717,17 +2717,14 @@ break;
 				str.name{$slang} AS structure_name,
 				CONCAT(r.name1,' ', staff.lastname,' ',staff.firstname,' ',staff.surname) AS responsible_name,
 				t.name{$slang} AS type,
-				m.event_direction,
-				m.iiv_count,
-				m.responsible_mg_name,
-				m.start_event,
-				m.finish_event,
-				
-				m.lat,
-				m.long,
-				m.comment
+				m.start_date,
+				m.end_date,
+				m.exercises_type,
+				m.staff_count,
+				m.vehicles_count,
+				m.description
 			FROM tur.reyd_events m
-			LEFT JOIN tur._event_types t ON t.id = m.event_type
+			LEFT JOIN ref.reyd_event_types t ON t.id = m.type
 			LEFT JOIN hr.structure s ON s.id = m.region_id
 			LEFT JOIN hr.structure str ON str.id = m.structure_id
 			LEFT JOIN hr.staff staff ON staff.id = m.responsible_id
@@ -2737,9 +2734,9 @@ break;
 
 		/* ======== DATE FILTER ======== */
 		if ($start_date && $finish_date) {
-			$query .= " AND DATE(m.start_event) BETWEEN '{$start_date}' AND '{$finish_date}' ";
+			$query .= " AND DATE(m.start_date) BETWEEN '{$start_date}' AND '{$finish_date}' ";
 		} else {
-			$query .= " AND DATE(m.start_event) = CURRENT_DATE ";
+			$query .= " AND DATE(m.start_date) = CURRENT_DATE ";
 		}
 
 		/* ======== USER STRUCTURE FILTER ======== */

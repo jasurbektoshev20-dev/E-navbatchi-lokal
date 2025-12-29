@@ -342,7 +342,7 @@ switch ($Act) {
 		$query = "
 			SELECT 
 				m.id,
-				jo.object_name as obj_name,
+				jo.object_name as object_name,
 				t.name{$slang} AS event_type,
 				m.event_direction,
 				m.iiv_count,
@@ -367,7 +367,6 @@ switch ($Act) {
 				m.responsible_fvv_name,
 				m.people_count,
 				m.spring_count,
-				m.object_name,
 				s.name{$slang} AS region_name,
 				m.lat,
 				m.long,
@@ -566,18 +565,22 @@ switch ($Act) {
 		LEFT JOIN ref.reyd_event_types et ON et.id = m.type
 
 		LEFT JOIN ref.ranks r on r.id = d.rank_id
-		where 1=1";
+		where 1=1 ";
 		if ($UserStructure > 1) {
-			$query .= " and m.structure_id = {$UserStructure}";
+			$query .= "AND t.structure_id IN (
+                SELECT id FROM hr.structure WHERE id = {$UserStructure}
+                UNION
+                SELECT id FROM hr.structure WHERE parent = {$UserStructure}
+            )";
 		}
 		$query .= " order by m.id";
 		$sql->query($query);
 		$Events = $sql->fetchAll();
 
-		// echo '<pre>';
-		// print_r($types);
-		// echo '</pre>';
-		// die();
+		echo '<pre>';
+		print_r($Events);
+		echo '</pre>';
+		die();
 
 		$smarty->assign(array(
 			'Regions'        =>    $Regions,

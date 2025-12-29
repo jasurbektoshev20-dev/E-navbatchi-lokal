@@ -512,9 +512,10 @@ switch ($Action) {
 
     //     $res = json_encode($result);
     //     break;
+
     case "get_events":
 
-        $id = isset($_GET['rowid']) ? intval($_GET['rowid']) : 0;
+        $id = isset($_GET['rowid']) ? MyPiDeCrypt($_GET['rowid']) : 0;
 
         if ($id <= 0) {
             echo json_encode([]);
@@ -531,10 +532,8 @@ switch ($Action) {
         $sql->query($query);
         $event = $sql->fetchAll();
 
-        echo json_encode($event);
-        exit;
-
-    break;
+        $res = json_encode($event);
+        break;
 
 
     case "act_events":
@@ -698,7 +697,7 @@ switch ($Action) {
         break;
 
     case "del_events":
-        $RowId = $_GET['rowid'];
+        $RowId = MyPiDeCrypt($_GET['rowid']);
 
         $query = "DELETE FROM hr.public_event1 WHERE id = {$RowId}";
         $sql->query($query);
@@ -980,10 +979,7 @@ case "get_event_duty":
 
 
 
-
-
-
-    /// reyd_events =====================================================
+/// reyd_events =====================================================
     case "get_reyd_events":
         $RowId = MyPiDeCrypt($_GET['rowid']);
 
@@ -1080,6 +1076,110 @@ case "get_event_duty":
         }
         break;
     /// reyd_events =====================================================
+
+
+
+    // /// reyd_events =====================================================
+    // case "get_reyd_events":
+    //     $RowId = MyPiDeCrypt($_GET['rowid']);
+
+    //     $query = "SELECT t.* from tur.reyd_events t where t.id = {$RowId}";
+    //     $sql->query($query);
+    //     $result = $sql->fetchAssoc();
+    //     $result['rowid'] = MyPiCrypt($result['id']);
+
+    //     $res = json_encode($result);
+    //     break;
+
+    // case "act_reyd_events":
+    //     $RowId    = (!empty($_POST['id'])) ? $_POST['id'] : 0;
+    //     $structure_id     = $_POST['structure_id'];
+    //     $responsible_id     = $_POST['responsible_id'];
+    //     $type     = $_POST['type'];
+    //     $exercises_type     = $_POST['exercises_type'];
+    //     $start_date     = $_POST['start_date'];
+    //     $end_date     = $_POST['end_date'];
+    //     $staff_count     = $_POST['staff_count'];
+    //     $vehicles_count     = $_POST['vehicles_count'];
+    //     $description     = $_POST['description'];
+
+    //     if ($RowId != "0") {
+    //         $updquery = "UPDATE tur.reyd_events set
+    //         structure_id = '{$structure_id}',
+    //         responsible_id = '{$responsible_id}',
+    //         type = '{$type}',
+    //         exercises_type = '{$exercises_type}',
+    //         start_date = '{$start_date}',
+    //         end_date = '{$end_date}',
+    //         staff_count = '{$staff_count}',
+    //         vehicles_count = '{$vehicles_count}',
+    //         description = '{$description}'
+    //         WHERE id = {$RowId}";
+    //         $sql->query($updquery);
+    //         if ($sql->error() == "") {
+    //             $res = "0<&sep&>" . MyPiCrypt($RowId);
+    //         } else {
+    //             $res = $sql->error();
+    //         }
+    //     } else {
+    //         $sql->query("SELECT count(*) ccount FROM tur.reyd_events t WHERE 0=1");
+    //         $isNotNew = $sql->fetchAssoc();
+    //         if ($isNotNew['ccount'] == 0) {
+    //             $insquery = "INSERT into tur.reyd_events (
+    //                      structure_id
+    //                     ,responsible_id
+    //                     ,type
+    //                     ,exercises_type
+    //                     ,start_date
+    //                     ,end_date
+    //                     ,staff_count
+    //                     ,vehicles_count
+    //                     ,description
+    //                 ) values (
+    //                      '{$structure_id}'
+    //                     ,'{$responsible_id}'
+    //                     ,'{$type}'
+    //                     ,'{$exercises_type}'
+    //                     ,'{$start_date}'
+    //                     ,'{$end_date}'
+    //                     ,'{$staff_count}'
+    //                     ,'{$vehicles_count}'
+    //                     ,'{$description}'
+    //                 )";
+    //             $sql->query($insquery);
+    //             if ($sql->error() == "") {
+    //                 $sql->query("SELECT CURRVAL('tur.reyd_events_id_seq') AS last_id;");
+    //                 $result = $sql->fetchAssoc();
+    //                 $LastId = $result['last_id'];
+
+    //                 $res = "0<&sep&>" . MyPiCrypt($LastId);
+    //             } else {
+    //                 $res = $sql->error();
+    //             }
+    //         } else {
+    //             $res = 1;
+    //         }
+    //     }
+    //     break;
+
+    // case "del_reyd_events":
+    //     $RowId = MyPiDeCrypt($_GET['rowid']);
+        
+    //     echo '<pre>';
+    //     print_r($RowId);
+    //     echo '</pre>';
+    //     die();
+    //     $query = "DELETE FROM tur.reyd_events WHERE id = {$RowId}";
+    //     $sql->query($query);
+    //     $result = $sql->fetchAssoc();
+
+    //     if ($sql->error() == "") {
+    //         $res = 0;
+    //     } else {
+    //         $res = 2;
+    //     }
+    //     break;
+    // /// reyd_events =====================================================
 
     /// violations ======================================================
     case "get_violations":
