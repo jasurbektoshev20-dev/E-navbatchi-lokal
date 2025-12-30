@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {include file="header.tpl"}
 
 <style>
@@ -646,3 +647,5 @@ $('#clearFilter').on('click', function () {
 </script>
 
 {include file="footer.tpl"}
+=======
+>>>>>>> d791bc6b94910d5f95a2c44399f2a4768c299414

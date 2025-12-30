@@ -1300,6 +1300,35 @@
   background: #f1f5f9;
 }
 
+.count-statistics {
+  position: absolute;            /* o‘ng tomonga yopishadi */
+  top: 30px;                 /* yuqoridan masofa */
+  right: 40px;                /* o‘ngdan masofa */
+  background: #0f0f0f;        /* qora fon */
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  padding: 16px 20px;
+  min-width: 240px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+  z-index: 999;
+}
+
+.count-statistics h4 {
+  margin: 0 0 10px;
+  font-size: 17px;
+  font-weight: 500;
+  color: #eaeaea;
+}
+
+.count-statistics h4:last-child {
+  margin-bottom: 0;
+}
+
+.count-statistics span {
+  color: #00ff99;             /* highlight rang */
+  font-weight: 700;
+  font-size: 18px;
+}
 
 
   {/literal}
@@ -1334,6 +1363,12 @@
               </div>
             </div>
           </div>
+
+         <div class="count-statistics">
+            <h4>Бодикамералар сони: <span id="bodycamCounts">0</span> та</h4>
+            <h4>Машиналар сони: <span id="carCounts">0</span> та</h4>
+          </div>
+
 
           <!-- Modal -->
 
@@ -1833,7 +1868,8 @@
     let dict_distance = "{$Dict.distance}";
     let dict_watch = "{$Dict.watch}";
     let UserStructure = "{$UserStructure}";
-    
+    let bodycamCounts = 0;
+    let carCounts = 0;
     let $jq2 = jQuery.noConflict(true);
     $jq2('#camera_modal').draggable();
   {literal}
@@ -2279,9 +2315,10 @@ function cleanupMissingMarkers(cameras) {
 
       let url = `${AJAXPHP}?act=get_body_cameras_map`;
       if (params.length) url += '&' + params.join('&');
-
+      let bodyCount = document.getElementById('bodycamCounts')
       $.getJSON(url, res => {
           if (res?.success) {
+              bodyCount.innerHTML = res?.data?.length;
               drawBodyCamerasOnMap(res.data);
               cleanupMissingMarkers(res.data); 
           }
@@ -4048,6 +4085,7 @@ map.on('load', () => {
 
         // Create interval for repositioning a car in map
         let moveCarMarkerInterval = setInterval(() => {
+            
             $.ajax({
                 type: "POST",
                 url: `ajax.php?act=get_cars&region=${region_id}`,
@@ -4156,7 +4194,7 @@ map.on('load', () => {
             // allCars = [];
              carsCluster.clearLayers();
              allCars = [];
-
+            let carCounts = document.getElementById('carCounts')
             $.ajax({
                 type: "POST",
                 url: `${gps_url}?region=${region}&isAll=${in_service}`,
@@ -4164,6 +4202,7 @@ map.on('load', () => {
                 encode: true,
                 success: function(data) {                    
                     $("#total_thg").html(`(${data.length})`);
+                    carCounts.innerHTML = data?.length;
                     lastCarsPositions = data;
                     $('#carList').empty();
                     $('#searchCars').empty();
