@@ -43,6 +43,34 @@
   background: #f1f5f9;
 }
 
+.search-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #111;
+  border: 1px solid #333;
+  max-height: 220px;
+  overflow-y: auto;
+  z-index: 9999;
+  display: none;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.search-dropdown li {
+  padding: 8px 12px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.search-dropdown li:hover {
+  background: #00ff88;
+  color: #000;
+}
+
+
     {/literal}          
 </style>
 
@@ -265,41 +293,30 @@
               <input type="text" class="form-control" id="observation_long" placeholder="узунлигини киритинг..." />
             </div>
 
-
-             {* <div class="col-sm-4">
-              <label>Маҳалла</label>
-              <select required class="form-select" id="neighborhood_id">
-                <option value="">Танланг...</option>
-                {foreach from=$neighborhoods item=Item1 key=ikey1}
-                  <option value="{$Item1.id}">{$Item1.name}</option>
-                {/foreach}
-              </select>
-            </div> *}
-            <div class="col-sm-4 position-relative">
+            <div class="col-sm-4 position-relative" id="neighborhood-wrapper">
               <label>Маҳалла</label>
 
+              <!-- 🔍 Search input -->
               <input
                 type="text"
                 id="neighborhood_search"
-                class="form-control"
-                placeholder="Маҳалани қидиринг..."
+                class="form-control mb-1"
+                placeholder="Маҳаллани қидиринг..."
                 autocomplete="off"
               >
 
-              <select
-                
-                class="form-select d-none"
-                id="neighborhood_id"
-                name="neighborhood_id"
-              >
+              <!-- 🔽 Asl select (form submit & edit uchun) -->
+              <select required class="form-select d-none" id="neighborhood_id">
                 <option value="">Танланг...</option>
                 {foreach from=$neighborhoods item=Item1}
                   <option value="{$Item1.id}">{$Item1.name}</option>
                 {/foreach}
               </select>
 
-              <ul id="neighborhood_list" class="neighborhood-list"></ul>
+              <!-- 🔽 Dropdown list -->
+              <ul id="neighborhood_list" class="search-dropdown"></ul>
             </div>
+
 
 
 
@@ -352,53 +369,70 @@
 
     {literal}
 
-    const searchInput = document.getElementById('neighborhood_search');
-const selectEl = document.getElementById('neighborhood_id');
-const listEl = document.getElementById('neighborhood_list');
+    const neighborhoodSelect = document.getElementById('neighborhood_id');
+    const neighborhoodSearch = document.getElementById('neighborhood_search');
+    const neighborhoodList   = document.getElementById('neighborhood_list');
 
-// select dan data olib JS array qilamiz
-const neighborhoods = Array.from(selectEl.options)
-  .filter(o => o.value)
-  .map(o => ({ id: o.value, name: o.text }));
+    // select → array
+    const neighborhoods = Array.from(neighborhoodSelect.options)
+      .filter(o => o.value)
+      .map(o => ({ id: o.value, name: o.text }));
 
-searchInput.addEventListener('input', function () {
-  const val = this.value.toLowerCase();
-  listEl.innerHTML = '';
+    function renderNeighborhoodList(list) {
+      neighborhoodList.innerHTML = '';
 
-  if (!val) {
-    listEl.style.display = 'none';
-    return;
-  }
+      if (!list.length) {
+        neighborhoodList.style.display = 'none';
+        return;
+      }
 
-  const filtered = neighborhoods.filter(n =>
-    n.name.toLowerCase().includes(val)
-  );
+      list.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item.name;
 
-  if (!filtered.length) {
-    listEl.style.display = 'none';
-    return;
-  }
+        li.onclick = () => {
+          neighborhoodSearch.value = item.name;
+          neighborhoodSelect.value = item.id;
 
-  filtered.forEach(item => {
-    const li = document.createElement('li');
-    li.textContent = item.name;
-    li.onclick = () => {
-      searchInput.value = item.name;
-      selectEl.value = item.id;
-      listEl.style.display = 'none';
-    };
-    listEl.appendChild(li);
-  });
+          // 🔥 change event kerak bo‘lsa
+          neighborhoodSelect.dispatchEvent(new Event('change'));
 
-  listEl.style.display = 'block';
-});
+          neighborhoodList.style.display = 'none';
+        };
 
-// tashqariga bosilganda yopish
-document.addEventListener('click', e => {
-  if (!e.target.closest('.position-relative')) {
-    listEl.style.display = 'none';
-  }
-});
+        neighborhoodList.appendChild(li);
+      });
+
+      neighborhoodList.style.display = 'block';
+    }
+
+    // 🔍 typing
+    neighborhoodSearch.addEventListener('input', function () {
+      const val = this.value.toLowerCase();
+
+      if (!val) {
+        neighborhoodSelect.value = '';
+        neighborhoodList.style.display = 'none';
+        return;
+      }
+
+      renderNeighborhoodList(
+        neighborhoods.filter(n => n.name.toLowerCase().includes(val))
+      );
+    });
+
+    // 🔽 focus bo‘lsa – hammasini chiqaradi
+    neighborhoodSearch.addEventListener('focus', function () {
+      renderNeighborhoodList(neighborhoods);
+    });
+
+    // 🖱 tashqariga bosilsa yopiladi
+    document.addEventListener('click', e => {
+      if (!document.getElementById('neighborhood-wrapper').contains(e.target)) {
+        neighborhoodList.style.display = 'none';
+      }
+    });
+
 
 
 
@@ -668,7 +702,17 @@ document.addEventListener('click', e => {
                 const data = response;
                 document.getElementById("structure_id").value = data.structure_id;
                 document.getElementById("object_type").value = data.object_type;
+         
                 document.getElementById("neighborhood_id").value = data.neighborhood_id;
+
+          
+                const selectedOption = neighborhoodSelect.querySelector(
+                  `option[value="${data.neighborhood_id}"]`
+                );
+
+                if (selectedOption) {
+                  neighborhoodSearch.value = selectedOption.text;
+                }
                 document.getElementById("object_name").value = data.object_name;
                 document.getElementById("address").value = data.address;
                 document.getElementById("lamps_count").value = data.lamps_count;

@@ -13,6 +13,28 @@
             margin-left: 20px;
         }
 
+         .search-dropdown {
+            position: absolute;
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid rgba(0,255,136,.3);
+            border-radius: 10px;
+            max-height: 220px;
+            overflow-y: auto;
+            list-style: none;
+            padding: 0;
+            margin-top: 4px;
+            z-index: 9999;
+            display: none;
+        }
+
+        .search-dropdown li {
+        padding: 8px 12px;
+        cursor: pointer;
+        color: #eaffea;
+        }
+
+
     {/literal}
 </style>
 
@@ -122,7 +144,7 @@
                             </select>
                         </div>
 
-                        <div class="col-sm-6">
+                        {* <div class="col-sm-6">
                             <label>{$Dict.masul}</label>
                             <select required class="select form-control" name="responsible_id" id="responsible_id">
                                 <option value="">{$Dict.choose}</option>
@@ -130,6 +152,29 @@
                                     <option value="{$Item1.id}">{$Item1.name} {$Item1.lastname} {$Item1.firstname}</option>
                                 {/foreach}
                             </select>
+                        </div> *}
+                        <div class="col-sm-6 position-relative" id="responsible-wrapper">
+                            <label>{$Dict.masul}</label>
+
+                            <!-- Qidiruv input -->
+                            <input
+                                type="text"
+                                id="responsible_search"
+                                class="form-control mb-1"
+                                placeholder="Жавобгарни қидиринг..."
+                                autocomplete="off"
+                            >
+
+                            <!-- 🟢 Asl select (yashirin) -->
+                            <select id="responsible_id" class="form-select d-none">
+                                <option value="">{$Dict.choose}</option>
+                                {foreach from=$staffs item=Item1 key=ikey1}
+                                    <option value="{$Item1.id}">{$Item1.name} {$Item1.lastname} {$Item1.firstname}</option>
+                                {/foreach}
+                            </select>
+
+                            <!-- 🔽 Dropdown list -->
+                            <ul id="responsible_list" class="search-dropdown"></ul>
                         </div>
                         <div class="col-sm-6">
                             <label>{$Dict.contingent}</label>
@@ -210,6 +255,71 @@
     var Var_ObjectId	= "{$Organization.id}";
     {literal}
 
+           const responsibleSelect = document.getElementById('responsible_id');
+            const responsibleSearch = document.getElementById('responsible_search');
+            const responsibleList   = document.getElementById('responsible_list');
+
+            // select → array
+            const responsibles = Array.from(responsibleSelect.options)
+            .filter(o => o.value)
+            .map(o => ({ id: o.value, name: o.text }));
+
+            function renderResponsible(list) {
+            responsibleList.innerHTML = '';
+
+            if (!list.length) {
+                responsibleList.style.display = 'none';
+                return;
+            }
+
+            list.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item.name;
+
+                li.onclick = () => {
+                responsibleSearch.value = item.name;
+                responsibleSelect.value = item.id;
+
+                // 🔥 agar change event ishlatilsa
+                responsibleSelect.dispatchEvent(new Event('change'));
+
+                responsibleList.style.display = 'none';
+                };
+
+                responsibleList.appendChild(li);
+            });
+
+            responsibleList.style.display = 'block';
+            }
+
+            // 🔍 inputda yozilganda
+            responsibleSearch.addEventListener('input', function () {
+            const val = this.value.toLowerCase();
+
+            if (!val) {
+                responsibleSelect.value = '';
+                responsibleList.style.display = 'none';
+                return;
+            }
+
+            renderResponsible(
+                responsibles.filter(r => r.name.toLowerCase().includes(val))
+            );
+            });
+
+            // 🔹 focus bo‘lsa hammasi chiqadi
+            responsibleSearch.addEventListener('focus', function () {
+            renderResponsible(responsibles);
+            });
+
+            // 🔹 tashqariga bosilsa yopiladi
+            document.addEventListener('click', e => {
+            if (!document.getElementById('responsible-wrapper').contains(e.target)) {
+                responsibleList.style.display = 'none';
+            }
+            });
+
+
     var editStructureId = null;
 
 
@@ -288,8 +398,11 @@
             $('#region_id').trigger("change");
             $('#structure_id').append(`<option value="${sInfo.structure_id}"></option>`);
             // $('#structure_id').val(sInfo.structure_id).trigger("change");
+            // $('#responsible_id').val(sInfo.responsible_id);
+            // $('#responsible_id').trigger("change");
             $('#responsible_id').val(sInfo.responsible_id);
-            $('#responsible_id').trigger("change");
+            const respText = $('#responsible_id option:selected').text();
+            $('#responsible_search').val(respText);
             $('#type').val(sInfo.type);
             $('#type').trigger("change");
             $('#exercises_type').val(sInfo.exercises_type);
