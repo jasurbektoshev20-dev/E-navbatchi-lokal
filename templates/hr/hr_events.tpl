@@ -471,20 +471,14 @@ $('#clearFilter').on('click', function () {
 
 
  $('.datatables-projects tbody').on('click', '.editAction', function (e) {
-        // e.preventDefault();
-        // e.stopPropagation();
-        // e.stopImmediatePropagation();
          e.preventDefault();
-    e.stopImmediatePropagation()
-            console.log('EDIT BOSILDI'); 
-            // $('#submitModal').modal('toggle');
-            $('#submitModal').modal('show');
+         e.stopImmediatePropagation()
+         $('#submitModal').modal('show');
 
-
-            var RowId = $(this).attr('rel');
+        var RowId = $(this).attr('rel');
         
             $.get("hrajax.php?act=get_events&rowid=" + RowId, function(html) {
-                var sInfo = jQuery.parseJSON(html);
+                var sInfo = jQuery.parseJSON(html)[0];
                 console.log("sinfolar: ",sInfo);
                 $('#region_id').val(sInfo.region_id);
                 $('#object_id').val(sInfo.object_id);
