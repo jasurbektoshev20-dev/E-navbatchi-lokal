@@ -2239,10 +2239,10 @@ case "get_event_duty":
         $routine_id = $_POST['routine_id'];
         $patrul_type = $_POST['patrul_type'];
         $direction = $_POST['direction'];
-        $dog_id = $_POST['dog_id'];
-        $horse_count = !empty($_POST['horse_count']) ? $_POST['horse_count'] : null;
-        $smena = $_POST['smena'];
-        $car_id = !empty($_POST['car_id']) ? $_POST['car_id'] : null;
+        $dog_id = !empty($_POST['dog_id']) ? $_POST['dog_id'] : 0;
+        $horse_count = !empty($_POST['horse_count']) ? $_POST['horse_count'] : 0;
+        $smena =!empty($_POST['smena']) ? $_POST['smena'] : null;
+        $car_id = !empty($_POST['car_id']) ? $_POST['car_id'] : 0;
         $bodycam_id = isset($_POST['bodycam_id']) ? $_POST['bodycam_id'] : null;
 
         // echo '<pre>';
@@ -2286,13 +2286,13 @@ case "get_event_duty":
                 routine_id = '{$routine_id}',
                 patrul_type = '{$patrul_type}',
                 direction = '{$direction}',
-                dog_id = '{$dog_id}',
-                horse_count = '{$horse_count}',
-                smena = '{$smena}',
+                dog_id = {$dog_id},
+                horse_count = {$horse_count},
+                smena = " . ($smena === null ? "NULL" : "'$smena'") . ",
                 staff_id = '{$staff_id[0]}',
-                car_id = '{$car_id}',
+                car_id = {$car_id},
                 epikirofka_id = '{$epikirofka_pg_array_string}',
-                bodycam_id = '{$bodycam_id}'
+                bodycam_id = " . ($bodycam_id === null ? "NULL" : "'$bodycam_id'") . " -- BU YERDA VERGUL BO'LMASLIGI KERAK
                 WHERE id = {$RowId}";
             $sql->query($updquery);
             if ($sql->error() == "") {
