@@ -2384,7 +2384,7 @@ $(document).on('click', '.open-bodycam', async function (e) {
     });
 
     setInterval(() => {
-        fetch(`${AJAXPHP}?act=get_body_cameras_map`)
+        fetch(`${AJAXPHP}?act=sync_body_cameras`)
             .then(r => r.json())
             .then(d => {
                 if (d.synced) {
@@ -2392,7 +2392,7 @@ $(document).on('click', '.open-bodycam', async function (e) {
                 }
             })
             .catch(() => {});
-    }, 60000);
+    }, 180000);
 
 
 
