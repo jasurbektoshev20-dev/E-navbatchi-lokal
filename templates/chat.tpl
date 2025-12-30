@@ -867,94 +867,65 @@ $(document).on('mouseup', function () {
 
 
 
-let normalSize = { w: 0, h: 0 };
+
+
+
+   let retryTimers = {};
+
 
     function getLayoutByCount(count) {
-    if (count <= 1) return 1;
-    if (count <= 4) return 2;
-    if (count <= 9) return 3;
-    return 4;
-}
+        if (count <= 1) return 1;
+        if (count <= 4) return 2;
+        if (count <= 9) return 3;
+        return 4;
+    }
 
 let jsDecoder = null;
 
-function initCamera() {
-
-    const el = document.getElementById('playWind');
-    const w = el.clientWidth;
-    const h = el.clientHeight;
-
-    if (jsDecoder) {
-        jsDecoder.JS_StopRealPlayAll();
-        return;
-    }
-
-    jsDecoder = new JSPlugin({
-        szId: "playWind",
-        iType: 2,
-        iWidth: w,
-        iHeight: h,
-        iMaxSplit: 16,
-        szBasePath: "./dist",
-        oStyle: {
-            border: "#343434",
-            borderSelect: "#4caf50",
-            background: "#000"
-        }
-    });
-
-    jsDecoder.JS_Resize(w, h);
-    bindDblClick();
-}
 
 
 
 async function get_camera() {
-
-    if (!jsDecoder || !fetched_camera || !fetched_camera.length) return;
-
-    jsDecoder.JS_StopRealPlayAll();
+    if (!jsDecoder) return;
 
     const camCount = fetched_camera.length;
-    const layout = getLayoutByCount(camCount);
 
-    jsDecoder.JS_ArrangeWindow(layout);
-
- fetched_camera.forEach((cam, index) => {
-
-    const $wnd = $('.parent-wnd > div').eq(index);
-    $wnd.css('position', 'relative');
-
-    const $loading = $('<div class="cam-overlay cam-loading"></div>');
-    $wnd.append($loading);
-
-    // Offline bo‘lsa
-    if (!cam.status || !cam.url) {
-        $loading.removeClass('cam-loading').addClass('cam-offline');
-        retryCamera(cam, index);
+    // 🔴 ENG MUHIM JOY
+    if (
+        lastCamCount !== 0 &&
+        lastCamCount !== camCount &&
+        (lastCamCount === 1 || camCount === 1)
+    ) {
+        console.warn('Decoder FULL RESET (WebGL bug)');
+        resetDecoder();
+        lastCamCount = camCount;
         return;
     }
 
-    jsDecoder.JS_Play(
-        cam.url,
-        { playURL: cam.url },
-        index
-    ).then(
-        () => {
-            $loading.remove();
-        },
-        () => {
-            $loading.removeClass('cam-loading').addClass('cam-offline');
-            retryCamera(cam, index);
-        }
-    );
-});
+    lastCamCount = camCount;
 
+    // retry'larni o‘chiramiz
+    Object.values(retryTimers).forEach(t => clearTimeout(t));
+    retryTimers = {};
+
+    jsDecoder.JS_StopRealPlayAll();
+    $('.cam-overlay').remove();
+
+    if (!camCount) return;
+
+    const layout = getLayoutByCount(camCount);
+    jsDecoder.JS_ArrangeWindow(layout);
+
+    // 🔥 WebGL settle
+    await new Promise(r => setTimeout(r, 120));
+
+    fetched_camera.forEach((cam, index) => {
+        if (!cam.status || !cam.url) return;
+        jsDecoder.JS_Play(cam.url, { playURL: cam.url }, index);
+    });
 
     $(".camera_length").text(camCount);
 }
-
-
 
 
 let isResizing = false;
@@ -972,60 +943,81 @@ function resetDecoder() {
     }, 200);
 }
 
+let resizeTimer = null;
+window.addEventListener('resize', () => {
+    if (!jsDecoder) return;
 
-function fullSreen() {
-    const el = document.getElementById('playWind');
-
-    if (!document.fullscreenElement) {
-        el.requestFullscreen();
-    } else {
-        document.exitFullscreen();
-    }
-}
-
-
-
-document.addEventListener("fullscreenchange", function () {
-    // fullscreen'dan chiqilganda
-    if (!document.fullscreenElement) {
-        resetDecoder();
-    }
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+        const el = document.getElementById('playWind');
+        jsDecoder.JS_Resize(el.clientWidth, el.clientHeight);
+    }, 200);
 });
 
 
-
-
 function bindDblClick() {
-    const el = document.getElementById('playWind');
-    if (!el) return;
+  const el = document.getElementById('playWind');
 
-    el.addEventListener('dblclick', function (e) {
-        e.preventDefault();
-        fullSreen();
-    });
+  if (!el) {
+    console.warn('bindDblClick: #playWind topilmadi');
+    return;
+  }
+
+  el.addEventListener(
+    'dblclick',
+    function (e) {
+      e.preventDefault();
+    },
+    { capture: true }
+  );
 }
 
 
+function retryCamera(cam, index) {
+    if (retryTimers[index]) {
+        clearTimeout(retryTimers[index]);
+    }
 
+    retryTimers[index] = setTimeout(() => {
 
-
-  function retryCamera(cam, index) {
-    setTimeout(() => {
+        // region almashgan bo‘lsa → bekor
+        if (!fetched_camera[index]) return;
+        if (!jsDecoder) return;
 
         const $wnd = $('.parent-wnd > div').eq(index);
         const $loading = $wnd.find('.cam-overlay');
 
         if ($loading.hasClass('cam-offline')) {
             console.log('Retry camera', index);
-            jsDecoder.JS_Play(
-                cam.url,
-                { playURL: cam.url },
-                index
-            );
+            jsDecoder.JS_Play(cam.url, { playURL: cam.url }, index);
         }
 
     }, 5000);
 }
+
+function initCamera() {
+    if (jsDecoder) return;
+
+    const el = document.getElementById('playWind');
+
+    jsDecoder = new JSPlugin({
+        szId: "playWind",
+        iType: 2,
+        iWidth: el.clientWidth,
+        iHeight: el.clientHeight,
+        iMaxSplit: 16,
+        szBasePath: "./dist",
+        oStyle: {
+            border: "#343434",
+            borderSelect: "#4caf50",
+            background: "#000"
+        }
+    });
+
+    jsDecoder.JS_Resize(el.clientWidth, el.clientHeight);
+    bindDblClick();
+}
+
 
 
 
