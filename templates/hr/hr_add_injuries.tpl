@@ -13,6 +13,27 @@
             margin-left: 20px;
         }
 
+        .search-dropdown {
+            position: absolute;
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid rgba(0,255,136,.3);
+            border-radius: 10px;
+            max-height: 220px;
+            overflow-y: auto;
+            list-style: none;
+            padding: 0;
+            margin-top: 4px;
+            z-index: 9999;
+            display: none;
+        }
+
+        .search-dropdown li {
+        padding: 8px 12px;
+        cursor: pointer;
+        color: #eaffea;
+        }
+
     {/literal}
 </style>
 
@@ -124,7 +145,7 @@
                                 name="event_date" />
                          </div>
                       
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <label>Тури</label>
                             <select required class="select form-control" name="injury_type" id="injury_type">
                                 <option value="">{$Dict.choose}</option>
@@ -135,16 +156,39 @@
                         </div> 
                    
                  
-                         <div class="col-sm-4">
+                         {* <div class="col-sm-4">
                             <label>Ҳарбий хизматчи ФИШ</label>
                               <select id="troops_id" class="select form-control">
                                 {foreach from=$Staffs item=Item key=key name=name}
                                     <option value="{$Item.id}">{$Item.name}</option>
                                 {/foreach}
                             </select>
+                        </div> *}
+                          <div class="col-sm-6 position-relative" id="responsible-wrapper">
+                            <label>Ҳарбий хизматчи ФИШ</label>
+
+                            <!-- Qidiruv input -->
+                            <input
+                                type="text"
+                                id="responsible_search"
+                                class="form-control mb-1"
+                                placeholder="Жавобгарни қидиринг..."
+                                autocomplete="off"
+                            >
+
+                            <!-- 🟢 Asl select (yashirin) -->
+                            <select id="troops_id" class="form-select d-none">
+                                <option value="">{$Dict.choose}</option>
+                                  {foreach from=$Staffs item=Item key=key name=name}
+                                    <option value="{$Item.id}">{$Item.name}</option>
+                                {/foreach}
+                            </select>
+
+                            <!-- 🔽 Dropdown list -->
+                            <ul id="responsible_list" class="search-dropdown"></ul>
                         </div>
                         
-                         <div class="col-sm-6">
+                         <div class="col-sm-12">
                             <label>{$Dict.case_summary}</label>
                             <textarea class="form-control" rows=3 name="situation_text" id="situation_text"></textarea>
                         </div>
@@ -195,6 +239,70 @@
     var Var_ObjectId	= "{$Organization.id}";
     var dict_choose = "{$Dict.choose}";
     {literal}
+
+            const responsibleSelect = document.getElementById('troops_id');
+            const responsibleSearch = document.getElementById('responsible_search');
+            const responsibleList   = document.getElementById('responsible_list');
+
+            // select → array
+            const responsibles = Array.from(responsibleSelect.options)
+            .filter(o => o.value)
+            .map(o => ({ id: o.value, name: o.text }));
+
+            function renderResponsible(list) {
+            responsibleList.innerHTML = '';
+
+            if (!list.length) {
+                responsibleList.style.display = 'none';
+                return;
+            }
+
+            list.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item.name;
+
+                li.onclick = () => {
+                responsibleSearch.value = item.name;
+                responsibleSelect.value = item.id;
+
+                // 🔥 agar change event ishlatilsa
+                responsibleSelect.dispatchEvent(new Event('change'));
+
+                responsibleList.style.display = 'none';
+                };
+
+                responsibleList.appendChild(li);
+            });
+
+            responsibleList.style.display = 'block';
+            }
+
+            // 🔍 inputda yozilganda
+            responsibleSearch.addEventListener('input', function () {
+            const val = this.value.toLowerCase();
+
+            if (!val) {
+                responsibleSelect.value = '';
+                responsibleList.style.display = 'none';
+                return;
+            }
+
+            renderResponsible(
+                responsibles.filter(r => r.name.toLowerCase().includes(val))
+            );
+            });
+
+            // 🔹 focus bo‘lsa hammasi chiqadi
+            responsibleSearch.addEventListener('focus', function () {
+            renderResponsible(responsibles);
+            });
+
+            // 🔹 tashqariga bosilsa yopiladi
+            document.addEventListener('click', e => {
+            if (!document.getElementById('responsible-wrapper').contains(e.target)) {
+                responsibleList.style.display = 'none';
+            }
+            });
 
     
 
@@ -269,7 +377,12 @@
                 $('#injury_type').val(sInfo.injury_type_id);
                 $('#event_date').val(sInfo.date);       
                 $('#situation_text').val(sInfo.comment);
-                $('#troops_id').val(sInfo.troops_id);
+                // $('#troops_id').val(sInfo.troops_id);
+                 $('#troops_id').val(sInfo.troops_id);
+                
+                 const respText = $('#troops_id option:selected').text();
+                 $('#responsible_search').val(respText);
+
             });
         })
 
@@ -301,7 +414,6 @@
                  console.log('clicked')
                     event.preventDefault();
                     event.stopPropagation();
-
                     var form_data = new FormData();
                     form_data.append('id', $('#id').val());
                     form_data.append('region_id', $('#region_id').val());
