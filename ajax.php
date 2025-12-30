@@ -1109,8 +1109,8 @@ break;
 		// Cameras — build same structure as get_jts_object_by_id returns, AND also set data.cameras for compatibility
 		$query  = "SELECT t.id, t.cam_code, t.name, t.lat, t.long,
 		case when t.is_ptz then 1 else 0 end as is_ptz
-		FROM hr.jts_objects_camera t 
-		WHERE t.object_id = {$objectId}";
+		FROM hr.public_event_cameras t 
+		WHERE t.event_id = {$id}";
 		$sql->query($query);
 		$Cams = $sql->fetchAll();
 
@@ -1160,8 +1160,6 @@ break;
 		echo json_encode($result, JSON_UNESCAPED_UNICODE);
 		exit;
 		break;
-
-
 
 
 
@@ -2500,8 +2498,8 @@ break;
 		
 	case "get_events_date":
 
-		// $start_date  = !empty($_POST['start_date']) ? $_POST['start_date'] : null;
-		// $finish_date = !empty($_POST['finish_date']) ? $_POST['finish_date'] : null;
+		$start_date  = !empty($_POST['start_date']) ? $_POST['start_date'] : null;
+		$finish_date = !empty($_POST['finish_date']) ? $_POST['finish_date'] : null;
 
 
 		/* ================= REGIONS ================= */

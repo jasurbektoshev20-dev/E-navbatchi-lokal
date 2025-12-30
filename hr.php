@@ -413,7 +413,7 @@ switch ($Act) {
 		$smarty->assign(array(
 			'Regions'        => $Regions,
 			'EventTypes'     => $EventTypes,
-			'Events'         => $Events,
+			// 'Events'         => $Events,
 			'jts_objects'    => $jts_objects,
 			'structures'     => $Structures,
 			'responsible'    => $Responsible,
@@ -538,7 +538,7 @@ switch ($Act) {
 
 		$query = "SELECT s.id, s.firstname,s.lastname,r.name{$slang} FROM hr.staff s
 		left join ref.ranks r on r.id = s.rank_id  
-		-- where structure_id = {$UserStructure}
+		where structure_id = {$UserStructure}
 		";
 		$sql->query($query);
 		$staffs = $sql->fetchAll();
@@ -558,21 +558,39 @@ switch ($Act) {
 		$sql->query($query);
 		// $Distcity = $sql->fetchAll();
 
-		$query = "SELECT m.id, s.name{$slang} as structure_name, m.start_date, m.end_date,m.staff_count,CONCAT(r.name{$slang},' ',d.lastname,' ',d.firstname) AS responsible_name,et.name{$slang} as r_type,
-		m.type, m.responsible_id, m.exercises_type,m.vehicles_count,m.description FROM tur.reyd_events m
-		left join hr.structure s on s.id = m.structure_id
-		left join hr.staff d on d.id = m.responsible_id 
-		LEFT JOIN ref.reyd_event_types et ON et.id = m.type
+		// $query = "SELECT m.id, s.name{$slang} as structure_name, m.start_date, m.end_date,m.staff_count,CONCAT(r.name{$slang},' ',d.lastname,' ',d.firstname) AS responsible_name,et.name{$slang} as r_type,
+		// m.type, m.responsible_id, m.exercises_type,m.vehicles_count,m.description FROM tur.reyd_events m
+		// left join hr.structure s on s.id = m.structure_id
+		// left join hr.staff d on d.id = m.responsible_id 
+		// LEFT JOIN ref.reyd_event_types et ON et.id = m.type
 
-		LEFT JOIN ref.ranks r on r.id = d.rank_id
-		where 1=1 ";
-		if ($UserStructure > 1) {
-			$query .= "AND t.structure_id IN (
-                SELECT id FROM hr.structure WHERE id = {$UserStructure}
-                UNION
-                SELECT id FROM hr.structure WHERE parent = {$UserStructure}
-            )";
-		}
+		// LEFT JOIN ref.ranks r on r.id = d.rank_id
+		// where 1=1 ";
+		// if ($UserStructure > 1) {
+		// 	$query .= "AND t.structure_id IN (
+        //         SELECT id FROM hr.structure WHERE id = {$UserStructure}
+        //         UNION
+        //         SELECT id FROM hr.structure WHERE parent = {$UserStructure}
+        //     )";
+		// }
+		$query = "SELECT m.id, s.name{$slang} as structure_name, m.start_date, m.end_date, m.staff_count, 
+          CONCAT(r.name{$slang},' ',d.lastname,' ',d.firstname) AS responsible_name, et.name{$slang} as r_type,
+          m.type, m.responsible_id, m.exercises_type, m.vehicles_count, m.description 
+          FROM tur.reyd_events m
+          left join hr.structure s on s.id = m.structure_id
+          left join hr.staff d on d.id = m.responsible_id 
+          LEFT JOIN ref.reyd_event_types et ON et.id = m.type
+          LEFT JOIN ref.ranks r on r.id = d.rank_id
+          where 1=1 ";
+
+if ($UserStructure > 1) {
+    // CHANGE 't.structure_id' TO 'm.structure_id' BELOW:
+    $query .= " AND m.structure_id IN (
+        SELECT id FROM hr.structure WHERE id = {$UserStructure}
+        UNION
+        SELECT id FROM hr.structure WHERE parent = {$UserStructure}
+    )";
+}
 		$query .= " order by m.id";
 		$sql->query($query);
 		$Events = $sql->fetchAll();
@@ -585,13 +603,11 @@ switch ($Act) {
 		$smarty->assign(array(
 			'Regions'        =>    $Regions,
 			// 'Distcity'       =>    $Distcity,
-			'Events'       =>    $Events,
+			// 'Events'       =>    $Events,
 			'staffs' => $staffs,
 			'types' => $types
 		));
 		break;
-
-
 
 
 	// case "hr_violations":
