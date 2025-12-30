@@ -515,7 +515,7 @@ switch ($Action) {
 
     case "get_events":
 
-        $id = isset($_GET['rowid']) ? MyPiDeCrypt($_GET['rowid']) : 0;
+        $id = isset($_GET['rowid']) ? $_GET['rowid'] : 0;
 
         if ($id <= 0) {
             echo json_encode([]);
@@ -696,19 +696,39 @@ switch ($Action) {
         }
         break;
 
-    case "del_events":
-        $RowId = MyPiDeCrypt($_GET['rowid']);
+    // case "del_events":
+    //     $RowId = MyPiDeCrypt($_GET['rowid']);
+    //     $RowId = mb_convert_encoding($RowId, 'UTF-8', 'UTF-8');;
 
+    //     $query = "DELETE FROM hr.public_event1 WHERE id = {$RowId}";
+    //     $sql->query($query);
+    //     $result = $sql->fetchAssoc();
+
+    //     if ($sql->error() == "") {
+    //         $res = 0;
+    //     } else {
+    //         $res = 2;
+    //     }
+    //     break;
+   case "del_events":
+    $RowId = $_GET['rowid']; 
+    $res = 2; // Dastlab xato holatini (default) o'rnatamiz
+
+    if ($RowId > 0) {
         $query = "DELETE FROM hr.public_event1 WHERE id = {$RowId}";
         $sql->query($query);
-        $result = $sql->fetchAssoc();
 
         if ($sql->error() == "") {
-            $res = 0;
+            $res = 0; // Muvaffaqiyatli o'chirildi
         } else {
-            $res = 2;
+            $res = 2; // Baza xatosi
         }
-        break;
+    } else {
+        $res = 1; // ID noto'g'ri dekodlandi xatosi
+    }
+
+    echo $res; // Mana bu yerda $res endi har doim aniqlangan bo'ladi
+    break;
     /// events ==========================================================
 
 
@@ -3895,10 +3915,10 @@ case "get_event_duty":
 
 
     /// duty_part_camera crud ============        
-        case "get_duty_part_camera":
+    case "get_duty_part_camera":
         $RowId = MyPiDeCrypt($_GET['rowid']);
 
-        $query = "SELECT t.* from hr.public_event_cameras t where t.id = {$RowId}";
+        $query = "SELECT t.* from hr.duty_part_cameras t where t.id = {$RowId}";
         $sql->query($query);
         $result = $sql->fetchAssoc();
         $result['rowid'] = MyPiCrypt($result['id']);
@@ -3972,7 +3992,102 @@ case "get_event_duty":
             $res = 2;
         }
         break;
+
+  
     /// duty_part_camera crud ============        
+
+
+  
+    // /// public_event_camera crud ============        
+
+        /// public_event_camera crud ============        
+      case "get_public_event_cameras":
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+        $query = "SELECT t.* from hr.public_event_cameras t where t.id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+        $result['rowid'] = MyPiCrypt($result['id']);
+
+        $res = json_encode($result);
+        break;
+
+    case "public_event_cameras":
+        $RowId = (!empty($_POST['id'])) ? MyPiDeCrypt($_POST['id']) : 0;
+        
+        // object_id kriptlanmagan, oddiy raqam
+        $event_id = (int)$_POST['object_id'];
+        
+        // Oddiy himoya
+        $name = str_replace("'", "''", $_POST['name'] ?? '');
+        $cam_code = str_replace("'", "''", $_POST['cam_code'] ?? '');
+        
+        // 🔥 Muhim o'zgartirish: 1/0 ni boolean ga aylantirish
+        $is_ptz_bool = ($_POST['is_ptz'] ?? 0) == 1 ? 'true' : 'false';
+
+        if ($RowId > 0) {
+            // Update
+            $updquery = "UPDATE hr.public_event_cameras SET
+                event_id = {$event_id},
+                name = '{$name}',
+                cam_code = '{$cam_code}',
+                is_ptz = {$is_ptz_bool}
+                WHERE id = {$RowId}";
+            $sql->query($updquery);
+            
+            if ($sql->error() == "") {
+                $res = "0<&sep&>" . MyPiCrypt($RowId);
+            } else {
+                $res = $sql->error();
+            }
+        } else {
+            // Insert
+            $insquery = "INSERT INTO hr.public_event_cameras (
+                event_id, name, cam_code, is_ptz
+            ) VALUES (
+                {$event_id}, '{$name}', '{$cam_code}', {$is_ptz_bool}
+            )";
+            $sql->query($insquery);
+            
+            if ($sql->error() == "") {
+                $sql->query("SELECT CURRVAL('hr.public_event_cameras_id_seq') AS last_id");
+                $result = $sql->fetchAssoc();
+                $LastId = $result['last_id'];
+                $res = "0<&sep&>" . MyPiCrypt($LastId);
+            } else {
+                $res = $sql->error();
+            }
+        }
+        echo $res;
+        break;
+
+    // case "del_public_event_cameras":
+    //     $RowId = MyPiDeCrypt($_GET['rowid']);
+    //     $query = "DELETE FROM hr.public_event_cameras WHERE id = {$RowId}";
+    //     $sql->query($query);
+    //     echo ($sql->error() == "") ? 0 : 2;
+    //     break;
+        case "del_public_event_cameras":
+        $RowId = MyPiDeCrypt($_GET['rowid']);
+
+        // Xavfsizlik uchun int ga o'tkazamiz
+        $RowId = (int)$RowId;
+
+        if ($RowId <= 0) {
+            echo 2;
+            exit;
+        }
+
+        $query = "DELETE FROM hr.public_event_cameras WHERE id = {$RowId}";
+        $sql->query($query);
+        $result = $sql->fetchAssoc();
+
+        if ($sql->error() == "") {
+            $res = 0;
+        } else {
+            $res = 2;
+        }
+        break;
+    /// public_event_camera crud ============  
 
 
 
