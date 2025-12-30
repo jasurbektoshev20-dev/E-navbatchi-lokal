@@ -457,6 +457,10 @@
       object-fit: cover;
     }
 
+    .map-icon-about p{
+      font-size: 24px;
+      color: #2EE6D6;
+    }
 
     /* .filters {
       position: absolute;
@@ -1559,8 +1563,8 @@
                           <div class="mb-1 col-12">
                               <label class="form-label text-warning fs-5">{$Dict.in_service}</label>
                               <select id="in_service" class="select2 form-select">
-                                  <option value="0">{$Dict.today_serviced}</option>
-                                  <option value="1">{$Dict.all}</option>
+                                 <option value="1">{$Dict.all}</option>
+                                  <option value="0">{$Dict.today_serviced}</option> 
                               </select>
                           </div>
 
@@ -1649,9 +1653,9 @@
                 <div class="mpg-details">
                      <h3>Босиб ўтилган масофа</h3>
                      <div style="display: flex; gap: 15px;">
-                        <h3 class="name-map-detail">Nomi: </h3>
-                        <h3 class="region-map-detail">Hududi: </h3>
-                        <h3 class="number-map-detail">Raqami: </h3>
+                        <h3 class="name-map-detail">Номи: </h3>
+                        <h3 class="region-map-detail">Ҳудуди: </h3>
+                        <h3 class="number-map-detail">Рақами: </h3>
                      </div>
                      
                      
@@ -1867,7 +1871,7 @@
         let isOnOffTime = 60;
         let isOnOffSpeed = 5;
         let region_id = 0;
-        let in_service = 0;
+        let in_service = 1;
         let lastCarsPositions;
         let allCars = [];
         const objectMarkers = {};
@@ -4020,7 +4024,7 @@ map.on('load', () => {
 
 
        function myIcon(marker) {
-            console.log("marker", marker.car_width)
+           
             const unixtime = marker.unixtime;
             if (marker.speed > isOnOffSpeed) {
                 let myIcon = L.icon({
@@ -4148,8 +4152,11 @@ map.on('load', () => {
     
 
         function callCars(region, in_service) {
-            allCars.forEach(item => { item.remove(); });
-            allCars = [];
+            // allCars.forEach(item => { item.remove(); });
+            // allCars = [];
+             carsCluster.clearLayers();
+             allCars = [];
+
             $.ajax({
                 type: "POST",
                 url: `${gps_url}?region=${region}&isAll=${in_service}`,
@@ -4193,7 +4200,7 @@ map.on('load', () => {
         
        
         function getInterTime(timeStr) {
-             console.log('times', timeStr)
+         
             // 1) guard: null/undefined
             if (!timeStr) return "Noto‘g‘ri sana: bo'sh qiymat";
 
@@ -4473,12 +4480,13 @@ function showCarHistory(id) {
         replayMarker = null;
       }
 
-      // replayMarker = L.marker([lat, lng], { icon: blueIcon }).addTo(historyMap);
-      const carImageUrl = '/pictures/cars/matiz.gif'; // yoki '/images/car.png', yoki to'liq URL
+     //   replayMarker = L.marker([lat, lng], { icon: blueIcon }).addTo(historyMap);
+      // const carImageUrl = '/pictures/cars/matiz.gif'; // yoki '/images/car.png', yoki to'liq URL
+      const carImageUrl = '/pictures/icons_marker/teleround.png'; // yoki '/images/car.png', yoki to'liq URL
 
       const carIcon = L.icon({
         iconUrl: carImageUrl,
-        iconSize: [25, 50],    // rasm o'lchami (width, height) — kerak bo'lsa sozla
+        iconSize: [25, 25],    // rasm o'lchami (width, height) — kerak bo'lsa sozla
         iconAnchor: [24, 14],  // markerning "tikan" nuqtasi (icon markazining pastki qismi)
         popupAnchor: [0, -16], // popup iconga nisbatan joylashuvi
         className: 'car-marker-icon' // ixtiyoriy CSS klass

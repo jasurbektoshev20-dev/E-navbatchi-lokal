@@ -5,13 +5,65 @@
         .table thead th,
         .table tbody td {
             text-transform: none !important;
-            font-size: 18px;
+            font-size: 16px;
         }
 
         .dt-buttons {
             gap: 10px;
             margin-left: 20px;
         }
+
+        .search-dropdown {
+            position: absolute;
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid rgba(0,255,136,.3);
+            border-radius: 10px;
+            max-height: 220px;
+            overflow-y: auto;
+            list-style: none;
+            padding: 0;
+            margin-top: 4px;
+            z-index: 9999;
+            display: none;
+        }
+
+        .search-dropdown li {
+        padding: 8px 12px;
+        cursor: pointer;
+        color: #eaffea;
+        }
+
+        .search-dropdown li:hover {
+        background: rgba(0,255,136,.15);
+        }
+
+        .search-dropdown {
+            position: absolute;
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid rgba(0,255,136,.3);
+            border-radius: 10px;
+            max-height: 220px;
+            overflow-y: auto;
+            list-style: none;
+            padding: 0;
+            margin-top: 4px;
+            z-index: 9999;
+            display: none;
+            }
+
+            .search-dropdown li {
+            padding: 8px 12px;
+            cursor: pointer;
+            color: #eaffea;
+            }
+
+            .search-dropdown li:hover {
+            background: rgba(0,255,136,.15);
+            }
+
+
 
     {/literal}
 </style>
@@ -111,25 +163,55 @@
                             </select>
                         </div>
 
-                        <!-- Жавобгар шахс -->
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 position-relative" id="responsible-wrapper">
                             <label>Жавобгар шахс</label>
-                            <select id="responsible_id" class="form-select">
+
+                            <!-- 🔍 Qidiruv input -->
+                            <input
+                                type="text"
+                                id="responsible_search"
+                                class="form-control mb-1"
+                                placeholder="Жавобгарни қидиринг..."
+                                autocomplete="off"
+                            >
+
+                            <!-- 🟢 Asl select (yashirin) -->
+                            <select id="responsible_id" class="form-select d-none">
                                 <option value="">{$Dict.choose}</option>
                                 {foreach from=$Responsible item=obj}
                                     <option value="{$obj.id}">{$obj.name}</option>
                                 {/foreach}
                             </select>
+
+                            <!-- 🔽 Dropdown list -->
+                            <ul id="responsible_list" class="search-dropdown"></ul>
                         </div>
-                        <div class="col-sm-6">
+
+                        <div class="col-sm-6 position-relative" id="object-wrapper">
                             <label>Объектни Танланг</label>
-                            <select id="object_id" class="form-select" required>
+
+                            <!-- 🔍 Qidiruv input -->
+                            <input
+                                type="text"
+                                id="object_search"
+                                class="form-control mb-1"
+                                placeholder="Объектни қидиринг..."
+                                autocomplete="off"
+                                required
+                            >
+
+                            <!-- 🟢 Asl select (yashirin) -->
+                            <select id="object_id" class="form-select d-none">
                                 <option value="">{$Dict.choose}</option>
                                 {foreach from=$Objects item=obj}
                                     <option value="{$obj.id}">{$obj.name}</option>
                                 {/foreach}
                             </select>
+
+                            <!-- 🔽 Dropdown -->
+                            <ul id="object_list" class="search-dropdown"></ul>
                         </div>
+
 
                         <div class="col-12 text-center mt-3">
                             <input type="hidden" id="id" value="">
@@ -179,6 +261,150 @@
             });
         }
 
+
+            const responsibleSelect = document.getElementById('responsible_id');
+            const responsibleSearch = document.getElementById('responsible_search');
+            const responsibleList   = document.getElementById('responsible_list');
+
+            // select → array
+            const responsibles = Array.from(responsibleSelect.options)
+            .filter(o => o.value)
+            .map(o => ({ id: o.value, name: o.text }));
+
+            function renderResponsible(list) {
+            responsibleList.innerHTML = '';
+
+            if (!list.length) {
+                responsibleList.style.display = 'none';
+                return;
+            }
+
+            list.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item.name;
+
+                li.onclick = () => {
+                responsibleSearch.value = item.name;
+                responsibleSelect.value = item.id;
+
+                // 🔥 agar change event ishlatilsa
+                responsibleSelect.dispatchEvent(new Event('change'));
+
+                responsibleList.style.display = 'none';
+                };
+
+                responsibleList.appendChild(li);
+            });
+
+            responsibleList.style.display = 'block';
+            }
+
+            // 🔍 inputda yozilganda
+            responsibleSearch.addEventListener('input', function () {
+            const val = this.value.toLowerCase();
+
+            if (!val) {
+                responsibleSelect.value = '';
+                responsibleList.style.display = 'none';
+                return;
+            }
+
+            renderResponsible(
+                responsibles.filter(r => r.name.toLowerCase().includes(val))
+            );
+            });
+
+            // 🔹 focus bo‘lsa hammasi chiqadi
+            responsibleSearch.addEventListener('focus', function () {
+            renderResponsible(responsibles);
+            });
+
+            // 🔹 tashqariga bosilsa yopiladi
+            document.addEventListener('click', e => {
+            if (!document.getElementById('responsible-wrapper').contains(e.target)) {
+                responsibleList.style.display = 'none';
+            }
+            });
+
+
+
+
+           // obyekt nomini qidirish
+           const objectSelect = document.getElementById('object_id');
+            const objectSearch = document.getElementById('object_search');
+            const objectList   = document.getElementById('object_list');
+
+            // select → array
+            const objectsArr = Array.from(objectSelect.options)
+            .filter(o => o.value)
+            .map(o => ({ id: o.value, name: o.text }));
+
+            function renderObjectList(list) {
+            objectList.innerHTML = '';
+
+            if (!list.length) {
+                objectList.style.display = 'none';
+                return;
+            }
+
+            list.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item.name;
+
+                li.onclick = () => {
+                objectSearch.value = item.name;
+                objectSelect.value = item.id;
+
+                // 🔥 agar change ishlatilsa
+                objectSelect.dispatchEvent(new Event('change'));
+
+                objectList.style.display = 'none';
+                };
+
+                objectList.appendChild(li);
+            });
+
+            objectList.style.display = 'block';
+            }
+
+            // 🔍 yozilganda
+            objectSearch.addEventListener('input', function () {
+            const val = this.value.toLowerCase();
+
+            if (!val) {
+                objectSelect.value = '';
+                objectList.style.display = 'none';
+                return;
+            }
+
+            renderObjectList(
+                objectsArr.filter(o => o.name.toLowerCase().includes(val))
+            );
+            });
+
+            // 🔹 focus bo‘lsa – hammasi
+            objectSearch.addEventListener('focus', function () {
+            renderObjectList(objectsArr);
+            });
+
+            // 🔹 tashqariga bosilsa yopiladi
+            document.addEventListener('click', e => {
+            if (!document.getElementById('object-wrapper').contains(e.target)) {
+                objectList.style.display = 'none';
+            }
+            });
+
+
+
+
+
+
+
+
+
+
+
+
         // Filtering
         $('#region_id').change(function(event) {
             $.get("ajax.php?act=get_divisions&structure_id=" + this.value, function(html) {
@@ -214,24 +440,39 @@
             $('#id').val(0);
         });
 
-        $('.datatables-projects tbody').on('click', '.editAction', function() {
-            $('#submitModal').modal('toggle');
+      
+        $('.datatables-projects tbody').on('click', '.editAction', function () {
+                $('#submitModal').modal('show');
 
-            var RowId = $(this).attr('rel');
-            $.get("hrajax.php?act=get_daily_routine&rowid=" + RowId, function(html) {
-                console.log(html);
+                const RowId = $(this).attr('rel');
 
-                var sInfo = jQuery.parseJSON(html);
+                $.getJSON("hrajax.php?act=get_daily_routine&rowid=" + RowId, function (sInfo) {
+                    console.log('EDIT DATA:', sInfo);
 
-                $('#structure_id').val(sInfo.structure_id);
-                $('#region_id').val(sInfo.structure_id);
-                $('#responsible_id').val(sInfo.responsible_id);
-                $('#object_id').val(sInfo.object_id);
-                $('#day').val(sInfo.date);
-                $('#id').val(sInfo.id);
+                    // oddiylar
+                    $('#structure_id').val(sInfo.structure_id);
+                    $('#region_id').val(sInfo.structure_id);
+                    $('#day').val(sInfo.date);
+                    $('#id').val(sInfo.id);
 
+                    /* =========================
+                    RESPONSIBLE
+                    ========================= */
+                    $('#responsible_id').val(sInfo.responsible_id);
+
+                    const respText = $('#responsible_id option:selected').text();
+                    $('#responsible_search').val(respText);
+
+                    /* =========================
+                    OBJECT
+                    ========================= */
+                    $('#object_id').val(sInfo.object_id);
+
+                    const objText = $('#object_id option:selected').text();
+                    $('#object_search').val(objText);
+                });
             });
-        });
+
 
         // Form validation and submit
         const bsValidationForms = $('.needs-validation');
