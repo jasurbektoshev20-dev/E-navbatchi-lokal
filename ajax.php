@@ -325,123 +325,63 @@ switch ($Action) {
 		$res = json_encode($events);
 		break;
 
-	// case "get_duty":
-
-    // $RegId = isset($_GET['id']) ? intval($_GET['id']) : 1;
-
-    // // ===== DUTY STAFF =====
-    // $query = "SELECT 
-    //         t.lastname,
-    //         t.photo,
-    //         t.phone,
-    //         p.name{$slang} as position,
-    //         ra.shortname{$slang} as role
-    //     FROM hr.duty_staff d 
-    //     LEFT JOIN hr.staff t 
-    //         ON (t.id = d.staff1 OR t.id = d.staff2 OR t.id = d.staff3)
-    //     LEFT JOIN hr.positions p ON p.id = t.position_id
-    //     LEFT JOIN ref.ranks ra ON ra.id = t.rank_id
-    //     WHERE d.date = CURRENT_DATE 
-    //       AND d.structure_id = {$RegId}
-    //     ORDER BY p.turn";
-
-    // $sql->query($query);
-    // $Duty = $sql->fetchAll();
-
-    // // ===== CAMERAS =====
-    // $query = "SELECT
-    //         c.id AS camera_id,
-    //         c.name AS camera_name,
-    //         c.cam_code,
-    //         s.id AS structure_id,
-    //         s.name{$slang} AS structure_name,
-    //         c.is_ptz
-    //     FROM hr.structure s
-    //     JOIN hr.duty_part_cameras c
-    //         ON c.structure_id = s.id
-    //     WHERE s.parent = {$RegId} OR s.id = {$RegId}
-    //     ORDER BY s.id, c.id DESC";
-
-    // $sql->query($query);
-    // $CamerasRaw = $sql->fetchAll();
-
-    // // ===== CAMERA URL QO‘SHISH =====
-    // $Cameras = [];
-
-    // foreach ($CamerasRaw as $cam) {
-
-    //     $dataCam = GetCamUrl($cam['cam_code']);
-
-    //     if (isset($dataCam['data']['url'])) {
-    //         $cam['url'] = $dataCam['data']['url'];
-    //         $cam['status'] = 1;
-    //     } else {
-    //         $cam['url'] = '';
-    //         $cam['status'] = 0;
-    //     }
-
-    //     $cam['isptz'] = $cam['is_ptz'] ? 1 : 0;
-
-    //     $Cameras[] = $cam;
-    // }
-
-    // // ===== STAFF ROLE BIRIKTIRISH =====
-    // $staffs = [$Dict['masul'], $Dict['staff_2'], $Dict['staff_3']];
-    // foreach ($Duty as $key => &$item) {
-    //     $item['staff'] = $staffs[$key] ?? null;
-    // }
-
-    // $res = json_encode([
-    //     'Duty' => $Duty,
-    //     'cameras' => $Cameras
-    // ], JSON_UNESCAPED_UNICODE);
-
-    // break;
-
 	case "get_duty":
 
     $RegId = isset($_GET['id']) ? intval($_GET['id']) : 1;
+	$query = "SELECT 
+			t.lastname,
+			t.photo,
+			t.phone,
+			p.name{$slang} AS position,
+			ra.shortname{$slang} AS role,
+			1 AS staff_order
+		FROM hr.duty_staff d
+		JOIN hr.staff t ON t.id = d.staff1
+		LEFT JOIN hr.positions p ON p.id = t.position_id
+		LEFT JOIN ref.ranks ra ON ra.id = t.rank_id
+		WHERE d.date = CURRENT_DATE AND d.structure_id = {$RegId}
 
-    // ===== DUTY STAFF (ANIQ ROLE BILAN) =====
-    $query = "
-        SELECT 
-            t.lastname,
-            t.photo,
-            t.phone,
-            p.name{$slang} AS position,
-            ra.shortname{$slang} AS role,
-            CASE
-                WHEN t.id = d.staff1 THEN 'masul'
-                WHEN t.id = d.staff2 THEN 'staff_2'
-                WHEN t.id = d.staff3 THEN 'staff_3'
-            END AS staff_type
-        FROM hr.duty_staff d
-        JOIN hr.staff t 
-            ON t.id IN (d.staff1, d.staff2, d.staff3)
-        LEFT JOIN hr.positions p ON p.id = t.position_id
-        LEFT JOIN ref.ranks ra ON ra.id = t.rank_id
-        WHERE d.date = CURRENT_DATE
-          AND d.structure_id = {$RegId}
-        ORDER BY 
-            CASE
-                WHEN t.id = d.staff1 THEN 1
-                WHEN t.id = d.staff2 THEN 2
-                WHEN t.id = d.staff3 THEN 3
-            END
-    ";
+		UNION ALL
+
+		SELECT 
+			t.lastname,
+			t.photo,
+			t.phone,
+			p.name{$slang} AS position,
+			ra.shortname{$slang} AS role,
+			2 AS staff_order
+		FROM hr.duty_staff d
+		JOIN hr.staff t ON t.id = d.staff2
+		LEFT JOIN hr.positions p ON p.id = t.position_id
+		LEFT JOIN ref.ranks ra ON ra.id = t.rank_id
+		WHERE d.date = CURRENT_DATE AND d.structure_id = {$RegId}
+
+		UNION ALL
+
+		SELECT 
+			t.lastname,
+			t.photo,
+			t.phone,
+			p.name{$slang} AS position,
+			ra.shortname{$slang} AS role,
+			3 AS staff_order
+		FROM hr.duty_staff d
+		JOIN hr.staff t ON t.id = d.staff3
+		LEFT JOIN hr.positions p ON p.id = t.position_id
+		LEFT JOIN ref.ranks ra ON ra.id = t.rank_id
+		WHERE d.date = CURRENT_DATE AND d.structure_id = {$RegId}
+
+		ORDER BY staff_order
+		";
+
+
+		
 
     $sql->query($query);
     $Duty = $sql->fetchAll();
 
-    // ===== STAFF NOMINI BIRIKTIRISH =====
-    foreach ($Duty as &$item) {
-        $item['staff'] = $Dict[$item['staff_type']] ?? null;
-        unset($item['staff_type']);
-    }
-
     // ===== CAMERAS =====
-    $query = "
-        SELECT
+    $query = "SELECT
             c.id AS camera_id,
             c.name AS camera_name,
             c.cam_code,
@@ -451,10 +391,8 @@ switch ($Action) {
         FROM hr.structure s
         JOIN hr.duty_part_cameras c
             ON c.structure_id = s.id
-        WHERE s.parent = {$RegId}
-           OR s.id = {$RegId}
-        ORDER BY s.id, c.id DESC
-    ";
+        WHERE s.parent = {$RegId} OR s.id = {$RegId}
+        ORDER BY s.id, c.id DESC";
 
     $sql->query($query);
     $CamerasRaw = $sql->fetchAll();
@@ -466,7 +404,7 @@ switch ($Action) {
 
         $dataCam = GetCamUrl($cam['cam_code']);
 
-        if (!empty($dataCam['data']['url'])) {
+        if (isset($dataCam['data']['url'])) {
             $cam['url'] = $dataCam['data']['url'];
             $cam['status'] = 1;
         } else {
@@ -475,19 +413,31 @@ switch ($Action) {
         }
 
         $cam['isptz'] = $cam['is_ptz'] ? 1 : 0;
-        unset($cam['is_ptz']);
 
         $Cameras[] = $cam;
     }
 
-    // ===== RESPONSE =====
+    // ===== STAFF ROLE BIRIKTIRISH =====
+    // $staffs = [$Dict['staff_1'], $Dict['staff_2'], $Dict['staff_3']];
+    // foreach ($Duty as $key => &$item) {
+    //     $item['staff'] = $staffs[$key] ?? null;
+    // }
+	$staffs = [
+    1 => $Dict['staff_1'], // Масъул
+    2 => $Dict['staff_2'], // Навбатчи
+    3 => $Dict['staff_3']  // Навбатчи ёрдамчиси
+];
+
+foreach ($Duty as &$item) {
+    $item['staff'] = $staffs[$item['staff_order']] ?? null;
+}
+
     $res = json_encode([
-        'Duty'    => $Duty,
-        'cameras'=> $Cameras
+        'Duty' => $Duty,
+        'cameras' => $Cameras
     ], JSON_UNESCAPED_UNICODE);
 
     break;
-
 
 
 
@@ -498,7 +448,6 @@ switch ($Action) {
 
 		$res = json_encode($PatrulTypes);
 		break;
-
 
 		 
 	case "crime_by_week":
@@ -604,6 +553,7 @@ switch ($Action) {
 
 		$res = json_encode($result);
 		break;
+
 
 	case "power":
 		$query  = "SELECT TO_CHAR(t.date, 'DD.MM.YYYY') AS date,
@@ -1155,12 +1105,12 @@ break;
 		
 		// Attach raw event
 		// $JtsObject['event_raw'] = $PE;
-
+		$objectId = intval($JtsObject['object_id']);
 		// Cameras — build same structure as get_jts_object_by_id returns, AND also set data.cameras for compatibility
 		$query  = "SELECT t.id, t.cam_code, t.name, t.lat, t.long,
 		case when t.is_ptz then 1 else 0 end as is_ptz
-		FROM hr.public_event_cameras t 
-		WHERE t.event_id = {$JtsObject['id']}";
+		FROM hr.jts_objects_camera t 
+		WHERE t.object_id = {$objectId}";
 		$sql->query($query);
 		$Cams = $sql->fetchAll();
 
@@ -1230,6 +1180,7 @@ break;
 
 		$res = json_encode($data);
 		break;
+		
 	case "get_staff":
 		$structure_id = isset($_GET['structure_id']) ? $_GET['structure_id'] : 0;
 		$division_id = isset($_GET['division_id']) ? $_GET['division_id'] : 0;
@@ -2549,8 +2500,8 @@ break;
 		
 	case "get_events_date":
 
-		$start_date  = !empty($_POST['start_date']) ? $_POST['start_date'] : null;
-		$finish_date = !empty($_POST['finish_date']) ? $_POST['finish_date'] : null;
+		// $start_date  = !empty($_POST['start_date']) ? $_POST['start_date'] : null;
+		// $finish_date = !empty($_POST['finish_date']) ? $_POST['finish_date'] : null;
 
 
 		/* ================= REGIONS ================= */
@@ -2659,7 +2610,7 @@ break;
 
 		/* ======== DATE FILTER ======== */
 		if ($start_date && $finish_date) {
-			$query .= " AND DATE(m.start_event) BETWEEN '{$start_date}' AND '{$finish_date}' ";
+			// $query .= " AND DATE(m.start_event) BETWEEN '{$start_date}' AND '{$finish_date}' ";
 		} else {
 			$query .= " AND DATE(m.start_event) = CURRENT_DATE ";
 		}
@@ -2762,49 +2713,30 @@ break;
 		$query = "
 			SELECT 
 				m.id,
-				t.name{$slang} AS type,
-				m.event_direction,
-				m.iiv_count,
-				m.responsible_mg_name,
-				m.sapyor_count AS sapyor,
-				m.fvv_count,
-				m.mg_counts,
-				m.event_view,
-				m.start_event,
-				m.finish_event,
-				m.reserve_count,
-				m.event_name,
-				m.responsible_spring_name,
-				m.event_responsible_organization,
-				ec.name{$slang} AS event_category,
-				m.organizer,
-				m.responsible_name,
-				m.responsible_phone,
-				m.responsible_iiv_name,
-				m.reserve_name,
-				m.responsible_msgr_name,
-				m.responsible_fvv_name,
-				m.people_count,
-				m.spring_count,
-				m.object_name,
 				s.name{$slang} AS region_name,
 				str.name{$slang} AS structure_name,
-				m.lat,
-				m.long,
-				m.comment
+				CONCAT(r.name1,' ', staff.lastname,' ',staff.firstname,' ',staff.surname) AS responsible_name,
+				t.name{$slang} AS type,
+				m.start_date,
+				m.end_date,
+				m.exercises_type,
+				m.staff_count,
+				m.vehicles_count,
+				m.description
 			FROM tur.reyd_events m
-			LEFT JOIN tur._event_types t ON t.id = m.event_type
+			LEFT JOIN ref.reyd_event_types t ON t.id = m.type
 			LEFT JOIN hr.structure s ON s.id = m.region_id
 			LEFT JOIN hr.structure str ON str.id = m.structure_id
-			LEFT JOIN tur.event_category ec ON ec.id = m.event_category_id
+			LEFT JOIN hr.staff staff ON staff.id = m.responsible_id
+			LEFT JOIN ref.ranks r ON r.id = staff.rank_id
 			WHERE 1=1
 		";
 
 		/* ======== DATE FILTER ======== */
 		if ($start_date && $finish_date) {
-			$query .= " AND DATE(m.start_event) BETWEEN '{$start_date}' AND '{$finish_date}' ";
+			$query .= " AND DATE(m.start_date) BETWEEN '{$start_date}' AND '{$finish_date}' ";
 		} else {
-			$query .= " AND DATE(m.start_event) = CURRENT_DATE ";
+			$query .= " AND DATE(m.start_date) = CURRENT_DATE ";
 		}
 
 		/* ======== USER STRUCTURE FILTER ======== */

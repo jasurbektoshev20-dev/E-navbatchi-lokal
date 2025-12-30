@@ -749,7 +749,7 @@ padding-right: 6px;     /* scroll tegmasligi uchun */
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header position-relative">
-          <h2 class="modal-title position-absolute start-50 translate-middle-x" id="markerModalTitle" style="color: #fff;">
+          <h2 class="modal-ttile position-absolute start-50 translate-middle-x" id="markerModalTitle" style="color: #fff;">
             Маркер номи
           </h2>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -1185,7 +1185,7 @@ padding-right: 6px;     /* scroll tegmasligi uchun */
               allMarkers.addLayer(marker);
              
               marker.on('click', function() {
-                document.getElementById('markerModalTitle').innerText = m.object_name;
+                document.getElementById('markerModalTitle').innerText = "Янги йил концерт дастури";  // m.object_name
 
                    // 🔥 Modal ochiladi
                 $("#markerModal").modal("show");

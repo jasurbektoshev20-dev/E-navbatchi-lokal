@@ -339,67 +339,69 @@ switch ($Act) {
 
 
 		/* ================= EVENTS ================= */
-		// $query = "
-		// 	SELECT 
-		// 		m.id,
-		// 		t.name{$slang} AS event_type,
-		// 		m.event_direction,
-		// 		m.iiv_count,
-		// 		m.responsible_mg_name,
-		// 		m.sapyor_count AS sapyor,
-		// 		m.fvv_count,
-		// 		m.mg_counts,
-		// 		m.event_view,
-		// 		m.start_event,
-		// 		m.finish_event,
-		// 		m.reserve_count,
-		// 		m.event_name,
-		// 		m.responsible_spring_name,
-		// 		m.event_responsible_organization,
-		// 		ec.name{$slang} AS event_category,
-		// 		m.organizer,
-		// 		m.responsible_name,
-		// 		m.responsible_phone,
-		// 		m.responsible_iiv_name,
-		// 		m.reserve_name,
-		// 		m.responsible_msgr_name,
-		// 		m.responsible_fvv_name,
-		// 		m.people_count,
-		// 		m.spring_count,
-		// 		m.object_name,
-		// 		s.name{$slang} AS region_name,
-		// 		m.lat,
-		// 		m.long,
-		// 		m.comment
-		// 	FROM hr.public_event1 m
-		// 	LEFT JOIN tur.public_event_types t ON t.id = m.event_type
-		// 	LEFT JOIN hr.structure s ON s.id = m.region_id
-		// 	LEFT JOIN tur.event_category ec ON ec.id = m.event_category_id
-		// 	WHERE 1=1
-		// ";
+		$query = "
+			SELECT 
+				m.id,
+				jo.object_name as object_name,
+				t.name{$slang} AS event_type,
+				m.event_direction,
+				m.iiv_count,
+				m.responsible_mg_name,
+				m.sapyor_count AS sapyor,
+				m.fvv_count,
+				m.mg_counts,
+				m.event_view,
+				m.start_event,
+				m.finish_event,
+				m.reserve_count,
+				m.event_name,
+				m.responsible_spring_name,
+				m.event_responsible_organization,
+				ec.name{$slang} AS event_category,
+				m.organizer,
+				m.responsible_name,
+				m.responsible_phone,
+				m.responsible_iiv_name,
+				m.reserve_name,
+				m.responsible_msgr_name,
+				m.responsible_fvv_name,
+				m.people_count,
+				m.spring_count,
+				s.name{$slang} AS region_name,
+				m.lat,
+				m.long,
+				m.comment
+			FROM hr.public_event1 m
+			LEFT JOIN tur.public_event_types t ON t.id = m.event_type
+			LEFT JOIN hr.structure s ON s.id = m.region_id
+			LEFT JOIN tur.event_category ec ON ec.id = m.event_category_id
+			left join hr.jts_objects jo on jo.id = m.object_id
+			
+			WHERE 1=1
+		";
 
-		// /* ======== DATE FILTER ======== */
-		// if ($start_date && $finish_date) {
-		// 	$query .= " AND DATE(m.start_event) BETWEEN '{$start_date}' AND '{$finish_date}' ";
-		// } else {
-		// 	$query .= " AND DATE(m.start_event) = CURRENT_DATE ";
-		// }
+		/* ======== DATE FILTER ======== */
+		if ($start_date && $finish_date) {
+			$query .= " AND DATE(m.start_event) BETWEEN '{$start_date}' AND '{$finish_date}' ";
+		} else {
+			$query .= " AND DATE(m.start_event) = CURRENT_DATE ";
+		}
 
-		// /* ======== USER STRUCTURE FILTER ======== */
-		// if ($UserStructure > 1) {
-		// 	$query .= "
-		// 		AND m.region_id IN (
-		// 			SELECT id FROM hr.structure WHERE id = {$UserStructure}
-		// 			UNION
-		// 			SELECT id FROM hr.structure WHERE parent = {$UserStructure}
-		// 		)
-		// 	";
-		// }
+		/* ======== USER STRUCTURE FILTER ======== */
+		if ($UserStructure > 1) {
+			$query .= "
+				AND m.region_id IN (
+					SELECT id FROM hr.structure WHERE id = {$UserStructure}
+					UNION
+					SELECT id FROM hr.structure WHERE parent = {$UserStructure}
+				)
+			";
+		}
 
-		// $query .= " ORDER BY m.id ASC";
+		$query .= " ORDER BY m.id ASC";
 
-		// $sql->query($query);
-		// $Events = $sql->fetchAll();
+		$sql->query($query);
+		$Events = $sql->fetchAll();
 		
 		// echo '<pre>';
 		// print_r($Events);
@@ -411,7 +413,7 @@ switch ($Act) {
 		$smarty->assign(array(
 			'Regions'        => $Regions,
 			'EventTypes'     => $EventTypes,
-			// 'Events'         => $Events,
+			'Events'         => $Events,
 			'jts_objects'    => $jts_objects,
 			'structures'     => $Structures,
 			'responsible'    => $Responsible,
@@ -563,18 +565,22 @@ switch ($Act) {
 		LEFT JOIN ref.reyd_event_types et ON et.id = m.type
 
 		LEFT JOIN ref.ranks r on r.id = d.rank_id
-		where 1=1";
+		where 1=1 ";
 		if ($UserStructure > 1) {
-			$query .= " and m.structure_id = {$UserStructure}";
+			$query .= "AND t.structure_id IN (
+                SELECT id FROM hr.structure WHERE id = {$UserStructure}
+                UNION
+                SELECT id FROM hr.structure WHERE parent = {$UserStructure}
+            )";
 		}
 		$query .= " order by m.id";
 		$sql->query($query);
 		$Events = $sql->fetchAll();
 
-		// echo '<pre>';
-		// print_r($types);
-		// echo '</pre>';
-		// die();
+		echo '<pre>';
+		print_r($Events);
+		echo '</pre>';
+		die();
 
 		$smarty->assign(array(
 			'Regions'        =>    $Regions,
@@ -717,12 +723,18 @@ switch ($Act) {
 
 
 	case "hr_duty":
-		$query = "SELECT id, name1 as name1, name2 as name2, name3  as name3 
-		FROM hr.structure ";
+		$query = "SELECT t.id, t.name1 as name1, t.name2 as name2, t.name3  as name3 
+		FROM hr.structure t where 1=1 ";
 		if ($UserStructure > 1) {
-			$query .= " where id = {$UserStructure}";
-		} else {
-			$query .= " where id < 100 order by turn";
+				$query .= "
+					AND t.id IN (
+						SELECT id FROM hr.structure WHERE id = {$UserStructure}
+						UNION
+						SELECT id FROM hr.structure WHERE parent = {$UserStructure}
+					)
+				";
+			} else {
+			$query .= " AND t.id < 100 order by turn";
 		}
 		$sql->query($query);
 		$Regions = $sql->fetchAll();
