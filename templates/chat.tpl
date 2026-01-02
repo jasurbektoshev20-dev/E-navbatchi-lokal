@@ -468,37 +468,49 @@ updateLocalTime();
    TEZKOR VAQT (STOPWATCH)
 =========================== */
 let timer = null;
-let seconds = 0;
+let totalMs = 0; // umumiy millisekund
 
 function renderFastTime() {
-  const h = String(Math.floor(seconds / 3600)).padStart(2, '0');
-  const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
-  const s = String(seconds % 60).padStart(2, '0');
-  document.getElementById('fastTime').innerText = `${h}:${m}:${s}`;
+  const totalSeconds = Math.floor(totalMs / 1000);
+  const ms = Math.floor((totalMs % 1000) / 10); // sentisekund (00–99)
+
+  const h = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+  const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+  const s = String(totalSeconds % 60).padStart(2, '0');
+  const cs = String(ms).padStart(2, '0');
+
+  document.getElementById('fastTime').innerText = `${h}:${m}:${s}.${cs}`;
 }
 
+// ▶ START
 document.getElementById('startBtn').onclick = () => {
   if (timer) return;
+
+  let last = Date.now();
   timer = setInterval(() => {
-    seconds++;
+    const now = Date.now();
+    totalMs += now - last;
+    last = now;
     renderFastTime();
-  }, 1000);
+  }, 10); // 10ms = sentisekund aniqlik
 };
 
+// ⏸ STOP
 document.getElementById('stopBtn').onclick = () => {
   clearInterval(timer);
   timer = null;
 };
 
+// 🔄 RESET
 document.getElementById('resetBtn').onclick = () => {
   clearInterval(timer);
   timer = null;
-  seconds = 0;
+  totalMs = 0;
   renderFastTime();
 };
 
+// initial
 renderFastTime();
-
 
 
 
