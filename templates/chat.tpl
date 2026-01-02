@@ -468,37 +468,49 @@ updateLocalTime();
    TEZKOR VAQT (STOPWATCH)
 =========================== */
 let timer = null;
-let seconds = 0;
+let totalMs = 0; // umumiy millisekund
 
 function renderFastTime() {
-  const h = String(Math.floor(seconds / 3600)).padStart(2, '0');
-  const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
-  const s = String(seconds % 60).padStart(2, '0');
-  document.getElementById('fastTime').innerText = `${h}:${m}:${s}`;
+  const totalSeconds = Math.floor(totalMs / 1000);
+  const ms = Math.floor((totalMs % 1000) / 10); // sentisekund (00–99)
+
+  const h = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+  const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+  const s = String(totalSeconds % 60).padStart(2, '0');
+  const cs = String(ms).padStart(2, '0');
+
+  document.getElementById('fastTime').innerText = `${h}:${m}:${s}.${cs}`;
 }
 
+// ▶ START
 document.getElementById('startBtn').onclick = () => {
   if (timer) return;
+
+  let last = Date.now();
   timer = setInterval(() => {
-    seconds++;
+    const now = Date.now();
+    totalMs += now - last;
+    last = now;
     renderFastTime();
-  }, 1000);
+  }, 10); // 10ms = sentisekund aniqlik
 };
 
+// ⏸ STOP
 document.getElementById('stopBtn').onclick = () => {
   clearInterval(timer);
   timer = null;
 };
 
+// 🔄 RESET
 document.getElementById('resetBtn').onclick = () => {
   clearInterval(timer);
   timer = null;
-  seconds = 0;
+  totalMs = 0;
   renderFastTime();
 };
 
+// initial
 renderFastTime();
-
 
 
 
@@ -765,8 +777,7 @@ $(document).on('mouseup', function () {
                 dataType: "json",
                 success: function (data) {
                    fetched_camera = data?.cameras || [];
-                    initCamera();
-                    get_camera(); 
+                  resetDecoder();
                     $('#card_duty').empty();
 
                     if (!data?.Duty || data?.Duty.length === 0) {
@@ -907,69 +918,96 @@ function initCamera() {
 
 
 async function get_camera() {
-
   if (!jsDecoder) return;
 
-    // ❗ eski retry’larni o‘chiramiz
-    Object.values(retryTimers).forEach(t => clearTimeout(t));
-    retryTimers = {};
+  // 🔥 eski retry'larni tozalaymiz
+  Object.values(retryTimers).forEach(t => clearTimeout(t));
+  retryTimers = {};
 
-    jsDecoder.JS_StopRealPlayAll();
+  // 🔥 hamma streamlarni to‘xtatamiz
+  jsDecoder.JS_StopRealPlayAll();
 
-    $('.cam-overlay').remove(); // ❗ eski overlaylar
+  // 🔥 eski overlaylarni o‘chiramiz
+  $('.cam-overlay').remove();
 
-    if (!fetched_camera.length) return;
+  if (!fetched_camera || !fetched_camera.length) {
+    console.warn('Camera list empty');
+    return;
+  }
 
-    const camCount = fetched_camera.length;
-    const layout = getLayoutByCount(camCount);
+  const camCount = fetched_camera.length;
+  const layout = getLayoutByCount(camCount);
 
-    jsDecoder.JS_ArrangeWindow(layout);
+  // 🔥 layout o‘rnatamiz
+  jsDecoder.JS_ArrangeWindow(layout);
 
-     // 🔥 layout settle bo‘lishi uchun
-    await new Promise(r => setTimeout(r, 80));
+  // 🔥 layout settle bo‘lishi shart
+  await new Promise(r => setTimeout(r, 120));
 
- fetched_camera.forEach((cam, index) => {
+  fetched_camera.forEach((cam, index) => {
 
     const $wnd = $('.parent-wnd > div').eq(index);
+    if (!$wnd.length) return;
+
     $wnd.css('position', 'relative');
 
     const $loading = $('<div class="cam-overlay cam-loading"></div>');
     $wnd.append($loading);
 
-    // Offline bo‘lsa
+    // ❌ kamera offline bo‘lsa
     if (!cam.status || !cam.url) {
-        $loading.removeClass('cam-loading').addClass('cam-offline');
-        retryCamera(cam, index);
-        return;
+      $loading.removeClass('cam-loading').addClass('cam-offline');
+      retryCamera(cam, index);
+      return;
     }
 
-    jsDecoder.JS_Play(
+    const play = () => {
+      jsDecoder.JS_Play(
         cam.url,
         { playURL: cam.url },
         index
-    ).then(
+      ).then(
         () => {
-            $loading.remove();
+          $loading.remove();
         },
         () => {
-            $loading.removeClass('cam-loading').addClass('cam-offline');
-            retryCamera(cam, index);
+          $loading.removeClass('cam-loading').addClass('cam-offline');
+          retryCamera(cam, index);
         }
-    );
-});
+      );
+    };
 
+    // 🔥 0-indexga maxsus delay (BUG FIX)
+    if (index === 0) {
+      setTimeout(() => {
+        play();
+      }, 300);
+    } else {
+      play();
+    }
+  });
 
-    $(".camera_length").text(camCount);
-  
-
+  $(".camera_length").text(camCount);
 }
 
 let isResizing = false;
 function resetDecoder() {
-    if (!jsDecoder) return;
 
-    jsDecoder.JS_StopRealPlayAll();
-    jsDecoder.JS_DestroyControl();
+    // 🔥 agar decoder yo‘q bo‘lsa — yaratamiz
+    if (!jsDecoder) {
+        initCamera();
+        get_camera();
+        return;
+    }
+
+    try {
+        jsDecoder.JS_StopRealPlayAll();
+    } catch (e) {
+        console.warn('StopRealPlayAll failed', e);
+    }
+
+    // ❗ controlni o‘chirish o‘rniga DOMni tozalaymiz
+    $('#playWind').empty();
 
     jsDecoder = null;
 
@@ -978,6 +1016,9 @@ function resetDecoder() {
         get_camera();
     }, 200);
 }
+
+
+
 
 window.addEventListener('resize', () => {
   if (!jsDecoder) return;
@@ -1005,30 +1046,30 @@ function bindDblClick() {
 
 
 function retryCamera(cam, index) {
-    if (retryTimers[index]) {
-        clearTimeout(retryTimers[index]);
+  if (retryTimers[index]) {
+    clearTimeout(retryTimers[index]);
+  }
+
+  retryTimers[index] = setTimeout(() => {
+
+    // region almashib ketgan bo‘lsa — bekor
+    if (!fetched_camera[index]) return;
+    if (!jsDecoder) return;
+
+    console.log('Retry camera', index);
+
+    // 🔥 0-index uchun HARD RESET
+    if (index === 0) {
+      jsDecoder.JS_StopRealPlay(0);
+      setTimeout(() => {
+        jsDecoder.JS_Play(cam.url, { playURL: cam.url }, 0);
+      }, 250);
+    } else {
+      jsDecoder.JS_Play(cam.url, { playURL: cam.url }, index);
     }
 
-    retryTimers[index] = setTimeout(() => {
-
-        // region almashgan bo‘lsa → bekor
-        if (!fetched_camera[index]) return;
-        if (!jsDecoder) return;
-
-        const $wnd = $('.parent-wnd > div').eq(index);
-        const $loading = $wnd.find('.cam-overlay');
-
-        if ($loading.hasClass('cam-offline')) {
-            console.log('Retry camera', index);
-            jsDecoder.JS_Play(cam.url, { playURL: cam.url }, index);
-        }
-
-    }, 5000);
+  }, 4000);
 }
-
-
-
-
 
 
 });
