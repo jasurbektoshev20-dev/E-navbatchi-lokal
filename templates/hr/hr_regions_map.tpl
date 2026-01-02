@@ -4090,7 +4090,7 @@ map.on('load', () => {
                 type: "POST",
                 url: `ajax.php?act=get_cars&region=${region_id}`,
                 dataType: "json",
-                encode: true,
+                 encode: true,
                 success: async function(data) {
                     lastCarsPositions = data;
                     data.forEach((marker, index) => {

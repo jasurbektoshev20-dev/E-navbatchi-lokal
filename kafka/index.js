@@ -24,6 +24,8 @@ const kafka = new Kafka({
     username: 'user3',
     password: 'pass#3213',
   },
+   connectionTimeout: 10000,
+    requestTimeout: 30000,
 });
 
 const topics = [
@@ -129,8 +131,3 @@ async function runConsumers() {
 }
 
 runConsumers().catch(console.error);
-
-
-
-
-
