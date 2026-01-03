@@ -1261,7 +1261,12 @@ if ($UserStructure > 1) {
 		left JOIN ref.ranks r on r.id = st.rank_id
 		WHERE 1=1 ";
 		if ($UserStructure > 1) {
-			$query .= " AND t.structure_id = {$UserStructure} ";
+			$query .= "AND  t.structure_id IN (
+					SELECT id FROM hr.structure WHERE id = {$UserStructure}
+					UNION
+					SELECT id FROM hr.structure WHERE parent = {$UserStructure}
+				)
+			";
 		}
 		$query .= " ORDER BY t.id desc";
 		$sql->query($query);
@@ -1290,7 +1295,7 @@ if ($UserStructure > 1) {
 
 
 		// echo '<pre>';
-		// print_r($Rountines);
+		// print_r($Responsible);
 		// echo '</pre>';
 		// die();
 
